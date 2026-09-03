@@ -1,0 +1,199 @@
+{
+  "content_sha256": "4072642ff05b165fbfedd169d2004fc553be424ab1c70e36f48ef342764ff20c",
+  "date_modified_en": "2026-07-02",
+  "project": {
+    "description": {
+      "en": "The North Coast Transmission Line (NCTL) Project ties into the Northwest Critical Conservation Corridor (a transformative strategy referred to the Major Projects Office). Together, they will deliver low-cost, clean electricity to local communities along the West Coast. The project would twin existing transmission lines from Prince George to Terrace, and north up to Bob Quinn substation. By twinning major transmission lines, the NCTL will support transformative industrial projects, including the Ksi Lisims LNG facility and critical minerals developments in the Golden Triangle.",
+      "fr": "Le projet de ligne de transport d’électricité de la côte nord (LTECN) est lié au Corridor essentiel de conservation du Nord-Ouest (une stratégie de transformation a été soumise au Bureau des grands projets). Ensemble, ils alimenteront en électricité propre et à faible coût les collectivités locales le long de la côte ouest. Le projet sera jumelé aux lignes de transport existantes de Prince George à Terrace, et vers le nord jusqu’à la sous-station Bob Quinn. Comme elle jumellera d’importantes lignes de transport, la Ligne de transport d’électricité de la côte nord favorisera la mise en place de nouveaux projets industriels transformateurs, dont le terminal de GNL Ksi Lisims et la mise en valeur des minéraux critiques dans le Triangle d’or."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "North Coast Transmission Line",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/nctl/MPO_NorthCoastTranmissionLine_Large.png",
+        "thumb": "/media/thumb/nctl-hero.png",
+        "web": "/media/web/nctl-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "North Coast Transmission Line",
+      "fr": "Ligne de transport d’électricité de la côte nord"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nctl.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/nctl.html"
+    },
+    "proponent": {
+      "en": "B.C. Hydro",
+      "fr": "Hydro C-B"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "Will more than double the availability of clean, low-cost electricity along Canada’s West Coast.",
+          "fr": "Ce projet permettra de plus que doubler l’approvisionnement en électricité propre et peu coûteuse le long de la côte ouest du Canada."
+        },
+        "label": {
+          "en": "Increased clean energy capacity",
+          "fr": "Augmentation de la capacité d’énergie propre"
+        }
+      },
+      {
+        "body": {
+          "en": "Expected to create thousands of jobs and anchor a clean-energy industrial corridor.",
+          "fr": "On s’attend à créer des milliers d’emplois et à mettre en place un corridor industriel axé sur l’énergie propre."
+        },
+        "label": {
+          "en": "Job creation and industry growth",
+          "fr": "Création d’emplois et croissance de l’industrie"
+        }
+      },
+      {
+        "body": {
+          "en": "Has the potential to create $10 billion in new economic activity.",
+          "fr": "Ce projet pourrait générer 10 milliards de dollars de nouvelle activité économique."
+        },
+        "label": {
+          "en": "Economic impact",
+          "fr": "Impact économique"
+        }
+      },
+      {
+        "body": {
+          "en": "Will reduce emissions by up to three million tonnes annually.",
+          "fr": "Il permettra de réduire les émissions de jusqu’à trois millions de tonnes par année."
+        },
+        "label": {
+          "en": "Emissions reduction",
+          "fr": "Réduction des émissions"
+        }
+      }
+    ],
+    "sector": "Electricity",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -122.61212345666412,
+              53.85233885104506
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Northwestern British Columbia",
+          "provinces": []
+        },
+        "name": {
+          "en": "North Coast Transmission Line (Phase 1)",
+          "fr": "Ligne de transport d’électricité de la côte nord (phase 1)"
+        }
+      },
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -125.01311842171121,
+              54.07349867855435
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Northwestern British Columbia",
+          "provinces": []
+        },
+        "name": {
+          "en": "North Coast Transmission Line (Phase 2)",
+          "fr": "Ligne de transport d’électricité de la côte nord (phase 2)"
+        }
+      },
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -128.63304890660635,
+              54.454772428548836
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Northwestern British Columbia",
+          "provinces": []
+        },
+        "name": {
+          "en": "North Coast Transmission Line (Phase 3)",
+          "fr": "Ligne de transport d’électricité de la côte nord (phase 3)"
+        }
+      }
+    ],
+    "slug": "nctl",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:42:08Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "6f5114374226a56769c051969350f9cbd1a3975c7900ada2684844f29f94269e",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:42:08Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nctl.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On July 2, 2026, the Government of Canada and the Province of British Columbia signed the new Canada-British Columbia Cooperative Prosperity Agreement, which will further accelerate the construction of major energy and trade corridors, including the North Coast Transmission Line. Under the agreement, the Government of Canada and the Province of British Columbia are committing $3.9 billion toward phases 1 and 2 of the project to deliver clean, reliable, and affordable electricity to communities across British Columbia.",
+          "fr": "Le 2 juillet 2026, le gouvernement du Canada et la province de la Colombie-Britannique ont signé le nouvel Accord de prospérité et de collaboration entre le Canada et la Colombie-Britannique, qui permettra d’accélérer encore davantage la construction de grands corridors énergétiques et commerciaux à travers la province, notamment le projet de la Ligne de transport d’électricité de la côte nord. Sous l’accord, le gouvernement du Canada et la province de la Colombie-Britannique s’engagent à investir 3,9 milliards de dollars pour les phases 1 et 2 du projet, afin de fournir une électricité propre, fiable et abordable aux communautés de toute la Colombie-Britannique."
+        },
+        "date": "July 2, 2026",
+        "date_verbatim": "July 2, 2026"
+      },
+      {
+        "body": {
+          "en": "In January 2026, BC Hydro signed an MOU with Ksi Lisims LNG to confirm interconnection steps for the supply of 600 megawatts of clean electricity.",
+          "fr": "En janvier 2026, BC Hydro a signé un protocole d’entente avec Ksi Lisims LNG (anglais seulement) afin de définir les étapes de raccordement pour la fourniture de 600 mégawatts d’électricité propre."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "On November 13, 2025, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 13 novembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
+        },
+        "date": "November 13, 2025",
+        "date_verbatim": "November 13, 2025"
+      },
+      {
+        "body": {
+          "en": "The Canada Infrastructure Bank closed a $139.5 million loan to BC Hydro to support pre-construction activities such as project planning, engineering, fieldwork, procurements, consultation with First Nation communities, stakeholder engagements and enabling works to improve site access.",
+          "fr": "La Banque de l’infrastructure du Canada a accordé un prêt de 139,5 millions de dollars à BC Hydro pour soutenir la phase de travaux préliminaires à la construction, comme la planification du projet, l’ingénierie, les travaux sur le terrain, les approvisionnements, la consultation des communautés des Premières Nations, la mobilisation des intervenants et les travaux d’habilitation pour améliorer l’accès au site."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "The MPO is working with the proponents, Indigenous groups and federal Crown corporations to evaluate potential financial support and assist with structuring the financing for next steps.",
+          "fr": "Le BGP collabore avec les promoteurs, les communautés autochtones et les sociétés d’État fédérales pour évaluer les possibilités de soutien financier et apporter son aide à la structuration du financement des prochaines étapes."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:42:08Z",
+  "slug": "nctl"
+}

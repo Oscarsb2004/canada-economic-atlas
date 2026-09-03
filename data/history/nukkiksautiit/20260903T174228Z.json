@@ -1,0 +1,157 @@
+{
+  "content_sha256": "153ed38abdcd241dbdf8cb2ca7c2e38916fd97a9808d693f5e487971587f0372",
+  "date_modified_en": "2026-05-21",
+  "project": {
+    "description": {
+      "en": "The Iqaluit Nukkiksautiit Hydro Project (ᐃᖃᓗᐃᑦᓄᑭᒃᓴᐅᑏᑦᓴᓇᔭᐅᔪᖅ) is a proposed 15-30 megawatt hydropower plant along the Kuugaluk River, about 60 km northeast of Iqaluit. Led by Nunavut Nukkiksautiit Corporation (NNC), an Inuit-owned renewable energy developer, the project would replace the city’s use of imported diesel-generated electricity with affordable, reliable and emissions-free power. Regular engagement with Rights Holders and impacted groups continues at project decision points.",
+      "fr": "Le projet hydroélectrique de la Nunavut Nukkiksautiit Corporation à Iqaluit (ᐃᖃᓗᐃᑦᓄᑭᒃᓴᐅᑏᑦᓴᓇᔭᐅᔪᖅ) est une centrale hydroélectrique d’une capacité de 15 à 30 mégawatts située sur la rivière Kuugaluk, à environ 60 km au nord-est d’Iqaluit. Dirigé par la Nunavut Nukkiksautiit Corporation (NNC), une entreprise de conception de systèmes d’énergie renouvelable appartenant entièrement à des Inuits, le projet remplacerait l’électricité importée produite par diesel par une électricité abordable, fiable et sans émissions. La consultation régulière des détenteurs de droits et des groupes concernés se poursuit à chaque étape décisionnelle du projet."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Iqaluit Nukkiksautiit Hydro Project",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/nukkiksautiit/MPO_IqaluitNukkiksautiitHydroProject_Large.png",
+        "thumb": "/media/thumb/nukkiksautiit-hero.png",
+        "web": "/media/web/nukkiksautiit-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "Iqaluit Nukkiksautiit Hydro Project",
+      "fr": "Project hydroélectrique Nukkiksautiit à Iqaluit"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nukkiksautiit.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/nukkiksautiit.html"
+    },
+    "proponent": {
+      "en": "Nunavut Nukkiksautiit Corporation",
+      "fr": "Nunavut Nukkiksautiit Corporation"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "Project is led by the Nunavut Nukkiksautiit Corporation, a wholly Inuit-owned developer.",
+          "fr": "Le projet est dirigé par la Nunavut Nukkiksautiit Corporation, un promoteur entièrement inuit."
+        },
+        "label": {
+          "en": "100% Inuit-Led",
+          "fr": "100 % dirigé par les Inuits"
+        }
+      },
+      {
+        "body": {
+          "en": "Provides a critical foundation for long-term energy security and sovereignty for Nunavut’s territorial capital and largest community.",
+          "fr": "Le projet constitue une base essentielle pour la sécurité et la souveraineté énergétiques à long terme de la capitale territoriale du Nunavut et de sa plus grande collectivité."
+        },
+        "label": {
+          "en": "Energy security for the city of Iqaluit",
+          "fr": "Sécurité énergétique pour la ville d’Iqaluit"
+        }
+      },
+      {
+        "body": {
+          "en": "Projected to replace an estimated 15 million litres of diesel annually, significantly reducing greenhouse gas emissions.",
+          "fr": "On prévoit remplacer environ 15 millions de litres de diesel par année, ce qui réduira considérablement les émissions de gaz à effet de serre."
+        },
+        "label": {
+          "en": "Emissions reduction",
+          "fr": "Réduction des émissions"
+        }
+      },
+      {
+        "body": {
+          "en": "Adds 15–30 MW of hydroelectric power, stabilizing the local grid and hedging against volatile global fuel prices.",
+          "fr": "Ajout d’une capacité de 15 à 30 MW d’énergie hydroélectrique, stabilisation du réseau local et protection contre la volatilité des prix mondiaux du carburant."
+        },
+        "label": {
+          "en": "Grid stability",
+          "fr": "Stabilité du réseau"
+        }
+      },
+      {
+        "body": {
+          "en": "Offers the potential to provide clean energy to Department of National Defence facilities in Iqaluit, enhancing Canadian sovereignty in the Arctic.",
+          "fr": "Offre la possibilité de fournir une énergie propre aux installations du ministère de la Défense nationale à Iqaluit, renforçant ainsi la souveraineté canadienne dans l’Arctique."
+        },
+        "label": {
+          "en": "Arctic infrastructure support",
+          "fr": "Soutien aux infrastructures de l’Arctique"
+        }
+      }
+    ],
+    "sector": "Electricity",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -68.00609233687307,
+              64.1878427576954
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Iqaluit, Nunavut",
+          "provinces": []
+        },
+        "name": {
+          "en": "Iqaluit Nukkiksautiit Hydro Project",
+          "fr": "Project hydroélectrique Nukkiksautiit à Iqaluit"
+        }
+      }
+    ],
+    "slug": "nukkiksautiit",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:42:28Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "54850d452372d6f372fa565d6bf7365d564172e244c27dd9c7de3e3d0247c083",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:42:28Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nukkiksautiit.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On November 13, 2025, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 13 novembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
+        },
+        "date": "November 13, 2025",
+        "date_verbatim": "November 13, 2025"
+      },
+      {
+        "body": {
+          "en": "The MPO is working with the NNC to support project development and data collection activities.",
+          "fr": "Le BGP travaille avec la NNC pour promouvoir les activités de développement et de collecte des données liées au projet."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "The MPO is also working to identify relevant federal regulatory and permitting requirements, and assessing other mechanisms that would help advance the project.",
+          "fr": "Le BGP s’emploie également à déterminer les exigences fédérales pertinentes en matière de réglementation et de délivrance de permis, ainsi qu’à évaluer d’autres mécanismes qui aideraient à faire avancer le projet."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:42:28Z",
+  "slug": "nukkiksautiit"
+}

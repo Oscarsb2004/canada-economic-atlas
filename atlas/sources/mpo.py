@@ -96,6 +96,27 @@ HEADINGS: dict[str, dict[str, str]] = {
     },
 }
 
+#: ArcGIS attribute names, per language. The French service is not the English
+#: one with translated values — the FIELD NAMES are French too, and `Lien`
+#: points at the French page rather than the English one.
+#:
+#: So the two services cannot be joined on the link. They are joined on the
+#: terminal slug, which is identical in both languages (`crawford.html` in each).
+FIELDS: dict[str, dict[str, str]] = {
+    "en": {"name": "Name", "location": "Location", "proponent": "Proponent",
+           "sector": "Sector", "status": "Status", "description": "Description",
+           "link": "Link"},
+    "fr": {"name": "Nom", "location": "Emplacement", "proponent": "Promoteur",
+           "sector": "Secteur", "status": "Etat", "description": "Description",
+           "link": "Lien"},
+}
+
+
+def attr(props: dict, key: str, lang: str) -> str:
+    """Read a canonical field out of a language-specific ArcGIS attribute bag."""
+    return (props.get(FIELDS[lang][key]) or "").strip()
+
+
 _WS = re.compile(r"\s+")
 
 #: Whitespace we introduced ourselves, not the source's. Extracting text with a

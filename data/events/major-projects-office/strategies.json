@@ -1,0 +1,260 @@
+{
+  "event": "major-projects-office",
+  "generated_at": "2026-09-03T17:42:50Z",
+  "strategies": [
+    {
+      "description": {
+        "en": "The Alto High-Speed Rail Project is a proposed initiative to build Canada’s first-ever high-speed railway, revolutionizing transportation in the country. This project will span approximately 1,000 km of dedicated and electrified tracks, connecting Toronto to Québec City with trains reaching speeds of up to 300 km/hour. By cutting travel times in half and providing more frequent service, with departures every 30 minutes for certain routes during peak hours, it will link Canada’s most densely populated regions and nearly half of the country’s population.\r\n\r\nAs the only country in the G7 that does not have high-speed rail, Canada is taking a bold step to address its growing transportation needs.",
+        "fr": "Le projet de train à grande vitesse Alto est une initiative visant à construire la toute première ligne ferroviaire à grande vitesse du Canada, qui révolutionnera les transports dans le pays. Ce projet s’étendra sur environ 1 000 km de voies réservées et électrifiées, reliant Toronto à la ville de Québec avec des trains atteignant jusqu’à 300 km/h. En réduisant de moitié les temps de déplacement et en proposant un service plus fréquent, avec des départs toutes les 30 minutes pour certains itinéraires aux heures de pointe, ce réseau reliera les régions les plus densément peuplées du Canada et près de la moitié de la population du pays.\r\n\r\nSeul pays du G7 à ne pas disposer d’un réseau ferroviaire à grande vitesse, le Canada prend des mesures audacieuses pour répondre à ses besoins croissants en matière de transport."
+      },
+      "draws_region": false,
+      "location_verbatim": {
+        "en": "Toronto-Quebec Corridor",
+        "fr": "Corridor Toronto-Québec"
+      },
+      "name": {
+        "en": "Alto High-Speed Rail",
+        "fr": "Train à grande vitesse Alto"
+      },
+      "page_url": {
+        "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/alto.html",
+        "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/autres/referees/alto.html"
+      },
+      "provenance": "derived",
+      "provinces": [
+        "ON",
+        "QC"
+      ],
+      "sector": "Transport",
+      "slug": "alto"
+    },
+    {
+      "description": {
+        "en": "Building upon the leadership of the Arctic Gateway Group, this joint project with the Government of Manitoba proposes to upgrade the Port of Churchill and expand trade corridors with an all-weather road, an upgraded rail line, a new energy corridor, and marine ice-breaking capacity.\r\n\r\nThe transformative strategy would prioritize Indigenous equity ownership, through current Indigenous shareholders and a new Manitoba Crown-Indigenous Corporation, and develop the projects needed to turn the Port of Churchill into a major four-season and dual-use gateway to the region.\r\n\r\nThe Major Projects Office (MPO) will work with prospective proponents to bring certainty to the regulatory processes that will attract private and public sources of capital investment and more strongly link Churchill to the rest of Canada.",
+        "fr": "S’appuyant sur le leadership du Groupe Arctic Gateway, ce projet mené conjointement avec le gouvernement du Manitoba propose d’améliorer le port de Churchill et d’élargir les corridors commerciaux au moyen d’une route praticable en toutes saisons, d’une ligne de chemin de fer modernisée, d’un nouveau corridor énergétique et d’une capacité de déglaçage maritime.\r\n\r\nCette stratégie de transformation accorderait la priorité à la participation des Autochtones au capital, par l’intermédiaire des actionnaires autochtones actuels et d’une nouvelle société Couronne-Autochtones du Manitoba, et permettrait de mettre sur pied les projets nécessaires pour faire du port de Churchill une porte d’entrée majeure quatre saisons et à double usage dans la région.\r\n\r\nLe Bureau des grands projets (BGP) travaillera avec les promoteurs éventuels afin d’apporter plus de clarté aux processus réglementaires, ce qui permettra d’attirer des sources privées et publiques d’investissement en capital et de relier plus étroitement Churchill au reste du Canada."
+      },
+      "draws_region": true,
+      "location_verbatim": {
+        "en": "Manitoba",
+        "fr": "Manitoba"
+      },
+      "name": {
+        "en": "Port of Churchill Plus",
+        "fr": "Port de Churchill Plus"
+      },
+      "page_url": {
+        "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/churchill-plus.html",
+        "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/autres/referees/churchill-plus.html"
+      },
+      "provenance": "derived",
+      "provinces": [
+        "MB"
+      ],
+      "sector": "Transport",
+      "slug": "churchill-plus"
+    },
+    {
+      "description": {
+        "en": "Canada’s northwestern coast is home to the Golden Triangle, one of the world’s richest reserves of minerals and metals essential for the global economy, including energy transition and defence supply chains for Canada and our allies. This region, encompassing Northwest British Columbia and the Yukon, also serves as one of Canada’s gateways to global markets through the Pacific Ocean and is home to vibrant communities in a spectacular environment rich with mountains, glaciers, watersheds and coastal ecosystems. The Northwest Critical Conservation Corridor represents an opportunity to align economic development with environmental stewardship and Indigenous leadership.\r\n\r\nIndigenous governments and organizations, including the Nisg̱a’a Nation, Tahltan Nation, Gitxsan, Tsetsaut Skii Km Lax Ha and Gitanyow, are working with federal and provincial partners to realize the corridor’s vision. Through capacity funding agreements, memoranda of understanding, and meaningful engagement, the initiative upholds Indigenous rights, integrates Indigenous Knowledge, and fosters Indigenous leadership in project stewardship and economic benefit-sharing.\r\n\r\nThe Northwest Critical Conservation Corridor strategy will focus on developing mining, energy, and trade infrastructure needed to unlock the region’s full economic potential, while at the same time dedicating areas for nature conservation, to help Canada meet its goal to protect 30% of land and marine areas by 2030. Key projects in the region, such as the Red Chris Mine Expansion, and Ksi Lisims LNG, have been referred to the Major Projects Office (MPO).",
+        "fr": "La côte nord-ouest du Canada abrite le Triangle d’or, l’une des plus riches réserves mondiales de minéraux et de métaux essentiels à l’économie mondiale, notamment pour la transition énergétique et les chaînes d’approvisionnement dans le domaine de la défense du Canada et de ses alliés. Cette région, qui englobe le nord-ouest de la Colombie-Britannique et le Yukon, est également l’une des portes d’entrée du Canada vers les marchés mondiaux par l’océan Pacifique et abrite des collectivités dynamiques dans un environnement spectaculaire dominé par les montagnes, les glaciers, les bassins hydrographiques et les écosystèmes côtiers. Le Corridor essentiel de conservation du Nord-Ouest offre l’occasion de concilier le développement économique, la gestion responsable de l’environnement et le leadership autochtone.\r\n\r\nLes gouvernements et organisations autochtones, notamment la Nation Nisga’a, la Nation Tahltan, les Gitxsans, les Tsetsaut Skii Km Lax Ha et les Gitanyow, collaborent avec des partenaires fédéraux et provinciaux pour concrétiser la vision du corridor. Grâce à des ententes de financement des capacités, à des protocoles d’entente et à une mobilisation significative, cette initiative défend les droits des Autochtones, intègre le savoir autochtone et favorise le leadership autochtone dans la gestion du projet et le partage des retombées économiques.\r\n\r\nLa stratégie du Corridor essentiel de conservation du Nord-Ouest sera axée sur le développement des infrastructures minières, énergétiques et commerciales nécessaires pour libérer le plein potentiel économique de la région, tout en consacrant des zones à la conservation de la nature, afin d’aider le Canada à atteindre son objectif de protéger 30 % des zones terrestres et marines d’ici 2030. Des projets clés de la région, comme l’expansion de la mine Red Chris et le terminal de GNL Ksi Lisims, ont été soumis à l’examen du Bureau des grands projets (BGP)."
+      },
+      "draws_region": true,
+      "location_verbatim": {
+        "en": "Northwestern British Columbia, Southern Yukon",
+        "fr": "Nord-ouest de la Colombie-Britannique, Sud du Yukon"
+      },
+      "name": {
+        "en": "Northwest Critical Conservation Corridor",
+        "fr": "Corridor essentiel de conservation du Nord-Ouest"
+      },
+      "page_url": {
+        "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/corridor.html",
+        "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/autres/referees/corridor.html"
+      },
+      "provenance": "derived",
+      "provinces": [
+        "BC",
+        "YT"
+      ],
+      "sector": "Electricity, Mining",
+      "slug": "corridor"
+    },
+    {
+      "description": {
+        "en": "Canada is a powerhouse in the extraction and upgrading of critical minerals for strategic industries in Canada and to diversify and serve export markets. A priority for the Major Projects Office (MPO) will be to get more critical minerals projects to final investment decisions, with a focus on responsibility and regulatory certainty for projects and enabling infrastructure including ports and roads. This will enable critical mineral proponents working with Indigenous and local communities, investors, and provinces and territories to develop projects in regions like the Fosse du Labrador in Québec and Newfoundland and Labrador, and the Northwest Critical Mineral and Conservation Corridor in British Columbia.\r\n\r\nThis approach contributes to the Canadian Critical Minerals Strategy, led by Natural Resources Canada, which applies a full value chain approach to critical minerals and industrial development.",
+        "fr": ""
+      },
+      "draws_region": true,
+      "location_verbatim": {
+        "en": "All provinces and territories, except Prince Edward Island",
+        "fr": ""
+      },
+      "name": {
+        "en": "Critical Minerals Strategy",
+        "fr": ""
+      },
+      "page_url": {
+        "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/critical-minerals.html",
+        "fr": ""
+      },
+      "provenance": "derived",
+      "provinces": [
+        "NL",
+        "NS",
+        "NB",
+        "QC",
+        "ON",
+        "MB",
+        "SK",
+        "AB",
+        "BC",
+        "YT",
+        "NT",
+        "NU"
+      ],
+      "sector": "Mining",
+      "slug": "critical-minerals"
+    },
+    {
+      "description": {
+        "en": "Canada’s electricity needs are expected to grow significantly, with demand estimated to double by 2050 as we work toward a net-zero future. Meeting this demand will require major investments to expand and upgrade our electricity systems.\r\n\r\nGlobally, interconnected electricity networks have shown they can save billions of dollars each year by improving efficiency, reducing energy production costs, and making better use of renewable energy sources. By building a stronger, more connected electricity system, Canada can achieve reliable, affordable, and sustainable energy for all.\r\n\r\nThe Transmission InterConnect Investment Strategy will identify high priority transmission projects, as well as possible financial solutions to help them move forward. The Strategy will focus on interties and high value intra-provincial transmission lines like the North Coast Transmission Line, which was previously referred to the MPO.\r\n\r\nThis strategy could include interties between provinces or territories, or intra-provincial transmission which unlocks new sources of electricity or meaningful economic growth.",
+        "fr": "La demande d’électricité au Canada devrait connaître une forte croissance et pourrait doubler d’ici 2050, notamment en raison de la transition vers la carboneutralité. Des investissements importants seront nécessaires pour répondre à la demande croissante et pour développer et moderniser les systèmes électriques.\r\n\r\nÀ l’échelle mondiale, les réseaux électriques interconnectés permettent d’économiser plusieurs milliards de dollars chaque année. Ils contribuent notamment à améliorer l’efficience, à réduire les coûts de production d’énergie et à mieux tirer parti des sources d’énergie renouvelables. Le Canada peut assurer une énergie plus fiable, abordable et durable pour tous en construisant un réseau électrique plus robuste et mieux interconnecté.\r\n\r\nLa Stratégie d’investissement dans les interconnexions de transport d’électricité permettra de recenser les projets prioritaires dans ce domaine ainsi que des solutions de financement susceptibles d’en faciliter la mise en œuvre. La stratégie sera axée sur les interconnexions de transport d’électricité ainsi que sur les lignes de transport d’électricité intraprovinciales à fort impact, dont la ligne de transport d’électricité de la côte nord, qui a déjà été présentée au BGP.\r\n\r\nCette stratégie pourrait également viser les interconnexions de transport d’électricité entre les provinces et les territoires ainsi que les lignes de transport d’électricité intraprovinciales afin de tirer parti de nouvelles sources d’électricité et de soutenir une croissance économique significative."
+      },
+      "draws_region": true,
+      "location_verbatim": {
+        "en": "All of Canada",
+        "fr": "Partout au Canada"
+      },
+      "name": {
+        "en": "Transmission InterConnect Investment Strategy",
+        "fr": "Stratégie d’investissement dans les interconnexions de transport d’électricité"
+      },
+      "page_url": {
+        "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/interconnect.html",
+        "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/autres/referees/interconnect.html"
+      },
+      "provenance": "derived",
+      "provinces": [
+        "NL",
+        "NS",
+        "PE",
+        "NB",
+        "QC",
+        "ON",
+        "MB",
+        "SK",
+        "AB",
+        "BC",
+        "YT",
+        "NT",
+        "NU"
+      ],
+      "sector": "Electricity",
+      "slug": "interconnect"
+    },
+    {
+      "description": {
+        "en": "The Labrador Trough Clean Power, Critical Minerals and Infrastructure Corridor (“Labrador Trough Corridor”) is a transformative strategy that will advance enabling infrastructure to unlock the region’s critical mineral wealth from high-purity iron ore and clean energy resources.\r\n\r\nThe Labrador Trough is a massive geological belt and mining region spanning approximately 1,100 kilometers across Québec and Labrador. It hosts the majority of Canada’s high-purity iron ore essential for low-carbon steel production, alongside other critical minerals. The region connects through the vital trade gateway of the Port of Sept Îles in Eastern Québec.\r\n\r\nThe Corridor focuses on the development of the mining, energy, and trade infrastructure required to realize the region's full economic potential, supporting Canada's objective to enable the advancement of critical mineral and industrial development and to bring Canadian resources to global markets.\r\n\r\nDevelopment in the Labrador Trough is enabled by a cooperation agreement between Hydro-Québec and Newfoundland & Labrador Hydro, which includes other federal supports. The agreement governs the development of Gull Island Generating Station (including associated transmission) and capacity upgrades at Churchill Falls Generating Station, ensuring long-term access to clean electricity in the region, and across the Provinces of Newfoundland & Labrador and Québec and specifically providing increased electricity capacity to the Labrador Trough.",
+        "fr": "Le corridor d’énergie propre, de minéraux critiques et d’infrastructure de la fosse du Labrador (« corridor de la fosse du Labrador ») est une stratégie de transformation qui contribuera au développement d’infrastructure habilitante afin d’exploiter les vastes quantités de minéraux critiques de la région, du minerai de fer de haute pureté aux ressources énergétiques propres.\r\n\r\nLa fosse du Labrador est une immense ceinture géologique et une région minière qui s’étend sur environ 1 100 kilomètres à travers le Québec et le Labrador. On y trouve la majorité du minerai de fer de haute pureté du Canada, qui est indispensable à la production d’acier à faible teneur en carbone, ainsi que d’autres minéraux critiques. La région est reliée au port de Sept-Îles, dans l’Est du Québec, qui constitue une porte commerciale essentielle.\r\n\r\nLe corridor est axé sur le développement de l’infrastructure minière, énergétique et commerciale nécessaire à la réalisation du plein potentiel économique de la région. Ce projet appuie l’objectif du Canada de faire progresser le développement industriel et des minéraux critiques ainsi que de rendre les ressources canadiennes accessibles aux marchés mondiaux.\r\n\r\nLe développement dans la fosse du Labrador est rendu possible grâce à une entente définitive de coopération entre Hydro-Québec et Hydro-Terre-Neuve-et-Labrador, qui comprend d’autres mesures de soutien fédéral. L’entente régit le projet de centrale de Gull Island (y compris les lignes de transport connexes) et l’amélioration de la capacité de la centrale électrique de Churchill Falls pour garantir l’accès à long terme à de l’électricité propre dans la région ainsi que dans les provinces de Terre-Neuve-et-Labrador et du Québec, notamment en augmentant la capacité électrique de la fosse du Labrador."
+      },
+      "draws_region": true,
+      "location_verbatim": {
+        "en": "Newfoundland and Labrador, Quebec",
+        "fr": "Terre-Neuve-et-Labrador, Québec"
+      },
+      "name": {
+        "en": "Labrador Trough Clean Power, Critical Minerals and Infrastructure Corridor",
+        "fr": "Corridor d’énergie propre, de minéraux critiques et d’infrastructure de la fosse du Labrador"
+      },
+      "page_url": {
+        "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/labrador.html",
+        "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/autres/referees/labrador.html"
+      },
+      "provenance": "derived",
+      "provinces": [
+        "NL",
+        "QC"
+      ],
+      "sector": "Electricity, Mining, Infrastructure",
+      "slug": "labrador"
+    },
+    {
+      "description": {
+        "en": "The Pathways Plus transformative strategy combines a series of emissions reductions projects by the Oil Sands Alliance, is a combination of oil production growth support, as well as the proposed West Coast Oil Pipeline (WCOP).\r\n\r\nAs outlined in the Memorandum of Understanding (MOU) between Canada, Alberta and the Oil Sands Alliance Participants, the strategy sets out the following objectives:\r\n- Expand market access: Supporting the expansion and diversification of global market access for competitive and secure Canadian oil.\r\n- Production growth: Supporting the development of fiscal and regulatory frameworks to enable sustained and sustainable oil sands development and production growth.\r\n- Emissions reduction: Advancing effective and efficient emissions reduction projects, including carbon market frameworks and incentives that support meaningful greenhouse gas reductions and contribute to emissions intensity reductions for heavy oil produced in Canada.\r\n- Indigenous Peoples: Respecting consistent and early engagement, as well as meaningful consultation with Indigenous Peoples, while advancing Indigenous economic opportunities relating to WCOP.\r\n\r\nThe Oil Sands Alliance represents five of Canada’s largest oil sands companies: Canadian Natural Resources Limited, Cenovus Energy, ConocoPhilips Canada, Imperial Oil and Suncor Energy.",
+        "fr": "La stratégie de transformation « Pathways Plus » associe une série de projets de réduction des émissions proposées par l’Alliance des sables bitumineux, un soutien à la croissance de la production, ainsi que le projet d’oléoduc de la côte Ouest.\r\n\r\nComme indiqué dans le protocole d’accord entre le Canada, l’Alberta et les participants de l’Alliance des sables bitumineux, la stratégie définit les objectifs suivants :\r\n- Élargissement de l’accès au marché : soutien à l’expansion et à la diversification de l’accès aux marchés mondiaux pour le pétrole canadien compétitif et sécurisé.\r\n- Croissance de la production : soutien au développement de cadres fiscaux et réglementaires pour permettre un développement soutenu et viable des sables bitumineux et une croissance de la production.\r\n- Réduction des émissions : avancement des projets efficaces de réduction des émissions, notamment des cadres et incitatifs du marché du carbone qui soutiennent des réductions significatives des gaz à effet de serre et contribuent à la réduction de l’intensité des émissions pour le pétrole lourd produit au Canada.\r\n- Peuples autochtones : respect d’une mobilisation uniforme et hâtive ainsi que des consultations significatives avec les peuples autochtones tout en faisant progresser les possibilités économiques autochtones liées à l’oléoduc de la côte Ouest.\r\n\r\nL’Alliance des sables bitumineux représente cinq des plus grandes entreprises canadiennes de sables bitumineux : Canadian Natural Resources, Cenovus Energy, ConocoPhilips Canada, Imperial Oil et Suncor Energy."
+      },
+      "draws_region": true,
+      "location_verbatim": {
+        "en": "Alberta",
+        "fr": "Alberta"
+      },
+      "name": {
+        "en": "Pathways Plus",
+        "fr": "Pathways Plus"
+      },
+      "page_url": {
+        "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/pathways-plus.html",
+        "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/autres/referees/pathways-plus.html"
+      },
+      "provenance": "derived",
+      "provinces": [
+        "AB"
+      ],
+      "sector": "Energy",
+      "slug": "pathways-plus"
+    },
+    {
+      "description": {
+        "en": "The Port of Vancouver Gateway Strategy (Gateway Strategy) is an overarching transformative strategy that will support an integrated pathway to grow capacity at the Port of Vancouver, and support Canada’s growth and diversification objectives, including doubling exports to non-U.S. markets by 2035.\r\n\r\nThe Gateway Strategy intends to increase export capacity and improve efficiency by addressing existing constraints at the Port as a system. This includes expanding container-handling capacity, identifying and developing land for construction of modern terminals and other export-focused infrastructure, upgrading rail infrastructure to support the movement of goods, and prioritizing Canada’s environmental protections for coastal habitat and at-risk whales.\r\n\r\nThe Gateway Strategy is focused on four pillars:\r\n1. The expansion of container capacity via the Roberts Bank Terminal 2 (RBT2) project; \r\n2. Development of land and infrastructure for bulk terminals; \r\n3. Rail infrastructure optimization and expansion; and \r\n4. Environmental protections to support future trade growth responsibly through the Whales Initiative and enhanced Southern Resident killer whales (ESRKW) protection measures, the Pacific Salmon Strategy Initiative, and the Oceans Protection Plan.",
+        "fr": "La Stratégie de la porte d’entrée du port de Vancouver (Stratégie de la porte d’entrée) est une stratégie globale et transformatrice qui soutiendra une voie intégrée pour accroître la capacité au port de Vancouver et soutiendra les objectifs de croissance et de diversification du Canada, y compris le doublement des exportations vers des pays hors États-Unis d’ici 2035.\r\n\r\nLa Stratégie de la porte d’entrée vise à augmenter la capacité d’exportation et à améliorer l’efficacité en répondant aux contraintes existantes au port en tant que système. Cela inclut l’expansion de la capacité de manutention de conteneurs, l’identification et le développement des terrains pour la construction de terminaux modernes et d’autres infrastructures axées sur l’exportation, la modernisation des infrastructures ferroviaires pour soutenir le mouvement des marchandises, ainsi que la priorisation des protections environnementales du Canada pour les habitats côtiers et les baleines à risque.\r\n\r\nLa Stratégie sur la porte d’entrée repose sur quatre piliers :\r\n1. l’expansion de la capacité de conteneurs via le Projet du Terminal 2 à Roberts Bank (T2RB);\r\n2. le développement de terrains et d’infrastructures pour les terminaux de vrac;\r\n3. l’optimisation et l’expansion des infrastructures ferroviaires;\r\n4. des protections environnementales pour soutenir la croissance future du commerce de manière responsable grâce à l’Initiative de protection des baleines et les mesures de protection améliorées des épaulards résidents du Sud, l’Initiative de la Stratégie relative au saumon du Pacifique et le Plan de protection des océans."
+      },
+      "draws_region": true,
+      "location_verbatim": {
+        "en": "Delta, British Columbia",
+        "fr": "Delta, Colombie-Britannique"
+      },
+      "name": {
+        "en": "Port of Vancouver Gateway Strategy",
+        "fr": "Stratégie de la porte d'entrée du port de Vancouver"
+      },
+      "page_url": {
+        "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/vancouver.html",
+        "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/autres/referees/vancouver.html"
+      },
+      "provenance": "derived",
+      "provinces": [
+        "BC"
+      ],
+      "sector": "Industrial",
+      "slug": "vancouver"
+    },
+    {
+      "description": {
+        "en": "The Atlantic Energy Strategy focuses on developing renewable and non-emitting energy sources by leveraging onshore and offshore-wind, nuclear and hydro power, across Atlantic Canada. It aims to connect renewable and emissions-free energy to meet rapidly growing demand across Eastern and Atlantic Canada, and beyond.\r\n\r\nOne part of the Atlantic Energy Strategy is Wind West, an ambitious concept that will foster the development of multiple offshore wind projects. Wind West seeks to leverage and connect more than 60 gigawatts of wind power potential in N.S., and more across Atlantic Canada, to market via new transmission infrastructure.\r\n\r\nThe other part of the Strategy could include important projects such as interties between New Brunswick and Nova Scotia, transmission cables between Prince Edward Island and New Brunswick as well as collaboration between Quebec and Newfoundland and Labrador on further development of Churchill Falls and Gull Island.\r\n\r\nThe Major Projects Office (MPO) will work with provinces and proponents to advance the Atlantic Energy Strategy, helping projects move forward, providing regulatory certainty to attract private investment, and setting a course for long term resource development in the Atlantic provinces.",
+        "fr": "La Stratégie énergétique du Canada atlantique vise à développer des sources d’énergie renouvelable et sans émission en tirant parti de l’énergie éolienne terrestre et extracôtière, nucléaire et hydroélectrique dans l’ensemble du Canada atlantique. Elle a pour objectif de relier les sources d’énergie renouvelable et sans émission afin de répondre à la demande en croissance rapide dans l’Est et le Canada atlantique, ainsi qu’au-delà.\r\n\r\nL’un des volets de la Stratégie énergétique du Canada atlantique est Wind West (en anglais seulement), un projet ambitieux qui favorisera le développement de multiples projets éoliens en mer. Wind West cherche à exploiter et à relier plus de 60 gigawatts de potentiel éolien en Nouvelle-Écosse, et davantage encore dans l’ensemble du Canada atlantique, afin de les commercialiser au moyen d’une nouvelle infrastructure de transport.\r\n\r\nL’autre volet de la Stratégie pourrait inclure des projets importants, comme des interconnexions entre le Nouveau-Brunswick et la Nouvelle-Écosse, des câbles de transmission entre l’Île-du-Prince-Édouard et le Nouveau-Brunswick, ainsi que la collaboration entre le Québec et Terre-Neuve-et-Labrador pour poursuivre le projet d’expansion de Churchill Falls et Gull Island.\r\n\r\nLe Bureau des grands projets (BGP) collaborera avec les provinces et les promoteurs pour faire progresser la Stratégie énergétique du Canada atlantique, en aidant à faire avancer les projets, en assurant une certitude en matière de réglementation permettant d’attirer les investissements privés et en établissant un plan d’exploitation à long terme des ressources dans les provinces de l’Atlantique."
+      },
+      "draws_region": true,
+      "location_verbatim": {
+        "en": "Nova Scotia, New Brunswick, Prince Edward Island, Newfoundland and Labrador",
+        "fr": "Nouvelle-Écosse, Nouveau-Brunswick, Île-du-Prince-Édouard, Terre-Neuve-et-Labrador"
+      },
+      "name": {
+        "en": "Atlantic Energy Strategy",
+        "fr": "Stratégie énergétique du Canada atlantique"
+      },
+      "page_url": {
+        "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/wind-west.html",
+        "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/autres/referees/wind-west.html"
+      },
+      "provenance": "derived",
+      "provinces": [
+        "NS",
+        "NB",
+        "PE",
+        "NL"
+      ],
+      "sector": "Electricity, Energy",
+      "slug": "wind-west"
+    }
+  ]
+}

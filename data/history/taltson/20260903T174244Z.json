@@ -1,0 +1,145 @@
+{
+  "content_sha256": "15b5af19d17d262ee3866212dc4f67ac40b7eade2e0ee11da535e6f37a92dfbe",
+  "date_modified_en": "2026-05-21",
+  "project": {
+    "description": {
+      "en": "The Taltson Hydro Expansion Project is a transformative clean energy initiative that will double the Northwest Territories’ hydro capacity. It will build an additional 60 megawatt hydro facility, and connect the North and South Slave Lake electrical grids for the first time, through a 320-kilometre transmission line, including an underwater section under the lake. This would also set the stage for a future project to connect the Northwest Territories grid to the rest of Canada. The project is being advanced collaboratively by NWT Métis Nation (representing the Fort Resolution Métis Council, Hay River Métis Government Council and the Fort Smith Métis Council), Akaitcho Dene First Nations (representing Łutsel K’e Dene First Nation, Denınu Kų ́ ́ę́ First Nation, and Yellowknives Dene First Nation), and Salt River First Nation. This project, in conjunction with other major Northern Resilience Projects (including the Mackenzie Valley Highway, Grays Bay Road and Port, and the Arctic Economic and Security Corridor), will create significant opportunities for new economic growth and enhance energy sovereignty by increasing access to clean and reliable power. This power will be available for mining and other new industrial developments, and to support Canada’s sovereignty and increased military presence in the North.",
+      "fr": "Le projet d’agrandissement de la centrale hydroélectrique Taltson est une initiative transformatrice en matière d’énergie propre qui doublera la capacité hydroélectrique des Territoires du Nord-Ouest. Le projet construira une installation hydroélectrique offrant une capacité supplémentaire de 60 mégawatts et va relier pour la première fois le réseau hydroélectrique situé au nord du Grand lac des Esclaves à celui qui est situé au sud du Grand lac des Esclaves, par l’intermédiaire d’une ligne de transport d’électricité de 320 kilomètres, dont une section passera sous le lac. Le projet ouvrirait également la voie à un futur projet visant à relier le réseau des Territoires du Nord-Ouest au reste du Canada. La Nation des Métis des Territoires du Nord-Ouest (qui représente le Conseil des Métis de Fort Resolution, le Conseil du gouvernement des Métis de Hay River et le Conseil des Métis de Fort Smith), les Premières Nations des Denés de l’Akaitcho (qui représentent la Première Nation des Dénés de Łutsel K’e, la Première Nation Denınu Kų ́ ́ę́ et la Première Nation des Dénés Yellowknives) et la Première Nation de Salt River collaborent à la réalisation du projet. Ce projet, en conjonction avec d’autres grands projets de résilience nordique (notamment la route de la vallée du Mackenzie, le projet de route et port de Grays Bay, et le corridor économique et de sécurité de l’Arctique), générera des occasions importantes de stimuler une nouvelle croissance économique et d’améliorer la souveraineté énergétique en augmentant l’accès à une énergie propre et fiable. Cette énergie pourra être utilisée pour l’exploitation minière et le développement industriel, et pour appuyer la souveraineté du Canada et le renforcement de sa présence militaire dans le Nord."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Taltson Hydro Expansion",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/taltson/MPO_Taltson_Large.png",
+        "thumb": "/media/thumb/taltson-hero.png",
+        "web": "/media/web/taltson-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "Taltson Hydro Expansion",
+      "fr": "Agrandissement de la centrale hydroélectrique Taltson"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/taltson.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/taltson.html"
+    },
+    "proponent": {
+      "en": "Government of the Northwest Territories",
+      "fr": "Gouvernement des Territoires du Nord-Ouest"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "Will link 11 communities and serve over 70% of the NWT ’s population.",
+          "fr": "Reliera 11 collectivités et desservira plus de 70 % de la population des T.N.-O."
+        },
+        "label": {
+          "en": "Energy security for the region",
+          "fr": "Sécurité énergétique pour la région"
+        }
+      },
+      {
+        "body": {
+          "en": "60 MW hydro expansion, and 320 km transmission line.",
+          "fr": "Augmentation de la capacité de production hydroélectrique de 60 mégawatts et construction d’une ligne de transmission de 320 kilomètres."
+        },
+        "label": {
+          "en": "Additional capacity",
+          "fr": "Capacité additionnelle"
+        }
+      },
+      {
+        "body": {
+          "en": "Expected to reduce greenhouse gas emissions by up to 240,000 tonnes annually, or 18% of the territory’s annual emissions.",
+          "fr": "Réduction des émissions de gaz à effet de serre pouvant aller jusqu’à 240 000 tonnes par année, soit 18 % des émissions annuelles du territoire."
+        },
+        "label": {
+          "en": "Clean energy supply",
+          "fr": "Approvisionnement en énergie propre"
+        }
+      }
+    ],
+    "sector": "Electricity",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -111.39232749340867,
+              60.42006535169916
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Great Slave Lake region, Northwest Territories",
+          "provinces": []
+        },
+        "name": {
+          "en": "Taltson Hydro Expansion",
+          "fr": "Agrandissement de la centrale hydroélectrique Taltson"
+        }
+      }
+    ],
+    "slug": "taltson",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:42:44Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "732de16c74eba2fab1694d01f20a4d2ba3d9e936278585b639c9311752744815",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:42:44Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/taltson.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On March 12, 2026, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 12 mars 2026, le projet a été renvoyé au Bureau des grands projets (BGP)."
+        },
+        "date": "March 12, 2026",
+        "date_verbatim": "March 12, 2026"
+      },
+      {
+        "body": {
+          "en": "The MPO is working with Crown-Indigenous Relations and Northern Affairs Canada and affected Indigenous communities to understand the legacy impacts of the original Taltson Dam.",
+          "fr": "Le BGP travaillera avec Relations Couronne-Autochtone et Affaires du Nord Canada et les collectivités autochtones touchées pour comprendre les impacts hérités de la première centrale hydroélectrique Taltson."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "The federal government will look at options for Indigenous economic participation in the Expansion Project. The MPO is also collaborating with the Government of the Northwest Territories to assess the project’s financial and business case, and support and streamline relevant regulatory processes, while recognizing the unique treaty-based impact assessment framework in the Northwest Territories.",
+          "fr": "Le gouvernement fédéral étudiera les possibilités de faire participer, sur le plan économique, des collectivités autochtones au projet d’agrandissement. Le BGP collaborera également avec le gouvernement des Territoires du Nord-Ouest pour évaluer l’analyse financière et de rentabilisation du projet et faciliter et simplifier les processus réglementaires pertinents, tout en étant conscient du cadre unique d’évaluation de l’impact, qui est fondé sur les traités dans les Territoires du Nord-Ouest."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "The aim of streamlining progress will be to ensure the Taltson Expansion begins producing power within 10 years.",
+          "fr": "L’objectif de cette simplification est de faire en sorte que l’agrandissement de la centrale Taltson permette de produire de l’électricité au cours des 10 prochaines années."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:42:44Z",
+  "slug": "taltson"
+}

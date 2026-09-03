@@ -1,0 +1,137 @@
+{
+  "content_sha256": "1b3717ae3de849ffc43038f5868bc3f059513f1c802167bce941d56f2849db69",
+  "date_modified_en": "2026-08-28",
+  "project": {
+    "description": {
+      "en": "Roberts Bank Terminal 2 (RBT2) is a proposed container terminal that would increase the Port of Vancouver’s container capacity by nearly 50%. It is a key project under the Port of Vancouver Gateway Strategy (Gateway Strategy) that would support Canada’s growth and trade diversification objectives, including doubling exports to non- U.S. markets by 2035. The project is comprised of the following major components: A marine landmass Wharf structure and berth pocket Widened causeway Expanded tug basin RBT2 is well advanced in the regulatory and project planning processes, having progressed through relevant regulatory approvals for more than a decade, including a robust environmental assessment approval process and consultations with Indigenous groups led by the project proponent – Vancouver Fraser Port Authority (VFPA). RBT2 completed a federal impact assessment in 2023, received key environmental approvals, and is pending final permits. The VFPA has 27 existing Mutual Benefit Agreements with First Nations for the Project. RBT2 has been referred to the Major Projects Office (MPO) as part of the Gateway Strategy. The MPO has initiated the process for the potential listing of RBT2 under the Building Canada Act (the Act). MPO is progressing consultations with potentially impacted Indigenous communities to inform the federal government’s decision on whether to list the project in the national interest under the Act. Listing RBT2 under the Act would move the project from a lengthy approval phase into a more streamlined delivery phase by coordinating remaining permitting, reducing regulatory delays, and accelerating project execution while keeping it aligned with broader national trade corridor priorities.",
+      "fr": "Le projet de Terminal 2 à Roberts Bank (T2RB) est un terminal à conteneurs proposé qui augmenterait la capacité de conteneurs du port de Vancouver de près de 50 %. Il s’agit d’un projet clé dans le cadre de la Stratégie sur la porte d’entrée du port de Vancouver (Stratégie sur la porte d’entrée) qui soutiendrait les objectifs de croissance et de diversification commerciale du Canada, y compris le doublement des exportations vers les marchés non américains d’ici 2035. Le projet proposé comprend les composantes principales suivantes : une masse terrestre marine; une structure de quai et une poche d’amarrage; une route sur digue élargie; un bassin de remorquage agrandi. Le projet de Terminal 2 à Roberts Bank est bien avancé dans les processus réglementaires et de planification, ayant franchi les étapes d’autorisation réglementaires pertinentes depuis plus d’une décennie, notamment un processus rigoureux d’approbation de l’étude d’impact sur l’environnement et des consultations avec les communautés autochtones menées par le promoteur du projet, l’Administration portuaire Vancouver-Fraser (APFV). Le projet de Terminal 2 à Roberts Bank a réussi une évaluation d’impact fédérale en 2023, a reçu des approbations environnementales clés, et attend les permis définitifs. L’Administration portuaire Vancouver-Fraser détient 27 ententes d’avantages mutuels existantes avec les Premières Nations pour le projet. Le projet de Terminal 2 à Roberts Bank a été renvoyé au Bureau des grands projets (BGP) dans le cadre de la Stratégie sur la porte d’entrée. Le BGP a entamé le processus pour l’inscription potentielle du projet de Terminal 2 à Roberts Bank au titre de la Loi visant à bâtir le Canada (la Loi). Le Bureau des grands projets poursuit actuellement des consultations avec les communautés autochtones susceptibles d’être touchées par les répercussions de ce projet, afin d’éclairer la décision du gouvernement fédéral quant à l’occasion de classer ce projet comme étant d’intérêt national au titre de la Loi. L’inscription du projet de Terminal 2 à Roberts Bank au titre de la Loi permettrait de faire passer ce projet d’une longue phase d’autorisation à une phase de mise en œuvre plus fluide, en coordonnant les autorisations restantes, en réduisant les retards réglementaires et en accélérant l’exécution du projet, tout en veillant à ce qu’il reste harmonisé avec les priorités nationales plus larges en matière de corridors commerciaux."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Roberts Bank Terminal 2 (RBT2)",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/roberts-bank/MPO_RBT2_Large.png",
+        "thumb": "/media/thumb/roberts-bank-hero.png",
+        "web": "/media/web/roberts-bank-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "Roberts Bank Terminal 2 (RBT2)",
+      "fr": "Terminal 2 à Roberts Bank (T2RB)"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/roberts-bank.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/roberts-bank.html"
+    },
+    "proponent": {
+      "en": "Vancouver Fraser Port Authority (VFPA)",
+      "fr": "Administration portuaire Vancouver-Fraser (APFV)"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "The project would establish a three-berth marine container terminal built on 320 acres of new industrial land.",
+          "fr": "Le projet permettrait d’établir un terminal à conteneurs maritimes de trois postes de mouillage construit sur 320 acres de nouveaux terrains industriels."
+        },
+        "label": {
+          "en": "Development",
+          "fr": "Développement"
+        }
+      },
+      {
+        "body": {
+          "en": "RBT2 would increase the Port of Vancouver's container capacity by nearly 50%, unlocking about $100 billion in annual trade capacity, and adding $3 billion to Canada's GDP annually.",
+          "fr": "Le projet de Terminal 2 à Roberts Bank permettrait d’augmenter la capacité de traitement des conteneurs du port de Vancouver de près de 50 %, ce qui débloquerait environ 100 milliards de dollars de capacité commerciale annuelle et ajouterait 3 milliards de dollars au produit intérieur brut (PIB) canadien chaque année."
+        },
+        "label": {
+          "en": "Trade diversification",
+          "fr": "Diversification commerciale"
+        }
+      },
+      {
+        "body": {
+          "en": "RBT2 would support the creation of over 17,000 ongoing jobs across the supply chain during operations.",
+          "fr": "Le projet de Terminal 2 à Roberts Bank soutiendrait la création de plus de 17 000 emplois continus tout au long de la chaîne d’approvisionnement pendant les opérations."
+        },
+        "label": {
+          "en": "Job creation",
+          "fr": "Création d’emplois"
+        }
+      }
+    ],
+    "sector": "Transport",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -123.18331890846149,
+              49.01862443594289
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Delta, British Columbia",
+          "provinces": []
+        },
+        "name": {
+          "en": "Roberts Bank Terminal 2",
+          "fr": "Terminal 2 à Roberts Bank"
+        }
+      }
+    ],
+    "slug": "roberts-bank",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:42:37Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "5bbc1fa28aeb9a8a422900837118f4d93838e3acab52d5f3c44443cdae8efef2",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:42:37Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/roberts-bank.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On August 28, 2026, Canada provided notice in the Canada Gazette that the Governor in Council may amend Schedule 1 of the Building Canada Act to list the RBT2 project as a project of national interest.",
+          "fr": "Le 28 août 2026, le Canada a donné un avis dans la Gazette du Canada indiquant que le gouverneur en conseil peut modifier l’annexe 1 de la Loi visant à bâtir le Canada pour inscrire le projet de Terminal 2 à Roberts Bank sur la liste des projets d’intérêt national."
+        },
+        "date": "August 28, 2026",
+        "date_verbatim": "August 28, 2026"
+      },
+      {
+        "body": {
+          "en": "In July 2026, MPO began consultations with Indigenous communities, the provincial government, and with federal permitting departments, as a part of the process towards assessing the potential listing of RBT2 as a project of national interest under the Building Canada Act.",
+          "fr": "En juillet 2026, le Bureau des grands projets a entrepris des consultations avec les communautés autochtones, le gouvernement provincial et les ministères fédéraux délivrant des permis, dans le cadre du processus visant à évaluer l’inscription potentielle de Terminal 2 à Roberts Bank comme projet d’intérêt national au titre de la Loi visant à bâtir le Canada."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "On July 16, 2026, the Government of Canada officially referred the RBT2 project to the MPO and initiated the process to consider listing it under the Building Canada Act. Before any decision is taken, consultations will be held with Indigenous communities, the provincial government, and with federal permitting departments, to determine whether this project should be listed under the Building Canada Act. These consultations will be held over the next several months, with the intent for the Minister of One Canadian Economy to make a recommendation for Governor in Council decision.",
+          "fr": "Le 16 juillet 2026, le gouvernement du Canada a officiellement renvoyé le projet de Terminal 2 à Roberts Bank au Bureau des grands projets et a lancé le processus pour envisager son inscription au titre de la Loi visant à bâtir le Canada. Avant toute décision, des consultations se tiendront avec les communautés autochtones, le gouvernement provincial et les ministères fédéraux délivrant des permis, afin de déterminer si ce projet doit être inscrit au titre de la Loi visant à bâtir le Canada. Ces consultations se dérouleront au cours des prochains mois, dans le but que le ministre de l’Unité de l’économie canadienne fasse une recommandation pour une décision du gouverneur en conseil."
+        },
+        "date": "July 16, 2026",
+        "date_verbatim": "July 16, 2026"
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:42:37Z",
+  "slug": "roberts-bank"
+}

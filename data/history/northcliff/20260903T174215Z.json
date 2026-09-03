@@ -1,0 +1,135 @@
+{
+  "content_sha256": "8bec4f7aae0111763a1b7885703082d60ec861f33602bba5034ab6dfe145fc97",
+  "date_modified_en": "2026-05-21",
+  "project": {
+    "description": {
+      "en": "The Sisson Project aims to develop a world-class tungsten and molybdenum deposit into a modern, long-life open-pit mine. The deposit, located in New Brunswick, is a large, structurally controlled resource with potential to support sustainable operations over the long term. Once developed, the Sisson Project has the potential to become a near-term critical metal producer, supplying tungsten and molybdenum to North American, European and Asian markets.",
+      "fr": "Le projet Sisson vise à transformer un gisement de tungstène et de molybdène de calibre mondial en une mine à ciel ouvert moderne et durable. Le gisement, situé au Nouveau-Brunswick, est une importante ressource structurellement contrôlée, avec un potentiel suffisant pour assurer une exploitation durable à long terme. Une fois mis en valeur, le projet Sisson pourrait devenir un producteur de métaux critiques à court terme, fournissant du tungstène et du molybdène aux marchés nord-américains, européens et asiatiques."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Northcliff Resources’ Sisson Mine",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/northcliff/MPO_NorthcliffResourcesSissonMine_Large.png",
+        "thumb": "/media/thumb/northcliff-hero.png",
+        "web": "/media/web/northcliff-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "Northcliff Resources’ Sisson Mine",
+      "fr": "Projet minier Sisson de Northcliff Resources"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/northcliff.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/northcliff.html"
+    },
+    "proponent": {
+      "en": "Northcliff Resources Ltd.",
+      "fr": "Northcliff Resources Ltd."
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "Will revitalize Canada’s tungsten production, filling a critical gap since the country’s last tungsten mine closed in 2015.",
+          "fr": "Ce projet revitalisera la production de tungstène au Canada, comblant ainsi une lacune critique depuis la fermeture de la dernière mine de tungstène du pays en 2015."
+        },
+        "label": {
+          "en": "Restoring tungsten production",
+          "fr": "Rétablissement de la production de tungstène"
+        }
+      },
+      {
+        "body": {
+          "en": "Will position Canada as a reliable supplier of tungsten and molybdenum for domestic and international markets.",
+          "fr": "Le projet Sisson permettra au Canada de s’imposer comme un fournisseur fiable de tungstène et de molybdène sur les marchés nationaux et internationaux."
+        },
+        "label": {
+          "en": "Strengthening supply chains",
+          "fr": "Renforcement des chaînes d’approvisionnement"
+        }
+      }
+    ],
+    "sector": "Mining",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -67.0453042976059,
+              46.36535517426807
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Sisson Brook, New Brunswick",
+          "provinces": []
+        },
+        "name": {
+          "en": "Northcliff Resources’ Sisson Mine",
+          "fr": "Projet minier Sisson de Northcliff Resources"
+        }
+      }
+    ],
+    "slug": "northcliff",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:42:15Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "5e91832548761bd7001635478d7196d324ef3643549cc2c69b63cded80e12a7e",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:42:15Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/northcliff.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On November 13, 2025, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 13 novembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
+        },
+        "date": "November 13, 2025",
+        "date_verbatim": "November 13, 2025"
+      },
+      {
+        "body": {
+          "en": "On August 7, 2025, Natural Resources Canada announced that Northcliff Resources Ltd. ’s Sisson project received $8.2 M in funding under the Global Partnerships Initiative.",
+          "fr": "Le 7 août 2025, Ressources naturelles Canada a annoncé que le projet Sisson de Northcliff Resources Ltd. avait reçu un financement de 8,2 M $ dans le cadre du Programme de partenariats internationaux."
+        },
+        "date": "August 7, 2025",
+        "date_verbatim": "August 7, 2025"
+      },
+      {
+        "body": {
+          "en": "The project received federal approval in 2017 following an environmental assessment process and received its Schedule 2 of the Metal and Diamond Mining Effluent Regulations in 2019.",
+          "fr": "Le projet a obtenu l’approbation du gouvernement fédéral en 2017 à l’issue d’un processus d’évaluation environnementale et a satisfait à l’annexe 2 du Règlement sur les effluents des mines de métaux et des mines de diamants en 2019."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "The MPO is working to advance the project toward construction more efficiently, by coordinating efforts among federal financing agencies to support financing and regulatory assistance.",
+          "fr": "Le BGP s’efforce de faire avancer le projet vers la phase de construction de manière plus efficace, en coordonnant les efforts des organismes de financement fédéraux afin de faciliter le financement et l’assistance réglementaire."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:42:15Z",
+  "slug": "northcliff"
+}

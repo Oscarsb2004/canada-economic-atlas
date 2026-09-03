@@ -1,0 +1,153 @@
+{
+  "content_sha256": "2f8fbe2826352c3397a4c3d7630efe5a4a3fd28c16a0615c5ac81cc3a1ea3c31",
+  "date_modified_en": "2026-07-02",
+  "project": {
+    "description": {
+      "en": "The Red Chris Mine Expansion Project is a copper and gold mine located near Iskut, within the Golden Triangle of Northern British Columbia, a region known for its rich mineral deposits. This major mine expansion project presents opportunities for critical minerals development, clean power transmission, Indigenous project leadership, and a potential new conservation area the size of Greece. Developed in close collaboration with the Tahltan Nation, whose Traditional Territory overlaps directly with the mine site, the project supports reconciliation while strengthening Canada’s role as a reliable supplier of critical minerals essential for clean energy and global manufacturing. The mine is also part of the proposed Northwest Critical Conservation Corridor, one of the transformative strategies referred to the Major Projects Office (MPO).",
+      "fr": "Le projet d’expansion de la mine Red Chris concerne une mine de cuivre et d’or située près d’Iskut dans le Triangle d’or du nord de la Colombie-Britannique, une région connue pour ses riches gisements minéraux. Cet important projet d’expansion de la mine offre des possibilités de mise en valeur des minéraux critiques, de transmission d’énergie propre et de leadership de la part des peuples autochtones, et pourrait donner lieu à une nouvelle zone de conservation de la taille de la Grèce. Réalisé en étroite collaboration avec la nation Tahltan, dont le territoire traditionnel chevauche directement le site minier, le projet favorise la réconciliation tout en renforçant le rôle du Canada en tant que fournisseur fiable de minéraux critiques indispensables à l’énergie propre et à l’industrie manufacturière mondiale. La mine fait également partie du Corridor essentiel de conservation du Nord-Ouest proposé, l’une des stratégies de transformation mentionnées par le Bureau des grands projets (BPM)."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Red Chris Mine Expansion",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/red-chris/MPO_RedChrisMineExpansion_Large.png",
+        "thumb": "/media/thumb/red-chris-hero.png",
+        "web": "/media/web/red-chris-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "Red Chris Mine Expansion",
+      "fr": "Expansion de la mine Red Chris"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/red-chris.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/red-chris.html"
+    },
+    "proponent": {
+      "en": "Newmont Mining & Imperial Metals",
+      "fr": "Newmont Exploitation minière & Imperial Metals"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "Will increase Canada’s annual copper production by more than 15%.",
+          "fr": "Le projet permettra d’augmenter de plus de 15 % la production annuelle de cuivre au Canada."
+        },
+        "label": {
+          "en": "Boosting Canada’s copper production",
+          "fr": "Stimuler la production de cuivre au Canada"
+        }
+      },
+      {
+        "body": {
+          "en": "Will reduce greenhouse gas emissions by over 70% once operational.",
+          "fr": "Il permettra de réduire de plus de 70 % les émissions de gaz à effet de serre lorsqu’il sera opérationnel."
+        },
+        "label": {
+          "en": "Cutting emissions",
+          "fr": "Réduire les émissions"
+        }
+      },
+      {
+        "body": {
+          "en": "Will employ about 1,500 workers during operation, with a peak of approximately 1,800 workers during construction.",
+          "fr": "Ce projet permettra d’employer près de 1 500 travailleurs pendant la période d’exploitation et jusqu’à environ 1 800 travailleurs pendant la période de construction."
+        },
+        "label": {
+          "en": "Job creation",
+          "fr": "Création d’emplois"
+        }
+      }
+    ],
+    "sector": "Mining",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -129.86499187692112,
+              57.67310081479183
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Northwestern British Columbia",
+          "provinces": []
+        },
+        "name": {
+          "en": "Red Chris Mine Expansion",
+          "fr": "Expansion de la mine Red Chris"
+        }
+      }
+    ],
+    "slug": "red-chris",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:42:32Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "c67e277a93ed44b66f98ab4f379f6f13ed5fc43e7b385ab7790a93d06e0ffb07",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:42:32Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/red-chris.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On July 2, 2026, the Government of Canada and the Province of British Columbia signed the new Canada-British Columbia Cooperative Prosperity Agreement, which will further accelerate the construction of major energy and trade corridors throughout the province. This agreement includes a $500 million investment to expand Red Chris Mine.",
+          "fr": "Le 2 juillet 2026, le gouvernement du Canada et la province de la Colombie-Britannique ont signé le nouvel Accord de prospérité et de collaboration entre le Canada et la Colombie-Britannique, qui qui permettra d’accélérer encore davantage la construction de grands corridors énergétiques et commerciaux à travers la province. L’accord comprend un investissement de 500 millions de dollars pour l’expansion de la mine Red Chris."
+        },
+        "date": "July 2, 2026",
+        "date_verbatim": "July 2, 2026"
+      },
+      {
+        "body": {
+          "en": "On March 3, 2026, the Minister of Energy and Natural Resources announced conditional approval of funding of $44,216,099 for Northwest Transmission Line (NTL) System Upgrades, which will enable the supply of up to 145 MW to the Red Chris Mine Expansion.",
+          "fr": "Le 3 mars 2026, le ministre de l’Énergie et des Ressources naturelles a annoncé l’approbation conditionnelle d’un financement de 44 216 099 $ pour la mise à niveau du réseau de la ligne de transport d’électricité du Nord-Ouest, ce qui permettra de fournir jusqu’à 145 MW pour l’agrandissement de la mine Red Chris."
+        },
+        "date": "March 3, 2026",
+        "date_verbatim": "March 3, 2026"
+      },
+      {
+        "body": {
+          "en": "On September 11, 2025, the project was referred to the MPO.",
+          "fr": "Le 11 septembre 2025, le projet a été soumis à l’examen du BGP."
+        },
+        "date": "September 11, 2025",
+        "date_verbatim": "September 11, 2025"
+      },
+      {
+        "body": {
+          "en": "On July 15, 2024, the Minister of Energy and Natural Resources announced conditional approval of a $195 million joint venture with B.C. ’s Ministry of Transportation and Infrastructure to upgrade key highways in northwestern B.C. that will directly benefit the Red Chris Mine Expansion.",
+          "fr": "Le 15 juillet 2024, le ministre de l’Énergie et des Ressources naturelles a annoncé l’approbation conditionnelle d’un investissement conjoint de 195 millions de dollars avec le ministère des Transports et des Infrastructures de la Colombie-Britannique, afin d’améliorer des infrastructures routières stratégiques dans le nord-ouest de la province, ce qui profitera directement à l’expansion de la mine Red Chris."
+        },
+        "date": "July 15, 2024",
+        "date_verbatim": "July 15, 2024"
+      },
+      {
+        "body": {
+          "en": "The MPO is engaging with the Tahltan Nation and coordinating with the proponent, federal and provincial departments to support advancing the project. The province is also undergoing consultations with Indigenous Peoples as part of the environmental assessment process.",
+          "fr": "Le BGP collabore avec la nation Tahltan et assure la coordination avec le promoteur ainsi qu’avec les ministères fédéraux et provinciaux afin d’appuyer l’avancement du projet. La province mène également des consultations auprès des peuples autochtones dans le cadre du processus d’évaluation environnementale."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:42:32Z",
+  "slug": "red-chris"
+}

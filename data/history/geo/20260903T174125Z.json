@@ -1,0 +1,149 @@
+{
+  "content_sha256": "ff907290f75085c1bc5d6418c67934ac5a44a1ff5da13273b49d6bd9759930e1",
+  "date_modified_en": "2026-06-24",
+  "project": {
+    "description": {
+      "en": "The Nuclear Waste Management Organization’s (NWMO) Deep Geological Repository (DGR) for Canada’s Used Nuclear Fuel will consist of a network of underground tunnels and placement rooms built to a depth of 650-800 metres below ground, designed to safely contain all current and future used nuclear fuel from Canada's existing nuclear reactor fleet. The Government of Canada selected the Adaptive Phased Management approach as Canada’s plan for used nuclear fuel in 2007, following a three-year dialogue with Indigenous Peoples and Canadians. The project involves isolation and containment of used nuclear fuel in a DGR located in a suitable geology and at a location with willing and informed host communities. The NWMO is mandated through the Nuclear Fuel Waste Act to design and implement this plan. Deep geological repositories are internationally recognized as a best practice for the permanent disposal of used nuclear fuel, and are also being pursued in countries like Finland, Sweden, France and Switzerland. The DGR will incorporate multiple engineered and natural barriers to ensure long-term containment, including the surrounding stable rock formation. Following a 14-year site selection process, Wabigoon Lake Ojibway Nation (WLON) and the Township of Ignace in northwestern Ontario were selected as informed and willing host communities after the site met stringent long-term safety and geological requirements. The project is currently undergoing a federal impact assessment and Canadian Nuclear Safety Commission licensing, alongside a parallel regulatory assessment and approval process by WLON.",
+      "fr": "Le dépôt souterrain en couches géologiques profondes proposé par la Société de gestion des déchets nucléaires (SGDN) pour le combustible nucléaire irradié du Canada consistera en un réseau de tunnels souterrains et de salles d’entreposage construits à une profondeur de 650 à 800 mètres sous terre, conçus pour contenir en toute sécurité tout le combustible nucléaire irradié actuel et futur provenant du parc canadien de réacteurs nucléaires. Le gouvernement du Canada a choisi l’approche de gestion adaptative progressive comme plan pour la gestion de combustible nucléaire irradié en 2007, à la suite d’un dialogue de trois ans avec les peuples autochtones et les Canadiens. Le projet consiste à isoler et à confiner le combustible nucléaire irradié dans un dépôt souterrain en couches géologiques profondes situé dans des endroits qui, sur le plan géologique, sont appropriés et dont les collectivités hôtes sont consentantes et informées. La SGDN s’est vu confier, en vertu de Loi sur les déchets de combustible nucléaire, le rôle de concevoir et de mettre en œuvre ce plan. Les dépôts souterrains en couches géologiques profondes sont reconnus internationalement comme une bonne pratique pour l’élimination permanente du combustible nucléaire irradié, et sont également utilisés dans des pays comme la Finlande, la Suède, la France et la Suisse. Des barrières artificielles et naturelles seront intégrées au dépôt souterrain en couches géologiques profondes pour assurer un confinement à long terme, y compris la formation rocheuse stable environnante. Après un processus de sélection de sites de 14 ans, la Nation ojibwée de Wabigoon Lake et le canton d’Ignace, dans le nord-ouest de l’Ontario, ont été choisis comme collectivités hôtes informées et consentantes, après qu’il ait été déterminé que le site respecte des exigences strictes en matière de sécurité et de géologie à long terme. Le projet fait actuellement l’objet d’une évaluation d’impact fédérale et d’un processus de délivrance de permis de la Commission canadienne de sûreté nucléaire, ainsi qu’un processus parallèle d’évaluation et d’approbation réglementaire par la Nation ojibwée de Wabigoon Lake."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Deep Geological Repository",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/geo/MPO_DPR_Large.png",
+        "thumb": "/media/thumb/geo-hero.png",
+        "web": "/media/web/geo-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "Deep Geological Repository",
+      "fr": "Dépôt géologique en profondeur"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/geo.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/geo.html"
+    },
+    "proponent": {
+      "en": "Nuclear Waste Management Organization (NWMO)",
+      "fr": "Société de gestion des déchets nucléaires"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "The DGR approach was selected as Canada’s long-term solution for managing used nuclear fuel following a three-year study and national dialogue with experts and the public. It aligns with internationally recognized best practices in countries with nuclear power programs.",
+          "fr": "L’utilisation d’un dépôt souterrain en couches géologiques profondes a été choisie comme solution à long terme du Canada pour la gestion du combustible nucléaire irradié à l’issue d’une étude de trois ans et d’un dialogue national avec des experts et le public. Cela est conforme aux meilleures pratiques reconnues internationalement dans les pays disposant de programmes nucléaires."
+        },
+        "label": {
+          "en": "Storage method selection",
+          "fr": "Choix des méthodes d’entreposage"
+        }
+      },
+      {
+        "body": {
+          "en": "Currently, Canada’s used nuclear fuel is safely stored in interim facilities at reactor sites, with ongoing monitoring, security, and maintenance. This approach is not sustainable over the extended timeframe that the material needs to be safely contained.",
+          "fr": "Actuellement, le combustible nucléaire irradié du Canada est entreposé en toute sécurité dans des installations provisoires sur des sites de réacteurs, avec une surveillance, une sécurité et une maintenance continues. Cette approche n’est pas durable compte tenu de la longue période pendant laquelle le matériau doit être entreposé en toute sécurité."
+        },
+        "label": {
+          "en": "Current nuclear storage",
+          "fr": "Stockage nucléaire actuel"
+        }
+      },
+      {
+        "body": {
+          "en": "The DGR project spans approximately 175 years from site preparation to post-closure monitoring. Once closed, it will be a permanent waste disposal site that needs very little maintenance through the many decades of monitoring.",
+          "fr": "Le projet de dépôt souterrain en couches géologiques profondes s’étend sur environ 175 ans, de la préparation du site au suivi post-fermeture. Une fois fermé, il s’agira d’un site permanent d’élimination des déchets nécessitant très peu d’entretien au fil des décennies de surveillance."
+        },
+        "label": {
+          "en": "Permanent commitment",
+          "fr": "Engagement permanent"
+        }
+      },
+      {
+        "body": {
+          "en": "This project is entirely funded by nuclear fuel waste owners.",
+          "fr": "Ce projet est entièrement financé par les propriétaires de déchets de combustible nucléaire."
+        },
+        "label": {
+          "en": "Project funding",
+          "fr": "Financement du projet"
+        }
+      },
+      {
+        "body": {
+          "en": "The NWMO ’s implementation of the DGR is subject to ongoing oversight by the Minister of Energy and Natural Resources under the Nuclear Fuel Waste Act.",
+          "fr": "La mise en œuvre du dépôt souterrain en couches géologiques profondes par la SGDN est soumise à une surveillance continue par le ministre de l’Énergie et des Ressources naturelles en vertu de la Loi sur les déchets de combustible nucléaire."
+        },
+        "label": {
+          "en": "Federal Oversight",
+          "fr": "Surveillance fédérale"
+        }
+      }
+    ],
+    "sector": "Electricity",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -92.21525123862854,
+              49.52336446068465
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Wabigoon Lake Ojibway Nation and the Township of Ignace, Ontario",
+          "provinces": []
+        },
+        "name": {
+          "en": "Deep Geological Repository",
+          "fr": "Dépôt géologique en profondeur"
+        }
+      }
+    ],
+    "slug": "geo",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:41:25Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "16c3d182e3117e878ba82cf351a5440b2e31e9f8f747a268fd8a0f0f43a27d07",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:41:25Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/geo.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On June 24, 2026, the project was referred to the Major Projects Office (MPO), and the Government of Canada announced it is initiating the process toward potential listing the DGR as a project of national interest under the Building Canada Act. Before any decision is taken, consultations will be held with Indigenous communities who may be impacted by the project, to determine whether this project should be listed under the Act. These consultations will begin over the next several months, with the intent for the Minister of One Canadian Economy to make a recommendation for Governor in Council decision in the Fall.",
+          "fr": "Le 24 juin 2026, le projet a été renvoyé au Bureau des grands projets (BGP), et le gouvernement du Canada a annoncé qu’il entamait le processus visant à une éventuelle désignation du dépôt souterrain en couches géologiques profondes comme projet d’intérêt national en vertu de la Loi visant à bâtir le Canada (LBC). Avant toute décision, des consultations auront lieu avec les collectivités autochtones susceptibles d’être touchées par le projet afin de déterminer s’il devrait être désigné en vertu de la LBC. Ces consultations commenceront au cours des prochains mois, dans le but de permettre au ministre de l’Unité de l’économie canadienne de formuler une recommandation aux fins de décision pour le gouverneur en conseil à l’automne."
+        },
+        "date": "June 24, 2026",
+        "date_verbatim": "June 24, 2026"
+      },
+      {
+        "body": {
+          "en": "On April 10, 2026, the Impact Assessment Agency of Canada and Canadian Nuclear Safety Commission released their draft Integrated Tailored Impact Statement Guidelines as part of the planning phase of the Deep Geological Repository integrated impact assessment process. The public comment period closed on May 10, 2026, and the Impact Assessment Agency of Canada and Canadian Nuclear Safety Commission are considering comments received to inform the preparation of the final guidelines and plans that will be issued to the proponent at the end of the 180-day planning phase.",
+          "fr": "Le 10 avril 2026, l’Agence d’évaluation d’impact du Canada et la Commission canadienne de sûreté nucléaire ont publié l’ébauche de leurs lignes directrices intégrées et adaptées sur l’évaluation d’impact dans le cadre de l’étape de planification du processus intégré d’évaluation d’impact du projet de dépôt souterrain en couches géologiques profondes. La période allouée aux commentaires du public s’est terminée le 10 mai 2026. L’Agence d’évaluation d’impact du Canada et la Commission canadienne de sûreté nucléaire examinent les commentaires reçus afin d’orienter la préparation des lignes directrices et des plans finaux qui seront publiés au promoteur à la fin de l’étape de planification de 180 jours."
+        },
+        "date": "April 10, 2026",
+        "date_verbatim": "April 10, 2026"
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:41:25Z",
+  "slug": "geo"
+}

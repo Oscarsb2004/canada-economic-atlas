@@ -1,0 +1,159 @@
+{
+  "content_sha256": "38483171b0976d6f038a86118b26e5953161183380561d2153f614fcfd730acd",
+  "date_modified_en": "2026-08-28",
+  "project": {
+    "description": {
+      "en": "The Mackenzie Valley Highway will create a new all-season economic corridor up the Mackenzie Valley, connecting Wrigley to Inuvik while providing year-round connectivity to three currently isolated communities, and improving access to two additional communities through extended and more reliable travel windows. The road will increase affordability and create new opportunities for inter-territorial and inter-provincial trade, economic development, community resupply, emergency response, and resource access. It also has the potential to enhance connectivity and reduce travel time between National Defence locations and facilities. The proposed ~800 km all-season gravel highway would extend from Wrigley to the Dempster Highway south of Inuvik, passing near Tulita, Norman Wells and Fort Good Hope. These communities are currently accessible only by aircraft, river barge and winter road. This project will create significant opportunities for economic growth and resource development, improve life in isolated communities, enhance Canada’s sovereignty, and support an expanded military presence in the North.",
+      "fr": "La route de la vallée du Mackenzie créera un nouveau corridor économique praticable en toute saison dans la vallée du Mackenzie, tout en permettant à trois communautés actuellement isolées d’être reliées tout au long de l’année et en améliorant l’accès à deux autres communautés grâce à des périodes de voyage plus longues et plus fiables. La route accroîtra l’abordabilité et créera de nouveaux débouchés pour le commerce interterritorial et interprovincial, le développement économique, le réapprovisionnement communautaire, les interventions d’urgence et l’accès aux ressources. Elle pourrait aussi améliorer la connectivité et réduire le temps de déplacement entre les emplacements et les installations de la Défense nationale. La route de gravier praticable en toute saison d’une longueur d’environ 800 km qui est proposée s’étendrait de Wrigley à la route de Dempster au sud d’Inuvik et passerait près de Tulita, Norman Wells et Fort Good Hope, des collectivités qui ne sont actuellement accessibles que par avion, par bateau et par une route praticable seulement l’hiver. Ce projet permettra de générer des débouchés importants qui favoriseront la croissance économique et la mise en valeur des ressources, amélioreront la vie des communautés isolées, renforceront la souveraineté du Canada et permettront d’accroître la présence militaire dans le Nord."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Mackenzie Valley Highway (MVH)",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/mackenzie/MPO_MackenzieValleyRegion_Large.png",
+        "thumb": "/media/thumb/mackenzie-hero.png",
+        "web": "/media/web/mackenzie-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "Mackenzie Valley Highway (MVH)",
+      "fr": "Route de la vallée du Mackenzie (RVM)"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mackenzie.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/mackenzie.html"
+    },
+    "proponent": {
+      "en": "Government of the Northwest Territories",
+      "fr": "Gouvernement des Territoires du Nord-Ouest"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "The proponent is working closely with Indigenous communities and governments along the corridor. On June 5, 2026, Sahtu Secretariat Incorporated, Gwich’in Tribal Council, and Pehdzéh Kı̨ First Nation signed a Memorandum of Understanding (MOU) establishing a coordinated Indigenous framework to work together to advance the proposed Mackenzie Valley Highway. The MOU reflects their shared interest in participating directly in the governance, planning, co-design, and long-term direction of the project.",
+          "fr": "Le promoteur travaille en étroite collaboration avec les collectivités et les gouvernements autochtones, ainsi que le corridor. Le 5 juin 2026, le Secrétariat du Sahtu, le Conseil tribal de Gwich’in et la Première Nation Pehdzéh Kı̨ ont signé un protocole d’entente (PE) établissant un cadre coordonné pour les peuples autochtones afin de travailler ensemble à l’avancement de la route proposée de la vallée du Mackenzie. Le PE reflète leur intérêt commun à participer directement à la gouvernance, à la planification, à la co-conception et à l’orientation à long terme du projet."
+        },
+        "label": {
+          "en": "Indigenous relations",
+          "fr": "Relations autochtones"
+        }
+      },
+      {
+        "body": {
+          "en": "creates a direct route from Yellowknife to Inuvik, reducing the distance by an estimated 1,200 km and travel time from 38 hours to roughly 23 hours.",
+          "fr": "Le projet permettra de créer une route directe entre Yellowknife et Inuvik, réduisant la distance d’environ 1 200 km et la durée du voyage de 38 heures à environ 23 heures."
+        },
+        "label": {
+          "en": "Transportation access",
+          "fr": "Accès pour le transport"
+        }
+      },
+      {
+        "body": {
+          "en": "provides enabling infrastructure to support natural resource exploration and development activity across the Dehcho, Sahtu and Beaufort Delta regions.",
+          "fr": ": Permettra la création d’infrastructures favorables pour soutenir l’exploration et le développement des ressources naturelles dans les régions de Dehcho, du Sahtu et de Beaufort-Delta."
+        },
+        "label": {
+          "en": "Resource development",
+          "fr": "Développement des ressources"
+        }
+      },
+      {
+        "body": {
+          "en": "generate new tourism potential, creating a scenic driving loop through the Northwest Territories and the Yukon in combination with the Dempster Highway.",
+          "fr": "Offrira un nouveau potentiel touristique grâce à la création d’un chemin en boucle pittoresque à travers les Territoires du Nord-Ouest et le Yukon, en combinaison avec la route de Dempster."
+        },
+        "label": {
+          "en": "Tourism",
+          "fr": "Tourisme"
+        }
+      }
+    ],
+    "sector": "Transport",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -133.72990509392164,
+              68.35866244441428
+            ],
+            [
+              -123.47858231355892,
+              63.231934642459855
+            ]
+          ],
+          "kind": "corridor",
+          "location_verbatim": "Routing being developed, Wrigley to Inuvik, Northwest Territories",
+          "provinces": []
+        },
+        "name": {
+          "en": "Mackenzie Valley Highway",
+          "fr": "Route de la vallée du Mackenzie"
+        }
+      }
+    ],
+    "slug": "mackenzie",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:41:55Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "15947504081af21d95a9c3952bd69a1f5c67eaf1f95d6bec4a65f3e640464bc6",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:41:55Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mackenzie.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On August 28, 2026, Canada provided notice in the Canada Gazette that the Governor in Council may amend Schedule 1 of the Building Canada Act to list the MVH project as a project of national interest.",
+          "fr": "Le 28 août 2026, le Canada a publié un avis dans la Gazette du Canada indiquant que le gouverneur en conseil peut modifier l’annexe 1 de la Loi visant à bâtir le Canada pour inscrire le projet de la route de la vallée du Mackenzie sur la liste des projets d’intérêt national."
+        },
+        "date": "August 28, 2026",
+        "date_verbatim": "August 28, 2026"
+      },
+      {
+        "body": {
+          "en": "In July 2026, MPO began consultations with Indigenous communities, the territorial government, and with federal permitting departments, as a part of the process towards assessing the potential listing of MVH as a project of national interest under the Building Canada Act.",
+          "fr": "En juillet 2026, le Bureau des grands projets a entrepris des consultations avec les communautés autochtones, le gouvernement territorial et les ministères fédéraux délivrant des permis, dans le cadre du processus visant à évaluer la possibilité d’une inscription de la route de la vallée du Mackenzie sur la liste des projets d’intérêt national au titre de la Loi visant à bâtir le Canada."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "On June 24, 2026, the Government of Canada announced the initiation of the process towards potential listing of MVH as a project of national interest under the Building Canada Act. Before any decision is taken, consultations will be held with Indigenous communities, the Government of the Northwest Territories, and with federal permitting departments, to determine whether this project should be listed under the Building Canada Act. These consultations will take place over the next several months, with the intent for the Minister of One Canadian Economy to make a recommendation for Governor in Council decision by the end of the year.",
+          "fr": "Le 24 juin 2026, le gouvernement du Canada a annoncé le lancement du processus visant à évaluer la possibilité d’une inscription de la route de la vallée du Mackenzie sur la liste des projets d’intérêt national au titre de la Loi visant à bâtir le Canada (LBC). Avant toute décision, des consultations auront lieu avec les collectivités autochtones susceptibles d’être touchées par le projet, avec le gouvernement des Territoires du Nord-Ouest et avec les ministres fédéraux, afin de déterminer si ce projet devrait être désigné en vertu de la LBC. Ces consultations se tiendront au cours des prochains mois, dans le but que le ministre de l’Unité de l’économie canadienne fasse une recommandation pour une décision du gouverneur en conseil d’ici la fin de l’année."
+        },
+        "date": "June 24, 2026",
+        "date_verbatim": "June 24, 2026"
+      },
+      {
+        "body": {
+          "en": "On March 12, 2026, the project was referred to the Major Projects Office. Since then, the Major Projects Office is working with the Government of the Northwest Territories to support and streamline relevant regulatory processes, assess project funding needs and determine funding solutions, and explore and identify opportunities to accelerate project development and construction execution capacity and timelines in collaboration with co-management boards, stakeholders and Indigenous communities and governments.",
+          "fr": "Le 12 mars 2026, le projet a été renvoyé au Bureau des grands projets (BGP). Depuis, le Bureau des grands projets travaille avec le gouvernement des Territoires du Nord-Ouest pour faciliter et simplifier les processus réglementaires pertinents, évaluer les besoins de financement du projet et trouver des solutions pour le financer, et explorer des occasions d’accélérer les échéanciers relatifs à l’élaboration, à la construction et à la capacité d’exécution du projet en collaboration avec les conseils de cogestion, les intervenants et les gouvernements et les collectivités autochtones."
+        },
+        "date": "March 12, 2026",
+        "date_verbatim": "March 12, 2026"
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:41:55Z",
+  "slug": "mackenzie"
+}

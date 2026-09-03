@@ -1,0 +1,171 @@
+{
+  "content_sha256": "f6600c4c404d3df8361dea7de1cc3530c6caa0e96cfb86102dc19cbc9cf0b2d8",
+  "date_modified_en": "2026-07-08",
+  "project": {
+    "description": {
+      "en": "The Darlington New Nuclear Project involves the development of the first of four planned small modular reactor (SMR) units, which will provide reliable, affordable, and clean electricity. SMR s are a new class of nuclear reactors that are considerably smaller in size and power output than conventional nuclear power reactors, with enhanced safety features. Several provinces are actively pursuing SMR s, including Ontario. The Darlington New Nuclear Project is on the traditional territory of the Michi Saagiig Anishinaabe people. These lands are covered by the Williams Treaties between Canada and the Mississauga and Chippewa Nations.",
+      "fr": "Le projet de nouvelle centrale nucléaire de Darlington comprend la mise au point de la première des quatre unités de petit réacteur modulaire (PRM) prévues, qui fourniront une électricité fiable, abordable et propre. Les PRM sont une nouvelle catégorie de réacteurs nucléaires dont la taille et la puissance de production sont considérablement plus petites que celles des réacteurs nucléaires classiques, avec des caractéristiques de sûreté renforcées. Plusieurs provinces s’intéressent activement aux PRM, notamment l’Ontario. Le nouveau projet nucléaire de Darlington se trouve sur le territoire traditionnel du peuple Anishinaabe de Michi Saagiig. Ces terres sont couvertes par le traité Williams conclu entre le Canada et les Nations des Mississauga et des Chippewas."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Darlington New Nuclear Project",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/darlington/MPO_DarlingtonNewNuclearProject_Large.png",
+        "thumb": "/media/thumb/darlington-hero.png",
+        "web": "/media/web/darlington-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "Darlington New Nuclear Project",
+      "fr": "Projet de nouvelle centrale nucléaire de Darlington"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/darlington.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/darlington.html"
+    },
+    "proponent": {
+      "en": "Ontario Power Generation",
+      "fr": "Ontario Power Generation"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "All four units are expected to create 18,000 annual jobs during construction, and sustain 2,500 annual jobs during operation.",
+          "fr": "On s’attend à ce que les quatre unités créent 18 000 emplois par année pendant la construction et maintiennent 2 500 emplois par année pendant l’exploitation."
+        },
+        "label": {
+          "en": "Job creation",
+          "fr": "Création d’emplois"
+        }
+      },
+      {
+        "body": {
+          "en": "The first SMR will cost $7.7 billion including common infrastructure, and the total budget for all four units is expected to be $20.9 billion.",
+          "fr": "Le premier PRM coûtera 7,7 milliards de dollars, incluant l’infrastructure commune, et le budget total des quatre unités devrait être de 20,9 milliards de dollars."
+        },
+        "label": {
+          "en": "Project investment",
+          "fr": "Investissements dans le projet"
+        }
+      },
+      {
+        "body": {
+          "en": "The first SMR unit will supply enough clean electricity to power approximately 300,000 homes. When completed, the 4 SMR units will generate enough electricity to power 1.2 million homes.",
+          "fr": "La première unité de PRM fournira suffisamment d’électricité propre pour alimenter environ 300 000 foyers. Une fois terminées, les 4 unités de PRM produiront suffisamment d’électricité pour alimenter 1,2 million de foyers."
+        },
+        "label": {
+          "en": "Clean energy supply",
+          "fr": "Approvisionnement en énergie propre"
+        }
+      },
+      {
+        "body": {
+          "en": "More than 80% of project spending is dedicated to Canadian companies.",
+          "fr": "Plus de 80 % des dépenses liées au projet sont consacrées à des entreprises canadiennes."
+        },
+        "label": {
+          "en": "Support for Canadian businesses",
+          "fr": "Soutien aux entreprises canadiennes"
+        }
+      }
+    ],
+    "sector": "Electricity",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -78.70562575313836,
+              43.87324871568423
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Bowmanville, Ontario",
+          "provinces": []
+        },
+        "name": {
+          "en": "Darlington New Nuclear Project",
+          "fr": "Projet de nouvelle centrale nucléaire de Darlington"
+        }
+      }
+    ],
+    "slug": "darlington",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:41:19Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "c743ae5b8b7d8357162e234e9869435db90f89f6f758534accb402ad894e9a50",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:41:19Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/darlington.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On June 23, 2026, the Government of Canada and the Province of Ontario announced a loan guarantee transaction that will allow seven First Nations in Ontario (the Williams Treaties First Nations) to eventually own a meaningful minority interest in DNNP. Canada’s Indigenous Loan Guarantee Program and Ontario’s Indigenous Opportunities Financing Program are supporting approximately $715 million in financing for the investment.",
+          "fr": "Le 23 juin 2026, le gouvernement du Canada et la province de l’Ontario ont annoncé l’octroi d’une garantie de prêts qui permettra à sept Premières Nations de l’Ontario (les Premières Nations visées par les Traités Williams) de détenir à terme une participation minoritaire importante dans le projet de nouvelle centrale nucléaire de Darlington. Le Programme de garantie de prêts pour les Autochtones du Canada et le Programme de financement pour les initiatives autochtones de l’Ontario accordent ensemble un financement d’environ 715 millions de dollars pour cet investissement."
+        },
+        "date": "June 23, 2026",
+        "date_verbatim": "June 23, 2026"
+      },
+      {
+        "body": {
+          "en": "The Canada Growth Fund (CGF) and Building Ontario Fund (BOF) announced a combined $3 billion equity commitment to finance the Darlington New Nuclear Project. This includes up to $2 billion from the CGF and up to $1 billion from the BOF. These investments will de-risk the construction and operation of the first-of-its-kind SMR project through innovative financial arrangements, encouraging private sector and Indigenous investment in the project over time.",
+          "fr": "Le Fonds de croissance du Canada (FCC) et le Fonds ontarien pour la construction (FOC) ont annoncé un engagement commun de 3 milliards de dollars en capitaux propres (anglais seulement) pour financer le projet de nouvelle centrale nucléaire de Darlington, soit un maximum de 2 milliards de dollars de la part du FCC et jusqu’à 1 milliard de dollars de la part du FOC. Ces investissements permettront d’atténuer les risques liés à la construction et à l’exploitation de ce projet de PRM unique en son genre grâce à des ententes financières novatrices, ce qui encouragera le secteur privé et les communautés autochtones à investir dans le projet au fil du temps."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "To further support clean energy projects, the Government of Canada tabled legislation to implement the Clean Electricity Investment Tax Credit. This refundable credit is equal to 15% of the capital cost of eligible investments in low-emitting electricity generation equipment, including nuclear technologies.",
+          "fr": "Afin de promouvoir les projets d’énergie propre, le gouvernement du Canada a déposé un projet de loi pour mettre en place le crédit d’impôt à l’investissement dans l’électricité propre. Ce crédit remboursable correspond à 15 % du coût en capital des investissements admissibles dans l’équipement lié à la production d’électricité à faibles émissions, comme les technologies nucléaires."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "On September 11, 2025, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 11 septembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
+        },
+        "date": "September 11, 2025",
+        "date_verbatim": "September 11, 2025"
+      },
+      {
+        "body": {
+          "en": "On April 4, 2025, the Canadian Nuclear Safety Commission (CNSC) granted Ontario Power Generation (OPG) a license to construct the first SMR for the Darlington New Nuclear Project.",
+          "fr": "Le 4 avril 2025, la Commission canadienne de sûreté nucléaire (CCSN) a octroyé à Ontario Power Generation (OPG) un permis de construction pour le premier PRM du projet de nouvelle centrale nucléaire de Darlington."
+        },
+        "date": "April 4, 2025",
+        "date_verbatim": "April 4, 2025"
+      },
+      {
+        "body": {
+          "en": "The MPO continues to monitor project progress and engage with Indigenous groups, partners, and proponents to support the timely delivery of this project.",
+          "fr": "Le BGP continue de surveiller l’avancement du projet et de collaborer avec les groupes autochtones, ses partenaires et les promoteurs afin de garantir le respect des délais du projet."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:41:19Z",
+  "slug": "darlington"
+}

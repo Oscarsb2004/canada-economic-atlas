@@ -1,0 +1,145 @@
+{
+  "content_sha256": "290a2dda8573940716eeaee2098f1ac746ba27e6b4036bfe93e8459cb40e7072",
+  "date_modified_en": "2026-09-01",
+  "project": {
+    "description": {
+      "en": "The McIlvenna Bay Project is developing a mine around a newly defined mineral reserve. It shares similar geological features with other major mines along the Flin Flon Greenstone Belt. The deposit has more potential for growth, with ongoing exploration showing potential opportunities for expansion in the future. As proposed, the project would produce copper and zinc ore concentrates containing gold and silver up to a total production rate of 4,200 tonnes per day. Concentrate products from the processing plant are proposed to be transported by truck to a third-party rail loading facility to be distributed for smelting. The lifespan of the project is expected to be up to 40 years. This project will strengthen Canada’s position as a global supplier of critical minerals for clean energy, advanced manufacturing, and modern infrastructure.",
+      "fr": "Le projet de McIlvenna Bay prévoit l’exploitation d’une mine autour d’une réserve minérale récemment découverte. Il présente des caractéristiques géologiques similaires à celles d’autres grandes mines situées le long de la ceinture de roches vertes de Flin Flon. Le gisement présente un fort potentiel de croissance, les travaux d’exploration en cours laissant entrevoir des possibilités d’expansion à l’avenir. Selon le projet proposé, l’exploitation produirait des concentrés de minerai de cuivre et de zinc contenant de l’or et de l’argent, pour un taux de production total pouvant atteindre 4 200 tonnes par jour. Il est proposé que les concentrés issus de l’usine de traitement soient transportés par camion vers une installation de chargement ferroviaire tierce afin d’être acheminés vers des fonderies. La durée de vie du projet devrait atteindre 40 ans. Ce projet renforcera la position du Canada en tant que fournisseur mondial de minéraux critiques pour l’énergie propre, la fabrication de pointe et les infrastructures modernes."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "McIlvenna Bay Project",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/mcilvenna/MPO_McIlvennaBayProject_Large.png",
+        "thumb": "/media/thumb/mcilvenna-hero.png",
+        "web": "/media/web/mcilvenna-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "McIlvenna Bay Project",
+      "fr": "Projet de McIlvenna Bay"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mcilvenna.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/mcilvenna.html"
+    },
+    "proponent": {
+      "en": "Eldorado Gold",
+      "fr": "Eldorado Gold"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "Powered by two nearby hydroelectric dams, the project will be one of the lowest-emission operations of its kind.",
+          "fr": "Alimenté par deux barrages hydroélectriques à proximité, le projet sera l’une des opérations les moins polluantes du genre."
+        },
+        "label": {
+          "en": "Clean energy advantage",
+          "fr": "Avantage en matière d’énergie propre"
+        }
+      },
+      {
+        "body": {
+          "en": "Will help position Canada as a leading global supplier of critical minerals such as copper and zinc, essential for clean energy and modern infrastructure.",
+          "fr": "Ce projet contribuera à faire du Canada l’un des principaux fournisseurs mondiaux de minéraux critiques, comme le cuivre et le zinc, indispensables à l’énergie propre et aux infrastructures modernes."
+        },
+        "label": {
+          "en": "Critical minerals leadership",
+          "fr": "Leadership dans le domaine des minéraux critiques"
+        }
+      },
+      {
+        "body": {
+          "en": "Will support between 450 to 580 jobs during construction.",
+          "fr": "Ce projet permettra de créer entre 450 et 580 emplois pendant la phase de construction."
+        },
+        "label": {
+          "en": "Job creation",
+          "fr": "Création d’emplois"
+        }
+      }
+    ],
+    "sector": "Mining",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -102.89498946100858,
+              54.65907702368995
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "East-Central Saskatchewan",
+          "provinces": []
+        },
+        "name": {
+          "en": "McIlvenna Bay Foran Copper Mine Project",
+          "fr": "Projet de mine de cuivre de Foran à McIlvenna Bay"
+        }
+      }
+    ],
+    "slug": "mcilvenna",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:42:02Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "fddeb3220f3e2d1a3c45387194047bca8982f93e6100a461403660e6ed2164e1",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:42:02Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mcilvenna.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On February 19, 2026, Eldorado Gold reported that construction of the McIlvenna Bay Project was approximately 88% complete as of January 31, 2026. The project remains on schedule for commercial production in mid-2026 and continues to track within budget.",
+          "fr": "Le 19 février 2026, Eldorado Gold a signalé que la phase de construction du projet McIlvenna Bay était achevée à environ 88 % au 31 janvier 2026. Le projet respecte l’échéancier en vue d’une production commerciale vers le milieu de l’année 2026 et continue à respecter le budget."
+        },
+        "date": "February 19, 2026",
+        "date_verbatim": "February 19, 2026"
+      },
+      {
+        "body": {
+          "en": "On September 11, 2025, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 11 septembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
+        },
+        "date": "September 11, 2025",
+        "date_verbatim": "September 11, 2025"
+      },
+      {
+        "body": {
+          "en": "The MPO is working with Eldorado Gold to develop an approach for potential project expansion, facilitate coordination across federal departments, and support the implementation of timely and efficient regulatory processes.",
+          "fr": "Le BGP collabore avec Eldorado Gold afin d’élaborer une approche en vue d’une éventuelle expansion du projet, de faciliter la coordination entre les ministères fédéraux et de favoriser la mise en œuvre de processus réglementaires opportuns et efficaces."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "In 2022, the McIlvenna Bay Project underwent a provincial environmental assessment, and received provincial approval. As such, the Province of Saskatchewan is responsible for discharging the duty to consult, as part of the provincial environmental impact assessment process.",
+          "fr": "En 2022, le projet de McIlvenna Bay a fait l’objet d’une évaluation environnementale provinciale (anglais seulement) et a reçu l’approbation de la province. À ce titre, la province de la Saskatchewan est chargée de s’acquitter de l’obligation de consultation dans le cadre du processus provincial d’évaluation des incidences environnementales."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:42:02Z",
+  "slug": "mcilvenna"
+}

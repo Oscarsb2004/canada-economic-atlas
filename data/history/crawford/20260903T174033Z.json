@@ -1,0 +1,149 @@
+{
+  "content_sha256": "3bce51d36cbff029edc4f0e25181f81741c523831fb477a62c8fa8ba4a5d0c10",
+  "date_modified_en": "2026-05-21",
+  "project": {
+    "description": {
+      "en": "Canada Nickel Company proposes to build a mine, located in the world’s second-largest nickel reserve. The Crawford Nickel Project will produce high-quality, low-carbon nickel essential for batteries and green steel. It will serve as an anchor of Canada’s global leadership in clean industrial materials. Canada Nickel Company is also proposing, through its NetZero Metals wholly-owned subsidiary, to develop a nickel refinery for the stainless steel and electric vehicle markets, and a stainless steel and alloy production facility. Agreements are signed with the Mattagami, Matachewan, and Flying Post First Nations for early business and employment opportunities which includes commitments for negotiations on contracting opportunities. Also, Taykwa Tagamou Nation has partnered with Canada Nickel Company to invest $20 million in the Crawford Nickel Project. This investment is in the form of convertible notes, which, if exercised, will give Taykwa Tagamou Nation a meaningful equity stake in the project.",
+      "fr": "La Canada Nickel Company propose de construire une mine située sur la deuxième plus vaste réserve de nickel au monde. Le projet nickélifère Crawford produira du nickel de haute qualité à faible teneur en carbone, un élément essentiel pour les batteries et l’acier vert. Il permettra de consolider le leadership mondial du Canada dans le domaine des matériaux industriels propres. Canada Nickel Company propose également, par l’intermédiaire de sa filiale en propriété exclusive NetZero Metals, de mettre en place une raffinerie de nickel pour les marchés de l’acier inoxydable et des véhicules électriques, ainsi qu’une usine de production d’acier inoxydable et d’alliages. Des ententes ont été signées avec les Premières Nations de Mattagami, de Matachewan et de Flying Post pour des occasions d’affaires et d’emploi précoces, ce qui comprend des engagements de négociations relativement à des possibilités de contrats. Par ailleurs, la Nation Taykwa Tagamou s’est associée à Canada Nickel Company pour investir 20 millions de dollars dans le projet nickélifère Crawford. Cet investissement prendra la forme de titres d’emprunt convertibles qui, s’ils sont convertis, donneront à la Nation Taykwa Tagamou une importante participation au capital dans le projet."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Canada Nickel’s Crawford Project",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/crawford/MPO_CanadaNickelCrawfordProject_Large.png",
+        "thumb": "",
+        "web": ""
+      }
+    ],
+    "name": {
+      "en": "Canada Nickel’s Crawford Project",
+      "fr": "Projet nickélifère Crawford de la société Canada Nickel"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/crawford.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/crawford.html"
+    },
+    "proponent": {
+      "en": "Canada Nickel Company",
+      "fr": "Canada Nickel Company"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "Home to the world’s second-largest nickel reserve, the project will produce low-carbon nickel critical for batteries and green steel.",
+          "fr": "Le projet, qui abrite la deuxième réserve de nickel en importance au monde, produira du nickel à faible teneur en carbone, un élément essentiel pour les batteries et l’acier vert."
+        },
+        "label": {
+          "en": "Global leadership",
+          "fr": "Leadership mondial"
+        }
+      },
+      {
+        "body": {
+          "en": "Will attract $5 billion in investment.",
+          "fr": "Le projet attirera des investissements de 5 milliards de dollars."
+        },
+        "label": {
+          "en": "Economic impact",
+          "fr": "Répercussions économiques"
+        }
+      },
+      {
+        "body": {
+          "en": "Will create about 5,000 jobs in construction and 1,300 jobs for operation.",
+          "fr": "Il créera environ 5 000 emplois pour la construction et 1 300 emplois pour l’exploitation."
+        },
+        "label": {
+          "en": "Job creation",
+          "fr": "Création d’emplois"
+        }
+      },
+      {
+        "body": {
+          "en": "The project’s emissions are nearly 90% lower than the global industry average.",
+          "fr": "Les émissions du projet sont presque 90 % inférieures à la moyenne mondiale de l’industrie."
+        },
+        "label": {
+          "en": "Sustainable mining",
+          "fr": "Exploitation minière durable"
+        }
+      },
+      {
+        "body": {
+          "en": "The site is expected to operate for over 40 years, ensuring long-term value for Canadians.",
+          "fr": "Le site devrait être exploité pendant plus de 40 ans, ce qui assurera une valeur à long terme pour les Canadiens."
+        },
+        "label": {
+          "en": "Longevity",
+          "fr": "Longévité"
+        }
+      }
+    ],
+    "sector": "Mining",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -81.37346945916379,
+              48.84005272301586
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Timmins, Ontario",
+          "provinces": []
+        },
+        "name": {
+          "en": "Canada Nickel’s Crawford Project",
+          "fr": "Projet nickélifère Crawford de la société Canada Nickel"
+        }
+      }
+    ],
+    "slug": "crawford",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:40:33Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "8fc6b3a8bd129a0fe917eaf5f2bc09b7f9477cd8d70f55281e36d7d5c7fea541",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:40:33Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/crawford.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On March 3, 2026, the Impact Assessment Agency of Canada (IAAC) formally began the impact assessment phase for the Canada Nickel’s Crawford Project. The IAAC is leading on further impact assessment work, including consultations with Indigenous peoples and governments, as well as the coordination of federal permits and associated Crown consultation for the project.",
+          "fr": "Le 3 mars 2026, l’Agence d’évaluation d’impact du Canada (AEIC) a officiellement entamé la phase d’évaluation d’impact du projet nickélifère Crawford de Canada Nickel. L'AEIC est en tête des travaux supplémentaires d'évaluation des impacts, y compris les consultations avec les peuples autochtones et les gouvernements, ainsi que la coordination des permis fédéraux et de la consultation de la Couronne associée pour le projet."
+        },
+        "date": "March 3, 2026",
+        "date_verbatim": "March 3, 2026"
+      },
+      {
+        "body": {
+          "en": "On November 13, 2025, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 13 novembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
+        },
+        "date": "November 13, 2025",
+        "date_verbatim": "November 13, 2025"
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:40:33Z",
+  "slug": "crawford"
+}

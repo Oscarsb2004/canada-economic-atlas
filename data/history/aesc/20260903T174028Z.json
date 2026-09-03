@@ -1,0 +1,151 @@
+{
+  "content_sha256": "369ae1707aa12b521380a8a1f7da6fbdd6ed60fd7b66ec56630251d0d0c69324",
+  "date_modified_en": "2026-09-02",
+  "project": {
+    "description": {
+      "en": "The Arctic Economic and Security Corridor (AESC) is a proposed ~400 km all-season road through the Slave Geological Province to the Nunavut border, where it will connect with the Grays Bay Road. This project is being led by the Tłı̨chǫ Government and Yellowknives Dene First Nation in partnership with the Government of the Northwest Territories, for the economic prosperity of both nations and surrounding communities. There are ongoing discussions between the Tłı̨chǫ Government, Yellowknives Dene First Nation, and the Government of the Northwest Territories on routing. This includes ongoing community consultations and Indigenous-led studies in the region. The impact assessments, led by co-management boards, provide for broad participation that will help bring forward recommendations to minimize impacts on local wildlife. Together with the Grays Bay Road and Port, the AESC will create a new all-season road from Yellowknife to Grays Bay on the Arctic Ocean. These two interconnected projects will create critical export links and enable new resource exploration and development in the mineral-rich Slave Geological Province of the Northwest Territories and Nunavut. This project, in conjunction with other major Northern Resilience Projects (Mackenzie Valley Highway and the Taltson Hydro Expansion), will create significant opportunities for economic growth, and support Canada’s security, and expanded military presence in the North.",
+      "fr": "Le corridor économique et de sécurité de l’Arctique (CESA) est un projet de construction d’une route d’environ 400 km pouvant être empruntée en toute saison, passant par la province géologique des Esclaves jusqu’à la frontière du Nunavut, où elle se raccordera à la route de Grays Bay. Ce projet est mené par le gouvernement Tłı̨chǫ et la Première Nation des Dénés Yellowknives en partenariat avec le gouvernement des Territoires du Nord-Ouest pour assurer la prospérité économique des deux nations et des communautés environnantes. Des discussions sur l’établissement du trajet se déroulent entre le gouvernement des Tłı̨chǫ, la Première Nation des Dénés Yellowknives et le gouvernement des Territoires du Nord-Ouest. Ces discussions prévoient la tenue de consultations avec les collectivités et la réalisation d’études menées par des Autochtones dans la région. Les études d’impact, menées par les conseils de cogestion, prévoient une participation élargie, ce qui permettra de formuler des recommandations visant à minimiser les incidences sur la faune locale. Avec le projet de la route et port de Grays Bay, le CESA créera une nouvelle route pouvant être empruntée en toute saison qui reliera Yellowknife à Grays Bay, qui est dans l’océan Arctique. Ces deux projets interreliés créeront des liaisons d’exportation essentielles et permettront d’explorer et d’exploiter de nouvelles ressources dans la province géologique des Esclaves, qui est riche en minéraux et se situe dans les Territoires du Nord-Ouest et au Nunavut. Ce projet, associé à d’autres grands projets de résilience nordique (route de la vallée du Mackenzie et agrandissement de la centrale hydroélectrique Taltson), créera d’importantes possibilités de croissance économique, renforcera la sécurité du Canada et permettra d’accroître la présence militaire dans le Nord."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Arctic Economic and Security Corridor",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/aesc/MPO_AESC_Large.png",
+        "thumb": "",
+        "web": ""
+      }
+    ],
+    "name": {
+      "en": "Arctic Economic and Security Corridor",
+      "fr": "Corridor économique et de sécurité de l’Arctique"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/aesc.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/aesc.html"
+    },
+    "proponent": {
+      "en": "Partnership between the Tłı̨chǫ Government, Yellowknives Dene First Nation, and the Government of the Northwest Territories",
+      "fr": "Partenariat entre le gouvernement des Tłı̨chǫ, la Première Nation des Dénés Yellowknives et le gouvernement des Territoires du Nord-Ouest"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "Will unlock exploration and development in the mineral-rich Slave Geological Province, including potential for copper, gold and zinc.",
+          "fr": "Fera débloquer l’exploration et le développement dans la province géologique des Esclaves, qui est riche en minéraux, potentiellement en cuivre, en or et en zinc."
+        },
+        "label": {
+          "en": "Development",
+          "fr": "Développement"
+        }
+      },
+      {
+        "body": {
+          "en": "Will provide valuable export access to mines in the Northwest Territories by connecting Yellowknife to a deepwater port at Grays Bay",
+          "fr": "La liaison entre Yellowknife et le port en eau profonde de Grays Bay offrira aux mines des Territoires du Nord-Ouest un accès précieux pour l’exportation."
+        },
+        "label": {
+          "en": "Export access",
+          "fr": "Accès pour l’exportation"
+        }
+      },
+      {
+        "body": {
+          "en": "Together with the Grays Bay Road, it will establish the first all-season road linking Nunavut to the National Highway System.",
+          "fr": "Avec la route de Grays Bay, elle constituera la première route praticable en toute saison reliant le Nunavut au réseau routier national."
+        },
+        "label": {
+          "en": "Transport access",
+          "fr": "Accès pour le transport"
+        }
+      },
+      {
+        "body": {
+          "en": "Will establish a critical transportation corridor to a deepwater port and airfield at Grays Bay, which creates potential for dual-use (civilian-military) opportunities.",
+          "fr": "Établira un corridor de transport essentiel vers un port en eau profonde et un aérodrome à Grays Bay, ce qui crée d’éventuelles possibilités de double usage (civil et militaire)."
+        },
+        "label": {
+          "en": "Dual-use",
+          "fr": "Double usage"
+        }
+      }
+    ],
+    "sector": "Transport",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -114.3706840423586,
+              62.4536972880166
+            ],
+            [
+              -110.91785776718147,
+              65.41998390099882
+            ]
+          ],
+          "kind": "corridor",
+          "location_verbatim": "Slave Geological Province/North Slave Region, Northwest Territories",
+          "provinces": []
+        },
+        "name": {
+          "en": "Arctic Economic and Security Corridor",
+          "fr": "Corridor économique et de sécurité de l’Arctique"
+        }
+      }
+    ],
+    "slug": "aesc",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:40:28Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "e71eb23fb972ed68818df3dd62fb386dcb2e24deb70a5858c7d130a3cf0f5276",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:40:28Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/aesc.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On August 15, 2026, the Tłı̨chǫ Government and the Yellowknives Dene First Nation announced they have reached consensus on a proposed corridor for the project.",
+          "fr": "Le 15 août 2026 (anglais seulement), le gouvernement des Tłı̨chǫ et la Première Nation des Dénés Yellowknives ont annoncé qu’ils étaient parvenus à un consensus sur une proposition de tracé du corridor pour le projet."
+        },
+        "date": "August 15, 2026",
+        "date_verbatim": "August 15, 2026"
+      },
+      {
+        "body": {
+          "en": "On March 12, 2026, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 12 mars 2026, le projet a été renvoyé au Bureau des grands projets (BGP)."
+        },
+        "date": "March 12, 2026",
+        "date_verbatim": "March 12, 2026"
+      },
+      {
+        "body": {
+          "en": "The MPO is working with proponents to determine funding solutions, identify acceleration options, and support and streamline relevant regulatory processes. This work will be carried out while recognizing the unique treaty-based impact assessment framework and local regulatory environment in the Northwest Territories.",
+          "fr": "Le BGP travaillera avec les promoteurs pour déterminer les solutions de financement, trouver des moyens d’accélérer le projet et faciliter et simplifier les processus réglementaires pertinents. Ce travail sera réalisé en tenant compte du cadre unique d’évaluation des impacts fondé sur les traités ainsi que de l’environnement réglementaire local dans les Territoires du Nord-Ouest."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:40:28Z",
+  "slug": "aesc"
+}

@@ -1,0 +1,175 @@
+{
+  "content_sha256": "7887cb3e4df4f2042dface2d0d26cf336f44b22733752df2beefcce7a0a88151",
+  "date_modified_en": "2026-09-02",
+  "project": {
+    "description": {
+      "en": "The proposed Contrecoeur Container Terminal Project would expand the current port infrastructure, adding port terminals and additional wharves, as well as other infrastructure that would increase the port’s handling capacity along the St. Lawrence River – one of Canada’s critical trade arteries. These new port facilities will be built on land owned by the Government of Canada and managed by the Montreal Port Authority. This project will generate substantial economic activity for the South Shore of Montreal, as well as Quebec and Canada, while improving the resilience of national logistics chains for the benefit of consumers.",
+      "fr": "La proposition de projet de terminal à conteneurs de Contrecœur permettrait d’agrandir l’infrastructure portuaire existante, en y ajoutant des terminaux portuaires et des quais supplémentaires, ainsi que d’autres infrastructures qui augmenteraient la capacité de manutention du port le long du fleuve Saint-Laurent – l’une des principales artères commerciales du Canada. Ces nouvelles installations portuaires seront construites sur des terres de la Couronne gérées par l’Administration portuaire de Montréal. Le projet générera une importante activité économique pour la Rive-Sud de Montréal, ainsi que pour le Québec et le Canada, tout en renforçant la résilience des chaînes logistiques nationales au profit des consommateurs."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Contrecoeur Container Terminal Project",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/contrecoeur/MPO_ContrecoeurTerminalContainer_Large.png",
+        "thumb": "",
+        "web": ""
+      }
+    ],
+    "name": {
+      "en": "Contrecoeur Container Terminal Project",
+      "fr": "Projet de terminal à conteneurs de Contrecœur"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/contrecoeur.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/contrecoeur.html"
+    },
+    "proponent": {
+      "en": "Montreal Port Authority",
+      "fr": "Administration portuaire de Montréal"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "Will provide approximately $140 million per year in economic spin offs once operational.",
+          "fr": "Une fois en activité, le port générera environ 140 millions de dollars par an en retombées économiques."
+        },
+        "label": {
+          "en": "Economic boost",
+          "fr": "Essor économique"
+        }
+      },
+      {
+        "body": {
+          "en": "Will support up to 8,000 direct and indirect jobs during construction.",
+          "fr": "La construction permettra de créer jusqu’à 8 000 emplois directs et indirects."
+        },
+        "label": {
+          "en": "Job creation",
+          "fr": "Création d’emplois"
+        }
+      }
+    ],
+    "sector": "Industrial",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -73.29288277612098,
+              45.82268337234923
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Contrecoeur, Quebec",
+          "provinces": []
+        },
+        "name": {
+          "en": "Contrecoeur Container Terminal Project",
+          "fr": "Project de terminal à conteneurs de Contrecœur"
+        }
+      }
+    ],
+    "slug": "contrecoeur",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:40:33Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "1489f15b945d751cb561fdfe710ef1618208a47029b75130efe63c2015c05c4d",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:40:33Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/contrecoeur.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On August 14, 2026, the Montreal Port Authority announced the start of in-water construction work for the Contrecoeur Expansion Project, marking a major milestone and the beginning of a key construction phase for the future container terminal. This phase includes construction of the working jetty, terminal wharf and its related marine infrastructure, following the completion of preparatory work undertaken since fall 2025, dredging activities are expected to begin in 2027.",
+          "fr": "Le 14 août 2026, l’Administration portuaire de Montréal a annoncé le début des travaux de construction en eau pour le projet d’expansion à Contrecœur, marquant une étape majeure et le début d’une phase clé de la construction du futur terminal à conteneurs. Cette phase comprend l’aménagement de la jetée de travail ainsi que la construction du quai du terminal et de l’infrastructure maritime connexe. Après l’achèvement des travaux préparatoires commencés à l’automne 2025, les travaux de dragage devraient commencer en 2027."
+        },
+        "date": "August 14, 2026",
+        "date_verbatim": "August 14, 2026"
+      },
+      {
+        "body": {
+          "en": "On April 9, 2026, the Government of Canada announced the start of construction of the project. With support from the MPO, this milestone was achieved by bringing together key partners, streamlining approvals, developing an effective financing model, and expediting the permitting process.",
+          "fr": "Le 9 avril 2026, le gouvernement du Canada a annoncé le début de la construction du projet. Avec le soutien du BGP, cette étape importante a été franchie en réunissant des partenaires clés, en simplifiant les processus d’approbation, en élaborant un modèle de financement efficace, et en accélérant le processus d’obtention des permis."
+        },
+        "date": "April 9, 2026",
+        "date_verbatim": "April 9, 2026"
+      },
+      {
+        "body": {
+          "en": "On April 6, 2026, the Canada Infrastructure Bank and the Montreal Port Authority finalized financing details. The CIB announced the repayable project financing on April 9, 2026.",
+          "fr": "Le 6 avril 2026, la Banque de l’infrastructure du Canada et l’Administration portuaire de Montréal ont finalisé les modalités de financement. La BIC a annoncé ce financement remboursable pour le projet le 9 avril 2026."
+        },
+        "date": "April 6, 2026",
+        "date_verbatim": "April 6, 2026"
+      },
+      {
+        "body": {
+          "en": "On January 5,2026, the Montreal Port Authority obtained a second Species at Risk Act compliant Fisheries Act authorization from DFO to regulate the impacts on fish and fish habitat of the project’s in water works and wharf construction.",
+          "fr": "Le 5 janvier 2026, l’Administration portuaire de Montréal a obtenu une deuxième autorisation conforme à la Loi sur les espèces en péril délivrée au titre de la Loi sur les pêches de POC afin de réguler les impacts des travaux en eau et de la construction du quai prévus dans le cadre du projet sur les poissons et leur habitat."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "On October 16, 2025, the Montreal Port Authority obtained a Species at Risk Act compliant Fisheries Act authorization from Fisheries and Oceans Canada (DFO) for the implementation of an offsetting plan to create more copper redhorse feeding grounds. The plan was developed in accordance with the Statement of Decision and in consultation with DFO, Quebec’s Ministry of Forests, Wildlife and Parks, Environment and Climate Change Canada, and First Nations.",
+          "fr": "Le 16 octobre 2025, l’Administration portuaire de Montréal a obtenu une autorisation conforme à la Loi sur les espèces en péril délivrée au titre de la Loi sur les pêches de Pêches et Océans Canada (POC) pour la mise en œuvre du plan de compensation pour les herbiers d’alimentation du chevalier cuivré. Ce plan a été élaboré en conformité avec la Déclaration de décision et en consultation avec POC, le ministère des Forêts, de la Faune et des Parcs du Québec, Environnement et Changement climatique Canada et les Premières Nations."
+        },
+        "date": "October 16, 2025",
+        "date_verbatim": "October 16, 2025"
+      },
+      {
+        "body": {
+          "en": "On October 9, 2025, the Port of Montreal began preparatory work for the expansion and awarded the contract for in-water works of the future container terminal to the CTCGP consortium (Contrecœur Terminal Constructors Grand Project), composed of Pomerleau and Aecon.",
+          "fr": "Le 9 octobre 2025, le Port de Montréal a entamé les travaux préparatoires de son projet d’expansion et confié au consortium CTCGP (Constructeurs Terminal de Contrecœur Grand Projet), composé de Pomerleau et Aecon, la réalisation des travaux en eau du futur terminal à conteneurs."
+        },
+        "date": "October 9, 2025",
+        "date_verbatim": "October 9, 2025"
+      },
+      {
+        "body": {
+          "en": "On September 29, 2025, the Major Projects Office, the Canada Infrastructure Bank, and the Montreal Port Authority signed a Memorandum of Understanding (MOU) with the common goal of advancing the Contrecoeur Container Terminal Project. The MOU provides that the parties will work together to finance the project and ensure permitting and regulatory requirements are met on schedule.",
+          "fr": "Le 29 septembre 2025, le BGP, la Banque de l’infrastructure du Canada et l’Administration portuaire de Montréal ont signé un protocole d’entente dans le but commun de faire progresser le projet de terminal à conteneurs de Contrecœur. Ce protocole d’entente prévoit que les parties travailleront ensemble pour financer le projet et veiller à ce que les exigences en matière d’autorisation et de réglementation soient respectées dans les délais impartis."
+        },
+        "date": "September 29, 2025",
+        "date_verbatim": "September 29, 2025"
+      },
+      {
+        "body": {
+          "en": "On September 11, 2025, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 11 septembre 2025, le projet a été renvoyé au Bureau des grands projets (BGP)."
+        },
+        "date": "September 11, 2025",
+        "date_verbatim": "September 11, 2025"
+      },
+      {
+        "body": {
+          "en": "The MPO continues to monitor project progress and work with partners and proponents to support the timely delivery of this project. The proponent continues working with impacted Indigenous groups.",
+          "fr": "Le BGP continue de surveiller l’avancement du projet et de collaborer avec ses partenaires et les promoteurs afin de garantir le respect des délais du projet. Le promoteur continue de travailler avec les groupes autochtones touchés."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:40:33Z",
+  "slug": "contrecoeur"
+}

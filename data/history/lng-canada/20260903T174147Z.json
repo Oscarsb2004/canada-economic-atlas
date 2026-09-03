@@ -1,0 +1,177 @@
+{
+  "content_sha256": "21752230e916dc680d3bc22b6ceef01b53e9794eb4752bd1be91dfb96ca4ece8",
+  "date_modified_en": "2026-07-02",
+  "project": {
+    "description": {
+      "en": "This project will expand LNG Canada’s liquefied natural gas (LNG) facility, doubling production and delivering low-carbon intensity Canadian energy to global markets. It will also help diversify Canada’s trading partners, including those with growing demand in Asia and Europe. Located in Kitimat, British Columbia, on the traditional territory of the Haisla Nation, the export facility benefits from abundant, low-cost Canadian natural gas and an ice-free harbour. This location provides a secure supply of LNG at scale and connects Canadian natural gas to global markets. LNG Canada Phase 2 represents an opportunity to strengthen Canada’s position as a reliable energy supplier, attract significant private investment, contribute to our GDP growth, and create thousands of good jobs in local communities across the supply chain.",
+      "fr": "Ce projet permettra d’agrandir l’installation de gaz naturel liquéfié (GNL) de LNG Canada, de doubler sa production et de fournir de l’énergie canadienne à faible intensité en carbone aux marchés mondiaux. Il contribuera également à diversifier les partenaires commerciaux du Canada, y compris ceux dont la demande augmente en Asie et en Europe. Située à Kitimat, en Colombie-Britannique, sur le territoire traditionnel de la Nation Haisla, cette installation d’exportation bénéficie d’un approvisionnement abondant en gaz naturel canadien peu coûteux et d’un port exempt de glace. Cet emplacement offre un approvisionnement sûr en GNL à grande échelle et relie le gaz naturel canadien aux marchés mondiaux. La phase 2 de LNG Canada représente une occasion de renforcer la position du Canada comme fournisseur d’énergie fiable, d’attirer d’importants investissements du secteur privé, de contribuer à la croissance de notre PIB et de créer des milliers de bons emplois dans les collectivités locales dans l’ensemble de la chaîne d’approvisionnement."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "LNG Canada Phase 2",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/lng-canada/MPO_LNGCanadaPhase2_Large.png",
+        "thumb": "/media/thumb/lng-canada-hero.png",
+        "web": "/media/web/lng-canada-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "LNG Canada Phase 2",
+      "fr": "LNG Canada - phase 2"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/lng-canada.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/lng-canada.html"
+    },
+    "proponent": {
+      "en": "LNG Canada",
+      "fr": "LNG Canada"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "Expected to become the second-largest liquefied natural gas facility worldwide.",
+          "fr": "On s’attend à ce que le Canada devienne la deuxième installation de gaz naturel liquéfié en importance au monde."
+        },
+        "label": {
+          "en": "Global LNG leader",
+          "fr": "Chef de file mondial du GNL"
+        }
+      },
+      {
+        "body": {
+          "en": "Provides employment opportunities in local communities, both during construction and once fully operational.",
+          "fr": "Offre des possibilités d’emploi dans les collectivités locales, tant pendant la construction qu’une fois le site pleinement opérationnel."
+        },
+        "label": {
+          "en": "Job creation",
+          "fr": "Création d’emplois"
+        }
+      },
+      {
+        "body": {
+          "en": "Expected to attract $33 billion in private-sector capital to Canada.",
+          "fr": "On s’attend à ce qu’il attire au Canada 33 milliards de dollars en capitaux du secteur privé au Canada."
+        },
+        "label": {
+          "en": "Economic boost",
+          "fr": "Essor économique"
+        }
+      }
+    ],
+    "sector": "Energy",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -128.59501429288173,
+              54.00669103591643
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Kitimat, British Columbia",
+          "provinces": []
+        },
+        "name": {
+          "en": "LNG Canada Phase 2",
+          "fr": "LNG Canada phase 2"
+        }
+      }
+    ],
+    "slug": "lng-canada",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:41:47Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "ab48b96aaadc43463d9d32ca0b5cbe6c9eeba33d19f7b30b09402ff26cb1d1ef",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:41:47Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/lng-canada.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On July 2, 2026, the Government of Canada and the Province of British Columbia signed the new Canada-British Columbia Cooperative Prosperity Agreement, which will further accelerate the construction of major energy and trade corridors, including LNG Canada Phase 2. The federal government will work with proponents, communities, and First Nations to accelerate the permitting, financing, and construction of these projects to boost LNG supply for Canadians and our allies.",
+          "fr": "Le 2 juillet 2026, le gouvernement du Canada et la province de la Colombie-Britannique ont signé le nouvel Accord de prospérité et de collaboration entre le Canada et la Colombie-Britannique, qui permettra d’accélérer encore davantage la construction de grands corridors énergétiques et commerciaux à travers la province, notamment la phase 2 du projet LNG Canada Le gouvernement fédéral collaborera avec les promoteurs, les communautés et les Premières Nations afin d’accélérer les procédures d’autorisation, le financement et la réalisation de ces projets, dans le but d’accroître l’approvisionnement en GNL pour les Canadiennes et les Canadiens ainsi que nos alliés."
+        },
+        "date": "July 2, 2026",
+        "date_verbatim": "July 2, 2026"
+      },
+      {
+        "body": {
+          "en": "On May 14, 2026, Government of Canada, the Government of British Columbia and LNG Canada reached agreement on enhanced investment co-operation and actions to collectively progress closure of final items to support a potential 2026 Final Investment Decision (FID) of LNG Canada’s proposed Phase 2 expansion. This agreement follows a decision on May 1, 2026, by LNG Canada’s Joint Venture Participants (JVPs) to approve hundreds of millions of dollars in incremental funding to help finalize critical work scopes to achieve a potential FID by the end of the year.",
+          "fr": "Le 14 mai 2026, le gouvernement du Canada, le gouvernement de la Colombie-Britannique et LNG Canada ont convenu de renforcer leur coopération en matière d’investissement et de prendre des mesures conjointes afin de finaliser les derniers éléments nécessaires à l’appui d’une éventuelle décision d’investissement finale en 2026 portant sur le projet d’expansion de la phase 2.Cet accord fait suite à une décision prise le 1er mai 2026 par les partenaires de la coentreprise de LNG Canada d’approuver l’octroi de plusieurs centaines de millions de dollars de financement supplémentaire afin de mener à terme des volets de travaux critiques en vue d’une éventuelle DFI d’ici la fin de l’année."
+        },
+        "date": "May 14, 2026",
+        "date_verbatim": "May 14, 2026"
+      },
+      {
+        "body": {
+          "en": "On March 27, 2026, LNG Canada and the owners of the Coastal GasLink pipeline announced a joint agreement to cooperate on an expansion of the pipeline's capacity that would enable LNG Canada Phase 2. LNG Canada would take an active role in the development of the pipeline, while Coastal GasLink would take on a technical support role.",
+          "fr": "Le 27 mars 2026, LNG Canada et les propriétaires du gazoduc de Coastal GasLink ont annoncé une entente de collaboration visant à accroître la capacité du gazoduc afin de permettre à LNG Canada de réaliser la phase 2. LNG Canada jouerait un rôle actif dans le développement du gazoduc, tandis que Coastal GasLink assumerait un rôle de soutien technique."
+        },
+        "date": "March 27, 2026",
+        "date_verbatim": "March 27, 2026"
+      },
+      {
+        "body": {
+          "en": "On September 11, 2025, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 11 septembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
+        },
+        "date": "September 11, 2025",
+        "date_verbatim": "September 11, 2025"
+      },
+      {
+        "body": {
+          "en": "Budget 2025 includes measures to enhance the competitiveness of Canadian LNG projects, such as LNG Canada Phase 2. Amendments to the Canadian Energy Regulator Act will extend the maximum length of LNG export licences from 40 to 50 years, providing greater certainty for proponents on their ability to receive long-term returns on investments. Bill C-15, which included the amendment to the Canadian Energy Regulator Act, received royal assent on March 26. Reinstating accelerated capital cost allowances (CCAs) for LNG equipment for low-carbon LNG facilities is intended to incentivize the development of best-in-class, low-emissions LNG facilities. LNG Canada Phase 1 entered production in the summer of 2025, exporting its first shipment of LNG in June 2025 to Asian markets.",
+          "fr": "Le Budget de 2025 comprend des mesures visant à améliorer la compétitivité des projets canadiens de GNL, ce qui comprend la phase 2 de LNG Canada. Les modifications à la Loi sur la Régie canadienne de l’énergie feront passer la durée maximale des licences d’exportation de GNL de 40 à 50 ans, offrant aux promoteurs une plus grande certitude quant à leur capacité à rentabiliser leurs investissements à long terme. Le projet de loi C-15, qui comprenait la modification de la Loi sur la Régie canadienne de l’énergie, a reçu la sanction royale le 26 mars. Le rétablissement des déductions pour amortissement accéléré (DAA) pour les installations de GNL à faibles émissions de carbone vise à encourager la mise en place d’installations de GNL de pointe et à faibles émissions. La phase 1 de LNG Canada est entrée en production à l’été 2025, et a exporté son premier chargement de GNL en juin 2025 vers les marchés asiatiques."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "Amendments to the Canadian Energy Regulator Act will extend the maximum length of LNG export licences from 40 to 50 years, providing greater certainty for proponents on their ability to receive long-term returns on investments. Bill C-15, which included the amendment to the Canadian Energy Regulator Act, received royal assent on March 26.",
+          "fr": "Les modifications à la Loi sur la Régie canadienne de l’énergie feront passer la durée maximale des licences d’exportation de GNL de 40 à 50 ans, offrant aux promoteurs une plus grande certitude quant à leur capacité à rentabiliser leurs investissements à long terme. Le projet de loi C-15, qui comprenait la modification de la Loi sur la Régie canadienne de l’énergie, a reçu la sanction royale le 26 mars."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "Reinstating accelerated capital cost allowances (CCAs) for LNG equipment for low-carbon LNG facilities is intended to incentivize the development of best-in-class, low-emissions LNG facilities. LNG Canada Phase 1 entered production in the summer of 2025, exporting its first shipment of LNG in June 2025 to Asian markets.",
+          "fr": "Le rétablissement des déductions pour amortissement accéléré (DAA) pour les installations de GNL à faibles émissions de carbone vise à encourager la mise en place d’installations de GNL de pointe et à faibles émissions. La phase 1 de LNG Canada est entrée en production à l’été 2025, et a exporté son premier chargement de GNL en juin 2025 vers les marchés asiatiques."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "Ahead of Phase 2, the Canada Energy Regulator has granted LNG Canada an annual volume limit increase to its LNG export licence.",
+          "fr": "En prévision de la phase 2, la Régie de l’énergie du Canada a accordé à LNG Canada une augmentation de la limite de volume annuel de sa licence d’exportation de GNL."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:41:47Z",
+  "slug": "lng-canada"
+}

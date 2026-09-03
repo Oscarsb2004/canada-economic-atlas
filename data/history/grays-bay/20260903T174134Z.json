@@ -1,0 +1,167 @@
+{
+  "content_sha256": "784310a015c5b1bc82fe5d6a06a53a4eec7e278cb4ab0105faf9bd6faf0915c4",
+  "date_modified_en": "2026-06-24",
+  "project": {
+    "description": {
+      "en": "The Grays Bay Road and Port (GBRP) is a proposed all-season ~230 km road from the Nunavut border to a deepwater port and airfield at Grays Bay on the Arctic Ocean. The deepwater export terminal and airstrip, could have dual-use (civilian-military) potential, subject to further assessment by National Defence. The Grays Bay Road and Port will be delivered through West Kitikmeot Resources Corporation, a partnership between the Kitikmeot Inuit Association and private investors. The project could create new export links for critical minerals from the West Kitikmeot Region. There are ongoing community consultations and Indigenous-led studies in the region, to discuss routing options to minimize impacts to local wildlife and marine ecosystems. The impact assessments, led by co-management boards, provide for broad participation that will help bring forward recommendations in these areas. This project will create significant opportunities for economic growth and support Canada’s security and expanded military presence in the North.",
+      "fr": "Le projet de route et de port de Grays Bay (RPGB) est un projet de route praticable en toute saison d’environ 230 km reliant la frontière du Nunavut à un port en eau profonde et à un aérodrome à Grays Bay en bordure de l’océan Arctique. Le terminal d’exportation de minerais en eau profonde et la piste d’atterrissage pourraient avoir un double usage (civil et militaire), sous réserve d’une évaluation approfondie par la Défense nationale. La route et le port de Grays Bay seront réalisés par la West Kitikmeot Resources Corporation, un partenariat entre la Kitikmeot Inuit Association et des investisseurs privés. Le projet pourrait créer de nouveaux liens d’exportation pour les minéraux critiques de la région de West Kitikmeot. Des consultations avec les collectivités et des études menées par des Autochtones sont en cours dans la région, afin d’étudier les différents trajets possibles pour minimiser les incidences sur la faune locale et les écosystèmes marins. Les études d’impact, menées par les conseils de cogestion, prévoient une participation élargie, ce qui permettra de formuler des recommandations dans ces domaines. Ce projet, qui créera d’importantes occasions de faire croître l’économie, renforcera la sécurité du Canada et permettra d’accroître la présence militaire dans le Nord."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Grays Bay Road and Port",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/grays-bay/MPO_GraysBay_Large.png",
+        "thumb": "/media/thumb/grays-bay-hero.png",
+        "web": "/media/web/grays-bay-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "Grays Bay Road and Port",
+      "fr": "Route et port de Grays Bay"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/grays-bay.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/grays-bay.html"
+    },
+    "proponent": {
+      "en": "West Kitikmeot Resources Corporation",
+      "fr": "West Kitikmeot Resources Corporation"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "The Kitikmeot Inuit Association (KIA) has been a proponent developing the GBRP project since 2018, and maintains equity in West Kitikmeot Resources.",
+          "fr": "La Kitikmeot Inuit Association (KIA) est un promoteur qui élabore le projet RPGB depuis 2018 et maintien l’équité relativement aux ressources de West Kitikmeot."
+        },
+        "label": {
+          "en": "Indigenous equity",
+          "fr": "Participation autochtone"
+        }
+      },
+      {
+        "body": {
+          "en": "Has the potential to unlock natural resources development, including critical minerals such as copper and zinc.",
+          "fr": "Est susceptible de débloquer des activités de développement minier, notamment pour les minéraux critiques, comme le cuivre et le zinc."
+        },
+        "label": {
+          "en": "Development",
+          "fr": "Développement"
+        }
+      },
+      {
+        "body": {
+          "en": "Together with the Arctic and Economic Security Corridor, it will establish the first all-season road linking Nunavut to the National Highway System.",
+          "fr": "Avec le Corridor économique et de sécurité de l’Arctique, cette route sera la première route praticable en toute saison reliant le Nunavut au réseau routier national."
+        },
+        "label": {
+          "en": "Transport access",
+          "fr": "Accès pour le transport"
+        }
+      },
+      {
+        "body": {
+          "en": "Will establish a deepwater port and airfield at Grays Bay, which creates potential dual-use (civilian-military) opportunities.",
+          "fr": "Établira un port en eau profonde et un aérodrome à Grays Bay, ce qui crée d’éventuelles possibilités de double usage (civil et militaire)."
+        },
+        "label": {
+          "en": "Dual-use",
+          "fr": "Double usage"
+        }
+      }
+    ],
+    "sector": "Transport",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -110.91785776718147,
+              65.41998390099882
+            ],
+            [
+              -111.0420272999758,
+              67.8065251518151
+            ]
+          ],
+          "kind": "corridor",
+          "location_verbatim": "Kitikmeot Region, Nunavut",
+          "provinces": []
+        },
+        "name": {
+          "en": "Grays Bay Road and Port",
+          "fr": "Route et port de Grays Bay"
+        }
+      }
+    ],
+    "slug": "grays-bay",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:41:34Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "148e1340c97e1b298f8dcd8be27c914e4435c41d00f5811919614d46a7bc550c",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:41:34Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/grays-bay.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On June 24, 2026, the Government of Canada announced the initiation of the process towards potential listing of the GBRP as a project of national interest under the Building Canada Act (BCA). Before any decision is taken, consultations will be held with Indigenous communities, the territorial government, and with federal permitting departments, to determine whether this project should be listed under the Act. These consultations will begin over the next several months, with the intent for the Minister of One Canadian Economy to make a recommendation for Governor in Council decision by the end of the year.",
+          "fr": "Le 24 juin 2026, le gouvernement du Canada a annoncé le lancement du processus visant à une éventuelle inscription de la RPGB en tant que projet d’intérêt national en vertu de la Loi visant à bâtir le Canada (LBC). Avant toute décision, des consultations auront lieu avec les collectivités autochtones, le gouvernement territorial et les ministères fédéraux qui délivrent les permis concernés afin de déterminer si ce projet devrait être désigné en vertu de la LBC. Ces consultations débuteront au cours des prochains mois, dans le but que le ministre de l’Unité de l’économie canadienne fasse une recommandation pour une décision du gouverneur en conseil d’ici la fin de l’année."
+        },
+        "date": "June 24, 2026",
+        "date_verbatim": "June 24, 2026"
+      },
+      {
+        "body": {
+          "en": "On May 20, 2026, the Government of Canada announced up to $50 million through the First and Last Mile Fund for planning and preconstruction work.",
+          "fr": "Le 20 mai 2026, le gouvernement du Canada a annoncé un financement fédéral jusqu’à hauteur de 50 millions de dollars, dans le cadre du Fonds du premier et du dernier kilomètre pour les travaux de planification et de préparation à la construction."
+        },
+        "date": "May 20, 2026",
+        "date_verbatim": "May 20, 2026"
+      },
+      {
+        "body": {
+          "en": "On March 12, 2026, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 12 mars 2026, le projet a été renvoyé au Bureau des grands projets (BGP)."
+        },
+        "date": "March 12, 2026",
+        "date_verbatim": "March 12, 2026"
+      },
+      {
+        "body": {
+          "en": "On March 1, 2026, West Kitikmeot Resources Corp. submitted the Impact Statement for the Grays Bay Road and Port Project to the Nunavut Impact Review Board, and the project is currently undergoing an assessment by the Board pursuant to the Nunavut Planning and Project Assessment Act.",
+          "fr": "Le 1er mars 2026, West Kitikmeot Resources Corp. (anglais seulement) a soumis l’étude d’impact du projet de route et de port de Grays Bay à la Commission du Nunavut chargée de l’examen des répercussions, et le projet fait actuellement l’objet d’une évaluation par la Commission en vertu de la Loi sur l’aménagement du territoire et l’évaluation des projets du Nunavut."
+        },
+        "date": "March 1, 2026",
+        "date_verbatim": "March 1, 2026"
+      },
+      {
+        "body": {
+          "en": "The MPO is working with proponents to determine funding solutions, identify acceleration options, and support and streamline relevant regulatory processes. This work will be carried out while recognizing the unique treaty-based impact assessment framework and local regulatory environment in Nunavut.",
+          "fr": "Le BGP travaille avec les promoteurs pour déterminer les solutions de financement, trouver des moyens d’accélérer le projet et faciliter et simplifier les processus réglementaires pertinents. Ce travail sera réalisé en tenant compte du cadre unique d’évaluation des impacts fondé sur les traités et de l’environnement réglementaire local du Nunavut."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:41:34Z",
+  "slug": "grays-bay"
+}

@@ -1,0 +1,149 @@
+{
+  "content_sha256": "43edef39ece6dc10604f3bde2336b0c223059d91aff8d943d1e217d62cc81e68",
+  "date_modified_en": "2026-09-02",
+  "project": {
+    "description": {
+      "en": "The Government of Alberta is proposing an interprovincial pipeline, capable of transporting one million barrels per day (MMb/d) of crude oil, from the Edmonton region to a deepwater port in southern British Columbia (B.C.). The proposed project comprises of the following major components: Receipt tank terminal ~1,250 km pipeline 11 pump stations Delivery tank terminal and marine facility The proposed project corridor would begin at a receipt terminal in the Bruderheim area of Alberta. There, it will collect crude oil from various western Canadian pipelines, serving as a central hub where the product will be measured, stored and then transferred into the pipeline. The proposed pipeline and pump stations will transport the crude oil to a proposed marine terminal in southern B.C. for loading onto marine vessels for transport toward export markets. The proposed corridor will largely follow the existing Trans Mountain corridor and will not require any adjustment to the Oil Tanker Moratorium Act. This proposed project is in the early stages of development. The precise route remains to be determined and will continue to be developed through the next stages of the project, including working closely with stakeholders and Indigenous groups to understand areas of concern, wherever possible. The proposal is dependent on the advancement of the Pathways Project, one of the largest carbon capture and storage projects in the world. The Major Projects Office (MPO) is reviewing Alberta’s submission and commencing consultations, including with potentially impacted Indigenous communities, in order to inform the government’s decision on whether to list the project in the national interest, under the Building Canada Act. An ownership group comprised of Trans Mountain Corporation (TMC), Alberta Petroleum Marketing Commission (APMC), and Pembina Pipeline Corporation (Pembina, TSX:PPL) will form and lead a new jointly owned company: Pembina's economic interest through construction will be 10% with the opportunity for up to an additional 10% once the project enters commercial operation. TMC and APMC will own equal shares of the balance of the project. In addition, there will be a real and meaningful opportunity for Indigenous equity participation. Consultations with respect to this participation will begin immediately. TMC will be responsible for construction of the proposed project, making regulatory submissions to receive permits to operate, and subsequent operation of the asset. TMC will be engaged by the new company to design, develop, permit, construct and operate the project.",
+      "fr": "Le gouvernement de l’Alberta propose un oléoduc interprovincial, capable de transporter un million de barils par jour (MMb/j) de pétrole brut, de la région d’Edmonton jusqu’à un port en eau profonde situé dans le sud de la Colombie-Britannique (C.-B.). Le projet proposé comprend les composantes principales suivantes : Terminal de réception et de stockage ~1 250 km d’oléoduc 11 stations de pompage Terminal de stockage et d’expédition, installation maritime Le tracé proposé pour le projet débuterait à un terminal de réception situé dans la région de Bruderheim, en Alberta. À cet endroit, il pourra recueillir le pétrole brut provenant de divers oléoducs de l’Ouest canadien, servant ainsi de plaque tournante centrale où le produit sera mesuré, stocké, puis transféré dans l’oléoduc. L’oléoduc proposé et les stations de pompage connexes transporteront le pétrole brut vers un terminal maritime dans le sud de la C.-B., où il sera chargé à bord de navires en vue de son transport vers les marchés d’exportation. Le tracé proposé suivra en grande partie le tracé existant de Trans Mountain et ne nécessitera aucun ajustement à la Loi sur le moratoire relatif aux pétroliers. La voie précise reste à déterminer et continuera d’être développée aux prochaines étapes du projet proposé, notamment en travaillant étroitement avec les parties prenantes et les groupes autochtones pour comprendre les zones préoccupantes, le cas échéant. La proposition dépend de l’avancement du projet Pathways, le plus grand projet mondial de captage et de stockage du carbone. Le Bureau des grands projets examine la soumission de l’Alberta et commence des consultations avec les communautés autochtones potentiellement touchées afin de permettre des décisions éclairées du gouvernement quant à l’inscription du projet dans l’intérêt national, en vertu de la Loi visant à bâtir le Canada. Un groupe de propriétaires composé de Trans Mountain Corporation (TMC), de l’Alberta Petroleum Marketing Commission (APMC) et de Pembina Pipeline Corporation (Pembina, TSX:PPL) formera et dirigera une nouvelle société en copropriété : L’intérêt économique de Pembina au moyen de la phase de construction s’élève à 10 %, avec l’occasion d’une participation supplémentaire pouvant aller jusqu’à 10 % une fois que le projet entrera en phase d’exploitation commerciale. TMC et APMC détiendront à égalité de parts le reste du projet. De plus, il y aura une occasion réelle et significative pour la participation des Autochtones à l’équité. Les consultations relatives à cette participation débuteront immédiatement. TMC sera responsable de la construction du projet proposé, du dépôt des demandes réglementaires en vue de l’obtention des autorisations d’exploitation, ainsi que de l’exploitation ultérieure de l’actif. Trans Mountain Corporation sera mobilisée par la nouvelle société établie en vue de concevoir, développer, construire et exploiter le projet, ainsi qu’en vue d’obtenir les autorisations connexes."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "West Coast Oil Pipeline",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/west/MPO_WCOP_Large.png",
+        "thumb": "/media/thumb/west-hero.png",
+        "web": "/media/web/west-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "West Coast Oil Pipeline",
+      "fr": "Oléoduc pétrolier de la côte ouest"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/west.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/ouest.html"
+    },
+    "proponent": {
+      "en": "Government of Alberta",
+      "fr": "Gouvernement de l’Alberta"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "The proposed pipeline would transport one million barrels per day of crude oil.",
+          "fr": "L’oléoduc proposé transporterait un million de barils de pétrole brut par jour."
+        },
+        "label": {
+          "en": "Capacity",
+          "fr": "Capacité"
+        }
+      },
+      {
+        "body": {
+          "en": "Final route and features to be determined through collaboration with impacted stakeholders, and with input from Indigenous communities, landowners and communities in BC and Alberta.",
+          "fr": "Voie définitive et caractéristiques à déterminer grâce à la collaboration avec les parties prenantes touchées, ainsi qu’avec la contribution des communautés autochtones, des propriétaires fonciers et des communautés de la Colombie-Britannique et de l’Alberta."
+        },
+        "label": {
+          "en": "Route",
+          "fr": "Voie"
+        }
+      },
+      {
+        "body": {
+          "en": "The proposed project would establish a new delivery terminal and marine facility to export crude oil to international markets, which would help diversify and increase exports to new and growing markets.",
+          "fr": "Le projet proposé établirait un nouveau terminal de livraison et une installation maritime pour exporter le pétrole brut vers les marchés mondiaux, ce qui aiderait à diversifier et à augmenter les exportations vers de nouveaux marchés en croissance."
+        },
+        "label": {
+          "en": "Development",
+          "fr": "Développement"
+        }
+      }
+    ],
+    "sector": "Energy",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -123.12420661932933,
+              49.052475856664074
+            ],
+            [
+              -113.05440957444233,
+              53.817873461815886
+            ]
+          ],
+          "kind": "corridor",
+          "location_verbatim": "Bruderheim, Alberta area to Robert Banks area in British Columbia",
+          "provinces": []
+        },
+        "name": {
+          "en": "West Coast Oil Pipeline",
+          "fr": ""
+        }
+      }
+    ],
+    "slug": "west",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:42:48Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "effea4c754e5af22c598c64f667daeae355abd8c79d2f923f5cf5df603718362",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:42:48Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/west.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": ""
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On August 1, 2026, Canada provided notice in the Canada Gazette that the Governor in Council may amend Schedule 1 of the Building Canada Act to list the WCOP project as a project of national interest.",
+          "fr": "Le 1er août 2026, le Canada a publié un avis dans la Gazette du Canada indiquant que le gouverneur en conseil pouvait modifier l’annexe 1 de la Loi visant à bâtir le Canada pour inscrire le projet d’oléoduc de la côte Ouest sur la liste des projets d’intérêt national."
+        },
+        "date": "August 1, 2026",
+        "date_verbatim": "August 1, 2026"
+      },
+      {
+        "body": {
+          "en": "In July 2026, MPO began consultations with Indigenous communities, provincial governments, and with federal permitting departments, as a part of the process towards assessing the potential listing of WCOP as a project of national interest under the Building Canada Act.",
+          "fr": "En juillet 2026, le Bureau des grands projets a entrepris des consultations avec les communautés autochtones, les gouvernements provinciaux et les ministères fédéraux délivrant des permis, dans le cadre du processus visant à évaluer la possibilité d’une inscription de l’oléoduc de la côte Ouest sur la liste des projets d’intérêt national au titre de la Loi visant à bâtir le Canada."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "On July 2, 2026, the Government of Canada officially referred the proposed WCOP Project to the MPO and initiated the process to consider listing it under the Building Canada Act. Before any decision is taken, consultations will be held with potentially impacted Indigenous communities, to inform the federal government’s decision on the project’s listing. Canada intends to give notice in the Canada Gazette by October 1, 2026, if it plans to list the project.",
+          "fr": "Le 2 juillet 2026, le gouvernement du Canada a officiellement renvoyé l’oléoduc de la côte Ouest au Bureau des grands projets et a lancé le processus pour envisager son inscription en vertu de la Loi visant à bâtir le Canada. Avant toute décision, des consultations auront lieu avec des communautés autochtones potentiellement touchées, afin de permettre une décision éclairée du gouvernement fédéral concernant l’inscription du projet. Le Canada prévoit de donner un avis dans la Gazette du Canada d’ici le 1 er octobre 2026, s’il prévoit d’avancer avec ce projet."
+        },
+        "date": "July 2, 2026",
+        "date_verbatim": "July 2, 2026"
+      },
+      {
+        "body": {
+          "en": "As the review process advances, all steps and decisions will fully respect Canada’s obligations to consult with Indigenous Peoples and will be informed by the outcomes of that consultation. Canada and Alberta will also continue to engage closely with the Government of British Columbia as this process advances.",
+          "fr": "À mesure que le processus d’examen progresse, toutes les étapes et les décisions respecteront pleinement les obligations du Canada de consulter les peuples autochtones et seront éclairées par les résultats de cette consultation. Le Canada et l’Alberta continueront également de collaborer étroitement avec le gouvernement de la Colombie-Britannique à mesure que ce processus progresse."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:42:48Z",
+  "slug": "west"
+}

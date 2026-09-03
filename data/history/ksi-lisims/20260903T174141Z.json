@@ -1,0 +1,173 @@
+{
+  "content_sha256": "444c26d1cb5035ee6be00cc202be2358c2d1a5d46a5087d004aeb17af65ba587",
+  "date_modified_en": "2026-07-02",
+  "project": {
+    "description": {
+      "en": "Ksi Lisims LNG is a proposed floating natural gas liquefaction production, storage, and offloading facility with a marine terminal located on the north coast of British Columbia. The onshore components of the project would be located on land owned by Nisg̱a’a Nation, as defined in the Nisg̱a’a Treaty. The project is a partnership between the Nisg̱a’a Nation, Rockies LNG, and Western LNG. The approximately 750-kilometre Prince Rupert Gas Transmission (PRGT) pipeline will supply feed gas for liquefaction. An approximately 120-kilometre electrical transmission line, the Nass Valley Regional Transmission Line (NVRTL), will provide electricity to the facility from the BC Hydro grid. Designed to be one of the world’s lowest-emission LNG facilities, Ksi Lisims LNG aims to foster sustainable economic development and lasting prosperity in Canada’s northwest.",
+      "fr": "Le Terminal de GNL KSI Lisims est un projet d’installation flottante de production, de stockage et de déchargement de gaz naturel liquéfié avec un terminal maritime situé sur la côte nord de la Colombie-Britannique. Les composantes terrestres du projet seraient situées sur des terres appartenant à la Nation Nisga’a, comme défini dans le traité Nisga’a. Le projet est un partenariat entre la Nation Nisga’a, Rockies LNG et Western LNG. Le projet de gazoduc de Prince Rupert d’environ 750 kilomètres assurera l’alimentation en gaz en vue de la liquéfaction. Une ligne de transport électrique d’environ 120 kilomètres, la ligne de transmission régionale de Nass Valley (NVRTL), alimentera l’installation en électricité à partir du réseau de BC Hydro. Conçue pour être l’une des installations de GNL ayant les émissions les plus faibles au monde, le Terminal de GNL Ksi Lisims vise à favoriser le développement économique durable et une prospérité à long terme dans le nord-ouest du Canada."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Ksi Lisims LNG",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/ksi-lisims/MPO_KsiLisimsLNG_Large.png",
+        "thumb": "/media/thumb/ksi-lisims-hero.png",
+        "web": "/media/web/ksi-lisims-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "Ksi Lisims LNG",
+      "fr": "Terminal de GNL Ksi Lisims"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/ksi-lisims.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/ksi-lisims.html"
+    },
+    "proponent": {
+      "en": "Nisg̱a’a Nation, Rockies LNG Limited Partnership, Western LNG Limited Liability Corporation",
+      "fr": "Nation Nisg a’a, Rockies LNG Limited Partnership, Western LNG société à responsabilité limitée"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "Predicted to create over a thousand skilled jobs, both during construction and on a permanent basis.",
+          "fr": "Ce projet devrait créer plus d’un millier d’emplois spécialisés, tant pendant la phase de construction qu’à long terme."
+        },
+        "label": {
+          "en": "Job creation",
+          "fr": "Création d’emplois"
+        }
+      },
+      {
+        "body": {
+          "en": "Ksi Lisims LNG, PRGT, and NVRTL together are expected to attract $30+ billion in investment.",
+          "fr": "Le Terminal de GNL KSI Lisims, le projet de gazoduc de Prince Rupert et la ligne de transmission régionale de Nass Valley devraient, ensemble, attirer plus de 30 milliards de dollars en investissements."
+        },
+        "label": {
+          "en": "Major investments",
+          "fr": "Investissements majeurs"
+        }
+      },
+      {
+        "body": {
+          "en": "During its operations, the LNG facility is predicted to contribute more than $15 billion in GDP to the Canadian economy over 30 years.",
+          "fr": "Une fois opérationnelle, l’installation de GNL devrait générer plus de 15 milliards de dollars de PIB pour l’économie canadienne sur une période de 30 ans."
+        },
+        "label": {
+          "en": "Economic growth",
+          "fr": "Croissance économique"
+        }
+      },
+      {
+        "body": {
+          "en": "Will become Canada’s second-largest LNG facility.",
+          "fr": "Il deviendra la deuxième installation de GNL en importance au Canada."
+        },
+        "label": {
+          "en": "Large-scale LNG facility",
+          "fr": "Installation de GNL à grande échelle"
+        }
+      },
+      {
+        "body": {
+          "en": "Predicted to be net-zero emissions when connected to the BC Hydro power grid.",
+          "fr": "L’installation devrait atteindre la carboneutralité lorsqu’elle sera raccordée au réseau électrique de BC Hydro."
+        },
+        "label": {
+          "en": "Net-zero emissions",
+          "fr": "Carboneutralité"
+        }
+      }
+    ],
+    "sector": "Energy",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -130.18398563222672,
+              55.02923136725545
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Pearse Island, British Columbia",
+          "provinces": []
+        },
+        "name": {
+          "en": "Ksi Lisims LNG",
+          "fr": "Terminal de GNL Ksi Lisims"
+        }
+      }
+    ],
+    "slug": "ksi-lisims",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:41:41Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "4dd6252f171a9df6fc3bb5cbe0033b808e7c1c803eeb99abb1f34ea7000e4e20",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:41:41Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/ksi-lisims.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On July 2, 2026, the Government of Canada and the Province of British Columbia signed the new Canada-British Columbia Cooperative Prosperity Agreement, which will further accelerate the construction of major energy and trade corridors, including Ksi Lisims LNG. The federal government will work with proponents, communities, and First Nations to accelerate the permitting, financing, and construction of this project to boost LNG supply for Canadians and our allies.",
+          "fr": "Le 2 juillet 2026, le gouvernement du Canada et la province de la Colombie-Britannique ont signé le nouvel Accord de prospérité et de collaboration entre le Canada et la Colombie-Britannique, qui permettra d’accélérer encore davantage la construction de grands corridors énergétiques et commerciaux à travers la province, notamment le projet Ksi Lisims GNL. Le gouvernement fédéral collaborera avec les promoteurs, les communautés et les Premières Nations afin d’accélérer les procédures d’autorisation, le financement et la réalisation de ce projet, dans le but d’accroître l’approvisionnement en GNL pour les Canadiennes et les Canadiens ainsi que nos alliés."
+        },
+        "date": "July 2, 2026",
+        "date_verbatim": "July 2, 2026"
+      },
+      {
+        "body": {
+          "en": "On May 27, 2026, an agreement between Ksi Lisims LNG and SEFE (Securing Energy for Europe) of Germany was announced, bringing long‑term supply of low-carbon Canadian LNG to a European buyer for the first time. Under the agreement, SEFE will purchase one million tonnes per annum of LNG for up to 20 years, with deliveries expected to begin by the early 2030s.",
+          "fr": "Le 27 mai 2026, un accord a été annoncé entre Ksi Lisims LNG et la société allemande SEFE (Securing Energy for Europe), qui promet pour la première fois un approvisionnement à long terme de gaz naturel liquéfié (GNL) canadien peu émetteur à un acheteur européen. L’accord prévoit que SEFE achètera un million de tonnes de GNL par an sur une période pouvant atteindre 20 ans. Les livraisons devraient commencer au début des années 2030."
+        },
+        "date": "May 27, 2026",
+        "date_verbatim": "May 27, 2026"
+      },
+      {
+        "body": {
+          "en": "On January 20, 2026, Ksi Lisims and BC Hydro signed a Memorandum of Understanding to supply 600 MW of power to the project once BC Hydro’s North Coast Transmission Line has been expanded.",
+          "fr": "Le 20 janvier 2026, Ksi Lisims et BC Hydro ont signé un protocole d’entente (anglais seulement) visant à fournir 600 MW d’électricité au projet une fois que la ligne de transport d’électricité de la côte nord de BC Hydro aura été agrandie."
+        },
+        "date": "January 20, 2026",
+        "date_verbatim": "January 20, 2026"
+      },
+      {
+        "body": {
+          "en": "On November 13, 2025, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 13 novembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
+        },
+        "date": "November 13, 2025",
+        "date_verbatim": "November 13, 2025"
+      },
+      {
+        "body": {
+          "en": "On September 15, 2025, the Ksi Lisims LNG received a federal Decision Statement and a provincial Environmental Assessment Certificate, in line with the goal of achieving “one-project, one-review.”",
+          "fr": "Le 15 septembre 2025, le Terminal de GNL KSI Lisim a obtenu une déclaration de décision fédérale et un certificat d’évaluation environnementale provincial, conformément à l’objectif « un projet, une évaluation »."
+        },
+        "date": "September 15, 2025",
+        "date_verbatim": "September 15, 2025"
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:41:41Z",
+  "slug": "ksi-lisims"
+}

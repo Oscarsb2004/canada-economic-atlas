@@ -1,0 +1,203 @@
+{
+  "content_sha256": "988c8921c698e32c3daaec61b0c97ca37c0e9899dae108844084f9f8a3cf65f2",
+  "date_modified_en": "2026-05-29",
+  "project": {
+    "description": {
+      "en": "Nouveau Monde Graphite is developing an open-pit graphite mine that will be integrated with a planned Battery Material Plant. Together, they will produce spherical graphite for batteries and other advanced manufacturing applications. This project aims to bolster the emerging battery hub in Bécancour, Québec, while potentially unlocking future graphite opportunities across Canada.",
+      "fr": "Nouveau Monde Graphite réalise les travaux de développement d’une mine de graphite à ciel ouvert qui sera intégrée à une usine de matériaux de batteries dont la construction est prévue. Ensemble, ils produiront du graphite sphérique pour les batteries et d’autres applications manufacturières de pointe. Ce projet vise à renforcer la toute nouvelle plaque tournante de l’industrie des batteries à Bécancour, au Québec, et pourrait même ouvrir le marché du secteur du graphite à l’échelle du pays."
+    },
+    "event_slug": "major-projects-office",
+    "media": [
+      {
+        "alt": {
+          "en": "Nouveau Monde Graphite’s Matawinie Mine",
+          "fr": ""
+        },
+        "role": "hero",
+        "source_url": "https://www.canada.ca/content/dam/pco-bcp/mpo-bgp/projects/indiv/nouveau/MPO_NouveauMondeGraphite_Large.png",
+        "thumb": "/media/thumb/nouveau-monde-hero.png",
+        "web": "/media/web/nouveau-monde-hero.jpg"
+      }
+    ],
+    "name": {
+      "en": "Nouveau Monde Graphite’s Matawinie Mine",
+      "fr": "Mine Matawinie de Nouveau Monde Graphite"
+    },
+    "page_url": {
+      "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nouveau-monde.html",
+      "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/nouveau-monde.html"
+    },
+    "proponent": {
+      "en": "Nouveau Monde Graphite",
+      "fr": "Nouveau Monde Graphite"
+    },
+    "quick_facts": [
+      {
+        "body": {
+          "en": "Will draw $1.8 billion in investment.",
+          "fr": "Le projet permettra de créer plus de 1 000 nouveaux emplois."
+        },
+        "label": {
+          "en": "Economic impact",
+          "fr": "Création d’emplois"
+        }
+      },
+      {
+        "body": {
+          "en": "Will run on Québec's affordable hydropower, ensuring sustainable and environmentally friendly operations.",
+          "fr": "Il attirera des investissements de 1,8 milliard de dollars."
+        },
+        "label": {
+          "en": "Powered by clean energy",
+          "fr": "Essor économique"
+        }
+      },
+      {
+        "body": {
+          "en": "Will help reduce transportation emissions and strengthen global clean energy supply chains.",
+          "fr": "Il fonctionnera grâce à l’énergie hydroélectrique abordable du Québec, garantissant ainsi un fonctionnement durable et respectueux de l’environnement."
+        },
+        "label": {
+          "en": "Supporting decarbonisation",
+          "fr": "Alimenté par l’énergie propre"
+        }
+      },
+      {
+        "body": {
+          "en": "Will create over 1,000 new careers.",
+          "fr": "Ce projet contribuera à réduire les émissions liées au transport et à renforcer les chaînes d’approvisionnement mondiales en énergie propre."
+        },
+        "label": {
+          "en": "Job creation",
+          "fr": "Soutenir la décarbonisation"
+        }
+      }
+    ],
+    "sector": "Mining",
+    "sites": [
+      {
+        "geometry": {
+          "approximate": true,
+          "coordinates": [
+            [
+              -73.92169361903755,
+              46.61754616755329
+            ]
+          ],
+          "kind": "point",
+          "location_verbatim": "Saint-Michel-des-Saints, Quebec",
+          "provinces": []
+        },
+        "name": {
+          "en": "Nouveau Monde Graphite’s Matawinie Mine",
+          "fr": "Mine Matawinie de Nouveau Monde Graphite"
+        }
+      }
+    ],
+    "slug": "nouveau-monde",
+    "sources": [
+      {
+        "content_sha256": "",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T17:42:23Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "content_sha256": "b567dba0398c4d36d349eea94fa107f6b1241c9f75d553668f453acc362faa73",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-03T17:42:23Z",
+        "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nouveau-monde.html"
+      }
+    ],
+    "status": {
+      "en": "Referred to MPO for consideration",
+      "fr": "Renvoyé au BGP pour examen"
+    },
+    "updates": [
+      {
+        "body": {
+          "en": "On May 19, 2026, Prime Minister Mark Carney announced the start of construction on the project, following a seven-year offtake agreement with the Government of Canada for 30,000 tonnes annually of graphite concentrate from the Matawinie Mine. The offtake protects Nouveau Monde Graphite from market variation at a critical time, while securing national graphite supply for Canada. The government will further support the project through a $459 million financing package from Export Development Canada and the Canada Infrastructure Bank, helping provide certainty to investors and accelerate construction while advancing Canada’s strategic interests. This builds on a $113 million strategic commitment from the Canada Growth Fund (CGF), following the CGF ’s previous $35.6 million commitment announced in December 2024 as part of a broader $411 million financing package alongside Eni S.p.A., Investissement Québec, and public equity financing.",
+          "fr": "Le 19 mai 2026, le premier ministre Mark Carney a annoncé le lancement de la construction du projet, suite à un accord d’écoulement de sept ans portant sur 30 000 tonnes par année de concentré de graphite provenant de la mine Matawinie. Cela contribuera à renforcer la sécurité et la fiabilité des chaînes d’approvisionnement en minéraux critiques pour le Canada et ses partenaires. Cet accord protège NMG contre les fluctuations du marché à un moment crucial, tout en assurant l’approvisionnement national en graphite du Canada. Le gouvernement apportera un soutien supplémentaire au projet par le biais d’une enveloppe de financement de 459 millions de dollars provenant d’Exportation et développement Canada et de la Banque de l’infrastructure du Canada, ce qui contribuera à rassurer les investisseurs et à accélérer la construction tout en servant les intérêts stratégiques du Canada. Cela s’ajoute à un engagement stratégique de 113 millions de dollars du Fonds de croissance du Canada (FCC), qui donne suite à l’engagement précédent de 35,6 millions de dollars annoncé par le FCC en décembre 2024, dans le cadre d’un montage financier global de 411 millions de dollars en collaboration avec Eni S.p.A., Investissement Québec et un financement par capitaux propres publics."
+        },
+        "date": "May 19, 2026",
+        "date_verbatim": "May 19, 2026"
+      },
+      {
+        "body": {
+          "en": "The government will further support the project through a $459 million financing package from Export Development Canada and the Canada Infrastructure Bank, helping provide certainty to investors and accelerate construction while advancing Canada’s strategic interests. This builds on a $113 million strategic commitment from the Canada Growth Fund (CGF), following the CGF ’s previous $35.6 million commitment announced in December 2024 as part of a broader $411 million financing package alongside Eni S.p.A., Investissement Québec, and public equity financing.",
+          "fr": "Le gouvernement apportera un soutien supplémentaire au projet par le biais d’une enveloppe de financement de 459 millions de dollars provenant d’Exportation et développement Canada et de la Banque de l’infrastructure du Canada, ce qui contribuera à rassurer les investisseurs et à accélérer la construction tout en servant les intérêts stratégiques du Canada. Cela s’ajoute à un engagement stratégique de 113 millions de dollars du Fonds de croissance du Canada (FCC), qui donne suite à l’engagement précédent de 35,6 millions de dollars annoncé par le FCC en décembre 2024, dans le cadre d’un montage financier global de 411 millions de dollars en collaboration avec Eni S.p.A., Investissement Québec et un financement par capitaux propres publics."
+        },
+        "date": "",
+        "date_verbatim": ""
+      },
+      {
+        "body": {
+          "en": "On May 19, 2026, the Government of Canada and Nouveau Monde Graphite announced that construction has started.",
+          "fr": "Le 19 mai, 2026, le Gouvernement du Canada et Nouveau Monde Graphite ont annoncé le début de la construction."
+        },
+        "date": "May 19, 2026",
+        "date_verbatim": "May 19, 2026"
+      },
+      {
+        "body": {
+          "en": "On April 16, 2026, Nouveau Monde Graphite announced that it raised approximately US$ 96.5 million in equity financing. Together with a previously announced US$ 335 million debt commitment, this funding is intended to support progress toward a final investment decision and construction.",
+          "fr": "Le 16 avril 2026, la société a annoncé qu’elle avait obtenu un financement de quelque 96,5 millions de dollars américains en capitaux propres. Ces fonds, auxquels s’ajoute l’engagement de financement par emprunt annoncé précédemment, visent à appuyer les progrès en vue de parvenir à une décision finale d’investir et de commencer la construction."
+        },
+        "date": "April 16, 2026",
+        "date_verbatim": "April 16, 2026"
+      },
+      {
+        "body": {
+          "en": "On April 9, 2026, Nouveau Monde Graphite executed an updated binding long-form term sheet with the Government of Canada, setting out the principal commercial terms for the supply, storage and resale of graphite concentrate from the Company’s Phase 2 Matawinie Mine.",
+          "fr": "Le 9 avril 2026, Nouveau Monde Graphite a procédé à une actualisation de la lettre d’intention détaillée contraignante avec le gouvernement du Canada, énonçant les principales conditions commerciales relatives à l’approvisionnement, au stockage et à la revente du concentré de graphite provenant de la mine Matawinie (phase 2) de la société."
+        },
+        "date": "April 9, 2026",
+        "date_verbatim": "April 9, 2026"
+      },
+      {
+        "body": {
+          "en": "On March 26, 2026, Nouveau Monde Graphite announced an updated binding long-form term sheet with the Government of Canada setting out the principal commercial terms for the supply, storage and resale of graphite concentrate from the Company’s Phase‑2 Matawinie Mine. This works toward transaction agreements, with Canada committing to purchase 30,000 tonnes per annum of flake graphite concentrate from the Matawinie Mine on a take-or-pay basis over a seven-year term.",
+          "fr": "Le 26 mars 2026, Nouveau Monde Graphite a annoncé une actualisation de la lettre d’intention détaillée contraignante avec le gouvernement du Canada, énonçant les principales conditions commerciales relatives à l’approvisionnement, au stockage et à la revente du concentré de graphite provenant de la mine Matawinie (phase 2) de la société. Cette mesure contribue à la conclusion d’ententes de transactions, le Canada étant résolu à acheter 30 000 tonnes par année de concentré de graphite en paillettes à la mine Matawinie selon une clause d’achat ferme pendant une durée de sept ans."
+        },
+        "date": "March 26, 2026",
+        "date_verbatim": "March 26, 2026"
+      },
+      {
+        "body": {
+          "en": "On March 17, 2026, the Canada Infrastructure Bank and Export Development Canada executed an agreement with Nouveau Monde Graphite for a $459 million loan to support the next phase of the Matawinie Mine. Once finalized, the funding will help develop, build, and launch the graphite mine, strengthening Canada’s economy in key sectors like energy, defence, technology, and manufacturing.",
+          "fr": "Le 17 mars 2026, la Banque de l’infrastructure du Canada et Exportation et développement Canada ont signé une entente avec Nouveau Monde Graphite portant sur un prêt de 459 millions de dollars destiné à financer la prochaine phase du projet minier Matawinie. Une fois finalisé, ce financement contribuera au développement, à la construction et à la mise en service de la mine de graphite, renforçant ainsi l’économie canadienne dans des secteurs clés, comme l’énergie, la défense, la technologie et l’industrie manufacturière."
+        },
+        "date": "March 17, 2026",
+        "date_verbatim": "March 17, 2026"
+      },
+      {
+        "body": {
+          "en": "On November 13, 2025, the project was referred to the Major Projects Office (MPO).",
+          "fr": "Le 13 novembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
+        },
+        "date": "November 13, 2025",
+        "date_verbatim": "November 13, 2025"
+      },
+      {
+        "body": {
+          "en": "On October 31, 2025, the project was announced as a strategic project under the Critical Minerals Production Alliance. The announcement included offtake agreements with the Government of Canada, Panasonic, and Traxys, along with an investment commitment from the Government of Japan.",
+          "fr": "Le 31 octobre 2025, le projet a été présenté comme un projet stratégique dans le cadre de l’Alliance sur la production de minéraux critiques. L’annonce comprenait des ententes en matière d’exploitation conclues avec le gouvernement du Canada, Panasonic et Traxys, ainsi qu’un engagement d’investissement de la part du gouvernement du Japon."
+        },
+        "date": "October 31, 2025",
+        "date_verbatim": "October 31, 2025"
+      },
+      {
+        "body": {
+          "en": "The MPO coordinated efforts among federal financing agencies to help Nouveau Monde Graphite secure the necessary funding. The MPO is currently monitoring the project’s progress and providing oversight to ensure it stays on track and progresses towards its next milestones.",
+          "fr": "Le BGP a coordonné les efforts des organismes de financement fédéraux pour aider Nouveau Monde Graphite à obtenir les fonds nécessaires. Le BGP surveille les progrès du projet et son déroulement comme prévu et s’assure que les progrès se poursuivent en vue d’atteindre les prochains jalons."
+        },
+        "date": "",
+        "date_verbatim": ""
+      }
+    ]
+  },
+  "retrieved_at": "2026-09-03T17:42:23Z",
+  "slug": "nouveau-monde"
+}
