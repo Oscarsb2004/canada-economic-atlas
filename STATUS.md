@@ -20,6 +20,9 @@ not be rediscovered.
 | `registry/*.yaml` | Done for MPO. `sectors.yaml` and `gics_naics.yaml` not yet written. |
 | `atlas/media.py` | Done. Circular 96 px thumb + 1400 px JPEG, deterministic. |
 | **`pipeline/01_projects.py`** | **Done and run.** All 18 projects + 9 strategies. |
+| `atlas/sources/statcan.py` | Done. Bulk cube download, both languages, delimiter-safe. |
+| **`pipeline/02_sectors.py`** | **Done and run.** 23 national + 299 provincial series. |
+| `registry/sectors.yaml` | Done. 20 NAICS + T-codes, partition and cross-cuts. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
 **Stage 01 output, committed:** 18 projects, every one with a French description
@@ -35,11 +38,22 @@ not "when the scraper last ran".
 
 ---
 
+**Stage 02 output, committed:** 23 national monthly series (20 two-digit NAICS +
+T001/T002/T003), 1997-01 → 2026-06, on two price bases; 299 provincial series
+(13 geographies × 23 codes), 1997 → 2025; the BoC policy rate. 1.1 MB total.
+Spot-checked: all-industries 2026-06 = 2,369,309 M chained-2017; Ontario 2025 =
+900,844.9 M. Re-run leaves a zero-line diff.
+
+**Chained dollars really are non-additive — measured, not assumed.** On 2026-06,
+goods + services vs all-industries drifts **+0.311%** chained and **+0.000%** on
+2017 constant prices. Both bases are stored; any view where components must sum
+reads `national-constant.json`. `check_partition()` warns past 1%.
+
+---
+
 ## Next steps, in order
 
-1. `pipeline/02_sectors.py` — StatCan, **bulk CSV path** (`getFullTableDownloadCSV`),
-   not vector-by-vector.
-3. `pipeline/03_companies.py` — XIC holdings CSV only.
+1. `pipeline/03_companies.py` — XIC holdings CSV only.
 4. `pipeline/04_bundle.py` → `web/public/data/` + `meta.json`.
 5. Palette selection → **run `validate_palette.js` before any chart code**.
 6. `web/` — Vite + MapLibre globe, Observable Plot.
@@ -109,6 +123,13 @@ service with translated values: the fields are `Nom`, `Emplacement`, `Promoteur`
 `Secteur`, `Etat`, `Lien` — and `Lien` points at the French page. The two
 services therefore share no URL, so they are joined on the terminal slug, which
 is identical in both languages. `mpo.FIELDS` holds the mapping; use `mpo.attr()`.
+
+**The French StatCan cube is semicolon-delimited.** The European convention,
+since French uses the comma as a decimal mark. Parsing it with a comma yields
+one enormous column per row, raises nothing, and leaves every French label empty
+while the English side looks perfect. `read_cube()` detects the delimiter. Its
+NAICS column is also `Système de classification … (SCIAN)`, not a translation of
+the English header.
 
 **Strategies have no geometry.** Layer 2 polygons return empty; only attributes
 come back. Their locations are prose, hand-mapped in `strategies.yaml` with the
