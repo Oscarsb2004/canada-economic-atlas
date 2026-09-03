@@ -1,0 +1,110 @@
+{
+  "categorical": [
+    {
+      "hex": "#0090ff",
+      "hue": "blue",
+      "slot": 1,
+      "step": 9
+    },
+    {
+      "hex": "#a35829",
+      "hue": "orange",
+      "slot": 2,
+      "step": 8
+    },
+    {
+      "hex": "#46a758",
+      "hue": "grass",
+      "slot": 3,
+      "step": 9
+    },
+    {
+      "hex": "#d6409f",
+      "hue": "pink",
+      "slot": 4,
+      "step": 9
+    },
+    {
+      "hex": "#6e56cf",
+      "hue": "violet",
+      "slot": 5,
+      "step": 9
+    }
+  ],
+  "diverging": {
+    "midpoint": "#3a3a3a",
+    "negative": [
+      "#b54548",
+      "#e5484d",
+      "#ff9592"
+    ],
+    "positive": [
+      "#2870bd",
+      "#0090ff",
+      "#70b8ff"
+    ]
+  },
+  "ink": {
+    "axis": "#3a3a3a",
+    "gridline": "#222222",
+    "muted": "#7c7c7c",
+    "primary": "#eeeeee",
+    "secondary": "#b4b4b4"
+  },
+  "roles": {
+    "de_emphasis": "#3a3a3a",
+    "emphasis": 3,
+    "goods_producing": 1,
+    "services_producing": 2
+  },
+  "sequential": {
+    "hue": "blue",
+    "steps": [
+      "#0d2847",
+      "#004074",
+      "#205d9e",
+      "#2870bd",
+      "#0090ff",
+      "#70b8ff"
+    ]
+  },
+  "status": {
+    "critical": "#d03b3b",
+    "good": "#0ca30c",
+    "serious": "#ec835a",
+    "warning": "#fab219"
+  },
+  "surface": {
+    "chart": "#191919",
+    "page": "#111111"
+  },
+  "validation": {
+    "adjacent": {
+      "chroma_floor": "all 5 >= 0.1",
+      "contrast": "all 5 >= 3:1",
+      "cvd_worst": "#6e56cf<->#d6409f dE 9.1 (protan), tritan 25.8",
+      "lightness_band": "all 5 inside L 0.48-0.67",
+      "normal_vision_worst": "#6e56cf<->#d6409f dE 20.3",
+      "result": "ALL CHECKS PASS"
+    },
+    "all_pairs": {
+      "cvd_worst": "#6e56cf<->#d6409f dE 9.1 (protan), tritan 5.5",
+      "normal_vision_worst": "#6e56cf<->#0090ff dE 15.9",
+      "result": "ALL CHECKS PASS"
+    },
+    "first_three_all_pairs": {
+      "cvd_worst": "#46a758<->#a35829 dE 10.6 (deutan)",
+      "normal_vision_worst": "#46a758<->#a35829 dE 22.7",
+      "result": "ALL CHECKS PASS"
+    },
+    "mode": "dark",
+    "run_on": "2026-09-03",
+    "sequential": {
+      "min_adjacent_dL": 0.066,
+      "monotonic_L": true,
+      "note": "Checked by hand, not by validate_palette.js. Running the CATEGORICAL validator on a sequential ramp fails by design: it spans the lightness band and its steps sit close together. That is expected and must not be \"fixed\"."
+    },
+    "surface": "#191919",
+    "tool": "dataviz/scripts/validate_palette.js"
+  }
+}

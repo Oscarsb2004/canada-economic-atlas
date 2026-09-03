@@ -1,0 +1,108 @@
+{
+  "atlas": {
+    "meta": "/data/meta.json",
+    "repo": "canada-economic-atlas"
+  },
+  "attribution": {
+    "boc": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
+    "statcan": "Statistics Canada Open Licence"
+  },
+  "generated_at": "2026-09-03T23:23:45Z",
+  "headline": [
+    {
+      "frequency": "monthly",
+      "key": "gdp_real_all_industries",
+      "label": {
+        "en": "All industries",
+        "fr": "Ensemble des industries"
+      },
+      "period": "2026-06",
+      "provenance": "official_dataset",
+      "release_time": "2026-08-28T08:30",
+      "scalar": "millions",
+      "source": {
+        "content_sha256": "",
+        "licence": "statcan-open",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T21:35:32Z",
+        "url": "https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadCSV/36100434/en"
+      },
+      "source_table": "36100434",
+      "unit": "Dollars",
+      "value": 2369309.0
+    },
+    {
+      "frequency": "monthly",
+      "key": "gdp_real_goods",
+      "label": {
+        "en": "Goods-producing industries",
+        "fr": "Industries productrices de biens"
+      },
+      "period": "2026-06",
+      "provenance": "official_dataset",
+      "release_time": "2026-08-28T08:30",
+      "scalar": "millions",
+      "source": {
+        "content_sha256": "",
+        "licence": "statcan-open",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T21:35:32Z",
+        "url": "https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadCSV/36100434/en"
+      },
+      "source_table": "36100434",
+      "unit": "Dollars",
+      "value": 597802.0
+    },
+    {
+      "frequency": "monthly",
+      "key": "gdp_real_services",
+      "label": {
+        "en": "Services-producing industries",
+        "fr": "Industries productrices de services"
+      },
+      "period": "2026-06",
+      "provenance": "official_dataset",
+      "release_time": "2026-08-28T08:30",
+      "scalar": "millions",
+      "source": {
+        "content_sha256": "",
+        "licence": "statcan-open",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T21:35:32Z",
+        "url": "https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadCSV/36100434/en"
+      },
+      "source_table": "36100434",
+      "unit": "Dollars",
+      "value": 1778881.0
+    },
+    {
+      "frequency": "daily",
+      "key": "policy_rate",
+      "label": {
+        "en": "Target for the overnight rate (business daily)",
+        "fr": ""
+      },
+      "period": "2026-09-02",
+      "provenance": "official_dataset",
+      "release_time": "",
+      "scalar": "units",
+      "source": {
+        "content_sha256": "",
+        "licence": "boc-terms",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-03T21:22:31Z",
+        "url": "https://www.bankofcanada.ca/valet/observations/V39079/json"
+      },
+      "source_table": "V39079",
+      "unit": "percent",
+      "value": 2.25
+    }
+  ],
+  "iso2": "CA",
+  "iso3": "CAN",
+  "name": {
+    "en": "Canada",
+    "fr": "Canada"
+  },
+  "schema_version": "1.0.0"
+}

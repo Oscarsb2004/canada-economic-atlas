@@ -87,7 +87,7 @@ status:
 # ── Validator output — recorded, not summarised ────────────────────────────────
 validation:
   tool: dataviz/scripts/validate_palette.js
-  run_on: 2026-09-03
+  run_on: "2026-09-03"
   mode: dark
   surface: "#191919"
 

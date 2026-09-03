@@ -1,0 +1,99 @@
+{
+  "app": "canada-economic-atlas",
+  "files": [
+    "events/major-projects-office/projects.json",
+    "events/major-projects-office/strategies.json",
+    "sectors/national-monthly.json",
+    "sectors/national-constant.json",
+    "sectors/provincial-annual.json",
+    "sectors/rates.json",
+    "companies/xic.json",
+    "country.json",
+    "palette.json"
+  ],
+  "generated_at": "2026-09-03T23:23:53Z",
+  "licences": {
+    "boc-terms": {
+      "attribution": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
+      "name": "Bank of Canada Terms of Use",
+      "redistribution": "permitted with attribution",
+      "url": "https://www.bankofcanada.ca/terms/"
+    },
+    "fund-disclosure": {
+      "name": "BlackRock iShares fund disclosure",
+      "redistribution": "Free to consume as published fund disclosure. The constituent list itself is S&P Dow Jones Indices intellectual property; do not redistribute it as \"the S&P/TSX Composite list\".",
+      "url": "https://www.blackrock.com/ca"
+    },
+    "ogl-canada-2.0": {
+      "name": "Open Government Licence – Canada 2.0",
+      "redistribution": "permitted with attribution",
+      "url": "https://open.canada.ca/en/open-government-licence-canada"
+    },
+    "statcan-open": {
+      "attribution_adapted": "Adapted from Statistics Canada, {product}, {reference_date}. This does not constitute an endorsement by Statistics Canada of this product.",
+      "attribution_asis": "Source: Statistics Canada, {product}, {reference_date}. Reproduced and distributed on an \"as is\" basis with the permission of Statistics Canada.",
+      "name": "Statistics Canada Open Licence",
+      "redistribution": "permitted with attribution",
+      "url": "https://www.statcan.gc.ca/en/reference/licence"
+    }
+  },
+  "schema_version": "1.0.0",
+  "sources": {
+    "boc_valet": {
+      "base": "https://www.bankofcanada.ca/valet/",
+      "licence": "boc-terms",
+      "publisher": "Bank of Canada",
+      "title": "Bank of Canada Valet API"
+    },
+    "geogratis_names": {
+      "base": "https://geogratis.gc.ca/services/geoname/en/geonames.geojson",
+      "licence": "ogl-canada-2.0",
+      "publisher": "Natural Resources Canada",
+      "title": "Canadian Geographical Names Database"
+    },
+    "mpo_arcgis": {
+      "attribution": "Major Projects Office of Canada & Natural Resources Canada",
+      "ckan_api": "https://open.canada.ca/data/en/api/3/action/package_show?id=8f387c74-a5d9-46ec-9aff-32bc8e0ff3b1",
+      "dataset_record": "https://open.canada.ca/data/en/dataset/8f387c74-a5d9-46ec-9aff-32bc8e0ff3b1",
+      "licence": "ogl-canada-2.0",
+      "mapserver_en": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer",
+      "mapserver_fr": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_fr/MapServer",
+      "publisher": "Natural Resources Canada",
+      "title": "Projects and Transformative Strategies Referred to the Major Projects Office"
+    },
+    "mpo_pages": {
+      "attribution": "Major Projects Office of Canada",
+      "landing_en": "https://www.canada.ca/en/privy-council/major-projects-office.html",
+      "landing_fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets.html",
+      "licence": "ogl-canada-2.0",
+      "news_index_en": "https://www.canada.ca/en/privy-council/major-projects-office/news.html",
+      "projects_index_en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national.html",
+      "publisher": "Privy Council Office",
+      "robots": "https://www.canada.ca/robots.txt",
+      "sitemap_en": "https://www.canada.ca/en/privy-council.sitemap.xml",
+      "sitemap_fr": "https://www.canada.ca/fr/conseil-prive.sitemap.xml",
+      "strategies_index_en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred.html",
+      "title": "Major Projects Office project pages"
+    },
+    "statcan_boundaries": {
+      "dataset_record": "https://open.canada.ca/data/en/dataset/ef70dc3b-1069-4037-9bce-61f47e628a1d",
+      "licence": "statcan-open",
+      "publisher": "Statistics Canada",
+      "title": "2021 Census cartographic boundary files — provinces and territories"
+    },
+    "statcan_wds": {
+      "base": "https://www150.statcan.gc.ca/t1/wds/rest/",
+      "docs": "https://www.statcan.gc.ca/en/developers/wds/user-guide",
+      "licence": "statcan-open",
+      "publisher": "Statistics Canada",
+      "title": "Statistics Canada Web Data Service"
+    },
+    "xic_holdings": {
+      "attribution": "BlackRock Canada, iShares XIC published holdings",
+      "csv": "https://www.blackrock.com/ca/investors/en/products/239837/ishares-sptsx-capped-composite-index-etf/1464253357814.ajax?fileType=csv&fileName=XIC_holdings&dataType=fund",
+      "licence": "fund-disclosure",
+      "publisher": "BlackRock Canada",
+      "title": "iShares S&P/TSX Capped Composite Index ETF holdings"
+    }
+  }
+}
