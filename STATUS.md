@@ -18,23 +18,26 @@ not be rediscovered.
 | `atlas/core/registry.py` | Done. Loads + hard-validates `sources.yaml`, `events.yaml`, `strategies.yaml`. |
 | `atlas/sources/mpo.py` | Done. Full project-page parser, EN **and** FR, verified against live pages. |
 | `registry/*.yaml` | Done for MPO. `sectors.yaml` and `gics_naics.yaml` not yet written. |
+| `atlas/media.py` | Done. Circular 96 px thumb + 1400 px JPEG, deterministic. |
+| **`pipeline/01_projects.py`** | **Done and run.** All 18 projects + 9 strategies. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
-Verified end to end on the live Crawford page, EN and FR: 5 quick facts and
-2 updates in both languages, identical hero image path, description/benefits
-extracted, French update dates parsed ("3 mars 2026").
+**Stage 01 output, committed:** 18 projects, every one with a French description
+and a hero rendering; 4 corridor sites; `nctl` carrying its 3 phase sites under
+one project; 9 strategies joined to the hand-made province mapping.
+35 MB of originals reduce to 2.7 MB committed (400 KB thumbs + 2.3 MB web).
+`projects.json` is 198 KB.
+
+**Determinism verified:** two consecutive full runs against unchanged sources
+produce a zero-line `git diff`. Current-state files are written only when content
+actually differs, so `retrieved_at` means "when this was last seen to change",
+not "when the scraper last ran".
 
 ---
 
 ## Next steps, in order
 
-1. **`pipeline/01_projects.py`** — the remaining piece of stage 01. Wire together
-   what already exists: fetch ArcGIS layer 1 (GeoJSON) + layer 2 (attributes),
-   group the 20 features into 18 projects on the page `Link`, fetch and parse
-   each page EN+FR via `mpo.parse_page`, download heroes, derive `thumb/` (96 px
-   circular) and `web/` (~1400 px) with Pillow, write `data/events/` plus the
-   append-only `data/history/`.
-2. `pipeline/02_sectors.py` — StatCan, **bulk CSV path** (`getFullTableDownloadCSV`),
+1. `pipeline/02_sectors.py` — StatCan, **bulk CSV path** (`getFullTableDownloadCSV`),
    not vector-by-vector.
 3. `pipeline/03_companies.py` — XIC holdings CSV only.
 4. `pipeline/04_bundle.py` → `web/public/data/` + `meta.json`.
@@ -76,6 +79,12 @@ government never published.
 **YAML ate Ontario.** `provinces: [ON, QC]` loads as `[True, "QC"]` — YAML 1.1
 coerces bare `ON`/`NO`/`YES`/`OFF` to booleans. Province codes are quoted, and
 `registry.py` now rejects non-string codes with an explanatory error.
+
+**The French ArcGIS service has French field names.** It is not the English
+service with translated values: the fields are `Nom`, `Emplacement`, `Promoteur`,
+`Secteur`, `Etat`, `Lien` — and `Lien` points at the French page. The two
+services therefore share no URL, so they are joined on the terminal slug, which
+is identical in both languages. `mpo.FIELDS` holds the mapping; use `mpo.attr()`.
 
 **Strategies have no geometry.** Layer 2 polygons return empty; only attributes
 come back. Their locations are prose, hand-mapped in `strategies.yaml` with the
