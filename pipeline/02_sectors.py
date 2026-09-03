@@ -1,0 +1,238 @@
+"""
+Stage 02 — the baseline economy: GDP by sector, national and provincial.
+
+    python pipeline/02_sectors.py [--skip-provincial] [--refresh]
+
+Reads Statistics Canada via bulk cube download (see atlas.sources.statcan for
+why bulk rather than vectors), plus the Bank of Canada policy rate.
+
+Outputs
+    data/sectors/national-monthly.json     23 series, 1997-01 →
+    data/sectors/national-constant.json    additive price basis, same shape
+    data/sectors/provincial-annual.json    13 geographies × 23 series
+    data/sectors/rates.json                Bank of Canada policy rate
+
+The taxonomy comes from registry/sectors.yaml; the LABELS come from the cube
+itself, in both languages, because the industry column embeds its own code
+("Manufacturing [31-33]"). Carrying our own labels would let the UI drift from
+the source, which the project's governing rule forbids.
+
+Sizing note: the monthly cube is 6.8 MB zipped and holds 249 industry members
+across two price bases. We keep 23 series on one basis, which is why the output
+is roughly 200 KB rather than tens of megabytes — the filtering is the point.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import logging
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+import yaml
+
+from atlas.core import registry as R
+from atlas.core.schema import Provenance, Series, Text, to_jsonable
+from atlas.net import Fetcher
+from atlas.sources import statcan
+
+log = logging.getLogger("02_sectors")
+
+#: Province and territory names as the cube spells them, to our codes. The cube
+#: has no "Canada" member for 36100711 — it is provinces and territories only,
+#: and the national total comes from the monthly cube.
+GEO_CODES = {
+    "Newfoundland and Labrador": "NL", "Prince Edward Island": "PE",
+    "Nova Scotia": "NS", "New Brunswick": "NB", "Quebec": "QC",
+    "Ontario": "ON", "Manitoba": "MB", "Saskatchewan": "SK",
+    "Alberta": "AB", "British Columbia": "BC", "Yukon": "YT",
+    "Northwest Territories": "NT", "Nunavut": "NU", "Canada": "CA",
+}
+
+BOC_VALET = "https://www.bankofcanada.ca/valet/observations"
+
+
+def _now() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _load_taxonomy() -> tuple[dict, set[str]]:
+    """The sector registry, plus the flat allowlist of codes to keep."""
+    with (R.REGISTRY_DIR / "sectors.yaml").open(encoding="utf-8") as fh:
+        tax = yaml.safe_load(fh)
+
+    codes = {tax["aggregates"]["total"], *tax["aggregates"]["partition"]}
+    codes |= {s["code"] for s in tax["sectors"]}
+
+    # Sanity: the partition must actually partition. 5 goods + 15 services = 20.
+    parents = {s["parent"] for s in tax["sectors"]}
+    if not parents <= set(tax["aggregates"]["partition"]):
+        raise ValueError(f"sectors.yaml: sector parents {parents} are not partition members")
+    return tax, codes
+
+
+def _strip_volatile(obj):
+    if isinstance(obj, dict):
+        return {k: _strip_volatile(v) for k, v in obj.items() if k != "generated_at"}
+    if isinstance(obj, list):
+        return [_strip_volatile(v) for v in obj]
+    return obj
+
+
+def _write_if_changed(path: Path, payload: dict) -> bool:
+    """Write only on real change, so a re-run leaves a zero-line git diff."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists():
+        try:
+            if _strip_volatile(json.loads(path.read_text(encoding="utf-8"))) == \
+               _strip_volatile(payload):
+                return False
+        except json.JSONDecodeError:
+            pass
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True),
+                    encoding="utf-8")
+    return True
+
+
+def pull_cube(fetch: Fetcher, pull: dict, codes: set[str], raw_dir: Path) -> list[Series]:
+    """One configured pull from `sectors.yaml`, in both languages."""
+    pid = pull["pid"]
+    log.info("cube %s (%s, %s)", pid, pull["frequency"], pull["measure"])
+
+    zip_en = statcan.download_cube(fetch, pid, "eng", raw_dir)
+    header_en, rows_en = statcan.read_cube(zip_en, pid)
+
+    zip_fr = statcan.download_cube(fetch, pid, "fra", raw_dir)
+    header_fr, rows_fr = statcan.read_cube(zip_fr, pid)
+    labels_fr = statcan.french_labels(header_fr, rows_fr)
+
+    series = statcan.build_series(
+        header_en, rows_en,
+        pid=pid,
+        measure=pull["measure"],
+        frequency=pull["frequency"],
+        filters=pull.get("filters", {}),
+        keep_codes=codes,
+        labels_fr=labels_fr,
+        geo_codes=GEO_CODES,
+        release=statcan.release_time(fetch, pid),
+    )
+    log.info("  → %d series, %d rows scanned", len(series), len(rows_en))
+    return series
+
+
+def check_partition(series: list[Series], tax: dict) -> None:
+    """
+    Verify T002 + T003 == T001 on the latest shared period.
+
+    This identity is the whole reason the composition chart can use two series
+    instead of twenty, so it is asserted rather than assumed. Chained dollars
+    are NOT additive by construction, so a gap of a few tenths of a percent is
+    expected and only a large divergence is reported.
+    """
+    by_code = {s.code: s for s in series if s.geo == "CA"}
+    total, goods, services = (by_code.get(tax["aggregates"]["total"]),
+                              *(by_code.get(c) for c in tax["aggregates"]["partition"]))
+    if not (total and goods and services):
+        log.warning("partition check skipped: missing one of T001/T002/T003")
+        return
+
+    for i in range(len(total.periods) - 1, -1, -1):
+        t, g, s = total.values[i], goods.values[i], services.values[i]
+        if None not in (t, g, s):
+            drift = (g + s - t) / t * 100
+            note = "chained dollars are non-additive; small drift is expected"
+            log.info("partition %s: goods+services vs all-industries = %+.3f%% (%s)",
+                     total.periods[i], drift, note)
+            if abs(drift) > 1.0:
+                log.warning("partition drift exceeds 1%% — check the price basis")
+            return
+
+
+def pull_policy_rate(fetch: Fetcher) -> dict:
+    """
+    Bank of Canada target for the overnight rate.
+
+    Not a StatCan series and not a sector, so it is stored separately rather
+    than forced into the sector schema. It exists here because the KPI row needs
+    it and because the sibling repo's country record asks for it by name.
+
+    No open licence: the Bank grants permission requiring attribution and that
+    changes be indicated. See registry/sources.yaml.
+    """
+    src = R.source("boc_valet")
+    sid = src["series"]["policy_rate"]
+    body = fetch.json(f"{BOC_VALET}/{sid}/json?recent=1")
+    obs = body.get("observations", [])
+    detail = body.get("seriesDetail", {}).get(sid, {})
+    if not obs:
+        log.warning("Bank of Canada returned no observations for %s", sid)
+        return {}
+    return {
+        "series": sid,
+        "label": detail.get("label", ""),
+        "description": detail.get("description", ""),
+        "period": obs[-1]["d"],
+        "value": float(obs[-1][sid]["v"]),
+        "unit": "percent",
+        "provenance": Provenance.OFFICIAL_DATASET.value,
+        "source_url": f"{BOC_VALET}/{sid}/json",
+        "licence": "boc-terms",
+        "attribution": R.sources()["licences"]["boc-terms"]["attribution"],
+    }
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--skip-provincial", action="store_true")
+    ap.add_argument("--refresh", action="store_true", help="bypass the HTTP cache")
+    args = ap.parse_args()
+
+    logging.basicConfig(level=logging.INFO, format="%(levelname)-7s %(message)s")
+    tax, codes = _load_taxonomy()
+    log.info("Stage 02 — %d sector codes in the allowlist", len(codes))
+
+    fetch = Fetcher(cache_dir=R.DATA_DIR / "raw" / "cache", use_cache=not args.refresh)
+    raw_dir = R.DATA_DIR / "raw" / "statcan"
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    out_dir = R.DATA_DIR / "sectors"
+
+    pulls = tax["pulls"]
+    written = []
+
+    national = pull_cube(fetch, pulls["national_monthly"], codes, raw_dir)
+    check_partition(national, tax)
+    written.append(("national-monthly.json", national))
+
+    constant = pull_cube(fetch, pulls["national_monthly_constant"], codes, raw_dir)
+    check_partition(constant, tax)
+    written.append(("national-constant.json", constant))
+
+    if not args.skip_provincial:
+        provincial = pull_cube(fetch, pulls["provincial_annual"], codes, raw_dir)
+        written.append(("provincial-annual.json", provincial))
+
+    for name, series in written:
+        changed = _write_if_changed(out_dir / name, {
+            "generated_at": _now(),
+            "count": len(series),
+            "series": to_jsonable(series),
+        })
+        size = (out_dir / name).stat().st_size
+        log.info("%-26s %3d series  %6.0f KB  %s",
+                 name, len(series), size / 1000, "updated" if changed else "unchanged")
+
+    rate = pull_policy_rate(fetch)
+    if rate:
+        _write_if_changed(out_dir / "rates.json", {"generated_at": _now(), "policy_rate": rate})
+        log.info("policy rate %s = %.2f%%", rate["period"], rate["value"])
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

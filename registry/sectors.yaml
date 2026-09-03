@@ -1,0 +1,97 @@
+# sectors.yaml — the main groupings of the Canadian economy.
+#
+# This file lists CODES and their grouping. It deliberately does NOT list
+# labels: those come from the StatCan cube itself, which embeds the code in the
+# industry name ("Manufacturing [31-33]"). Carrying our own labels would let the
+# UI drift from the source, which is exactly what the project's governing rule
+# forbids. English and French labels both arrive from the -eng and -fra cubes.
+#
+# The partition that matters:
+#
+#     T002 (goods) + T003 (services) == T001 (all industries), exactly.
+#
+# That identity is what makes a two-series composition chart legal. With 20
+# two-digit sectors, a stacked area would need 20 categorical hues, which is
+# past every colour-safety floor — so the 20 are shown as a one-hue ranking, as
+# small multiples, or via emphasis, and the stacked view uses this pair.
+#
+# Everything under `cross_cuts` OVERLAPS. Energy includes parts of Mining,
+# Utilities and Manufacturing; ICT spans Manufacturing and Information. They are
+# alternate lenses on the same economy and MUST NOT be summed or stacked.
+
+aggregates:
+  total: T001            # All industries
+  partition:             # these two sum to `total`
+    - T002               # Goods-producing industries
+    - T003               # Services-producing industries
+
+cross_cuts:              # overlapping lenses — never summed, never stacked
+  - T004                 # Business sector industries
+  - T007                 # Non-business sector industries
+  - T010                 # Industrial production
+  - T011                 # Non-durable manufacturing
+  - T012                 # Durable manufacturing
+  - T013                 # Information and communication technology sector
+  - T016                 # Energy sector
+  - T018                 # Public sector
+
+# The 20 two-digit NAICS sectors, exactly as the cube codes them.
+# `parent` is the partition member each belongs to.
+sectors:
+  - { code: "11",    parent: T002 }   # Agriculture, forestry, fishing and hunting
+  - { code: "21",    parent: T002 }   # Mining, quarrying, and oil and gas extraction
+  - { code: "22",    parent: T002 }   # Utilities
+  - { code: "23",    parent: T002 }   # Construction
+  - { code: "31-33", parent: T002 }   # Manufacturing
+  - { code: "41",    parent: T003 }   # Wholesale trade
+  - { code: "44-45", parent: T003 }   # Retail trade
+  - { code: "48-49", parent: T003 }   # Transportation and warehousing
+  - { code: "51",    parent: T003 }   # Information and cultural industries
+  - { code: "52",    parent: T003 }   # Finance and insurance
+  - { code: "53",    parent: T003 }   # Real estate and rental and leasing
+  - { code: "54",    parent: T003 }   # Professional, scientific and technical services
+  - { code: "55",    parent: T003 }   # Management of companies and enterprises
+  - { code: "56",    parent: T003 }   # Administrative and support, waste management
+  - { code: "61",    parent: T003 }   # Educational services
+  - { code: "62",    parent: T003 }   # Health care and social assistance
+  - { code: "71",    parent: T003 }   # Arts, entertainment and recreation
+  - { code: "72",    parent: T003 }   # Accommodation and food services
+  - { code: "81",    parent: T003 }   # Other services (except public administration)
+  - { code: "91",    parent: T003 }   # Public administration
+
+# Which slice of each cube to keep. The monthly cube is Canada-only and its
+# Prices dimension has exactly two members, both constant-price — there is no
+# current-dollar monthly GDP by industry, so nominal comes from the annual
+# cubes with their ~3-year lag.
+pulls:
+  national_monthly:
+    pid: "36100434"
+    frequency: monthly
+    measure: gdp_chained
+    filters:
+      GEO: "Canada"
+      Seasonal adjustment: "Seasonally adjusted at annual rates"
+      Prices: "Chained (2017) dollars"
+
+  # Same cube, additive price basis. Chained dollars are NOT additive — the cube
+  # footnote says so outright — so any view where components must sum to their
+  # aggregate reads this series instead.
+  national_monthly_constant:
+    pid: "36100434"
+    frequency: monthly
+    measure: gdp_constant
+    filters:
+      GEO: "Canada"
+      Seasonal adjustment: "Seasonally adjusted at annual rates"
+      Prices: "2017 constant prices"
+
+  provincial_annual:
+    pid: "36100711"
+    frequency: annual
+    measure: gdp_chained
+    filters:
+      Prices: "Chained (2017) dollars"
+    # No "Canada" member exists in this cube — it is provinces and territories
+    # only. National totals come from the monthly cube above.
+    # Also carries members absent from the monthly cube (4AA, 51A, 53A); the
+    # code allowlist in `sectors` excludes them automatically.

@@ -140,6 +140,24 @@ class Fetcher:
             self._cache_write(url, body)
         return body
 
+    def post_json(self, url: str, payload: Any) -> Any:
+        """
+        POST `payload` as JSON and parse the response.
+
+        Deliberately NOT cached. The cache is keyed on URL alone, so caching a
+        POST would serve one request body's answer to a different body — which
+        is the kind of bug that produces plausible wrong numbers rather than an
+        error. StatCan's WDS needs POST for cube metadata and for vector reads.
+        """
+        self._throttle()
+        try:
+            resp = self._session.post(url, json=payload, timeout=TIMEOUT)
+        except (requests.Timeout, requests.ConnectionError) as exc:
+            raise FetchError(f"POST {url} failed: {exc}") from exc
+        if resp.status_code != 200:
+            raise FetchError(f"POST {url} returned HTTP {resp.status_code}")
+        return resp.json()
+
     def download(self, url: str, dest: Path, *, force: bool = False) -> Path:
         """
         Fetch `url` straight to `dest`, skipping it if already present.

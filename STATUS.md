@@ -47,6 +47,30 @@ not "when the scraper last ran".
 
 ---
 
+## Sibling repo — read before step 4 and step 5
+
+A third Athena project, **`world-strategic-map`** (`C:\Code\world-strategic-map`),
+is being built alongside this one: a global strategic map of conflicts, theatres,
+maritime chokepoints and alliance blocs. It exists so the §10 scope fence here can
+hold — every "make it global" request now has somewhere else to go.
+
+It asks five small things of this repo, none of which block steps 1–3, but two of
+which are much cheaper done in the same pass as the work already planned:
+
+- **`04_bundle.py`** additionally writes `web/public/data/country.json` — Canada as
+  an ISO3 node with ~4 headline figures, each carrying its `SourceRef`.
+- **The palette gate validates 5 categorical slots, not 3.** Slots 1–3 stay what
+  this project would have chosen; the sibling needs 5 for bloc encoding, and one
+  validator run is cheaper and safer than two independent ones.
+- Plus: world geometry at a documented path with its `mapshaper` command recorded,
+  `meta.schema_version` treated as semver, and a portable/project-specific banner
+  in `schema.py`.
+
+**Full detail, with the exact JSON shape: [`docs/INTEROP-world-strategic-map.md`](docs/INTEROP-world-strategic-map.md).**
+Read it before writing `04_bundle.py` or running `validate_palette.js`.
+
+---
+
 ## Findings that cost real work — do not rediscover
 
 **The page markup doubles itself.** canada.ca emits the Proponent/Sector/Location

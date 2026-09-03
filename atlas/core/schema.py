@@ -41,6 +41,21 @@ from enum import Enum
 from typing import Any
 
 
+# ── Portable (Athena core) ─────────────────────────────────────────────────────
+# Provenance, SourceRef, Geometry, to_jsonable and the Text pattern are shared
+# with world-strategic-map. Changing their wire shape is a cross-repo break;
+# bump meta.schema_version. Everything below the "Project-specific" banner is
+# free to change without telling anyone.
+#
+# Two known Canada-shaped edges, for whoever extracts these into athena-core:
+#   - Text(en, fr) is a two-language pair because bilingual EN/FR is a federal
+#     requirement, not a general one. The general form is a language-keyed map
+#     with the same .get(lang) fallback. Nothing may depend on Text having
+#     exactly two fields.
+#   - Geometry.provinces holds subdivision codes here; the general form is a
+#     tuple of area codes, and the sibling puts ISO3 country codes in that slot.
+
+
 # ── Vocabularies ───────────────────────────────────────────────────────────────
 
 class Provenance(str, Enum):
@@ -191,6 +206,10 @@ class Geometry:
             location_verbatim=d.get("location_verbatim", ""),
             approximate=d.get("approximate", True),
         )
+
+
+# ── Project-specific ───────────────────────────────────────────────────────────
+# Everything below is this repo's own vocabulary. Change freely.
 
 
 # ── Event records ──────────────────────────────────────────────────────────────
