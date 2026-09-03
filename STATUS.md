@@ -82,8 +82,15 @@ come back. Their locations are prose, hand-mapped in `strategies.yaml` with the
 verbatim string retained. `alto` (Toronto-Quebec Corridor) is `render: list_only`
 — filling ON and QC entirely would claim a footprint ~100× the real one.
 
-**canada.ca fetches fine from Python.** An earlier `curl` timeout was a curl/sandbox
-artifact, not a network block. `requests` with a proper User-Agent: 2.4 s.
+**canada.ca fetches fine from Python.** An earlier `curl` timeout was specific to
+canada.ca HTML over curl, not a network block — the NRCan ArcGIS endpoint returned
+200 over curl in the same session. `requests` with a proper User-Agent: 2.4 s.
+
+**`ftp.maps.canada.ca` sends no CORS headers.** Relevant when stage 02/03 fetch the
+StatCan and NRCan bulk CSV/GDB files: they cannot be pulled from browser JavaScript,
+only server-side. Harmless for us — the pipeline is Python and `requests.get()`
+retrieves them without issue — but it rules out ever moving those fetches into the
+web app to "skip the pipeline".
 
 ---
 
