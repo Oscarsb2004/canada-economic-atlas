@@ -23,6 +23,11 @@ not be rediscovered.
 | `atlas/sources/statcan.py` | Done. Bulk cube download, both languages, delimiter-safe. |
 | **`pipeline/02_sectors.py`** | **Done and run.** 23 national + 299 provincial series. |
 | `registry/sectors.yaml` | Done. 20 NAICS + T-codes, partition and cross-cuts. |
+| `atlas/sources/companies.py` | Done. XIC holdings parser. |
+| **`pipeline/03_companies.py`** | **Done and run.** 216 companies, 6 junk rows dropped. |
+| **`pipeline/04_bundle.py`** | **Done and run.** 10 files, 1.40 MB in `web/public/data/`. |
+| `registry/gics_naics.yaml` | Done. Lossy crosswalk, versioned, splits documented. |
+| **`registry/palette.yaml`** | **LOCKED.** 5 validated categorical slots, dark only. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
 **Stage 01 output, committed:** 18 projects, every one with a French description
@@ -51,13 +56,21 @@ reads `national-constant.json`. `check_partition()` warns past 1%.
 
 ---
 
+**The pipeline is complete.** `web/public/data/` holds the full bundle:
+7 data files + `country.json` + `palette.json` + `meta.json`, 1.40 MB.
+
 ## Next steps, in order
 
-1. `pipeline/03_companies.py` — XIC holdings CSV only.
-4. `pipeline/04_bundle.py` → `web/public/data/` + `meta.json`.
-5. Palette selection → **run `validate_palette.js` before any chart code**.
-6. `web/` — Vite + MapLibre globe, Observable Plot.
-7. `verify/`, `tests/`, `CLAUDE.md` via `/init`, `security-review`.
+1. **M2 geometry** — Natural Earth world + StatCan provincial boundaries,
+   simplified with `mapshaper`, to `web/public/geo/world.json`, with the exact
+   download URL, scale, version and mapshaper command in a committed build
+   script (interop ask A2).
+2. **M3 first light** — Vite + React scaffold, MapLibre globe, pins with
+   thumbnails, corridors, native project viewer.
+3. **M4 analysis panel** — `<Plot>` wrapper, one filter row, the nine chart
+   forms + a table twin for each, company panel.
+4. **M5** — pinned tabs, accessibility pass.
+5. **M6** — `verify/`, `tests/`, `CLAUDE.md` via `/init`, `security-review`.
 
 ---
 
@@ -131,6 +144,16 @@ while the English side looks perfect. `read_cube()` detects the delimiter. Its
 NAICS column is also `Système de classification … (SCIAN)`, not a translation of
 the English header.
 
+**Radix has no in-band yellow on dark.** Amber and gold have NO step inside the
+dark lightness band (OKLCH L 0.48-0.67) — their dark scales sit above it
+entirely. Radix orange has exactly one eligible step (8, the muted `#a35829`,
+not the vivid `#f76b15`). So the reference palette's yellow slot has no Radix
+equivalent and grass takes slot 3. See `registry/palette.yaml`.
+
+**Five categorical slots pass `--pairs all`, but only just.** Worst normal-vision
+ΔE is 15.9 against a floor of 15. A sixth slot breaks it. Six series means
+folding to "Other" or faceting — never a palette change.
+
 **Strategies have no geometry.** Layer 2 polygons return empty; only attributes
 come back. Their locations are prose, hand-mapped in `strategies.yaml` with the
 verbatim string retained. `alto` (Toronto-Quebec Corridor) is `render: list_only`
@@ -150,7 +173,5 @@ web app to "skip the pipeline".
 
 ## Open decisions
 
-- Which Radix hues become the fixed categorical slots. Needs the validator run
-  against the dark surface before any chart is written.
 - Whether `data/raw/` HTML snapshots are committed or only hashed. Currently the
   hash lives in `SourceRef`; the snapshot policy is not yet implemented.
