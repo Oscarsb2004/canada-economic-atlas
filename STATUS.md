@@ -1,6 +1,6 @@
 # STATUS — where this project actually is
 
-_Last updated: 2026-09-02._
+_Last updated: 2026-09-03._
 
 Read this first when picking the project back up. The full design is in
 `docs/PLAN.md`; this file records only what is **built and verified** versus
@@ -17,7 +17,7 @@ not be rediscovered.
 | `atlas/net.py` | Done. Polite fetch: 1 req/s, retries with backoff, on-disk cache. Live-tested: 0.9 s cold, 0.001 s cached. |
 | `atlas/core/registry.py` | Done. Loads + hard-validates `sources.yaml`, `events.yaml`, `strategies.yaml`. |
 | `atlas/sources/mpo.py` | Done. Full project-page parser, EN **and** FR, verified against live pages. |
-| `registry/*.yaml` | Done for MPO. `sectors.yaml` and `gics_naics.yaml` not yet written. |
+| `registry/*.yaml` | Done: sources, events, strategies, sectors, gics_naics, palette. |
 | `atlas/media.py` | Done. Circular 96 px thumb + 1400 px JPEG, deterministic. |
 | **`pipeline/01_projects.py`** | **Done and run.** All 18 projects + 9 strategies. |
 | `atlas/sources/statcan.py` | Done. Bulk cube download, both languages, delimiter-safe. |
