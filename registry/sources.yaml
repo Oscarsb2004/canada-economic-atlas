@@ -1,0 +1,135 @@
+# sources.yaml — every external endpoint this project reads, with its licence.
+#
+# One file so that "where did this come from and may we republish it" has a
+# single answer, and so `meta.json` can be generated from data rather than from
+# strings pasted into the web app. The app renders attribution from the bundle,
+# so a licence can never go stale in the UI while being current here.
+#
+# `attribution` is the exact wording the licensor asks for. Do not paraphrase it.
+
+licences:
+  ogl-canada-2.0:
+    name: Open Government Licence – Canada 2.0
+    url: https://open.canada.ca/en/open-government-licence-canada
+    redistribution: permitted with attribution
+
+  statcan-open:
+    name: Statistics Canada Open Licence
+    url: https://www.statcan.gc.ca/en/reference/licence
+    redistribution: permitted with attribution
+    # Required wording differs depending on whether the data was transformed.
+    attribution_asis: >-
+      Source: Statistics Canada, {product}, {reference_date}. Reproduced and
+      distributed on an "as is" basis with the permission of Statistics Canada.
+    attribution_adapted: >-
+      Adapted from Statistics Canada, {product}, {reference_date}. This does not
+      constitute an endorsement by Statistics Canada of this product.
+
+  boc-terms:
+    name: Bank of Canada Terms of Use
+    url: https://www.bankofcanada.ca/terms/
+    redistribution: permitted with attribution
+    # Not an open licence — the Bank retains copyright and grants permission.
+    # Weaker than OGL, and it requires stating that changes were made.
+    attribution: >-
+      Source: Bank of Canada. Data used under the Bank of Canada Terms of Use;
+      modified from the original.
+
+  fund-disclosure:
+    name: BlackRock iShares fund disclosure
+    url: https://www.blackrock.com/ca
+    redistribution: >-
+      Free to consume as published fund disclosure. The constituent list itself
+      is S&P Dow Jones Indices intellectual property; do not redistribute it as
+      "the S&P/TSX Composite list".
+
+sources:
+  mpo_arcgis:
+    title: Projects and Transformative Strategies Referred to the Major Projects Office
+    publisher: Natural Resources Canada
+    licence: ogl-canada-2.0
+    attribution: Major Projects Office of Canada & Natural Resources Canada
+    dataset_record: https://open.canada.ca/data/en/dataset/8f387c74-a5d9-46ec-9aff-32bc8e0ff3b1
+    # CKAN metadata_modified on the record above is the change-detection signal.
+    ckan_api: https://open.canada.ca/data/en/api/3/action/package_show?id=8f387c74-a5d9-46ec-9aff-32bc8e0ff3b1
+    mapserver_en: https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer
+    mapserver_fr: https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_fr/MapServer
+    layers:
+      projects: 1        # 20 features / 18 projects — nctl publishes 3 phase points
+      strategies: 2      # 9 features; polygons return EMPTY geometry, attributes only
+
+  mpo_pages:
+    title: Major Projects Office project pages
+    publisher: Privy Council Office
+    licence: ogl-canada-2.0
+    attribution: Major Projects Office of Canada
+    landing_en: https://www.canada.ca/en/privy-council/major-projects-office.html
+    landing_fr: https://www.canada.ca/fr/conseil-prive/bureau-grands-projets.html
+    projects_index_en: https://www.canada.ca/en/privy-council/major-projects-office/projects/national.html
+    strategies_index_en: https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred.html
+    news_index_en: https://www.canada.ca/en/privy-council/major-projects-office/news.html
+    # Change detection. NOTE: https://www.canada.ca/en/sitemap.xml is a 404;
+    # the index is /sitemap.xml and the PCO namespace is the one below.
+    sitemap_en: https://www.canada.ca/en/privy-council.sitemap.xml
+    sitemap_fr: https://www.canada.ca/fr/conseil-prive.sitemap.xml
+    robots: https://www.canada.ca/robots.txt
+    # Single "User-agent: *" block, no Crawl-delay, nothing disallowed on the
+    # paths we read. ~1 req/s in atlas/net.py is self-imposed courtesy.
+
+  statcan_wds:
+    title: Statistics Canada Web Data Service
+    publisher: Statistics Canada
+    licence: statcan-open
+    base: https://www150.statcan.gc.ca/t1/wds/rest/
+    docs: https://www.statcan.gc.ca/en/developers/wds/user-guide
+    # Keyless. 25 req/s per IP. POST bodies cap at 300 vectors (401+ -> HTTP 416),
+    # which is undocumented — but bulk CSV avoids that path entirely.
+    vector_batch_max: 300
+    tables:
+      gdp_monthly:      { pid: 36100434, freq: monthly,   note: "real GDP by industry, chained 2017" }
+      gdp_quarterly:    { pid: 36100449, freq: quarterly }
+      gdp_annual_pid:   { pid: 36100710, freq: annual,    note: "current dollars; ~3-year lag, ends 2022" }
+      gdp_provincial:   { pid: 36100711, freq: annual,    note: "REPLACED the now-inactive 36100402" }
+      employment_seph:  { pid: 14100201, freq: monthly,   note: "clean 2-digit NAICS; joins to GDP" }
+      revenue_quarterly: { pid: 33100225, freq: quarterly, note: "total operating revenue by industry" }
+      capex_annual:     { pid: 34100035, freq: annual,    note: "includes forward intentions" }
+
+  boc_valet:
+    title: Bank of Canada Valet API
+    publisher: Bank of Canada
+    licence: boc-terms
+    base: https://www.bankofcanada.ca/valet/
+    # NOTE: the group list route is /valet/lists/groups/json.
+    # /valet/groups/json is a 404.
+    series:
+      policy_rate: V39079
+      cpi_total: V41690973
+      cpi_trim: CPI_TRIM
+      cpi_median: CPI_MEDIAN
+      cpi_common: CPI_COMMON
+    groups:
+      fx_daily: FX_RATES_DAILY
+
+  xic_holdings:
+    title: iShares S&P/TSX Capped Composite Index ETF holdings
+    publisher: BlackRock Canada
+    licence: fund-disclosure
+    attribution: BlackRock Canada, iShares XIC published holdings
+    csv: https://www.blackrock.com/ca/investors/en/products/239837/ishares-sptsx-capped-composite-index-etf/1464253357814.ajax?fileType=csv&fileName=XIC_holdings&dataType=fund
+    # Weight is CAPPED index weight, not market cap, and not output. This panel
+    # is labelled market data throughout and never as GDP contribution.
+
+  geogratis_names:
+    title: Canadian Geographical Names Database
+    publisher: Natural Resources Canada
+    licence: ogl-canada-2.0
+    base: https://geogratis.gc.ca/services/geoname/en/geonames.geojson
+    # Only used if a news release names a place with no published coordinate.
+    # Every MPO project already carries official coordinates, so this is unused
+    # by stage 01 today.
+
+  statcan_boundaries:
+    title: 2021 Census cartographic boundary files — provinces and territories
+    publisher: Statistics Canada
+    licence: statcan-open
+    dataset_record: https://open.canada.ca/data/en/dataset/ef70dc3b-1069-4037-9bce-61f47e628a1d

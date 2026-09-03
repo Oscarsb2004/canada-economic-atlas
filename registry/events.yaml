@@ -1,0 +1,47 @@
+# events.yaml — the curated events this atlas covers.
+#
+# An Event is a hand-picked landmark: a policy change, a piece of legislation, a
+# programme. It is the project's extension seam. Adding the next one means
+# adding an entry here plus one module under atlas/sources/, and nothing in the
+# web app changes.
+#
+# `kind` is what keeps that seam honest:
+#
+#   policy_with_projects  annotates the sector timeline AND owns geolocated
+#                         projects that appear as map pins
+#   policy                annotates the timeline only; no geometry
+#
+# A future rate decision or budget is `policy` and needs no map presence at all,
+# which is why geometry is not assumed by the schema.
+
+events:
+  - slug: major-projects-office
+    kind: policy_with_projects
+    title:
+      en: Major Projects Office
+      fr: Bureau des grands projets
+    # Royal assent of the Building Canada Act (Bill C-5), which created the MPO.
+    date: 2025-06-26
+    source_module: atlas.sources.mpo
+    sources: [mpo_arcgis, mpo_pages]
+    licence: ogl-canada-2.0
+
+    # Counts asserted here are checked by verify/. They are not decoration:
+    # the ArcGIS layer publishes 20 point features for 18 projects, because the
+    # North Coast Transmission Line ships three separately named phase points
+    # that all link to one page. A change in either number should fail loudly
+    # rather than quietly alter what the map shows.
+    expected:
+      features: 20
+      projects: 18
+      strategies: 9
+
+    # The source's own caveat, surfaced in the UI beside the map.
+    disclaimer:
+      en: All locations are approximate and subject to final routing decisions.
+      fr: Tous les emplacements sont approximatifs et peuvent changer selon les
+          décisions finales concernant le tracé.
+
+    # The MPO's own sector vocabulary. Deliberately NOT the NAICS taxonomy in
+    # sectors.yaml — these are different vocabularies and are not joined.
+    sectors: [Electricity, Energy, Industrial, Infrastructure, Mining, Transport]

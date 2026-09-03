@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+node_modules/
+web/dist/
+.vite/
+
+# ── What is and is not committed under data/ ──────────────────────────────────
+#
+# Pipeline outputs ARE committed, so the app is clone-and-run with no API pull.
+# The two exceptions are both re-fetchable and both large:
+#
+#   data/raw/media/   full-resolution federal renderings (~2 MB each, ~54 MB total).
+#                     Stage 01 derives committed thumb/ and web/ variants from
+#                     these; the originals are never read by the app.
+#   data/raw/cache/   the polite-fetch HTTP cache. Scratch, by definition.
+#
+data/raw/media/
+data/raw/cache/

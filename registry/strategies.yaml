@@ -1,0 +1,68 @@
+# strategies.yaml — the transformative strategies, mapped to geography by hand.
+#
+# WHY THIS FILE EXISTS
+#
+# The ArcGIS strategies layer publishes attributes but NO geometry: querying it
+# with f=geojson returns an empty feature collection, and f=json with geometry
+# off returns the attributes fine. So the only location information the
+# government publishes for these nine is prose, in a `Location` string.
+#
+# Prose is not geometry. "All provinces and territories, except Prince Edward
+# Island" cannot be rendered without someone deciding what it means. That
+# decision is made here, once, in the open — rather than by a regular expression
+# buried in a scraper.
+#
+# `location_verbatim` is the government's exact string and is what the UI shows.
+# `provinces` is OUR reading of it and is marked as such in the bundle
+# (Provenance.DERIVED). Where the two could disagree, the verbatim string wins
+# on screen.
+#
+# Codes are the standard two-letter subdivisions:
+#   NL NS PE NB QC ON MB SK AB BC YT NT NU
+
+strategies:
+  - slug: churchill-plus
+    location_verbatim: "Manitoba"
+    provinces: ["MB"]
+
+  - slug: pathways-plus
+    location_verbatim: "Alberta"
+    provinces: ["AB"]
+
+  - slug: vancouver
+    location_verbatim: "Delta, British Columbia"
+    provinces: ["BC"]
+    # A single municipality. Filling all of BC overstates it, so the panel says
+    # Delta and the fill is flagged as province-level approximation.
+    precision: municipal
+
+  - slug: corridor
+    location_verbatim: "Northwestern British Columbia, Southern Yukon"
+    provinces: ["BC", "YT"]
+    precision: sub_provincial
+
+  - slug: labrador
+    location_verbatim: "Newfoundland and Labrador, Quebec"
+    provinces: ["NL", "QC"]
+
+  - slug: wind-west
+    location_verbatim: "Nova Scotia, New Brunswick, Prince Edward Island, Newfoundland and Labrador"
+    provinces: ["NS", "NB", "PE", "NL"]
+
+  - slug: critical-minerals
+    location_verbatim: "All provinces and territories, except Prince Edward Island"
+    provinces: ["NL", "NS", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
+    # 12 of 13. PE excluded, per the source string.
+
+  - slug: interconnect
+    location_verbatim: "All of Canada"
+    provinces: ["NL", "NS", "PE", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
+
+  - slug: alto
+    location_verbatim: "Toronto-Quebec Corridor"
+    provinces: ["ON", "QC"]
+    precision: corridor
+    # A rail corridor, not a pair of provinces. Filling Ontario and Quebec
+    # entirely would claim a footprint roughly a hundred times the real one, so
+    # this strategy is listed in the panel and NOT drawn as a region fill.
+    render: list_only

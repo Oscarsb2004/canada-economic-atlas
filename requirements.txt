@@ -1,0 +1,18 @@
+# Pinned deliberately.
+#
+# African-Stability-Index leaves its requirements unpinned and compensates with a
+# `pip freeze` step in CI, with the note "when a build breaks for no apparent
+# reason, this is the first thing worth reading". That note is the argument for
+# pinning: this pipeline scrapes federal pages and parses a government CSV
+# schema, so a silent parser upgrade changes output without changing code, and
+# the committed data diff is the only place it would show.
+
+requests==2.32.5
+beautifulsoup4==4.14.2
+lxml==6.0.2
+PyYAML==6.0.3
+pandas==3.0.5
+Pillow==12.0.0
+
+# Test-only.
+pytest==9.1.1
