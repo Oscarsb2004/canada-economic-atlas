@@ -1,0 +1,127 @@
+# palette.yaml — the locked colour system. Dark only.
+#
+# THIS FILE IS A VALIDATED ARTIFACT, NOT A PREFERENCE.
+# Every categorical value below was checked with the dataviz skill's
+# `validate_palette.js` against this project's own dark surface. The recorded
+# output is at the bottom. Changing any hex means re-running the validator and
+# replacing that output — an edit "because it looks nicer" is a regression.
+#
+# Source ramps: @radix-ui/colors v3 dark scales (MIT). Steps were not eyeballed:
+# every Radix step was converted to OKLCH and only those inside the dark
+# lightness band (L 0.48–0.67) with chroma >= 0.10 were eligible.
+#
+# Two consequences of that filter worth knowing:
+#   - Radix's amber and gold have NO step in the dark band; their dark scales
+#     sit above it entirely. So the reference palette's yellow slot has no Radix
+#     equivalent here and green takes slot 3 instead.
+#   - Radix orange has exactly one eligible step (8), which is the muted
+#     #a35829 rather than the vivid #f76b15. That is the step that passes.
+#
+# CHROME vs DATA — the rule that keeps this valid.
+# The UI accent picker (theme/accents.ts) remaps --accent-* to any Radix hue at
+# runtime. It MUST NOT touch these values. If accents repainted series, "colour
+# follows the entity" would break and this validated palette would silently
+# become unvalidated on every accent change.
+
+surface:
+  chart: "#191919"        # Radix gray-2 dark — what the validator was run against
+  page: "#111111"         # Radix gray-1 dark
+
+ink:
+  primary: "#eeeeee"      # gray-12
+  secondary: "#b4b4b4"    # gray-11
+  muted: "#7c7c7c"        # gray-10 — axis and tick labels
+  gridline: "#222222"     # gray-3 — hairline, one shade off the surface
+  axis: "#3a3a3a"         # gray-6
+
+# ── Categorical ────────────────────────────────────────────────────────────────
+# Fixed order. Assigned in sequence, never cycled. A 6th series is never a
+# generated hue — it folds into "Other", facets, or small multiples.
+#
+# Five slots, not three. This project only needs 1–3 (goods vs services, plus
+# the emphasis accent), but the sibling repo world-strategic-map encodes bloc
+# membership and needs five. Validating once for five costs the same run and
+# guarantees the two apps cannot clash side by side.
+categorical:
+  - { slot: 1, hue: blue,   step: 9, hex: "#0090ff" }
+  - { slot: 2, hue: orange, step: 8, hex: "#a35829" }
+  - { slot: 3, hue: grass,  step: 9, hex: "#46a758" }
+  - { slot: 4, hue: pink,   step: 9, hex: "#d6409f" }
+  - { slot: 5, hue: violet, step: 9, hex: "#6e56cf" }
+
+# What this project assigns them to.
+roles:
+  goods_producing: 1      # T002
+  services_producing: 2   # T003
+  emphasis: 3             # the selected sector against de-emphasised grey
+  de_emphasis: "#3a3a3a"  # gray-6 — the 19 unselected lines in an emphasis chart
+
+# ── Sequential ─────────────────────────────────────────────────────────────────
+# One hue, dark → light. On a dark surface the LIGHT end is "more": near-zero
+# recedes toward the surface. Monotone in OKLCH L with every adjacent step
+# >= 0.06 apart (measured: min 0.066).
+sequential:
+  hue: blue
+  steps: ["#0d2847", "#004074", "#205d9e", "#2870bd", "#0090ff", "#70b8ff"]
+
+# ── Diverging ──────────────────────────────────────────────────────────────────
+# Two hues that read as opposite, plus a NEUTRAL midpoint — never a hue at the
+# middle. Warm/cool: red against blue. The midpoint is dark because on a dark
+# surface "nothing" should recede; lightness rises symmetrically toward both
+# poles (0.544 ← 0.348 → 0.541).
+diverging:
+  negative: ["#b54548", "#e5484d", "#ff9592"]
+  midpoint: "#3a3a3a"
+  positive: ["#2870bd", "#0090ff", "#70b8ff"]
+
+# ── Status — reserved, never themed ────────────────────────────────────────────
+# A status colour never impersonates a series and never carries meaning alone:
+# it always ships with an icon and a label. These are the dataviz skill's fixed
+# steps, which all clear 3:1 on a dark surface.
+status:
+  good: "#0ca30c"
+  warning: "#fab219"
+  serious: "#ec835a"
+  critical: "#d03b3b"
+
+# ── Validator output — recorded, not summarised ────────────────────────────────
+validation:
+  tool: dataviz/scripts/validate_palette.js
+  run_on: 2026-09-03
+  mode: dark
+  surface: "#191919"
+
+  adjacent:            # stacks, bars, lines — only neighbours touch
+    result: ALL CHECKS PASS
+    lightness_band: "all 5 inside L 0.48-0.67"
+    chroma_floor: "all 5 >= 0.1"
+    cvd_worst: "#6e56cf<->#d6409f dE 9.1 (protan), tritan 25.8"
+    normal_vision_worst: "#6e56cf<->#d6409f dE 20.3"
+    contrast: "all 5 >= 3:1"
+
+  all_pairs:           # scatter, bubble, choropleth, small multiples
+    result: ALL CHECKS PASS
+    cvd_worst: "#6e56cf<->#d6409f dE 9.1 (protan), tritan 5.5"
+    normal_vision_worst: "#6e56cf<->#0090ff dE 15.9"
+    # NOTE: this is the headline result. The dataviz skill's own reference
+    # palette clears all-pairs with only its FIRST THREE slots, and states that
+    # no ordering of its eight can pass. This 5-slot Radix set does pass, which
+    # is what lets the sibling repo encode five blocs on a choropleth without
+    # falling back to texture or folding to "Other".
+    # The margin is thin: normal-vision 15.9 against a floor of 15. Adding a
+    # 6th slot will break it. Six series means folding or faceting, not a
+    # palette change.
+
+  first_three_all_pairs:
+    result: ALL CHECKS PASS
+    cvd_worst: "#46a758<->#a35829 dE 10.6 (deutan)"
+    normal_vision_worst: "#46a758<->#a35829 dE 22.7"
+
+  sequential:
+    monotonic_L: true
+    min_adjacent_dL: 0.066     # target >= 0.06
+    note: >-
+      Checked by hand, not by validate_palette.js. Running the CATEGORICAL
+      validator on a sequential ramp fails by design: it spans the lightness
+      band and its steps sit close together. That is expected and must not be
+      "fixed".
