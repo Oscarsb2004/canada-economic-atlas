@@ -28,6 +28,7 @@ not be rediscovered.
 | **`pipeline/04_bundle.py`** | **Done and run.** 10 files, 1.40 MB in `web/public/data/`. |
 | `registry/gics_naics.yaml` | Done. Lossy crosswalk, versioned, splits documented. |
 | **`registry/palette.yaml`** | **LOCKED.** 5 validated categorical slots, dark only. |
+| **`scripts/build_geo.mjs`** | **Done and run.** Reproducible world + provinces geometry. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
 **Stage 01 output, committed:** 18 projects, every one with a French description
@@ -59,18 +60,22 @@ reads `national-constant.json`. `check_partition()` warns past 1%.
 **The pipeline is complete.** `web/public/data/` holds the full bundle:
 7 data files + `country.json` + `palette.json` + `meta.json`, 1.40 MB.
 
+**M2 output, committed:** `web/public/geo/world.json` (66 KB, 177 countries,
+Natural Earth 1:110m v5.1.2) and `provinces.json` (319 KB, 13 provinces, StatCan
+2021, reprojected to WGS84), plus `SOURCES.json` recording every input and the
+verbatim mapshaper commands. Byte-identical across rebuilds.
+
+**All five interop asks are now landed** (A1 country.json, A2 geometry, A3
+palette, A4 semver, A5 schema banners).
+
 ## Next steps, in order
 
-1. **M2 geometry** — Natural Earth world + StatCan provincial boundaries,
-   simplified with `mapshaper`, to `web/public/geo/world.json`, with the exact
-   download URL, scale, version and mapshaper command in a committed build
-   script (interop ask A2).
-2. **M3 first light** — Vite + React scaffold, MapLibre globe, pins with
+1. **M3 first light** — Vite + React scaffold, MapLibre globe, pins with
    thumbnails, corridors, native project viewer.
-3. **M4 analysis panel** — `<Plot>` wrapper, one filter row, the nine chart
+2. **M4 analysis panel** — `<Plot>` wrapper, one filter row, the nine chart
    forms + a table twin for each, company panel.
-4. **M5** — pinned tabs, accessibility pass.
-5. **M6** — `verify/`, `tests/`, `CLAUDE.md` via `/init`, `security-review`.
+3. **M5** — pinned tabs, accessibility pass.
+4. **M6** — `verify/`, `tests/`, `CLAUDE.md` via `/init`, `security-review`.
 
 ---
 
@@ -143,6 +148,20 @@ one enormous column per row, raises nothing, and leaves every French label empty
 while the English side looks perfect. `read_cube()` detects the delimiter. Its
 NAICS column is also `Système de classification … (SCIAN)`, not a translation of
 the English header.
+
+**Nothing under `data/raw/` may be committed.** It is all re-fetchable input:
+HTTP cache, 34 MB of federal renderings, 28 MB of StatCan cube zips, 129 MB of
+geometry downloads. An early `.gitignore` listed only `cache/` and `media/`, and
+28 MB of zips were committed before anyone noticed. The rule is now the whole
+directory, because a per-directory allowlist fails open. The already-committed
+zips remain in history before commit `047082b`.
+
+**Natural Earth `ISO_A3` is `-99`** for Norway, France, N. Cyprus, Somaliland and
+Kosovo — a dataset quirk, not a download error. Join on `ADM0_A3`.
+
+**Pin the tool, not just the data.** `npx --yes mapshaper` fetches whatever is
+current and would silently change committed geometry. mapshaper is a pinned
+devDependency called via its Node API.
 
 **Radix has no in-band yellow on dark.** Amber and gold have NO step inside the
 dark lightness band (OKLCH L 0.48-0.67) — their dark scales sit above it
