@@ -31,6 +31,7 @@ not be rediscovered.
 | **`scripts/build_geo.mjs`** | **Done and run.** Reproducible world + provinces geometry. |
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
 | **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
+| **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
 **Stage 01 output, committed:** 18 projects, every one with a French description
@@ -84,10 +85,16 @@ chart, the company panel, and a provincial choropleth on the map. One filter row
 scopes everything. Every chart has a table twin. Production build clean; app code
 69 KB gzipped with vendor chunks split.
 
+**M5 output, committed:** Pinned tabs persisted to `localStorage`
+(`atlas.pins.v1`) — pin any view or project, rename inline, reorder, unpin;
+verified to survive a reload. Pointer-driven hairline + formatted tips on lines
+and areas, per-mark tips on bars and cells. `prefers-reduced-motion` honoured at
+the `flyTo` call site, `forced-colors` block, and a skip link past the map.
+
 ## Next steps, in order
 
-1. **M5** — pinned tabs, accessibility pass.
-2. **M6** — `verify/`, `tests/`, `CLAUDE.md` via `/init`, `security-review`.
+1. **M6** — `verify/`, `tests/`, `CLAUDE.md` via `/init`, `security-review`.
+   This is the last milestone before v1 is complete per the §10 scope fence.
 
 Old numbering below is superseded:
 
@@ -167,6 +174,15 @@ one enormous column per row, raises nothing, and leaves every French label empty
 while the English side looks perfect. `read_cube()` detects the delimiter. Its
 NAICS column is also `Système de classification … (SCIAN)`, not a translation of
 the English header.
+
+**A pinned tab stores the QUESTION, not the answer.** `{kind, params, label}`
+re-renders against current data. Storing rendered output would make every tab a
+stale copy of the bundle and grow `localStorage` without bound.
+
+**`Plot.crosshairX` prints its own unformatted readouts.** A raw
+`2021-06-01T05:00Z` appears beside the tip's formatted one. Use a bare
+`Plot.ruleX` + `Plot.pointerX` for the hairline and let the tip carry the
+numbers.
 
 **Never guard a MapLibre init effect on its own ref.** An
 `if (map.current) return` fights React StrictMode's mount → unmount → mount: the
