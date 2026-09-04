@@ -25,6 +25,7 @@ is roughly 200 KB rather than tens of megabytes — the filtering is the point.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import logging
 import sys
@@ -98,12 +99,24 @@ def _write_if_changed(path: Path, payload: dict) -> bool:
     return True
 
 
+#: pid -> sha256 of the downloaded cube zip, filled by pull_cube().
+#:
+#: The hash is of the SOURCE PAYLOAD, not of our derived output. That is what
+#: makes it a real change signal: StatCan revises cubes, and a new zip with the
+#: same release stamp is a thing that happens. 04_bundle.py reads this so the
+#: SourceRef it publishes carries a hash instead of an empty string -- the
+#: sibling repo flagged the blank field as unusable for change detection, which
+#: was fair.
+CUBE_HASHES: dict[str, str] = {}
+
+
 def pull_cube(fetch: Fetcher, pull: dict, codes: set[str], raw_dir: Path) -> list[Series]:
     """One configured pull from `sectors.yaml`, in both languages."""
     pid = pull["pid"]
     log.info("cube %s (%s, %s)", pid, pull["frequency"], pull["measure"])
 
     zip_en = statcan.download_cube(fetch, pid, "eng", raw_dir)
+    CUBE_HASHES[pid] = hashlib.sha256(zip_en.read_bytes()).hexdigest()
     header_en, rows_en = statcan.read_cube(zip_en, pid)
 
     zip_fr = statcan.download_cube(fetch, pid, "fra", raw_dir)
@@ -225,6 +238,13 @@ def main() -> int:
         size = (out_dir / name).stat().st_size
         log.info("%-26s %3d series  %6.0f KB  %s",
                  name, len(series), size / 1000, "updated" if changed else "unchanged")
+
+    _write_if_changed(out_dir / "_cubes.json", {
+        "generated_at": _now(),
+        "note": "sha256 of each downloaded StatCan cube zip; the change signal "
+                "for figures published in the bundle.",
+        "cubes": CUBE_HASHES,
+    })
 
     rate = pull_policy_rate(fetch)
     if rate:

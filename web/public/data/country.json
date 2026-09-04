@@ -7,7 +7,7 @@
     "boc": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
     "statcan": "Statistics Canada Open Licence"
   },
-  "generated_at": "2026-09-03T23:23:45Z",
+  "generated_at": "2026-09-04T01:38:03Z",
   "headline": [
     {
       "frequency": "monthly",
@@ -21,7 +21,7 @@
       "release_time": "2026-08-28T08:30",
       "scalar": "millions",
       "source": {
-        "content_sha256": "",
+        "content_sha256": "38b3468c8871e331b2dec987262c024b8e4bb6ff430b9984078ff6edbb2e1939",
         "licence": "statcan-open",
         "provenance": "official_dataset",
         "retrieved_at": "2026-09-03T21:35:32Z",
@@ -43,7 +43,7 @@
       "release_time": "2026-08-28T08:30",
       "scalar": "millions",
       "source": {
-        "content_sha256": "",
+        "content_sha256": "38b3468c8871e331b2dec987262c024b8e4bb6ff430b9984078ff6edbb2e1939",
         "licence": "statcan-open",
         "provenance": "official_dataset",
         "retrieved_at": "2026-09-03T21:35:32Z",
@@ -65,7 +65,7 @@
       "release_time": "2026-08-28T08:30",
       "scalar": "millions",
       "source": {
-        "content_sha256": "",
+        "content_sha256": "38b3468c8871e331b2dec987262c024b8e4bb6ff430b9984078ff6edbb2e1939",
         "licence": "statcan-open",
         "provenance": "official_dataset",
         "retrieved_at": "2026-09-03T21:35:32Z",

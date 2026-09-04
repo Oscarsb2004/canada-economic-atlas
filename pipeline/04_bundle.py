@@ -123,6 +123,11 @@ def build_country(sectors: dict | None, rates: dict | None) -> dict:
     licences = R.sources()["licences"]
     out: list[dict] = []
 
+    # sha256 of the source cube zips, written by stage 02. Published so the
+    # SourceRef carries a real change signal rather than an empty string; the
+    # sibling repo correctly flagged the blank field as unusable.
+    cubes = (_load("sectors/_cubes.json") or {}).get("cubes", {})
+
     if sectors:
         by_code = {s["code"]: s for s in sectors["series"] if s["geo"] == "CA"}
         for key, code in HEADLINE:
@@ -151,6 +156,7 @@ def build_country(sectors: dict | None, rates: dict | None) -> dict:
                     retrieved_at=sectors.get("generated_at", ""),
                     provenance=Provenance.OFFICIAL_DATASET,
                     licence=statcan["licence"],
+                    content_sha256=cubes.get(table, ""),
                 ).to_dict(),
             })
 
