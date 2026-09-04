@@ -27,6 +27,7 @@ import {
 } from "../charts/specs";
 import { FilterRow, RANGES, VIEWS, type RangeId, type SectorView } from "../filters/FilterRow";
 import type { Bundle, Series } from "../data/bundle";
+import { PinButton } from "../tabs/TabStrip";
 
 /** Trim every series to the last N months. 0 means all of it. */
 function windowed(series: Series[], months: number): Series[] {
@@ -37,10 +38,25 @@ function windowed(series: Series[], months: number): Series[] {
   });
 }
 
-export function SectorPanel({ bundle, width }: { bundle: Bundle; width: number }) {
-  const [view, setView] = useState<SectorView>("composition");
-  const [range, setRange] = useState<RangeId>("10y");
-  const [focus, setFocus] = useState<string>("31-33");
+export function SectorPanel({
+  bundle,
+  width,
+  initialView,
+  initialRange,
+  initialFocus,
+}: {
+  bundle: Bundle;
+  width: number;
+  initialView?: SectorView;
+  initialRange?: RangeId;
+  initialFocus?: string;
+}) {
+  // Seeded from a pinned tab when one is open. The component is remounted on
+  // pin change, so these are initial values rather than controlled props —
+  // switching views inside a pinned tab is allowed and does not edit the pin.
+  const [view, setView] = useState<SectorView>(initialView ?? "composition");
+  const [range, setRange] = useState<RangeId>(initialRange ?? "10y");
+  const [focus, setFocus] = useState<string>(initialFocus ?? "31-33");
 
   const months = RANGES.find((r) => r.id === range)!.months;
   const national = useMemo(() => windowed(bundle.national, months), [bundle.national, months]);
@@ -55,9 +71,16 @@ export function SectorPanel({ bundle, width }: { bundle: Bundle; width: number }
     <div>
       <FilterRow view={view} onView={setView} range={range} onRange={setRange} />
 
-      <h2 style={{ fontSize: "var(--fs-lead)", margin: "0 0 2px" }}>
-        {VIEWS.find((v) => v.id === view)!.label}
-      </h2>
+      <div style={{ display: "flex", alignItems: "baseline", gap: "var(--sp-3)" }}>
+        <h2 style={{ fontSize: "var(--fs-lead)", margin: "0 0 2px", flex: 1 }}>
+          {VIEWS.find((v) => v.id === view)!.label}
+        </h2>
+        <PinButton
+          kind="sector-view"
+          params={{ view, range }}
+          defaultLabel={`${VIEWS.find((v) => v.id === view)!.label} · ${RANGES.find((r) => r.id === range)!.label}`}
+        />
+      </div>
       <p className="muted" style={{ margin: "0 0 var(--sp-3)", fontSize: "var(--fs-small)" }}>
         {hint}
       </p>
@@ -158,9 +181,16 @@ export function SectorPanel({ bundle, width }: { bundle: Bundle; width: number }
           other nineteen. This is the most underused form in the system and the
           honest answer to "which line is mine". */}
       <section style={{ marginTop: "var(--sp-5)" }}>
-        <h3 style={{ fontSize: "var(--fs-small)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ink-muted)", margin: "0 0 var(--sp-2)" }}>
-          One sector in context
-        </h3>
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--sp-3)", marginBottom: "var(--sp-2)" }}>
+          <h3 style={{ fontSize: "var(--fs-small)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ink-muted)", margin: 0, flex: 1 }}>
+            One sector in context
+          </h3>
+          <PinButton
+            kind="sector-focus"
+            params={{ code: focus }}
+            defaultLabel={sectors.find((s) => s.code === focus)?.label ?? focus}
+          />
+        </div>
         <select
           value={focus}
           onChange={(e) => setFocus(e.target.value)}

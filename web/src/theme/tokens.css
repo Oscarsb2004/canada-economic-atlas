@@ -142,3 +142,68 @@ a { color: var(--accent); }
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+
+/* ── Accessibility ─────────────────────────────────────────────────────────── */
+
+/*
+ * Reduced motion. The globe's flyTo is a long animated camera move, which is a
+ * vestibular risk — it is the single most motion-heavy thing in the app. The
+ * map honours this at the call site too (Globe.tsx checks the same query and
+ * jumps instead of flying); this block covers CSS transitions.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Forced colors (Windows high contrast). System colours replace ours entirely,
+ * so the job here is to keep STRUCTURE legible where hue has been taken away —
+ * borders that were doing separation work must not vanish into the background.
+ */
+@media (forced-colors: active) {
+  .pin {
+    border: 2px solid ButtonBorder;
+    forced-color-adjust: none; /* keep the project rendering visible */
+  }
+  .card,
+  .tag {
+    border: 1px solid ButtonBorder;
+  }
+  :focus-visible {
+    outline: 2px solid Highlight;
+  }
+}
+
+/*
+ * Skip link. The map holds dozens of focusable pins, so a keyboard reader
+ * reaching the analytical panel would otherwise tab through every one of them.
+ */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--surface-chart);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  color: var(--ink-primary);
+}
+
+.skip-link:focus {
+  left: var(--sp-2);
+  top: var(--sp-2);
+}
+
+/* Plot injects its own swatch/tip markup; keep it on our type scale. */
+figure[class^="plot-"],
+.plot-d6a7b5 {
+  font-family: var(--font-ui) !important;
+}

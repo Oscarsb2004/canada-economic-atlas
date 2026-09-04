@@ -315,14 +315,18 @@ export function Globe({ bundle, selected, onSelect }: Props) {
     const first = selected.sites.find((s) => s.geometry.coordinates.length > 0);
     if (!first) return;
 
-    m.flyTo({
+    // A long animated camera move across a globe is the most motion-heavy
+    // thing in the app and a genuine vestibular risk. Readers who have asked
+    // for reduced motion get the same destination without the flight.
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const target = {
       center: first.geometry.coordinates[0],
       // Stops short of zoom 12, where the projection would switch to Mercator.
       // A project site reads fine at 6 and the globe stays a globe.
       zoom: 5.6,
-      speed: 0.85,
-      curve: 1.5,
-    });
+    };
+    if (calm) m.jumpTo(target);
+    else m.flyTo({ ...target, speed: 0.85, curve: 1.5 });
   }, [selected]);
 
   return (

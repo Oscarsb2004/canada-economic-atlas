@@ -18,14 +18,32 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Globe } from "./map/Globe";
 import { ProjectViewer } from "./panels/ProjectViewer";
 import { SectorPanel } from "./panels/SectorPanel";
+import { TabStrip } from "./tabs/TabStrip";
+import { useTabs } from "./tabs/store";
 import { applyPalette } from "./theme/applyPalette";
 import { loadBundle, t, type Bundle, type Lang, type Project } from "./data/bundle";
+import type { RangeId, SectorView } from "./filters/FilterRow";
 
 export default function App() {
   const [bundle, setBundle] = useState<Bundle | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<Project | null>(null);
   const [lang] = useState<Lang>("en");
+
+  const pins = useTabs((s) => s.pins);
+  const activeId = useTabs((s) => s.activeId);
+  const activate = useTabs((s) => s.activate);
+  const activePin = pins.find((p) => p.id === activeId) ?? null;
+
+  // A project pin drives the same selection the map does, so opening one flies
+  // the globe there exactly as clicking the pin would. One code path, not two.
+  useEffect(() => {
+    if (!bundle) return;
+    if (activePin?.kind === "project") {
+      const p = bundle.projects.find((x) => x.slug === activePin.params.slug);
+      if (p) setSelected(p);
+    }
+  }, [activePin, bundle]);
 
   useEffect(() => {
     loadBundle()
@@ -54,12 +72,35 @@ export default function App() {
 
   return (
     <div className="split">
+      <a className="skip-link" href="#analysis">
+        Skip the map and go to the analysis
+      </a>
       <Globe bundle={bundle} selected={selected} onSelect={setSelected} />
-      <div className="pane-side">
+      <div className="pane-side" id="analysis" role="region" aria-label="Analysis">
+        <div style={{ padding: "0 var(--sp-4)" }}>
+          <TabStrip />
+        </div>
         {selected ? (
-          <ProjectViewer project={selected} lang={lang} onClose={() => setSelected(null)} />
+          <ProjectViewer
+            project={selected}
+            lang={lang}
+            onClose={() => {
+              setSelected(null);
+              if (activePin?.kind === "project") activate(null);
+            }}
+          />
         ) : (
-          <Overview bundle={bundle} lang={lang} onSelect={setSelected} />
+          <Overview
+            bundle={bundle}
+            lang={lang}
+            onSelect={setSelected}
+            initialView={activePin?.params.view}
+            initialRange={activePin?.params.range}
+            initialFocus={activePin?.params.code}
+            /* Remount on pin change so the panel picks up the pinned state
+               rather than keeping whatever the reader last had open. */
+            key={activePin?.id ?? "overview"}
+          />
         )}
       </div>
     </div>
@@ -71,10 +112,16 @@ function Overview({
   bundle,
   lang,
   onSelect,
+  initialView,
+  initialRange,
+  initialFocus,
 }: {
   bundle: Bundle;
   lang: Lang;
   onSelect: (p: Project) => void;
+  initialView?: SectorView;
+  initialRange?: RangeId;
+  initialFocus?: string;
 }) {
   // Plot renders to a fixed pixel width, so the pane has to be measured rather
   // than left to CSS. ResizeObserver keeps the charts correct through the
@@ -167,7 +214,13 @@ function Overview({
       )}
 
       <div style={{ marginTop: "var(--sp-5)" }}>
-        <SectorPanel bundle={bundle} width={width} />
+        <SectorPanel
+          bundle={bundle}
+          width={width}
+          initialView={initialView}
+          initialRange={initialRange}
+          initialFocus={initialFocus}
+        />
       </div>
 
       <h2

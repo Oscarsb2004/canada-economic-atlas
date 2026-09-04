@@ -19,6 +19,7 @@
 
 import type { Lang, Project } from "../data/bundle";
 import { t } from "../data/bundle";
+import { PinButton } from "../tabs/TabStrip";
 
 interface Props {
   project: Project;
@@ -46,6 +47,11 @@ export function ProjectViewer({ project, lang, onClose }: Props) {
             {t(project.proponent, lang)}
           </p>
         </div>
+        <PinButton
+          kind="project"
+          params={{ slug: project.slug }}
+          defaultLabel={t(project.name, lang)}
+        />
         <button
           type="button"
           onClick={onClose}

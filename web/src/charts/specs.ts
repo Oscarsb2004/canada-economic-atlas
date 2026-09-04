@@ -33,6 +33,22 @@ import * as Plot from "@observablehq/plot";
 import type { Company, Palette, Series } from "../data/bundle";
 import { MARK, axisX, axisY, chartDefaults, fmtMoneyM, gridY, token } from "./Plot";
 
+/**
+ * Tooltip styling, shared.
+ *
+ * An HTML chart is interactive by default — the hover layer is part of the
+ * deliverable, not an upgrade. Two rules from the interaction spec are encoded
+ * here: the value leads and the series name follows (the reader already has the
+ * series and wants the number), and the tip never becomes the ONLY way to read
+ * a value, which is what the table twins are for.
+ */
+const TIP = {
+  fill: "var(--surface-chart)",
+  stroke: "var(--ink-axis)",
+  textPadding: 6,
+  fontSize: 11,
+} as const;
+
 export interface Row {
   code: string;
   label: string;
@@ -132,6 +148,27 @@ export function composition(constant: Series[], palette: Palette, width: number)
       axisY({ ticks: 4, tickFormat: (d: number) => fmtMoneyM(d as number) }),
       axisX({ ticks: 6 }),
       Plot.ruleY([0], { stroke: token("--ink-axis") }),
+      // The crosshair finds the X: a hairline snaps to the nearest date, so the
+      // reader aims at a month rather than at a 2px line.
+      //
+      // A bare pointer-driven rule, NOT Plot.crosshairX. The crosshair mark
+      // also prints its own x and y readouts, which arrive unformatted — a raw
+      // "2021-06-01T05:00Z" beside the tip's "Aug 2021 · $1.6T". Two readouts,
+      // one of them wrong-looking, is worse than one.
+      Plot.ruleX(rows, Plot.pointerX({ x: "date", stroke: token("--ink-secondary"), strokeWidth: 1 })),
+      Plot.tip(
+        rows,
+        Plot.pointerX({
+          x: "date",
+          y: "value",
+          ...TIP,
+          format: {
+            x: (d: Date) => d.toLocaleDateString("en-CA", { year: "numeric", month: "short" }),
+            y: (d: number) => fmtMoneyM(d),
+            z: true,
+          },
+        }),
+      ),
     ],
   });
 }
@@ -153,6 +190,8 @@ export function ranking(series: Series[], palette: Palette, width: number) {
       // ONE hue for every bar. Magnitude is not identity: colouring each bar by
       // its own value would double-encode what bar length already shows and
       // spend the only free channel on nothing.
+      // On bars the MARK is the hit target — no crosshair. Each bar carries its
+      // own tooltip and lifts slightly on hover so the reader sees it respond.
       Plot.barX(data, {
         x: "value",
         y: "label",
@@ -161,6 +200,7 @@ export function ranking(series: Series[], palette: Palette, width: number) {
         rx1: 4,
         insetTop: 1.5,
         insetBottom: 1.5,
+        tip: { ...TIP, format: { x: (d: number) => fmtMoneyM(d), y: true } },
       }),
       axisY({ fontSize: 10 }),
       axisX({ ticks: 4, tickFormat: (d: number) => fmtMoneyM(d as number) }),
@@ -238,7 +278,20 @@ export function growthHeatmap(series: Series[], palette: Palette, width: number,
     // interval tells it these are monthly buckets, which is what they are.
     x: { label: null, ticks: 5, interval: "month" },
     marks: [
-      Plot.cell(rows, { x: "date", y: "label", fill: "pct", inset: 0.5 }),
+      Plot.cell(rows, {
+        x: "date",
+        y: "label",
+        fill: "pct",
+        inset: 0.5,
+        tip: {
+          ...TIP,
+          format: {
+            fill: (d: number) => `${d >= 0 ? "+" : ""}${d.toFixed(1)}%`,
+            x: (d: Date) => d.toLocaleDateString("en-CA", { year: "numeric", month: "short" }),
+            y: true,
+          },
+        },
+      }),
       axisY({ fontSize: 10 }),
       axisX({ ticks: 5 }),
     ],
@@ -288,6 +341,19 @@ export function emphasis(series: Series[], palette: Palette, width: number, sele
       }),
       axisY({ ticks: 4, tickFormat: (d: number) => fmtMoneyM(d as number) }),
       axisX({ ticks: 6 }),
+      Plot.ruleX(chosen, Plot.pointerX({ x: "date", stroke: token("--ink-secondary"), strokeWidth: 1 })),
+      Plot.tip(
+        chosen,
+        Plot.pointerX({
+          x: "date",
+          y: "value",
+          ...TIP,
+          format: {
+            x: (d: Date) => d.toLocaleDateString("en-CA", { year: "numeric", month: "short" }),
+            y: (d: number) => fmtMoneyM(d),
+          },
+        }),
+      ),
     ],
   });
 }
@@ -312,7 +378,14 @@ export function growthBars(series: Series[], palette: Palette, width: number) {
     },
     marks: [
       Plot.gridX({ stroke: token("--ink-gridline"), strokeWidth: 1 }),
-      Plot.barX(data, { x: "value", y: "label", fill: "value", insetTop: 1.5, insetBottom: 1.5 }),
+      Plot.barX(data, {
+        x: "value",
+        y: "label",
+        fill: "value",
+        insetTop: 1.5,
+        insetBottom: 1.5,
+        tip: { ...TIP, format: { x: (d: number) => `${d >= 0 ? "+" : ""}${d.toFixed(1)}%`, y: true, fill: false } },
+      }),
       axisY({ fontSize: 10 }),
       axisX({ ticks: 5 }),
       // The baseline a diverging bar diverges from. Solid, one step off surface.
@@ -344,6 +417,7 @@ export function companyBars(companies: Company[], palette: Palette, width: numbe
         rx1: 4,
         insetTop: 2,
         insetBottom: 2,
+        tip: { ...TIP, format: { x: (d: number) => `${d.toFixed(2)}%`, y: true } },
       }),
       axisY({ fontSize: 10 }),
       axisX({ ticks: 4 }),
