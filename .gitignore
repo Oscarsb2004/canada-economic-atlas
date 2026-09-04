@@ -9,13 +9,19 @@ web/dist/
 
 # ── What is and is not committed under data/ ──────────────────────────────────
 #
-# Pipeline outputs ARE committed, so the app is clone-and-run with no API pull.
-# The two exceptions are both re-fetchable and both large:
+# Stage OUTPUTS are committed, so the app is clone-and-run with no API pull.
+# Everything under data/raw/ is an INPUT and is ignored wholesale, because every
+# one of them is re-fetchable by re-running its stage:
 #
-#   data/raw/media/   full-resolution federal renderings (~2 MB each, ~54 MB total).
-#                     Stage 01 derives committed thumb/ and web/ variants from
-#                     these; the originals are never read by the app.
-#   data/raw/cache/   the polite-fetch HTTP cache. Scratch, by definition.
+#   data/raw/cache/    the polite-fetch HTTP cache. Scratch by definition.
+#   data/raw/media/    full-resolution federal renderings, ~34 MB. Stage 01
+#                      derives the committed thumb/ and web/ variants from these.
+#   data/raw/statcan/  bulk cube zips, ~28 MB. Stage 02 reads and discards them.
+#   data/raw/geo/      Natural Earth + StatCan boundaries, ~129 MB. The committed
+#                      artifacts are web/public/geo/, built by scripts/build_geo.mjs.
 #
-data/raw/media/
-data/raw/cache/
+# The rule is deliberately the whole directory rather than a list. An earlier
+# version listed only cache/ and media/, and 28 MB of cube zips were committed
+# before anyone noticed — a per-directory allowlist fails open, which is the
+# wrong direction for a rule about repository weight.
+data/raw/

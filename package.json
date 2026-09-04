@@ -1,0 +1,12 @@
+{
+  "name": "canada-economic-atlas-build",
+  "private": true,
+  "type": "module",
+  "description": "Build tooling for the committed map geometry. The web app has its own package.json under web/.",
+  "scripts": {
+    "geo": "node scripts/build_geo.mjs"
+  },
+  "devDependencies": {
+    "mapshaper": "0.7.56"
+  }
+}
