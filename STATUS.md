@@ -30,6 +30,7 @@ not be rediscovered.
 | **`registry/palette.yaml`** | **LOCKED.** 5 validated categorical slots, dark only. |
 | **`scripts/build_geo.mjs`** | **Done and run.** Reproducible world + provinces geometry. |
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
+| **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
 **Stage 01 output, committed:** 18 projects, every one with a French description
@@ -77,9 +78,20 @@ real StatCan figures with the vintage stated. No console errors.
 
 Run it: `cd web && npm run dev` → http://localhost:5173
 
+**M4 output, committed:** Observable Plot behind one wrapper. Five switchable
+views (composition, ranking, growth, small multiples, heatmap) plus an emphasis
+chart, the company panel, and a provincial choropleth on the map. One filter row
+scopes everything. Every chart has a table twin. Production build clean; app code
+69 KB gzipped with vendor chunks split.
+
 ## Next steps, in order
 
-1. **M4 analysis panel** — `<Plot>` wrapper, one filter row, the nine chart
+1. **M5** — pinned tabs, accessibility pass.
+2. **M6** — `verify/`, `tests/`, `CLAUDE.md` via `/init`, `security-review`.
+
+Old numbering below is superseded:
+
+~~1. **M4 analysis panel** — `<Plot>` wrapper, one filter row, the nine chart
    forms + a table twin for each, company panel.
 3. **M5** — pinned tabs, accessibility pass.
 4. **M6** — `verify/`, `tests/`, `CLAUDE.md` via `/init`, `security-review`.
@@ -155,6 +167,21 @@ one enormous column per row, raises nothing, and leaves every French label empty
 while the English side looks perfect. `read_cube()` detects the delimiter. Its
 NAICS column is also `Système de classification … (SCIAN)`, not a translation of
 the English header.
+
+**Never guard a MapLibre init effect on its own ref.** An
+`if (map.current) return` fights React StrictMode's mount → unmount → mount: the
+second setup bails while the first map is torn down, leaving a live canvas whose
+map object is destroyed. Every `getSource` / `getStyle` afterwards returns
+undefined. The effect's cleanup is the mechanism; the guard is the bug.
+
+**Two fills over the same ground stack.** The provincial choropleth looked
+broken — every province identical — because the Canada highlight was still
+painting at 0.22 underneath, flattening a ramp spanning 3,243 to 900,845. The
+highlight now fades out as the choropleth fades in.
+
+**A Plot `cell` mark puts x on a BAND scale.** Handing it raw Dates makes every
+timestamp its own category; declare `interval` (e.g. `"month"`) rather than
+suppressing the warning.
 
 **`setProjection` must be called inside `style.load`.** Before the style is
 ready it throws, and the map renders blank — the single most common way to get
