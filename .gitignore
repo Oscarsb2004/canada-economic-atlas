@@ -25,3 +25,7 @@ web/dist/
 # before anyone noticed — a per-directory allowlist fails open, which is the
 # wrong direction for a rule about repository weight.
 data/raw/
+
+# Vite dev/build artefacts under web/
+web/node_modules/
+web/dist/
