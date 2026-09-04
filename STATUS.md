@@ -29,6 +29,7 @@ not be rediscovered.
 | `registry/gics_naics.yaml` | Done. Lossy crosswalk, versioned, splits documented. |
 | **`registry/palette.yaml`** | **LOCKED.** 5 validated categorical slots, dark only. |
 | **`scripts/build_geo.mjs`** | **Done and run.** Reproducible world + provinces geometry. |
+| **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
 **Stage 01 output, committed:** 18 projects, every one with a French description
@@ -68,11 +69,17 @@ verbatim mapshaper commands. Byte-identical across rebuilds.
 **All five interop asks are now landed** (A1 country.json, A2 geometry, A3
 palette, A4 semver, A5 schema banners).
 
+**M3 output, committed:** React 19 + Vite 7 + MapLibre 5.24. Split screen:
+globe left, context-sensitive panel right. 18 project pins faced with their own
+renderings, 4 dashed corridors, Canada highlighted, provinces fading in on zoom.
+Clicking a pin flies to the site and opens the verbatim viewer. KPI row reads
+real StatCan figures with the vintage stated. No console errors.
+
+Run it: `cd web && npm run dev` → http://localhost:5173
+
 ## Next steps, in order
 
-1. **M3 first light** — Vite + React scaffold, MapLibre globe, pins with
-   thumbnails, corridors, native project viewer.
-2. **M4 analysis panel** — `<Plot>` wrapper, one filter row, the nine chart
+1. **M4 analysis panel** — `<Plot>` wrapper, one filter row, the nine chart
    forms + a table twin for each, company panel.
 3. **M5** — pinned tabs, accessibility pass.
 4. **M6** — `verify/`, `tests/`, `CLAUDE.md` via `/init`, `security-review`.
@@ -148,6 +155,15 @@ one enormous column per row, raises nothing, and leaves every French label empty
 while the English side looks perfect. `read_cube()` detects the delimiter. Its
 NAICS column is also `Système de classification … (SCIAN)`, not a translation of
 the English header.
+
+**`setProjection` must be called inside `style.load`.** Before the style is
+ready it throws, and the map renders blank — the single most common way to get
+a dead MapLibre globe.
+
+**The `background` layer paints the SPHERE, not the canvas.** Under globe
+projection it is the ocean. A first attempt bound an `ocean` fill layer to the
+world source, which painted the same country polygons as `land` twice and gave
+a planet with no sea. Space is the container's own CSS background.
 
 **Nothing under `data/raw/` may be committed.** It is all re-fetchable input:
 HTTP cache, 34 MB of federal renderings, 28 MB of StatCan cube zips, 129 MB of
