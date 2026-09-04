@@ -13,10 +13,11 @@
  * but it is deliberately a small one.
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { Globe } from "./map/Globe";
 import { ProjectViewer } from "./panels/ProjectViewer";
+import { SectorPanel } from "./panels/SectorPanel";
 import { applyPalette } from "./theme/applyPalette";
 import { loadBundle, t, type Bundle, type Lang, type Project } from "./data/bundle";
 
@@ -75,6 +76,24 @@ function Overview({
   lang: Lang;
   onSelect: (p: Project) => void;
 }) {
+  // Plot renders to a fixed pixel width, so the pane has to be measured rather
+  // than left to CSS. ResizeObserver keeps the charts correct through the
+  // 1100px breakpoint where the split stacks.
+  const paneRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(560);
+
+  useEffect(() => {
+    const el = paneRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      // Minus the padding either side; floored so a narrow phone still gets a
+      // usable chart rather than a negative width.
+      setWidth(Math.max(280, Math.floor(entry.contentRect.width) - 32));
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   const headline = useMemo(() => {
     const by = (code: string) => bundle.national.find((s) => s.code === code && s.geo === "CA");
     const latest = (code: string) => {
@@ -92,7 +111,7 @@ function Overview({
   const projects = [...bundle.projects].sort((a, b) => a.name.en.localeCompare(b.name.en));
 
   return (
-    <div style={{ padding: "var(--sp-4)" }}>
+    <div ref={paneRef} style={{ padding: "var(--sp-4)" }}>
       <h1 style={{ fontSize: "var(--fs-title)", margin: "0 0 var(--sp-1)" }}>
         Canada Economic Atlas
       </h1>
@@ -146,6 +165,10 @@ function Overview({
           {headline.total.series.release_time || "—"}
         </p>
       )}
+
+      <div style={{ marginTop: "var(--sp-5)" }}>
+        <SectorPanel bundle={bundle} width={width} />
+      </div>
 
       <h2
         style={{

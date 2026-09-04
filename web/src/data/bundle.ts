@@ -151,6 +151,14 @@ export interface Bundle {
   projects: Project[];
   strategies: Strategy[];
   national: Series[];
+  /**
+   * The additive price basis. Chained dollars are NOT additive — measured at
+   * +0.311% drift on 2026-06 against +0.000% here — so any chart asserting that
+   * parts make a whole reads this instead.
+   */
+  constant: Series[];
+  /** 13 geographies x 23 codes, annual. Feeds the provincial choropleth. */
+  provincial: Series[];
   companies: Company[];
   rates: { policy_rate?: { period: string; value: number; label: string } };
   world: GeoJSON.FeatureCollection;
@@ -177,13 +185,15 @@ async function json<T>(path: string): Promise<T> {
  * whose shape changed is worse than failing, because it looks like it worked.
  */
 export async function loadBundle(): Promise<Bundle> {
-  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, companiesDoc, rates, world, provinces] =
+  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, companiesDoc, rates, world, provinces] =
     await Promise.all([
       json<Bundle["meta"]>("/data/meta.json"),
       json<Palette>("/data/palette.json"),
       json<{ projects: Project[] }>("/data/events/major-projects-office/projects.json"),
       json<{ strategies: Strategy[] }>("/data/events/major-projects-office/strategies.json"),
       json<{ series: Series[] }>("/data/sectors/national-monthly.json"),
+      json<{ series: Series[] }>("/data/sectors/national-constant.json"),
+      json<{ series: Series[] }>("/data/sectors/provincial-annual.json"),
       json<{ companies: Company[] }>("/data/companies/xic.json"),
       json<Bundle["rates"]>("/data/sectors/rates.json"),
       json<GeoJSON.FeatureCollection>("/geo/world.json"),
@@ -203,6 +213,8 @@ export async function loadBundle(): Promise<Bundle> {
     projects: projectsDoc.projects,
     strategies: strategiesDoc.strategies,
     national: nationalDoc.series,
+    constant: constantDoc.series,
+    provincial: provincialDoc.series,
     companies: companiesDoc.companies,
     rates,
     world,
@@ -226,4 +238,31 @@ export function corridorSites(projects: Project[]) {
       .filter((s) => s.geometry.kind === "corridor")
       .map((s) => ({ project: p, site: s })),
   );
+}
+
+/**
+ * StatCan's numeric province key to our two-letter codes.
+ *
+ * The boundary file carries PRUID; every other file in the bundle uses the
+ * subdivision code, so the join happens here rather than in three places.
+ */
+export const PRUID_TO_CODE: Record<string, string> = {
+  "10": "NL", "11": "PE", "12": "NS", "13": "NB", "24": "QC",
+  "35": "ON", "46": "MB", "47": "SK", "48": "AB", "59": "BC",
+  "60": "YT", "61": "NT", "62": "NU",
+};
+
+/** Latest all-industries GDP per province, for the choropleth. */
+export function provincialTotals(provincial: Series[]): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const s of provincial) {
+    if (s.code !== "T001") continue;
+    for (let i = s.values.length - 1; i >= 0; i--) {
+      if (s.values[i] != null) {
+        out[s.geo] = s.values[i]!;
+        break;
+      }
+    }
+  }
+  return out;
 }

@@ -32,7 +32,7 @@ import maplibregl, { type LngLatLike, type StyleSpecification } from "maplibre-g
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import type { Bundle, Project } from "../data/bundle";
-import { corridorSites, pinnableSites } from "../data/bundle";
+import { PRUID_TO_CODE, corridorSites, pinnableSites, provincialTotals } from "../data/bundle";
 
 /** Where the globe opens: Canada, tilted so the Arctic projects are visible. */
 const HOME: { center: LngLatLike; zoom: number } = {
@@ -64,7 +64,7 @@ function buildStyle(bundle: Bundle): StyleSpecification {
     version: 8,
     sources: {
       world: { type: "geojson", data: bundle.world as never },
-      provinces: { type: "geojson", data: bundle.provinces as never },
+      provinces: { type: "geojson", data: provincesWithGdp(bundle) as never },
       corridors: { type: "geojson", data: corridorGeoJSON(bundle) as never },
     },
     layers: [
@@ -95,7 +95,14 @@ function buildStyle(bundle: Bundle): StyleSpecification {
         type: "fill",
         source: "world",
         filter: ["==", ["get", "ADM0_A3"], "CAN"],
-        paint: { "fill-color": accent, "fill-opacity": 0.22 },
+        // Fades OUT as the provincial choropleth fades in. Both are fills over
+        // the same ground, so leaving this on underneath tints every province
+        // toward the accent and flattens a ramp that spans 3,243 to 900,845 —
+        // the choropleth looks broken when in fact it is being painted over.
+        paint: {
+          "fill-color": accent,
+          "fill-opacity": ["interpolate", ["linear"], ["zoom"], 2.4, 0.22, 3.8, 0],
+        },
       },
       {
         id: "canada-outline",
@@ -103,6 +110,27 @@ function buildStyle(bundle: Bundle): StyleSpecification {
         source: "world",
         filter: ["==", ["get", "ADM0_A3"], "CAN"],
         paint: { "line-color": accent, "line-width": 1.1 },
+      },
+      // Provincial choropleth. Magnitude is a SEQUENTIAL job: one hue,
+      // light-to-dark, from the validated ramp. A categorical scale here would
+      // claim the provinces are unordered identities when the thing being shown
+      // is how much each produces.
+      //
+      // It fades in with the boundaries: at world zoom it would be a coloured
+      // smudge, and the globe's job there is "Canada in the world".
+      {
+        id: "provinces-fill",
+        type: "fill",
+        source: "provinces",
+        paint: {
+          "fill-color": [
+            "interpolate",
+            ["linear"],
+            ["coalesce", ["get", "gdp"], 0],
+            ...seqStops(bundle),
+          ],
+          "fill-opacity": ["interpolate", ["linear"], ["zoom"], 2.4, 0, 3.8, 0.85],
+        },
       },
       // Province boundaries fade in as the globe becomes a map — invisible at
       // world zoom where they would only add noise.
@@ -140,6 +168,39 @@ function buildStyle(bundle: Bundle): StyleSpecification {
  * that routing is not final. Two published endpoints are not a route — drawing
  * a solid line would imply an alignment the government has not committed to.
  */
+/**
+ * Province polygons with their latest GDP attached.
+ *
+ * MapLibre cannot join across sources, so the value has to ride on the feature.
+ * The join key is PRUID, which is what the StatCan boundary file publishes;
+ * everything else in the bundle uses the two-letter code.
+ */
+function provincesWithGdp(bundle: Bundle): GeoJSON.FeatureCollection {
+  const totals = provincialTotals(bundle.provincial);
+  return {
+    ...bundle.provinces,
+    features: bundle.provinces.features.map((f) => {
+      const code = PRUID_TO_CODE[String(f.properties?.PRUID ?? "")];
+      return { ...f, properties: { ...f.properties, code, gdp: totals[code] ?? null } };
+    }),
+  };
+}
+
+/**
+ * Interpolation stops for the sequential ramp.
+ *
+ * Ontario and Quebec dwarf the territories, so a linear domain would leave
+ * eleven provinces in the first swatch. The stops are spaced on a square-root
+ * progression of the maximum, which keeps the small economies distinguishable
+ * without claiming a false ordering.
+ */
+function seqStops(bundle: Bundle): (number | string)[] {
+  const totals = Object.values(provincialTotals(bundle.provincial));
+  const max = Math.max(...totals, 1);
+  const steps = bundle.palette.sequential.steps;
+  return steps.flatMap((hex, i) => [Math.round(max * (i / (steps.length - 1)) ** 2), hex]);
+}
+
 function corridorGeoJSON(bundle: Bundle): GeoJSON.FeatureCollection {
   return {
     type: "FeatureCollection",
@@ -162,7 +223,16 @@ export function Globe({ bundle, selected, onSelect }: Props) {
   onSelectRef.current = onSelect;
 
   useEffect(() => {
-    if (!container.current || map.current) return;
+    // NO `if (map.current) return` guard here. It looks like it prevents a
+    // double-init, but under React StrictMode's mount → unmount → mount it
+    // instead lets the second setup bail while the first map is torn down,
+    // leaving a live canvas whose map object is destroyed. Symptom: the map
+    // renders but every getSource / getStyle call returns undefined, so nothing
+    // can be inspected or updated afterwards.
+    //
+    // The effect's own cleanup is the mechanism. One map per mount, removed on
+    // unmount, and the ref is only a handle for the sibling effects below.
+    if (!container.current) return;
 
     const m = new maplibregl.Map({
       container: container.current,
