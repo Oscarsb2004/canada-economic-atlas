@@ -108,8 +108,11 @@ different body.
 Explicitly *not* carried over from the sibling ASI project: a process-wide
 `verify=False` monkey-patch. TLS verification stays on.
 
-> ⚠ **See Finding 4.** The cache has no expiry and is on by default, which
-> defeats the project's own change-detection story.
+The cache has a **24-hour TTL** (F4). It did not, originally, and that silently
+disabled change detection: `data/history/` only appends when a page's content
+hash moves, and a permanently cached page's hash never moves. `Fetcher` also
+counts hits, fetches and expiries, because a fully cached scrape and a scrape
+that genuinely found no change otherwise look identical in the output.
 
 ## `atlas/core/registry.py` — configuration, validated on load
 
