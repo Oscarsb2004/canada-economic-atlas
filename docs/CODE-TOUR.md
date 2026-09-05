@@ -285,6 +285,8 @@ Ordered by whether they affect a reader today.
 
 ### F1. The Range filter does nothing on the Heatmap view · **medium**
 
+> ✅ **Fixed 2026-09-05.** `months` added to the heatmap's `deps`; verified redrawing at 1200/2400/6720 cells.
+
 `web/src/panels/SectorPanel.tsx:172-174`
 
 ```tsx
@@ -300,6 +302,8 @@ silently inert.
 **Fix:** add `months` to `deps`.
 
 ### F2. The Range filter does nothing on the Growth view · **medium**
+
+> ✅ **Fixed 2026-09-05.** Range is now **disabled** on latest-period views via a `usesRange` flag, not faked.
 
 `web/src/panels/SectorPanel.tsx:137-138`
 
@@ -321,6 +325,8 @@ two of five views that is false.
 
 ### F3. The y-grid is drawn twice, and once unthemed · **low**
 
+> ✅ **Fixed 2026-09-05.** `grid: true` removed from `chartDefaults`; the themed marks are the only grid.
+
 `web/src/charts/Plot.tsx:69` sets `y: { grid: true }` for every chart, and
 `specs.ts` adds a themed `gridY()` mark on top for composition and emphasis. So
 those two charts have overlapping grids, and the other three show only Plot's
@@ -332,6 +338,8 @@ or drop the mark and theme the axis. Not both.
 ## Design-level — a documented guarantee that does not hold
 
 ### F4. The HTTP cache defeats change detection on a default run · **high**
+
+> ✅ **Fixed 2026-09-05.** 24-hour cache TTL, plus hit/fetch/expiry counters. Test: `test_cache_entries_expire`.
 
 `atlas/net.py:126-141`, all three scraping stages.
 
@@ -360,6 +368,8 @@ cheapest and targets the actual need.
 
 ### F5. `yoyBySector` reads the last index, not the last non-null · **medium (latent)**
 
+> ✅ **Fixed 2026-09-05.** `yoyBySector` now walks back to the last non-null, sharing `lastRealIndex` with `latestBySector`.
+
 `web/src/charts/specs.ts:104-107`
 
 ```ts
@@ -381,6 +391,8 @@ history, so nulls in this dataset are real, not hypothetical.
 
 ### F6. `yoyBySector` hardcodes a 12-period step · **low (latent)**
 
+> ✅ **Fixed 2026-09-05.** Step derived from `series.frequency`.
+
 Same function, `const step = 12`. Correct for monthly. Called with the annual
 provincial series it would compare **2025 against 2013** and label the result
 "year-over-year". Nothing calls it that way today.
@@ -390,6 +402,8 @@ provincial series it would compare **2025 against 2013** and label the result
 ## Code that says one thing and does another
 
 ### F7. A comment describing behaviour the code does not implement
+
+> ✅ **Fixed 2026-09-05.** Dead spread and its false comment deleted.
 
 `web/src/charts/Plot.tsx:72-73`
 
@@ -403,6 +417,8 @@ not apply — see F3 for where the styling actually (partly) happens.
 
 ### F8. A dead guard
 
+> ✅ **Fixed 2026-09-05.** Replaced with `useTabs((s) => s.isPinned(kind, params))`, which subscribes correctly.
+
 `web/src/tabs/TabStrip.tsx:32`
 
 ```ts
@@ -414,6 +430,8 @@ subscription to `pins`, but `useTabs((s) => s.pins)` on the line above already
 does that. Pure noise that reads like a meaningful condition.
 
 ### F9. A misleading verifier diagnostic
+
+> ✅ **Fixed 2026-09-05.** The diagnostic now reports the slugs that failed the predicate it tested.
 
 `verify/run.py`, `check_projects`
 
@@ -428,12 +446,16 @@ The predicate tests the French *description*; the failure message reports the
 
 ### F10. A parameter named for the wrong directory
 
+> ✅ **Fixed 2026-09-05.** `derive()` takes `public_root`; `WEB_PUBLIC_DIR` added to the registry.
+
 `atlas/media.py:111-112` — `derive(src, media_root, ...)` immediately does
 `media_root.parent / thumb_rel`. It is called with `WEB_MEDIA_DIR`
 (`web/public/media`) and wants `web/public`. It works, but the name is wrong and
 a caller who passes the actual public root gets silently wrong paths.
 
 ### F11. `_strip_volatile` is inconsistent across stages
+
+> ✅ **Fixed 2026-09-05.** Four copies replaced by `atlas/core/jsonio.py`. Test: `test_write_if_changed_ignores_only_volatile_keys`.
 
 Stage 01 strips `generated_at` **and** `retrieved_at`; stages 02, 03 and 04 strip
 only `generated_at`. Harmless today because the values that would differ happen
@@ -442,11 +464,15 @@ to be stable, but it is the kind of inconsistency that makes a future
 
 ### F12. A type assertion that is not true
 
+> ✅ **Fixed 2026-09-05.** Typed `Pick<TabsState, "pins">` instead of cast.
+
 `web/src/tabs/store.ts:114` — `partialize: (s) => ({ pins: s.pins }) as TabsState`.
 The returned object is not a `TabsState`; the cast silences the compiler about a
 shape that is intentionally partial. Zustand's own typing wants a partial here.
 
 ### F13. A source-shape change yields zero rows rather than an error
+
+> ✅ **Fixed 2026-09-05.** Both directions now raise, naming the column or the value. Test: `test_cube_filter_mismatch_raises_instead_of_yielding_nothing`.
 
 `atlas/sources/statcan.py`, `build_series`. `cell()` returns `""` for a missing
 column, and the filter then rejects every row. So a renamed StatCan column or a
