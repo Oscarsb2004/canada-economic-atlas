@@ -127,13 +127,6 @@ construction.
 3. A scheduled refresh (GitHub Action) that re-runs the pipeline and opens a PR
    when a federal page or a StatCan cube changes.
 
-Old numbering below is superseded:
-
-~~1. **M4 analysis panel** — `<Plot>` wrapper, one filter row, the nine chart
-   forms + a table twin for each, company panel.
-3. **M5** — pinned tabs, accessibility pass.
-4. **M6** — `verify/`, `tests/`, `CLAUDE.md` via `/init`, `security-review`.
-
 ---
 
 ## Sibling repo — read before step 4 and step 5
