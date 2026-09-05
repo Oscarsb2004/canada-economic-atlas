@@ -21,7 +21,7 @@ import { SectorPanel } from "./panels/SectorPanel";
 import { TabStrip } from "./tabs/TabStrip";
 import { useTabs } from "./tabs/store";
 import { applyPalette } from "./theme/applyPalette";
-import { loadBundle, t, type Bundle, type Lang, type Project } from "./data/bundle";
+import { asset, loadBundle, t, type Bundle, type Lang, type Project } from "./data/bundle";
 import type { RangeId, SectorView } from "./filters/FilterRow";
 
 export default function App() {
@@ -266,7 +266,7 @@ function Overview({
                     borderRadius: "50%",
                     flexShrink: 0,
                     background: `var(--surface-chart) center/cover no-repeat`,
-                    backgroundImage: hero?.thumb ? `url(${hero.thumb})` : undefined,
+                    backgroundImage: hero?.thumb ? `url(${asset(hero.thumb)})` : undefined,
                     border: "1px solid var(--ink-axis)",
                   }}
                 />

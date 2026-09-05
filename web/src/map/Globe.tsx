@@ -32,7 +32,7 @@ import maplibregl, { type LngLatLike, type StyleSpecification } from "maplibre-g
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import type { Bundle, Project } from "../data/bundle";
-import { PRUID_TO_CODE, corridorSites, pinnableSites, provincialTotals } from "../data/bundle";
+import { PRUID_TO_CODE, asset, corridorSites, pinnableSites, provincialTotals } from "../data/bundle";
 
 /** Where the globe opens: Canada, tilted so the Arctic projects are visible. */
 const HOME: { center: LngLatLike; zoom: number } = {
@@ -275,7 +275,7 @@ export function Globe({ bundle, selected, onSelect }: Props) {
       // which is untrusted input as far as the DOM is concerned.
       el.title = site.name.en;
       el.setAttribute("aria-label", site.name.en);
-      if (hero?.thumb) el.style.backgroundImage = `url(${hero.thumb})`;
+      if (hero?.thumb) el.style.backgroundImage = `url(${asset(hero.thumb)})`;
 
       el.addEventListener("click", (e) => {
         e.stopPropagation();

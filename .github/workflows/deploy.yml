@@ -1,0 +1,70 @@
+name: Deploy to GitHub Pages
+
+# Builds web/ and publishes it. The pipeline does NOT run here: the data bundle
+# is committed, so a deploy is a pure build of what is already in the repo.
+# That is deliberate — CI reaching out to canada.ca and StatCan on every push
+# would be both impolite and a way to get a different site from the same commit.
+#
+# To refresh the data, run `python run.py` locally and commit the result. The
+# diff is the review.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# One concurrent deploy; a queued run supersedes an older one rather than
+# racing it. `cancel-in-progress: false` lets an in-flight deploy finish so
+# Pages is never left mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      # `npm ci` rather than `npm install`: it installs exactly the lockfile,
+      # so a transitive release cannot change what gets deployed.
+      - run: npm ci
+        working-directory: web
+
+      - run: npx tsc --noEmit
+        working-directory: web
+
+      # A project site is served from /<repo>/, so the build needs that prefix.
+      # Derived from the repo name rather than hardcoded, so a rename or a fork
+      # does not silently ship a site whose assets all 404.
+      - name: Build
+        working-directory: web
+        env:
+          VITE_BASE: /${{ github.event.repository.name }}/
+        run: npm run build
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

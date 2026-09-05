@@ -168,9 +168,29 @@ export interface Bundle {
 /** The bundle's major version this client knows how to read. */
 const SUPPORTED_MAJOR = 1;
 
+/**
+ * Resolve a path that the pipeline wrote as site-absolute.
+ *
+ * The bundle and the media paths inside it are written as `/data/...` and
+ * `/media/...`, which is correct at the site root and WRONG under a GitHub
+ * Pages project site, where everything is served from
+ * `/canada-economic-atlas/`. Vite exposes that prefix as `BASE_URL` ("/" in
+ * dev), so every fetch and every image src goes through here.
+ *
+ * Doing it at render time rather than baking the prefix into the JSON keeps the
+ * data deployment-agnostic: the same committed bundle serves the dev server,
+ * a project site, and a custom domain.
+ */
+export function asset(path: string): string {
+  if (!path) return "";
+  const base = import.meta.env.BASE_URL || "/";
+  return path.startsWith("/") ? base.replace(/\/$/, "") + path : path;
+}
+
 async function json<T>(path: string): Promise<T> {
-  const res = await fetch(path);
-  if (!res.ok) throw new Error(`${path} → HTTP ${res.status}`);
+  const url = asset(path);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${url} → HTTP ${res.status}`);
   return res.json() as Promise<T>;
 }
 

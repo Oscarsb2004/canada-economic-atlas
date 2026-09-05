@@ -18,7 +18,7 @@
  */
 
 import type { Lang, Project } from "../data/bundle";
-import { safeExternalUrl, t } from "../data/bundle";
+import { asset, safeExternalUrl, t } from "../data/bundle";
 import { PinButton } from "../tabs/TabStrip";
 
 interface Props {
@@ -72,7 +72,7 @@ export function ProjectViewer({ project, lang, onClose }: Props) {
 
       {hero?.web && (
         <img
-          src={hero.web}
+          src={asset(hero.web)}
           alt={t(hero.alt, lang)}
           style={{
             width: "100%",
