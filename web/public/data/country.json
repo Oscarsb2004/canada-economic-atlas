@@ -7,7 +7,7 @@
     "boc": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
     "statcan": "Statistics Canada Open Licence"
   },
-  "generated_at": "2026-09-04T01:38:03Z",
+  "generated_at": "2026-09-05T00:32:24Z",
   "headline": [
     {
       "frequency": "monthly",
@@ -24,7 +24,7 @@
         "content_sha256": "38b3468c8871e331b2dec987262c024b8e4bb6ff430b9984078ff6edbb2e1939",
         "licence": "statcan-open",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-03T21:35:32Z",
+        "retrieved_at": "2026-09-05T00:31:47Z",
         "url": "https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadCSV/36100434/en"
       },
       "source_table": "36100434",
@@ -46,7 +46,7 @@
         "content_sha256": "38b3468c8871e331b2dec987262c024b8e4bb6ff430b9984078ff6edbb2e1939",
         "licence": "statcan-open",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-03T21:35:32Z",
+        "retrieved_at": "2026-09-05T00:31:47Z",
         "url": "https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadCSV/36100434/en"
       },
       "source_table": "36100434",
@@ -68,7 +68,7 @@
         "content_sha256": "38b3468c8871e331b2dec987262c024b8e4bb6ff430b9984078ff6edbb2e1939",
         "licence": "statcan-open",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-03T21:35:32Z",
+        "retrieved_at": "2026-09-05T00:31:47Z",
         "url": "https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadCSV/36100434/en"
       },
       "source_table": "36100434",

@@ -18,7 +18,7 @@
  */
 
 import type { Lang, Project } from "../data/bundle";
-import { t } from "../data/bundle";
+import { safeExternalUrl, t } from "../data/bundle";
 import { PinButton } from "../tabs/TabStrip";
 
 interface Props {
@@ -29,7 +29,7 @@ interface Props {
 
 export function ProjectViewer({ project, lang, onClose }: Props) {
   const hero = project.media.find((m) => m.role === "hero");
-  const page = t(project.page_url, lang);
+  const page = safeExternalUrl(t(project.page_url, lang));
   const verbatim = project.sources.find((s) => s.provenance === "page_verbatim");
 
   return (

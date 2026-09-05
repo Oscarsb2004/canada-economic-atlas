@@ -402,6 +402,21 @@ def parse_page(html: str, url: str, lang: str = "en") -> ParsedPage:
     )
 
 
+#: A project slug, which is also a filename and a URL path segment.
+_SAFE_SLUG = re.compile(r"^[a-z0-9][a-z0-9._-]*$")
+
+
 def slug_from_url(url: str) -> str:
-    """`.../national/crawford.html` → `crawford`."""
-    return url.rstrip("/").rsplit("/", 1)[-1].removesuffix(".html")
+    """
+    `.../national/crawford.html` → `crawford`.
+
+    The result is used to name files under `data/raw/media/` and to build the
+    asset paths the web app requests, so it is validated rather than trusted.
+    A path segment of `..` — from a URL ending `/../` — would otherwise write
+    outside the media directory. The source is a federal site and this is not a
+    live threat; it is three lines to make it impossible instead of unlikely.
+    """
+    slug = url.rstrip("/").rsplit("/", 1)[-1].removesuffix(".html").strip().lower()
+    if not _SAFE_SLUG.match(slug):
+        raise ValueError(f"refusing unsafe slug {slug!r} from {url!r}")
+    return slug

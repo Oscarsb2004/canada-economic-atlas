@@ -266,3 +266,25 @@ export function provincialTotals(provincial: Series[]): Record<string, number> {
   }
   return out;
 }
+
+/**
+ * An external URL that is safe to put in an href.
+ *
+ * `page_url` is read out of scraped federal HTML. It is very unlikely that
+ * canada.ca ever serves a `javascript:` href — but "the upstream page is
+ * trustworthy" is not a property this app can enforce, and a scheme allowlist
+ * costs three lines. African-Stability-Index hit exactly this and added the
+ * same guard after a security review.
+ *
+ * Returns "" for anything that is not http(s), so the caller renders no link
+ * rather than a dangerous one.
+ */
+export function safeExternalUrl(raw: string): string {
+  if (!raw) return "";
+  try {
+    const u = new URL(raw, window.location.origin);
+    return u.protocol === "https:" || u.protocol === "http:" ? u.href : "";
+  } catch {
+    return "";
+  }
+}

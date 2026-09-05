@@ -110,7 +110,32 @@ def _write_if_changed(path: Path, payload: dict) -> bool:
 CUBE_HASHES: dict[str, str] = {}
 
 
-def pull_cube(fetch: Fetcher, pull: dict, codes: set[str], raw_dir: Path) -> list[Series]:
+def _previous_release(out_dir: Path, name: str) -> str:
+    """
+    The release stamp already committed for this output, if any.
+
+    `statcan.release_time()` returns "" when getCubeMetadata is unreachable —
+    which is right for a single run, but writing that "" into the committed file
+    REPLACES a known-good vintage with nothing. A transient timeout would then
+    silently degrade the data and, worse, look like a real change in the diff.
+    So an empty fetch falls back to what is already on disk. Only a successful
+    fetch may move the stamp.
+    """
+    path = out_dir / name
+    if not path.exists():
+        return ""
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return ""
+    for s in doc.get("series", []):
+        if s.get("release_time"):
+            return s["release_time"]
+    return ""
+
+
+def pull_cube(fetch: Fetcher, pull: dict, codes: set[str], raw_dir: Path,
+              fallback_release: str = "") -> list[Series]:
     """One configured pull from `sectors.yaml`, in both languages."""
     pid = pull["pid"]
     log.info("cube %s (%s, %s)", pid, pull["frequency"], pull["measure"])
@@ -132,7 +157,7 @@ def pull_cube(fetch: Fetcher, pull: dict, codes: set[str], raw_dir: Path) -> lis
         keep_codes=codes,
         labels_fr=labels_fr,
         geo_codes=GEO_CODES,
-        release=statcan.release_time(fetch, pid),
+        release=statcan.release_time(fetch, pid) or fallback_release,
     )
     log.info("  → %d series, %d rows scanned", len(series), len(rows_en))
     return series
@@ -217,16 +242,19 @@ def main() -> int:
     pulls = tax["pulls"]
     written = []
 
-    national = pull_cube(fetch, pulls["national_monthly"], codes, raw_dir)
+    national = pull_cube(fetch, pulls["national_monthly"], codes, raw_dir,
+                         _previous_release(out_dir, "national-monthly.json"))
     check_partition(national, tax)
     written.append(("national-monthly.json", national))
 
-    constant = pull_cube(fetch, pulls["national_monthly_constant"], codes, raw_dir)
+    constant = pull_cube(fetch, pulls["national_monthly_constant"], codes, raw_dir,
+                         _previous_release(out_dir, "national-constant.json"))
     check_partition(constant, tax)
     written.append(("national-constant.json", constant))
 
     if not args.skip_provincial:
-        provincial = pull_cube(fetch, pulls["provincial_annual"], codes, raw_dir)
+        provincial = pull_cube(fetch, pulls["provincial_annual"], codes, raw_dir,
+                               _previous_release(out_dir, "provincial-annual.json"))
         written.append(("provincial-annual.json", provincial))
 
     for name, series in written:

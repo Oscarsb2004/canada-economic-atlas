@@ -149,14 +149,26 @@ class Fetcher:
         is the kind of bug that produces plausible wrong numbers rather than an
         error. StatCan's WDS needs POST for cube metadata and for vector reads.
         """
-        self._throttle()
-        try:
-            resp = self._session.post(url, json=payload, timeout=TIMEOUT)
-        except (requests.Timeout, requests.ConnectionError) as exc:
-            raise FetchError(f"POST {url} failed: {exc}") from exc
-        if resp.status_code != 200:
+        last: Exception | None = None
+        for attempt in range(MAX_RETRIES + 1):
+            self._throttle()
+            try:
+                resp = self._session.post(url, json=payload, timeout=TIMEOUT)
+            except (requests.Timeout, requests.ConnectionError) as exc:
+                last = exc
+                if attempt == MAX_RETRIES:
+                    break
+                self._sleep_for_retry(attempt, url, str(exc))
+                continue
+
+            if resp.status_code == 200:
+                return resp.json()
+            if resp.status_code in TRANSIENT_STATUS and attempt < MAX_RETRIES:
+                self._sleep_for_retry(attempt, url, f"HTTP {resp.status_code}")
+                continue
             raise FetchError(f"POST {url} returned HTTP {resp.status_code}")
-        return resp.json()
+
+        raise FetchError(f"POST {url} failed after {MAX_RETRIES} retries: {last}")
 
     def download(self, url: str, dest: Path, *, force: bool = False) -> Path:
         """
