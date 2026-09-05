@@ -41,6 +41,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from atlas import media
 from atlas.core import registry as R
+from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import (
     Geometry, GeometryKind, MediaRef, Project, Provenance,
     QuickFact, Site, SourceRef, Text, Update, to_jsonable,
@@ -154,50 +155,12 @@ def _images(fetch: Fetcher, page: mpo.ParsedPage, slug: str, do_images: bool) ->
 
     raw = R.DATA_DIR / "raw" / "media" / f"{slug}{Path(page.hero_path).suffix}"
     fetch.download(url, raw)
-    thumb, web = media.derive(raw, R.WEB_MEDIA_DIR, slug, "hero")
+    thumb, web = media.derive(raw, R.WEB_PUBLIC_DIR, slug, "hero")
     return (MediaRef(source_url=url, thumb=thumb, web=web, role="hero",
                      alt=_pair(page.title, "")),)
 
 
-def _strip_volatile(obj):
-    """Drop the fields that change on every run regardless of content."""
-    if isinstance(obj, dict):
-        return {k: _strip_volatile(v) for k, v in obj.items()
-                if k not in ("generated_at", "retrieved_at")}
-    if isinstance(obj, list):
-        return [_strip_volatile(v) for v in obj]
-    return obj
 
-
-def _write_if_changed(path: Path, payload: dict) -> bool:
-    """
-    Write `payload` only when it differs from what is already on disk, ignoring
-    timestamps.
-
-    The acceptance test for this stage is that re-running it against unchanged
-    sources produces a zero-line git diff — that is what makes "the scrape is
-    deterministic" checkable rather than aspirational. A `generated_at` stamped
-    on every run defeats that immediately: the file would always differ, and a
-    real change would be indistinguishable from a re-run.
-
-    Rewriting only on real change also gives the timestamps a better meaning.
-    `retrieved_at` in the committed file becomes "when this content was last
-    seen to change", not "when the scraper last ran".
-    """
-    payload_cmp = _strip_volatile(payload)
-    if path.exists():
-        try:
-            existing = json.loads(path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            existing = None
-        if existing is not None and _strip_volatile(existing) == payload_cmp:
-            return False
-
-    path.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True),
-        encoding="utf-8",
-    )
-    return True
 
 
 def _write_history(slug: str, payload: dict, digest: str) -> bool:
@@ -360,9 +323,9 @@ def main() -> int:
     out_dir = R.DATA_DIR / "events" / EVENT_SLUG
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    wrote_p = _write_if_changed(out_dir / "projects.json", {
+    wrote_p = write_if_changed(out_dir / "projects.json", {
         "event": EVENT_SLUG, "generated_at": _now(), "projects": to_jsonable(projects)})
-    wrote_s = _write_if_changed(out_dir / "strategies.json", {
+    wrote_s = write_if_changed(out_dir / "strategies.json", {
         "event": EVENT_SLUG, "generated_at": _now(), "strategies": strategies})
 
     corridors = sum(1 for p in projects for s in p.sites if s.geometry.kind is GeometryKind.CORRIDOR)

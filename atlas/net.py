@@ -13,9 +13,16 @@ Four behaviours, each with a reason:
   about a minute for a full MPO crawl and removes any question of whether we
   were a burden.
 
-  On-disk cache. Development means running stage 01 dozens of times. Without a
-  cache that is dozens of full crawls of a public service for no new data. The
-  cache is keyed on URL and is scratch — `data/raw/cache/` is gitignored.
+  On-disk cache, WITH A TTL. Development means running stage 01 dozens of times;
+  without a cache that is dozens of full crawls of a public service for no new
+  data. But an unexpiring cache silently defeats the thing the cache exists
+  alongside: `data/history/` only appends when a page's content hash moves, and
+  a permanently cached page's hash never moves. An immortal cache therefore
+  turns change detection off without saying so.
+
+  So entries expire (default 24h). Repeated runs inside a working session are
+  free; a run the next day sees what the government changed. `--refresh`
+  bypasses the cache entirely for the case where you know something just moved.
 
   Backoff. 502/504/524 from these hosts are infrastructure, not a bad URL.
   Three retries with exponential backoff; 404 and 403 fail immediately, because
@@ -67,6 +74,15 @@ RETRY_BACKOFF_BASE = 5           # seconds; doubles each attempt (5 → 10 → 2
 #: Status codes worth retrying. Everything else is an answer, even if unwelcome.
 TRANSIENT_STATUS = frozenset({429, 500, 502, 503, 504, 520, 522, 524})
 
+#: How long a cached body stays usable, in seconds.
+#:
+#: 24 hours, chosen against what it protects rather than as a round number: the
+#: federal pages this scrapes change on the order of weeks, so a day-old copy is
+#: never meaningfully stale, while a same-session re-run is always free. Shorter
+#: would re-crawl a public service for nothing; longer would let a page change
+#: without a daily run noticing.
+CACHE_TTL_SECONDS = 24 * 60 * 60
+
 
 class FetchError(RuntimeError):
     """A request failed in a way retrying will not fix."""
@@ -86,6 +102,7 @@ class Fetcher:
     cache_dir: Path
     min_interval: float = MIN_INTERVAL
     use_cache: bool = True
+    cache_ttl: float = CACHE_TTL_SECONDS
 
     def __post_init__(self) -> None:
         self.cache_dir = Path(self.cache_dir)
@@ -96,6 +113,12 @@ class Fetcher:
             "Accept-Language": "en-CA,en;q=0.9,fr-CA;q=0.8",
         })
         self._last_request_at = 0.0
+        #: Counted so a run can report how much of it came off disk. A scrape
+        #: that was entirely cached and a scrape that genuinely saw no change
+        #: look identical in the output otherwise.
+        self.hits = 0
+        self.fetches = 0
+        self.expired = 0
 
     # ── Public surface ────────────────────────────────────────────────────────
 
@@ -132,9 +155,11 @@ class Fetcher:
         """
         cached = None if (force or not self.use_cache) else self._cache_read(url)
         if cached is not None:
+            self.hits += 1
             log.debug("cache hit  %s", url)
             return cached
 
+        self.fetches += 1
         body = self._get_with_retries(url)
         if self.use_cache:
             self._cache_write(url, body)
@@ -231,8 +256,26 @@ class Fetcher:
         return self.cache_dir / f"{hashlib.sha256(url.encode('utf-8')).hexdigest()}.bin"
 
     def _cache_read(self, url: str) -> bytes | None:
+        """
+        A cached body, or None if there isn't a usable one.
+
+        An entry older than `cache_ttl` is treated as a miss rather than
+        deleted: leaving it costs nothing and makes the directory readable when
+        debugging what a previous run actually saw.
+        """
         path = self._cache_path(url)
-        return path.read_bytes() if path.exists() else None
+        if not path.exists():
+            return None
+        if self.cache_ttl and (time.time() - path.stat().st_mtime) > self.cache_ttl:
+            self.expired += 1
+            log.debug("cache expired  %s", url)
+            return None
+        return path.read_bytes()
+
+    def summary(self) -> str:
+        """One line saying how much of this run came off disk."""
+        return (f"network: {self.fetches} fetched, {self.hits} from cache"
+                f"{f', {self.expired} expired' if self.expired else ''}")
 
     def _cache_write(self, url: str, body: bytes) -> None:
         self._cache_path(url).write_bytes(body)

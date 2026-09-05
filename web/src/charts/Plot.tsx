@@ -64,14 +64,13 @@ export function chartDefaults(height = 200): Plot.PlotOptions {
       fontSize: "10px",
       overflow: "visible",
     },
-    x: { grid: false, tickSize: 0, label: null },
-    y: {
-      grid: true,
-      tickSize: 0,
-      label: null,
-      // Hairline, solid, one step off the surface. Recessive by construction.
-      ...({ } as object),
-    },
+    // NO `grid: true` on either scale. Plot's built-in axis grid does not take
+    // our theme tokens, and every chart here already adds a themed gridY() or
+    // gridX() mark where it wants one — so enabling it here drew a second,
+    // unthemed grid underneath on some charts and the only grid on others.
+    // One grid, always the themed one.
+    x: { tickSize: 0, label: null },
+    y: { tickSize: 0, label: null },
   };
 }
 

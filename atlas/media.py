@@ -98,18 +98,24 @@ def make_web(src: Path, dest: Path, max_px: int = WEB_MAX_PX) -> Path:
     return dest
 
 
-def derive(src: Path, media_root: Path, slug: str, suffix: str = "hero") -> tuple[str, str]:
+def derive(src: Path, public_root: Path, slug: str, suffix: str = "hero") -> tuple[str, str]:
     """
     Produce both variants for one image.
 
-    Returns the pair of paths as the web app will request them — rooted at
+    `public_root` is `web/public`, NOT `web/public/media` — the returned paths
+    already start with `media/`. An earlier signature took the media directory
+    and immediately did `.parent`, which worked but meant the parameter name
+    described the wrong directory and a caller passing the obvious thing would
+    have silently written outside the tree.
+
+    Returns the pair of paths as the web app will request them, rooted at
     `/media/`, since `web/public/` is served at the site root.
     """
     thumb_rel = f"media/thumb/{slug}-{suffix}.png"
     web_rel = f"media/web/{slug}-{suffix}.jpg"
 
-    make_thumb(src, media_root.parent / thumb_rel)
-    make_web(src, media_root.parent / web_rel)
+    make_thumb(src, public_root / thumb_rel)
+    make_web(src, public_root / web_rel)
 
     log.debug("derived %s -> thumb + web", slug)
     return "/" + thumb_rel, "/" + web_rel

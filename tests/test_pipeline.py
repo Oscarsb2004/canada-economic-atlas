@@ -294,3 +294,77 @@ def test_verify_does_not_import_atlas():
                 if (node.module or "").split(".")[0] == "atlas":
                     offenders.append(f"{path.name}: from {node.module}")
     assert not offenders, offenders
+
+
+# ── Regressions from the 2026-09-05 code review ────────────────────────────────
+
+def test_write_if_changed_ignores_only_volatile_keys():
+    """
+    F11. Four stages each carried a private copy of this helper and they had
+    already drifted on WHICH keys count as volatile. One implementation now, and
+    the rule is: a run that changes only timestamps must not rewrite the file.
+    """
+    from atlas.core.jsonio import VOLATILE_KEYS, write_if_changed
+
+    assert VOLATILE_KEYS == {"generated_at", "retrieved_at"}
+
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        path = Path(d) / "out.json"
+        base = {"generated_at": "A", "series": [{"retrieved_at": "A", "v": 1}]}
+
+        assert write_if_changed(path, base) is True, "first write must happen"
+        moved = {"generated_at": "B", "series": [{"retrieved_at": "B", "v": 1}]}
+        assert write_if_changed(path, moved) is False, "timestamps alone must not rewrite"
+        real = {"generated_at": "B", "series": [{"retrieved_at": "B", "v": 2}]}
+        assert write_if_changed(path, real) is True, "a real change must rewrite"
+
+
+def test_cube_filter_mismatch_raises_instead_of_yielding_nothing():
+    """
+    F13. A renamed StatCan column used to reject every row and return an empty
+    list, which surfaced three stages later as "the registry is missing sectors"
+    — pointing the reader at the wrong file entirely.
+    """
+    header = ["REF_DATE", "GEO", "North American Industry Classification System (NAICS)",
+              "UOM", "SCALAR_ID", "SCALAR_FACTOR", "VALUE"]
+    rows = [["2026-01", "Canada", "All industries [T001]", "Dollars", "6", "millions", "100"]]
+
+    # A column that no longer exists.
+    with pytest.raises(ValueError, match="not in the CSV header"):
+        statcan.build_series(header, rows, pid="36100434", measure="gdp", frequency="monthly",
+                             filters={"Prices": "Chained (2017) dollars"}, keep_codes={"T001"})
+
+    # The column exists but its value was renamed.
+    with pytest.raises(ValueError, match="no rows matched"):
+        statcan.build_series(header, rows, pid="36100434", measure="gdp", frequency="monthly",
+                             filters={"GEO": "Atlantis"}, keep_codes={"T001"})
+
+
+def test_cache_entries_expire():
+    """
+    F4. An immortal cache silently disables change detection: data/history/ only
+    appends when a page's content hash moves, and a permanently cached page's
+    hash never moves. Entries must age out.
+    """
+    import os
+    import tempfile
+    import time as _time
+
+    from atlas.net import CACHE_TTL_SECONDS, Fetcher
+
+    assert CACHE_TTL_SECONDS == 24 * 60 * 60
+
+    with tempfile.TemporaryDirectory() as d:
+        f = Fetcher(cache_dir=Path(d), cache_ttl=100)
+        url = "https://example.invalid/thing"
+        f._cache_write(url, b"body")
+
+        assert f._cache_read(url) == b"body", "a fresh entry is served"
+
+        # Backdate the entry past its TTL.
+        path = f._cache_path(url)
+        old = _time.time() - 200
+        os.utime(path, (old, old))
+        assert f._cache_read(url) is None, "a stale entry must read as a miss"
+        assert f.expired == 1

@@ -149,6 +149,17 @@ def build_series(
     idx = {name: i for i, name in enumerate(header)}
     naics_col = next(c for c in header if c.startswith("North American Industry"))
 
+    # A filter naming a column the cube no longer has would reject every row and
+    # yield an EMPTY series list — no exception, just nothing. That surfaces
+    # three stages later as "the registry is missing sectors", which points the
+    # reader at the wrong file. Fail here, naming the column.
+    missing = [col for col in filters if col not in idx]
+    if missing:
+        raise ValueError(
+            f"cube {pid}: filter columns {missing} are not in the CSV header. "
+            f"StatCan changed the cube's shape; available columns are {header}"
+        )
+
     def cell(row: list[str], col: str) -> str:
         return row[idx[col]].strip() if col in idx else ""
 
@@ -160,6 +171,15 @@ def build_series(
         if code not in keep_codes:
             continue
         grouped[(cell(row, "GEO"), code)].append(row)
+
+    # Same failure in the other direction: the columns exist but a filter VALUE
+    # was renamed ("Chained (2017) dollars" -> something else), so nothing
+    # matches. Also loud, also naming what was looked for.
+    if not grouped:
+        raise ValueError(
+            f"cube {pid}: no rows matched {filters}. The columns exist, so a "
+            f"filter value has changed — check the cube's member names."
+        )
 
     out: list[Series] = []
     for (geo, code), group in grouped.items():

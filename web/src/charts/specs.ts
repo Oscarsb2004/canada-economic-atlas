@@ -87,23 +87,57 @@ export function sectorsOnly(series: Series[]): Series[] {
 export function latestBySector(series: Series[]): { code: string; label: string; value: number }[] {
   return sectorsOnly(series)
     .map((s) => {
-      for (let i = s.values.length - 1; i >= 0; i--) {
-        if (s.values[i] != null) return { code: s.code, label: s.label.en, value: s.values[i]! };
-      }
-      return null;
+      const i = lastRealIndex(s.values);
+      return i < 0 ? null : { code: s.code, label: s.label.en, value: s.values[i]! };
     })
     .filter((x): x is { code: string; label: string; value: number } => x != null)
     .sort((a, b) => b.value - a.value);
 }
 
-/** Year-over-year percent change, per sector, at the latest shared period. */
+/** How many observations make a year, for this series' frequency. */
+function periodsPerYear(frequency: string): number {
+  switch (frequency) {
+    case "monthly": return 12;
+    case "quarterly": return 4;
+    case "annual": return 1;
+    default: return 12;
+  }
+}
+
+/** Index of the last non-null value, or -1. */
+function lastRealIndex(values: (number | null)[]): number {
+  for (let i = values.length - 1; i >= 0; i--) if (values[i] != null) return i;
+  return -1;
+}
+
+/**
+ * Year-over-year percent change per sector, at each sector's own latest
+ * published period.
+ *
+ * Two things this gets right that the obvious version does not.
+ *
+ * It walks back to the last NON-NULL observation rather than reading
+ * `values[n-1]`. StatCan routinely publishes one sector a month behind the
+ * rest, and suppression happens too — reading the final index would make such a
+ * sector vanish from this chart while still appearing in the ranking chart,
+ * with nothing on screen to explain the discrepancy.
+ *
+ * And it derives the step from the series' own `frequency` instead of assuming
+ * 12. Called with the annual provincial series, a hardcoded 12 would compare
+ * 2025 against 2013 and label the result "year over year".
+ *
+ * A sector whose comparison period is itself null is dropped rather than
+ * compared against some other period: a y/y number measured over the wrong
+ * interval is worse than an absent one.
+ */
 export function yoyBySector(series: Series[]): { code: string; label: string; value: number }[] {
-  const step = 12; // monthly series
   return sectorsOnly(series)
     .map((s) => {
-      const n = s.values.length;
-      const now = s.values[n - 1];
-      const then = s.values[n - 1 - step];
+      const i = lastRealIndex(s.values);
+      const j = i - periodsPerYear(s.frequency);
+      if (i < 0 || j < 0) return null;
+      const now = s.values[i];
+      const then = s.values[j];
       if (now == null || then == null || then === 0) return null;
       return { code: s.code, label: s.label.en, value: ((now - then) / then) * 100 };
     })

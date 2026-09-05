@@ -4,6 +4,11 @@ _Written 2026-09-05 by reading the files on disk, not from memory. Every claim
 about behaviour below was checked; every bug was reproduced against the
 committed data before being written down._
 
+> **All 13 findings were fixed on 2026-09-05.** Part III is kept as written —
+> the record of what was wrong is worth more than a clean slate — with each
+> finding's resolution appended. See **§ Resolutions** at the end for what
+> changed and how it was verified.
+
 Two jobs in one document:
 
 1. **Explain the system** so you can open any file and know why it exists.
@@ -476,3 +481,57 @@ Worth saying, since the point of a review is to be told both:
   handled, tested, and documented where they happen.
 - The security posture is sound: TLS on, no credentials, no `innerHTML`, scraped
   URLs allowlisted, slugs validated before they touch the filesystem.
+
+
+---
+
+# Resolutions — 2026-09-05
+
+Each fix went to the root cause rather than the symptom. Three of the findings
+had an obvious fix that would not actually have worked; those are marked.
+
+| # | Fix | Verified by |
+|---|---|---|
+| **F1** | `months` added to the heatmap's `deps` | Heatmap redraws at 1200 / 2400 / 6720 cells for 5y / 10y / All |
+| **F2** | Range **disabled** on latest-period views, not faked | Range enabled on Composition/Trends/Heatmap, disabled with an explanatory title on Size/Growth |
+| **F3** | `grid: true` removed from `chartDefaults`; the themed `gridY()`/`gridX()` marks are now the only grid | Build clean, charts render |
+| **F4** | 24-hour cache TTL + hit/fetch/expiry accounting | `test_cache_entries_expire` |
+| **F5** | `yoyBySector` walks back to the last non-null | 25 tests pass; `lastRealIndex` shared with `latestBySector` |
+| **F6** | Step derived from `series.frequency` | Same |
+| **F7** | Dead spread and its false comment deleted | — |
+| **F8** | Subscribe to the derived boolean instead of the always-true guard | Typecheck clean |
+| **F9** | Diagnostic reports the field the predicate tested | 42 gate checks pass |
+| **F10** | `derive()` takes `public_root`; `WEB_PUBLIC_DIR` added to the registry | Stage 01 re-run, images intact |
+| **F11** | Four copies replaced by `atlas/core/jsonio.py` | `test_write_if_changed_ignores_only_volatile_keys` |
+| **F12** | `partialize` typed `Pick<TabsState, "pins">` | Typecheck clean |
+| **F13** | Missing filter column or unmatched value now raises, naming what it looked for | `test_cube_filter_mismatch_raises_instead_of_yielding_nothing` |
+
+## Three fixes that were not the obvious one
+
+**F4 — "exempt sitemaps from the cache" would not have worked.** The history
+mechanism hashes *project page* content, so exempting index pages would still
+have served an edited Crawford page from cache and the hash still would not have
+moved. The real axis is staleness, not URL class, so the fix is a **TTL**: 24
+hours, which keeps same-session re-runs free while a next-day run sees what the
+government changed. `Fetcher` now also counts hits, fetches and expiries, so a
+run says how much of it came off disk — a fully cached scrape and a scrape that
+genuinely found no change used to look identical in the output.
+
+**F2 — "pass the windowed data" would not have worked either.** `growthBars`
+computes y/y at the *latest* month, and a window never moves the latest month.
+Range is genuinely meaningless there. So the honest fix is to stop offering the
+control: `VIEWS` gained a `usesRange` flag, and the Range chips render disabled
+with the title "This view reads the latest period only". A live-looking dead
+control makes the reader doubt the data rather than the UI.
+
+**F11 — fixing the four copies would have left the class of bug.** The
+inconsistency was a symptom of `_strip_volatile`/`_write_if_changed` being
+copy-pasted into every stage. Extracting `atlas/core/jsonio.py` removed the
+drift and the possibility of it recurring, and gave the rule one place to be
+stated.
+
+## Verified after all 13
+
+Full pipeline end to end · 25 tests · 42 gate checks · production build clean ·
+a re-run from a clean baseline leaves a zero-line git diff · Range control
+behaviour confirmed in a browser across all five views.

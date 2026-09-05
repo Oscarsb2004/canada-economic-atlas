@@ -7,7 +7,7 @@
     "boc": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
     "statcan": "Statistics Canada Open Licence"
   },
-  "generated_at": "2026-09-05T00:32:24Z",
+  "generated_at": "2026-09-05T14:43:43Z",
   "headline": [
     {
       "frequency": "monthly",
@@ -82,7 +82,7 @@
         "en": "Target for the overnight rate (business daily)",
         "fr": ""
       },
-      "period": "2026-09-02",
+      "period": "2026-09-03",
       "provenance": "official_dataset",
       "release_time": "",
       "scalar": "units",
@@ -90,7 +90,7 @@
         "content_sha256": "",
         "licence": "boc-terms",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-03T21:22:31Z",
+        "retrieved_at": "2026-09-05T14:43:38Z",
         "url": "https://www.bankofcanada.ca/valet/observations/V39079/json"
       },
       "source_table": "V39079",

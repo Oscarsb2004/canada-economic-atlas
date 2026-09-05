@@ -135,11 +135,10 @@ def check_projects(r: Report) -> None:
 
     # Bilingual: EN and FR must agree on how many things they found. A silent
     # FR parse failure looks exactly like a page with no quick facts.
-    fr_gaps = [
-        f'{p["slug"]} qf {len(p["quick_facts"])}'
-        for p in projects
-        if not p["description"]["fr"]
-    ]
+    # Report the slugs that actually failed the predicate. An earlier version
+    # tested the French description but printed the quick-facts count, which
+    # would have pointed a reader at the wrong field the one time it fired.
+    fr_gaps = [p["slug"] for p in projects if not p["description"]["fr"]]
     r.gate(not fr_gaps, "every project has a French description", str(fr_gaps))
 
     mismatched = [

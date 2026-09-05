@@ -17,12 +17,20 @@
 
 export type SectorView = "composition" | "ranking" | "growth" | "trends" | "heatmap";
 
-export const VIEWS: { id: SectorView; label: string; hint: string }[] = [
-  { id: "composition", label: "Composition", hint: "Goods vs services over time" },
-  { id: "ranking", label: "Size", hint: "Sectors by latest GDP" },
-  { id: "growth", label: "Growth", hint: "Year-over-year change by sector" },
-  { id: "trends", label: "Trends", hint: "All sectors as small multiples" },
-  { id: "heatmap", label: "Heatmap", hint: "Growth by sector and month" },
+/**
+ * `usesRange` says whether the time window means anything for a view.
+ *
+ * Two of these read a single latest period — "size now", "growth against a year
+ * ago" — and a window never moves the latest period, so Range genuinely cannot
+ * change what they show. Offering a control that silently does nothing is worse
+ * than not offering it: the reader concludes the data is broken, not the UI.
+ */
+export const VIEWS: { id: SectorView; label: string; hint: string; usesRange: boolean }[] = [
+  { id: "composition", label: "Composition", hint: "Goods vs services over time", usesRange: true },
+  { id: "ranking", label: "Size", hint: "Sectors by latest GDP", usesRange: false },
+  { id: "growth", label: "Growth", hint: "Year-over-year change by sector", usesRange: false },
+  { id: "trends", label: "Trends", hint: "All sectors as small multiples", usesRange: true },
+  { id: "heatmap", label: "Heatmap", hint: "Growth by sector and month", usesRange: true },
 ];
 
 export const RANGES = [
@@ -38,9 +46,11 @@ interface Props {
   onView: (v: SectorView) => void;
   range: RangeId;
   onRange: (r: RangeId) => void;
+  /** False on views that read a single latest period. */
+  rangeApplies: boolean;
 }
 
-export function FilterRow({ view, onView, range, onRange }: Props) {
+export function FilterRow({ view, onView, range, onRange, rangeApplies }: Props) {
   return (
     <div
       style={{
@@ -61,12 +71,19 @@ export function FilterRow({ view, onView, range, onRange }: Props) {
         ))}
       </Group>
 
-      {/* Date range is the filter every reader reaches for, so it is present
-          even where a view ignores it — a control that appears and disappears
-          as you switch views is worse than one that is occasionally inert. */}
+      {/* Shown disabled rather than removed, so the row does not reflow as you
+          switch views — but disabled, because on these views it cannot do
+          anything and a live-looking dead control is a bug report waiting to
+          happen. The title says why. */}
       <Group label="Range">
         {RANGES.map((r) => (
-          <Chip key={r.id} active={range === r.id} onClick={() => onRange(r.id)}>
+          <Chip
+            key={r.id}
+            active={range === r.id}
+            onClick={() => onRange(r.id)}
+            disabled={!rangeApplies}
+            title={rangeApplies ? undefined : "This view reads the latest period only"}
+          >
             {r.label}
           </Chip>
         ))}
@@ -96,24 +113,28 @@ function Chip({
   onClick,
   children,
   title,
+  disabled,
 }: {
   active: boolean;
   onClick: () => void;
   children: React.ReactNode;
   title?: string;
+  disabled?: boolean;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
       title={title}
+      disabled={disabled}
       aria-pressed={active}
       style={{
         // 24px minimum hit target, per the interaction spec.
         minHeight: 24,
         padding: "2px 9px",
         borderRadius: 999,
-        cursor: "pointer",
+        cursor: disabled ? "default" : "pointer",
+        opacity: disabled ? 0.45 : 1,
         font: "inherit",
         fontSize: "var(--fs-small)",
         border: active ? "1px solid var(--accent)" : "var(--hairline)",

@@ -24,6 +24,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 REGISTRY_DIR = ROOT / "registry"
 DATA_DIR = ROOT / "data"
+WEB_PUBLIC_DIR = ROOT / "web" / "public"
 WEB_DATA_DIR = ROOT / "web" / "public" / "data"
 WEB_MEDIA_DIR = ROOT / "web" / "public" / "media"
 

@@ -37,6 +37,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import yaml
 
 from atlas.core import registry as R
+from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, Series, Text, to_jsonable
 from atlas.net import Fetcher
 from atlas.sources import statcan
@@ -76,27 +77,7 @@ def _load_taxonomy() -> tuple[dict, set[str]]:
     return tax, codes
 
 
-def _strip_volatile(obj):
-    if isinstance(obj, dict):
-        return {k: _strip_volatile(v) for k, v in obj.items() if k != "generated_at"}
-    if isinstance(obj, list):
-        return [_strip_volatile(v) for v in obj]
-    return obj
 
-
-def _write_if_changed(path: Path, payload: dict) -> bool:
-    """Write only on real change, so a re-run leaves a zero-line git diff."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    if path.exists():
-        try:
-            if _strip_volatile(json.loads(path.read_text(encoding="utf-8"))) == \
-               _strip_volatile(payload):
-                return False
-        except json.JSONDecodeError:
-            pass
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True),
-                    encoding="utf-8")
-    return True
 
 
 #: pid -> sha256 of the downloaded cube zip, filled by pull_cube().
@@ -258,7 +239,7 @@ def main() -> int:
         written.append(("provincial-annual.json", provincial))
 
     for name, series in written:
-        changed = _write_if_changed(out_dir / name, {
+        changed = write_if_changed(out_dir / name, {
             "generated_at": _now(),
             "count": len(series),
             "series": to_jsonable(series),
@@ -267,7 +248,7 @@ def main() -> int:
         log.info("%-26s %3d series  %6.0f KB  %s",
                  name, len(series), size / 1000, "updated" if changed else "unchanged")
 
-    _write_if_changed(out_dir / "_cubes.json", {
+    write_if_changed(out_dir / "_cubes.json", {
         "generated_at": _now(),
         "note": "sha256 of each downloaded StatCan cube zip; the change signal "
                 "for figures published in the bundle.",
@@ -276,7 +257,7 @@ def main() -> int:
 
     rate = pull_policy_rate(fetch)
     if rate:
-        _write_if_changed(out_dir / "rates.json", {"generated_at": _now(), "policy_rate": rate})
+        write_if_changed(out_dir / "rates.json", {"generated_at": _now(), "policy_rate": rate})
         log.info("policy rate %s = %.2f%%", rate["period"], rate["value"])
 
     return 0

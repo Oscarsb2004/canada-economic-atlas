@@ -25,11 +25,13 @@ export function PinButton({
   defaultLabel: string;
 }) {
   const add = useTabs((s) => s.add);
-  const pins = useTabs((s) => s.pins);
-  const isPinned = useTabs((s) => s.isPinned);
-  // Recomputed from `pins` so the button updates when a pin is removed
-  // elsewhere; `pins` is referenced to make that dependency explicit.
-  const pinned = pins.length >= 0 && isPinned(kind, params);
+  // Selecting the derived BOOLEAN is what makes this re-render correctly.
+  // Zustand re-runs the selector on every state change and compares the result,
+  // so this component wakes only when the answer flips. Selecting `s.isPinned`
+  // instead would capture a stable function reference and never re-render at
+  // all — which is why an earlier version subscribed to `s.pins` and then wrote
+  // `pins.length >= 0 && ...`, a guard that is always true and did nothing.
+  const pinned = useTabs((s) => s.isPinned(kind, params));
 
   return (
     <button

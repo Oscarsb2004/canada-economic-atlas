@@ -111,7 +111,10 @@ export const useTabs = create<TabsState>()(
       // Only the pins persist. `activeId` is session state: reopening the app
       // on the default view is less surprising than landing inside whatever was
       // last clicked days ago.
-      partialize: (s) => ({ pins: s.pins }) as TabsState,
+      // Only the pins are persisted, so the partialized shape is genuinely a
+      // subset — typed as such rather than cast to the full state, which was a
+      // false assertion the compiler had no way to catch.
+      partialize: (s): Pick<TabsState, "pins"> => ({ pins: s.pins }),
       version: 1,
     },
   ),

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-03T21:22:31Z",
+  "generated_at": "2026-09-05T14:43:38Z",
   "policy_rate": {
     "attribution": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
     "description": "Also called the policy interest rate, the average rate that the Bank of Canada wants to see in the market for overnight money market financing. (V39079)",
     "label": "Target for the overnight rate (business daily)",
     "licence": "boc-terms",
-    "period": "2026-09-02",
+    "period": "2026-09-03",
     "provenance": "official_dataset",
     "series": "V39079",
     "source_url": "https://www.bankofcanada.ca/valet/observations/V39079/json",

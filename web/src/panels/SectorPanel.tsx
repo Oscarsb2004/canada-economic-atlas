@@ -69,7 +69,13 @@ export function SectorPanel({
 
   return (
     <div>
-      <FilterRow view={view} onView={setView} range={range} onRange={setRange} />
+      <FilterRow
+        view={view}
+        onView={setView}
+        range={range}
+        onRange={setRange}
+        rangeApplies={VIEWS.find((v) => v.id === view)!.usesRange}
+      />
 
       <div style={{ display: "flex", alignItems: "baseline", gap: "var(--sp-3)" }}>
         <h2 style={{ fontSize: "var(--fs-lead)", margin: "0 0 2px", flex: 1 }}>
@@ -134,7 +140,12 @@ export function SectorPanel({
         <>
           <PlotFigure
             label="Year-over-year growth by sector"
-            deps={[national, width, bundle.palette]}
+            /* Deps and spec read the SAME value. They disagreed once — deps on
+               the windowed series, spec on the unwindowed one — which made this
+               re-render on every range change and produce an identical chart.
+               y/y-at-latest-month has no window, so both use the full series and
+               the Range control is disabled for this view. */
+            deps={[bundle.national, width, bundle.palette]}
             spec={() => growthBars(bundle.national, bundle.palette, width)}
           />
           <p className="muted" style={{ fontSize: "var(--fs-micro)", marginTop: "var(--sp-2)" }}>
@@ -170,7 +181,11 @@ export function SectorPanel({
         <>
           <PlotFigure
             label="Year-over-year growth by sector and month"
-            deps={[bundle.national, width, bundle.palette]}
+            /* `months` MUST be here: it changes the output, and PlotFigure
+               re-runs its effect only when deps change. Omitting it left the
+               Range control silently inert on this view — the closure was
+               rebuilt with the new value and never executed. */
+            deps={[bundle.national, width, bundle.palette, months]}
             spec={() => growthHeatmap(bundle.national, bundle.palette, width, months || 360)}
           />
           <DivergingKey palette={bundle.palette} />

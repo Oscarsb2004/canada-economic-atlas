@@ -35,6 +35,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import yaml
 
 from atlas.core import registry as R
+from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef
 
 log = logging.getLogger("04_bundle")
@@ -66,26 +67,7 @@ def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _strip_volatile(obj):
-    if isinstance(obj, dict):
-        return {k: _strip_volatile(v) for k, v in obj.items() if k != "generated_at"}
-    if isinstance(obj, list):
-        return [_strip_volatile(v) for v in obj]
-    return obj
 
-
-def _write_if_changed(path: Path, payload: dict) -> bool:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    if path.exists():
-        try:
-            on_disk = json.loads(path.read_text(encoding="utf-8"))
-            if _strip_volatile(on_disk) == _strip_volatile(payload):
-                return False
-        except json.JSONDecodeError:
-            pass
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True),
-                    encoding="utf-8")
-    return True
 
 
 def _load(rel: str) -> dict | None:
@@ -222,15 +204,15 @@ def main() -> int:
     sectors = _load("sectors/national-monthly.json")
     rates = _load("sectors/rates.json")
     country = build_country(sectors, rates)
-    _write_if_changed(web / "country.json", country)
+    write_if_changed(web / "country.json", country)
     log.info("country.json: %d headline figures (%s)",
              len(country["headline"]), ", ".join(h["key"] for h in country["headline"]))
 
     palette = yaml.safe_load((R.REGISTRY_DIR / "palette.yaml").read_text(encoding="utf-8"))
-    _write_if_changed(web / "palette.json", palette)
+    write_if_changed(web / "palette.json", palette)
 
     srcs = R.sources()
-    _write_if_changed(web / "meta.json", {
+    write_if_changed(web / "meta.json", {
         "schema_version": SCHEMA_VERSION,
         "generated_at": _now(),
         "app": "canada-economic-atlas",
