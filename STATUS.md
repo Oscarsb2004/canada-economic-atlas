@@ -117,6 +117,20 @@ Other countries · other events · company HQs on the map · CMA-level GDP · th
 paid ROB Top 1000 adapter · scheduled CI refresh · any forecasting or index
 construction.
 
+**Next steps are planned in detail in [`docs/ROADMAP.md`](docs/ROADMAP.md)** —
+two tracks, one for major-projects visualisation and modelling, one for
+statistical analysis, with what is defensible and what would make this project
+the source of a claim rather than a reproducer of one.
+
+Two facts from that audit worth surfacing here:
+
+- **Only 3 of the 7 StatCan tables declared in `registry/sources.yaml` are
+  actually pulled.** Employment, revenue, capex and nominal-annual are declared
+  and unused. That is the cheapest high-value work left.
+- **86 dated project updates and 18 slugs of change history are captured and
+  never rendered.** The portfolio has no time axis in the UI despite having one
+  in the data.
+
 ### Worth doing next, if this continues
 
 1. **Turn Pages on**, when you want it public — three steps, below.
