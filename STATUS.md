@@ -161,7 +161,7 @@ preserved; every commit SHA changed. Verified after the rewrite: 22 tests pass,
 42 gate checks pass, `npm run build` succeeds, `git fsck` is clean.
 
 **A full mirror of the pre-rewrite history is at
-`C:\Codetlas-backup-pre-rewrite.git` (32 MB).** Delete it once you are
+`C:/Code/atlas-backup-pre-rewrite.git` (32 MB).** Delete it once you are
 satisfied — it is the only copy of the old SHAs. Note that `filter-repo`
 rewrites tags too, so a tag taken before the run is NOT a backup; only a
 separate clone is.
