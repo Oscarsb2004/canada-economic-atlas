@@ -119,8 +119,7 @@ construction.
 
 ### Worth doing next, if this continues
 
-1. Deploy. The app is a static build (`cd web && npm run build`) and needs no
-   server — GitHub Pages would serve it as-is.
+1. **Turn Pages on**, when you want it public — three steps, below.
 2. A scheduled refresh (GitHub Action) that re-runs the pipeline and opens a PR
    when a federal page or a StatCan cube changes.
 
@@ -147,6 +146,44 @@ which are much cheaper done in the same pass as the work already planned:
 
 **Full detail, with the exact JSON shape: [`docs/INTEROP-world-strategic-map.md`](docs/INTEROP-world-strategic-map.md).**
 Read it before writing `04_bundle.py` or running `validate_palette.js`.
+
+---
+
+## Remote and deployment
+
+**`github.com/Oscarsb2004/canada-economic-atlas` — PRIVATE.** Pushed
+2026-09-05. The work is now backed up off this machine, which it previously was
+not.
+
+**Pages is prepared but NOT enabled.** Pages needs a public repo on the Free
+plan, and publishing was deliberately deferred. Everything technical is already
+committed and CI is green.
+
+To turn it on:
+
+1. Make the repo public (`gh repo edit --visibility public`).
+2. Settings → Pages → Source → **GitHub Actions**.
+3. Delete the one `if:` line on the `deploy` job in
+   `.github/workflows/deploy.yml`.
+
+It will then serve at `https://oscarsb2004.github.io/canada-economic-atlas/`.
+Note what going public exposes: the full commit history, `STATUS.md`, the
+~4.5 MB data bundle and all 18 federal renderings. All of it is Open Government
+Licence content with attribution rendered in the app, and there are no
+credentials in the repo — but it is a deliberate choice, not a formality.
+
+**The workflow builds but does not scrape.** The bundle is committed, so a
+deploy is a pure build of the repo — CI hitting canada.ca and StatCan on every
+push would be impolite and would let one commit produce different sites. Refresh
+data locally with `python run.py` and commit the diff.
+
+`VITE_BASE` is derived from the repository name, so a rename or a fork will not
+silently ship a site whose assets all 404.
+
+⚠ **Building locally on Windows:** Git Bash rewrites an env var whose value
+starts with `/` into a Windows path, so `VITE_BASE=/foo/ npm run build` silently
+produces `/Program Files/Git/foo/`. Prefix with `MSYS_NO_PATHCONV=1`. CI is on
+Linux and unaffected.
 
 ---
 
