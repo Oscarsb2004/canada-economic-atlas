@@ -1,6 +1,6 @@
 # STATUS — where this project actually is
 
-_Last updated: 2026-09-03._
+_Last updated: 2026-09-05._
 
 Read this first when picking the project back up. The full design is in
 `docs/PLAN.md`; this file records only what is **built and verified** versus
@@ -32,6 +32,9 @@ not be rediscovered.
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
 | **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
 | **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
+| **`verify/` (M6)** | **Done.** 42 gate checks, 0 failures. Does not import `atlas/`. |
+| **`tests/` (M6)** | **Done.** 22 tests, each explaining the failure it prevents. |
+| **`run.py`, `CLAUDE.md`** | **Done.** Single entry point; agent invariants. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
 **Stage 01 output, committed:** 18 projects, every one with a French description
@@ -91,10 +94,38 @@ verified to survive a reload. Pointer-driven hairline + formatted tips on lines
 and areas, per-mark tips on bars and cells. `prefers-reduced-motion` honoured at
 the `flyTo` call site, `forced-colors` block, and a skip link past the map.
 
-## Next steps, in order
+**M6 output, committed:** `verify/run.py` (42 gate checks), 22 tests, `run.py`
+as the single bootstrapping entry point, `CLAUDE.md`, and a security pass that
+found and fixed two real issues (see below).
 
-1. **M6** — `verify/`, `tests/`, `CLAUDE.md` via `/init`, `security-review`.
-   This is the last milestone before v1 is complete per the §10 scope fence.
+---
+
+## v1 is COMPLETE per the `PLAN.md` §10 scope fence
+
+Full pipeline runs end to end; 22 tests pass; 42 gate checks pass; a re-run from
+a clean baseline leaves a zero-line git diff.
+
+```
+python run.py          # pipeline + verify
+python run.py --test   # 22 tests
+cd web && npm run dev  # the app
+```
+
+### Explicitly out of v1, each with a seam already in place
+
+Other countries · other events · company HQs on the map · CMA-level GDP · the
+paid ROB Top 1000 adapter · scheduled CI refresh · any forecasting or index
+construction.
+
+### Worth doing next, if this continues
+
+1. **Rewrite history to drop the 28 MB of StatCan zips** committed before the
+   `.gitignore` was fixed. Nothing is pushed yet, so this is currently free and
+   safe; it stops being either once there is a remote.
+2. Deploy. The app is a static build (`cd web && npm run build`) and needs no
+   server — GitHub Pages would serve it as-is.
+3. A scheduled refresh (GitHub Action) that re-runs the pipeline and opens a PR
+   when a federal page or a StatCan cube changes.
 
 Old numbering below is superseded:
 
@@ -126,6 +157,20 @@ which are much cheaper done in the same pass as the work already planned:
 
 **Full detail, with the exact JSON shape: [`docs/INTEROP-world-strategic-map.md`](docs/INTEROP-world-strategic-map.md).**
 Read it before writing `04_bundle.py` or running `validate_palette.js`.
+
+---
+
+## Security posture
+
+TLS verification is on throughout; there are no credentials in the repo; no
+`dangerouslySetInnerHTML` or `innerHTML` anywhere in `web/src`. Two findings were
+fixed in M6:
+
+- **`safeExternalUrl()`** allowlists http(s) before any scraped URL reaches an
+  `href`. A `javascript:` href from upstream would otherwise be stored XSS.
+- **`slug_from_url()` validates** against `^[a-z0-9][a-z0-9._-]*$`, because the
+  slug becomes a filesystem path; a URL ending `/../` would write outside
+  `data/raw/media/`.
 
 ---
 
@@ -174,6 +219,13 @@ one enormous column per row, raises nothing, and leaves every French label empty
 while the English side looks perfect. `read_cube()` detects the delimiter. Its
 NAICS column is also `Système de classification … (SCIAN)`, not a translation of
 the English header.
+
+**An empty fetch must never overwrite good committed data.** `getCubeMetadata`
+timed out mid-run, `release_time()` returned `""` as designed, and that blank was
+written straight into the committed files — replacing a known-good vintage with
+nothing and appearing in the diff as a real change. `post_json` now retries, and
+an empty fetch falls back to the vintage already on disk. Only a successful
+fetch may move the stamp. Caught by `verify/` on its first real run.
 
 **A pinned tab stores the QUESTION, not the answer.** `{kind, params, label}`
 re-renders against current data. Storing rendered output would make every tab a
