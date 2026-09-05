@@ -117,6 +117,12 @@ Other countries · other events · company HQs on the map · CMA-level GDP · th
 paid ROB Top 1000 adapter · scheduled CI refresh · any forecasting or index
 construction.
 
+**[`docs/CODE-TOUR.md`](docs/CODE-TOUR.md) explains the whole codebase file by
+file and reports 13 review findings.** Four are worth acting on: the HTTP cache
+defeats change detection on a default run (F4), two Range controls silently do
+nothing (F1, F2), and `yoyBySector` drops any sector whose latest month is null
+(F5). No finding puts a wrong number on screen.
+
 **Next steps are planned in detail in [`docs/ROADMAP.md`](docs/ROADMAP.md)** —
 two tracks, one for major-projects visualisation and modelling, one for
 statistical analysis, with what is defensible and what would make this project
