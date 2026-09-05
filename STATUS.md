@@ -119,12 +119,9 @@ construction.
 
 ### Worth doing next, if this continues
 
-1. **Rewrite history to drop the 28 MB of StatCan zips** committed before the
-   `.gitignore` was fixed. Nothing is pushed yet, so this is currently free and
-   safe; it stops being either once there is a remote.
-2. Deploy. The app is a static build (`cd web && npm run build`) and needs no
+1. Deploy. The app is a static build (`cd web && npm run build`) and needs no
    server — GitHub Pages would serve it as-is.
-3. A scheduled refresh (GitHub Action) that re-runs the pipeline and opens a PR
+2. A scheduled refresh (GitHub Action) that re-runs the pipeline and opens a PR
    when a federal page or a StatCan cube changes.
 
 ---
@@ -150,6 +147,27 @@ which are much cheaper done in the same pass as the work already planned:
 
 **Full detail, with the exact JSON shape: [`docs/INTEROP-world-strategic-map.md`](docs/INTEROP-world-strategic-map.md).**
 Read it before writing `04_bundle.py` or running `validate_palette.js`.
+
+---
+
+## History was rewritten on 2026-09-05
+
+`git filter-repo --path data/raw --invert-paths` removed the 28 MB of StatCan
+cube zips (and two scratch JSON files) that were committed before the
+`.gitignore` rule was widened to the whole of `data/raw/`.
+
+`.git` went **32 MB → 3.3 MB**. All 22 commits and 132 tracked files are
+preserved; every commit SHA changed. Verified after the rewrite: 22 tests pass,
+42 gate checks pass, `npm run build` succeeds, `git fsck` is clean.
+
+**A full mirror of the pre-rewrite history is at
+`C:\Codetlas-backup-pre-rewrite.git` (32 MB).** Delete it once you are
+satisfied — it is the only copy of the old SHAs. Note that `filter-repo`
+rewrites tags too, so a tag taken before the run is NOT a backup; only a
+separate clone is.
+
+This was done while the repo had no remote, which is the only cheap moment for
+it. Do not repeat it after pushing without coordinating.
 
 ---
 
