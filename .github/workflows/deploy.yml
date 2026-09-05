@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build (and deploy to Pages on demand)
 
 # Builds web/ and publishes it. The pipeline does NOT run here: the data bundle
 # is committed, so a deploy is a pure build of what is already in the repo.
@@ -7,6 +7,16 @@ name: Deploy to GitHub Pages
 #
 # To refresh the data, run `python run.py` locally and commit the result. The
 # diff is the review.
+#
+# PAGES IS NOT ENABLED YET. The repo is private, and Pages needs a public repo
+# on the Free plan. So the `build` job runs on every push as ordinary CI —
+# typecheck plus a real production build, which is worth having on its own —
+# and the `deploy` job is held behind a manual trigger so it cannot fail on
+# push against a Pages site that does not exist.
+#
+# WHEN YOU ENABLE PAGES: make the repo public, set Settings → Pages → Source to
+# "GitHub Actions", then delete the `if:` on the deploy job below so it runs
+# automatically. Nothing else needs to change.
 
 on:
   push:
@@ -54,13 +64,14 @@ jobs:
           VITE_BASE: /${{ github.event.repository.name }}/
         run: npm run build
 
-      - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: web/dist
 
   deploy:
     needs: build
+    # Remove this line once Pages is enabled — see the header.
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
