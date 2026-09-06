@@ -3,9 +3,10 @@
 _Last updated: 2026-09-06._
 
 Read this first when picking the project back up. The full design is in
-`docs/PLAN.md`; this file records only what is **built and verified** versus
-what is **next**, and the findings that were bought with real work and should
-not be rediscovered.
+`docs/PLAN.md` and **the ordered work queue is [`docs/BACKLOG.md`](docs/BACKLOG.md)**.
+This file records only what is **built and verified**, and the findings that were
+bought with real work and should not be rediscovered. It is a progress log, not
+a work queue — two lists of "next" is how one of them goes stale.
 
 ---
 
@@ -132,10 +133,10 @@ defeats change detection on a default run (F4), two Range controls silently do
 nothing (F1, F2), and `yoyBySector` drops any sector whose latest month is null
 (F5). No finding puts a wrong number on screen.
 
-**Next steps are planned in detail in [`docs/ROADMAP.md`](docs/ROADMAP.md)** —
-two tracks, one for major-projects visualisation and modelling, one for
-statistical analysis, with what is defensible and what would make this project
-the source of a claim rather than a reproducer of one.
+**[`docs/ROADMAP.md`](docs/ROADMAP.md) carries the reasoning behind that queue**
+— what is defensible and what would make this project the source of a claim
+rather than a reproducer of one. It is not superseded by the backlog and should
+not be folded into it: it is what stops an item being done the wrong way.
 
 Two facts from that audit worth surfacing here:
 
@@ -146,11 +147,17 @@ Two facts from that audit worth surfacing here:
   never rendered.** The portfolio has no time axis in the UI despite having one
   in the data.
 
-### Worth doing next, if this continues
+### What to do next
 
-1. **Turn Pages on**, when you want it public — three steps, below.
-2. A scheduled refresh (GitHub Action) that re-runs the pipeline and opens a PR
-   when a federal page or a StatCan cube changes.
+**[`docs/BACKLOG.md`](docs/BACKLOG.md) is the single ordered queue** — five
+goals, stages B through P, with effort and the items that need a decision from
+you flagged. Critical path: **B1 language toggle → B2 the four unpulled StatCan
+tables → B3 the portfolio timeline → C1 the sector crosswalk → C4 projects
+beside sector GDP.**
+
+Stage P covers the family: what the three repos actually duplicate, why the
+recommendation is to share a spine rather than merge, and the `athena.toml` +
+launcher design for running them all from one place.
 
 ---
 
