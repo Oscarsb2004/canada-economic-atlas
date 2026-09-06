@@ -17,7 +17,7 @@
  * to click it.
  */
 
-import type { Lang, Project } from "../data/bundle";
+import type { Lang, Project, Text } from "../data/bundle";
 import { asset, safeExternalUrl, t } from "../data/bundle";
 import { PinButton } from "../tabs/TabStrip";
 
@@ -31,6 +31,7 @@ export function ProjectViewer({ project, lang, onClose }: Props) {
   const hero = project.media.find((m) => m.role === "hero");
   const page = safeExternalUrl(t(project.page_url, lang));
   const verbatim = project.sources.find((s) => s.provenance === "page_verbatim");
+  const benefits = benefitsFor(project, lang);
 
   return (
     <article style={{ padding: "var(--sp-4)" }}>
@@ -108,6 +109,18 @@ export function ProjectViewer({ project, lang, onClose }: Props) {
         </Section>
       )}
 
+      {benefits.length > 0 && (
+        <Section title="Benefits">
+          <ul style={{ margin: 0, paddingLeft: "1.1em" }}>
+            {benefits.map((b, i) => (
+              <li key={i} style={{ marginBottom: "var(--sp-2)" }}>
+                {t(b, lang)}
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
       {project.updates.length > 0 && (
         <Section title="Latest updates">
           <ol style={{ margin: 0, padding: 0, listStyle: "none" }}>
@@ -166,6 +179,26 @@ export function ProjectViewer({ project, lang, onClose }: Props) {
       </footer>
     </article>
   );
+}
+
+/**
+ * The Benefits bullets that belong to `lang`.
+ *
+ * Usually every bullet carries both languages and this is the whole list. It is
+ * not when the two federal pages disagree on how many bullets they publish —
+ * the French Taltson page has a fifth the English page omits. The pipeline
+ * refuses to pair those positionally (a French sentence shown under an
+ * unrelated English one would look perfectly correct), and instead carries each
+ * page's list whole, tagged by the language it came from. Selecting on the
+ * active language is what turns that back into one honest list per reader.
+ *
+ * The fallback matters: `t()` renders English when French is missing, so a
+ * project with no French page at all would filter to nothing under `fr`. There,
+ * showing the English is better than showing an empty section.
+ */
+function benefitsFor(project: Project, lang: Lang): Text[] {
+  const own = project.benefits.filter((b) => (lang === "fr" ? b.fr : b.en));
+  return own.length > 0 ? own : project.benefits;
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {

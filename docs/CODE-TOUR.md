@@ -155,6 +155,20 @@ Three tables encode things that fail silently if guessed:
 `slug_from_url` validates against `^[a-z0-9][a-z0-9._-]*$` because the slug
 becomes a filesystem path.
 
+`_benefits` reads the "Benefits" block as **one string per `<li>`**, not as one
+flattened paragraph. Two details are load-bearing:
+
+- The heading word is dropped, `<abbr>` is flattened to its visible text (the
+  DGR pages use it heavily) and the extractor falls back to the block's
+  paragraphs if a future template drops the `<ul>` — degrading to one bullet
+  rather than to nothing, so an empty list stays diagnostic of a parser failure.
+- `verbatim_blob()` hashes `benefits_block_text`, the old flattened form, and
+  **not** the new list. The blob decides whether a `data/history/` entry is
+  appended, so it must flip when the government edits a page and at no other
+  time. Hashing the new shape would have appended a spurious "content changed"
+  entry to all 18 project histories on a day nothing upstream changed. Verified:
+  the run that introduced the field added **0 history entries**.
+
 ## `atlas/sources/statcan.py` — bulk cube download
 
 **Intent.** Get whole StatCan tables cheaply and correctly.

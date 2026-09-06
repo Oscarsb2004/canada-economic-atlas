@@ -9,6 +9,8 @@ dangerous kind, because the output looks plausible and nothing raises.
 from __future__ import annotations
 
 import ast
+import importlib
+import sys
 from pathlib import Path
 
 import pytest
@@ -45,6 +47,13 @@ DOUBLED_PAGE = """
       </div>
     </div>
   </section>
+  <section class="container">
+    <h3 class="h4">Benefits</h3>
+    <ul class="lst-spcd">
+      <li>First benefit.</li>
+      <li>Second <abbr title="Small Modular Reactor">SMR</abbr> benefit.</li>
+    </ul>
+  </section>
 </main>
 """
 
@@ -73,6 +82,73 @@ def test_quick_facts_are_not_deduped_away():
     # The dollar figure stays in its sentence. Parsing it into a number would be
     # this project making a claim in a form the source never used.
     assert "$5 billion" in page.quick_facts[0].body
+
+
+def test_benefits_are_bullets_not_one_flattened_paragraph():
+    """
+    Benefits is published as a <ul>, and the list is the government's own
+    structure. An earlier version read the block with get_text(" "), which ran
+    every bullet into one paragraph AND left the heading word "Benefits" glued
+    to the front of the first sentence — so the viewer would have shown prose
+    the page never published as prose.
+
+    The <abbr> is flattened to its visible text: the title attribute is a
+    tooltip the template renders, not a sentence the government wrote.
+    """
+    page = mpo.parse_page(DOUBLED_PAGE, "http://x/test.html", lang="en")
+    assert page.benefits == ["First benefit.", "Second SMR benefit."]
+    assert not any(b.startswith("Benefits") for b in page.benefits)
+
+
+def test_splitting_benefits_did_not_move_the_content_hash():
+    """
+    `verbatim_blob` decides whether a `data/history/` entry is appended, so it
+    must flip when the GOVERNMENT changes the page and at no other time. Reading
+    Benefits as a list instead of a string is a change in how we read, not in
+    what was said, and hashing the new shape would have appended a spurious
+    "content changed" entry to all 18 project histories on a day nothing
+    changed. The blob therefore keeps hashing the flattened block.
+    """
+    page = mpo.parse_page(DOUBLED_PAGE, "http://x/test.html", lang="en")
+    assert page.benefits_block_text == "Benefits First benefit. Second SMR benefit."
+    assert page.benefits_block_text in page.verbatim_blob()
+
+
+def test_benefits_falls_back_when_the_list_markup_goes_away():
+    """
+    A template that swaps the <ul> for paragraphs should degrade to one bullet,
+    not to nothing — an empty Benefits list is indistinguishable from a page
+    that has none, and the verify gate would then read as a data problem rather
+    than a parser problem.
+    """
+    head, _, _ = DOUBLED_PAGE.partition('<ul class="lst-spcd">')
+    html = head + "<p>A single paragraph of benefit.</p></section></main>"
+    page = mpo.parse_page(html, "http://x/test.html", lang="en")
+    assert page.benefits == ["A single paragraph of benefit."]
+
+
+def test_mismatched_benefit_counts_lose_no_bullet():
+    """
+    The French Taltson page publishes five benefits where the English page
+    publishes four. Positional pairing is unsafe there — an inserted bullet
+    would put every later French sentence under an unrelated English one — but
+    dropping the French side, which is what `_quick_facts` does, would delete a
+    published federal sentence from the app in every language.
+
+    Both lists are therefore carried whole and unpaired, and each language
+    renders its own.
+    """
+    sys.path.insert(0, str(ROOT / "pipeline"))
+    stage = importlib.import_module("01_projects")
+
+    en = mpo.ParsedPage(url="", title="", benefits=["One.", "Two."])
+    fr = mpo.ParsedPage(url="", title="", benefits=["Un.", "Deux.", "Trois."])
+    out = stage._benefits(en, fr)
+
+    assert [b.en for b in out if b.en] == ["One.", "Two."]
+    assert [b.fr for b in out if b.fr] == ["Un.", "Deux.", "Trois."]
+    # Nothing claims to be a translation of anything.
+    assert not any(b.en and b.fr for b in out)
 
 
 def test_hero_image_is_read_from_data_bgimg_not_constructed():

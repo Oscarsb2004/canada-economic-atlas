@@ -1,6 +1,6 @@
 # STATUS — where this project actually is
 
-_Last updated: 2026-09-05._
+_Last updated: 2026-09-06._
 
 Read this first when picking the project back up. The full design is in
 `docs/PLAN.md`; this file records only what is **built and verified** versus
@@ -32,13 +32,14 @@ not be rediscovered.
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
 | **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
 | **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
-| **`verify/` (M6)** | **Done.** 42 gate checks, 0 failures. Does not import `atlas/`. |
-| **`tests/` (M6)** | **Done.** 22 tests, each explaining the failure it prevents. |
+| **`verify/` (M6)** | **Done.** 44 gate checks, 0 failures. Does not import `atlas/`. |
+| **`tests/` (M6)** | **Done.** 29 tests, each explaining the failure it prevents. |
 | **`run.py`, `CLAUDE.md`** | **Done.** Single entry point; agent invariants. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
-**Stage 01 output, committed:** 18 projects, every one with a French description
-and a hero rendering; 4 corridor sites; `nctl` carrying its 3 phase sites under
+**Stage 01 output, committed:** 18 projects, every one with a French description,
+its **Benefits bullets** (76 in total, 18/18 in both languages) and a hero
+rendering; 4 corridor sites; `nctl` carrying its 3 phase sites under
 one project; 9 strategies joined to the hand-made province mapping.
 35 MB of originals reduce to 2.7 MB committed (400 KB thumbs + 2.3 MB web).
 `projects.json` is 198 KB.
@@ -102,12 +103,12 @@ found and fixed two real issues (see below).
 
 ## v1 is COMPLETE per the `PLAN.md` §10 scope fence
 
-Full pipeline runs end to end; 22 tests pass; 42 gate checks pass; a re-run from
+Full pipeline runs end to end; 29 tests pass; 44 gate checks pass; a re-run from
 a clean baseline leaves a zero-line git diff.
 
 ```
 python run.py          # pipeline + verify
-python run.py --test   # 22 tests
+python run.py --test   # 29 tests
 cd web && npm run dev  # the app
 ```
 
@@ -294,6 +295,22 @@ written straight into the committed files — replacing a known-good vintage wit
 nothing and appearing in the diff as a real change. `post_json` now retries, and
 an empty fetch falls back to the vintage already on disk. Only a successful
 fetch may move the stamp. Caught by `verify/` on its first real run.
+
+**The two language pages do not always publish the same number of benefits.**
+The French Taltson page has a fifth bullet the English page omits (on
+integrating the grids north and south of Great Slave Lake). Positional pairing
+is therefore unsafe — an *inserted* bullet would put every later French sentence
+under an unrelated English one and look perfectly correct — but the
+`_quick_facts` response of dropping the FR side would have deleted a published
+federal sentence from the app in every language. On a mismatch both lists are
+carried whole and unpaired, tagged by source language, and `ProjectViewer`
+selects the reader's. `verify/` notes the mismatch rather than failing on it.
+
+**Reading a field differently is not the government changing the page.**
+`verbatim_blob()` gates history appends, so when Benefits was re-read as a list
+of bullets the blob kept hashing the old flattened form. Otherwise the next run
+appends a "content changed" entry to all 18 histories on a day nothing moved.
+Any future change to how a field is *extracted* owes the same treatment.
 
 **A pinned tab stores the QUESTION, not the answer.** `{kind, params, label}`
 re-renders against current data. Storing rendered output would make every tab a

@@ -197,13 +197,17 @@ class ParsedPage:
     sector: str = ""
     location: str = ""
     description: str = ""
-    benefits: str = ""
+    benefits: list[str] = field(default_factory=list)
     quick_facts: list[ParsedFact] = field(default_factory=list)
     updates: list[ParsedUpdate] = field(default_factory=list)
     hero_path: str = ""
     extra_paths: list[str] = field(default_factory=list)
     date_modified: str = ""
     alternate_lang_url: str = ""
+
+    #: The Benefits block flattened exactly as it was read before `benefits`
+    #: became a list. Hashed, never displayed — see `verbatim_blob`.
+    benefits_block_text: str = ""
 
     def verbatim_blob(self) -> str:
         """
@@ -212,10 +216,18 @@ class ParsedPage:
         Deliberately excludes `url` and image paths: a CDN path change is not a
         change in what the government said, and hashing it would produce history
         entries with no editorial difference.
+
+        For the same reason it hashes `benefits_block_text` rather than the
+        `benefits` list. Benefits used to be extracted as one flat string; it is
+        now split per bullet. That is a change in how WE read the page, not in
+        what the page says, so it must not move the hash — otherwise the next
+        run appends a "content changed" entry to all 18 project histories on a
+        day the government changed nothing. The blob only has to flip when the
+        words flip, and either form does that equally well.
         """
         parts: list[str] = [
             self.title, self.proponent, self.sector, self.location,
-            self.description, self.benefits, self.date_modified,
+            self.description, self.benefits_block_text, self.date_modified,
         ]
         parts += [f"{f.label}\x1f{f.body}" for f in self.quick_facts]
         parts += [f"{u.date_verbatim}\x1f{u.body}" for u in self.updates]
@@ -304,6 +316,38 @@ def _quick_facts(block: Tag | None) -> list[ParsedFact]:
     return facts
 
 
+def _benefits(block: Tag | None) -> list[str]:
+    """
+    The Benefits bullets, one string per `<li>`.
+
+    The markup is `<h3>Benefits</h3><ul class="lst-spcd"><li>…</li></ul>` on all
+    18 pages, in both languages. Flattening it with `get_text(" ")` — which is
+    what this did before — runs the bullets into one paragraph and buries the
+    heading word inside the result, so the reader sees prose the page never
+    published as prose. The list IS the government's structure; keeping it is
+    the same decision `_quick_facts` makes.
+
+    The heading is dropped rather than carried, because the viewer supplies its
+    own. `<abbr>` tags inside the bullets (the DGR pages use them heavily) are
+    flattened to their visible text, not their title attribute — the title is
+    markup the page renders as a tooltip, not a sentence it published.
+
+    Falls back to the block's paragraphs if a future page drops the `<ul>`, so
+    a template change degrades to one bullet instead of to nothing.
+    """
+    if block is None:
+        return []
+
+    items = [normalise(li.get_text(" ")) for li in block.select("ul li")]
+    if items:
+        return [i for i in items if i]
+
+    for hd in block.find_all(re.compile(r"^h[2-4]$")):
+        hd.extract()
+    text = normalise(block.get_text(" "))
+    return [text] if text else []
+
+
 def _updates(block: Tag | None, lang: str = "en") -> list[ParsedUpdate]:
     """
     The Latest-updates log, newest first as published.
@@ -377,9 +421,10 @@ def parse_page(html: str, url: str, lang: str = "en") -> ParsedPage:
         description = normalise(desc_block.get_text(" "))
 
     benefits_block = _heading_block(main, h["benefits"], tags=("h3", "h2"))
-    benefits = ""
-    if benefits_block is not None and benefits_block is not desc_block:
-        benefits = normalise(benefits_block.get_text(" "))
+    if benefits_block is desc_block:
+        benefits_block = None
+    benefits = _benefits(benefits_block)
+    benefits_flat = normalise(benefits_block.get_text(" ")) if benefits_block else ""
 
     hero, extras = _images(main)
     date_modified_el = soup.select_one("time[property=dateModified]")
@@ -393,6 +438,7 @@ def parse_page(html: str, url: str, lang: str = "en") -> ParsedPage:
         location=cards.get(h["location"], ""),
         description=description,
         benefits=benefits,
+        benefits_block_text=benefits_flat,
         quick_facts=_quick_facts(_heading_block(main, h["quick_facts"])),
         updates=_updates(_heading_block(main, h["updates"]), lang=lang),
         hero_path=hero,

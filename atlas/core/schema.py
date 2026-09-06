@@ -301,6 +301,10 @@ class Project:
     description: Text
     sites: tuple[Site, ...] = ()
     quick_facts: tuple[QuickFact, ...] = ()
+    #: The page's own "Benefits" bullets, one entry per <li>, verbatim. Kept as
+    #: a list rather than a paragraph because the list is the government's
+    #: structure; see `atlas.sources.mpo._benefits`.
+    benefits: tuple[Text, ...] = ()
     updates: tuple[Update, ...] = ()
     media: tuple[MediaRef, ...] = ()
     page_url: Text = field(default_factory=lambda: Text(en=""))

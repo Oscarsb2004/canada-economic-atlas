@@ -1,8 +1,22 @@
 {
   "event": "major-projects-office",
-  "generated_at": "2026-09-03T17:42:50Z",
+  "generated_at": "2026-09-06T01:34:32Z",
   "projects": [
     {
+      "benefits": [
+        {
+          "en": "Supports unlocking opportunities for critical minerals exploration, expanded military presence and northern sovereignty.",
+          "fr": "Permettra d’ouvrir de nouvelles perspectives pour l’exploration des ressources minérales, l’accroissement de la présence militaire et la souveraineté dans le Nord."
+        },
+        {
+          "en": "Provides all-season road access from Yellowknife to Grays Bay Port (once connected to Grays Bay Road).",
+          "fr": "Permettra un accès en toute saison de Yellowknife jusqu’au port de Grays Bay (lorsqu’elle sera reliée à la route de Grays Bay)."
+        },
+        {
+          "en": "Provides the enabling infrastructure to advance mineral exploration and future copper, zinc and gold mine development.",
+          "fr": "Fournira une infrastructure permettant de faire progresser l’exploration minière et le développement futur de mines de cuivre, de zinc et d’or."
+        }
+      ],
       "description": {
         "en": "The Arctic Economic and Security Corridor (AESC) is a proposed ~400 km all-season road through the Slave Geological Province to the Nunavut border, where it will connect with the Grays Bay Road. This project is being led by the Tłı̨chǫ Government and Yellowknives Dene First Nation in partnership with the Government of the Northwest Territories, for the economic prosperity of both nations and surrounding communities. There are ongoing discussions between the Tłı̨chǫ Government, Yellowknives Dene First Nation, and the Government of the Northwest Territories on routing. This includes ongoing community consultations and Indigenous-led studies in the region. The impact assessments, led by co-management boards, provide for broad participation that will help bring forward recommendations to minimize impacts on local wildlife. Together with the Grays Bay Road and Port, the AESC will create a new all-season road from Yellowknife to Grays Bay on the Arctic Ocean. These two interconnected projects will create critical export links and enable new resource exploration and development in the mineral-rich Slave Geological Province of the Northwest Territories and Nunavut. This project, in conjunction with other major Northern Resilience Projects (Mackenzie Valley Highway and the Taltson Hydro Expansion), will create significant opportunities for economic growth, and support Canada’s security, and expanded military presence in the North.",
         "fr": "Le corridor économique et de sécurité de l’Arctique (CESA) est un projet de construction d’une route d’environ 400 km pouvant être empruntée en toute saison, passant par la province géologique des Esclaves jusqu’à la frontière du Nunavut, où elle se raccordera à la route de Grays Bay. Ce projet est mené par le gouvernement Tłı̨chǫ et la Première Nation des Dénés Yellowknives en partenariat avec le gouvernement des Territoires du Nord-Ouest pour assurer la prospérité économique des deux nations et des communautés environnantes. Des discussions sur l’établissement du trajet se déroulent entre le gouvernement des Tłı̨chǫ, la Première Nation des Dénés Yellowknives et le gouvernement des Territoires du Nord-Ouest. Ces discussions prévoient la tenue de consultations avec les collectivités et la réalisation d’études menées par des Autochtones dans la région. Les études d’impact, menées par les conseils de cogestion, prévoient une participation élargie, ce qui permettra de formuler des recommandations visant à minimiser les incidences sur la faune locale. Avec le projet de la route et port de Grays Bay, le CESA créera une nouvelle route pouvant être empruntée en toute saison qui reliera Yellowknife à Grays Bay, qui est dans l’océan Arctique. Ces deux projets interreliés créeront des liaisons d’exportation essentielles et permettront d’explorer et d’exploiter de nouvelles ressources dans la province géologique des Esclaves, qui est riche en minéraux et se situe dans les Territoires du Nord-Ouest et au Nunavut. Ce projet, associé à d’autres grands projets de résilience nordique (route de la vallée du Mackenzie et agrandissement de la centrale hydroélectrique Taltson), créera d’importantes possibilités de croissance économique, renforcera la sécurité du Canada et permettra d’accroître la présence militaire dans le Nord."
@@ -105,14 +119,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:41:06Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "e71eb23fb972ed68818df3dd62fb386dcb2e24deb70a5858c7d130a3cf0f5276",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:41:06Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/aesc.html"
         }
       ],
@@ -148,6 +162,24 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "This project will expand the Port of Montreal’s container capacity by approximately 60%, to give Canada the trading infrastructure it needs to keep goods moving, meet growing demand, and diversify trade routes.",
+          "fr": "Ce projet permettra d’augmenter la capacité de manutention de conteneurs du Port de Montréal d’environ 60 % afin de doter le Canada de l’infrastructure commerciale dont il a besoin pour assurer le transport des marchandises, répondre à la demande croissante et diversifier les routes commerciales."
+        },
+        {
+          "en": "It will strengthen supply chains and create thousands of jobs, and generate lasting economic benefits across Quebec and Canada.",
+          "fr": "Le projet contribuera à renforcer les chaînes d’approvisionnement, à créer des milliers d’emplois et à générer des retombées économiques durables partout au Québec et au Canada."
+        },
+        {
+          "en": "The Port of Montreal is the largest container port in Central and Eastern Canada, and a central destination for the world’s largest shipping lines. Investing in this type of critical port infrastructure now, will prevent significant congestion and capacity issues, which could lead to higher transportation costs for businesses and consumers.",
+          "fr": "Le Port de Montréal est le premier port de conteneurs en importance du Centre et de l’Est du Canada, et une destination centrale pour les plus grandes lignes maritimes du monde. Des investissements dans ce type d’infrastructures portuaires essentielles permettront d’éviter d’importants problèmes de congestion et de capacité, qui pourraient entraîner l’augmentation des coûts de transport pour les entreprises et les consommateurs."
+        },
+        {
+          "en": "Greater port capacity builds resilience in Canada’s supply chain and empowers Canadian exporters to sell their products on international markets.",
+          "fr": "Une plus grande capacité portuaire renforce la résilience des chaînes d’approvisionnement du Canada et permet aux exportateurs canadiens de commercialiser leurs produits sur les marchés internationaux."
+        }
+      ],
       "description": {
         "en": "The proposed Contrecoeur Container Terminal Project would expand the current port infrastructure, adding port terminals and additional wharves, as well as other infrastructure that would increase the port’s handling capacity along the St. Lawrence River – one of Canada’s critical trade arteries. These new port facilities will be built on land owned by the Government of Canada and managed by the Montreal Port Authority. This project will generate substantial economic activity for the South Shore of Montreal, as well as Quebec and Canada, while improving the resilience of national logistics chains for the benefit of consumers.",
         "fr": "La proposition de projet de terminal à conteneurs de Contrecœur permettrait d’agrandir l’infrastructure portuaire existante, en y ajoutant des terminaux portuaires et des quais supplémentaires, ainsi que d’autres infrastructures qui augmenteraient la capacité de manutention du port le long du fleuve Saint-Laurent – l’une des principales artères commerciales du Canada. Ces nouvelles installations portuaires seront construites sur des terres de la Couronne gérées par l’Administration portuaire de Montréal. Le projet générera une importante activité économique pour la Rive-Sud de Montréal, ainsi que pour le Québec et le Canada, tout en renforçant la résilience des chaînes logistiques nationales au profit des consommateurs."
@@ -226,14 +258,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:41:09Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "1489f15b945d751cb561fdfe710ef1618208a47029b75130efe63c2015c05c4d",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:41:09Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/contrecoeur.html"
         }
       ],
@@ -317,6 +349,20 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "This project will position Canada as a global leader in clean industrial materials by producing high-quality, low-carbon nickel essential for electric vehicle batteries and green steel.",
+          "fr": "Ce projet positionnera le Canada comme un chef de file mondial dans le domaine des matériaux industriels propres en produisant du nickel de haute qualité à faible teneur en carbone, un élément essentiel pour les batteries de véhicules électriques et l’acier vert"
+        },
+        {
+          "en": "This site has the second-largest nickel reserve in the world and is expected to operate for over 40 years.",
+          "fr": "Cette mine possède la deuxième réserve de nickel en importance au monde et devrait être exploitée pendant plus de 40 ans."
+        },
+        {
+          "en": "The project’s carbon emissions are estimated to be nearly 90% lower than the global industry average and has the potential to have a net-negative carbon footprint, representing a model for the future of responsible mining.",
+          "fr": "On estime que les émissions de carbone du projet seraient presque 90 % inférieures à la moyenne mondiale, et le projet a le potentiel d’avoir une empreinte carbone nette négative, ce qui représente un modèle pour l’avenir de l’exploitation minière responsable."
+        }
+      ],
       "description": {
         "en": "Canada Nickel Company proposes to build a mine, located in the world’s second-largest nickel reserve. The Crawford Nickel Project will produce high-quality, low-carbon nickel essential for batteries and green steel. It will serve as an anchor of Canada’s global leadership in clean industrial materials. Canada Nickel Company is also proposing, through its NetZero Metals wholly-owned subsidiary, to develop a nickel refinery for the stainless steel and electric vehicle markets, and a stainless steel and alloy production facility. Agreements are signed with the Mattagami, Matachewan, and Flying Post First Nations for early business and employment opportunities which includes commitments for negotiations on contracting opportunities. Also, Taykwa Tagamou Nation has partnered with Canada Nickel Company to invest $20 million in the Crawford Nickel Project. This investment is in the form of convertible notes, which, if exercised, will give Taykwa Tagamou Nation a meaningful equity stake in the project.",
         "fr": "La Canada Nickel Company propose de construire une mine située sur la deuxième plus vaste réserve de nickel au monde. Le projet nickélifère Crawford produira du nickel de haute qualité à faible teneur en carbone, un élément essentiel pour les batteries et l’acier vert. Il permettra de consolider le leadership mondial du Canada dans le domaine des matériaux industriels propres. Canada Nickel Company propose également, par l’intermédiaire de sa filiale en propriété exclusive NetZero Metals, de mettre en place une raffinerie de nickel pour les marchés de l’acier inoxydable et des véhicules électriques, ainsi qu’une usine de production d’acier inoxydable et d’alliages. Des ententes ont été signées avec les Premières Nations de Mattagami, de Matachewan et de Flying Post pour des occasions d’affaires et d’emploi précoces, ce qui comprend des engagements de négociations relativement à des possibilités de contrats. Par ailleurs, la Nation Taykwa Tagamou s’est associée à Canada Nickel Company pour investir 20 millions de dollars dans le projet nickélifère Crawford. Cet investissement prendra la forme de titres d’emprunt convertibles qui, s’ils sont convertis, donneront à la Nation Taykwa Tagamou une importante participation au capital dans le projet."
@@ -425,14 +471,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:41:10Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "8fc6b3a8bd129a0fe917eaf5f2bc09b7f9477cd8d70f55281e36d7d5c7fea541",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:41:10Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/crawford.html"
         }
       ],
@@ -460,6 +506,16 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "This project will establish Canada as the first G7 nation to have an operational SMR, positioning Canada as a global leader with plans to export SMR deployment expertise, as well as potential supply chain participation, by 2030.",
+          "fr": "Ce projet fera du Canada le premier pays du G7 à se doter d’un PRM opérationnel, ce qui lui permettra de se positionner comme un chef de file mondial prévoyant d’exporter son expertise en matière de déploiement de PRM, ainsi que de participer éventuellement à la chaîne d’approvisionnement, d’ici 2030."
+        },
+        {
+          "en": "The project will contribute to Canada’s clean electricity goals by providing low-emitting, reliable power.",
+          "fr": "Le projet contribuera à l’atteinte des objectifs du Canada en matière d’électricité propre en fournissant une énergie fiable et à faibles émissions."
+        }
+      ],
       "description": {
         "en": "The Darlington New Nuclear Project involves the development of the first of four planned small modular reactor (SMR) units, which will provide reliable, affordable, and clean electricity. SMR s are a new class of nuclear reactors that are considerably smaller in size and power output than conventional nuclear power reactors, with enhanced safety features. Several provinces are actively pursuing SMR s, including Ontario. The Darlington New Nuclear Project is on the traditional territory of the Michi Saagiig Anishinaabe people. These lands are covered by the Williams Treaties between Canada and the Mississauga and Chippewa Nations.",
         "fr": "Le projet de nouvelle centrale nucléaire de Darlington comprend la mise au point de la première des quatre unités de petit réacteur modulaire (PRM) prévues, qui fourniront une électricité fiable, abordable et propre. Les PRM sont une nouvelle catégorie de réacteurs nucléaires dont la taille et la puissance de production sont considérablement plus petites que celles des réacteurs nucléaires classiques, avec des caractéristiques de sûreté renforcées. Plusieurs provinces s’intéressent activement aux PRM, notamment l’Ontario. Le nouveau projet nucléaire de Darlington se trouve sur le territoire traditionnel du peuple Anishinaabe de Michi Saagiig. Ces terres sont couvertes par le traité Williams conclu entre le Canada et les Nations des Mississauga et des Chippewas."
@@ -558,14 +614,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:41:19Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "c743ae5b8b7d8357162e234e9869435db90f89f6f758534accb402ad894e9a50",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:41:19Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/darlington.html"
         }
       ],
@@ -625,6 +681,28 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "The DGR will provide Canada with a safe, domestically controlled, and permanent method for disposing of used nuclear fuel to protect both people and the environment.",
+          "fr": "Le dépôt souterrain en couches géologiques profondes offrira au Canada une méthode sûre, contrôlée au niveau national et permanente pour l’élimination du combustible nucléaire irradié afin de protéger à la fois les populations et l’environnement."
+        },
+        {
+          "en": "The construction and operation of the DGR will bring significant economic benefits to host communities, Indigenous communities, surrounding municipalities, and the host province. The economic impact, amounting to hundreds of millions of dollars, will include the creation of jobs for scientists, engineers, tradespeople, and more.",
+          "fr": "La construction et l’exploitation du dépôt souterrain en couches géologiques profondes apporteront des avantages économiques importants pour les collectivités hôtes, les communautés autochtones, les municipalités environnantes et la province hôte. Les avantages économiques, s’élevant à des centaines de millions de dollars, incluront la création d’emplois pour des scientifiques, des ingénieurs, des artisans, et bien d’autres."
+        },
+        {
+          "en": "The DGR will establish a credible, long-term solution for used nuclear fuel, helping address one of the key concerns associated with nuclear power, reinforcing public trust, and providing greater certainty for Canada’s nuclear sector.",
+          "fr": "Le dépôt souterrain en couches géologiques profondes sera une solution crédible et à long terme pour l’élimination du combustible nucléaire irradié et contribuera à répondre à l’une des préoccupations clés liées à l’énergie nucléaire, ce qui renforcera la confiance du public et offrira une plus grande certitude au secteur nucléaire canadien."
+        },
+        {
+          "en": "Almost all countries with commercial nuclear power production are planning to isolate used fuel in a deep geological repository. By moving from interim storage to a permanent disposal solution, the DGR will reduce the need for ongoing monitoring, maintenance, and future intervention, lowering long-term environmental, safety, and liability risks for future generations.",
+          "fr": "Presque tous les pays ayant une production nucléaire commerciale prévoient d’isoler le combustible irradié dans un dépôt souterrain en couches géologiques profondes. En passant de l’entreposage provisoire à une solution d’élimination permanente, le dépôt souterrain en couches géologiques profondes permettra de réduire le besoin de surveillance, d’entretien et d’interventions futures en continu, ce qui diminuera ainsi les risques environnementaux, de sécurité et de responsabilité à long terme pour les générations futures."
+        },
+        {
+          "en": "This project reflects a collaborative approach with the host communities of Wabigoon Lake Ojibway Nation and the town of Ignace Ontario and includes mechanisms intended to support Indigenous participation, community engagement, and independent assessment throughout the planning, assessment, and decision-making processes.",
+          "fr": "Ce projet reflète une approche collaborative avec les collectivités hôtes de la Nation ojibwée de Wabigoon Lake et le canton d’Ignace, en Ontario, et comprend des mécanismes visant à soutenir la participation autochtone, la mobilisation communautaire et l’évaluation indépendante tout au long des processus de planification, d’évaluation et de prise de décision."
+        }
+      ],
       "description": {
         "en": "The Nuclear Waste Management Organization’s (NWMO) Deep Geological Repository (DGR) for Canada’s Used Nuclear Fuel will consist of a network of underground tunnels and placement rooms built to a depth of 650-800 metres below ground, designed to safely contain all current and future used nuclear fuel from Canada's existing nuclear reactor fleet. The Government of Canada selected the Adaptive Phased Management approach as Canada’s plan for used nuclear fuel in 2007, following a three-year dialogue with Indigenous Peoples and Canadians. The project involves isolation and containment of used nuclear fuel in a DGR located in a suitable geology and at a location with willing and informed host communities. The NWMO is mandated through the Nuclear Fuel Waste Act to design and implement this plan. Deep geological repositories are internationally recognized as a best practice for the permanent disposal of used nuclear fuel, and are also being pursued in countries like Finland, Sweden, France and Switzerland. The DGR will incorporate multiple engineered and natural barriers to ensure long-term containment, including the surrounding stable rock formation. Following a 14-year site selection process, Wabigoon Lake Ojibway Nation (WLON) and the Township of Ignace in northwestern Ontario were selected as informed and willing host communities after the site met stringent long-term safety and geological requirements. The project is currently undergoing a federal impact assessment and Canadian Nuclear Safety Commission licensing, alongside a parallel regulatory assessment and approval process by WLON.",
         "fr": "Le dépôt souterrain en couches géologiques profondes proposé par la Société de gestion des déchets nucléaires (SGDN) pour le combustible nucléaire irradié du Canada consistera en un réseau de tunnels souterrains et de salles d’entreposage construits à une profondeur de 650 à 800 mètres sous terre, conçus pour contenir en toute sécurité tout le combustible nucléaire irradié actuel et futur provenant du parc canadien de réacteurs nucléaires. Le gouvernement du Canada a choisi l’approche de gestion adaptative progressive comme plan pour la gestion de combustible nucléaire irradié en 2007, à la suite d’un dialogue de trois ans avec les peuples autochtones et les Canadiens. Le projet consiste à isoler et à confiner le combustible nucléaire irradié dans un dépôt souterrain en couches géologiques profondes situé dans des endroits qui, sur le plan géologique, sont appropriés et dont les collectivités hôtes sont consentantes et informées. La SGDN s’est vu confier, en vertu de Loi sur les déchets de combustible nucléaire, le rôle de concevoir et de mettre en œuvre ce plan. Les dépôts souterrains en couches géologiques profondes sont reconnus internationalement comme une bonne pratique pour l’élimination permanente du combustible nucléaire irradié, et sont également utilisés dans des pays comme la Finlande, la Suède, la France et la Suisse. Des barrières artificielles et naturelles seront intégrées au dépôt souterrain en couches géologiques profondes pour assurer un confinement à long terme, y compris la formation rocheuse stable environnante. Après un processus de sélection de sites de 14 ans, la Nation ojibwée de Wabigoon Lake et le canton d’Ignace, dans le nord-ouest de l’Ontario, ont été choisis comme collectivités hôtes informées et consentantes, après qu’il ait été déterminé que le site respecte des exigences strictes en matière de sécurité et de géologie à long terme. Le projet fait actuellement l’objet d’une évaluation d’impact fédérale et d’un processus de délivrance de permis de la Commission canadienne de sûreté nucléaire, ainsi qu’un processus parallèle d’évaluation et d’approbation réglementaire par la Nation ojibwée de Wabigoon Lake."
@@ -733,14 +811,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:41:25Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "16c3d182e3117e878ba82cf351a5440b2e31e9f8f747a268fd8a0f0f43a27d07",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:41:25Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/geo.html"
         }
       ],
@@ -768,6 +846,20 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "Provides the enabling infrastructure for natural resource development, including critical minerals, expanded military presence and northern security.",
+          "fr": "Fournit l’infrastructure nécessaire pour l’exploitation de ressources naturelles, y compris des ressources minérales critiques, l’accroissement de la présence militaire et la sécurité dans le Nord."
+        },
+        {
+          "en": "Has the potential to be linked up with the Arctic Economic and Security Corridor to create an all-season road connection from the Northwest Passage to the North American highway network.",
+          "fr": "Pourrait potentiellement être lié au Corridor économique et de sécurité de l’Arctique pour créer une liaison routière accessible en toute saison du passage du Nord-Ouest au réseau routier nord-américain."
+        },
+        {
+          "en": "Establishes a new deepwater port with critical mineral export potential in the Arctic.",
+          "fr": "Création d’un nouveau port en eau profonde, ce qui accroîtra le potentiel d’exportation de minerais critiques dans l’Arctique."
+        }
+      ],
       "description": {
         "en": "The Grays Bay Road and Port (GBRP) is a proposed all-season ~230 km road from the Nunavut border to a deepwater port and airfield at Grays Bay on the Arctic Ocean. The deepwater export terminal and airstrip, could have dual-use (civilian-military) potential, subject to further assessment by National Defence. The Grays Bay Road and Port will be delivered through West Kitikmeot Resources Corporation, a partnership between the Kitikmeot Inuit Association and private investors. The project could create new export links for critical minerals from the West Kitikmeot Region. There are ongoing community consultations and Indigenous-led studies in the region, to discuss routing options to minimize impacts to local wildlife and marine ecosystems. The impact assessments, led by co-management boards, provide for broad participation that will help bring forward recommendations in these areas. This project will create significant opportunities for economic growth and support Canada’s security and expanded military presence in the North.",
         "fr": "Le projet de route et de port de Grays Bay (RPGB) est un projet de route praticable en toute saison d’environ 230 km reliant la frontière du Nunavut à un port en eau profonde et à un aérodrome à Grays Bay en bordure de l’océan Arctique. Le terminal d’exportation de minerais en eau profonde et la piste d’atterrissage pourraient avoir un double usage (civil et militaire), sous réserve d’une évaluation approfondie par la Défense nationale. La route et le port de Grays Bay seront réalisés par la West Kitikmeot Resources Corporation, un partenariat entre la Kitikmeot Inuit Association et des investisseurs privés. Le projet pourrait créer de nouveaux liens d’exportation pour les minéraux critiques de la région de West Kitikmeot. Des consultations avec les collectivités et des études menées par des Autochtones sont en cours dans la région, afin d’étudier les différents trajets possibles pour minimiser les incidences sur la faune locale et les écosystèmes marins. Les études d’impact, menées par les conseils de cogestion, prévoient une participation élargie, ce qui permettra de formuler des recommandations dans ces domaines. Ce projet, qui créera d’importantes occasions de faire croître l’économie, renforcera la sécurité du Canada et permettra d’accroître la présence militaire dans le Nord."
@@ -870,14 +962,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:41:34Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "148e1340c97e1b298f8dcd8be27c914e4435c41d00f5811919614d46a7bc550c",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:41:34Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/grays-bay.html"
         }
       ],
@@ -929,6 +1021,20 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "Ksi Lisims LNG will become one of the world’s lowest-emission LNG operations, predicted to operate with net zero emissions once fully electrified.",
+          "fr": "Le Terminal de GNL KSI Lisims deviendra l’une des installations de GNL les moins émettrices au monde; elle devrait atteindre la carboneutralité une fois entièrement électrifiée."
+        },
+        {
+          "en": "Ksi Lisims LNG proposes to construct and operate up to two floating natural gas liquefaction structures, which together would export up to 12 million tonnes per annum (or 22.4 billion cubic meters per year) of LNG.",
+          "fr": "Il propose de construire et d’exploiter jusqu’à deux structures flottantes de liquéfaction du gaz naturel qui, ensemble, exporteraient jusqu’à 12 millions de tonnes par année (ou 22,4 milliards de mètres cubes par année) de GNL."
+        },
+        {
+          "en": "As an Indigenous-led major project, Ksi Lisims LNG is an example of Indigenous leadership in the energy and natural resources sector, highlighting the positive benefits of Indigenous groups as project leaders in major projects. This project offers opportunities for Indigenous groups, while contributing to economic growth.",
+          "fr": "À titre de grand projet dirigé par des Autochtones, le Terminal de GNL Ksi Lisims est un exemple de leadership autochtone dans le secteur de l’énergie et des ressources naturelles, mettant en évidence les avantages de la participation des communautés autochtones en tant que chefs de file dans la réalisation de grands projets. Ce projet offre des débouchés aux communautés autochtones, tout en contribuant à la croissance économique."
+        }
+      ],
       "description": {
         "en": "Ksi Lisims LNG is a proposed floating natural gas liquefaction production, storage, and offloading facility with a marine terminal located on the north coast of British Columbia. The onshore components of the project would be located on land owned by Nisg̱a’a Nation, as defined in the Nisg̱a’a Treaty. The project is a partnership between the Nisg̱a’a Nation, Rockies LNG, and Western LNG. The approximately 750-kilometre Prince Rupert Gas Transmission (PRGT) pipeline will supply feed gas for liquefaction. An approximately 120-kilometre electrical transmission line, the Nass Valley Regional Transmission Line (NVRTL), will provide electricity to the facility from the BC Hydro grid. Designed to be one of the world’s lowest-emission LNG facilities, Ksi Lisims LNG aims to foster sustainable economic development and lasting prosperity in Canada’s northwest.",
         "fr": "Le Terminal de GNL KSI Lisims est un projet d’installation flottante de production, de stockage et de déchargement de gaz naturel liquéfié avec un terminal maritime situé sur la côte nord de la Colombie-Britannique. Les composantes terrestres du projet seraient situées sur des terres appartenant à la Nation Nisga’a, comme défini dans le traité Nisga’a. Le projet est un partenariat entre la Nation Nisga’a, Rockies LNG et Western LNG. Le projet de gazoduc de Prince Rupert d’environ 750 kilomètres assurera l’alimentation en gaz en vue de la liquéfaction. Une ligne de transport électrique d’environ 120 kilomètres, la ligne de transmission régionale de Nass Valley (NVRTL), alimentera l’installation en électricité à partir du réseau de BC Hydro. Conçue pour être l’une des installations de GNL ayant les émissions les plus faibles au monde, le Terminal de GNL Ksi Lisims vise à favoriser le développement économique durable et une prospérité à long terme dans le nord-ouest du Canada."
@@ -1037,14 +1143,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:41:41Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "4dd6252f171a9df6fc3bb5cbe0033b808e7c1c803eeb99abb1f34ea7000e4e20",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:41:41Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/ksi-lisims.html"
         }
       ],
@@ -1096,6 +1202,24 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "Supports Canada’s transition to a cleaner energy future.",
+          "fr": "Il soutient la transition du Canada vers un avenir énergétique plus propre."
+        },
+        {
+          "en": "The Haisla Nation, with a population of over 2,000, are expected to see direct benefits through employment opportunities for its members and broader economic growth for the region.",
+          "fr": "La nation Haisla, qui compte plus de 2 000 membres, devrait en tirer des avantages directs sous la forme de possibilités d’emploi pour ses membres et d’une croissance économique plus large pour la région."
+        },
+        {
+          "en": "Will support jobs both during construction and when fully operational, promoting economic growth in the local community and in upstream gas production.",
+          "fr": "Ce projet créera des emplois tant pendant la phase de construction qu’une fois le site pleinement opérationnel, favorisant ainsi la croissance économique au sein de la collectivité locale et dans le secteur de la production gazière en amont."
+        },
+        {
+          "en": "Will attract private-sector capital to Canada, directly contributing to GDP growth.",
+          "fr": "Ce projet attirera des capitaux du secteur privé au Canada, contribuant directement à la croissance du PIB."
+        }
+      ],
       "description": {
         "en": "This project will expand LNG Canada’s liquefied natural gas (LNG) facility, doubling production and delivering low-carbon intensity Canadian energy to global markets. It will also help diversify Canada’s trading partners, including those with growing demand in Asia and Europe. Located in Kitimat, British Columbia, on the traditional territory of the Haisla Nation, the export facility benefits from abundant, low-cost Canadian natural gas and an ice-free harbour. This location provides a secure supply of LNG at scale and connects Canadian natural gas to global markets. LNG Canada Phase 2 represents an opportunity to strengthen Canada’s position as a reliable energy supplier, attract significant private investment, contribute to our GDP growth, and create thousands of good jobs in local communities across the supply chain.",
         "fr": "Ce projet permettra d’agrandir l’installation de gaz naturel liquéfié (GNL) de LNG Canada, de doubler sa production et de fournir de l’énergie canadienne à faible intensité en carbone aux marchés mondiaux. Il contribuera également à diversifier les partenaires commerciaux du Canada, y compris ceux dont la demande augmente en Asie et en Europe. Située à Kitimat, en Colombie-Britannique, sur le territoire traditionnel de la Nation Haisla, cette installation d’exportation bénéficie d’un approvisionnement abondant en gaz naturel canadien peu coûteux et d’un port exempt de glace. Cet emplacement offre un approvisionnement sûr en GNL à grande échelle et relie le gaz naturel canadien aux marchés mondiaux. La phase 2 de LNG Canada représente une occasion de renforcer la position du Canada comme fournisseur d’énergie fiable, d’attirer d’importants investissements du secteur privé, de contribuer à la croissance de notre PIB et de créer des milliers de bons emplois dans les collectivités locales dans l’ensemble de la chaîne d’approvisionnement."
@@ -1184,14 +1308,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:41:47Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "ab48b96aaadc43463d9d32ca0b5cbe6c9eeba33d19f7b30b09402ff26cb1d1ef",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:41:47Z",
+          "retrieved_at": "2026-09-06T01:34:31Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/lng-canada.html"
         }
       ],
@@ -1267,6 +1391,44 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "Creates new opportunities for inter-territorial and inter-provincial trade, economic development, emergency response, and resource access.",
+          "fr": "Création de nouveaux débouchés pour le commerce interterritorial et interprovincial, le développement économique, les interventions d’urgence et l’accès aux ressources."
+        },
+        {
+          "en": "Improves inter-community mobility, emergency response, and the reliability of community resupply.",
+          "fr": "Amélioration de la mobilité entre les communautés, des interventions d’urgence et de la fiabilité du ravitaillement communautaire."
+        },
+        {
+          "en": "Will help to stabilize the cost of living by improving transportation access and reducing reliance on seasonal winter roads, aircraft, and barge service.",
+          "fr": "Contribuera à stabiliser le coût de la vie en améliorant l’accès aux transports et en réduisant la dépendance aux routes praticables seulement l’hiver, aux avions et aux bateaux."
+        },
+        {
+          "en": "Provides year-round access to three isolated communities: Tulita, Norman Wells, and Fort Good Hope.",
+          "fr": "Accès tout au long de l’année à trois communautés isolées : Tulita, Norman Wells et Fort Good Hope."
+        },
+        {
+          "en": "Enhances Arctic sovereignty and security through improved safety, reliability, and resilience of the Northwest Territories and Yukon transportation systems in the face of climate change and extreme weather.",
+          "fr": "Souveraineté et sécurité de l’Arctique renforcées grâce à l’amélioration de la sécurité, de la fiabilité et de la résilience des systèmes de transport des Territoires du Nord-Ouest et du Yukon face aux changements climatiques et aux conditions météorologiques extrêmes."
+        },
+        {
+          "en": "Generates new tourism potential by creating a scenic driving loop through the Northwest Territories Yukon in combination with the Dempster Highway.",
+          "fr": "Nouveau potentiel touristique grâce à la création d’un chemin en boucle pittoresque à travers les Territoires du Nord-Ouest et le Yukon, en combinaison avec la route de Dempster."
+        },
+        {
+          "en": "Supports mineral and resource exploration and development activity in the Dehcho, Sahtu and Beaufort Delta regions.",
+          "fr": "Promotion des activités d’exploration et de développement des ressources et des minéraux dans les régions du Dehcho, du Sahtu et de Beaufort-Delta."
+        },
+        {
+          "en": "Potential to enhance connectivity between National Defence locations and facilities in the North.",
+          "fr": "Potentiel d’améliorer la connectivité entre les emplacements et les installations de la Défense nationale dans le Nord."
+        },
+        {
+          "en": "Strengthens housing construction capacity, making it less costly to deliver materials and complete projects in northern communities.",
+          "fr": "Renforcement de la capacité de construction de logements, en réduisant les coûts de livraison des matériaux et de réalisation des projets dans les communautés du Nord."
+        }
+      ],
       "description": {
         "en": "The Mackenzie Valley Highway will create a new all-season economic corridor up the Mackenzie Valley, connecting Wrigley to Inuvik while providing year-round connectivity to three currently isolated communities, and improving access to two additional communities through extended and more reliable travel windows. The road will increase affordability and create new opportunities for inter-territorial and inter-provincial trade, economic development, community resupply, emergency response, and resource access. It also has the potential to enhance connectivity and reduce travel time between National Defence locations and facilities. The proposed ~800 km all-season gravel highway would extend from Wrigley to the Dempster Highway south of Inuvik, passing near Tulita, Norman Wells and Fort Good Hope. These communities are currently accessible only by aircraft, river barge and winter road. This project will create significant opportunities for economic growth and resource development, improve life in isolated communities, enhance Canada’s sovereignty, and support an expanded military presence in the North.",
         "fr": "La route de la vallée du Mackenzie créera un nouveau corridor économique praticable en toute saison dans la vallée du Mackenzie, tout en permettant à trois communautés actuellement isolées d’être reliées tout au long de l’année et en améliorant l’accès à deux autres communautés grâce à des périodes de voyage plus longues et plus fiables. La route accroîtra l’abordabilité et créera de nouveaux débouchés pour le commerce interterritorial et interprovincial, le développement économique, le réapprovisionnement communautaire, les interventions d’urgence et l’accès aux ressources. Elle pourrait aussi améliorer la connectivité et réduire le temps de déplacement entre les emplacements et les installations de la Défense nationale. La route de gravier praticable en toute saison d’une longueur d’environ 800 km qui est proposée s’étendrait de Wrigley à la route de Dempster au sud d’Inuvik et passerait près de Tulita, Norman Wells et Fort Good Hope, des collectivités qui ne sont actuellement accessibles que par avion, par bateau et par une route praticable seulement l’hiver. Ce projet permettra de générer des débouchés importants qui favoriseront la croissance économique et la mise en valeur des ressources, amélioreront la vie des communautés isolées, renforceront la souveraineté du Canada et permettront d’accroître la présence militaire dans le Nord."
@@ -1369,14 +1531,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:41:55Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "15947504081af21d95a9c3952bd69a1f5c67eaf1f95d6bec4a65f3e640464bc6",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:41:55Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mackenzie.html"
         }
       ],
@@ -1420,6 +1582,20 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "The project will create hundreds of jobs, boost local economies, and will be one of the lowest-emission operations of its kind.",
+          "fr": "Le projet créera des centaines d’emplois, stimulera les économies locales et sera l’une des opérations les moins polluantes du genre."
+        },
+        {
+          "en": "By supplying critical minerals such as copper and zinc for clean energy and modern infrastructure, the project will contribute to Canada’s economic growth and global competitiveness in advanced manufacturing industries.",
+          "fr": "En fournissant des minéraux critiques, comme le cuivre et le zinc pour l’énergie propre et les infrastructures modernes, le projet contribuera à la croissance économique du Canada et à sa compétitivité mondiale dans les secteurs de fabrication de pointe."
+        },
+        {
+          "en": "Collaboration agreements are in place with impacted Indigenous group, including training and jobs benefits.",
+          "fr": "Des ententes de collaboration sont en place avec les communautés autochtones touchées, notamment des avantages en matière de formation et d’emploi."
+        }
+      ],
       "description": {
         "en": "The McIlvenna Bay Project is developing a mine around a newly defined mineral reserve. It shares similar geological features with other major mines along the Flin Flon Greenstone Belt. The deposit has more potential for growth, with ongoing exploration showing potential opportunities for expansion in the future. As proposed, the project would produce copper and zinc ore concentrates containing gold and silver up to a total production rate of 4,200 tonnes per day. Concentrate products from the processing plant are proposed to be transported by truck to a third-party rail loading facility to be distributed for smelting. The lifespan of the project is expected to be up to 40 years. This project will strengthen Canada’s position as a global supplier of critical minerals for clean energy, advanced manufacturing, and modern infrastructure.",
         "fr": "Le projet de McIlvenna Bay prévoit l’exploitation d’une mine autour d’une réserve minérale récemment découverte. Il présente des caractéristiques géologiques similaires à celles d’autres grandes mines situées le long de la ceinture de roches vertes de Flin Flon. Le gisement présente un fort potentiel de croissance, les travaux d’exploration en cours laissant entrevoir des possibilités d’expansion à l’avenir. Selon le projet proposé, l’exploitation produirait des concentrés de minerai de cuivre et de zinc contenant de l’or et de l’argent, pour un taux de production total pouvant atteindre 4 200 tonnes par jour. Il est proposé que les concentrés issus de l’usine de traitement soient transportés par camion vers une installation de chargement ferroviaire tierce afin d’être acheminés vers des fonderies. La durée de vie du projet devrait atteindre 40 ans. Ce projet renforcera la position du Canada en tant que fournisseur mondial de minéraux critiques pour l’énergie propre, la fabrication de pointe et les infrastructures modernes."
@@ -1508,14 +1684,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:42:02Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "fddeb3220f3e2d1a3c45387194047bca8982f93e6100a461403660e6ed2164e1",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:42:02Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mcilvenna.html"
         }
       ],
@@ -1559,6 +1735,20 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "In partnership with Indigenous peoples and governments, the project will support economic development in the northwest coast of Canada and meet the growing demand for ports, mines and liquefied natural gas. It will also more than double the availability of clean electricity in the region.",
+          "fr": "En partenariat avec les peuples autochtones et les gouvernements, le projet favorisera le développement économique de la côte nord-ouest du Canada et répondra à la demande croissante en matière de ports, de mines et de gaz naturel liquéfié. Il permettra en outre de plus que doubler la disponibilité de l’électricité propre dans la région."
+        },
+        {
+          "en": "According to estimates from the province of British Columbia, once operational, the project will create thousands of direct full-time careers, generate millions in annual public revenues, and anchor a clean-energy industrial corridor for generations to come. It will lead to the reduction of two to three million tonnes of carbon emissions annually, supporting Canada’s climate goals while powering economic growth.",
+          "fr": "Selon les estimations de la province de la Colombie-Britannique, une fois opérationnel, le projet permettra de créer des milliers d’emplois directs à temps plein, de générer des millions de dollars par année en recettes publiques et de mettre en place un corridor industriel d’énergie propre pour les générations à venir. De plus, il entraînera la réduction de deux à trois millions de tonnes d’émissions de carbone chaque année, ce qui appuiera la réalisation des objectifs climatiques du Canada tout en favorisant la croissance économique."
+        },
+        {
+          "en": "Several First Nations under the K’uul Power consortium have signed agreements providing the option to acquire up to 50% equity in the project.",
+          "fr": "Plusieurs Premières Nations membres du consortium K’Uul Power ont signé des ententes offrant la possibilité d’acquérir jusqu’à 50 % de capitaux propres dans le projet."
+        }
+      ],
       "description": {
         "en": "The North Coast Transmission Line (NCTL) Project ties into the Northwest Critical Conservation Corridor (a transformative strategy referred to the Major Projects Office). Together, they will deliver low-cost, clean electricity to local communities along the West Coast. The project would twin existing transmission lines from Prince George to Terrace, and north up to Bob Quinn substation. By twinning major transmission lines, the NCTL will support transformative industrial projects, including the Ksi Lisims LNG facility and critical minerals developments in the Golden Triangle.",
         "fr": "Le projet de ligne de transport d’électricité de la côte nord (LTECN) est lié au Corridor essentiel de conservation du Nord-Ouest (une stratégie de transformation a été soumise au Bureau des grands projets). Ensemble, ils alimenteront en électricité propre et à faible coût les collectivités locales le long de la côte ouest. Le projet sera jumelé aux lignes de transport existantes de Prince George à Terrace, et vers le nord jusqu’à la sous-station Bob Quinn. Comme elle jumellera d’importantes lignes de transport, la Ligne de transport d’électricité de la côte nord favorisera la mise en place de nouveaux projets industriels transformateurs, dont le terminal de GNL Ksi Lisims et la mise en valeur des minéraux critiques dans le Triangle d’or."
@@ -1693,14 +1883,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:42:08Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "6f5114374226a56769c051969350f9cbd1a3975c7900ada2684844f29f94269e",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:42:08Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nctl.html"
         }
       ],
@@ -1752,6 +1942,20 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "Canada’s last tungsten mine closed in 2015. The Sisson Project would revitalize Canada’s production of tungsten, as well as produce molybdenum, which makes steel and superalloys stronger, harder, and more corrosion-resistant.",
+          "fr": "La dernière mine de tungstène du Canada a fermé ses portes en 2015. Le projet Sisson permettrait de revitaliser la production canadienne de tungstène et de produire du molybdène, qui rend l’acier et les superalliages plus solides, plus durs et plus résistants à la corrosion."
+        },
+        {
+          "en": "Tungsten is essential for a wide range of industries, with both civilian and defense applications, such as cutting tools, steel, military munitions, and protective equipment.",
+          "fr": "Le tungstène est essentiel à un large éventail d’industries, avec des applications civiles et militaires, comme les outils de coupe, l’acier, les munitions militaires et l’équipement de protection."
+        },
+        {
+          "en": "With global tungsten markets highly concentrated, the Sisson Project has the potential to make Canada a reliable and secure supplier of tungsten for domestic and allied industries.",
+          "fr": "Étant donné la forte concentration des marchés mondiaux du tungstène, le projet Sisson pourrait faire du Canada un fournisseur de tungstène fiable et sûr pour les industries nationales et celles de nos alliés."
+        }
+      ],
       "description": {
         "en": "The Sisson Project aims to develop a world-class tungsten and molybdenum deposit into a modern, long-life open-pit mine. The deposit, located in New Brunswick, is a large, structurally controlled resource with potential to support sustainable operations over the long term. Once developed, the Sisson Project has the potential to become a near-term critical metal producer, supplying tungsten and molybdenum to North American, European and Asian markets.",
         "fr": "Le projet Sisson vise à transformer un gisement de tungstène et de molybdène de calibre mondial en une mine à ciel ouvert moderne et durable. Le gisement, situé au Nouveau-Brunswick, est une importante ressource structurellement contrôlée, avec un potentiel suffisant pour assurer une exploitation durable à long terme. Une fois mis en valeur, le projet Sisson pourrait devenir un producteur de métaux critiques à court terme, fournissant du tungstène et du molybdène aux marchés nord-américains, européens et asiatiques."
@@ -1830,14 +2034,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:42:15Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "5e91832548761bd7001635478d7196d324ef3643549cc2c69b63cded80e12a7e",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:42:15Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/northcliff.html"
         }
       ],
@@ -1881,6 +2085,20 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "Graphite is an essential component of defence applications and electric vehicle and energy storage system batteries. The project will contribute to decarbonising the transportation sector while helping diversify global graphite supplies away from carbon-intensive sources.",
+          "fr": "Le graphite est une composante essentielle des produits de défense et des batteries des véhicules électriques et des systèmes de stockage d’énergie. Le projet contribuera à la décarbonisation de l’industrie du transport tout en contribuant à diversifier les sources d’approvisionnement mondiales en graphite, afin de réduire la dépendance vis-à-vis des sources à forte intensité carbonique."
+        },
+        {
+          "en": "The project will be powered by Québec's affordable clean hydropower, ensuring sustainable and environmentally friendly operations. Nouveau Monde plans to transition to a zero-emission fleet at the mine site.",
+          "fr": "Le projet sera alimenté par l’hydroélectricité propre et abordable du Québec, assurant ainsi des opérations durables et écologiques. De plus, Nouveau Monde prévoit éventuellement de passer à une flotte de véhicules zéro émission au site minier."
+        },
+        {
+          "en": "In 2024, the Atikamekw First Nation of Manawan signed an Impact Benefit Agreement with Nouveau Monde Graphite that will enhance collaboration on aspects related to Atikamekw culture, the environment, training, employment, business opportunities, and financial benefits. The agreement sets out the significant participation of the Manawan Atikamekw to responsibly develop graphite in the Nitaskinan in a way that respects the environment and provides direct benefits to the community.",
+          "fr": "En 2024, la Première Nation Atikamekw de Manawan a signé une entente sur les répercussions et les avantages avec Nouveau Monde Graphite qui améliorera la collaboration sur des aspects liés à la culture atikamekw, à l’environnement, à la formation, à l’emploi, aux possibilités d’affaires et aux avantages financiers. L’entente prévoit la participation significative des Atikamekw de Manawan à la mise en valeur responsable du graphite dans la région de Nitaskinan, dans le respect de l’environnement et de manière à apporter des avantages directs à la communauté."
+        }
+      ],
       "description": {
         "en": "Nouveau Monde Graphite is developing an open-pit graphite mine that will be integrated with a planned Battery Material Plant. Together, they will produce spherical graphite for batteries and other advanced manufacturing applications. This project aims to bolster the emerging battery hub in Bécancour, Québec, while potentially unlocking future graphite opportunities across Canada.",
         "fr": "Nouveau Monde Graphite réalise les travaux de développement d’une mine de graphite à ciel ouvert qui sera intégrée à une usine de matériaux de batteries dont la construction est prévue. Ensemble, ils produiront du graphite sphérique pour les batteries et d’autres applications manufacturières de pointe. Ce projet vise à renforcer la toute nouvelle plaque tournante de l’industrie des batteries à Bécancour, au Québec, et pourrait même ouvrir le marché du secteur du graphite à l’échelle du pays."
@@ -1979,14 +2197,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:42:23Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "b567dba0398c4d36d349eea94fa107f6b1241c9f75d553668f453acc362faa73",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:42:23Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nouveau-monde.html"
         }
       ],
@@ -2078,6 +2296,24 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "Iqaluit currently relies on imported diesel fuel for electricity generation, equivalent to 15 million litres annually, producing an estimated 130,000 tonnes of greenhouse gas emissions every year.",
+          "fr": "À l’heure actuelle, Iqaluit dépend du diesel importé pour produire de l’électricité, soit 15 millions de litres par année, et génère ainsi environ 130 000 tonnes d’émissions de gaz à effet de serre par année."
+        },
+        {
+          "en": "Construction and operation of the Iqaluit Nukkiksautiit Hydro Project will represent a significant and ongoing contribution to the Nunavut economy through local job opportunities.",
+          "fr": "La construction et l’exploitation du projet hydroélectrique Nukkiksautiit représenteront une contribution importante et continue à l’économie du Nunavut grâce aux possibilités d’emploi locales."
+        },
+        {
+          "en": "The project will replace foreign imported diesel fuel with clean, locally generated electricity and help stabilize Iqaluit electricity rates, which have increased more than 22% in the last five years.",
+          "fr": "Le projet permettra de remplacer le diesel importé par de l’électricité propre produite localement et aidera à stabiliser les tarifs d’électricité d’Iqaluit, qui ont connu une hausse de plus de 22 % au cours des cinq dernières années."
+        },
+        {
+          "en": "The project supports Indigenous-led energy transition, economic reconciliation, advances Inuit self-determination, and Inuit-led priorities.",
+          "fr": "Le projet soutient la transition énergétique dirigée par les Autochtones, la réconciliation économique, favorise l’autodétermination des Inuits et appuie les priorités établies par ces derniers."
+        }
+      ],
       "description": {
         "en": "The Iqaluit Nukkiksautiit Hydro Project (ᐃᖃᓗᐃᑦᓄᑭᒃᓴᐅᑏᑦᓴᓇᔭᐅᔪᖅ) is a proposed 15-30 megawatt hydropower plant along the Kuugaluk River, about 60 km northeast of Iqaluit. Led by Nunavut Nukkiksautiit Corporation (NNC), an Inuit-owned renewable energy developer, the project would replace the city’s use of imported diesel-generated electricity with affordable, reliable and emissions-free power. Regular engagement with Rights Holders and impacted groups continues at project decision points.",
         "fr": "Le projet hydroélectrique de la Nunavut Nukkiksautiit Corporation à Iqaluit (ᐃᖃᓗᐃᑦᓄᑭᒃᓴᐅᑏᑦᓴᓇᔭᐅᔪᖅ) est une centrale hydroélectrique d’une capacité de 15 à 30 mégawatts située sur la rivière Kuugaluk, à environ 60 km au nord-est d’Iqaluit. Dirigé par la Nunavut Nukkiksautiit Corporation (NNC), une entreprise de conception de systèmes d’énergie renouvelable appartenant entièrement à des Inuits, le projet remplacerait l’électricité importée produite par diesel par une électricité abordable, fiable et sans émissions. La consultation régulière des détenteurs de droits et des groupes concernés se poursuit à chaque étape décisionnelle du projet."
@@ -2186,14 +2422,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:42:28Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "54850d452372d6f372fa565d6bf7365d564172e244c27dd9c7de3e3d0247c083",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:42:28Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nukkiksautiit.html"
         }
       ],
@@ -2229,6 +2465,24 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "This project will extend the lifespan of the mine by over a decade and increase Canada’s annual copper production by over 15%, supporting critical minerals demand for clean energy and manufacturing.",
+          "fr": "Ce projet prolongera de plus de 10 ans la durée de vie de la mine et augmentera de plus de 15 % la production annuelle de cuivre au Canada afin de répondre à la demande en minéraux critiques essentiels à l’industrie manufacturière et aux technologies d’énergie propre."
+        },
+        {
+          "en": "Once operational, this project will reduce greenhouse gas emissions by over 70%, aligning with Canada's clean energy and climate goals.",
+          "fr": "Une fois opérationnel, ce projet réduira de plus de 70 % les émissions de gaz à effet de serre, conformément aux objectifs du Canada en matière d’énergie propre et de lutte contre les changements climatiques."
+        },
+        {
+          "en": "The project aims to improve roads, power supply, and regional services supporting local communities.",
+          "fr": "Le projet vise à améliorer les routes, l’approvisionnement en électricité et les services régionaux qui soutiennent les collectivités locales."
+        },
+        {
+          "en": "The project is expected to contribute substantial employment for Indigenous communities and provide numerous contracting and business opportunities to Indigenous-led businesses.",
+          "fr": "Il devrait permettre de créer d’importants emplois pour les communautés autochtones et offrir de nombreuses possibilités de passation de marchés et occasions d’affaires aux entreprises dirigées par des Autochtones."
+        }
+      ],
       "description": {
         "en": "The Red Chris Mine Expansion Project is a copper and gold mine located near Iskut, within the Golden Triangle of Northern British Columbia, a region known for its rich mineral deposits. This major mine expansion project presents opportunities for critical minerals development, clean power transmission, Indigenous project leadership, and a potential new conservation area the size of Greece. Developed in close collaboration with the Tahltan Nation, whose Traditional Territory overlaps directly with the mine site, the project supports reconciliation while strengthening Canada’s role as a reliable supplier of critical minerals essential for clean energy and global manufacturing. The mine is also part of the proposed Northwest Critical Conservation Corridor, one of the transformative strategies referred to the Major Projects Office (MPO).",
         "fr": "Le projet d’expansion de la mine Red Chris concerne une mine de cuivre et d’or située près d’Iskut dans le Triangle d’or du nord de la Colombie-Britannique, une région connue pour ses riches gisements minéraux. Cet important projet d’expansion de la mine offre des possibilités de mise en valeur des minéraux critiques, de transmission d’énergie propre et de leadership de la part des peuples autochtones, et pourrait donner lieu à une nouvelle zone de conservation de la taille de la Grèce. Réalisé en étroite collaboration avec la nation Tahltan, dont le territoire traditionnel chevauche directement le site minier, le projet favorise la réconciliation tout en renforçant le rôle du Canada en tant que fournisseur fiable de minéraux critiques indispensables à l’énergie propre et à l’industrie manufacturière mondiale. La mine fait également partie du Corridor essentiel de conservation du Nord-Ouest proposé, l’une des stratégies de transformation mentionnées par le Bureau des grands projets (BPM)."
@@ -2317,14 +2571,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:42:32Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "c67e277a93ed44b66f98ab4f379f6f13ed5fc43e7b385ab7790a93d06e0ffb07",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:42:32Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/red-chris.html"
         }
       ],
@@ -2376,6 +2630,24 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "The Port of Vancouver needs more container capacity by the 2030s to avoid supply chain congestion and higher costs for Canadians. RBT2 would increase the Port’s container capacity by 50%, ensuring that prices remain low and Canadian businesses remain competitive.",
+          "fr": "Le port de Vancouver aura besoin d’une plus grande capacité de conteneurs d’ici les années 2030 afin d’éviter la congestion des chaînes d’approvisionnement et des coûts plus élevés pour la population canadienne. Le projet de Terminal 2 à Roberts Bank augmenterait la capacité de conteneurs du port de 50 %, assurant ainsi que les prix demeurent bas et que les entreprises canadiennes demeurent concurrentielles."
+        },
+        {
+          "en": "The three-berth marine container terminal would enable $100 billion of new trade capacity annually; contribute over $3 billion to Canada’s GDP per year; relieve pressure on downtown container terminals; and support over 17,000 jobs across the supply chain. These factors provide economic benefits to Canadians while strengthening the country’s autonomy, resilience, and security.",
+          "fr": "Ce terminal à conteneurs maritimes avec trois postes de mouillage permettrait de créer une nouvelle capacité commerciale de 100 milliards de dollars par an; contribuerait à hauteur de plus de 3 milliards de dollars au PIB canadien chaque année; allégerait la pression sur les terminaux à conteneurs du centre-ville; et soutiendrait plus de 17 000 emplois tout au long de la chaîne d’approvisionnement. Ces facteurs offrent des avantages économiques à la population canadienne, et ce, tout en renforçant l’autonomie, la résilience et la sécurité du pays."
+        },
+        {
+          "en": "The project has received the consent of 27 Indigenous groups who have signed Mutual Benefit Agreements with the Vancouver Fraser Port Authority.",
+          "fr": "Le projet a reçu le consentement de 27 groupes autochtones qui ont signé des ententes d’avantages mutuels avec l’Administration portuaire Vancouver-Fraser."
+        },
+        {
+          "en": "Combined with development and optimization of bulk land use and rail infrastructure under the Port of Vancouver Gateway Strategy (Gateway Strategy), RBT2 would improve the competitiveness of the Port of Vancouver, provide it with the ability to serve the largest vessels, ensure shipping costs remain low and create efficiencies in the system – which is critical to grow Canadian trade.",
+          "fr": "Associé au développement et à l’optimisation de l’aménagement du territoire et des infrastructures ferroviaires dans le cadre de la Stratégie sur la porte d’entrée du Pacifique, le projet de Terminal 2 à Roberts Bank permettrait d’améliorer la concurrence du port de Vancouver, de lui donner la capacité d’accueillir les plus grands navires, de garantir le maintien de frais de transport à un niveau bas et de générer des gains d’efficacité au sein du système – ce qui est essentiel à la croissance du commerce canadien."
+        }
+      ],
       "description": {
         "en": "Roberts Bank Terminal 2 (RBT2) is a proposed container terminal that would increase the Port of Vancouver’s container capacity by nearly 50%. It is a key project under the Port of Vancouver Gateway Strategy (Gateway Strategy) that would support Canada’s growth and trade diversification objectives, including doubling exports to non- U.S. markets by 2035. The project is comprised of the following major components: A marine landmass Wharf structure and berth pocket Widened causeway Expanded tug basin RBT2 is well advanced in the regulatory and project planning processes, having progressed through relevant regulatory approvals for more than a decade, including a robust environmental assessment approval process and consultations with Indigenous groups led by the project proponent – Vancouver Fraser Port Authority (VFPA). RBT2 completed a federal impact assessment in 2023, received key environmental approvals, and is pending final permits. The VFPA has 27 existing Mutual Benefit Agreements with First Nations for the Project. RBT2 has been referred to the Major Projects Office (MPO) as part of the Gateway Strategy. The MPO has initiated the process for the potential listing of RBT2 under the Building Canada Act (the Act). MPO is progressing consultations with potentially impacted Indigenous communities to inform the federal government’s decision on whether to list the project in the national interest under the Act. Listing RBT2 under the Act would move the project from a lengthy approval phase into a more streamlined delivery phase by coordinating remaining permitting, reducing regulatory delays, and accelerating project execution while keeping it aligned with broader national trade corridor priorities.",
         "fr": "Le projet de Terminal 2 à Roberts Bank (T2RB) est un terminal à conteneurs proposé qui augmenterait la capacité de conteneurs du port de Vancouver de près de 50 %. Il s’agit d’un projet clé dans le cadre de la Stratégie sur la porte d’entrée du port de Vancouver (Stratégie sur la porte d’entrée) qui soutiendrait les objectifs de croissance et de diversification commerciale du Canada, y compris le doublement des exportations vers les marchés non américains d’ici 2035. Le projet proposé comprend les composantes principales suivantes : une masse terrestre marine; une structure de quai et une poche d’amarrage; une route sur digue élargie; un bassin de remorquage agrandi. Le projet de Terminal 2 à Roberts Bank est bien avancé dans les processus réglementaires et de planification, ayant franchi les étapes d’autorisation réglementaires pertinentes depuis plus d’une décennie, notamment un processus rigoureux d’approbation de l’étude d’impact sur l’environnement et des consultations avec les communautés autochtones menées par le promoteur du projet, l’Administration portuaire Vancouver-Fraser (APFV). Le projet de Terminal 2 à Roberts Bank a réussi une évaluation d’impact fédérale en 2023, a reçu des approbations environnementales clés, et attend les permis définitifs. L’Administration portuaire Vancouver-Fraser détient 27 ententes d’avantages mutuels existantes avec les Premières Nations pour le projet. Le projet de Terminal 2 à Roberts Bank a été renvoyé au Bureau des grands projets (BGP) dans le cadre de la Stratégie sur la porte d’entrée. Le BGP a entamé le processus pour l’inscription potentielle du projet de Terminal 2 à Roberts Bank au titre de la Loi visant à bâtir le Canada (la Loi). Le Bureau des grands projets poursuit actuellement des consultations avec les communautés autochtones susceptibles d’être touchées par les répercussions de ce projet, afin d’éclairer la décision du gouvernement fédéral quant à l’occasion de classer ce projet comme étant d’intérêt national au titre de la Loi. L’inscription du projet de Terminal 2 à Roberts Bank au titre de la Loi permettrait de faire passer ce projet d’une longue phase d’autorisation à une phase de mise en œuvre plus fluide, en coordonnant les autorisations restantes, en réduisant les retards réglementaires et en accélérant l’exécution du projet, tout en veillant à ce qu’il reste harmonisé avec les priorités nationales plus larges en matière de corridors commerciaux."
@@ -2464,14 +2736,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:42:37Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "5bbc1fa28aeb9a8a422900837118f4d93838e3acab52d5f3c44443cdae8efef2",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:42:37Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/roberts-bank.html"
         }
       ],
@@ -2507,6 +2779,44 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "This unified hydro grid will support clean power for communities, industrial development, and new resource projects across a region rich in minerals such as copper, zinc, and gold.",
+          "fr": ""
+        },
+        {
+          "en": "Opportunities will also be explored to leverage power from the facility to support the expanded NORAD Forward Operating Location in Yellowknife.",
+          "fr": ""
+        },
+        {
+          "en": "Construction and operation will support Indigenous partnerships, employment, and business opportunities.",
+          "fr": ""
+        },
+        {
+          "en": "Reduces reliance on backup diesel systems and enhances energy security in the region.",
+          "fr": ""
+        },
+        {
+          "en": "",
+          "fr": "Ce réseau hydroélectrique unifié permettra de fournir de l’énergie propre aux communautés et pour le développement industriel et les nouveaux projets d’exploitation des ressources dans une région riche en minéraux (cuivre, zinc et or)."
+        },
+        {
+          "en": "",
+          "fr": "On explorera les possibilités de tirer parti de l’électricité produite par la centrale pour alimenter le site d’opérations avancées du NORAD à Yellowknife."
+        },
+        {
+          "en": "",
+          "fr": "La construction et l’exploitation favoriseront les partenariats, l’emploi et les débouchés économiques pour les Autochtones."
+        },
+        {
+          "en": "",
+          "fr": "Le projet permettra de réduire la dépendance à l’égard des systèmes diesel de secours et renforcera la sécurité énergétique dans la région."
+        },
+        {
+          "en": "",
+          "fr": "L’intégration du réseau hydroélectrique situé au nord du Grand lac des Esclaves au réseau situé au sud du Grand lac des Esclaves pourrait également constituer le point de départ d’une future intégration aux réseaux de l’Alberta ou de la Saskatchewan."
+        }
+      ],
       "description": {
         "en": "The Taltson Hydro Expansion Project is a transformative clean energy initiative that will double the Northwest Territories’ hydro capacity. It will build an additional 60 megawatt hydro facility, and connect the North and South Slave Lake electrical grids for the first time, through a 320-kilometre transmission line, including an underwater section under the lake. This would also set the stage for a future project to connect the Northwest Territories grid to the rest of Canada. The project is being advanced collaboratively by NWT Métis Nation (representing the Fort Resolution Métis Council, Hay River Métis Government Council and the Fort Smith Métis Council), Akaitcho Dene First Nations (representing Łutsel K’e Dene First Nation, Denınu Kų ́ ́ę́ First Nation, and Yellowknives Dene First Nation), and Salt River First Nation. This project, in conjunction with other major Northern Resilience Projects (including the Mackenzie Valley Highway, Grays Bay Road and Port, and the Arctic Economic and Security Corridor), will create significant opportunities for new economic growth and enhance energy sovereignty by increasing access to clean and reliable power. This power will be available for mining and other new industrial developments, and to support Canada’s sovereignty and increased military presence in the North.",
         "fr": "Le projet d’agrandissement de la centrale hydroélectrique Taltson est une initiative transformatrice en matière d’énergie propre qui doublera la capacité hydroélectrique des Territoires du Nord-Ouest. Le projet construira une installation hydroélectrique offrant une capacité supplémentaire de 60 mégawatts et va relier pour la première fois le réseau hydroélectrique situé au nord du Grand lac des Esclaves à celui qui est situé au sud du Grand lac des Esclaves, par l’intermédiaire d’une ligne de transport d’électricité de 320 kilomètres, dont une section passera sous le lac. Le projet ouvrirait également la voie à un futur projet visant à relier le réseau des Territoires du Nord-Ouest au reste du Canada. La Nation des Métis des Territoires du Nord-Ouest (qui représente le Conseil des Métis de Fort Resolution, le Conseil du gouvernement des Métis de Hay River et le Conseil des Métis de Fort Smith), les Premières Nations des Denés de l’Akaitcho (qui représentent la Première Nation des Dénés de Łutsel K’e, la Première Nation Denınu Kų ́ ́ę́ et la Première Nation des Dénés Yellowknives) et la Première Nation de Salt River collaborent à la réalisation du projet. Ce projet, en conjonction avec d’autres grands projets de résilience nordique (notamment la route de la vallée du Mackenzie, le projet de route et port de Grays Bay, et le corridor économique et de sécurité de l’Arctique), générera des occasions importantes de stimuler une nouvelle croissance économique et d’améliorer la souveraineté énergétique en augmentant l’accès à une énergie propre et fiable. Cette énergie pourra être utilisée pour l’exploitation minière et le développement industriel, et pour appuyer la souveraineté du Canada et le renforcement de sa présence militaire dans le Nord."
@@ -2595,14 +2905,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:42:44Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "732de16c74eba2fab1694d01f20a4d2ba3d9e936278585b639c9311752744815",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:42:44Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/taltson.html"
         }
       ],
@@ -2646,6 +2956,36 @@
       ]
     },
     {
+      "benefits": [
+        {
+          "en": "Addresses the limited ability to access global markets from tidewater, which has been a longstanding structural constraint in Canada’s energy infrastructure.",
+          "fr": "Répond à la capacité limitée d’accéder aux marchés mondiaux à partir des côtes, qui constitue une contrainte structurelle de longue date dans l’infrastructure énergétique canadienne."
+        },
+        {
+          "en": "The proposed project would establish a new delivery terminal and marine facility to export crude oil to global markets, which would help diversify and increase exports to new and growing markets.",
+          "fr": "Le projet proposé établirait un nouveau terminal de livraison et une installation maritime pour exporter le pétrole brut vers les marchés mondiaux, ce qui aiderait à diversifier et à augmenter les exportations vers de nouveaux marchés en croissance."
+        },
+        {
+          "en": "With a capacity of one million barrels per day (MMb/d), the proposed project would significantly strengthen Canada’s reputation as a responsible and reliable global energy superpower.",
+          "fr": "Avec une capacité d’un million de barils par jour (MMb/j), le projet proposé renforcerait considérablement la réputation du Canada en tant que superpuissance énergétique mondiale responsable et fiable."
+        },
+        {
+          "en": "The proposed project will include meaningful Indigenous equity purchase rights, drawn equally from Canada and Alberta’s shares in the project, supported equally by the Alberta Indigenous Opportunities Corporation and the Canada Indigenous Loan Guarantee Corporation. Equity participation would provide ongoing investment returns to Indigenous communities, resulting in new income streams that can be reinvested into community priorities, creating generational benefits that extend well beyond the life of the project itself.",
+          "fr": "Le projet proposé comprendra un droit d’acquérir une participation significative destinée aux Autochtones, prélevée à parts égales sur les participations du Canada et de l’Alberta dans le projet, et serait soutenu à égalité des parts par l’Alberta Indigenous Opportunities Corporation (AIOC) et la Corporation de garantie de prêts pour les Autochtones du Canada (CGPAC). La participation fournirait un rendement continu des investissements aux communautés autochtones, ce qui se traduirait par de nouvelles sources de revenus pouvant être réinvesties dans les priorités communautaires, créant ainsi des avantages générationnels qui s’étendraient bien au-delà de la durée du projet lui-même."
+        },
+        {
+          "en": "In addition to potential equity purchase and consultation in respect of the proposed project, the parties intend to pursue further meaningful Indigenous participation, including capacity funding and contracting and employment opportunities.",
+          "fr": "Outre l’acquisition potentielle de participations et les consultations relatives au projet proposé, les parties ont l’intention de favoriser davantage une participation pertinente des Autochtones, notamment au moyen de financements destinés au renforcement des capacités, ainsi que d’occasions de passation de marchés et d’emploi."
+        },
+        {
+          "en": "A new west coast oil pipeline will ensure that Alberta’s oil reserves can deliver greater prosperity for Canadians through increased government revenues, high-paying jobs and international investment attraction.",
+          "fr": "Un nouvel oléoduc sur la côte Ouest garantira que les réserves pétrolières de l’Alberta pourront apporter une plus grande prospérité aux Canadiens grâce à l’augmentation des revenus gouvernementaux, à des emplois bien rémunérés et à l’attraction des investissements internationaux."
+        },
+        {
+          "en": "Employment impacts based on direct and indirect effects could peak at approximately 140,000 jobs at the height of construction. For Alberta, this would be approximately 45,000 jobs; for B.C., this would be approximately 70,000 jobs.",
+          "fr": "Les incidences sur l’emploi, basées sur des effets directs et indirects, pourraient atteindre un sommet d’environ 140 000 emplois au plus fort de la construction. Pour l’Alberta, cela représenterait environ 45 000 emplois; pour la C.-B., cela représenterait environ 70 000 emplois."
+        }
+      ],
       "description": {
         "en": "The Government of Alberta is proposing an interprovincial pipeline, capable of transporting one million barrels per day (MMb/d) of crude oil, from the Edmonton region to a deepwater port in southern British Columbia (B.C.). The proposed project comprises of the following major components: Receipt tank terminal ~1,250 km pipeline 11 pump stations Delivery tank terminal and marine facility The proposed project corridor would begin at a receipt terminal in the Bruderheim area of Alberta. There, it will collect crude oil from various western Canadian pipelines, serving as a central hub where the product will be measured, stored and then transferred into the pipeline. The proposed pipeline and pump stations will transport the crude oil to a proposed marine terminal in southern B.C. for loading onto marine vessels for transport toward export markets. The proposed corridor will largely follow the existing Trans Mountain corridor and will not require any adjustment to the Oil Tanker Moratorium Act. This proposed project is in the early stages of development. The precise route remains to be determined and will continue to be developed through the next stages of the project, including working closely with stakeholders and Indigenous groups to understand areas of concern, wherever possible. The proposal is dependent on the advancement of the Pathways Project, one of the largest carbon capture and storage projects in the world. The Major Projects Office (MPO) is reviewing Alberta’s submission and commencing consultations, including with potentially impacted Indigenous communities, in order to inform the government’s decision on whether to list the project in the national interest, under the Building Canada Act. An ownership group comprised of Trans Mountain Corporation (TMC), Alberta Petroleum Marketing Commission (APMC), and Pembina Pipeline Corporation (Pembina, TSX:PPL) will form and lead a new jointly owned company: Pembina's economic interest through construction will be 10% with the opportunity for up to an additional 10% once the project enters commercial operation. TMC and APMC will own equal shares of the balance of the project. In addition, there will be a real and meaningful opportunity for Indigenous equity participation. Consultations with respect to this participation will begin immediately. TMC will be responsible for construction of the proposed project, making regulatory submissions to receive permits to operate, and subsequent operation of the asset. TMC will be engaged by the new company to design, develop, permit, construct and operate the project.",
         "fr": "Le gouvernement de l’Alberta propose un oléoduc interprovincial, capable de transporter un million de barils par jour (MMb/j) de pétrole brut, de la région d’Edmonton jusqu’à un port en eau profonde situé dans le sud de la Colombie-Britannique (C.-B.). Le projet proposé comprend les composantes principales suivantes : Terminal de réception et de stockage ~1 250 km d’oléoduc 11 stations de pompage Terminal de stockage et d’expédition, installation maritime Le tracé proposé pour le projet débuterait à un terminal de réception situé dans la région de Bruderheim, en Alberta. À cet endroit, il pourra recueillir le pétrole brut provenant de divers oléoducs de l’Ouest canadien, servant ainsi de plaque tournante centrale où le produit sera mesuré, stocké, puis transféré dans l’oléoduc. L’oléoduc proposé et les stations de pompage connexes transporteront le pétrole brut vers un terminal maritime dans le sud de la C.-B., où il sera chargé à bord de navires en vue de son transport vers les marchés d’exportation. Le tracé proposé suivra en grande partie le tracé existant de Trans Mountain et ne nécessitera aucun ajustement à la Loi sur le moratoire relatif aux pétroliers. La voie précise reste à déterminer et continuera d’être développée aux prochaines étapes du projet proposé, notamment en travaillant étroitement avec les parties prenantes et les groupes autochtones pour comprendre les zones préoccupantes, le cas échéant. La proposition dépend de l’avancement du projet Pathways, le plus grand projet mondial de captage et de stockage du carbone. Le Bureau des grands projets examine la soumission de l’Alberta et commence des consultations avec les communautés autochtones potentiellement touchées afin de permettre des décisions éclairées du gouvernement quant à l’inscription du projet dans l’intérêt national, en vertu de la Loi visant à bâtir le Canada. Un groupe de propriétaires composé de Trans Mountain Corporation (TMC), de l’Alberta Petroleum Marketing Commission (APMC) et de Pembina Pipeline Corporation (Pembina, TSX:PPL) formera et dirigera une nouvelle société en copropriété : L’intérêt économique de Pembina au moyen de la phase de construction s’élève à 10 %, avec l’occasion d’une participation supplémentaire pouvant aller jusqu’à 10 % une fois que le projet entrera en phase d’exploitation commerciale. TMC et APMC détiendront à égalité de parts le reste du projet. De plus, il y aura une occasion réelle et significative pour la participation des Autochtones à l’équité. Les consultations relatives à cette participation débuteront immédiatement. TMC sera responsable de la construction du projet proposé, du dépôt des demandes réglementaires en vue de l’obtention des autorisations d’exploitation, ainsi que de l’exploitation ultérieure de l’actif. Trans Mountain Corporation sera mobilisée par la nouvelle société établie en vue de concevoir, développer, construire et exploiter le projet, ainsi qu’en vue d’obtenir les autorisations connexes."
@@ -2738,14 +3078,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-03T17:42:48Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "effea4c754e5af22c598c64f667daeae355abd8c79d2f923f5cf5df603718362",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-03T17:42:48Z",
+          "retrieved_at": "2026-09-06T01:34:32Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/west.html"
         }
       ],

@@ -127,6 +127,35 @@ def _quick_facts(en: mpo.ParsedPage, fr: mpo.ParsedPage) -> tuple[QuickFact, ...
     )
 
 
+def _benefits(en: mpo.ParsedPage, fr: mpo.ParsedPage) -> tuple[Text, ...]:
+    """
+    Pair the Benefits bullets EN-to-FR, positionally, like the quick facts.
+
+    Same safety argument as `_quick_facts`: both language pages are generated
+    from one source and list the bullets in the same order, so position is a
+    valid key — but only while the counts agree. When they do not, pairing
+    bullet 3 to bullet 4 would put a French sentence under an unrelated English
+    one and still look entirely right, so nothing is paired.
+
+    Where this differs from `_quick_facts` is what happens to the unmatched
+    side. A quick fact that loses its French label is still shown; a benefit
+    that loses its French bullet would DISAPPEAR, because the bullet is the
+    whole record. The French Taltson page really does publish a fifth benefit
+    the English page omits (on integrating the grids north and south of Great
+    Slave Lake), and dropping the FR side would delete published federal text
+    from the app entirely — the one thing this pipeline exists not to do.
+
+    So on a mismatch both lists are carried whole and unpaired: English bullets
+    with an empty `fr`, then French bullets with an empty `en`. Each language
+    then renders its own source list, complete, and no sentence is presented as
+    the translation of another. `ProjectViewer` does that selection.
+    """
+    if len(en.benefits) == len(fr.benefits):
+        return tuple(_pair(e, f) for e, f in zip(en.benefits, fr.benefits))
+    return (tuple(Text(en=b, fr="") for b in en.benefits)
+            + tuple(Text(en="", fr=b) for b in fr.benefits))
+
+
 def _updates(en: mpo.ParsedPage, fr: mpo.ParsedPage) -> tuple[Update, ...]:
     if len(en.updates) != len(fr.updates):
         return tuple(Update(date=u.date_verbatim, date_verbatim=u.date_verbatim,
@@ -203,6 +232,10 @@ def build_project(fetch: Fetcher, slug: str, feats_en: list[dict],
     if url_fr and len(page_en.quick_facts) != len(page_fr.quick_facts):
         log.warning("%s: EN has %d quick facts, FR has %d — dropping the FR side",
                     slug, len(page_en.quick_facts), len(page_fr.quick_facts))
+    if url_fr and len(page_en.benefits) != len(page_fr.benefits):
+        log.warning("%s: EN has %d benefits, FR has %d — carrying both lists "
+                    "unpaired so neither loses a bullet",
+                    slug, len(page_en.benefits), len(page_fr.benefits))
 
     props_en = feats_en[0]["properties"]
     props_fr = feats_fr[0]["properties"] if feats_fr else {}
@@ -237,6 +270,7 @@ def build_project(fetch: Fetcher, slug: str, feats_en: list[dict],
         description=_pair(page_en.description, page_fr.description),
         sites=sites,
         quick_facts=_quick_facts(page_en, page_fr),
+        benefits=_benefits(page_en, page_fr),
         updates=_updates(page_en, page_fr),
         media=_images(fetch, page_en, slug, do_images),
         page_url=_pair(url_en, url_fr),

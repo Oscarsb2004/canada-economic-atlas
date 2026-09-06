@@ -89,6 +89,8 @@ export interface Project {
   description: Text;
   sites: Site[];
   quick_facts: QuickFact[];
+  /** The page's own "Benefits" bullets, verbatim, one entry per bullet. */
+  benefits: Text[];
   updates: Update[];
   media: MediaRef[];
   page_url: Text;

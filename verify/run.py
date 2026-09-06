@@ -149,6 +149,34 @@ def check_projects(r: Report) -> None:
     if mismatched:
         r.note(f"quick facts with no French label on {sorted(set(mismatched))}")
 
+    # Benefits is a <ul> under an <h3> rather than its own <h2> section, so a
+    # template change that moves or renames it would empty this field on every
+    # page at once while every other field still parsed. All 18 pages carry it
+    # in both languages today; a zero is a parser failure, not a quiet page.
+    no_benefits = [p["slug"] for p in projects if not p.get("benefits")]
+    r.gate(not no_benefits, "every project has Benefits bullets", str(no_benefits))
+
+    # Both languages must be represented, but NOT necessarily bullet-for-bullet:
+    # the French Taltson page publishes a fifth benefit the English page omits,
+    # so its bullets are carried unpaired on purpose. What would be a real
+    # failure is a project whose Benefits parsed in one language only — that is
+    # the FR-heading trap ("Faits saillants", not "Faits en bref") coming back.
+    one_sided = [
+        p["slug"] for p in projects
+        if p.get("benefits")
+        and not (any(b["en"] for b in p["benefits"]) and any(b["fr"] for b in p["benefits"]))
+    ]
+    r.gate(not one_sided, "Benefits parsed in both languages for every project",
+           str(one_sided))
+
+    unpaired = [
+        p["slug"] for p in projects
+        if any(not b["fr"] for b in p.get("benefits", []))
+    ]
+    if unpaired:
+        r.note(f"EN and FR publish a different number of benefits on {sorted(set(unpaired))}"
+               f" — carried unpaired, each language rendering its own list")
+
     # Media: both derived sizes must exist on disk, not just be referenced.
     missing_media = []
     for p in projects:
