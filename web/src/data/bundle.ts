@@ -165,6 +165,13 @@ export interface Bundle {
   rates: { policy_rate?: { period: string; value: number; label: string } };
   world: GeoJSON.FeatureCollection;
   provinces: GeoJSON.FeatureCollection;
+  /**
+   * Canada's national outline, dissolved from `provinces` so its arcs are
+   * identical to them. This is what the globe highlights — NOT the world
+   * source filtered to CAN, which at 1:110m is nine polygons with no Vancouver
+   * Island, no Haida Gwaii and almost no Arctic archipelago.
+   */
+  canada: GeoJSON.FeatureCollection;
 }
 
 /** The bundle's major version this client knows how to read. */
@@ -199,7 +206,7 @@ async function json<T>(path: string): Promise<T> {
 /**
  * Load everything the app needs, in parallel.
  *
- * The whole bundle is ~1.4 MB plus 385 KB of geometry, which is why this is one
+ * The whole bundle is ~1.4 MB plus 662 KB of geometry, which is why this is one
  * eager load rather than lazy routes: chunking would add machinery to defer
  * less than a single map tile's worth of bytes.
  *
@@ -207,7 +214,7 @@ async function json<T>(path: string): Promise<T> {
  * whose shape changed is worse than failing, because it looks like it worked.
  */
 export async function loadBundle(): Promise<Bundle> {
-  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, companiesDoc, rates, world, provinces] =
+  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, companiesDoc, rates, world, provinces, canada] =
     await Promise.all([
       json<Bundle["meta"]>("/data/meta.json"),
       json<Palette>("/data/palette.json"),
@@ -220,6 +227,7 @@ export async function loadBundle(): Promise<Bundle> {
       json<Bundle["rates"]>("/data/sectors/rates.json"),
       json<GeoJSON.FeatureCollection>("/geo/world.json"),
       json<GeoJSON.FeatureCollection>("/geo/provinces.json"),
+      json<GeoJSON.FeatureCollection>("/geo/canada.json"),
     ]);
 
   const major = Number(String(meta.schema_version).split(".")[0]);
@@ -241,6 +249,7 @@ export async function loadBundle(): Promise<Bundle> {
     rates,
     world,
     provinces,
+    canada,
   };
 }
 

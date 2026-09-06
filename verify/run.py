@@ -337,8 +337,26 @@ def check_bundle(r: Report) -> None:
         str(v),
     )
 
-    for rel in ("geo/world.json", "geo/provinces.json", "geo/SOURCES.json"):
+    for rel in ("geo/world.json", "geo/provinces.json", "geo/canada.json",
+                "geo/SOURCES.json"):
         r.gate((WEB / rel).exists(), f"geometry artifact {rel} is committed", "missing")
+
+    # The globe highlights Canada from canada.json rather than from Natural
+    # Earth filtered to CAN, because the 1:110m feature is 9 polygons with no
+    # Vancouver Island and almost no Arctic archipelago. A regression to that
+    # source, or a rebuild that dropped `keep-shapes`, would show up here as a
+    # collapsed polygon count long before anyone noticed the coastline was wrong.
+    outline = json.loads((WEB / "geo/canada.json").read_text(encoding="utf-8"))
+    geom = outline["features"][0]["geometry"]
+    parts = geom["coordinates"] if geom["type"] == "MultiPolygon" else [geom["coordinates"]]
+    r.gate(len(parts) > 400,
+           "the Canada outline keeps its islands (>400 polygons)",
+           f"{len(parts)} polygons — Natural Earth 1:110m would give 9")
+
+    ys = [c[1] for part in parts for ring in part for c in ring]
+    r.gate(max(ys) > 83,
+           "the Canada outline reaches Ellesmere (>83 degrees N)",
+           f"northernmost point is {max(ys):.2f}")
 
 
 # ── Entry point ────────────────────────────────────────────────────────────────

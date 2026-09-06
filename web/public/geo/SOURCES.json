@@ -22,11 +22,13 @@
   },
   "commands": {
     "world": "-i \"data/raw/geo/ne_110m_admin_0_countries.geojson\" -filter-fields ADM0_A3,ISO_A3,NAME -simplify 20% keep-shapes -o format=geojson precision=0.01 \"web/public/geo/world.json\"",
-    "provinces": "-i \"data/raw/geo/lpr_000b21a_e.zip\" -proj wgs84 -simplify 0.1% keep-shapes -filter-fields PRUID,PRENAME,PRFNAME -o format=geojson precision=0.001 \"web/public/geo/provinces.json\""
+    "provinces": "-i \"data/raw/geo/lpr_000b21a_e.zip\" -proj wgs84 -simplify 0.1% keep-shapes -filter-fields PRUID,PRENAME,PRFNAME -o format=geojson precision=0.001 \"web/public/geo/provinces.json\"",
+    "canada": "-i \"web/public/geo/provinces.json\" -dissolve2 -each 'name=\"Canada\"' -o format=geojson precision=0.001 \"web/public/geo/canada.json\""
   },
   "notes": {
     "iso_a3": "Natural Earth ISO_A3 is '-99' for Norway, France, N. Cyprus, Somaliland and Kosovo. Join on ADM0_A3.",
     "projection": "The StatCan source is NAD83 Statistics Canada Lambert; -proj wgs84 converts it for MapLibre.",
-    "province_codes": "PRUID is the StatCan numeric key (10 NL, 11 PE, 12 NS, 13 NB, 24 QC, 35 ON, 46 MB, 47 SK, 48 AB, 59 BC, 60 YT, 61 NT, 62 NU)."
+    "province_codes": "PRUID is the StatCan numeric key (10 NL, 11 PE, 12 NS, 13 NB, 24 QC, 35 ON, 46 MB, 47 SK, 48 AB, 59 BC, 60 YT, 61 NT, 62 NU).",
+    "canada": "canada.json is the national outline, dissolved from provinces.json so its arcs are identical to the province geometry. It replaces filtering world.json to ADM0_A3=CAN, which at 1:110m is 9 polygons and omits Vancouver Island, Haida Gwaii and most of the Arctic archipelago."
   }
 }

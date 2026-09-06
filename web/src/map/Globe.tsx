@@ -64,6 +64,7 @@ function buildStyle(bundle: Bundle): StyleSpecification {
     version: 8,
     sources: {
       world: { type: "geojson", data: bundle.world as never },
+      canada: { type: "geojson", data: bundle.canada as never },
       provinces: { type: "geojson", data: provincesWithGdp(bundle) as never },
       corridors: { type: "geojson", data: corridorGeoJSON(bundle) as never },
     },
@@ -87,29 +88,34 @@ function buildStyle(bundle: Bundle): StyleSpecification {
         source: "world",
         paint: { "line-color": bundle.palette.surface.page, "line-width": 0.5 },
       },
-      // Canada, highlighted. Join on ADM0_A3: Natural Earth publishes ISO_A3 as
-      // "-99" for five countries, and while Canada is not one of them, using the
-      // unreliable field anywhere invites using it where it does break.
+      // Canada, highlighted as a LIT COASTLINE rather than a filled shape.
+      //
+      // This draws from `canada` — the outline dissolved from the StatCan
+      // provincial boundaries — and not from `world` filtered to ADM0_A3=CAN,
+      // which is what it used to do. Natural Earth at 1:110m gives Canada nine
+      // polygons and 146 points: no Vancouver Island, no Haida Gwaii, no
+      // Anticosti, and an Arctic archipelago reduced to a few lozenges. It read
+      // as a cartoon of the country. The dissolved boundary is 451 polygons and
+      // 16,121 points, so every island carries its own highlight.
+      //
+      // Two passes. The glow is a wide blurred line that gives the country
+      // presence at globe zoom, where a 1px hairline on the Arctic islands
+      // would disappear; the hairline on top is what actually traces the coast.
+      // Both use `line`, not `fill`, so the archipelago reads as the lacework
+      // of channels it is instead of one solid mass.
       {
-        id: "canada",
-        type: "fill",
-        source: "world",
-        filter: ["==", ["get", "ADM0_A3"], "CAN"],
-        // Fades OUT as the provincial choropleth fades in. Both are fills over
-        // the same ground, so leaving this on underneath tints every province
-        // toward the accent and flattens a ramp that spans 3,243 to 900,845 —
-        // the choropleth looks broken when in fact it is being painted over.
-        paint: {
-          "fill-color": accent,
-          "fill-opacity": ["interpolate", ["linear"], ["zoom"], 2.4, 0.22, 3.8, 0],
-        },
-      },
-      {
-        id: "canada-outline",
+        id: "canada-glow",
         type: "line",
-        source: "world",
-        filter: ["==", ["get", "ADM0_A3"], "CAN"],
-        paint: { "line-color": accent, "line-width": 1.1 },
+        source: "canada",
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: {
+          "line-color": accent,
+          "line-width": ["interpolate", ["linear"], ["zoom"], 1.5, 5, 4, 9],
+          "line-blur": ["interpolate", ["linear"], ["zoom"], 1.5, 4, 4, 8],
+          // Eases off as the choropleth takes over: past that zoom the
+          // provinces carry the colour and the glow is only haze on the coast.
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2.4, 0.5, 4.5, 0.18],
+        },
       },
       // Provincial choropleth. Magnitude is a SEQUENTIAL job: one hue,
       // light-to-dark, from the validated ramp. A categorical scale here would
@@ -130,6 +136,20 @@ function buildStyle(bundle: Bundle): StyleSpecification {
             ...seqStops(bundle),
           ],
           "fill-opacity": ["interpolate", ["linear"], ["zoom"], 2.4, 0, 3.8, 0.85],
+        },
+      },
+      // Drawn after `provinces-fill` on purpose: the choropleth reaches 0.85
+      // opacity over exactly this footprint, so an outline underneath it would
+      // fade out along every coast at precisely the zoom where the coast is
+      // most legible.
+      {
+        id: "canada-outline",
+        type: "line",
+        source: "canada",
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: {
+          "line-color": accent,
+          "line-width": ["interpolate", ["linear"], ["zoom"], 1.5, 0.8, 4, 1.4, 7, 2.2],
         },
       },
       // Province boundaries fade in as the globe becomes a map — invisible at

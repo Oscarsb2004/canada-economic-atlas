@@ -32,7 +32,7 @@ not be rediscovered.
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
 | **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
 | **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
-| **`verify/` (M6)** | **Done.** 44 gate checks, 0 failures. Does not import `atlas/`. |
+| **`verify/` (M6)** | **Done.** 47 gate checks, 0 failures. Does not import `atlas/`. |
 | **`tests/` (M6)** | **Done.** 29 tests, each explaining the failure it prevents. |
 | **`run.py`, `CLAUDE.md`** | **Done.** Single entry point; agent invariants. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
@@ -72,6 +72,14 @@ Natural Earth 1:110m v5.1.2) and `provinces.json` (319 KB, 13 provinces, StatCan
 2021, reprojected to WGS84), plus `SOURCES.json` recording every input and the
 verbatim mapshaper commands. Byte-identical across rebuilds.
 
+`canada.json` (277 KB) was added 2026-09-06: the national outline, `-dissolve2`
+from `provinces.json` so its arcs are identical to them. The globe highlights
+Canada from this, as a glow plus a hairline coastline, rather than filling the
+world source's CAN feature — which at 1:110m is **9 polygons and 146 points**,
+with no Vancouver Island, no Haida Gwaii and an Arctic archipelago reduced to
+lozenges. The dissolved outline is **451 polygons and 16,121 points**, reaching
+83.14 degrees N. `verify/` gates both numbers.
+
 **All five interop asks are now landed** (A1 country.json, A2 geometry, A3
 palette, A4 semver, A5 schema banners).
 
@@ -103,7 +111,7 @@ found and fixed two real issues (see below).
 
 ## v1 is COMPLETE per the `PLAN.md` §10 scope fence
 
-Full pipeline runs end to end; 29 tests pass; 44 gate checks pass; a re-run from
+Full pipeline runs end to end; 29 tests pass; 47 gate checks pass; a re-run from
 a clean baseline leaves a zero-line git diff.
 
 ```
@@ -326,6 +334,13 @@ numbers.
 second setup bails while the first map is torn down, leaving a live canvas whose
 map object is destroyed. Every `getSource` / `getStyle` afterwards returns
 undefined. The effect's cleanup is the mechanism; the guard is the bug.
+
+**Natural Earth 1:110m is not a coastline.** It is a globe backdrop, and it is
+right for that — but Canada's feature there is 9 polygons for a country with
+thousands of islands. Anything that traces, outlines or measures Canadian
+geography reads `canada.json`; `world.json` is only ever the other 176 countries
+underneath. The two are also drawn differently on purpose: `world` gets a fill,
+Canada gets lines, so the archipelago reads as channels rather than a mass.
 
 **Two fills over the same ground stack.** The provincial choropleth looked
 broken — every province identical — because the Canada highlight was still
