@@ -159,6 +159,11 @@ Stage P covers the family: what the three repos actually duplicate, why the
 recommendation is to share a spine rather than merge, and the `athena.toml` +
 launcher design for running them all from one place.
 
+**[`docs/PROGRAM.md`](docs/PROGRAM.md) is the long-term plan across all three
+repos** — nine milestones, namespaced IDs so `CEA-B1` and `WSM-B1` stop
+colliding, the dependency graph, every decision you owe batched by when it is
+needed, and what would make the plan wrong.
+
 ---
 
 ## Sibling repo — read before step 4 and step 5

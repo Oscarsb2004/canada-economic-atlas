@@ -16,7 +16,8 @@ The division of labour between the four documents in this repo is deliberate:
 | `docs/ROADMAP.md` | **what is defensible** — the analysis behind the items below |
 | `docs/CODE-TOUR.md` | what every file does, and the review findings |
 | `STATUS.md` | what is **built**, and the findings that cost real work |
-| **this file** | **what to do next, in what order** |
+| **this file** | **what to do next in this repo, in what order** |
+| [`docs/PROGRAM.md`](PROGRAM.md) | **the long-term plan across all three repos** — milestones, the dependency graph, the shared spine and the launcher |
 
 `ROADMAP.md` is not superseded by this file and should not be folded into it. It
 carries the reasoning — why MPI's capital ceiling is 6-of-18 and structural, why
