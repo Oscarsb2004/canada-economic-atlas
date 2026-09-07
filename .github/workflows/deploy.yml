@@ -8,15 +8,11 @@ name: Build (and deploy to Pages on demand)
 # To refresh the data, run `python run.py` locally and commit the result. The
 # diff is the review.
 #
-# PAGES IS NOT ENABLED YET. The repo is private, and Pages needs a public repo
-# on the Free plan. So the `build` job runs on every push as ordinary CI —
-# typecheck plus a real production build, which is worth having on its own —
-# and the `deploy` job is held behind a manual trigger so it cannot fail on
-# push against a Pages site that does not exist.
+# Pages is enabled and every push to main deploys.
 #
-# WHEN YOU ENABLE PAGES: make the repo public, set Settings → Pages → Source to
-# "GitHub Actions", then delete the `if:` on the deploy job below so it runs
-# automatically. Nothing else needs to change.
+# The `build` job is worth having on its own even when a deploy is not wanted:
+# it typechecks and runs a real production build, so a push that would have
+# shipped a broken site fails here instead of shipping.
 
 on:
   push:
@@ -70,8 +66,6 @@ jobs:
 
   deploy:
     needs: build
-    # Remove this line once Pages is enabled — see the header.
-    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
