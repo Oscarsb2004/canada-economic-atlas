@@ -1,5 +1,7 @@
 # Canada Economic Atlas
 
+**→ <https://oscarsb2004.github.io/canada-economic-atlas/>**
+
 An interactive read of the Canadian economy in two halves: a globe showing
 **Canada in the world** with geolocated federal project pins, and an analytical
 panel of **sector-level GDP time series** and the notable companies within each
@@ -14,17 +16,43 @@ Part of the Athena platform family, alongside `African-Stability-Index`.
 
 ## Status
 
-Early. The Python spine is built and live-verified; the pipeline stages and the
-web app are not yet written. **See [STATUS.md](STATUS.md)** for exactly what
-exists, what is next, and the parsing findings that should not be rediscovered.
+**v1 is complete and deployed.** The four pipeline stages run end to end, 29
+tests and 47 verification gates pass, and a re-run against unchanged sources
+produces a zero-line git diff — which is the acceptance test for every stage,
+not a coincidence.
 
-Full design: [docs/PLAN.md](docs/PLAN.md).
+What is live: 18 Major Projects Office projects geolocated on a globe with their
+verbatim text, nine chart forms over 23 national and 299 provincial GDP series,
+a provincial choropleth, and pinnable views. Every record is captured in **both
+official languages**; the interface currently renders English only, and the
+language toggle is the next item in the backlog.
+
+| | |
+|---|---|
+| What exists, and the findings that cost real work | [STATUS.md](STATUS.md) |
+| What to do next, in order | [docs/BACKLOG.md](docs/BACKLOG.md) |
+| The long-term plan across all three repos | [docs/PROGRAM.md](docs/PROGRAM.md) |
+| What every file does | [docs/CODE-TOUR.md](docs/CODE-TOUR.md) |
+| What is analytically defensible, and what is not | [docs/ROADMAP.md](docs/ROADMAP.md) |
+| How the site is published | [docs/HOSTING.md](docs/HOSTING.md) |
+| The full design | [docs/PLAN.md](docs/PLAN.md) |
 
 ## Quick start
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```bash
+python run.py            # the whole pipeline, then verify
+```
+
+That is the only command needed. On first use it creates `.venv`, installs
+`requirements.txt` into it, and re-executes itself inside — there is nothing to
+activate by hand, and it reinstalls only when the pins actually change.
+
+```bash
+python run.py --stage 01 # one stage (01 | 02 | 03 | 04)
+python run.py --verify   # independent verification only
+python run.py --test     # pytest only
+python run.py --refresh  # bypass the HTTP cache when pulling
+cd web && npm run dev    # the app, at http://localhost:5173
 ```
 
 ## Layout
