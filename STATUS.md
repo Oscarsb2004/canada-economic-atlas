@@ -192,26 +192,25 @@ Read it before writing `04_bundle.py` or running `validate_palette.js`.
 
 ## Remote and deployment
 
-**`github.com/Oscarsb2004/canada-economic-atlas` — PRIVATE.** Pushed
-2026-09-05. The work is now backed up off this machine, which it previously was
-not.
+**`github.com/Oscarsb2004/canada-economic-atlas` — PUBLIC, and live at
+<https://oscarsb2004.github.io/canada-economic-atlas/>** since 2026-09-06.
 
-**Pages is prepared but NOT enabled.** Pages needs a public repo on the Free
-plan, and publishing was deliberately deferred. Everything technical is already
-committed and CI is green.
+Every push to `main` now builds and deploys. Verified on the first deploy: all
+10 data files, all 3 geometry files and all 18 project thumbnails returned 200,
+with no console errors.
 
-To turn it on:
+Going public exposed the full commit history, this file, `BACKLOG.md`,
+`PROGRAM.md`, the ~4.5 MB data bundle and all 18 federal renderings. All of it
+is Open Government Licence content with attribution rendered in the app, and
+there are no credentials in the repo.
 
-1. Make the repo public (`gh repo edit --visibility public`).
-2. Settings → Pages → Source → **GitHub Actions**.
-3. Delete the one `if:` line on the `deploy` job in
-   `.github/workflows/deploy.yml`.
-
-It will then serve at `https://oscarsb2004.github.io/canada-economic-atlas/`.
-Note what going public exposes: the full commit history, `STATUS.md`, the
-~4.5 MB data bundle and all 18 federal renderings. All of it is Open Government
-Licence content with attribution rendered in the app, and there are no
-credentials in the repo — but it is a deliberate choice, not a formality.
+⚠ **The base path is the thing that breaks on a rename.** A project site serves
+from `/<repo>/`, and `VITE_BASE` is derived from the repository name in the
+workflow rather than hardcoded, so a rename or a fork cannot silently ship a
+site whose assets all 404. `asset()` in `bundle.ts` is the runtime half of the
+same guarantee — it resolves every site-absolute path in the committed data
+against `import.meta.env.BASE_URL`, which is why the bundle stays
+deployment-agnostic rather than being rewritten per host.
 
 **The workflow builds but does not scrape.** The bundle is committed, so a
 deploy is a pure build of the repo — CI hitting canada.ca and StatCan on every
