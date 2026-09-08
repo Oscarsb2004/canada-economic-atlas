@@ -1,0 +1,243 @@
+{
+  "content_sha256": "ef6f61d4c8b674042e43e7f832bcfd743e2985dbd7c361ae9c406a675e3458a7",
+  "corridor": {
+    "corridor_id": "prairie",
+    "description": {
+      "en": "The Prairie Corridor, encompassing the provinces of Alberta, Saskatchewan and Manitoba, is a vital part of Canada’s national and international transportation networks. The region is rich in natural resources and specializes in oil and gas extraction, grain and agrifoods, and critical minerals like potash and uranium. Together the Prairie provinces exported $249 billion worth of goods in 2024. Crude oil via pipeline to the U.S. accounts for the largest share of Prairie exports (55% in 2024, or $137 billion). Exports of other goods to the U.S. mostly travel via regional rail border crossings.",
+      "fr": "Le corridor des Prairies, qui englobe les provinces de l’Alberta, de la Saskatchewan et du Manitoba, est un élément essentiel des réseaux de transport nationaux et internationaux du Canada. La région est riche en ressources naturelles, spécialisée dans l’extraction de pétrole et de gaz, les céréales et les produits agroalimentaires, et les minéraux essentiels comme la potasse et l’uranium. Ensemble, les provinces des Prairies ont exporté pour 249 milliards de dollars de marchandises en 2024. Le pétrole brut acheminé par oléoduc vers les États-Unis représente la plus grande part des exportations des Prairies (55 % en 2024, soit 137 milliards de dollars). Les exportations d’autres marchandises vers les États-Unis s’effectuent principalement aux postes frontaliers ferroviaires régionaux."
+    },
+    "event_slug": "trade-corridors",
+    "location_verbatim": {
+      "en": "encompassing the provinces of Alberta, Saskatchewan and Manitoba",
+      "fr": "qui englobe les provinces de l'Alberta, de la Saskatchewan et du Manitoba"
+    },
+    "modes": [
+      {
+        "items": [
+          {
+            "en": "Proximity to the Port of Thunder Bay connects the Prairies with Central Canada's marine shipping routes",
+            "fr": "Proximité du port de Thunder Bay qui permet de relier les Prairies aux routes maritimes du centre du Canada"
+          }
+        ],
+        "label": {
+          "en": "Marine",
+          "fr": "Transport maritime"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "Service by CN, CPKC, and BNSF",
+            "fr": "Service assuré par le CN, le CPKC et le BNSF"
+          },
+          {
+            "en": "Northern Manitoba is serviced by The Hudson Bay Railway",
+            "fr": "Nord du Manitoba desservi par le chemin de fer de la baie d'Hudson"
+          }
+        ],
+        "label": {
+          "en": "Rail",
+          "fr": "Transport ferroviaire"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "Two national highways (Trans-Canada and Yellowhead)",
+            "fr": "Deux routes nationales (Transcanadienne et Yellowhead)"
+          },
+          {
+            "en": "Highways 4, 6, 39, and 75 have border crossings",
+            "fr": "Passages frontaliers aux routes 4, 6, 39 et 75"
+          }
+        ],
+        "label": {
+          "en": "Road",
+          "fr": "Transport routier"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "Five National Airports System airports (Edmonton, Calgary, Saskatoon, Regina, and Winnipeg)",
+            "fr": "Cinq aéroports du réseau d'aéroports national (Edmonton, Calgary, Saskatoon, Regina et Winnipeg)"
+          }
+        ],
+        "label": {
+          "en": "Air",
+          "fr": "Transport aérien"
+        }
+      }
+    ],
+    "name": {
+      "en": "Prairie Corridor",
+      "fr": "Corridor des Prairies"
+    },
+    "nodes": [
+      {
+        "geometry": {
+          "anchor": [
+            -94.17,
+            58.77
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -94.17,
+              58.77
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "encompassing the provinces of Alberta, Saskatchewan and Manitoba",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Churchill",
+          "fr": "Port de Churchill"
+        },
+        "node_id": "churchill"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -89.25,
+            48.38
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -89.25,
+              48.38
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "encompassing the provinces of Alberta, Saskatchewan and Manitoba",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Thunder Bay",
+          "fr": "Port de Thunder Bay"
+        },
+        "node_id": "thunder-bay"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -111.96,
+            49.0
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -111.96,
+              49.0
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "encompassing the provinces of Alberta, Saskatchewan and Manitoba",
+          "provinces": []
+        },
+        "kind": "border_crossing",
+        "name": {
+          "en": "Coutts",
+          "fr": "Coutts"
+        },
+        "node_id": "coutts"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -102.55,
+            49.0
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -102.55,
+              49.0
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "encompassing the provinces of Alberta, Saskatchewan and Manitoba",
+          "provinces": []
+        },
+        "kind": "border_crossing",
+        "name": {
+          "en": "North Portal",
+          "fr": "North Portal"
+        },
+        "node_id": "north-portal"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -97.21,
+            49.0
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -97.21,
+              49.0
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "encompassing the provinces of Alberta, Saskatchewan and Manitoba",
+          "provinces": []
+        },
+        "kind": "border_crossing",
+        "name": {
+          "en": "Emerson",
+          "fr": "Emerson"
+        },
+        "node_id": "emerson"
+      }
+    ],
+    "overlaps_provinces": false,
+    "provenance": "derived",
+    "provinces": [
+      "AB",
+      "SK",
+      "MB"
+    ],
+    "sources": [
+      {
+        "content_sha256": "115af1b4006e7be0636a4f5a5c6bdce9efa0530d6847365b3b5a8fb71f64680a",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-08T22:35:42Z",
+        "url": "https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network"
+      },
+      {
+        "content_sha256": "23a05b17dff3305ad7031ae5835e29269d6dd57a139930d45d866f912127aeb2",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-08T22:35:42Z",
+        "url": "https://tc.canada.ca/fr/services-generaux/transparence/gestion-rapports-ministeriels/rapports-annuels-transports-canada/transports-canada-2024/role-reseau-transport-canadien"
+      }
+    ],
+    "unmapped_note": {
+      "en": "",
+      "fr": ""
+    }
+  },
+  "retrieved_at": "2026-09-08T22:35:42Z",
+  "slug": "prairie"
+}

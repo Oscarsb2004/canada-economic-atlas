@@ -45,3 +45,40 @@ events:
     # The MPO's own sector vocabulary. Deliberately NOT the NAICS taxonomy in
     # sectors.yaml — these are different vocabularies and are not joined.
     sectors: [Electricity, Energy, Industrial, Infrastructure, Mining, Transport]
+
+  # ── Trade corridors ─────────────────────────────────────────────────────────
+  #
+  # A reference document rather than a policy: Transport Canada's annual report
+  # DESCRIBES the network trade already moves through, where the Major Projects
+  # Office event announces things that will be built. Both are curated events
+  # with verbatim text and geometry, which is why one loader serves both.
+  - slug: trade-corridors
+    kind: reference_document
+    title:
+      en: Nationally significant trade corridors
+      fr: Corridors commerciaux d'importance nationale
+    # Transport Canada's 2024 annual report.
+    date: 2025-01-01
+    source_module: atlas.sources.tc_corridors
+    sources: [tc_annual_report]
+    licence: ogl-canada-2.0
+
+    # FIVE, not four. Summaries of the source page routinely list Pacific,
+    # Prairie, Central and Atlantic and omit NORTHERN — and the omission is
+    # invisible, because four corridors still sum to something and still draw
+    # something. Asserting the count here is what makes a future drop loud.
+    expected:
+      corridors: 5
+      nodes: 25
+
+    # The corridors are NOT a partition of the provinces: Northern is defined by
+    # latitude, so it overlaps the four described by province. Stated here as
+    # well as in corridors.yaml because a reader meeting the event first would
+    # otherwise assume the five tile the country.
+    disclaimer:
+      en: The Northern Corridor is defined by latitude — regions north of 55
+          degrees — so it overlaps the corridors described by province. The
+          corridors do not partition Canada.
+      fr: Le corridor du Nord est défini par la latitude — les régions au nord du
+          55e parallèle — et chevauche donc les corridors décrits par province.
+          Les corridors ne divisent pas le Canada en parties distinctes.

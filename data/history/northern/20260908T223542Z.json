@@ -1,0 +1,179 @@
+{
+  "content_sha256": "40c8e9f6e97a5d049be2ae267c3b79527102dc2682e84618b4cbeec2fb77062b",
+  "corridor": {
+    "corridor_id": "northern",
+    "description": {
+      "en": "Canada’s Northern Corridor spans regions north of 55 degrees latitude, including the Yukon, Northwest Territories, Nunavut, and parts of British Columbia, Saskatchewan, Manitoba, Ontario, Quebec, and Labrador. This expansive area covers roughly 48% of Canada’s landmass—around 4.8 million square kilometres—but is sparsely populated, with a population of around 150,000.",
+      "fr": "Le corridor du Nord du Canada s’étend sur les régions situées au nord du 55 e degré de latitude, notamment le Yukon, les Territoires du Nord-Ouest, le Nunavut et certaines parties de la Colombie-Britannique, de la Saskatchewan, du Manitoba, de l’Ontario, du Québec et du Labrador. Cette vaste région couvre environ 48 % de la superficie du Canada, soit environ 4,8 millions de kilomètres carrés, mais elle est peu peuplée, avec une population d’environ 150 000 habitants."
+    },
+    "event_slug": "trade-corridors",
+    "location_verbatim": {
+      "en": "spans regions north of 55 degrees",
+      "fr": "s'étend sur les régions situées au nord du 55e parallèle"
+    },
+    "modes": [
+      {
+        "items": [
+          {
+            "en": "Three key ports (Churchill, Iqaluit, Tuktoyaktuk)",
+            "fr": "Trois ports clés (Churchill, Iqaluit, Tuktoyaktuk)"
+          },
+          {
+            "en": "Churchill and Iqaluit are the only deep-water ports in the Arctic",
+            "fr": "Churchill et Iqaluit sont les seuls ports en eau profonde de l'Arctique"
+          },
+          {
+            "en": "Desgagnes (Transarctik) serves 15 northern communities in Northern Quebec and 29 ports in Nunavut",
+            "fr": "Desgagnes (Transarctik) dessert 15 collectivités nordiques dans le Nord du Québec et 29 ports au Nunavut"
+          }
+        ],
+        "label": {
+          "en": "Marine",
+          "fr": "Transport maritime"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "CN shortline connecting Enterprise, AB to Hay River, NWT (currently inactive)",
+            "fr": "Voie secondaire du CN reliant Enterprise, Alberta, à Hay River, T.-N.-O. (actuellement inactive)"
+          },
+          {
+            "en": "Hudson Bay Railway connects Northern Manitoba (Churchill)",
+            "fr": "Chemin de fer de la baie d'Hudson reliant le Nord du Manitoba (Churchill)"
+          }
+        ],
+        "label": {
+          "en": "Rail",
+          "fr": "Transport ferroviaire"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "Over 4,800 km of roads in Yukon",
+            "fr": "Plus de 4 800 km de routes au Yukon"
+          },
+          {
+            "en": "Over 3,800 km of roads in NWT",
+            "fr": "Plus de 3 800 km de routes au T.-N.-O."
+          },
+          {
+            "en": "Nunavut has no inter-community road network",
+            "fr": "Aucun réseau routier intercommunautaire au Nunavut"
+          }
+        ],
+        "label": {
+          "en": "Road",
+          "fr": "Transport routier"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "206 aerodromes across entire Corridor",
+            "fr": ""
+          },
+          {
+            "en": "Yellowknife, Whitehorse, and Iqaluit airports are part of the National Airports System",
+            "fr": ""
+          },
+          {
+            "en": "Yukon: five certified airports, 27 aerodromes",
+            "fr": ""
+          },
+          {
+            "en": "NWT: 20 certified airports, 41 aerodromes",
+            "fr": ""
+          },
+          {
+            "en": "Nunavut: 24 certified airports, 14 aerodromes",
+            "fr": ""
+          },
+          {
+            "en": "",
+            "fr": "206 aérodromes dans l'ensemble du corridor"
+          },
+          {
+            "en": "",
+            "fr": "Aéroports de Yellowknife, Whitehorse et Iqaluit faisant partie du réseau des aéroports national"
+          },
+          {
+            "en": "",
+            "fr": "Yukon : cinq aéroports certifiés, 27 aérodromes"
+          },
+          {
+            "en": "",
+            "fr": "T. N.-O. : 20 aéroports certifiés, 41 aérodromes"
+          }
+        ],
+        "label": {
+          "en": "Air",
+          "fr": "Transport aérien"
+        }
+      }
+    ],
+    "name": {
+      "en": "Northern Corridor",
+      "fr": "Corridor du Nord"
+    },
+    "nodes": [
+      {
+        "geometry": {
+          "anchor": [
+            -94.17,
+            58.77
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -94.17,
+              58.77
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "spans regions north of 55 degrees",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Churchill",
+          "fr": "Port de Churchill"
+        },
+        "node_id": "churchill"
+      }
+    ],
+    "overlaps_provinces": true,
+    "provenance": "derived",
+    "provinces": [
+      "YT",
+      "NT",
+      "NU"
+    ],
+    "sources": [
+      {
+        "content_sha256": "8f0a495895ee75d2f0caf4a4f316c8fe4717935ed971f1de8b0add93b4c6059a",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-08T22:35:42Z",
+        "url": "https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network"
+      },
+      {
+        "content_sha256": "83fe998f71135b278e33b732d83f04955011f3a1092122e489532dacbd3ae7db",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-08T22:35:42Z",
+        "url": "https://tc.canada.ca/fr/services-generaux/transparence/gestion-rapports-ministeriels/rapports-annuels-transports-canada/transports-canada-2024/role-reseau-transport-canadien"
+      }
+    ],
+    "unmapped_note": {
+      "en": "Transport Canada defines this corridor by latitude — regions north of 55 degrees — not by province. Only the three territories are mapped here. The portions of British Columbia, Alberta, Saskatchewan, Manitoba, Ontario, Quebec and Newfoundland and Labrador above that line are part of this corridor and are not shown.",
+      "fr": "Transports Canada définit ce corridor par la latitude — les régions au nord du 55e degré — et non par province. Seuls les trois territoires sont représentés ici."
+    }
+  },
+  "retrieved_at": "2026-09-08T22:35:42Z",
+  "slug": "northern"
+}

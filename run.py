@@ -44,6 +44,7 @@ STAGES = {
     "01": "pipeline/01_projects.py",
     "02": "pipeline/02_sectors.py",
     "03": "pipeline/03_companies.py",
+    "04": "pipeline/04_trade.py",
     "99": "pipeline/99_bundle.py",
 }
 

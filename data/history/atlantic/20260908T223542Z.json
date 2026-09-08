@@ -1,0 +1,283 @@
+{
+  "content_sha256": "71d213d27d9ae702bfe045692d2a4898d02425c70ae23fdf4b12bc60f811fca7",
+  "corridor": {
+    "corridor_id": "atlantic",
+    "description": {
+      "en": "The Atlantic Corridor encompasses the transportation networks of Canada’s four Atlantic provinces: New Brunswick, Nova Scotia, Prince Edward Island, and Newfoundland and Labrador. Geographically, it serves as a strategic gateway to international shipping routes across the North Atlantic, and supports trade with Europe, the Mediterranean, Africa, and Asia.",
+      "fr": "Le corridor Atlantique englobe les réseaux de transport des quatre provinces atlantiques du Canada : le Nouveau-Brunswick, la Nouvelle-Écosse, l’Île-du-Prince-Édouard et Terre-Neuve-et-Labrador. Géographiquement, il constitue une porte d’entrée stratégique pour les routes maritimes internationales traversant l’Atlantique Nord, facilitant ainsi les échanges avec l’Europe, la Méditerranée, l’Afrique et l’Asie."
+    },
+    "event_slug": "trade-corridors",
+    "location_verbatim": {
+      "en": "encompasses the transportation networks of the Atlantic provinces",
+      "fr": "englobe les réseaux de transport des provinces de l'Atlantique"
+    },
+    "modes": [
+      {
+        "items": [
+          {
+            "en": "Four Canada Port Authorities (Belledune, Saint John, NB, Halifax, and St. John's, NL",
+            "fr": "Quatre administrations portuaires canadiennes (Belledune, Saint John [N.-B.], Halifax et St. John's [T.-N.-L.])"
+          }
+        ],
+        "label": {
+          "en": "Marine",
+          "fr": "Transport maritime"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "Class I (CN and CPKC), and CSX connects Atlantic Corridor to the rest of Canada",
+            "fr": "Voie de catégorie I (CN et CPKC), et CSX reliant le corridor Atlantique au reste du Canada"
+          },
+          {
+            "en": "VIA Rail connects passengers to and from Atlantic Canada using the CN line.",
+            "fr": "Liaison avec le Canada atlantique assurée par VIA Rail en empruntant la voie du CN"
+          },
+          {
+            "en": "Shortline railroads (Cape Breton, Labrador, New Brunswick Southern Railway)",
+            "fr": "Chemins de fer d'intérêt local (Cape Breton, Labrador, New Brunswick Southern Railway)"
+          }
+        ],
+        "label": {
+          "en": "Rail",
+          "fr": "Transport ferroviaire"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "22,000 km of provincially maintained roads and highways across the Atlantic Provinces.",
+            "fr": "22 000 km de routes et d'autoroutes entretenues par la province dans les provinces atlantiques"
+          },
+          {
+            "en": "4,700 km are part of the National Highway System",
+            "fr": "4 700 km font partie du réseau routier national"
+          },
+          {
+            "en": "Six border crossings in New Brunswick",
+            "fr": "Six postes frontaliers au Nouveau-Brunswick"
+          }
+        ],
+        "label": {
+          "en": "Road",
+          "fr": "Transport routier"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "14 airports",
+            "fr": "14 aéroports"
+          },
+          {
+            "en": "Two International (Halifax Stanfield and Moncton Romeo Leblanc)",
+            "fr": "Deux aéroports internationaux (Halifax Stanfield et Moncton Roméo Leblanc)"
+          }
+        ],
+        "label": {
+          "en": "Air",
+          "fr": "Transport aérien"
+        }
+      }
+    ],
+    "name": {
+      "en": "Atlantic Corridor",
+      "fr": "Corridor Atlantique"
+    },
+    "nodes": [
+      {
+        "geometry": {
+          "anchor": [
+            -63.57,
+            44.65
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -63.57,
+              44.65
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "encompasses the transportation networks of the Atlantic provinces",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Halifax",
+          "fr": "Port d'Halifax"
+        },
+        "node_id": "halifax"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -66.06,
+            45.27
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -66.06,
+              45.27
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "encompasses the transportation networks of the Atlantic provinces",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Saint John",
+          "fr": "Port de Saint John"
+        },
+        "node_id": "saint-john"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -65.84,
+            47.9
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -65.84,
+              47.9
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "encompasses the transportation networks of the Atlantic provinces",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Belledune",
+          "fr": "Port de Belledune"
+        },
+        "node_id": "belledune"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -52.7,
+            47.56
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -52.7,
+              47.56
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "encompasses the transportation networks of the Atlantic provinces",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of St. John's",
+          "fr": "Port de St. John's"
+        },
+        "node_id": "st-johns"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -67.73,
+            46.1
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -67.73,
+              46.1
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "encompasses the transportation networks of the Atlantic provinces",
+          "provinces": []
+        },
+        "kind": "border_crossing",
+        "name": {
+          "en": "Woodstock",
+          "fr": "Woodstock"
+        },
+        "node_id": "woodstock"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -67.29,
+            45.19
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -67.29,
+              45.19
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "encompasses the transportation networks of the Atlantic provinces",
+          "provinces": []
+        },
+        "kind": "border_crossing",
+        "name": {
+          "en": "St. Stephen",
+          "fr": "St. Stephen"
+        },
+        "node_id": "st-stephen"
+      }
+    ],
+    "overlaps_provinces": false,
+    "provenance": "derived",
+    "provinces": [
+      "NB",
+      "NS",
+      "PE",
+      "NL"
+    ],
+    "sources": [
+      {
+        "content_sha256": "4f35afd2b85a2a4e88b8b53ef4ac865a8ae1e92c8e480f6c978ffa5412b4bdc4",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-08T22:35:42Z",
+        "url": "https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network"
+      },
+      {
+        "content_sha256": "e2cab3354ceb4f1bdd2cff9ad409635ea463caf738e56b8eb58ac4a23d1536cf",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-08T22:35:42Z",
+        "url": "https://tc.canada.ca/fr/services-generaux/transparence/gestion-rapports-ministeriels/rapports-annuels-transports-canada/transports-canada-2024/role-reseau-transport-canadien"
+      }
+    ],
+    "unmapped_note": {
+      "en": "",
+      "fr": ""
+    }
+  },
+  "retrieved_at": "2026-09-08T22:35:42Z",
+  "slug": "atlantic"
+}

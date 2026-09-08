@@ -112,7 +112,10 @@ def events() -> tuple[Event, ...]:
             raise RegistryError(f"events.yaml: duplicate slug {slug!r}")
         seen.add(slug)
 
-        if e.get("kind") not in {"policy", "policy_with_projects"}:
+        # `reference_document` describes a network that already exists; the two
+        # `policy` kinds announce things that will be built. Same loader, same
+        # verbatim rules, different relationship to time.
+        if e.get("kind") not in {"policy", "policy_with_projects", "reference_document"}:
             raise RegistryError(f"events.yaml: {slug!r} has unknown kind {e.get('kind')!r}")
 
         for s in e.get("sources", []):
@@ -231,3 +234,178 @@ def strategies() -> tuple[Strategy, ...]:
 
 def strategy(slug: str) -> Strategy | None:
     return next((s for s in strategies() if s.slug == slug), None)
+
+
+# ── Trade corridors ────────────────────────────────────────────────────────────
+
+@dataclass(frozen=True, slots=True)
+class CorridorNode:
+    """A port or border crossing named in a corridor's infrastructure list."""
+
+    node_id: str
+    kind: str                                # "port" | "border_crossing"
+    name_en: str
+    name_fr: str
+    coord: tuple[float, float]               # [lon, lat], GeoJSON order
+
+
+@dataclass(frozen=True, slots=True)
+class Corridor:
+    """
+    One of Transport Canada's national trade corridors, as we join it.
+
+    The name, description and infrastructure lists are NOT here — they are
+    scraped verbatim by `atlas/sources/tc_corridors.py`. This carries only the
+    joins, and every field on it is `Provenance.DERIVED`.
+    """
+
+    corridor_id: str
+    summary_en: str                          # the join key into the scraped page
+    summary_fr: str
+    provinces: tuple[str, ...]
+    location_verbatim_en: str
+    location_verbatim_fr: str
+    ports: tuple[str, ...]
+    crossings: tuple[str, ...]
+    overlaps_provinces: bool = False
+    unmapped_note_en: str = ""
+    unmapped_note_fr: str = ""
+
+    @property
+    def node_ids(self) -> tuple[str, ...]:
+        return self.ports + self.crossings
+
+
+@lru_cache(maxsize=1)
+def corridor_nodes() -> dict[str, CorridorNode]:
+    """Every port and border crossing, id-keyed, validated."""
+    data = _load("corridors.yaml")
+    out: dict[str, CorridorNode] = {}
+    for key, kind in (("ports", "port"), ("crossings", "border_crossing")):
+        for raw in data.get(key, []):
+            nid = raw.get("id")
+            if not nid:
+                raise RegistryError(f"corridors.yaml: a {kind} has no id")
+            if nid in out:
+                raise RegistryError(f"corridors.yaml: duplicate node id {nid!r}")
+            coord = raw.get("coord")
+            if not (isinstance(coord, list) and len(coord) == 2):
+                raise RegistryError(f"corridors.yaml: {nid!r} has no [lon, lat] coord")
+            lon, lat = float(coord[0]), float(coord[1])
+            # A sign-flipped or transposed coordinate is the error a human eye
+            # does not catch on a globe, and every node here is Canadian.
+            if not (-142.0 <= lon <= -52.0 and 41.0 <= lat <= 84.0):
+                raise RegistryError(
+                    f"corridors.yaml: {nid!r} at [{lon}, {lat}] is outside Canada. "
+                    f"Coordinates are [lon, lat] in GeoJSON order, not [lat, lon]."
+                )
+            name = raw.get("name", {})
+            out[nid] = CorridorNode(node_id=nid, kind=kind,
+                                    name_en=name.get("en", ""), name_fr=name.get("fr", ""),
+                                    coord=(lon, lat))
+    return out
+
+
+@lru_cache(maxsize=1)
+def corridors() -> tuple[Corridor, ...]:
+    """
+    The trade corridors, validated.
+
+    NOT validated as a partition of the provinces, deliberately. The Northern
+    Corridor is defined by latitude — "regions north of 55 degrees" — so it
+    overlaps the four described by province, and northern British Columbia is
+    legitimately in both Pacific and Northern. A mutual-exclusivity check would
+    reject Transport Canada's own framing as though it were our bug. What IS
+    checked is that a corridor claiming overlap says so explicitly, so the
+    overlap is a declaration rather than an oversight.
+    """
+    data = _load("corridors.yaml")
+    nodes = corridor_nodes()
+    out: list[Corridor] = []
+    seen: set[str] = set()
+
+    for c in data.get("corridors", []):
+        cid = c.get("id")
+        if not cid:
+            raise RegistryError("corridors.yaml: a corridor has no id")
+        if cid in seen:
+            raise RegistryError(f"corridors.yaml: duplicate corridor id {cid!r}")
+        seen.add(cid)
+
+        summary = c.get("summary", {})
+        if not summary.get("en") or not summary.get("fr"):
+            raise RegistryError(
+                f"corridors.yaml: {cid!r} needs `summary` in BOTH languages. It is the "
+                f"join key into the scraped page, and a missing French summary yields a "
+                f"corridor with no French content while the English side looks perfect."
+            )
+
+        loc = c.get("location_verbatim", {})
+        if not loc.get("en"):
+            raise RegistryError(
+                f"corridors.yaml: {cid!r} has no location_verbatim. The province "
+                f"mapping is OUR reading of Transport Canada's prose and cannot "
+                f"stand without the words it was read from."
+            )
+
+        provinces = tuple(c.get("provinces", ()))
+        # The Norway problem. YAML 1.1 coerces bare ON/NO/YES/OFF to booleans, so
+        # an unquoted [ON, QC] loads as [True, "QC"] and Ontario disappears from
+        # the Central Corridor, taking 70% of Canadian manufacturing GDP with it.
+        non_str = [p for p in provinces if not isinstance(p, str)]
+        if non_str:
+            raise RegistryError(
+                f"corridors.yaml: {cid!r} has non-string province codes {non_str!r}. "
+                f'YAML coerced a bare token to a boolean — quote them: ["ON", "QC"]'
+            )
+        bad = set(provinces) - PROVINCE_CODES
+        if bad:
+            raise RegistryError(f"corridors.yaml: {cid!r} has unknown codes {sorted(bad)}")
+
+        unknown = [n for n in tuple(c.get("ports", ())) + tuple(c.get("crossings", ()))
+                   if n not in nodes]
+        if unknown:
+            raise RegistryError(
+                f"corridors.yaml: {cid!r} references unknown nodes {unknown}. "
+                f"Known ids: {sorted(nodes)}"
+            )
+
+        note = c.get("unmapped_note", {})
+        if c.get("overlaps_provinces") and not note.get("en"):
+            raise RegistryError(
+                f"corridors.yaml: {cid!r} declares overlaps_provinces but carries no "
+                f"unmapped_note. An overlap the reader is never shown reads as a "
+                f"complete mapping."
+            )
+
+        out.append(Corridor(
+            corridor_id=cid,
+            summary_en=summary["en"], summary_fr=summary["fr"],
+            provinces=provinces,
+            location_verbatim_en=loc.get("en", ""), location_verbatim_fr=loc.get("fr", ""),
+            ports=tuple(c.get("ports", ())), crossings=tuple(c.get("crossings", ())),
+            overlaps_provinces=bool(c.get("overlaps_provinces", False)),
+            unmapped_note_en=(note.get("en") or "").strip(),
+            unmapped_note_fr=(note.get("fr") or "").strip(),
+        ))
+
+    # Every province and territory must be reachable from some corridor. Overlap
+    # is allowed; a GAP is not — a province in no corridor would be absent from
+    # every corridor view with nothing saying so.
+    covered = {p for c in out for p in c.provinces}
+    gap = PROVINCE_CODES - covered
+    if gap:
+        raise RegistryError(
+            f"corridors.yaml: {sorted(gap)} belong to no corridor. Every province and "
+            f"territory must be reachable from one; overlap is fine, a gap is not."
+        )
+    return tuple(out)
+
+
+def corridor_source() -> dict[str, Any]:
+    """The declared source pages. The FR URL is declared, never derived."""
+    src = _load("corridors.yaml").get("source", {})
+    for key in ("page_en", "page_fr"):
+        if not src.get(key):
+            raise RegistryError(f"corridors.yaml: source.{key} is required")
+    return src

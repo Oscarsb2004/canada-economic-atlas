@@ -17,6 +17,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { Globe } from "./map/Globe";
 import { ProjectViewer } from "./panels/ProjectViewer";
+import { CorridorPanel } from "./panels/CorridorPanel";
 import { SectorPanel } from "./panels/SectorPanel";
 import { TabStrip } from "./tabs/TabStrip";
 import { useTabs } from "./tabs/store";
@@ -222,6 +223,8 @@ function Overview({
           initialFocus={initialFocus}
         />
       </div>
+
+      <CorridorPanel bundle={bundle} lang={lang} />
 
       <h2
         style={{

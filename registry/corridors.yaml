@@ -1,81 +1,159 @@
-# corridors.yaml — Canada's marine trade gateways and the lanes out of them.
+# corridors.yaml — the joins for Transport Canada's national trade corridors.
 #
-# ⚠ THIS FILE IS OURS, NOT THE GOVERNMENT'S. Everything here is
-# `Provenance.DERIVED` and the UI must render it as such.
+# WHAT IS HERE AND WHAT IS NOT
 #
-# WHY THIS IS HAND-WRITTEN WHEN THE HIGHWAYS ARE NOT
+# The corridors' NAMES, DESCRIPTIONS and INFRASTRUCTURE LISTS are not in this
+# file. They are scraped verbatim from Transport Canada's annual report by
+# `atlas/sources/tc_corridors.py`. This file carries only the JOINS — which
+# summary text identifies which corridor, which provinces we read it as
+# covering, and where its named ports and border crossings actually are.
 #
-# `web/public/geo/highways.json` is Natural Earth's own road classification —
-# real published geometry, filtered on the source's own `type` field, so the
-# judgement of what counts as a major highway stays with the publisher.
+# Everything in this file is therefore `Provenance.DERIVED`: it is our reading
+# of Transport Canada's prose, and the UI must never render it with the same
+# authority as the prose itself.
 #
-# There is no equivalent for shipping. Vessel-track products exist (AIS density
-# rasters, commercial lane datasets) but none is public-domain, reproducible
-# from a pinned URL, and small enough to commit — which are this project's three
-# conditions for a source. So rather than pretend, these are declared as what
-# they are: SCHEMATIC INDICATORS of where Canadian seaborne trade goes,
-# anchored on real port coordinates and drawn as simple arcs.
+# THE NUMBERS STAY IN THE PARAGRAPH
 #
-# What that means for the reader, and what the UI must not imply:
+# TC's text says $249 billion, 158 million tonnes, 55% crude by pipeline. There
+# is deliberately NO `stats:` block here. Lifting a figure out of a federal
+# sentence into a field would be this project restating a claim in a form the
+# source never used (CLAUDE.md §1), and it is the single most likely thing for a
+# later session to "improve" by adding. The corridor's paragraph carries the
+# numbers Transport Canada published; the charts carry the numbers StatCan
+# published; nothing crosses.
 #
-#   - The PORTS are real places at real coordinates.
-#   - The LANES are not routes. No vessel sails these lines. They say "this
-#     gateway trades in that direction", nothing more.
-#   - No tonnage, no volume, no ranking. Drawing a thicker line for a busier
-#     lane would be this project asserting a measurement it has not made.
+# THERE ARE FIVE CORRIDORS
 #
-# Ports are the gateways Transport Canada designates as Canada Port Authorities
-# and that carry the container, bulk and energy trades the Major Projects Office
-# portfolio is built around. Coordinates are the harbour, to the nearest minute.
+# Pacific, Prairie, Central, Atlantic and NORTHERN. Summaries of the source page
+# routinely list four. Missing one would be invisible — four would still sum to
+# something and still draw something — so the count is asserted in `events.yaml`
+# and gated.
+#
+# THE FIVE ARE NOT A PARTITION OF THE PROVINCES
+#
+# The Northern Corridor is defined by LATITUDE — "regions north of 55 degrees" —
+# while the other four are described by province. Northern British Columbia is
+# therefore in both the Pacific and the Northern corridor, and that overlap is
+# Transport Canada's framing, not a mistake in ours. The loader must NOT
+# validate these as mutually exclusive. Only the three territories map cleanly
+# to Northern; the provincial portions above 55° are recorded as unmapped rather
+# than guessed at.
 
-version: 1
+version: 2
 provenance: derived
 
-# The disclaimer travels INSIDE the payload, so the layer cannot be rendered
-# without it — the same rule the companies panel follows.
-disclaimer:
-  en: >
-    Schematic trade lanes, not shipping routes. The ports are real; the arcs
-    indicate the direction of trade from each gateway and are drawn by this
-    project, not published by any authority. No volume or tonnage is implied.
-  fr: >
-    Voies commerciales schématiques, et non des routes maritimes. Les ports sont
-    réels; les arcs indiquent la direction des échanges depuis chaque porte
-    d'entrée et sont tracés par ce projet, non publiés par une autorité. Aucun
-    volume ni tonnage n'est sous-entendu.
+# The source page, in both languages. The FR path is DECLARED, never derived:
+# `role-reseau-transport-canadien` is not a transformation of
+# `role-canada-s-transportation-network`, and a rule that produced one from the
+# other would be a rule that breaks on the next page.
+source:
+  key: tc_annual_report
+  page_en: https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network
+  page_fr: https://tc.canada.ca/fr/services-generaux/transparence/gestion-rapports-ministeriels/rapports-annuels-transports-canada/transports-canada-2024/role-reseau-transport-canadien
+
+# ── Nodes ──────────────────────────────────────────────────────────────────────
+#
+# Coordinates are the harbour or the crossing, to the nearest minute. The PLACES
+# are real and the coordinates are ours; Transport Canada names these facilities
+# in each corridor's infrastructure list but publishes no geometry for them.
 
 ports:
-  - { id: vancouver,     name: { en: "Port of Vancouver",       fr: "Port de Vancouver" },        coord: [-123.11, 49.29], basin: pacific }
-  - { id: prince-rupert, name: { en: "Port of Prince Rupert",   fr: "Port de Prince Rupert" },    coord: [-130.32, 54.32], basin: pacific }
-  - { id: montreal,      name: { en: "Port of Montreal",        fr: "Port de Montréal" },         coord: [-73.52, 45.55],  basin: atlantic }
-  - { id: quebec,        name: { en: "Port of Québec",          fr: "Port de Québec" },           coord: [-71.20, 46.82],  basin: atlantic }
-  - { id: halifax,       name: { en: "Port of Halifax",         fr: "Port d'Halifax" },           coord: [-63.57, 44.65],  basin: atlantic }
-  - { id: saint-john,    name: { en: "Port of Saint John",      fr: "Port de Saint John" },       coord: [-66.06, 45.27],  basin: atlantic }
-  - { id: thunder-bay,   name: { en: "Port of Thunder Bay",     fr: "Port de Thunder Bay" },      coord: [-89.25, 48.38],  basin: seaway }
-  - { id: churchill,     name: { en: "Port of Churchill",       fr: "Port de Churchill" },        coord: [-94.17, 58.77],  basin: arctic }
+  - { id: vancouver,      name: { en: "Port of Vancouver",      fr: "Port de Vancouver" },      coord: [-123.11, 49.29] }
+  - { id: prince-rupert,  name: { en: "Port of Prince Rupert",  fr: "Port de Prince Rupert" },  coord: [-130.32, 54.32] }
+  - { id: nanaimo,        name: { en: "Port of Nanaimo",        fr: "Port de Nanaimo" },        coord: [-123.94, 49.17] }
+  - { id: port-alberni,   name: { en: "Port Alberni",           fr: "Port Alberni" },           coord: [-124.80, 49.23] }
+  - { id: thunder-bay,    name: { en: "Port of Thunder Bay",    fr: "Port de Thunder Bay" },    coord: [-89.25, 48.38] }
+  - { id: churchill,      name: { en: "Port of Churchill",      fr: "Port de Churchill" },      coord: [-94.17, 58.77] }
+  - { id: toronto,        name: { en: "Port of Toronto",        fr: "Port de Toronto" },        coord: [-79.36, 43.64] }
+  - { id: hamilton-oshawa, name: { en: "Port of Hamilton-Oshawa", fr: "Port de Hamilton-Oshawa" }, coord: [-79.85, 43.27] }
+  - { id: montreal,       name: { en: "Port of Montreal",       fr: "Port de Montréal" },       coord: [-73.52, 45.55] }
+  - { id: quebec,         name: { en: "Port of Québec",         fr: "Port de Québec" },         coord: [-71.20, 46.82] }
+  - { id: halifax,        name: { en: "Port of Halifax",        fr: "Port d'Halifax" },         coord: [-63.57, 44.65] }
+  - { id: saint-john,     name: { en: "Port of Saint John",     fr: "Port de Saint John" },     coord: [-66.06, 45.27] }
+  - { id: belledune,      name: { en: "Port of Belledune",      fr: "Port de Belledune" },      coord: [-65.84, 47.90] }
+  - { id: st-johns,       name: { en: "Port of St. John's",     fr: "Port de St. John's" },     coord: [-52.70, 47.56] }
 
-# Each lane is a named direction of trade, drawn from a port toward a waypoint
-# that sits in open water on the way out of Canadian waters. The waypoint is a
-# drawing aid, NOT a destination — which is why lanes stop at the edge of the
-# basin rather than reaching a foreign port we have not sourced.
-lanes:
-  - id: pacific-asia
-    name: { en: "Pacific — Asia trade", fr: "Pacifique — commerce avec l'Asie" }
-    from: [vancouver, prince-rupert]
-    waypoint: [-160.0, 50.0]
+crossings:
+  - { id: pacific-highway, name: { en: "Pacific Highway",  fr: "Pacific Highway" },  coord: [-122.73, 49.00] }
+  - { id: huntingdon,      name: { en: "Huntingdon",       fr: "Huntingdon" },       coord: [-122.27, 49.00] }
+  - { id: coutts,          name: { en: "Coutts",           fr: "Coutts" },           coord: [-111.96, 49.00] }
+  - { id: north-portal,    name: { en: "North Portal",     fr: "North Portal" },     coord: [-102.55, 49.00] }
+  - { id: emerson,         name: { en: "Emerson",          fr: "Emerson" },          coord: [-97.21, 49.00] }
+  - { id: ambassador,      name: { en: "Ambassador Bridge", fr: "Pont Ambassador" }, coord: [-83.07, 42.31] }
+  - { id: bluewater,       name: { en: "Blue Water Bridge", fr: "Pont Blue Water" }, coord: [-82.42, 42.99] }
+  - { id: peace,           name: { en: "Peace Bridge",      fr: "Pont Peace" },      coord: [-78.91, 42.91] }
+  - { id: woodstock,       name: { en: "Woodstock",        fr: "Woodstock" },        coord: [-67.73, 46.10] }
+  - { id: st-stephen,      name: { en: "St. Stephen",      fr: "St. Stephen" },      coord: [-67.29, 45.19] }
 
-  - id: atlantic-europe
-    name: { en: "Atlantic — Europe trade", fr: "Atlantique — commerce avec l'Europe" }
-    from: [halifax, saint-john]
-    waypoint: [-40.0, 48.0]
+# ── The corridors ──────────────────────────────────────────────────────────────
+#
+# `summary` is the join key into the scraped page — the exact `<summary>` text,
+# in both languages, read off the live pages. A wrong string here does not
+# degrade: `tc_corridors.parse_page` raises naming what it could not find.
+#
+# ⚠ PROVINCE CODES ARE QUOTED. YAML 1.1 reads a bare `ON` as the boolean `true`,
+# so an unquoted `[ON, QC]` loads as `[True, "QC"]` and Ontario vanishes from the
+# Central Corridor — taking 70% of Canada's manufacturing GDP with it, silently.
+# `registry.py` rejects non-string codes with an explanatory error.
 
-  - id: seaway
-    name: { en: "St. Lawrence Seaway", fr: "Voie maritime du Saint-Laurent" }
-    # A chain rather than a fan: the Seaway IS a corridor, and the one lane here
-    # whose shape is genuinely published geography rather than a direction.
-    chain: [thunder-bay, montreal, quebec, halifax]
+corridors:
+  - id: pacific
+    summary: { en: "Pacific Corridor", fr: "Corridor du Pacifique" }
+    provinces: ["BC"]
+    location_verbatim:
+      en: "the gateway for Canada's trade and transportation with the Asia-Pacific region"
+      fr: "un point de passage pour les échanges commerciaux et le transport du Canada avec la région de l'Asie-Pacifique"
+    ports: [vancouver, prince-rupert, nanaimo, port-alberni]
+    crossings: [pacific-highway, huntingdon]
 
-  - id: arctic
-    name: { en: "Hudson Bay — Arctic gateway", fr: "Baie d'Hudson — porte arctique" }
-    from: [churchill]
-    waypoint: [-68.0, 62.5]
+  - id: prairie
+    summary: { en: "Prairie Corridor", fr: "Corridor des Prairies" }
+    provinces: ["AB", "SK", "MB"]
+    location_verbatim:
+      en: "encompassing the provinces of Alberta, Saskatchewan and Manitoba"
+      fr: "qui englobe les provinces de l'Alberta, de la Saskatchewan et du Manitoba"
+    ports: [churchill, thunder-bay]
+    crossings: [coutts, north-portal, emerson]
+
+  - id: central
+    summary: { en: "Central Corridor", fr: "Corridor du Centre" }
+    provinces: ["ON", "QC"]
+    location_verbatim:
+      en: "spans Ontario and Quebec"
+      fr: "s'étend sur l'Ontario et le Québec"
+    ports: [toronto, hamilton-oshawa, montreal, quebec]
+    crossings: [ambassador, bluewater, peace]
+
+  - id: atlantic
+    summary: { en: "Atlantic Corridor", fr: "Corridor Atlantique" }
+    provinces: ["NB", "NS", "PE", "NL"]
+    location_verbatim:
+      en: "encompasses the transportation networks of the Atlantic provinces"
+      fr: "englobe les réseaux de transport des provinces de l'Atlantique"
+    ports: [halifax, saint-john, belledune, st-johns]
+    crossings: [woodstock, st-stephen]
+
+  - id: northern
+    summary: { en: "Northern Corridor", fr: "Corridor du Nord" }
+    # ONLY the territories. The Northern Corridor is defined by latitude, so it
+    # also covers the parts of BC, AB, SK, MB, ON, QC and NL above 55°N — which
+    # this project does not have the geometry to express and will not guess at.
+    # `unmapped_note` says so rather than leaving the omission silent.
+    provinces: ["YT", "NT", "NU"]
+    overlaps_provinces: true
+    unmapped_note:
+      en: >
+        Transport Canada defines this corridor by latitude — regions north of
+        55 degrees — not by province. Only the three territories are mapped
+        here. The portions of British Columbia, Alberta, Saskatchewan, Manitoba,
+        Ontario, Quebec and Newfoundland and Labrador above that line are part
+        of this corridor and are not shown.
+      fr: >
+        Transports Canada définit ce corridor par la latitude — les régions au
+        nord du 55e degré — et non par province. Seuls les trois territoires
+        sont représentés ici.
+    location_verbatim:
+      en: "spans regions north of 55 degrees"
+      fr: "s'étend sur les régions situées au nord du 55e parallèle"
+    ports: [churchill]
+    crossings: []

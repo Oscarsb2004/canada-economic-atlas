@@ -203,6 +203,17 @@ class Geometry:
     location_verbatim: str = ""              # the source's own words
     approximate: bool = True
 
+    #: Who produced these coordinates, when it is not the obvious answer.
+    #:
+    #: Left None, a single point is assumed to be the publisher's own — true for
+    #: the MPO, whose ArcGIS service publishes official coordinates. It is NOT
+    #: true everywhere: Transport Canada NAMES the ports and border crossings on
+    #: each trade corridor and publishes no geometry for any of them, so those
+    #: coordinates are ours. Inferring provenance from geometry shape would have
+    #: labelled our placements `official_dataset`, which is the precise failure
+    #: this project exists to avoid.
+    coordinate_provenance: Provenance | None = None
+
     @property
     def anchor(self) -> tuple[float, float] | None:
         """
@@ -254,9 +265,14 @@ class Geometry:
         UI must not render the two identically — the source published the ends
         of the Mackenzie Valley Highway, not its middle.
         """
+        if not self.coordinates:
+            return Provenance.ABSENT
+        # An explicit declaration always wins over the shape-based guess.
+        if self.coordinate_provenance is not None:
+            return self.coordinate_provenance
         if self.kind is GeometryKind.POINT and len(self.coordinates) == 1:
             return Provenance.OFFICIAL_DATASET
-        return Provenance.DERIVED if self.coordinates else Provenance.ABSENT
+        return Provenance.DERIVED
 
     @property
     def is_linear(self) -> bool:
@@ -278,6 +294,13 @@ class Geometry:
             "anchor": list(anchor) if anchor else None,
             "anchor_provenance": self.anchor_provenance.value,
             "is_linear": self.is_linear,
+            # The DECLARATION, kept distinct from the computed value above.
+            # `anchor_provenance` is an output the frontend reads; this is the
+            # optional input that overrides it. Reading the computed value back
+            # as a declaration would make a round trip lossy in the other
+            # direction — every inferred value would come back explicit.
+            "coordinate_provenance": (self.coordinate_provenance.value
+                                      if self.coordinate_provenance else None),
         }
 
     @classmethod
@@ -288,6 +311,8 @@ class Geometry:
             provinces=tuple(d.get("provinces", ())),
             location_verbatim=d.get("location_verbatim", ""),
             approximate=d.get("approximate", True),
+            coordinate_provenance=(Provenance(d["coordinate_provenance"])
+                                   if d.get("coordinate_provenance") else None),
         )
 
 
@@ -460,6 +485,96 @@ class Company:
     price: float | None = None
     currency: str = "CAD"
     provenance: Provenance = Provenance.MARKET_DATA
+
+
+# ── Trade corridors ────────────────────────────────────────────────────────────
+
+class CorridorNodeKind(str, Enum):
+    """
+    What a corridor node is.
+
+    An open enum, so CLAUDE.md §2b applies in full: anything that renders these
+    decides exhaustively, never by a pair of filters. `Globe.tsx` gets a typed
+    layer table keyed on this rather than one `filter` per kind, because a third
+    kind added to a filter pair renders nothing and raises nothing.
+    """
+
+    PORT            = "port"
+    BORDER_CROSSING = "border_crossing"
+
+
+@dataclass(frozen=True, slots=True)
+class CorridorMode:
+    """
+    One transport mode inside a corridor's infrastructure list, verbatim.
+
+    Transport Canada publishes each corridor's infrastructure as Marine / Rail /
+    Road / Air with a bulleted list under each. Both the label and the bullets
+    are the government's wording — this is where "what IS this corridor" is
+    actually answered, and it is reproduced rather than summarised.
+
+    `items` is a list of `Text` rather than one blob for the same reason the MPO
+    benefits are: the list is the source's own structure, and flattening it runs
+    four modes into a paragraph the page never published.
+    """
+
+    label: Text
+    items: tuple[Text, ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class CorridorNode:
+    """A port or border crossing on a corridor. Always a POINT, so always anchored."""
+
+    node_id: str
+    kind: CorridorNodeKind
+    name: Text
+    geometry: Geometry
+
+
+@dataclass(frozen=True, slots=True)
+class TradeCorridor:
+    """
+    One of Transport Canada's national trade corridors.
+
+    THERE ARE FIVE — Pacific, Prairie, Central, Atlantic and Northern — and they
+    are NOT a partition of the provinces. The Northern Corridor is defined by
+    latitude ("regions north of 55 degrees"), so it overlaps the four described
+    by province. `overlaps_provinces` and `unmapped_note` carry that fact into
+    the payload, because a corridor whose provincial coverage is partial and
+    silent reads as complete.
+
+    `description` and `modes` are Transport Canada's wording. `provinces`,
+    `location_verbatim` and the node lists are OUR reading of it, which is why
+    `provenance` defaults to DERIVED: the corridor's own words are reproduced,
+    the joins around them are inference and must render differently.
+
+    The statistics in TC's paragraph — $249 billion, 158 million tonnes, 55%
+    crude by pipeline — are deliberately NOT fields. They stay in the paragraph
+    (CLAUDE.md §1). The corridor's prose carries the numbers Transport Canada
+    published; the charts carry the numbers StatCan published; nothing crosses.
+    """
+
+    corridor_id: str
+    event_slug: str
+    name: Text
+    description: Text
+    location_verbatim: Text
+    provinces: tuple[str, ...]
+    modes: tuple[CorridorMode, ...] = ()
+    nodes: tuple[CorridorNode, ...] = ()
+    overlaps_provinces: bool = False
+    unmapped_note: Text = field(default_factory=lambda: Text(en=""))
+    sources: tuple[SourceRef, ...] = ()
+    provenance: Provenance = Provenance.DERIVED
+
+    @property
+    def ports(self) -> tuple[CorridorNode, ...]:
+        return tuple(n for n in self.nodes if n.kind is CorridorNodeKind.PORT)
+
+    @property
+    def crossings(self) -> tuple[CorridorNode, ...]:
+        return tuple(n for n in self.nodes if n.kind is CorridorNodeKind.BORDER_CROSSING)
 
 
 # ── Transport ──────────────────────────────────────────────────────────────────

@@ -113,6 +113,19 @@ sources:
     # Single "User-agent: *" block, no Crawl-delay, nothing disallowed on the
     # paths we read. ~1 req/s in atlas/net.py is self-imposed courtesy.
 
+  tc_annual_report:
+    title: Transportation in Canada — annual report, Role of Canada's Transportation Network
+    publisher: Transport Canada
+    licence: ogl-canada-2.0
+    attribution: Transport Canada
+    # The FR path is DECLARED, not derived — `role-reseau-transport-canadien` is
+    # not a transformation of `role-canada-s-transportation-network`. The URLs
+    # live in corridors.yaml beside the joins that use them.
+    page_en: https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network
+    # Five corridors, in <details> blocks: Pacific, Prairie, Central, Atlantic,
+    # Northern. Each carries a description paragraph and a Marine/Rail/Road/Air
+    # infrastructure list. Summaries of this page routinely omit Northern.
+
   statcan_wds:
     title: Statistics Canada Web Data Service
     publisher: Statistics Canada

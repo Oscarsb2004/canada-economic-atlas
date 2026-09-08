@@ -2,17 +2,17 @@
   "app": "canada-economic-atlas",
   "files": [
     "companies/xic.json",
-    "corridors.json",
     "country.json",
     "events/major-projects-office/projects.json",
     "events/major-projects-office/strategies.json",
+    "events/trade-corridors/corridors.json",
     "palette.json",
     "sectors/national-constant.json",
     "sectors/national-monthly.json",
     "sectors/provincial-annual.json",
     "sectors/rates.json"
   ],
-  "generated_at": "2026-09-08T22:27:55Z",
+  "generated_at": "2026-09-08T22:36:38Z",
   "licences": {
     "boc-terms": {
       "attribution": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
@@ -89,6 +89,13 @@
       "licence": "statcan-open",
       "publisher": "Statistics Canada",
       "title": "Statistics Canada Web Data Service"
+    },
+    "tc_annual_report": {
+      "attribution": "Transport Canada",
+      "licence": "ogl-canada-2.0",
+      "page_en": "https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network",
+      "publisher": "Transport Canada",
+      "title": "Transportation in Canada — annual report, Role of Canada's Transportation Network"
     },
     "xic_holdings": {
       "attribution": "BlackRock Canada, iShares XIC published holdings",

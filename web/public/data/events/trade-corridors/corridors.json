@@ -1,0 +1,1246 @@
+{
+  "corridors": [
+    {
+      "corridor_id": "pacific",
+      "description": {
+        "en": "The Pacific Corridor is the gateway for Canada’s trade and transportation with the Asia-Pacific region and to access key emerging markets in Southeast Asia, anchored by a highly integrated network of marine, rail, road, and air infrastructure. At its core are the Ports of Vancouver and Prince Rupert, which serve as critical export points for key Canadian commodities like coal, grain, and potash, and crucial arrival points for imports to be used across Canada. The Corridor not only supports British Columbia’s economy, but also serves as a national trade asset—enabling the export of over $67 billion in goods from other provinces and $48 billion from within B.C. in 2024.",
+        "fr": "Le corridor du Pacifique est un point de passage pour les échanges commerciaux et les transports du Canada avec la région Asie-Pacifique. Il permet d’accéder aux principaux marchés émergents de l’Asie du Sud-Est, grâce à un réseau hautement intégré d’infrastructures maritimes, ferroviaires, routières et aériennes. Les ports de Vancouver et de Prince Rupert sont au cœur de ce corridor, qui constituent des points d’exportation essentiels pour les produits de base canadiens, comme le charbon, les céréales et la potasse; et des points d’arrivée cruciaux pour les importations destinées à être utilisées dans tout le Canada. Ce corridor ne soutient pas seulement l’économie de la Colombie-Britannique, mais sert également d’atout commercial national, permettant l’exportation de plus de 67 milliards de dollars de marchandises depuis d’autres provinces et de 48 milliards de dollars depuis la Colombie-Britannique en 2024."
+      },
+      "event_slug": "trade-corridors",
+      "location_verbatim": {
+        "en": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+        "fr": "un point de passage pour les échanges commerciaux et le transport du Canada avec la région de l'Asie-Pacifique"
+      },
+      "modes": [
+        {
+          "items": [
+            {
+              "en": "Over 100 ports along this coastal region",
+              "fr": "Plus que 100 ports au total (y compris les grands ports, les ports pour petits bateaux et les marinas)"
+            },
+            {
+              "en": "Four Canadian Port Authorities (Vancouver, Prince Rupert, Nanaimo, and Port Alberni)",
+              "fr": "Quatre administrations portuaires canadiennes (Vancouver, Prince Rupert, Nanaimo et Alberni)"
+            }
+          ],
+          "label": {
+            "en": "Marine",
+            "fr": "Transport maritime"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "Major railways - CN, CPKC and Burlington Northern Santa Fe (BNSF)",
+              "fr": "Principaux chemins de fer – CN, CPKC et Burlington Northern Santa Fe (BNSF)"
+            }
+          ],
+          "label": {
+            "en": "Rail",
+            "fr": "Transport ferroviaire"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "Highways: Trans-Canada (1), Highway 97, Yellowhead (16), Highway 37",
+              "fr": "Routes : Transcanadienne (1), route 97, Yellowhead (16), route 37"
+            },
+            {
+              "en": "Two border crossings (Pacific Highway and Huntingdon)",
+              "fr": "Deux postes frontaliers (Pacific Highway et Huntingdon)"
+            }
+          ],
+          "label": {
+            "en": "Road",
+            "fr": "Transport routier"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "36 certified and four major airports (Vancouver, Victoria, Prince George, Kelowna)",
+              "fr": "36 aéroports certifiés et quatre grands"
+            }
+          ],
+          "label": {
+            "en": "Air",
+            "fr": "Transport aérien"
+          }
+        }
+      ],
+      "name": {
+        "en": "Pacific Corridor",
+        "fr": "Corridor du Pacifique"
+      },
+      "nodes": [
+        {
+          "geometry": {
+            "anchor": [
+              -123.11,
+              49.29
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -123.11,
+                49.29
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Vancouver",
+            "fr": "Port de Vancouver"
+          },
+          "node_id": "vancouver"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -130.32,
+              54.32
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -130.32,
+                54.32
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Prince Rupert",
+            "fr": "Port de Prince Rupert"
+          },
+          "node_id": "prince-rupert"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -123.94,
+              49.17
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -123.94,
+                49.17
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Nanaimo",
+            "fr": "Port de Nanaimo"
+          },
+          "node_id": "nanaimo"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -124.8,
+              49.23
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -124.8,
+                49.23
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port Alberni",
+            "fr": "Port Alberni"
+          },
+          "node_id": "port-alberni"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -122.73,
+              49.0
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -122.73,
+                49.0
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+            "provinces": []
+          },
+          "kind": "border_crossing",
+          "name": {
+            "en": "Pacific Highway",
+            "fr": "Pacific Highway"
+          },
+          "node_id": "pacific-highway"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -122.27,
+              49.0
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -122.27,
+                49.0
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+            "provinces": []
+          },
+          "kind": "border_crossing",
+          "name": {
+            "en": "Huntingdon",
+            "fr": "Huntingdon"
+          },
+          "node_id": "huntingdon"
+        }
+      ],
+      "overlaps_provinces": false,
+      "provenance": "derived",
+      "provinces": [
+        "BC"
+      ],
+      "sources": [
+        {
+          "content_sha256": "64282506f06f0b76825d10c26fdcc2fbc278e407e244e289d3778c02b5d2d058",
+          "licence": "ogl-canada-2.0",
+          "provenance": "page_verbatim",
+          "retrieved_at": "2026-09-08T22:35:42Z",
+          "url": "https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network"
+        },
+        {
+          "content_sha256": "ee1a11d340af8429af17326686b7893bbc422fd036e019c94187ec942ee4293d",
+          "licence": "ogl-canada-2.0",
+          "provenance": "page_verbatim",
+          "retrieved_at": "2026-09-08T22:35:42Z",
+          "url": "https://tc.canada.ca/fr/services-generaux/transparence/gestion-rapports-ministeriels/rapports-annuels-transports-canada/transports-canada-2024/role-reseau-transport-canadien"
+        }
+      ],
+      "unmapped_note": {
+        "en": "",
+        "fr": ""
+      }
+    },
+    {
+      "corridor_id": "prairie",
+      "description": {
+        "en": "The Prairie Corridor, encompassing the provinces of Alberta, Saskatchewan and Manitoba, is a vital part of Canada’s national and international transportation networks. The region is rich in natural resources and specializes in oil and gas extraction, grain and agrifoods, and critical minerals like potash and uranium. Together the Prairie provinces exported $249 billion worth of goods in 2024. Crude oil via pipeline to the U.S. accounts for the largest share of Prairie exports (55% in 2024, or $137 billion). Exports of other goods to the U.S. mostly travel via regional rail border crossings.",
+        "fr": "Le corridor des Prairies, qui englobe les provinces de l’Alberta, de la Saskatchewan et du Manitoba, est un élément essentiel des réseaux de transport nationaux et internationaux du Canada. La région est riche en ressources naturelles, spécialisée dans l’extraction de pétrole et de gaz, les céréales et les produits agroalimentaires, et les minéraux essentiels comme la potasse et l’uranium. Ensemble, les provinces des Prairies ont exporté pour 249 milliards de dollars de marchandises en 2024. Le pétrole brut acheminé par oléoduc vers les États-Unis représente la plus grande part des exportations des Prairies (55 % en 2024, soit 137 milliards de dollars). Les exportations d’autres marchandises vers les États-Unis s’effectuent principalement aux postes frontaliers ferroviaires régionaux."
+      },
+      "event_slug": "trade-corridors",
+      "location_verbatim": {
+        "en": "encompassing the provinces of Alberta, Saskatchewan and Manitoba",
+        "fr": "qui englobe les provinces de l'Alberta, de la Saskatchewan et du Manitoba"
+      },
+      "modes": [
+        {
+          "items": [
+            {
+              "en": "Proximity to the Port of Thunder Bay connects the Prairies with Central Canada's marine shipping routes",
+              "fr": "Proximité du port de Thunder Bay qui permet de relier les Prairies aux routes maritimes du centre du Canada"
+            }
+          ],
+          "label": {
+            "en": "Marine",
+            "fr": "Transport maritime"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "Service by CN, CPKC, and BNSF",
+              "fr": "Service assuré par le CN, le CPKC et le BNSF"
+            },
+            {
+              "en": "Northern Manitoba is serviced by The Hudson Bay Railway",
+              "fr": "Nord du Manitoba desservi par le chemin de fer de la baie d'Hudson"
+            }
+          ],
+          "label": {
+            "en": "Rail",
+            "fr": "Transport ferroviaire"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "Two national highways (Trans-Canada and Yellowhead)",
+              "fr": "Deux routes nationales (Transcanadienne et Yellowhead)"
+            },
+            {
+              "en": "Highways 4, 6, 39, and 75 have border crossings",
+              "fr": "Passages frontaliers aux routes 4, 6, 39 et 75"
+            }
+          ],
+          "label": {
+            "en": "Road",
+            "fr": "Transport routier"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "Five National Airports System airports (Edmonton, Calgary, Saskatoon, Regina, and Winnipeg)",
+              "fr": "Cinq aéroports du réseau d'aéroports national (Edmonton, Calgary, Saskatoon, Regina et Winnipeg)"
+            }
+          ],
+          "label": {
+            "en": "Air",
+            "fr": "Transport aérien"
+          }
+        }
+      ],
+      "name": {
+        "en": "Prairie Corridor",
+        "fr": "Corridor des Prairies"
+      },
+      "nodes": [
+        {
+          "geometry": {
+            "anchor": [
+              -94.17,
+              58.77
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -94.17,
+                58.77
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "encompassing the provinces of Alberta, Saskatchewan and Manitoba",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Churchill",
+            "fr": "Port de Churchill"
+          },
+          "node_id": "churchill"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -89.25,
+              48.38
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -89.25,
+                48.38
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "encompassing the provinces of Alberta, Saskatchewan and Manitoba",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Thunder Bay",
+            "fr": "Port de Thunder Bay"
+          },
+          "node_id": "thunder-bay"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -111.96,
+              49.0
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -111.96,
+                49.0
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "encompassing the provinces of Alberta, Saskatchewan and Manitoba",
+            "provinces": []
+          },
+          "kind": "border_crossing",
+          "name": {
+            "en": "Coutts",
+            "fr": "Coutts"
+          },
+          "node_id": "coutts"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -102.55,
+              49.0
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -102.55,
+                49.0
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "encompassing the provinces of Alberta, Saskatchewan and Manitoba",
+            "provinces": []
+          },
+          "kind": "border_crossing",
+          "name": {
+            "en": "North Portal",
+            "fr": "North Portal"
+          },
+          "node_id": "north-portal"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -97.21,
+              49.0
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -97.21,
+                49.0
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "encompassing the provinces of Alberta, Saskatchewan and Manitoba",
+            "provinces": []
+          },
+          "kind": "border_crossing",
+          "name": {
+            "en": "Emerson",
+            "fr": "Emerson"
+          },
+          "node_id": "emerson"
+        }
+      ],
+      "overlaps_provinces": false,
+      "provenance": "derived",
+      "provinces": [
+        "AB",
+        "SK",
+        "MB"
+      ],
+      "sources": [
+        {
+          "content_sha256": "115af1b4006e7be0636a4f5a5c6bdce9efa0530d6847365b3b5a8fb71f64680a",
+          "licence": "ogl-canada-2.0",
+          "provenance": "page_verbatim",
+          "retrieved_at": "2026-09-08T22:35:42Z",
+          "url": "https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network"
+        },
+        {
+          "content_sha256": "23a05b17dff3305ad7031ae5835e29269d6dd57a139930d45d866f912127aeb2",
+          "licence": "ogl-canada-2.0",
+          "provenance": "page_verbatim",
+          "retrieved_at": "2026-09-08T22:35:42Z",
+          "url": "https://tc.canada.ca/fr/services-generaux/transparence/gestion-rapports-ministeriels/rapports-annuels-transports-canada/transports-canada-2024/role-reseau-transport-canadien"
+        }
+      ],
+      "unmapped_note": {
+        "en": "",
+        "fr": ""
+      }
+    },
+    {
+      "corridor_id": "central",
+      "description": {
+        "en": "The Central Corridor spans Ontario and Quebec, where more than 60% of Canada’s population lives. It includes the Windsor-Quebec Corridor, one of the country’s most vital economic corridors, linking major urban centers from Windsor in the west to Quebec City in the east. Anchored by Toronto and Montreal—Canada's two largest cities—this Corridor plays a central role in the national economy.",
+        "fr": "Le corridor du Centre s’étend sur l’Ontario et le Québec, qui représentent ensemble plus de 60 % de la population du Canada. Il comprend le corridor Windsor-Québec, l’un des corridors économiques les plus importants du pays, qui relie les principaux centres urbains de Windsor, à l’ouest, à la ville de Québec, à l’est. Avec Toronto et Montréal, les deux plus grandes villes du Canada, ce corridor joue un rôle central dans l’économie nationale.Il accueille une part importante des déplacements de passagers du Canada par voie aérienne, ferroviaire et routière. Toronto et Montréal servent de plaques tournantes pour les liaisons nationales et internationales.Ensemble, l’Ontario et le Québec contribuent à 70 % du PIB manufacturier du Canada et abritent une part importante de l’économie de services du pays, y compris des secteurs comme le commerce de gros et de détail, le tourisme et la finance. Cette base économique diversifiée est à l’origine d’une demande importante de déplacements domicile-travail et de passagers dans l’ensemble de la région."
+      },
+      "event_slug": "trade-corridors",
+      "location_verbatim": {
+        "en": "spans Ontario and Quebec",
+        "fr": "s'étend sur l'Ontario et le Québec"
+      },
+      "modes": [
+        {
+          "items": [
+            {
+              "en": "Four port authorities in Ontario (Hamilton-Oshawa, Toronto, Thunder Bay, and Windsor)",
+              "fr": "Quatre administrations portuaires en Ontario (Hamilton-Oshawa, Toronto, Thunder Bay et Windsor)"
+            },
+            {
+              "en": "Five port authorities in Quebec (Montreal, Quebec, Saguenay, Sept-Îles, and Trois-Rivières), with Montreal being the largest",
+              "fr": "Cinq administrations portuaires au Québec (Montréal, Québec, Saguenay, Sept-Îles et Trois-Rivières), Montréal étant la plus importante"
+            }
+          ],
+          "label": {
+            "en": "Marine",
+            "fr": "Transport maritime"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "CN and CPKC service, with 11 shortlines in Ontario and many others across Quebec",
+              "fr": "Service du CN et du CPKC, avec 11 lignes ferroviaires secondaires en Ontario et de nombreuses autres au Québec"
+            }
+          ],
+          "label": {
+            "en": "Rail",
+            "fr": "Transport ferroviaire"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "The busiest highways are Highway 401 (Ontario) and Autoroutes 20 and 40 (Quebec)",
+              "fr": "Les routes les plus fréquentées sont la 401 (Ontario) et les autoroutes 20 et 40 (Québec)"
+            }
+          ],
+          "label": {
+            "en": "Road",
+            "fr": "Transport routier"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "7 National Airport System airports (Thunder Bay, London, Toronto Pearson, Ottawa, Montreal Trudeau, Montreal Mirabel, and Quebec City)",
+              "fr": "Sept aéroports du réseau d'aéroports national (Thunder Bay, London, Toronto Pearson, Ottawa, Montréal Trudeau, Montréal Mirabel et Québec)"
+            }
+          ],
+          "label": {
+            "en": "Air",
+            "fr": "Transport aérien"
+          }
+        }
+      ],
+      "name": {
+        "en": "Central Corridor",
+        "fr": "Corridor du Centre"
+      },
+      "nodes": [
+        {
+          "geometry": {
+            "anchor": [
+              -79.36,
+              43.64
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -79.36,
+                43.64
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "spans Ontario and Quebec",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Toronto",
+            "fr": "Port de Toronto"
+          },
+          "node_id": "toronto"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -79.85,
+              43.27
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -79.85,
+                43.27
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "spans Ontario and Quebec",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Hamilton-Oshawa",
+            "fr": "Port de Hamilton-Oshawa"
+          },
+          "node_id": "hamilton-oshawa"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -73.52,
+              45.55
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -73.52,
+                45.55
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "spans Ontario and Quebec",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Montreal",
+            "fr": "Port de Montréal"
+          },
+          "node_id": "montreal"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -71.2,
+              46.82
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -71.2,
+                46.82
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "spans Ontario and Quebec",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Québec",
+            "fr": "Port de Québec"
+          },
+          "node_id": "quebec"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -83.07,
+              42.31
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -83.07,
+                42.31
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "spans Ontario and Quebec",
+            "provinces": []
+          },
+          "kind": "border_crossing",
+          "name": {
+            "en": "Ambassador Bridge",
+            "fr": "Pont Ambassador"
+          },
+          "node_id": "ambassador"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -82.42,
+              42.99
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -82.42,
+                42.99
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "spans Ontario and Quebec",
+            "provinces": []
+          },
+          "kind": "border_crossing",
+          "name": {
+            "en": "Blue Water Bridge",
+            "fr": "Pont Blue Water"
+          },
+          "node_id": "bluewater"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -78.91,
+              42.91
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -78.91,
+                42.91
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "spans Ontario and Quebec",
+            "provinces": []
+          },
+          "kind": "border_crossing",
+          "name": {
+            "en": "Peace Bridge",
+            "fr": "Pont Peace"
+          },
+          "node_id": "peace"
+        }
+      ],
+      "overlaps_provinces": false,
+      "provenance": "derived",
+      "provinces": [
+        "ON",
+        "QC"
+      ],
+      "sources": [
+        {
+          "content_sha256": "2f15e49bebbb977af714a2dae875086b6659dc8c1f47b10d731086100b257d33",
+          "licence": "ogl-canada-2.0",
+          "provenance": "page_verbatim",
+          "retrieved_at": "2026-09-08T22:35:42Z",
+          "url": "https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network"
+        },
+        {
+          "content_sha256": "44d73760c8c5fce4cd4aad24401b8ac05d1d922906525e844a8adadd465d9b10",
+          "licence": "ogl-canada-2.0",
+          "provenance": "page_verbatim",
+          "retrieved_at": "2026-09-08T22:35:42Z",
+          "url": "https://tc.canada.ca/fr/services-generaux/transparence/gestion-rapports-ministeriels/rapports-annuels-transports-canada/transports-canada-2024/role-reseau-transport-canadien"
+        }
+      ],
+      "unmapped_note": {
+        "en": "",
+        "fr": ""
+      }
+    },
+    {
+      "corridor_id": "atlantic",
+      "description": {
+        "en": "The Atlantic Corridor encompasses the transportation networks of Canada’s four Atlantic provinces: New Brunswick, Nova Scotia, Prince Edward Island, and Newfoundland and Labrador. Geographically, it serves as a strategic gateway to international shipping routes across the North Atlantic, and supports trade with Europe, the Mediterranean, Africa, and Asia.",
+        "fr": "Le corridor Atlantique englobe les réseaux de transport des quatre provinces atlantiques du Canada : le Nouveau-Brunswick, la Nouvelle-Écosse, l’Île-du-Prince-Édouard et Terre-Neuve-et-Labrador. Géographiquement, il constitue une porte d’entrée stratégique pour les routes maritimes internationales traversant l’Atlantique Nord, facilitant ainsi les échanges avec l’Europe, la Méditerranée, l’Afrique et l’Asie."
+      },
+      "event_slug": "trade-corridors",
+      "location_verbatim": {
+        "en": "encompasses the transportation networks of the Atlantic provinces",
+        "fr": "englobe les réseaux de transport des provinces de l'Atlantique"
+      },
+      "modes": [
+        {
+          "items": [
+            {
+              "en": "Four Canada Port Authorities (Belledune, Saint John, NB, Halifax, and St. John's, NL",
+              "fr": "Quatre administrations portuaires canadiennes (Belledune, Saint John [N.-B.], Halifax et St. John's [T.-N.-L.])"
+            }
+          ],
+          "label": {
+            "en": "Marine",
+            "fr": "Transport maritime"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "Class I (CN and CPKC), and CSX connects Atlantic Corridor to the rest of Canada",
+              "fr": "Voie de catégorie I (CN et CPKC), et CSX reliant le corridor Atlantique au reste du Canada"
+            },
+            {
+              "en": "VIA Rail connects passengers to and from Atlantic Canada using the CN line.",
+              "fr": "Liaison avec le Canada atlantique assurée par VIA Rail en empruntant la voie du CN"
+            },
+            {
+              "en": "Shortline railroads (Cape Breton, Labrador, New Brunswick Southern Railway)",
+              "fr": "Chemins de fer d'intérêt local (Cape Breton, Labrador, New Brunswick Southern Railway)"
+            }
+          ],
+          "label": {
+            "en": "Rail",
+            "fr": "Transport ferroviaire"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "22,000 km of provincially maintained roads and highways across the Atlantic Provinces.",
+              "fr": "22 000 km de routes et d'autoroutes entretenues par la province dans les provinces atlantiques"
+            },
+            {
+              "en": "4,700 km are part of the National Highway System",
+              "fr": "4 700 km font partie du réseau routier national"
+            },
+            {
+              "en": "Six border crossings in New Brunswick",
+              "fr": "Six postes frontaliers au Nouveau-Brunswick"
+            }
+          ],
+          "label": {
+            "en": "Road",
+            "fr": "Transport routier"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "14 airports",
+              "fr": "14 aéroports"
+            },
+            {
+              "en": "Two International (Halifax Stanfield and Moncton Romeo Leblanc)",
+              "fr": "Deux aéroports internationaux (Halifax Stanfield et Moncton Roméo Leblanc)"
+            }
+          ],
+          "label": {
+            "en": "Air",
+            "fr": "Transport aérien"
+          }
+        }
+      ],
+      "name": {
+        "en": "Atlantic Corridor",
+        "fr": "Corridor Atlantique"
+      },
+      "nodes": [
+        {
+          "geometry": {
+            "anchor": [
+              -63.57,
+              44.65
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -63.57,
+                44.65
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "encompasses the transportation networks of the Atlantic provinces",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Halifax",
+            "fr": "Port d'Halifax"
+          },
+          "node_id": "halifax"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -66.06,
+              45.27
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -66.06,
+                45.27
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "encompasses the transportation networks of the Atlantic provinces",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Saint John",
+            "fr": "Port de Saint John"
+          },
+          "node_id": "saint-john"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -65.84,
+              47.9
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -65.84,
+                47.9
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "encompasses the transportation networks of the Atlantic provinces",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Belledune",
+            "fr": "Port de Belledune"
+          },
+          "node_id": "belledune"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -52.7,
+              47.56
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -52.7,
+                47.56
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "encompasses the transportation networks of the Atlantic provinces",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of St. John's",
+            "fr": "Port de St. John's"
+          },
+          "node_id": "st-johns"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -67.73,
+              46.1
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -67.73,
+                46.1
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "encompasses the transportation networks of the Atlantic provinces",
+            "provinces": []
+          },
+          "kind": "border_crossing",
+          "name": {
+            "en": "Woodstock",
+            "fr": "Woodstock"
+          },
+          "node_id": "woodstock"
+        },
+        {
+          "geometry": {
+            "anchor": [
+              -67.29,
+              45.19
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -67.29,
+                45.19
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "encompasses the transportation networks of the Atlantic provinces",
+            "provinces": []
+          },
+          "kind": "border_crossing",
+          "name": {
+            "en": "St. Stephen",
+            "fr": "St. Stephen"
+          },
+          "node_id": "st-stephen"
+        }
+      ],
+      "overlaps_provinces": false,
+      "provenance": "derived",
+      "provinces": [
+        "NB",
+        "NS",
+        "PE",
+        "NL"
+      ],
+      "sources": [
+        {
+          "content_sha256": "4f35afd2b85a2a4e88b8b53ef4ac865a8ae1e92c8e480f6c978ffa5412b4bdc4",
+          "licence": "ogl-canada-2.0",
+          "provenance": "page_verbatim",
+          "retrieved_at": "2026-09-08T22:35:42Z",
+          "url": "https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network"
+        },
+        {
+          "content_sha256": "e2cab3354ceb4f1bdd2cff9ad409635ea463caf738e56b8eb58ac4a23d1536cf",
+          "licence": "ogl-canada-2.0",
+          "provenance": "page_verbatim",
+          "retrieved_at": "2026-09-08T22:35:42Z",
+          "url": "https://tc.canada.ca/fr/services-generaux/transparence/gestion-rapports-ministeriels/rapports-annuels-transports-canada/transports-canada-2024/role-reseau-transport-canadien"
+        }
+      ],
+      "unmapped_note": {
+        "en": "",
+        "fr": ""
+      }
+    },
+    {
+      "corridor_id": "northern",
+      "description": {
+        "en": "Canada’s Northern Corridor spans regions north of 55 degrees latitude, including the Yukon, Northwest Territories, Nunavut, and parts of British Columbia, Saskatchewan, Manitoba, Ontario, Quebec, and Labrador. This expansive area covers roughly 48% of Canada’s landmass—around 4.8 million square kilometres—but is sparsely populated, with a population of around 150,000.",
+        "fr": "Le corridor du Nord du Canada s’étend sur les régions situées au nord du 55 e degré de latitude, notamment le Yukon, les Territoires du Nord-Ouest, le Nunavut et certaines parties de la Colombie-Britannique, de la Saskatchewan, du Manitoba, de l’Ontario, du Québec et du Labrador. Cette vaste région couvre environ 48 % de la superficie du Canada, soit environ 4,8 millions de kilomètres carrés, mais elle est peu peuplée, avec une population d’environ 150 000 habitants."
+      },
+      "event_slug": "trade-corridors",
+      "location_verbatim": {
+        "en": "spans regions north of 55 degrees",
+        "fr": "s'étend sur les régions situées au nord du 55e parallèle"
+      },
+      "modes": [
+        {
+          "items": [
+            {
+              "en": "Three key ports (Churchill, Iqaluit, Tuktoyaktuk)",
+              "fr": "Trois ports clés (Churchill, Iqaluit, Tuktoyaktuk)"
+            },
+            {
+              "en": "Churchill and Iqaluit are the only deep-water ports in the Arctic",
+              "fr": "Churchill et Iqaluit sont les seuls ports en eau profonde de l'Arctique"
+            },
+            {
+              "en": "Desgagnes (Transarctik) serves 15 northern communities in Northern Quebec and 29 ports in Nunavut",
+              "fr": "Desgagnes (Transarctik) dessert 15 collectivités nordiques dans le Nord du Québec et 29 ports au Nunavut"
+            }
+          ],
+          "label": {
+            "en": "Marine",
+            "fr": "Transport maritime"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "CN shortline connecting Enterprise, AB to Hay River, NWT (currently inactive)",
+              "fr": "Voie secondaire du CN reliant Enterprise, Alberta, à Hay River, T.-N.-O. (actuellement inactive)"
+            },
+            {
+              "en": "Hudson Bay Railway connects Northern Manitoba (Churchill)",
+              "fr": "Chemin de fer de la baie d'Hudson reliant le Nord du Manitoba (Churchill)"
+            }
+          ],
+          "label": {
+            "en": "Rail",
+            "fr": "Transport ferroviaire"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "Over 4,800 km of roads in Yukon",
+              "fr": "Plus de 4 800 km de routes au Yukon"
+            },
+            {
+              "en": "Over 3,800 km of roads in NWT",
+              "fr": "Plus de 3 800 km de routes au T.-N.-O."
+            },
+            {
+              "en": "Nunavut has no inter-community road network",
+              "fr": "Aucun réseau routier intercommunautaire au Nunavut"
+            }
+          ],
+          "label": {
+            "en": "Road",
+            "fr": "Transport routier"
+          }
+        },
+        {
+          "items": [
+            {
+              "en": "206 aerodromes across entire Corridor",
+              "fr": ""
+            },
+            {
+              "en": "Yellowknife, Whitehorse, and Iqaluit airports are part of the National Airports System",
+              "fr": ""
+            },
+            {
+              "en": "Yukon: five certified airports, 27 aerodromes",
+              "fr": ""
+            },
+            {
+              "en": "NWT: 20 certified airports, 41 aerodromes",
+              "fr": ""
+            },
+            {
+              "en": "Nunavut: 24 certified airports, 14 aerodromes",
+              "fr": ""
+            },
+            {
+              "en": "",
+              "fr": "206 aérodromes dans l'ensemble du corridor"
+            },
+            {
+              "en": "",
+              "fr": "Aéroports de Yellowknife, Whitehorse et Iqaluit faisant partie du réseau des aéroports national"
+            },
+            {
+              "en": "",
+              "fr": "Yukon : cinq aéroports certifiés, 27 aérodromes"
+            },
+            {
+              "en": "",
+              "fr": "T. N.-O. : 20 aéroports certifiés, 41 aérodromes"
+            }
+          ],
+          "label": {
+            "en": "Air",
+            "fr": "Transport aérien"
+          }
+        }
+      ],
+      "name": {
+        "en": "Northern Corridor",
+        "fr": "Corridor du Nord"
+      },
+      "nodes": [
+        {
+          "geometry": {
+            "anchor": [
+              -94.17,
+              58.77
+            ],
+            "anchor_provenance": "derived",
+            "approximate": true,
+            "coordinate_provenance": "derived",
+            "coordinates": [
+              [
+                -94.17,
+                58.77
+              ]
+            ],
+            "is_linear": false,
+            "kind": "point",
+            "location_verbatim": "spans regions north of 55 degrees",
+            "provinces": []
+          },
+          "kind": "port",
+          "name": {
+            "en": "Port of Churchill",
+            "fr": "Port de Churchill"
+          },
+          "node_id": "churchill"
+        }
+      ],
+      "overlaps_provinces": true,
+      "provenance": "derived",
+      "provinces": [
+        "YT",
+        "NT",
+        "NU"
+      ],
+      "sources": [
+        {
+          "content_sha256": "8f0a495895ee75d2f0caf4a4f316c8fe4717935ed971f1de8b0add93b4c6059a",
+          "licence": "ogl-canada-2.0",
+          "provenance": "page_verbatim",
+          "retrieved_at": "2026-09-08T22:35:42Z",
+          "url": "https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network"
+        },
+        {
+          "content_sha256": "83fe998f71135b278e33b732d83f04955011f3a1092122e489532dacbd3ae7db",
+          "licence": "ogl-canada-2.0",
+          "provenance": "page_verbatim",
+          "retrieved_at": "2026-09-08T22:35:42Z",
+          "url": "https://tc.canada.ca/fr/services-generaux/transparence/gestion-rapports-ministeriels/rapports-annuels-transports-canada/transports-canada-2024/role-reseau-transport-canadien"
+        }
+      ],
+      "unmapped_note": {
+        "en": "Transport Canada defines this corridor by latitude — regions north of 55 degrees — not by province. Only the three territories are mapped here. The portions of British Columbia, Alberta, Saskatchewan, Manitoba, Ontario, Quebec and Newfoundland and Labrador above that line are part of this corridor and are not shown.",
+        "fr": "Transports Canada définit ce corridor par la latitude — les régions au nord du 55e degré — et non par province. Seuls les trois territoires sont représentés ici."
+      }
+    }
+  ],
+  "event": "trade-corridors",
+  "generated_at": "2026-09-08T22:35:42Z"
+}

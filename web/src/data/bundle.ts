@@ -105,6 +105,48 @@ export interface Project {
   sources: SourceRef[];
 }
 
+export type CorridorNodeKind = "port" | "border_crossing";
+
+export interface CorridorMode {
+  /** "Marine" / "Transport maritime" — the source's own label. */
+  label: Text;
+  items: Text[];
+}
+
+export interface CorridorNode {
+  node_id: string;
+  kind: CorridorNodeKind;
+  name: Text;
+  geometry: Geometry;
+}
+
+/**
+ * One of Transport Canada's five national trade corridors.
+ *
+ * FIVE, not four — Pacific, Prairie, Central, Atlantic and Northern. And they
+ * do NOT partition the provinces: Northern is defined by latitude, so it
+ * overlaps the four described by province. `overlaps_provinces` and
+ * `unmapped_note` carry that, and the UI must show it — a partial provincial
+ * mapping rendered silently reads as a complete one.
+ *
+ * `description` and `modes` are the government's wording. `provinces` and the
+ * node coordinates are ours, which is why `provenance` is `derived`.
+ */
+export interface TradeCorridor {
+  corridor_id: string;
+  event_slug: string;
+  name: Text;
+  description: Text;
+  location_verbatim: Text;
+  provinces: string[];
+  modes: CorridorMode[];
+  nodes: CorridorNode[];
+  overlaps_provinces: boolean;
+  unmapped_note: Text;
+  sources: SourceRef[];
+  provenance: Provenance;
+}
+
 export interface Strategy {
   slug: string;
   name: Text;
@@ -156,7 +198,14 @@ export interface Palette {
 }
 
 export interface Bundle {
-  meta: { schema_version: string; generated_at: string; licences: Record<string, any> };
+  meta: {
+    schema_version: string;
+    generated_at: string;
+    licences: Record<string, unknown>;
+    /** Every declared source, with its attribution — the map credit is built from this. */
+    sources: Record<string, { title?: string; publisher?: string; attribution?: string }>;
+    files: string[];
+  };
   palette: Palette;
   projects: Project[];
   strategies: Strategy[];
@@ -183,11 +232,14 @@ export interface Bundle {
   /** Canada's trunk highways and ferry routes — Natural Earth 1:10m, real. */
   highways: GeoJSON.FeatureCollection;
   /**
-   * Marine gateways and trade lanes. The ports are real; the lanes are SCHEMATIC
-   * and drawn by this project — `provenance` says so and `disclaimer` carries
-   * the wording the UI must show.
+   * Transport Canada's five national trade corridors, with their own words.
+   *
+   * This replaced a hand-drawn `FeatureCollection` of schematic sea lanes. Once
+   * the real corridors arrived — named, described and enumerated by the
+   * publisher — an arc this project drew toward a made-up waypoint was a second
+   * answer to the same question, and the invented one.
    */
-  corridors: GeoJSON.FeatureCollection & { provenance: Provenance; disclaimer: Text };
+  corridors: TradeCorridor[];
 }
 
 /** The bundle's major version this client knows how to read. */
@@ -245,7 +297,7 @@ export async function loadBundle(): Promise<Bundle> {
       json<GeoJSON.FeatureCollection>("/geo/provinces.json"),
       json<GeoJSON.FeatureCollection>("/geo/canada.json"),
       json<GeoJSON.FeatureCollection>("/geo/highways.json"),
-      json<Bundle["corridors"]>("/data/corridors.json"),
+      json<{ corridors: TradeCorridor[] }>("/data/events/trade-corridors/corridors.json"),
     ]);
 
   const major = Number(String(meta.schema_version).split(".")[0]);
@@ -269,7 +321,7 @@ export async function loadBundle(): Promise<Bundle> {
     provinces,
     canada,
     highways,
-    corridors,
+    corridors: corridors.corridors,
   };
 }
 

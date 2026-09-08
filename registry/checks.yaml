@@ -213,3 +213,52 @@ datasets:
           sector is a genuine second opinion, and it is what established that
           Management of companies [55] really is $0.5B rather than a parse
           failure.
+
+  # ── Trade corridors ──────────────────────────────────────────────────────────
+  trade-corridors:
+    path: data/events/trade-corridors/corridors.json
+    records: corridors
+    id_field: corridor_id
+    geometry_path: nodes[].geometry.coordinates
+    geometry_path_root: nodes[].geometry
+    place_text_path: location_verbatim.en
+    checks:
+      - kind: unique_ids
+        severity: gate
+
+      - kind: record_count
+        severity: gate
+        expect_from: "events.yaml:events[slug=trade-corridors].expected.corridors"
+        why: >
+          FIVE, not four. Summaries of Transport Canada's page routinely list
+          Pacific, Prairie, Central and Atlantic and omit NORTHERN — and the
+          omission is invisible, because four corridors still sum to something
+          and still draw something. This is the assertion that makes a drop loud.
+
+      - kind: fields_present
+        severity: gate
+        fields: [name.en, name.fr, description.en, description.fr, location_verbatim.en]
+        why: >
+          A silent French parse failure looks exactly like a corridor with no
+          French. The FR page is a different URL with different <summary> text,
+          both declared in corridors.yaml rather than derived.
+
+      - kind: geometry_within_region
+        severity: gate
+        region: canada
+        # Every node is a harbour or a border crossing, so the same marine
+        # tolerance the MPO sites need applies: the StatCan cartographic file
+        # excludes coastal water.
+        tolerance_km: 30
+        why: >
+          Catches a transposed or sign-flipped node coordinate. These positions
+          are ours — Transport Canada names the facilities and publishes no
+          geometry — so nothing upstream would catch an error in them.
+
+      - kind: records_are_reachable
+        severity: gate
+        kinds_without_anchor: [region, absent]
+        why: >
+          Every corridor node is a POINT and must be reachable on the map. This
+          is the gate that would have caught the corridor projects rendering as
+          dashes with no marker.

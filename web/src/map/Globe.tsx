@@ -31,7 +31,7 @@ import { useEffect, useRef } from "react";
 import maplibregl, { type LngLatLike, type StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import type { Bundle, Project } from "../data/bundle";
+import type { Bundle, CorridorNodeKind, Project } from "../data/bundle";
 import { PRUID_TO_CODE, asset, mapFeatures, provincialTotals } from "../data/bundle";
 
 /** Where the globe opens: Canada, tilted so the Arctic projects are visible. */
@@ -70,7 +70,7 @@ function buildStyle(bundle: Bundle): StyleSpecification {
       // network. Two different things that both wanted the same word — naming
       // them apart here rather than letting one shadow the other.
       highways: { type: "geojson", data: bundle.highways as never },
-      trade: { type: "geojson", data: bundle.corridors as never },
+      trade: { type: "geojson", data: corridorNodeGeoJSON(bundle) as never },
       corridors: { type: "geojson", data: corridorGeoJSON(bundle) as never },
     },
     layers: [
@@ -184,45 +184,33 @@ function buildStyle(bundle: Bundle): StyleSpecification {
       // road network is a smear that hides the coastline the map is built to
       // show. Neither is interactive — they are context for the pins, not
       // competition for them.
-      {
-        id: "sea-lanes",
-        type: "line",
+      // Corridor nodes — the ports and border crossings Transport Canada names
+      // in each corridor's infrastructure list.
+      //
+      // ONE LAYER PER KIND, FROM A TYPED TABLE. This replaced a `sea-lanes` and
+      // a `ports` layer built as two hand-written `filter`s over one collection
+      // — the shape CLAUDE.md §2b bans, written in this repo two days after the
+      // rule was added. A third node kind added to a filter pair renders
+      // nothing and raises nothing; `NODE_LAYERS` below is keyed on
+      // `CorridorNodeKind`, so a new kind is a compile error instead.
+      //
+      // These coordinates are OURS: Transport Canada names the facilities and
+      // publishes no geometry for any of them, which is why every node carries
+      // `coordinate_provenance: derived` and why the two kinds are drawn as
+      // hollow marks rather than solid ones.
+      ...NODE_LAYER_KINDS.map((kind) => ({
+        id: `node-${kind}`,
+        type: "circle" as const,
         source: "trade",
-        filter: ["==", ["get", "kind"], "lane"],
-        layout: { "line-join": "round", "line-cap": "round" },
-        paint: {
-          "line-color": ink.secondary,
-          "line-width": ["interpolate", ["linear"], ["zoom"], 1.5, 1, 5, 2.4],
-          // Long dashes: the same grammar the project corridors already use for
-          // "the endpoints are published, the line between them is not".
-          "line-dasharray": [3, 2.5],
-          "line-opacity": ["interpolate", ["linear"], ["zoom"], 1.4, 0.28, 3, 0.5],
-        },
-      },
-      {
-        id: "highways",
-        type: "line",
-        source: "highways",
-        layout: { "line-join": "round", "line-cap": "round" },
-        paint: {
-          "line-color": accent,
-          "line-width": ["interpolate", ["linear"], ["zoom"], 2, 0.5, 5, 1.6, 8, 3],
-          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.18, 4, 0.45],
-        },
-      },
-      {
-        id: "ports",
-        type: "circle",
-        source: "trade",
-        filter: ["==", ["get", "kind"], "port"],
+        filter: ["==", ["get", "kind"], kind] as never,
         paint: {
           "circle-radius": ["interpolate", ["linear"], ["zoom"], 2, 2, 6, 5],
-          "circle-color": ink.secondary,
-          "circle-opacity": ["interpolate", ["linear"], ["zoom"], 1.6, 0.35, 3, 0.75],
-          "circle-stroke-width": 0.6,
-          "circle-stroke-color": bundle.palette.surface.page,
-        },
-      },
+          "circle-color": bundle.palette.surface.page,
+          "circle-opacity": ["interpolate", ["linear"], ["zoom"], 1.6, 0.35, 3, 0.85],
+          "circle-stroke-width": NODE_STROKE[kind],
+          "circle-stroke-color": ink.secondary,
+        } as never,
+      })),
       // Drawn after `provinces-fill` on purpose: the choropleth reaches 0.85
       // opacity over exactly this footprint, so an outline underneath it would
       // fade out along every coast at precisely the zoom where the coast is
@@ -306,6 +294,40 @@ function seqStops(bundle: Bundle): (number | string)[] {
   return steps.flatMap((hex, i) => [Math.round(max * (i / (steps.length - 1)) ** 2), hex]);
 }
 
+/**
+ * Every corridor-node kind, and how thick its ring is.
+ *
+ * A `Record` keyed on `CorridorNodeKind`, not a list of hand-written layers: a
+ * new kind fails the build here rather than silently rendering nothing. Stroke
+ * weight rather than colour separates them, because colour on this map is
+ * already carrying selection and the validated palette caps categorical
+ * encoding well below the number of things competing for it.
+ */
+const NODE_STROKE: Record<CorridorNodeKind, number> = {
+  port: 1.6,
+  border_crossing: 0.8,
+};
+const NODE_LAYER_KINDS = Object.keys(NODE_STROKE) as CorridorNodeKind[];
+
+/** Corridor ports and crossings as points, with the corridor they belong to. */
+function corridorNodeGeoJSON(bundle: Bundle): GeoJSON.FeatureCollection {
+  return {
+    type: "FeatureCollection",
+    features: bundle.corridors.flatMap((c) =>
+      c.nodes.map((n) => ({
+        type: "Feature" as const,
+        properties: {
+          kind: n.kind,
+          corridor: c.corridor_id,
+          name: n.name.en,
+          corridorName: c.name.en,
+        },
+        geometry: { type: "Point" as const, coordinates: n.geometry.coordinates[0] },
+      })),
+    ),
+  };
+}
+
 function corridorGeoJSON(bundle: Bundle): GeoJSON.FeatureCollection {
   return {
     type: "FeatureCollection",
@@ -364,14 +386,16 @@ export function Globe({ bundle, selected, onSelect }: Props) {
     m.addControl(
       new maplibregl.AttributionControl({
         compact: true,
-        // The trade-lane disclaimer travels INSIDE the payload and is read from
-        // it here rather than restated, so the sentence on screen and the
-        // sentence in the registry cannot drift apart. The layer is not allowed
-        // to render without it: the ports are real and the arcs are ours, and a
-        // reader has no way to tell those apart by looking.
-        customAttribution:
-          "Natural Earth · Statistics Canada · Major Projects Office of Canada · "
-          + bundle.corridors.disclaimer.en,
+        // Built from the bundle's own source table rather than written here, so
+        // adding a source cannot leave the credit line stale. `sources.yaml`
+        // says generating attribution from data is the point of carrying it.
+        customAttribution: Array.from(
+          new Set(
+            Object.values(bundle.meta.sources ?? {})
+              .map((v) => (v as { attribution?: string }).attribution)
+              .filter((a): a is string => Boolean(a)),
+          ),
+        ).join(" · "),
       }),
       "bottom-right",
     );

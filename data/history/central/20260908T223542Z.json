@@ -1,0 +1,292 @@
+{
+  "content_sha256": "57243c19e5b6ba28cfc91e2b5ca9db9d8af33615b1bbd9d7fe591a129ed04de5",
+  "corridor": {
+    "corridor_id": "central",
+    "description": {
+      "en": "The Central Corridor spans Ontario and Quebec, where more than 60% of Canada’s population lives. It includes the Windsor-Quebec Corridor, one of the country’s most vital economic corridors, linking major urban centers from Windsor in the west to Quebec City in the east. Anchored by Toronto and Montreal—Canada's two largest cities—this Corridor plays a central role in the national economy.",
+      "fr": "Le corridor du Centre s’étend sur l’Ontario et le Québec, qui représentent ensemble plus de 60 % de la population du Canada. Il comprend le corridor Windsor-Québec, l’un des corridors économiques les plus importants du pays, qui relie les principaux centres urbains de Windsor, à l’ouest, à la ville de Québec, à l’est. Avec Toronto et Montréal, les deux plus grandes villes du Canada, ce corridor joue un rôle central dans l’économie nationale.Il accueille une part importante des déplacements de passagers du Canada par voie aérienne, ferroviaire et routière. Toronto et Montréal servent de plaques tournantes pour les liaisons nationales et internationales.Ensemble, l’Ontario et le Québec contribuent à 70 % du PIB manufacturier du Canada et abritent une part importante de l’économie de services du pays, y compris des secteurs comme le commerce de gros et de détail, le tourisme et la finance. Cette base économique diversifiée est à l’origine d’une demande importante de déplacements domicile-travail et de passagers dans l’ensemble de la région."
+    },
+    "event_slug": "trade-corridors",
+    "location_verbatim": {
+      "en": "spans Ontario and Quebec",
+      "fr": "s'étend sur l'Ontario et le Québec"
+    },
+    "modes": [
+      {
+        "items": [
+          {
+            "en": "Four port authorities in Ontario (Hamilton-Oshawa, Toronto, Thunder Bay, and Windsor)",
+            "fr": "Quatre administrations portuaires en Ontario (Hamilton-Oshawa, Toronto, Thunder Bay et Windsor)"
+          },
+          {
+            "en": "Five port authorities in Quebec (Montreal, Quebec, Saguenay, Sept-Îles, and Trois-Rivières), with Montreal being the largest",
+            "fr": "Cinq administrations portuaires au Québec (Montréal, Québec, Saguenay, Sept-Îles et Trois-Rivières), Montréal étant la plus importante"
+          }
+        ],
+        "label": {
+          "en": "Marine",
+          "fr": "Transport maritime"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "CN and CPKC service, with 11 shortlines in Ontario and many others across Quebec",
+            "fr": "Service du CN et du CPKC, avec 11 lignes ferroviaires secondaires en Ontario et de nombreuses autres au Québec"
+          }
+        ],
+        "label": {
+          "en": "Rail",
+          "fr": "Transport ferroviaire"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "The busiest highways are Highway 401 (Ontario) and Autoroutes 20 and 40 (Quebec)",
+            "fr": "Les routes les plus fréquentées sont la 401 (Ontario) et les autoroutes 20 et 40 (Québec)"
+          }
+        ],
+        "label": {
+          "en": "Road",
+          "fr": "Transport routier"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "7 National Airport System airports (Thunder Bay, London, Toronto Pearson, Ottawa, Montreal Trudeau, Montreal Mirabel, and Quebec City)",
+            "fr": "Sept aéroports du réseau d'aéroports national (Thunder Bay, London, Toronto Pearson, Ottawa, Montréal Trudeau, Montréal Mirabel et Québec)"
+          }
+        ],
+        "label": {
+          "en": "Air",
+          "fr": "Transport aérien"
+        }
+      }
+    ],
+    "name": {
+      "en": "Central Corridor",
+      "fr": "Corridor du Centre"
+    },
+    "nodes": [
+      {
+        "geometry": {
+          "anchor": [
+            -79.36,
+            43.64
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -79.36,
+              43.64
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "spans Ontario and Quebec",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Toronto",
+          "fr": "Port de Toronto"
+        },
+        "node_id": "toronto"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -79.85,
+            43.27
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -79.85,
+              43.27
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "spans Ontario and Quebec",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Hamilton-Oshawa",
+          "fr": "Port de Hamilton-Oshawa"
+        },
+        "node_id": "hamilton-oshawa"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -73.52,
+            45.55
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -73.52,
+              45.55
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "spans Ontario and Quebec",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Montreal",
+          "fr": "Port de Montréal"
+        },
+        "node_id": "montreal"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -71.2,
+            46.82
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -71.2,
+              46.82
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "spans Ontario and Quebec",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Québec",
+          "fr": "Port de Québec"
+        },
+        "node_id": "quebec"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -83.07,
+            42.31
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -83.07,
+              42.31
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "spans Ontario and Quebec",
+          "provinces": []
+        },
+        "kind": "border_crossing",
+        "name": {
+          "en": "Ambassador Bridge",
+          "fr": "Pont Ambassador"
+        },
+        "node_id": "ambassador"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -82.42,
+            42.99
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -82.42,
+              42.99
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "spans Ontario and Quebec",
+          "provinces": []
+        },
+        "kind": "border_crossing",
+        "name": {
+          "en": "Blue Water Bridge",
+          "fr": "Pont Blue Water"
+        },
+        "node_id": "bluewater"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -78.91,
+            42.91
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -78.91,
+              42.91
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "spans Ontario and Quebec",
+          "provinces": []
+        },
+        "kind": "border_crossing",
+        "name": {
+          "en": "Peace Bridge",
+          "fr": "Pont Peace"
+        },
+        "node_id": "peace"
+      }
+    ],
+    "overlaps_provinces": false,
+    "provenance": "derived",
+    "provinces": [
+      "ON",
+      "QC"
+    ],
+    "sources": [
+      {
+        "content_sha256": "2f15e49bebbb977af714a2dae875086b6659dc8c1f47b10d731086100b257d33",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-08T22:35:42Z",
+        "url": "https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network"
+      },
+      {
+        "content_sha256": "44d73760c8c5fce4cd4aad24401b8ac05d1d922906525e844a8adadd465d9b10",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-08T22:35:42Z",
+        "url": "https://tc.canada.ca/fr/services-generaux/transparence/gestion-rapports-ministeriels/rapports-annuels-transports-canada/transports-canada-2024/role-reseau-transport-canadien"
+      }
+    ],
+    "unmapped_note": {
+      "en": "",
+      "fr": ""
+    }
+  },
+  "retrieved_at": "2026-09-08T22:35:42Z",
+  "slug": "central"
+}

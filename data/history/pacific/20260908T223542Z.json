@@ -1,0 +1,268 @@
+{
+  "content_sha256": "7a8da9342fd59814f91c1bbdc5c04b4ae59ca215e7bb7c1d77aac6c20766a656",
+  "corridor": {
+    "corridor_id": "pacific",
+    "description": {
+      "en": "The Pacific Corridor is the gateway for Canada’s trade and transportation with the Asia-Pacific region and to access key emerging markets in Southeast Asia, anchored by a highly integrated network of marine, rail, road, and air infrastructure. At its core are the Ports of Vancouver and Prince Rupert, which serve as critical export points for key Canadian commodities like coal, grain, and potash, and crucial arrival points for imports to be used across Canada. The Corridor not only supports British Columbia’s economy, but also serves as a national trade asset—enabling the export of over $67 billion in goods from other provinces and $48 billion from within B.C. in 2024.",
+      "fr": "Le corridor du Pacifique est un point de passage pour les échanges commerciaux et les transports du Canada avec la région Asie-Pacifique. Il permet d’accéder aux principaux marchés émergents de l’Asie du Sud-Est, grâce à un réseau hautement intégré d’infrastructures maritimes, ferroviaires, routières et aériennes. Les ports de Vancouver et de Prince Rupert sont au cœur de ce corridor, qui constituent des points d’exportation essentiels pour les produits de base canadiens, comme le charbon, les céréales et la potasse; et des points d’arrivée cruciaux pour les importations destinées à être utilisées dans tout le Canada. Ce corridor ne soutient pas seulement l’économie de la Colombie-Britannique, mais sert également d’atout commercial national, permettant l’exportation de plus de 67 milliards de dollars de marchandises depuis d’autres provinces et de 48 milliards de dollars depuis la Colombie-Britannique en 2024."
+    },
+    "event_slug": "trade-corridors",
+    "location_verbatim": {
+      "en": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+      "fr": "un point de passage pour les échanges commerciaux et le transport du Canada avec la région de l'Asie-Pacifique"
+    },
+    "modes": [
+      {
+        "items": [
+          {
+            "en": "Over 100 ports along this coastal region",
+            "fr": "Plus que 100 ports au total (y compris les grands ports, les ports pour petits bateaux et les marinas)"
+          },
+          {
+            "en": "Four Canadian Port Authorities (Vancouver, Prince Rupert, Nanaimo, and Port Alberni)",
+            "fr": "Quatre administrations portuaires canadiennes (Vancouver, Prince Rupert, Nanaimo et Alberni)"
+          }
+        ],
+        "label": {
+          "en": "Marine",
+          "fr": "Transport maritime"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "Major railways - CN, CPKC and Burlington Northern Santa Fe (BNSF)",
+            "fr": "Principaux chemins de fer – CN, CPKC et Burlington Northern Santa Fe (BNSF)"
+          }
+        ],
+        "label": {
+          "en": "Rail",
+          "fr": "Transport ferroviaire"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "Highways: Trans-Canada (1), Highway 97, Yellowhead (16), Highway 37",
+            "fr": "Routes : Transcanadienne (1), route 97, Yellowhead (16), route 37"
+          },
+          {
+            "en": "Two border crossings (Pacific Highway and Huntingdon)",
+            "fr": "Deux postes frontaliers (Pacific Highway et Huntingdon)"
+          }
+        ],
+        "label": {
+          "en": "Road",
+          "fr": "Transport routier"
+        }
+      },
+      {
+        "items": [
+          {
+            "en": "36 certified and four major airports (Vancouver, Victoria, Prince George, Kelowna)",
+            "fr": "36 aéroports certifiés et quatre grands"
+          }
+        ],
+        "label": {
+          "en": "Air",
+          "fr": "Transport aérien"
+        }
+      }
+    ],
+    "name": {
+      "en": "Pacific Corridor",
+      "fr": "Corridor du Pacifique"
+    },
+    "nodes": [
+      {
+        "geometry": {
+          "anchor": [
+            -123.11,
+            49.29
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -123.11,
+              49.29
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Vancouver",
+          "fr": "Port de Vancouver"
+        },
+        "node_id": "vancouver"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -130.32,
+            54.32
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -130.32,
+              54.32
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Prince Rupert",
+          "fr": "Port de Prince Rupert"
+        },
+        "node_id": "prince-rupert"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -123.94,
+            49.17
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -123.94,
+              49.17
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port of Nanaimo",
+          "fr": "Port de Nanaimo"
+        },
+        "node_id": "nanaimo"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -124.8,
+            49.23
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -124.8,
+              49.23
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+          "provinces": []
+        },
+        "kind": "port",
+        "name": {
+          "en": "Port Alberni",
+          "fr": "Port Alberni"
+        },
+        "node_id": "port-alberni"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -122.73,
+            49.0
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -122.73,
+              49.0
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+          "provinces": []
+        },
+        "kind": "border_crossing",
+        "name": {
+          "en": "Pacific Highway",
+          "fr": "Pacific Highway"
+        },
+        "node_id": "pacific-highway"
+      },
+      {
+        "geometry": {
+          "anchor": [
+            -122.27,
+            49.0
+          ],
+          "anchor_provenance": "derived",
+          "approximate": true,
+          "coordinate_provenance": "derived",
+          "coordinates": [
+            [
+              -122.27,
+              49.0
+            ]
+          ],
+          "is_linear": false,
+          "kind": "point",
+          "location_verbatim": "the gateway for Canada's trade and transportation with the Asia-Pacific region",
+          "provinces": []
+        },
+        "kind": "border_crossing",
+        "name": {
+          "en": "Huntingdon",
+          "fr": "Huntingdon"
+        },
+        "node_id": "huntingdon"
+      }
+    ],
+    "overlaps_provinces": false,
+    "provenance": "derived",
+    "provinces": [
+      "BC"
+    ],
+    "sources": [
+      {
+        "content_sha256": "64282506f06f0b76825d10c26fdcc2fbc278e407e244e289d3778c02b5d2d058",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-08T22:35:42Z",
+        "url": "https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network"
+      },
+      {
+        "content_sha256": "ee1a11d340af8429af17326686b7893bbc422fd036e019c94187ec942ee4293d",
+        "licence": "ogl-canada-2.0",
+        "provenance": "page_verbatim",
+        "retrieved_at": "2026-09-08T22:35:42Z",
+        "url": "https://tc.canada.ca/fr/services-generaux/transparence/gestion-rapports-ministeriels/rapports-annuels-transports-canada/transports-canada-2024/role-reseau-transport-canadien"
+      }
+    ],
+    "unmapped_note": {
+      "en": "",
+      "fr": ""
+    }
+  },
+  "retrieved_at": "2026-09-08T22:35:42Z",
+  "slug": "pacific"
+}
