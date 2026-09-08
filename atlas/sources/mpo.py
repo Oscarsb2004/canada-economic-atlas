@@ -453,64 +453,93 @@ def parse_page(html: str, url: str, lang: str = "en") -> ParsedPage:
 #: A project slug, which is also a filename and a URL path segment.
 _SAFE_SLUG = re.compile(r"^[a-z0-9][a-z0-9._-]*$")
 
-#: The website's own listing pages, one per kind of referred item.
-#:
-#: These are the COVERAGE ORACLE. Everything else in this module reads the
-#: ArcGIS service, which is a different publication with its own release
-#: cadence — and a project that has a page but has not yet reached the map
-#: service is exactly the failure mode nothing was watching for. Comparing the
-#: two is the only way a silently missing project becomes a loud one.
-INDEX_URLS = {
-    "projects": {
-        "en": CANADA_CA + "/en/privy-council/major-projects-office/projects/national.html",
-        "fr": CANADA_CA + "/fr/conseil-prive/bureau-grands-projets/projets/national.html",
-    },
-    "strategies": {
-        "en": CANADA_CA + "/en/privy-council/major-projects-office/projects/other/referred.html",
-        "fr": CANADA_CA + "/fr/conseil-prive/bureau-grands-projets/projets/autres/renvoyes.html",
-    },
-}
-
-#: The path segment that marks a detail page, per kind. Matched as a substring
-#: of the href rather than by position, so a template that reorders its nav
-#: does not change what is found.
-_INDEX_MARKER = {
-    "projects": "/projects/national/",
-    "strategies": "/projects/other/referred/",
-}
-_INDEX_MARKER_FR = {
-    "projects": "/projets/national/",
-    "strategies": "/projets/autres/renvoyes/",
-}
-
-
-def index_slugs(html: str, kind: str, lang: str = "en") -> list[str]:
+def index_slugs(html: str, marker: str) -> list[str]:
     """
-    Every detail-page slug an index page links to, sorted and deduplicated.
+    Every detail-page slug reachable from one index page, under `marker`.
 
     Read from `<main>` only. The site-wide header, footer and breadcrumb also
-    carry links into this section, and counting those would inflate coverage
-    with pages that are not projects — which is worse than undercounting,
-    because it reports success.
+    link into this section, and counting those inflates coverage with pages
+    that are not records — worse than undercounting, because it reports success.
 
-    Returns a sorted list so two runs over an unchanged page compare equal
+    Sorted and deduplicated, so two runs over an unchanged page compare equal
     regardless of DOM order.
     """
-    marker = (_INDEX_MARKER if lang == "en" else _INDEX_MARKER_FR)[kind]
     soup = BeautifulSoup(html, "lxml")
     main = soup.select_one("main[property=mainContentOfPage]") or soup.select_one("main")
     if main is None:
-        raise ValueError(f"{kind} index ({lang}): no <main> content element")
+        raise ValueError("index page has no <main> content element")
 
     out: set[str] = set()
     for a in main.find_all("a", href=True):
-        href = a["href"]
+        href = a["href"].split("#")[0].split("?")[0]
         if marker not in href or not href.endswith(".html"):
             continue
         slug = href.rsplit("/", 1)[-1][: -len(".html")]
         if _SAFE_SLUG.match(slug):
             out.add(slug)
     return sorted(out)
+
+
+def crawl_section(fetch, section_path: str, *, max_pages: int = 300) -> dict:
+    """
+    Walk a whole canada.ca section and report what is in it, grouped by path.
+
+    WHY A CRAWL RATHER THAN A LIST OF INDEX PAGES
+
+    Reading two named index pages answers "did we get every project the
+    projects page lists". It cannot answer "did a THIRD kind of page appear",
+    which is the question that actually matters — a coverage check built from
+    hardcoded path markers is blind to precisely the category nobody thought
+    of. Discovering the section's shape and reporting every group of sibling
+    pages moves that from an assumption to an observation.
+
+    Returns groups keyed by parent path — `projects/national` ->
+    ["aesc", "contrecoeur", ...] — plus every link that failed, because a
+    broken link on the source is a finding too: canada.ca links a "Projects
+    designated under the Building Canada Act" page that 404s, and that is a
+    category to watch for rather than one to ignore.
+
+    Breadth-first and bounded. `max_pages` is a stop, not a target: a template
+    change that starts linking outside the section should end the crawl, not
+    walk canada.ca.
+    """
+    section_path = section_path.rstrip("/")
+    seen: set[str] = set()
+    queue: list[str] = [section_path + ".html"]
+    groups: dict[str, set[str]] = {}
+    broken: list[dict] = []
+
+    while queue and len(seen) < max_pages:
+        path = queue.pop(0)
+        if path in seen:
+            continue
+        seen.add(path)
+
+        try:
+            html = fetch.text(CANADA_CA + path)
+        except Exception as exc:                          # noqa: BLE001
+            broken.append({"path": path, "error": str(exc)[:160]})
+            continue
+
+        rel = path[len(section_path):].strip("/")[: -len(".html")]
+        parent, _, slug = rel.rpartition("/")
+        if parent and _SAFE_SLUG.match(slug):
+            groups.setdefault(parent, set()).add(slug)
+
+        soup = BeautifulSoup(html, "lxml")
+        main = soup.select_one("main[property=mainContentOfPage]") or soup.select_one("main")
+        if main is None:
+            continue
+        for a in main.find_all("a", href=True):
+            href = a["href"].split("#")[0].split("?")[0]
+            if href.startswith(section_path) and href.endswith(".html") and href not in seen:
+                queue.append(href)
+
+    return {
+        "pages_crawled": len(seen),
+        "groups": {k: sorted(v) for k, v in sorted(groups.items())},
+        "broken_links": broken,
+    }
 
 
 def slug_from_url(url: str) -> str:

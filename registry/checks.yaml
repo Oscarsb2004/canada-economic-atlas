@@ -57,6 +57,9 @@ datasets:
     id_field: slug
     # Where the point geometries live inside one record.
     geometry_path: sites[].geometry.coordinates
+    # The geometry objects themselves, for checks that read more than the
+    # coordinates — the reachability check needs `anchor` and `kind`.
+    geometry_path_root: sites[].geometry
     # The source's own words about where the thing is. Compared against the
     # region the coordinate actually lands in — never parsed into a location.
     place_text_path: sites[].geometry.location_verbatim
@@ -104,6 +107,29 @@ datasets:
         why: >
           Catches a transposed or sign-flipped coordinate, which is the error a
           human eye does not catch on a globe at world zoom.
+
+      - kind: records_are_reachable
+        severity: gate
+        # A region's location is prose with no coordinates, so it has no anchor
+        # by design and is reached from the list. Nothing else may be.
+        kinds_without_anchor: [region, absent]
+        why: >
+          Coverage asks whether we captured what the source published. This asks
+          whether the reader can reach what we captured — a different question,
+          and the one that four corridor projects failed silently while every
+          other check passed. They were on the map as dashed lines with no
+          marker: nothing to click and no way into the project.
+
+      - kind: source_section_shape
+        severity: note
+        manifest: data/events/major-projects-office/coverage.json
+        source: mpo_pages
+        why: >
+          The only coverage check that can see a category nobody anticipated.
+          Stage 01 crawls the whole section and records every group of sibling
+          pages; this reports any group that is neither declared as carrying
+          records nor declared as prose. A note, not a gate: the right response
+          to a new category is a person deciding what it is.
 
       - kind: geometry_region_matches_text
         severity: note

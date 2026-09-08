@@ -30,6 +30,26 @@ The app never re-derives a label, a total, or a rank. If the UI needs it, the
 pipeline publishes it — including sector labels, which come from the StatCan
 cube in both languages rather than being carried by us.
 
+## 2b. Rendering a collection is a TOTAL function, never a filter
+
+The map built markers from `kind === "point"` and lines from
+`kind === "corridor"`. A corridor therefore got a line and **no marker** — no
+headpiece, nothing to click, no way into the project — and four of eighteen
+projects were unreachable on the map while every count, field and coordinate
+check passed. Two filters over an open enum means anything matching neither
+disappears silently, and `region` was queued to arrive next.
+
+So: iterate the whole collection, decide per member, and make the decision
+exhaustive. `mapFeatures()` returns one feature per site and `assertNever`
+turns a new `GeometryKind` into a build failure. Every geometry that has
+coordinates publishes an `anchor`, so there is always somewhere to put the
+marker. `verify/`'s `records_are_reachable` gate asks the question no coverage
+check can: of what we captured, how much can the reader actually reach.
+
+A derived anchor is labelled as one. A corridor midpoint is arithmetic — the
+source published the ends of the Mackenzie Valley Highway, never its middle —
+so it carries `Provenance.DERIVED` and renders with a dashed ring.
+
 ## 3. Configuration is YAML, code is Python
 
 `registry/` is the whole configuration surface: sources, events, strategies,

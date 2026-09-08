@@ -47,12 +47,20 @@ export interface SourceRef {
  * point; two is a corridor whose endpoints are all the source gives, so it is
  * drawn as a line rather than pinned at one end.
  */
+export type GeometryKind = "point" | "corridor" | "region" | "absent";
+
 export interface Geometry {
-  kind: "point" | "corridor" | "region" | "absent";
+  kind: GeometryKind;
   coordinates: [number, number][];
   provinces: string[];
   location_verbatim: string;
   approximate: boolean;
+  /** The single point that represents this geometry. Computed by the pipeline. */
+  anchor: [number, number] | null;
+  /** `official_dataset` when the anchor is the source's own coordinate; `derived` for a corridor midpoint. */
+  anchor_provenance: Provenance;
+  /** Whether this also draws as a line. */
+  is_linear: boolean;
 }
 
 export interface Site {
@@ -254,21 +262,79 @@ export async function loadBundle(): Promise<Bundle> {
 }
 
 /** Every mappable site, flattened, with its project attached. */
-export function pinnableSites(projects: Project[]) {
-  return projects.flatMap((p) =>
-    p.sites
-      .filter((s) => s.geometry.kind === "point")
-      .map((s, i) => ({ project: p, site: s, index: i })),
-  );
+export interface MapFeature {
+  project: Project;
+  site: Site;
+  /** Marker position. Every feature has one — that is the whole point. */
+  anchor: [number, number];
+  /** The route, when the geometry is linear. Drawn in ADDITION to the marker. */
+  line: [number, number][] | null;
+  /** True when `anchor` is our arithmetic rather than the source's coordinate. */
+  anchorIsDerived: boolean;
 }
 
-/** Corridor sites, which render as lines rather than pins. */
-export function corridorSites(projects: Project[]) {
-  return projects.flatMap((p) =>
-    p.sites
-      .filter((s) => s.geometry.kind === "corridor")
-      .map((s) => ({ project: p, site: s })),
-  );
+/**
+ * Everything this event puts on the map — one total pass, no filtering by kind.
+ *
+ * This replaced two parallel filters, `kind === "point"` for markers and
+ * `kind === "corridor"` for lines, and the replacement is not a tidy-up. A
+ * corridor matched only the second, so the four linear projects — the Arctic
+ * Economic and Security Corridor, Grays Bay Road and Port, the Mackenzie Valley
+ * Highway and the West Coast Oil Pipeline — rendered as dashed lines with NO
+ * marker: no headpiece image, no click target, no way to open the project from
+ * the map at all. They were not missing from the data; they were unreachable in
+ * the interface, which looks the same from outside.
+ *
+ * The shape of the bug matters more than the bug. Two filters over an open enum
+ * means anything matching neither silently disappears, and `region` — the nine
+ * transformative strategies — is the next one queued to arrive. So this is a
+ * map, not a filter: every site yields exactly one feature, and a feature with
+ * several coordinates additionally yields a line.
+ *
+ * `assertNever` below is what stops the next kind slipping through: a new
+ * member of `GeometryKind` fails the build here rather than rendering nothing.
+ */
+export function mapFeatures(projects: Project[]): MapFeature[] {
+  const out: MapFeature[] = [];
+  for (const project of projects) {
+    for (const site of project.sites) {
+      const g = site.geometry;
+      switch (g.kind) {
+        case "point":
+        case "corridor":
+          // Both carry coordinates, and both get a marker. The only difference
+          // is that a corridor also draws its route.
+          if (g.anchor) {
+            out.push({
+              project,
+              site,
+              anchor: g.anchor,
+              line: g.is_linear ? g.coordinates : null,
+              anchorIsDerived: g.anchor_provenance === "derived",
+            });
+          }
+          break;
+        case "region":
+          // Province-mapped prose, no coordinates. Deliberately absent from the
+          // map for now and reachable from the list — see BACKLOG B7, which
+          // renders these as province washes. Named here rather than falling
+          // through a filter, so "not on the map" is a decision in the code
+          // instead of an accident of predicate order.
+          break;
+        case "absent":
+          // The source published no location. Stated, never guessed.
+          break;
+        default:
+          assertNever(g.kind);
+      }
+    }
+  }
+  return out;
+}
+
+/** A compile-time exhaustiveness guard: an unhandled kind is a type error. */
+function assertNever(kind: never): never {
+  throw new Error(`unhandled geometry kind: ${String(kind)}`);
 }
 
 /**

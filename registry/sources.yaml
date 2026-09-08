@@ -67,6 +67,43 @@ sources:
     landing_fr: https://www.canada.ca/fr/conseil-prive/bureau-grands-projets.html
     projects_index_en: https://www.canada.ca/en/privy-council/major-projects-office/projects/national.html
     strategies_index_en: https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred.html
+
+    # The section this event's pages live in. Stage 01 crawls it and reports
+    # every group of sibling pages it finds — which is how a category nobody
+    # anticipated becomes visible rather than silently uncovered. Reading two
+    # named index pages can only confirm the categories you already knew about.
+    section_en: /en/privy-council/major-projects-office
+
+    # Which discovered groups carry records, and what each maps to in the
+    # bundle. A group found by the crawl that is NOT listed here is reported by
+    # verify/ as an undeclared category — that is the seam for a future kind of
+    # referred item, and the reason this is a mapping rather than a count.
+    #
+    # Everything else under the section is prose: about-us, our-priorities,
+    # news, contact-us, the Indigenous Advisory Council pages, and the
+    # Pathways Plus memorandum of understanding.
+    record_groups:
+      projects/national: projects
+      projects/other/referred: strategies
+
+    # Groups the crawl finds that are known NOT to carry records. Declared so
+    # that anything in neither this list nor `record_groups` is a category that
+    # appeared since someone last looked — which is the whole signal. Without
+    # it every prose page reads as a new category and the check is noise.
+    prose_groups:
+      - our-priorities
+      - partnering-indigenous-peoples
+      - partnering-indigenous-peoples/council
+      - projects                               # map.html, national.html, other.html
+      - projects/other                         # referred.html
+      - projects/other/referred/pathways-plus  # its memorandum of understanding
+
+    # Watch item, not a defect of ours. `advancing-nation-building-projects.html`
+    # links to `.../projects-designated-under-building-canada-act.html`, which
+    # returns 404. "Designated under the Building Canada Act" is a further legal
+    # status than "referred to the MPO", so when that page goes live it is a new
+    # dataset and not a rename of this one. The crawl records broken links so
+    # its appearance is noticed.
     news_index_en: https://www.canada.ca/en/privy-council/major-projects-office/news.html
     # Change detection. NOTE: https://www.canada.ca/en/sitemap.xml is a 404;
     # the index is /sitemap.xml and the PCO namespace is the one below.

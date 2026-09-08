@@ -33,8 +33,8 @@ a work queue — two lists of "next" is how one of them goes stale.
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
 | **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
 | **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
-| **`verify/` (M6)** | **Done.** 57 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
-| **`tests/` (M6)** | **Done.** 40 tests, each explaining the failure it prevents. |
+| **`verify/` (M6)** | **Done.** 58 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
+| **`tests/` (M6)** | **Done.** 44 tests, each explaining the failure it prevents. |
 | **`run.py`, `CLAUDE.md`** | **Done.** Single entry point; agent invariants. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
@@ -112,12 +112,12 @@ found and fixed two real issues (see below).
 
 ## v1 is COMPLETE per the `PLAN.md` §10 scope fence
 
-Full pipeline runs end to end; 40 tests pass; 57 gate checks pass; a re-run from
+Full pipeline runs end to end; 44 tests pass; 58 gate checks pass; a re-run from
 a clean baseline leaves a zero-line git diff.
 
 ```
 python run.py          # pipeline + verify
-python run.py --test   # 40 tests
+python run.py --test   # 44 tests
 cd web && npm run dev  # the app
 ```
 
@@ -345,6 +345,16 @@ numbers.
 second setup bails while the first map is torn down, leaving a live canvas whose
 map object is destroyed. Every `getSource` / `getStyle` afterwards returns
 undefined. The effect's cleanup is the mechanism; the guard is the bug.
+
+**A filter is not a renderer.** Markers came from `kind === "point"` and lines
+from `kind === "corridor"`, so the four linear projects — the Arctic Economic
+and Security Corridor, Grays Bay Road and Port, the Mackenzie Valley Highway and
+the West Coast Oil Pipeline — drew as anonymous dashes with no marker at all.
+Nothing to click, no headpiece, no route into the project. Every coverage,
+field and coordinate check passed, because none of them asks whether the reader
+can reach what we captured. Fixed structurally: `Geometry.anchor` gives every
+coordinate-bearing geometry one representative point, `mapFeatures()` is a
+total pass with an `assertNever` guard, and `verify/` gates reachability.
 
 **The French page slug is not always the English one.** Eight of the nine
 transformative strategies use the same terminal slug in both languages;

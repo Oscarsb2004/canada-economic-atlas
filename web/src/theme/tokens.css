@@ -111,6 +111,29 @@ body {
   transform: scale(1.18);
 }
 
+/*
+ * A route's marker, sitting at the midpoint WE computed.
+ *
+ * The source published the ends of the Mackenzie Valley Highway and the West
+ * Coast Oil Pipeline, never their middles, so this position is inference and
+ * has to look like it. A dashed ring says "somewhere along here" where a solid
+ * one says "here" — the same distinction the dashed route line already makes,
+ * carried onto the marker so the two agree.
+ *
+ * Not a colour difference: colour on these markers is reserved for selection,
+ * and a second colour meaning would collide with it.
+ */
+.pin--derived {
+  border-style: dashed;
+  border-color: var(--ink-secondary);
+}
+
+.pin--derived:hover,
+.pin--derived:focus-visible,
+.pin--derived[aria-pressed="true"] {
+  border-color: var(--accent);
+}
+
 /* ── Small shared pieces ───────────────────────────────────────────────────── */
 
 .muted { color: var(--ink-muted); }

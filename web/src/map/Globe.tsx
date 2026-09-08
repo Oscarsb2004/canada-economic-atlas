@@ -32,7 +32,7 @@ import maplibregl, { type LngLatLike, type StyleSpecification } from "maplibre-g
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import type { Bundle, Project } from "../data/bundle";
-import { PRUID_TO_CODE, asset, corridorSites, pinnableSites, provincialTotals } from "../data/bundle";
+import { PRUID_TO_CODE, asset, mapFeatures, provincialTotals } from "../data/bundle";
 
 /** Where the globe opens: Canada, tilted so the Arctic projects are visible. */
 const HOME: { center: LngLatLike; zoom: number } = {
@@ -246,11 +246,13 @@ function seqStops(bundle: Bundle): (number | string)[] {
 function corridorGeoJSON(bundle: Bundle): GeoJSON.FeatureCollection {
   return {
     type: "FeatureCollection",
-    features: corridorSites(bundle.projects).map(({ project, site }) => ({
-      type: "Feature",
-      properties: { slug: project.slug, name: site.name.en },
-      geometry: { type: "LineString", coordinates: site.geometry.coordinates },
-    })),
+    features: mapFeatures(bundle.projects)
+      .filter((f) => f.line)
+      .map(({ project, site, line }) => ({
+        type: "Feature",
+        properties: { slug: project.slug, name: site.name.en },
+        geometry: { type: "LineString", coordinates: line as [number, number][] },
+      })),
   };
 }
 
@@ -305,18 +307,34 @@ export function Globe({ bundle, selected, onSelect }: Props) {
       "bottom-right",
     );
 
-    // Pins. One HTML marker per point site, faced with the project's own
-    // 96 px circular rendering.
-    for (const { project, site, index } of pinnableSites(bundle.projects)) {
+    // Pins. ONE MARKER PER MAP FEATURE — points and corridors alike.
+    //
+    // Corridors used to get a dashed line and nothing else, because markers
+    // were built from a `kind === "point"` filter. Four projects were therefore
+    // unreachable from the map: no headpiece, nothing to click, no way to open
+    // them. `mapFeatures` is a total function precisely so this loop cannot
+    // skip a geometry again — if a feature exists it has an anchor, and if it
+    // has an anchor it gets a marker.
+    //
+    // A corridor's anchor is the midpoint of its route and is OURS, not the
+    // government's: the source published the ends of the Mackenzie Valley
+    // Highway, never its middle. The `pin--derived` class is what keeps that
+    // visible rather than letting an inferred position wear the same face as a
+    // published one.
+    mapFeatures(bundle.projects).forEach(({ project, site, anchor, line, anchorIsDerived }, index) => {
       const hero = project.media.find((x) => x.role === "hero");
       const el = document.createElement("button");
-      el.className = "pin";
+      el.className = anchorIsDerived ? "pin pin--derived" : "pin";
       el.type = "button";
       el.setAttribute("aria-pressed", "false");
-      // textContent, never innerHTML: these names come from a federal dataset,
-      // which is untrusted input as far as the DOM is concerned.
-      el.title = site.name.en;
-      el.setAttribute("aria-label", site.name.en);
+      // textContent/attributes, never innerHTML: these names come from a
+      // federal dataset, which is untrusted input as far as the DOM is
+      // concerned.
+      const label = line
+        ? `${site.name.en} — route, marker at its midpoint`
+        : site.name.en;
+      el.title = label;
+      el.setAttribute("aria-label", label);
       if (hero?.thumb) el.style.backgroundImage = `url(${asset(hero.thumb)})`;
 
       el.addEventListener("click", (e) => {
@@ -325,11 +343,11 @@ export function Globe({ bundle, selected, onSelect }: Props) {
       });
 
       const marker = new maplibregl.Marker({ element: el })
-        .setLngLat(site.geometry.coordinates[0])
+        .setLngLat(anchor)
         .addTo(m);
 
       markers.current.set(`${project.slug}:${index}`, marker);
-    }
+    });
 
     // Clicking empty ocean clears the selection, which is the obvious gesture
     // and otherwise leaves the panel stuck on whatever was last opened.
@@ -354,15 +372,20 @@ export function Globe({ bundle, selected, onSelect }: Props) {
     });
 
     if (!selected) return;
-    const first = selected.sites.find((s) => s.geometry.coordinates.length > 0);
-    if (!first) return;
+    // Fly to the anchor, not to coordinates[0]: for a corridor that is the
+    // midpoint of the route rather than one arbitrary end, so the camera frames
+    // the project instead of landing on whichever endpoint the source listed
+    // first — which for the West Coast Oil Pipeline is the BC end of an
+    // Alberta-to-BC route.
+    const first = selected.sites.find((s) => s.geometry.anchor);
+    if (!first?.geometry.anchor) return;
 
     // A long animated camera move across a globe is the most motion-heavy
     // thing in the app and a genuine vestibular risk. Readers who have asked
     // for reduced motion get the same destination without the flight.
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const target = {
-      center: first.geometry.coordinates[0],
+      center: first.geometry.anchor,
       // Stops short of zoom 12, where the projection would switch to Mercator.
       // A project site reads fine at 6 and the globe stays a globe.
       zoom: 5.6,

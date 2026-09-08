@@ -284,6 +284,98 @@ def check_geometry_region_matches_text(records, spec, ctx):
     )
 
 
+def check_source_section_shape(records, spec, ctx):
+    """
+    Did a category of page appear on the source that nothing accounts for?
+
+    This is the check that answers "was anything omitted" in the only way that
+    generalises. Comparing captured records against a named index page confirms
+    the categories you already knew; it is structurally blind to a THIRD kind
+    of page, which is exactly what a coverage check is for.
+
+    So stage 01 crawls the section and records every group of sibling pages it
+    found. `record_groups` in the registry says which carry records and
+    `prose_groups` says which are known not to. Anything in neither is
+    reported — that is a new category of referred item on its first day, and it
+    is a note rather than a gate because the correct response is a person
+    deciding what it is, not a blocked release.
+
+    Broken links on the source are reported for the same reason: canada.ca
+    links a "Projects designated under the Building Canada Act" page that 404s,
+    and "designated" is a further legal status than "referred". When that page
+    goes live it is a new dataset, and this is what notices.
+    """
+    path = ROOT / spec["manifest"]
+    if not path.exists():
+        return False, f"{ctx['name']}: section manifest exists", f"{spec['manifest']} missing"
+
+    disc = (json.loads(path.read_text(encoding="utf-8"))
+            .get("sources", {}).get("_discovered"))
+    if not disc:
+        return (False, f"{ctx['name']}: the source section was crawled",
+                "no _discovered block — stage 01 could not crawl the section")
+
+    source = yaml.safe_load((REGISTRY / "sources.yaml").read_text(encoding="utf-8"))
+    src = source["sources"][spec["source"]]
+    known = set(src.get("record_groups", {})) | set(src.get("prose_groups", []))
+
+    surprises = {g: v for g, v in disc.get("undeclared_groups", {}).items() if g not in known}
+    broken = [b["path"].rsplit("/", 1)[-1] for b in disc.get("broken_links", [])]
+
+    detail = []
+    if surprises:
+        detail.append(
+            "undeclared page groups: "
+            + "; ".join(f"{g} ({len(v)}: {', '.join(v[:4])})" for g, v in surprises.items())
+        )
+    if broken:
+        detail.append(f"broken links on the source: {broken}")
+    return (
+        not detail,
+        f"{ctx['name']}: every page group under the source is accounted for "
+        f"({disc['pages_crawled']} pages crawled)",
+        " · ".join(detail),
+    )
+
+
+def check_records_are_reachable(records, spec, ctx):
+    """
+    Can a reader actually GET to every record from the map?
+
+    This exists because of a bug that no other check could see. Markers were
+    built from a `kind === "point"` filter and lines from a `kind === "corridor"`
+    filter, so the four linear projects rendered as dashed lines with no marker:
+    nothing to click, no headpiece, no route into the project. Every count was
+    right, every field was present, every coordinate was inside Canada — and
+    four of eighteen projects were unreachable on the map.
+
+    Coverage checks compare what we captured against what the source published.
+    This asks the different question: of what we captured, how much can the
+    reader reach. A record whose geometry yields no anchor is reachable only
+    from the list, which is a decision — `kinds_without_anchor` names the kinds
+    for which that is intended, and anything else fails.
+    """
+    idf = ctx["dataset"]["id_field"]
+    geom_path = ctx["dataset"].get("geometry_path_root", "")
+    allowed = set(spec.get("kinds_without_anchor", []))
+
+    unreachable = []
+    for r in records:
+        geoms = resolve(r, geom_path)
+        if not geoms:
+            continue
+        if any(g.get("anchor") for g in geoms if isinstance(g, dict)):
+            continue
+        kinds = {g.get("kind") for g in geoms if isinstance(g, dict)}
+        if kinds - allowed:
+            unreachable.append(f"{r.get(idf)} ({', '.join(sorted(k or '?' for k in kinds))})")
+    return (
+        not unreachable,
+        f"{ctx['name']}: every record with geometry has a map anchor",
+        str(unreachable[:12]),
+    )
+
+
 KINDS: dict[str, Callable] = {
     "unique_ids": check_unique_ids,
     "record_count": check_record_count,
@@ -292,6 +384,8 @@ KINDS: dict[str, Callable] = {
     "coverage_manifest": check_coverage_manifest,
     "geometry_within_region": check_geometry_within_region,
     "geometry_region_matches_text": check_geometry_region_matches_text,
+    "source_section_shape": check_source_section_shape,
+    "records_are_reachable": check_records_are_reachable,
 }
 
 

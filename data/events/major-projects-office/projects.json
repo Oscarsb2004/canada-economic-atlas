@@ -1,6 +1,6 @@
 {
   "event": "major-projects-office",
-  "generated_at": "2026-09-06T01:34:32Z",
+  "generated_at": "2026-09-08T17:10:50Z",
   "projects": [
     {
       "benefits": [
@@ -92,6 +92,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -112.64427090477004,
+              63.93684059450771
+            ],
+            "anchor_provenance": "derived",
             "approximate": true,
             "coordinates": [
               [
@@ -103,6 +108,7 @@
                 65.41998390099882
               ]
             ],
+            "is_linear": true,
             "kind": "corridor",
             "location_verbatim": "Slave Geological Province/North Slave Region, Northwest Territories",
             "provinces": []
@@ -119,14 +125,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:48Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "e71eb23fb972ed68818df3dd62fb386dcb2e24deb70a5858c7d130a3cf0f5276",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:48Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/aesc.html"
         }
       ],
@@ -235,6 +241,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -73.29288277612098,
+              45.82268337234923
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -242,6 +253,7 @@
                 45.82268337234923
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Contrecoeur, Quebec",
             "provinces": []
@@ -258,14 +270,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:48Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "1489f15b945d751cb561fdfe710ef1618208a47029b75130efe63c2015c05c4d",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:48Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/contrecoeur.html"
         }
       ],
@@ -448,6 +460,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -81.37346945916379,
+              48.84005272301586
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -455,6 +472,7 @@
                 48.84005272301586
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Timmins, Ontario",
             "provinces": []
@@ -471,14 +489,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:48Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "8fc6b3a8bd129a0fe917eaf5f2bc09b7f9477cd8d70f55281e36d7d5c7fea541",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:48Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/crawford.html"
         }
       ],
@@ -591,6 +609,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -78.70562575313836,
+              43.87324871568423
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -598,6 +621,7 @@
                 43.87324871568423
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Bowmanville, Ontario",
             "provinces": []
@@ -614,14 +638,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:48Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "c743ae5b8b7d8357162e234e9869435db90f89f6f758534accb402ad894e9a50",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:48Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/darlington.html"
         }
       ],
@@ -788,6 +812,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -92.21525123862854,
+              49.52336446068465
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -795,6 +824,7 @@
                 49.52336446068465
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Wabigoon Lake Ojibway Nation and the Township of Ignace, Ontario",
             "provinces": []
@@ -811,14 +841,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:48Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "16c3d182e3117e878ba82cf351a5440b2e31e9f8f747a268fd8a0f0f43a27d07",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:48Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/geo.html"
         }
       ],
@@ -935,6 +965,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -110.97994253357864,
+              66.61325452640696
+            ],
+            "anchor_provenance": "derived",
             "approximate": true,
             "coordinates": [
               [
@@ -946,6 +981,7 @@
                 67.8065251518151
               ]
             ],
+            "is_linear": true,
             "kind": "corridor",
             "location_verbatim": "Kitikmeot Region, Nunavut",
             "provinces": []
@@ -962,14 +998,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:48Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "148e1340c97e1b298f8dcd8be27c914e4435c41d00f5811919614d46a7bc550c",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:48Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/grays-bay.html"
         }
       ],
@@ -1120,6 +1156,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -130.18398563222672,
+              55.02923136725545
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -1127,6 +1168,7 @@
                 55.02923136725545
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Pearse Island, British Columbia",
             "provinces": []
@@ -1143,14 +1185,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "4dd6252f171a9df6fc3bb5cbe0033b808e7c1c803eeb99abb1f34ea7000e4e20",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/ksi-lisims.html"
         }
       ],
@@ -1285,6 +1327,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -128.59501429288173,
+              54.00669103591643
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -1292,6 +1339,7 @@
                 54.00669103591643
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Kitimat, British Columbia",
             "provinces": []
@@ -1308,14 +1356,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "ab48b96aaadc43463d9d32ca0b5cbe6c9eeba33d19f7b30b09402ff26cb1d1ef",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:31Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/lng-canada.html"
         }
       ],
@@ -1504,6 +1552,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -128.60424370374028,
+              65.79529854343707
+            ],
+            "anchor_provenance": "derived",
             "approximate": true,
             "coordinates": [
               [
@@ -1515,6 +1568,7 @@
                 63.231934642459855
               ]
             ],
+            "is_linear": true,
             "kind": "corridor",
             "location_verbatim": "Routing being developed, Wrigley to Inuvik, Northwest Territories",
             "provinces": []
@@ -1531,14 +1585,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "15947504081af21d95a9c3952bd69a1f5c67eaf1f95d6bec4a65f3e640464bc6",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mackenzie.html"
         }
       ],
@@ -1661,6 +1715,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -102.89498946100858,
+              54.65907702368995
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -1668,6 +1727,7 @@
                 54.65907702368995
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "East-Central Saskatchewan",
             "provinces": []
@@ -1684,14 +1744,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "fddeb3220f3e2d1a3c45387194047bca8982f93e6100a461403660e6ed2164e1",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mcilvenna.html"
         }
       ],
@@ -1824,6 +1884,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -122.61212345666412,
+              53.85233885104506
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -1831,6 +1896,7 @@
                 53.85233885104506
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Northwestern British Columbia",
             "provinces": []
@@ -1842,6 +1908,11 @@
         },
         {
           "geometry": {
+            "anchor": [
+              -125.01311842171121,
+              54.07349867855435
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -1849,6 +1920,7 @@
                 54.07349867855435
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Northwestern British Columbia",
             "provinces": []
@@ -1860,6 +1932,11 @@
         },
         {
           "geometry": {
+            "anchor": [
+              -128.63304890660635,
+              54.454772428548836
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -1867,6 +1944,7 @@
                 54.454772428548836
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Northwestern British Columbia",
             "provinces": []
@@ -1883,14 +1961,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "6f5114374226a56769c051969350f9cbd1a3975c7900ada2684844f29f94269e",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nctl.html"
         }
       ],
@@ -2011,6 +2089,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -67.0453042976059,
+              46.36535517426807
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -2018,6 +2101,7 @@
                 46.36535517426807
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Sisson Brook, New Brunswick",
             "provinces": []
@@ -2034,14 +2118,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "5e91832548761bd7001635478d7196d324ef3643549cc2c69b63cded80e12a7e",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/northcliff.html"
         }
       ],
@@ -2174,6 +2258,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -73.92169361903755,
+              46.61754616755329
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -2181,6 +2270,7 @@
                 46.61754616755329
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Saint-Michel-des-Saints, Quebec",
             "provinces": []
@@ -2197,14 +2287,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "b567dba0398c4d36d349eea94fa107f6b1241c9f75d553668f453acc362faa73",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nouveau-monde.html"
         }
       ],
@@ -2399,6 +2489,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -68.00609233687307,
+              64.1878427576954
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -2406,6 +2501,7 @@
                 64.1878427576954
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Iqaluit, Nunavut",
             "provinces": []
@@ -2422,14 +2518,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "54850d452372d6f372fa565d6bf7365d564172e244c27dd9c7de3e3d0247c083",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nukkiksautiit.html"
         }
       ],
@@ -2548,6 +2644,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -129.86499187692112,
+              57.67310081479183
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -2555,6 +2656,7 @@
                 57.67310081479183
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Northwestern British Columbia",
             "provinces": []
@@ -2571,14 +2673,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:50Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "c67e277a93ed44b66f98ab4f379f6f13ed5fc43e7b385ab7790a93d06e0ffb07",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:50Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/red-chris.html"
         }
       ],
@@ -2713,6 +2815,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -123.18331890846149,
+              49.01862443594289
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -2720,6 +2827,7 @@
                 49.01862443594289
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Delta, British Columbia",
             "provinces": []
@@ -2736,14 +2844,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:50Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "5bbc1fa28aeb9a8a422900837118f4d93838e3acab52d5f3c44443cdae8efef2",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:50Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/roberts-bank.html"
         }
       ],
@@ -2882,6 +2990,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -111.39232749340867,
+              60.42006535169916
+            ],
+            "anchor_provenance": "official_dataset",
             "approximate": true,
             "coordinates": [
               [
@@ -2889,6 +3002,7 @@
                 60.42006535169916
               ]
             ],
+            "is_linear": false,
             "kind": "point",
             "location_verbatim": "Great Slave Lake region, Northwest Territories",
             "provinces": []
@@ -2905,14 +3019,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:50Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "732de16c74eba2fab1694d01f20a4d2ba3d9e936278585b639c9311752744815",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:50Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/taltson.html"
         }
       ],
@@ -3051,6 +3165,11 @@
       "sites": [
         {
           "geometry": {
+            "anchor": [
+              -118.08930809688583,
+              51.435174659239976
+            ],
+            "anchor_provenance": "derived",
             "approximate": true,
             "coordinates": [
               [
@@ -3062,6 +3181,7 @@
                 53.817873461815886
               ]
             ],
+            "is_linear": true,
             "kind": "corridor",
             "location_verbatim": "Bruderheim, Alberta area to Robert Banks area in British Columbia",
             "provinces": []
@@ -3078,14 +3198,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:50Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "effea4c754e5af22c598c64f667daeae355abd8c79d2f923f5cf5df603718362",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-06T01:34:32Z",
+          "retrieved_at": "2026-09-08T17:10:50Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/west.html"
         }
       ],

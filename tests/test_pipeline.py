@@ -176,12 +176,12 @@ def test_index_slugs_reads_only_the_main_content():
     checked. Deduplicated and sorted so two runs over an unchanged page compare
     equal regardless of DOM order.
     """
-    assert mpo.index_slugs(INDEX_PAGE, "projects", lang="en") == ["alpha", "beta"]
+    assert mpo.index_slugs(INDEX_PAGE, "/projects/national/") == ["alpha", "beta"]
 
 
 def test_index_slugs_ignores_pages_outside_the_detail_path():
     """`projects/map.html` sits in the section and is not a project."""
-    got = mpo.index_slugs(INDEX_PAGE, "projects", lang="en")
+    got = mpo.index_slugs(INDEX_PAGE, "/projects/national/")
     assert "map" not in got and "elsewhere" not in got
 
 
@@ -198,6 +198,63 @@ def test_strategy_french_slug_is_declared_not_assumed():
     # Every other strategy still keys on its own slug.
     others = [s for s in R.strategies() if s.slug != "critical-minerals"]
     assert others and all(s.fr_key == s.slug for s in others)
+
+
+def test_every_geometry_with_coordinates_has_an_anchor():
+    """
+    The map used to build markers from a `kind == "point"` filter and lines from
+    a `kind == "corridor"` filter, so a corridor got a dashed line and NO
+    marker: nothing to click, no headpiece, no way into the project. Four of
+    eighteen projects were unreachable while every count and field check passed.
+
+    An anchor on every coordinate-bearing geometry is what makes the render a
+    total function instead of two filters that can both miss.
+    """
+    point = Geometry(kind=GeometryKind.POINT, coordinates=((-73.29, 45.82),))
+    corridor = Geometry(kind=GeometryKind.CORRIDOR,
+                        coordinates=((-133.73, 68.36), (-123.48, 63.23)))
+    assert point.anchor == (-73.29, 45.82)
+    assert corridor.anchor is not None
+    assert corridor.is_linear and not point.is_linear
+
+
+def test_a_corridor_anchor_is_marked_as_ours():
+    """
+    The source published the ENDS of the Mackenzie Valley Highway, never its
+    middle. A midpoint is arithmetic, and rendering it with the same authority
+    as a published coordinate would be this project making a claim in a form the
+    source never used.
+    """
+    corridor = Geometry(kind=GeometryKind.CORRIDOR,
+                        coordinates=((-133.73, 68.36), (-123.48, 63.23)))
+    point = Geometry(kind=GeometryKind.POINT, coordinates=((-73.29, 45.82),))
+    assert corridor.anchor_provenance is Provenance.DERIVED
+    assert point.anchor_provenance is Provenance.OFFICIAL_DATASET
+
+
+def test_a_region_has_no_anchor_and_says_so():
+    """
+    The strategies' locations are prose — "All of Canada" — with no coordinates
+    at all. That must be stated, not faked with a centroid nobody published.
+    """
+    region = Geometry(kind=GeometryKind.REGION, provinces=("ON", "QC"))
+    assert region.anchor is None
+    assert region.anchor_provenance is Provenance.ABSENT
+
+
+def test_corridor_anchor_walks_the_route_rather_than_averaging_ends():
+    """
+    With two endpoints the two agree, which is exactly why averaging looks
+    correct today and is wrong on the first route that arrives with a third
+    vertex. An L-shaped route's halfway point is along the path, not at the
+    centre of its bounding box.
+    """
+    bent = Geometry(kind=GeometryKind.CORRIDOR,
+                    coordinates=((0.0, 0.0), (0.0, 10.0), (10.0, 10.0)))
+    lon, lat = bent.anchor
+    # Halfway along a 10-then-10 path is the corner region, near (0, 10) —
+    # NOT the endpoint average of (5, 5).
+    assert lat > 9.0 and lon < 1.0
 
 
 def test_hero_image_is_read_from_data_bgimg_not_constructed():

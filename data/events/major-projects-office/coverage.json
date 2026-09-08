@@ -1,7 +1,50 @@
 {
   "event": "major-projects-office",
-  "generated_at": "2026-09-08T15:44:49Z",
+  "generated_at": "2026-09-08T17:06:20Z",
   "sources": {
+    "_discovered": {
+      "broken_links": [
+        {
+          "error": "https://www.canada.ca/en/privy-council/major-projects-office/advancing-nation-building-projects/projects-designated-under-building-canada-act.html returned HTTP",
+          "path": "/en/privy-council/major-projects-office/advancing-nation-building-projects/projects-designated-under-building-canada-act.html"
+        }
+      ],
+      "groups": {
+        "our-priorities": 1,
+        "partnering-indigenous-peoples": 3,
+        "partnering-indigenous-peoples/council": 1,
+        "projects": 3,
+        "projects/national": 18,
+        "projects/other": 1,
+        "projects/other/referred": 9,
+        "projects/other/referred/pathways-plus": 1
+      },
+      "pages_crawled": 47,
+      "undeclared_groups": {
+        "our-priorities": [
+          "projects-transformative-strategies"
+        ],
+        "partnering-indigenous-peoples": [
+          "council",
+          "first-nations-virtual-regional-engagement-sessions",
+          "participant-funding-support-indigenous-participation-major-projects-consultations"
+        ],
+        "partnering-indigenous-peoples/council": [
+          "terms-reference"
+        ],
+        "projects": [
+          "map",
+          "national",
+          "other"
+        ],
+        "projects/other": [
+          "referred"
+        ],
+        "projects/other/referred/pathways-plus": [
+          "memorandum-understanding"
+        ]
+      }
+    },
     "projects": {
       "arcgis": [
         "aesc",
@@ -45,7 +88,7 @@
         "taltson",
         "west"
       ],
-      "site_index_url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national.html"
+      "site_index_group": "projects/national"
     },
     "strategies": {
       "site_index": [
@@ -59,7 +102,7 @@
         "vancouver",
         "wind-west"
       ],
-      "site_index_url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred.html"
+      "site_index_group": "projects/other/referred"
     }
   }
 }

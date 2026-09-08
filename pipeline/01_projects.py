@@ -231,28 +231,54 @@ def _coverage_manifest(fetch: Fetcher, arcgis_slugs: list[str]) -> dict:
     empty list would read as "the site lists nothing" and silently pass a
     coverage check that never ran.
     """
+    src = R.source("mpo_pages")
+    declared: dict[str, str] = src.get("record_groups", {})
+
+    try:
+        crawl = mpo.crawl_section(fetch, src["section_en"])
+    except Exception as exc:                              # noqa: BLE001
+        log.warning("section crawl failed, coverage not checked this run: %s", exc)
+        return {kind: {"site_index": None, "reason": str(exc)[:200]}
+                for kind in set(declared.values())}
+
+    log.info("crawled %d pages under %s", crawl["pages_crawled"], src["section_en"])
+    for link in crawl["broken_links"]:
+        log.warning("broken link on the source: %s (%s)", link["path"], link["error"][:80])
+
     out: dict[str, dict] = {}
-    for kind, urls in mpo.INDEX_URLS.items():
-        try:
-            listed = mpo.index_slugs(fetch.text(urls["en"]), kind, lang="en")
-        except Exception as exc:                          # noqa: BLE001
-            log.warning("%s index unreadable, coverage not checked this run: %s", kind, exc)
-            out[kind] = {"site_index": None, "reason": str(exc)[:200]}
+    for group, kind in declared.items():
+        listed = crawl["groups"].get(group)
+        if listed is None:
+            log.error("declared record group %r found no pages — the site was "
+                      "restructured, or the path in sources.yaml is stale", group)
+            out[kind] = {"site_index": None, "reason": f"group {group!r} not found by the crawl"}
             continue
 
-        published = arcgis_slugs if kind == "projects" else None
-        entry: dict = {"site_index": listed, "site_index_url": urls["en"]}
-        if published is not None:
-            entry["arcgis"] = published
-            entry["only_on_site"] = sorted(set(listed) - set(published))
-            entry["only_in_arcgis"] = sorted(set(published) - set(listed))
+        entry: dict = {"site_index": listed, "site_index_group": group}
+        if kind == "projects":
+            entry["arcgis"] = arcgis_slugs
+            entry["only_on_site"] = sorted(set(listed) - set(arcgis_slugs))
+            entry["only_in_arcgis"] = sorted(set(arcgis_slugs) - set(listed))
             if entry["only_on_site"]:
-                log.warning("%s listed on canada.ca but ABSENT from the map service: %s",
-                            kind, entry["only_on_site"])
+                log.warning("listed on canada.ca but ABSENT from the map service: %s",
+                            entry["only_on_site"])
             if entry["only_in_arcgis"]:
-                log.warning("%s in the map service but not listed on canada.ca: %s",
-                            kind, entry["only_in_arcgis"])
+                log.warning("in the map service but not listed on canada.ca: %s",
+                            entry["only_in_arcgis"])
         out[kind] = entry
+
+    # Groups the crawl found that nothing claims. A single sibling is usually a
+    # sub-page of a record — Pathways Plus has a memorandum of understanding
+    # under it — so the signal is a group with SEVERAL members, which is what a
+    # new category of referred item looks like on its first day.
+    out["_discovered"] = {
+        "pages_crawled": crawl["pages_crawled"],
+        "groups": {g: len(v) for g, v in crawl["groups"].items()},
+        "undeclared_groups": {
+            g: v for g, v in crawl["groups"].items() if g not in declared
+        },
+        "broken_links": crawl["broken_links"],
+    }
     return out
 
 

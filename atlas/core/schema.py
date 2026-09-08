@@ -36,6 +36,7 @@ Design notes:
 from __future__ import annotations
 
 import hashlib
+import math
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
@@ -97,6 +98,20 @@ class GeometryKind(str, Enum):
     CORRIDOR = "corridor"
     REGION   = "region"
     ABSENT   = "absent"
+
+
+def _flat_distance(a: tuple[float, float], b: tuple[float, float]) -> float:
+    """
+    Rough planar distance between two [lon, lat] pairs, longitude scaled.
+
+    Only ever used to find the halfway point along a route, where a constant
+    factor cancels — but the latitude scaling does not cancel, because a degree
+    of longitude is half as long at 60°N as at the equator and the Mackenzie
+    Valley Highway runs from 63°N to 68°N. Without it the midpoint slides
+    toward the eastern end.
+    """
+    lat = math.radians((a[1] + b[1]) / 2)
+    return math.hypot((b[0] - a[0]) * math.cos(lat), b[1] - a[1])
 
 
 # ── Primitives ─────────────────────────────────────────────────────────────────
@@ -188,13 +203,81 @@ class Geometry:
     location_verbatim: str = ""              # the source's own words
     approximate: bool = True
 
+    @property
+    def anchor(self) -> tuple[float, float] | None:
+        """
+        The ONE point that represents this geometry on a map.
+
+        Every geometry that has coordinates has an anchor, and that totality is
+        the point. The map used to render points and corridors through two
+        separate filters — `kind === "point"` for markers, `kind === "corridor"`
+        for lines — so a corridor got a dashed line and NO marker: no headpiece,
+        no click target, no way to open the project. Four of eighteen projects
+        were anonymous squiggles, and adding a third kind would have made it
+        five. Rendering has to be a total function over geometry, and a total
+        function needs somewhere to put the marker.
+
+        For a POINT that is the government's own coordinate. For a CORRIDOR it
+        is the halfway point ALONG the route, which is why this walks the
+        segments rather than averaging the ends: averaging is the same answer
+        for the two-endpoint routes published today and the wrong one the moment
+        a route arrives with a third vertex.
+
+        A REGION has no coordinates — the strategies' locations are prose — so
+        it returns None and must be reached some other way. `verify/` gates
+        that: a record with no anchor and no other affordance is a record the
+        reader cannot get to.
+        """
+        pts = self.coordinates
+        if not pts:
+            return None
+        if len(pts) == 1:
+            return pts[0]
+
+        spans = [_flat_distance(pts[i], pts[i + 1]) for i in range(len(pts) - 1)]
+        half = sum(spans) / 2
+        if half <= 0:
+            return pts[0]
+        for (a, b), span in zip(zip(pts, pts[1:]), spans):
+            if span >= half:
+                t = half / span
+                return (a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t)
+            half -= span
+        return pts[-1]
+
+    @property
+    def anchor_provenance(self) -> Provenance:
+        """
+        Whether the anchor is the source's coordinate or our arithmetic.
+
+        A single point is the government's. A corridor midpoint is ours, and the
+        UI must not render the two identically — the source published the ends
+        of the Mackenzie Valley Highway, not its middle.
+        """
+        if self.kind is GeometryKind.POINT and len(self.coordinates) == 1:
+            return Provenance.OFFICIAL_DATASET
+        return Provenance.DERIVED if self.coordinates else Provenance.ABSENT
+
+    @property
+    def is_linear(self) -> bool:
+        """Whether this draws as a line in addition to its marker."""
+        return len(self.coordinates) > 1
+
     def to_dict(self) -> dict[str, Any]:
+        anchor = self.anchor
         return {
             "kind": self.kind.value,
             "coordinates": [list(c) for c in self.coordinates],
             "provinces": list(self.provinces),
             "location_verbatim": self.location_verbatim,
             "approximate": self.approximate,
+            # Published rather than re-derived in the browser. The app never
+            # recomputes what the pipeline can state (CLAUDE.md §2), and an
+            # anchor computed in two languages is an anchor that can disagree
+            # with itself.
+            "anchor": list(anchor) if anchor else None,
+            "anchor_provenance": self.anchor_provenance.value,
+            "is_linear": self.is_linear,
         }
 
     @classmethod

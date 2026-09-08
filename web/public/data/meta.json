@@ -11,7 +11,7 @@
     "country.json",
     "palette.json"
   ],
-  "generated_at": "2026-09-03T23:23:53Z",
+  "generated_at": "2026-09-08T17:10:50Z",
   "licences": {
     "boc-terms": {
       "attribution": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
@@ -70,6 +70,7 @@
       "projects_index_en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national.html",
       "publisher": "Privy Council Office",
       "robots": "https://www.canada.ca/robots.txt",
+      "section_en": "/en/privy-council/major-projects-office",
       "sitemap_en": "https://www.canada.ca/en/privy-council.sitemap.xml",
       "sitemap_fr": "https://www.canada.ca/fr/conseil-prive.sitemap.xml",
       "strategies_index_en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred.html",
