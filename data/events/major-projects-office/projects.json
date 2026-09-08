@@ -1,6 +1,6 @@
 {
   "event": "major-projects-office",
-  "generated_at": "2026-09-08T17:10:50Z",
+  "generated_at": "2026-09-08T23:35:24Z",
   "projects": [
     {
       "benefits": [
@@ -98,6 +98,7 @@
             ],
             "anchor_provenance": "derived",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -114.3706840423586,
@@ -125,14 +126,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:48Z",
+          "retrieved_at": "2026-09-08T23:35:20Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "e71eb23fb972ed68818df3dd62fb386dcb2e24deb70a5858c7d130a3cf0f5276",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:48Z",
+          "retrieved_at": "2026-09-08T23:35:20Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/aesc.html"
         }
       ],
@@ -247,6 +248,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -73.29288277612098,
@@ -270,14 +272,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:48Z",
+          "retrieved_at": "2026-09-08T23:35:20Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "1489f15b945d751cb561fdfe710ef1618208a47029b75130efe63c2015c05c4d",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:48Z",
+          "retrieved_at": "2026-09-08T23:35:20Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/contrecoeur.html"
         }
       ],
@@ -466,6 +468,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -81.37346945916379,
@@ -489,14 +492,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:48Z",
+          "retrieved_at": "2026-09-08T23:35:21Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "8fc6b3a8bd129a0fe917eaf5f2bc09b7f9477cd8d70f55281e36d7d5c7fea541",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:48Z",
+          "retrieved_at": "2026-09-08T23:35:21Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/crawford.html"
         }
       ],
@@ -615,6 +618,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -78.70562575313836,
@@ -638,14 +642,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:48Z",
+          "retrieved_at": "2026-09-08T23:35:21Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "c743ae5b8b7d8357162e234e9869435db90f89f6f758534accb402ad894e9a50",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:48Z",
+          "retrieved_at": "2026-09-08T23:35:21Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/darlington.html"
         }
       ],
@@ -818,6 +822,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -92.21525123862854,
@@ -841,14 +846,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:48Z",
+          "retrieved_at": "2026-09-08T23:35:21Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "16c3d182e3117e878ba82cf351a5440b2e31e9f8f747a268fd8a0f0f43a27d07",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:48Z",
+          "retrieved_at": "2026-09-08T23:35:21Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/geo.html"
         }
       ],
@@ -971,6 +976,7 @@
             ],
             "anchor_provenance": "derived",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -110.91785776718147,
@@ -998,14 +1004,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:48Z",
+          "retrieved_at": "2026-09-08T23:35:22Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "148e1340c97e1b298f8dcd8be27c914e4435c41d00f5811919614d46a7bc550c",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:48Z",
+          "retrieved_at": "2026-09-08T23:35:22Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/grays-bay.html"
         }
       ],
@@ -1162,6 +1168,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -130.18398563222672,
@@ -1185,14 +1192,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:22Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "4dd6252f171a9df6fc3bb5cbe0033b808e7c1c803eeb99abb1f34ea7000e4e20",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:22Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/ksi-lisims.html"
         }
       ],
@@ -1333,6 +1340,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -128.59501429288173,
@@ -1356,14 +1364,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:22Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "ab48b96aaadc43463d9d32ca0b5cbe6c9eeba33d19f7b30b09402ff26cb1d1ef",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:22Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/lng-canada.html"
         }
       ],
@@ -1558,6 +1566,7 @@
             ],
             "anchor_provenance": "derived",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -133.72990509392164,
@@ -1585,14 +1594,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:22Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "15947504081af21d95a9c3952bd69a1f5c67eaf1f95d6bec4a65f3e640464bc6",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:22Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mackenzie.html"
         }
       ],
@@ -1721,6 +1730,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -102.89498946100858,
@@ -1744,14 +1754,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:22Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "fddeb3220f3e2d1a3c45387194047bca8982f93e6100a461403660e6ed2164e1",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:22Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mcilvenna.html"
         }
       ],
@@ -1890,6 +1900,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -122.61212345666412,
@@ -1914,6 +1925,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -125.01311842171121,
@@ -1938,6 +1950,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -128.63304890660635,
@@ -1961,14 +1974,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:23Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "6f5114374226a56769c051969350f9cbd1a3975c7900ada2684844f29f94269e",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:23Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nctl.html"
         }
       ],
@@ -2095,6 +2108,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -67.0453042976059,
@@ -2118,14 +2132,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:23Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "5e91832548761bd7001635478d7196d324ef3643549cc2c69b63cded80e12a7e",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:23Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/northcliff.html"
         }
       ],
@@ -2264,6 +2278,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -73.92169361903755,
@@ -2287,14 +2302,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:23Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "b567dba0398c4d36d349eea94fa107f6b1241c9f75d553668f453acc362faa73",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:23Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nouveau-monde.html"
         }
       ],
@@ -2495,6 +2510,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -68.00609233687307,
@@ -2518,14 +2534,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:23Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "54850d452372d6f372fa565d6bf7365d564172e244c27dd9c7de3e3d0247c083",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:49Z",
+          "retrieved_at": "2026-09-08T23:35:23Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nukkiksautiit.html"
         }
       ],
@@ -2650,6 +2666,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -129.86499187692112,
@@ -2673,14 +2690,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:50Z",
+          "retrieved_at": "2026-09-08T23:35:23Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "c67e277a93ed44b66f98ab4f379f6f13ed5fc43e7b385ab7790a93d06e0ffb07",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:50Z",
+          "retrieved_at": "2026-09-08T23:35:23Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/red-chris.html"
         }
       ],
@@ -2821,6 +2838,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -123.18331890846149,
@@ -2844,14 +2862,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:50Z",
+          "retrieved_at": "2026-09-08T23:35:23Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "5bbc1fa28aeb9a8a422900837118f4d93838e3acab52d5f3c44443cdae8efef2",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:50Z",
+          "retrieved_at": "2026-09-08T23:35:23Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/roberts-bank.html"
         }
       ],
@@ -2996,6 +3014,7 @@
             ],
             "anchor_provenance": "official_dataset",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -111.39232749340867,
@@ -3019,14 +3038,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:50Z",
+          "retrieved_at": "2026-09-08T23:35:24Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "732de16c74eba2fab1694d01f20a4d2ba3d9e936278585b639c9311752744815",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:50Z",
+          "retrieved_at": "2026-09-08T23:35:24Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/taltson.html"
         }
       ],
@@ -3171,6 +3190,7 @@
             ],
             "anchor_provenance": "derived",
             "approximate": true,
+            "coordinate_provenance": null,
             "coordinates": [
               [
                 -123.12420661932933,
@@ -3198,14 +3218,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T17:10:50Z",
+          "retrieved_at": "2026-09-08T23:35:24Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "effea4c754e5af22c598c64f667daeae355abd8c79d2f923f5cf5df603718362",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T17:10:50Z",
+          "retrieved_at": "2026-09-08T23:35:24Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/west.html"
         }
       ],

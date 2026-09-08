@@ -10,6 +10,17 @@
       "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_50m_admin_0_countries.geojson",
       "file": "ne_50m_admin_0_countries.geojson"
     },
+    "nhs": {
+      "name": "Transport Canada — National Highway System",
+      "scale": "1:10m-equivalent centreline (from the National Road Network)",
+      "version": "as officially accepted by the Council of Ministers",
+      "licence": "ogl-canada-2.0",
+      "layer": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/TC/canada_national_highway_system_en/MapServer/0",
+      "outFields": "type_code,rtnumber1,rtename1,roadclass",
+      "orderBy": "OBJECTID ASC",
+      "pageSize": 1000,
+      "file": "tc_national_highway_system.geojson"
+    },
     "highways": {
       "name": "Natural Earth — Roads (10m)",
       "scale": "1:10m",
@@ -31,6 +42,7 @@
   "commands": {
     "world": "-i \"data/raw/geo/ne_50m_admin_0_countries.geojson\" -filter-fields ADM0_A3,ISO_A3,NAME -simplify 35% keep-shapes -o format=geojson precision=0.005 \"web/public/geo/world.json\"",
     "provinces": "-i \"data/raw/geo/lpr_000b21a_e.zip\" -proj wgs84 -simplify 0.1% keep-shapes -filter-fields PRUID,PRENAME,PRFNAME -o format=geojson precision=0.001 \"web/public/geo/provinces.json\"",
+    "nhs": "-i \"data/raw/geo/tc_national_highway_system.geojson\" -each 'rtnumber1 = rtnumber1 === \"None\" ? \"\" : rtnumber1' -dissolve fields=type_code,rtnumber1 -o format=geojson precision=0.01 \"web/public/geo/nhs.json\"",
     "highways": "-i \"data/raw/geo/ne_10m_roads.geojson\" -filter 'sov_a3 === \"CAN\" && (type === \"Major Highway\" || type === \"Ferry Route\") && scalerank <= 7' -filter-fields type,name,label,length_km,scalerank -simplify 25% keep-shapes -o format=geojson precision=0.005 \"web/public/geo/highways.json\"",
     "canada": "-i \"web/public/geo/provinces.json\" -dissolve2 -each 'name=\"Canada\"' -o format=geojson precision=0.001 \"web/public/geo/canada.json\""
   },
@@ -38,6 +50,10 @@
     "iso_a3": "Natural Earth ISO_A3 is '-99' for Norway, France, N. Cyprus, Somaliland and Kosovo. Join on ADM0_A3.",
     "projection": "The StatCan source is NAD83 Statistics Canada Lambert; -proj wgs84 converts it for MapLibre.",
     "province_codes": "PRUID is the StatCan numeric key (10 NL, 11 PE, 12 NS, 13 NB, 24 QC, 35 ON, 46 MB, 47 SK, 48 AB, 59 BC, 60 YT, 61 NT, 62 NU).",
+    "nhs_unnumbered": "Transport Canada publishes the literal string \"None\" as rtnumber1 for unnumbered segments (2,682 of 60,999). The build normalises it to an empty string; a route named None would otherwise reach the map.",
+    "nhs_route_concurrency": "Only rtnumber1 and rtename1 are kept. Where two designated routes share a carriageway the NHS records the others in rtnumber2-5 and rtename2-4, and those are not requested. A segment carrying both the Trans-Canada and a provincial route therefore shows only the first.",
+    "nhs_projection": "The layer's own extent is WKID 3978 (Lambert). outSR=4326 is what makes it degrees; a metre coordinate would render as nothing rather than raising, so verify/ gates the bounding box.",
+    "nhs_pagination": "orderByFields=OBJECTID ASC is mandatory. ESRI does not guarantee page order without an explicit sort, and an unstable order breaks the zero-line-diff guarantee on unchanged upstream data.",
     "canada": "canada.json is the national outline, dissolved from provinces.json so its arcs are identical to the province geometry. It replaces filtering world.json to ADM0_A3=CAN, which at 1:110m is 9 polygons and omits Vancouver Island, Haida Gwaii and most of the Arctic archipelago."
   }
 }

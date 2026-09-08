@@ -229,7 +229,16 @@ export interface Bundle {
    * Island, no Haida Gwaii and almost no Arctic archipelago.
    */
   canada: GeoJSON.FeatureCollection;
-  /** Canada's trunk highways and ferry routes — Natural Earth 1:10m, real. */
+  /**
+   * The National Highway System — Transport Canada's own designation.
+   *
+   * 195 route groups covering 38,021 km, carrying `type_code` (1 Core, 2 Feeder,
+   * 3 Northern and Remote) and `rtnumber1`. Which roads count as trade arteries
+   * is the Council of Ministers' judgement, not a threshold this project picked.
+   */
+  nhs: GeoJSON.FeatureCollection;
+  /** Ferry routes — Natural Earth 1:10m. NHS is roads only, and on this
+   *  coastline the Marine Atlantic and BC Ferries links carry the Trans-Canada. */
   highways: GeoJSON.FeatureCollection;
   /**
    * Transport Canada's five national trade corridors, with their own words.
@@ -282,7 +291,7 @@ async function json<T>(path: string): Promise<T> {
  * whose shape changed is worse than failing, because it looks like it worked.
  */
 export async function loadBundle(): Promise<Bundle> {
-  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, companiesDoc, rates, world, provinces, canada, highways, corridors] =
+  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, companiesDoc, rates, world, provinces, canada, nhs, highways, corridors] =
     await Promise.all([
       json<Bundle["meta"]>("/data/meta.json"),
       json<Palette>("/data/palette.json"),
@@ -296,6 +305,7 @@ export async function loadBundle(): Promise<Bundle> {
       json<GeoJSON.FeatureCollection>("/geo/world.json"),
       json<GeoJSON.FeatureCollection>("/geo/provinces.json"),
       json<GeoJSON.FeatureCollection>("/geo/canada.json"),
+      json<GeoJSON.FeatureCollection>("/geo/nhs.json"),
       json<GeoJSON.FeatureCollection>("/geo/highways.json"),
       json<{ corridors: TradeCorridor[] }>("/data/events/trade-corridors/corridors.json"),
     ]);
@@ -320,6 +330,7 @@ export async function loadBundle(): Promise<Bundle> {
     world,
     provinces,
     canada,
+    nhs,
     highways,
     corridors: corridors.corridors,
   };

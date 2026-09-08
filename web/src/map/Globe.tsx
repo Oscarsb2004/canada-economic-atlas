@@ -69,6 +69,7 @@ function buildStyle(bundle: Bundle): StyleSpecification {
       // `corridors` is the MPO PROJECT routes; `trade` is the national trade
       // network. Two different things that both wanted the same word — naming
       // them apart here rather than letting one shadow the other.
+      nhs: { type: "geojson", data: bundle.nhs as never },
       highways: { type: "geojson", data: bundle.highways as never },
       trade: { type: "geojson", data: corridorNodeGeoJSON(bundle) as never },
       corridors: { type: "geojson", data: corridorGeoJSON(bundle) as never },
@@ -167,23 +168,72 @@ function buildStyle(bundle: Bundle): StyleSpecification {
       },
       // ── The physical economy, under the pins ───────────────────────────────
       //
-      // Two layers with deliberately different visual grammar, because they are
-      // two different KINDS of claim and must not read as one dataset:
+      // All of it real, published geometry now. The schematic sea lanes this
+      // project drew by hand are gone: once Transport Canada's own corridors
+      // arrived — named, described and enumerated by the publisher — an arc
+      // toward a made-up waypoint was a second answer to the same question, and
+      // the invented one.
       //
-      //   `highways` is Natural Earth's own road classification — real
-      //   published geometry, filtered on the source's `type` field, so what
-      //   counts as "major" is the publisher's judgement. Solid.
-      //
-      //   `corridors` lanes are OURS. There is no public-domain shipping-lane
-      //   dataset that is reproducible from a pinned URL and small enough to
-      //   commit, so rather than pretend, these are schematic arcs from real
-      //   ports saying "this gateway trades in that direction". Dashed, and
-      //   the panel carries the disclaimer that ships inside the payload.
-      //
-      // Both are semi-translucent and both fade IN with zoom: at globe zoom a
-      // road network is a smear that hides the coastline the map is built to
-      // show. Neither is interactive — they are context for the pins, not
+      // Everything here fades IN with zoom and none of it is interactive. At
+      // globe zoom a road network is a smear that hides the coastline the map
+      // exists to show, and these are context for the pins rather than
       // competition for them.
+      //
+      // The National Highway System, coloured by Transport Canada's own class.
+      //
+      // ONE layer with a `match` built from a typed table, not three hand-rolled
+      // layers — a fourth `type_code` would then fall into the default and draw
+      // as the wrong class rather than failing. `verify/` gates that the codes
+      // stay within {1,2,3}, so an upstream change is caught before it reaches
+      // a colour. Weight rather than hue carries the class: the accent is
+      // already doing selection here, and the validated palette caps
+      // categorical encoding well below what is competing for it on this map.
+      {
+        id: "nhs",
+        type: "line",
+        source: "nhs",
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: {
+          "line-color": accent,
+          // A zoom `interpolate` must be the TOP-LEVEL expression of the paint
+          // property, with the data-driven `match` in its output slots — not
+          // the other way round, and not wrapped in an arithmetic operator.
+          // Both of those were tried here and both are rejected with "Only one
+          // zoom-based step/interpolate subexpression may be used".
+          //
+          // The rejection is total: MapLibre throws out the WHOLE STYLE, so the
+          // globe renders as a bare sphere with no land, no coastline and no
+          // provinces, while the HTML markers keep drawing because they never
+          // touch the style. It reads as "the geometry failed to load" rather
+          // than "one paint property is malformed" — which is exactly why the
+          // style construction is wrapped and the error named at the call site.
+          "line-width": [
+            "interpolate", ["linear"], ["zoom"],
+            2, ["match", ["get", "type_code"], ...nhsWidthAt(0.4), 0.2],
+            6, ["match", ["get", "type_code"], ...nhsWidthAt(2.4), 1.2],
+          ],
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.22, 4.5, 0.62],
+        },
+      } as never,
+      // Ferry routes, from Natural Earth. The NHS is ROADS ONLY, and on this
+      // coastline the ferries are highway rather than leisure: the Marine
+      // Atlantic crossing to Newfoundland and the BC Ferries links carry the
+      // Trans-Canada itself. Without them the designated network is visibly
+      // severed at exactly the places it is most interesting. Dashed, because
+      // a sailing is not a road.
+      {
+        id: "ferries",
+        type: "line",
+        source: "highways",
+        filter: ["==", ["get", "type"], "Ferry Route"],
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: {
+          "line-color": ink.secondary,
+          "line-width": ["interpolate", ["linear"], ["zoom"], 2, 0.6, 6, 1.6],
+          "line-dasharray": [2, 2],
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.25, 4.5, 0.55],
+        },
+      },
       // Corridor nodes — the ports and border crossings Transport Canada names
       // in each corridor's infrastructure list.
       //
@@ -303,6 +353,23 @@ function seqStops(bundle: Bundle): (number | string)[] {
  * already carrying selection and the validated palette caps categorical
  * encoding well below the number of things competing for it.
  */
+/**
+ * Relative line weight per NHS class, as a fraction of the base width.
+ *
+ * A Record over Transport Canada's `type_code`, expanded into a MapLibre
+ * `match`. Core routes read heaviest — 72.8% of the designated network and the
+ * spine of every corridor. Northern and Remote routes read lightest but are NOT
+ * dropped: that is where most of the Major Projects Office portfolio sits, and
+ * a network that stopped at 55°N would be the same omission as listing four
+ * corridors instead of five.
+ */
+const NHS_CLASS_WEIGHT: Record<1 | 2 | 3, number> = { 1: 1, 2: 0.65, 3: 0.5 };
+
+/** The table, flattened into `match` case/value pairs at one zoom's base width. */
+function nhsWidthAt(base: number): number[] {
+  return Object.entries(NHS_CLASS_WEIGHT).flatMap(([code, w]) => [Number(code), base * w]);
+}
+
 const NODE_STROKE: Record<CorridorNodeKind, number> = {
   port: 1.6,
   border_crossing: 0.8,
@@ -363,9 +430,23 @@ export function Globe({ bundle, selected, onSelect }: Props) {
     // unmount, and the ref is only a handle for the sibling effects below.
     if (!container.current) return;
 
+    // Surfaced deliberately. A malformed paint expression makes the Map
+    // constructor throw, which happens BEFORE any `m.on("error")` handler can
+    // exist — so the failure reaches React as an unhandled exception and the
+    // page renders a globe with no land and no message. Naming it here is the
+    // difference between a five-minute fix and an afternoon of screenshots.
+    let style: StyleSpecification;
+    try {
+      style = buildStyle(bundle);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error("[map] style is invalid:", err);
+      throw err;
+    }
+
     const m = new maplibregl.Map({
       container: container.current,
-      style: buildStyle(bundle),
+      style,
       center: HOME.center,
       zoom: HOME.zoom,
       attributionControl: false,
@@ -380,6 +461,15 @@ export function Globe({ bundle, selected, onSelect }: Props) {
       // MUST be inside style.load. Calling setProjection before the style is
       // ready throws — this is the single most common way to get a blank map.
       m.setProjection({ type: "globe" });
+    });
+
+    // MapLibre swallows style errors: a malformed paint expression drops its
+    // layer and renders the rest, so the map looks like it worked and one thing
+    // is quietly missing. That is how a broken Canada highlight got as far as a
+    // screenshot. Surfacing it costs three lines.
+    m.on("error", (e) => {
+      // eslint-disable-next-line no-console
+      console.error("[map]", (e as unknown as { error?: Error }).error ?? e);
     });
 
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");

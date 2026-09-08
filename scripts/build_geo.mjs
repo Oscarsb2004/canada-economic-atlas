@@ -70,7 +70,7 @@
 
 import mapshaperPkg from "mapshaper";
 import { createRequire } from "node:module";
-import { mkdirSync, existsSync, statSync, writeFileSync } from "node:fs";
+import { mkdirSync, existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -102,6 +102,29 @@ const SOURCES = {
     url: "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/"
        + "v5.1.2/geojson/ne_50m_admin_0_countries.geojson",
     file: "ne_50m_admin_0_countries.geojson",
+  },
+  nhs: {
+    name: "Transport Canada — National Highway System",
+    scale: "1:10m-equivalent centreline (from the National Road Network)",
+    version: "as officially accepted by the Council of Ministers",
+    licence: "ogl-canada-2.0",
+    // 38,021 km in 60,999 segments. `type_code` is TRANSPORT CANADA's own
+    // classification — 1 Core (72.8%), 2 Feeder (11.7%), 3 Northern and Remote
+    // (15.5%) — so which roads count as trade arteries is the Council of
+    // Ministers' judgement, not a threshold this project picked.
+    //
+    // Served from the SAME ESRI host as the MPO project layer, so this reuses a
+    // pattern the repo already runs against rather than adding a stack.
+    layer: "https://maps-cartes.services.geo.ca/server_serveur/rest/services/TC/"
+         + "canada_national_highway_system_en/MapServer/0",
+    outFields: "type_code,rtnumber1,rtename1,roadclass",
+    // ⚠ MANDATORY. ESRI does not guarantee a stable page order without an
+    // explicit sort, so two rebuilds would emit differently-ordered features
+    // from unchanged upstream data and break the zero-line-diff guarantee that
+    // is this project's acceptance test for every stage (CLAUDE.md §6).
+    orderBy: "OBJECTID ASC",
+    pageSize: 1000,
+    file: "tc_national_highway_system.geojson",
   },
   highways: {
     name: "Natural Earth — Roads (10m)",
@@ -167,6 +190,41 @@ const BUILDS = {
   //
   // scalerank <= 7 drops the very local segments the 10m file also carries;
   // at globe zoom those are noise the reader cannot resolve anyway.
+  // DISSOLVED BY (class, route), which is the difference between 0.77 MB and
+  // 11 MB. The service publishes 60,999 separate centreline segments, and at
+  // that count the repeated property block dominates the file — simplification
+  // alone barely touches it, because `keep-shapes` correctly refuses to drop
+  // short segments. Merging contiguous segments that share a class and a route
+  // number gives 232 multilines for the same 38,021 km, and keeps `rtnumber1`,
+  // which is what lets the map say "1" or "401" rather than just drawing a line.
+  //
+  // NO `-simplify`, and that is measured rather than lazy. `keep-shapes` guards
+  // polygon RINGS; it does not protect short lines, so every simplify setting
+  // tried — 2%, 6%, interval=200m, interval=1000m — collapsed the same 37 route
+  // groups to null geometry: present in the properties, absent from the map,
+  // silent. `-dissolve` alone produces 232 groups and zero nulls.
+  //
+  // Coordinate precision does the reduction instead, and its cost was measured
+  // rather than assumed: at 0.01° (~1 km) the file is 1.0 MB and the groups that
+  // collapse total **10.1 km out of 49,617 — 0.020%** — with the longest being a
+  // 0.7 km interchange stub (`I1:382:31`). Those are ramps, not highways.
+  // `-filter remove-empty` drops them explicitly rather than shipping features
+  // that have properties and no geometry.
+  //
+  // `rtnumber2-5` and `rtename2-4` are NOT requested — see SOURCES.json notes.
+  // That loses route concurrency, which is a real omission and is recorded
+  // rather than silent.
+  nhs: (src, dst) =>
+    // The service publishes the literal STRING "None" as the route number of an
+    // unnumbered segment — 2,682 of them. Left alone it survives the dissolve
+    // and reaches the map as a route called "None". Normalised to empty here
+    // rather than special-cased in the frontend, so the quirk is handled where
+    // it enters. Same class of thing as Natural Earth's ISO_A3 = -99.
+    `-i "${src}" -each 'rtnumber1 = rtnumber1 === "None" ? "" : rtnumber1' `
+    + `-dissolve fields=type_code,rtnumber1 `
+    
+    + `-o format=geojson precision=0.01 "${dst}"`,
+
   highways: (src, dst) =>
     `-i "${src}" `
     + `-filter 'sov_a3 === "CAN" && (type === "Major Highway" || type === "Ferry Route") && scalerank <= 7' `
@@ -199,9 +257,76 @@ async function download(spec) {
   return dest;
 }
 
+/**
+ * Fetch a paged ESRI feature layer into one GeoJSON file.
+ *
+ * `download()` is a single request to a single file; an ESRI layer caps at
+ * `maxRecordCount` (1000 here, against 60,999 features) and must be walked with
+ * `resultOffset`. `outSR=4326` asks for degrees — the layer's own extent is in
+ * WKID 3978 Lambert, and a seven-digit metre coordinate renders as nothing
+ * rather than raising, so `verify/` gates the bounding box afterwards.
+ */
+async function downloadPaged(spec) {
+  const dest = join(RAW, spec.file);
+  if (existsSync(dest) && !force) {
+    console.log(`  cached   ${spec.file} (${statSync(dest).size.toLocaleString()} bytes)`);
+    return dest;
+  }
+  const features = [];
+  for (let offset = 0; ; offset += spec.pageSize) {
+    const url = `${spec.layer}/query?where=1%3D1`
+      + `&outFields=${encodeURIComponent(spec.outFields)}`
+      + `&orderByFields=${encodeURIComponent(spec.orderBy)}`
+      + `&resultOffset=${offset}&resultRecordCount=${spec.pageSize}`
+      + `&returnGeometry=true&outSR=4326&f=geoJSON`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`${spec.file}: page at ${offset} returned HTTP ${res.status}`);
+    const page = await res.json();
+    const got = page.features ?? [];
+    features.push(...got);
+    process.stdout.write(`
+  fetching ${spec.file} ... ${features.length} features`);
+    if (got.length < spec.pageSize) break;
+  }
+  writeFileSync(dest, JSON.stringify({ type: "FeatureCollection", features }), "utf8");
+  console.log(`
+  fetched  ${spec.file} — ${features.length} features, `
+    + `${statSync(dest).size.toLocaleString()} bytes`);
+  return dest;
+}
+
+/**
+ * Drop features whose geometry collapsed, and say how many.
+ *
+ * Coordinate precision is applied when mapshaper WRITES, so a short line can
+ * survive every processing step and still land as `{properties, geometry: null}`
+ * in the output — which no `-filter` can catch, because during processing the
+ * geometry was still there. On the NHS that is 37 of 232 route groups.
+ *
+ * They are dropped rather than shipped, because a feature with properties and
+ * no geometry is one a map silently ignores and a count silently includes. The
+ * removal is reported rather than quiet: it was measured at 10.1 km of 49,617
+ * (0.020%), all of it sub-kilometre interchange stubs, and if that ratio ever
+ * moves it should be visible in the build output rather than discovered later.
+ */
+function pruneEmpty(key, dst) {
+  const doc = JSON.parse(readFileSync(dst, "utf8"));
+  if (!Array.isArray(doc.features)) return 0;
+  const before = doc.features.length;
+  doc.features = doc.features.filter((f) => f.geometry);
+  const dropped = before - doc.features.length;
+  if (dropped > 0) {
+    writeFileSync(dst, JSON.stringify(doc), "utf8");
+    console.log(`  ${key}.json  dropped ${dropped} feature(s) whose geometry `
+      + `collapsed at output precision`);
+  }
+  return dropped;
+}
+
 async function build(key, src) {
   const dst = join(OUT, `${key}.json`);
   await mapshaper.runCommands(BUILDS[key](src, dst));
+  pruneEmpty(key, dst);
   console.log(`  ${key}.json  ${statSync(dst).size.toLocaleString()} bytes`);
 }
 
@@ -210,10 +335,12 @@ mkdirSync(OUT, { recursive: true });
 
 console.log(`build_geo — mapshaper ${MAPSHAPER_VERSION} (pinned)`);
 const world = await download(SOURCES.world);
+const nhs = await downloadPaged(SOURCES.nhs);
 const highways = await download(SOURCES.highways);
 const provinces = await download(SOURCES.provinces);
 
 await build("world", world);
+await build("nhs", nhs);
 await build("highways", highways);
 await build("provinces", provinces);
 // Derived from the file the previous line just wrote, not from a download.
@@ -249,6 +376,23 @@ writeFileSync(
         province_codes:
           "PRUID is the StatCan numeric key (10 NL, 11 PE, 12 NS, 13 NB, "
           + "24 QC, 35 ON, 46 MB, 47 SK, 48 AB, 59 BC, 60 YT, 61 NT, 62 NU).",
+        nhs_unnumbered:
+          "Transport Canada publishes the literal string \"None\" as rtnumber1 "
+          + "for unnumbered segments (2,682 of 60,999). The build normalises it "
+          + "to an empty string; a route named None would otherwise reach the map.",
+        nhs_route_concurrency:
+          "Only rtnumber1 and rtename1 are kept. Where two designated routes "
+          + "share a carriageway the NHS records the others in rtnumber2-5 and "
+          + "rtename2-4, and those are not requested. A segment carrying both the "
+          + "Trans-Canada and a provincial route therefore shows only the first.",
+        nhs_projection:
+          "The layer's own extent is WKID 3978 (Lambert). outSR=4326 is what "
+          + "makes it degrees; a metre coordinate would render as nothing rather "
+          + "than raising, so verify/ gates the bounding box.",
+        nhs_pagination:
+          "orderByFields=OBJECTID ASC is mandatory. ESRI does not guarantee page "
+          + "order without an explicit sort, and an unstable order breaks the "
+          + "zero-line-diff guarantee on unchanged upstream data.",
         canada:
           "canada.json is the national outline, dissolved from provinces.json "
           + "so its arcs are identical to the province geometry. It replaces "

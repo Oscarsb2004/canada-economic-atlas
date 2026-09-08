@@ -383,6 +383,26 @@ that does not exist, and a checker that cries wolf on four of nineteen is one
 nobody reads. The tolerance is declared per dataset in `registry/checks.yaml`,
 so an event whose sites are all inland can set it to zero.
 
+**MapLibre rejects the WHOLE STYLE for one bad paint expression.** A zoom-based
+`interpolate` must be the TOP-LEVEL expression of a paint property, with any
+data-driven `match` in its output slots — not a `match` containing ramps, and not
+an `interpolate` wrapped in arithmetic. Both were tried on the NHS line width and
+both are rejected with *"Only one zoom-based step/interpolate subexpression may
+be used"*. The failure is total and silent-looking: the globe renders as a bare
+grey sphere with no land, no coastline and no provinces, while the HTML markers
+keep drawing because they never touch the style. It reads as "the geometry failed
+to load". `buildStyle` is now wrapped in a try/catch that names the error, and
+`map.on("error")` is attached — but note the constructor throws BEFORE any
+handler can exist, which is why the try/catch is the one that mattered.
+
+**`keep-shapes` guards polygon rings, not short lines.** Every simplify setting
+tried on the NHS — 2%, 6%, interval=200 m, interval=1000 m — collapsed the same
+37 route groups to `geometry: null`, features with properties and no shape that a
+map ignores and a count includes. `-dissolve` alone yields zero. Coordinate
+precision does the reduction instead, and its cost was measured rather than
+assumed: at 0.01° the collapsed groups total **10.1 km of 49,617 (0.020%)**, the
+longest a 0.7 km interchange stub. `build_geo.mjs` prunes them and says how many.
+
 **Natural Earth 1:110m is not a coastline.** It is a globe backdrop, and it is
 right for that — but Canada's feature there is 9 polygons for a country with
 thousands of islands. Anything that traces, outlines or measures Canadian

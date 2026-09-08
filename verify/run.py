@@ -339,9 +339,48 @@ def check_bundle(r: Report) -> None:
         str(v),
     )
 
-    for rel in ("geo/world.json", "geo/provinces.json", "geo/canada.json",
-                "geo/SOURCES.json"):
+    # Read from the manifest the geometry build itself writes, rather than a
+    # tuple restated here. The bundle manifest had already drifted this way once
+    # — `corridors.json` was written and omitted from the list, so nothing
+    # checked it — and a hardcoded tuple here would have left `nhs.json`
+    # unchecked the moment it was added.
+    geo_sources = json.loads((WEB / "geo/SOURCES.json").read_text(encoding="utf-8"))
+    for key in sorted(geo_sources.get("commands", {})):
+        rel = f"geo/{key}.json"
         r.gate((WEB / rel).exists(), f"geometry artifact {rel} is committed", "missing")
+
+    # Every NHS coordinate must be in DEGREES, not Lambert metres.
+    #
+    # The layer's own extent is WKID 3978 and the fetch asks for `outSR=4326`.
+    # If that were ever dropped, a seven-digit metre coordinate would render as
+    # nothing at all rather than raising — the network would simply be absent
+    # from the map and every other check would still pass.
+    nhs = json.loads((WEB / "geo/nhs.json").read_text(encoding="utf-8"))["features"]
+    pts = [c for f in nhs if f.get("geometry")
+           for part in (f["geometry"]["coordinates"]
+                        if f["geometry"]["type"] == "MultiLineString"
+                        else [f["geometry"]["coordinates"]])
+           for c in part]
+    off = [c for c in pts if not (-142.0 <= c[0] <= -52.0 and 41.0 <= c[1] <= 84.0)]
+    r.gate(not off,
+           f"every National Highway System coordinate is in degrees ({len(pts):,} points)",
+           f"{len(off)} outside Canada's bounding box — first {off[:2]}")
+
+    # `type_code` is Transport Canada's own classification and the map colours a
+    # `match` on it. A fourth code would fall into the default and draw as the
+    # wrong class rather than failing, so it is caught here instead.
+    codes = sorted({f["properties"].get("type_code") for f in nhs})
+    r.gate(set(codes) <= {1, 2, 3},
+           "NHS route classes stay within Core / Feeder / Northern-Remote",
+           f"unexpected type_code values: {codes}")
+
+    # A feature with properties and no geometry is one the map silently ignores
+    # and a count silently includes. `build_geo.mjs` prunes them; this is what
+    # notices if that ever stops happening.
+    empty = [f["properties"] for f in nhs if not f.get("geometry")]
+    r.gate(not empty,
+           "no NHS feature has collapsed geometry",
+           f"{len(empty)} with properties and no geometry: {empty[:3]}")
 
     # The globe highlights Canada from canada.json rather than from Natural
     # Earth filtered to CAN, because the 1:110m feature is 9 polygons with no
