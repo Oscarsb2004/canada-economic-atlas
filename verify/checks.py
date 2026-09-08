@@ -376,6 +376,64 @@ def check_records_are_reachable(records, spec, ctx):
     )
 
 
+def check_cross_source_agreement(records, spec, ctx):
+    """
+    Two independent publications of the same quantity, compared.
+
+    Every other check here is internal: counts match a declared number, fields
+    are present, components sum to their aggregate. All of those can pass while
+    the whole ingestion is quietly reading the wrong column — internal
+    consistency is exactly what a systematic error preserves.
+
+    This is the one external check. StatCan publishes national GDP by industry
+    monthly (36100434) and provincial GDP by industry annually (36100711) from
+    separately compiled source data. Summing the provinces and comparing to the
+    national figure, per sector, is a genuine second opinion.
+
+    Measured on 2026-09-08: no sector diverges by more than 1.62%. The tolerance
+    is declared rather than tuned to that result — the two cubes are built from
+    different survey vintages and are not expected to agree exactly, so a
+    threshold tight enough to catch a real error and loose enough to survive an
+    ordinary revision is a judgement, and it belongs in the registry where it
+    can be argued with.
+    """
+    left = json.loads((ROOT / spec["left"]).read_text(encoding="utf-8"))["series"]
+    right = json.loads((ROOT / spec["right"]).read_text(encoding="utf-8"))["series"]
+    period, tol = spec["period"], float(spec["tolerance_pct"])
+
+    def annual_mean(series, geo=None):
+        out = {}
+        for s in series:
+            if geo and s.get("geo") != geo:
+                continue
+            vals = [v for p, v in zip(s["periods"], s["values"])
+                    if str(p).startswith(period) and v is not None]
+            if vals:
+                out[s["code"]] = out.get(s["code"], 0) + sum(vals) / len(vals)
+        return out
+
+    L = annual_mean(left, spec.get("left_geo"))
+    R = annual_mean(right)
+    shared = set(L) & set(R)
+    if not shared:
+        return (False, f"{ctx['name']}: the two sources share sector codes",
+                f"no codes in common for {period} — a classification changed")
+
+    off = []
+    for code in sorted(shared):
+        if not L[code]:
+            continue
+        drift = 100 * (R[code] - L[code]) / L[code]
+        if abs(drift) > tol:
+            off.append(f"{code} {drift:+.2f}%")
+    return (
+        not off,
+        f"{ctx['name']}: {len(shared)} sectors agree across two StatCan cubes "
+        f"within {tol}%",
+        str(off[:12]),
+    )
+
+
 KINDS: dict[str, Callable] = {
     "unique_ids": check_unique_ids,
     "record_count": check_record_count,
@@ -386,6 +444,7 @@ KINDS: dict[str, Callable] = {
     "geometry_region_matches_text": check_geometry_region_matches_text,
     "source_section_shape": check_source_section_shape,
     "records_are_reachable": check_records_are_reachable,
+    "cross_source_agreement": check_cross_source_agreement,
 }
 
 

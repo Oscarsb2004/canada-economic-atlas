@@ -181,3 +181,35 @@ datasets:
         why: >
           A strategy's province list is inference, not reproduction. It must
           never be labelled as an official dataset value.
+
+  # ── Sector series ────────────────────────────────────────────────────────────
+  #
+  # A dataset with no `records` array: the checks below read the two files named
+  # in each entry rather than iterating records. Declared here anyway so every
+  # check in the project lives in one file and one report.
+  sector-series:
+    path: data/sectors/national-monthly.json
+    records: series
+    id_field: code
+    checks:
+      - kind: cross_source_agreement
+        severity: gate
+        # National monthly GDP by industry (36100434) against provincial annual
+        # (36100711), summed over the 13 geographies.
+        left: data/sectors/national-monthly.json
+        left_geo: CA
+        right: data/sectors/provincial-annual.json
+        period: "2025"
+        # 3% admits the ordinary difference between two separately compiled
+        # StatCan publications — measured worst case is 1.62% (Agriculture) —
+        # while still catching a wrong column, a wrong filter or a scalar error,
+        # every one of which moves a sector by far more than this.
+        tolerance_pct: 3.0
+        why: >
+          The only EXTERNAL check in the project. Every other one is internal —
+          counts match a declared number, components sum to their aggregate —
+          and internal consistency is exactly what a systematic ingestion error
+          preserves. Two independently compiled StatCan cubes agreeing per
+          sector is a genuine second opinion, and it is what established that
+          Management of companies [55] really is $0.5B rather than a parse
+          failure.
