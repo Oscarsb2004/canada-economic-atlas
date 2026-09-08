@@ -1,6 +1,6 @@
 # STATUS — where this project actually is
 
-_Last updated: 2026-09-06._
+_Last updated: 2026-09-08._
 
 Read this first when picking the project back up. The full design is in
 `docs/PLAN.md` and **the ordered work queue is [`docs/BACKLOG.md`](docs/BACKLOG.md)**.
@@ -33,8 +33,8 @@ a work queue — two lists of "next" is how one of them goes stale.
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
 | **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
 | **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
-| **`verify/` (M6)** | **Done.** 47 gate checks, 0 failures. Does not import `atlas/`. |
-| **`tests/` (M6)** | **Done.** 29 tests, each explaining the failure it prevents. |
+| **`verify/` (M6)** | **Done.** 57 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
+| **`tests/` (M6)** | **Done.** 40 tests, each explaining the failure it prevents. |
 | **`run.py`, `CLAUDE.md`** | **Done.** Single entry point; agent invariants. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
@@ -112,12 +112,12 @@ found and fixed two real issues (see below).
 
 ## v1 is COMPLETE per the `PLAN.md` §10 scope fence
 
-Full pipeline runs end to end; 29 tests pass; 47 gate checks pass; a re-run from
+Full pipeline runs end to end; 40 tests pass; 57 gate checks pass; a re-run from
 a clean baseline leaves a zero-line git diff.
 
 ```
 python run.py          # pipeline + verify
-python run.py --test   # 29 tests
+python run.py --test   # 40 tests
 cd web && npm run dev  # the app
 ```
 
@@ -345,6 +345,33 @@ numbers.
 second setup bails while the first map is torn down, leaving a live canvas whose
 map object is destroyed. Every `getSource` / `getStyle` afterwards returns
 undefined. The effect's cleanup is the mechanism; the guard is the bug.
+
+**The French page slug is not always the English one.** Eight of the nine
+transformative strategies use the same terminal slug in both languages;
+`critical-minerals` is published as `mineraux-critiques`. The documented join —
+"joined on the terminal slug, which is identical in both languages" — was true
+of every project and false of one strategy, so its French name was empty from
+the first run until a declared `fields_present` check asked for it. The
+exception is declared as `slug_fr:` in `registry/strategies.yaml`, and stage 01
+now reports any French feature matching no English slug.
+
+**Coverage has to be checked against the source, not against a number.**
+`events.yaml` asserts 20 features / 18 projects / 9 strategies, and every one of
+those counts was right while nothing compared them to what canada.ca actually
+LISTS. The ArcGIS service and the website are separate publications with
+separate cadences; a project with a page and no map presence satisfies every
+count. Stage 01 now reads both index pages and commits `coverage.json` so
+`verify/` can compare offline. An unreadable index records `null` rather than an
+empty list — an empty list reads as "the site lists nothing" and passes.
+
+**Four of nineteen coordinates are outside every province, correctly.** The
+committed boundaries are StatCan's **cartographic** file, whose own description
+is "major land mass, no coastal water". Roberts Bank is a causeway into the
+Strait of Georgia, Contrecoeur is on the St. Lawrence, Grays Bay is a bay and
+Ksi Lisims floats. A containment check with no tolerance reports a data problem
+that does not exist, and a checker that cries wolf on four of nineteen is one
+nobody reads. The tolerance is declared per dataset in `registry/checks.yaml`,
+so an event whose sites are all inland can set it to zero.
 
 **Natural Earth 1:110m is not a coastline.** It is a globe backdrop, and it is
 right for that — but Canada's feature there is 9 polygons for a country with

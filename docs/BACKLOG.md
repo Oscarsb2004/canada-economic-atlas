@@ -102,6 +102,7 @@ and `--verify` fails on a source past its expected refresh interval.
 | A7 | ~~`verify/` (47 gates), 29 tests, `run.py`, `CLAUDE.md`~~ | G1 | M |
 | A8 | ~~Locked palette, 5 validated categorical slots~~ | G3 | M |
 | A9 | ~~Benefits bullets · real coastline highlight~~ | G1 | M |
+| A10 | ~~Canada's fill matched to its coastline; declarative `registry/checks.yaml`; coverage manifest read from the source's own index~~ | G1 G4 | M |
 
 ---
 
@@ -119,6 +120,8 @@ and it is not close.
 | **B4** | **"What changed" view** off `data/history/`. Federal pages are edited in place — Crawford gained a March 2026 update long after its November 2025 referral. Showing *when the government changed what it said* is something no other view of this data offers. The history is append-only and only moves on real content change, which is what makes the view trustworthy. | G1 G5 | M | |
 | B5 | **Vintage panel.** `meta.json` and every `release_time` are already carried; surface them where the reader is rather than in a footer. State the ~3-year nominal lag and the ~4-month provincial lag as facts about the source. | G5 | S | |
 | B6 | **Policy annotations on the sector charts.** `events.yaml` carries `kind: policy_with_projects` and a date precisely so a policy can be a vertical rule on a GDP chart. Nothing renders it. | G2 | S | |
+| **B7** | **Render the nine transformative strategies.** They are scraped, name-checked in both languages, hand-mapped to provinces in `strategies.yaml`, committed to `strategies.json` — and `Globe.tsx` and `App.tsx` contain **zero** references to them. Nine of the twenty-seven referred items are invisible, which is what "some of them are missing" looks like from the outside. They have no geometry (ArcGIS layer 2 returns empty polygons), so they render as province washes plus a list, never as pins — and `alto` stays `render: list_only`, because filling Ontario and Quebec entirely would claim a footprint ~100× the real one. | G2 G4 | M | |
+| B8 | **A map error handler.** `Globe.tsx` registers none, so a bad layer spec or an unparseable source fails silently and the globe just renders less. Two rendering problems this week were diagnosed by squinting at screenshots because nothing was listening. `map.on("error")` into the console, and a visible banner in dev. | G5 | S | |
 
 ## Stage C — join the two halves
 
@@ -149,6 +152,7 @@ The strongest part of the repo already. These extend it rather than repair it.
 
 | | Item | Goal | Effort | Human? |
 |---|---|---|---|---|
+| **E0** | **Declare the remaining datasets in `checks.yaml`.** Sectors, companies and `country.json` still have hand-written checks in `verify/run.py` that name their fields inline. Those are correct today and are exactly what stops working when a second event arrives. Port them; keep only genuinely bespoke logic in Python. | G4 | M | |
 | **E1** | **Staleness gate.** `--verify` fails when a declared source is past its expected refresh interval. Add `refresh_interval_days` to `sources.yaml`. This is the mechanism that makes G5 real rather than intended, and it is the direct analogue of `world-strategic-map` E3. | G5 | S | |
 | E2 | **Gating vs advisory tiers** in `verify/run.py`, as ASI already has. *Blocking a release on a judgement call trains people to ignore the gate.* Two of the current 49 lines are already `note` rather than `gate`; make the distinction structural. | G1 | S | |
 | E3 | **Scheduled refresh.** A GitHub Action that re-runs the pipeline and opens a PR when a federal page or a StatCan cube changes. The 24h cache TTL and the append-only history make this safe: a no-change run produces a zero-line diff and no PR. **Not** a build-time scrape — CI hitting canada.ca on every push would be impolite and would let one commit produce different sites. | G5 | M | |
