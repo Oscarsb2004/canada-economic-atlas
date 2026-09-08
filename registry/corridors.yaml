@@ -1,0 +1,81 @@
+# corridors.yaml — Canada's marine trade gateways and the lanes out of them.
+#
+# ⚠ THIS FILE IS OURS, NOT THE GOVERNMENT'S. Everything here is
+# `Provenance.DERIVED` and the UI must render it as such.
+#
+# WHY THIS IS HAND-WRITTEN WHEN THE HIGHWAYS ARE NOT
+#
+# `web/public/geo/highways.json` is Natural Earth's own road classification —
+# real published geometry, filtered on the source's own `type` field, so the
+# judgement of what counts as a major highway stays with the publisher.
+#
+# There is no equivalent for shipping. Vessel-track products exist (AIS density
+# rasters, commercial lane datasets) but none is public-domain, reproducible
+# from a pinned URL, and small enough to commit — which are this project's three
+# conditions for a source. So rather than pretend, these are declared as what
+# they are: SCHEMATIC INDICATORS of where Canadian seaborne trade goes,
+# anchored on real port coordinates and drawn as simple arcs.
+#
+# What that means for the reader, and what the UI must not imply:
+#
+#   - The PORTS are real places at real coordinates.
+#   - The LANES are not routes. No vessel sails these lines. They say "this
+#     gateway trades in that direction", nothing more.
+#   - No tonnage, no volume, no ranking. Drawing a thicker line for a busier
+#     lane would be this project asserting a measurement it has not made.
+#
+# Ports are the gateways Transport Canada designates as Canada Port Authorities
+# and that carry the container, bulk and energy trades the Major Projects Office
+# portfolio is built around. Coordinates are the harbour, to the nearest minute.
+
+version: 1
+provenance: derived
+
+# The disclaimer travels INSIDE the payload, so the layer cannot be rendered
+# without it — the same rule the companies panel follows.
+disclaimer:
+  en: >
+    Schematic trade lanes, not shipping routes. The ports are real; the arcs
+    indicate the direction of trade from each gateway and are drawn by this
+    project, not published by any authority. No volume or tonnage is implied.
+  fr: >
+    Voies commerciales schématiques, et non des routes maritimes. Les ports sont
+    réels; les arcs indiquent la direction des échanges depuis chaque porte
+    d'entrée et sont tracés par ce projet, non publiés par une autorité. Aucun
+    volume ni tonnage n'est sous-entendu.
+
+ports:
+  - { id: vancouver,     name: { en: "Port of Vancouver",       fr: "Port de Vancouver" },        coord: [-123.11, 49.29], basin: pacific }
+  - { id: prince-rupert, name: { en: "Port of Prince Rupert",   fr: "Port de Prince Rupert" },    coord: [-130.32, 54.32], basin: pacific }
+  - { id: montreal,      name: { en: "Port of Montreal",        fr: "Port de Montréal" },         coord: [-73.52, 45.55],  basin: atlantic }
+  - { id: quebec,        name: { en: "Port of Québec",          fr: "Port de Québec" },           coord: [-71.20, 46.82],  basin: atlantic }
+  - { id: halifax,       name: { en: "Port of Halifax",         fr: "Port d'Halifax" },           coord: [-63.57, 44.65],  basin: atlantic }
+  - { id: saint-john,    name: { en: "Port of Saint John",      fr: "Port de Saint John" },       coord: [-66.06, 45.27],  basin: atlantic }
+  - { id: thunder-bay,   name: { en: "Port of Thunder Bay",     fr: "Port de Thunder Bay" },      coord: [-89.25, 48.38],  basin: seaway }
+  - { id: churchill,     name: { en: "Port of Churchill",       fr: "Port de Churchill" },        coord: [-94.17, 58.77],  basin: arctic }
+
+# Each lane is a named direction of trade, drawn from a port toward a waypoint
+# that sits in open water on the way out of Canadian waters. The waypoint is a
+# drawing aid, NOT a destination — which is why lanes stop at the edge of the
+# basin rather than reaching a foreign port we have not sourced.
+lanes:
+  - id: pacific-asia
+    name: { en: "Pacific — Asia trade", fr: "Pacifique — commerce avec l'Asie" }
+    from: [vancouver, prince-rupert]
+    waypoint: [-160.0, 50.0]
+
+  - id: atlantic-europe
+    name: { en: "Atlantic — Europe trade", fr: "Atlantique — commerce avec l'Europe" }
+    from: [halifax, saint-john]
+    waypoint: [-40.0, 48.0]
+
+  - id: seaway
+    name: { en: "St. Lawrence Seaway", fr: "Voie maritime du Saint-Laurent" }
+    # A chain rather than a fan: the Seaway IS a corridor, and the one lane here
+    # whose shape is genuinely published geography rather than a direction.
+    chain: [thunder-bay, montreal, quebec, halifax]
+
+  - id: arctic
+    name: { en: "Hudson Bay — Arctic gateway", fr: "Baie d'Hudson — porte arctique" }
+    from: [churchill]
+    waypoint: [-68.0, 62.5]

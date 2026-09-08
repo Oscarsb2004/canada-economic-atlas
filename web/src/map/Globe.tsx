@@ -66,6 +66,11 @@ function buildStyle(bundle: Bundle): StyleSpecification {
       world: { type: "geojson", data: bundle.world as never },
       canada: { type: "geojson", data: bundle.canada as never },
       provinces: { type: "geojson", data: provincesWithGdp(bundle) as never },
+      // `corridors` is the MPO PROJECT routes; `trade` is the national trade
+      // network. Two different things that both wanted the same word — naming
+      // them apart here rather than letting one shadow the other.
+      highways: { type: "geojson", data: bundle.highways as never },
+      trade: { type: "geojson", data: bundle.corridors as never },
       corridors: { type: "geojson", data: corridorGeoJSON(bundle) as never },
     },
     layers: [
@@ -158,6 +163,64 @@ function buildStyle(bundle: Bundle): StyleSpecification {
             ...seqStops(bundle),
           ],
           "fill-opacity": ["interpolate", ["linear"], ["zoom"], 2.4, 0, 3.8, 0.85],
+        },
+      },
+      // ── The physical economy, under the pins ───────────────────────────────
+      //
+      // Two layers with deliberately different visual grammar, because they are
+      // two different KINDS of claim and must not read as one dataset:
+      //
+      //   `highways` is Natural Earth's own road classification — real
+      //   published geometry, filtered on the source's `type` field, so what
+      //   counts as "major" is the publisher's judgement. Solid.
+      //
+      //   `corridors` lanes are OURS. There is no public-domain shipping-lane
+      //   dataset that is reproducible from a pinned URL and small enough to
+      //   commit, so rather than pretend, these are schematic arcs from real
+      //   ports saying "this gateway trades in that direction". Dashed, and
+      //   the panel carries the disclaimer that ships inside the payload.
+      //
+      // Both are semi-translucent and both fade IN with zoom: at globe zoom a
+      // road network is a smear that hides the coastline the map is built to
+      // show. Neither is interactive — they are context for the pins, not
+      // competition for them.
+      {
+        id: "sea-lanes",
+        type: "line",
+        source: "trade",
+        filter: ["==", ["get", "kind"], "lane"],
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: {
+          "line-color": ink.secondary,
+          "line-width": ["interpolate", ["linear"], ["zoom"], 1.5, 1, 5, 2.4],
+          // Long dashes: the same grammar the project corridors already use for
+          // "the endpoints are published, the line between them is not".
+          "line-dasharray": [3, 2.5],
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 1.4, 0.28, 3, 0.5],
+        },
+      },
+      {
+        id: "highways",
+        type: "line",
+        source: "highways",
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: {
+          "line-color": accent,
+          "line-width": ["interpolate", ["linear"], ["zoom"], 2, 0.5, 5, 1.6, 8, 3],
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.18, 4, 0.45],
+        },
+      },
+      {
+        id: "ports",
+        type: "circle",
+        source: "trade",
+        filter: ["==", ["get", "kind"], "port"],
+        paint: {
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 2, 2, 6, 5],
+          "circle-color": ink.secondary,
+          "circle-opacity": ["interpolate", ["linear"], ["zoom"], 1.6, 0.35, 3, 0.75],
+          "circle-stroke-width": 0.6,
+          "circle-stroke-color": bundle.palette.surface.page,
         },
       },
       // Drawn after `provinces-fill` on purpose: the choropleth reaches 0.85
@@ -301,8 +364,14 @@ export function Globe({ bundle, selected, onSelect }: Props) {
     m.addControl(
       new maplibregl.AttributionControl({
         compact: true,
+        // The trade-lane disclaimer travels INSIDE the payload and is read from
+        // it here rather than restated, so the sentence on screen and the
+        // sentence in the registry cannot drift apart. The layer is not allowed
+        // to render without it: the ports are real and the arcs are ours, and a
+        // reader has no way to tell those apart by looking.
         customAttribution:
-          "Natural Earth · Statistics Canada · Major Projects Office of Canada",
+          "Natural Earth · Statistics Canada · Major Projects Office of Canada · "
+          + bundle.corridors.disclaimer.en,
       }),
       "bottom-right",
     );

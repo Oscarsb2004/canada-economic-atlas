@@ -4,11 +4,19 @@
   "sources": {
     "world": {
       "name": "Natural Earth — Admin 0 countries",
-      "scale": "1:110m",
+      "scale": "1:50m",
       "version": "v5.1.2",
       "licence": "public domain",
-      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-      "file": "ne_110m_admin_0_countries.geojson"
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_50m_admin_0_countries.geojson",
+      "file": "ne_50m_admin_0_countries.geojson"
+    },
+    "highways": {
+      "name": "Natural Earth — Roads (10m)",
+      "scale": "1:10m",
+      "version": "v5.1.2",
+      "licence": "public domain",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_roads.geojson",
+      "file": "ne_10m_roads.geojson"
     },
     "provinces": {
       "name": "Statistics Canada — Provinces/territories, cartographic boundary file",
@@ -21,8 +29,9 @@
     }
   },
   "commands": {
-    "world": "-i \"data/raw/geo/ne_110m_admin_0_countries.geojson\" -filter-fields ADM0_A3,ISO_A3,NAME -simplify 20% keep-shapes -o format=geojson precision=0.01 \"web/public/geo/world.json\"",
+    "world": "-i \"data/raw/geo/ne_50m_admin_0_countries.geojson\" -filter-fields ADM0_A3,ISO_A3,NAME -simplify 35% keep-shapes -o format=geojson precision=0.005 \"web/public/geo/world.json\"",
     "provinces": "-i \"data/raw/geo/lpr_000b21a_e.zip\" -proj wgs84 -simplify 0.1% keep-shapes -filter-fields PRUID,PRENAME,PRFNAME -o format=geojson precision=0.001 \"web/public/geo/provinces.json\"",
+    "highways": "-i \"data/raw/geo/ne_10m_roads.geojson\" -filter 'sov_a3 === \"CAN\" && (type === \"Major Highway\" || type === \"Ferry Route\") && scalerank <= 7' -filter-fields type,name,label,length_km,scalerank -simplify 25% keep-shapes -o format=geojson precision=0.005 \"web/public/geo/highways.json\"",
     "canada": "-i \"web/public/geo/provinces.json\" -dissolve2 -each 'name=\"Canada\"' -o format=geojson precision=0.001 \"web/public/geo/canada.json\""
   },
   "notes": {

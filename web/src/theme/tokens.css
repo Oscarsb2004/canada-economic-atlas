@@ -72,6 +72,24 @@ body {
   overflow-y: auto;
   border-left: var(--hairline);
   background: var(--surface-page);
+
+  /*
+   * The panel still scrolls; its scrollbar is just not drawn.
+   *
+   * This pane is a half-screen column of charts against a dark ground, and a
+   * platform scrollbar puts a bright vertical rule down the edge of every one
+   * of them — the highest-contrast element on screen belonging to no chart.
+   * `scrollbar-width: none` (Firefox) plus the WebKit pseudo-element covers
+   * every engine this ships to.
+   *
+   * Wheel, trackpad, touch, keyboard and the skip link all still work, so this
+   * removes an ornament rather than an affordance.
+   */
+  scrollbar-width: none;
+}
+
+.pane-side::-webkit-scrollbar {
+  display: none;
 }
 
 @media (max-width: 1100px) {

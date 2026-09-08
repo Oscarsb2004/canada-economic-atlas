@@ -180,6 +180,14 @@ export interface Bundle {
    * Island, no Haida Gwaii and almost no Arctic archipelago.
    */
   canada: GeoJSON.FeatureCollection;
+  /** Canada's trunk highways and ferry routes — Natural Earth 1:10m, real. */
+  highways: GeoJSON.FeatureCollection;
+  /**
+   * Marine gateways and trade lanes. The ports are real; the lanes are SCHEMATIC
+   * and drawn by this project — `provenance` says so and `disclaimer` carries
+   * the wording the UI must show.
+   */
+  corridors: GeoJSON.FeatureCollection & { provenance: Provenance; disclaimer: Text };
 }
 
 /** The bundle's major version this client knows how to read. */
@@ -222,7 +230,7 @@ async function json<T>(path: string): Promise<T> {
  * whose shape changed is worse than failing, because it looks like it worked.
  */
 export async function loadBundle(): Promise<Bundle> {
-  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, companiesDoc, rates, world, provinces, canada] =
+  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, companiesDoc, rates, world, provinces, canada, highways, corridors] =
     await Promise.all([
       json<Bundle["meta"]>("/data/meta.json"),
       json<Palette>("/data/palette.json"),
@@ -236,6 +244,8 @@ export async function loadBundle(): Promise<Bundle> {
       json<GeoJSON.FeatureCollection>("/geo/world.json"),
       json<GeoJSON.FeatureCollection>("/geo/provinces.json"),
       json<GeoJSON.FeatureCollection>("/geo/canada.json"),
+      json<GeoJSON.FeatureCollection>("/geo/highways.json"),
+      json<Bundle["corridors"]>("/data/corridors.json"),
     ]);
 
   const major = Number(String(meta.schema_version).split(".")[0]);
@@ -258,6 +268,8 @@ export async function loadBundle(): Promise<Bundle> {
     world,
     provinces,
     canada,
+    highways,
+    corridors,
   };
 }
 

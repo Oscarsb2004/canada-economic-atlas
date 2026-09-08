@@ -88,12 +88,34 @@ const force = process.argv.includes("--force");
 const SOURCES = {
   world: {
     name: "Natural Earth — Admin 0 countries",
-    scale: "1:110m",            // world overview; the right detail for a globe
+    // 1:50m, NOT 1:110m. The globe used to draw the world at 110m, where the
+    // United States is a smooth blob, Alaska's panhandle is a wedge, Greenland
+    // has no fjords and the Great Lakes are lozenges. That was tolerable while
+    // Canada was drawn from the same source and equally coarse; it stopped
+    // being tolerable when Canada moved to the 451-polygon StatCan boundary,
+    // because the two now disagree along every shared edge. The Canada-Alaska
+    // border, the Great Lakes and the Gulf of Maine all showed the accurate
+    // outline crossing the coarse one, which reads as a rendering fault.
+    scale: "1:50m",
     version: "v5.1.2",          // git tag, not "current"
     licence: "public domain",
     url: "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/"
-       + "v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-    file: "ne_110m_admin_0_countries.geojson",
+       + "v5.1.2/geojson/ne_50m_admin_0_countries.geojson",
+    file: "ne_50m_admin_0_countries.geojson",
+  },
+  highways: {
+    name: "Natural Earth — Roads (10m)",
+    scale: "1:10m",
+    version: "v5.1.2",
+    licence: "public domain",
+    // 56,600 features worldwide, 900 of them Canadian, carrying `type`
+    // (Major Highway / Secondary Highway / Ferry Route / Beltway), `scalerank`
+    // and `length_km`. The filter below keeps only what the source itself
+    // classes as a major highway or a ferry route, so "biggest" is the
+    // publisher's judgement rather than ours.
+    url: "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/"
+       + "v5.1.2/geojson/ne_10m_roads.geojson",
+    file: "ne_10m_roads.geojson",
   },
   provinces: {
     name: "Statistics Canada — Provinces/territories, cartographic boundary file",
@@ -110,8 +132,11 @@ const SOURCES = {
 /**
  * The mapshaper command lines, verbatim.
  *
- * world: 20% simplification on an already-coarse 1:110m source, and 0.01°
- * precision (~1 km), which is far finer than a globe can show.
+ * world: 1:50m simplified to 35%, at 0.005° precision (~500 m). The source is
+ * five times the detail of 1:110m, so it can take a harder simplification and
+ * still resolve the things 110m loses entirely — the Alaska panhandle, the
+ * Great Lakes shoreline, the Scandinavian and Chilean coasts. `keep-shapes`
+ * stops small island states being simplified out of existence.
  *
  * provinces: 0.1% is aggressive because the source is full detail — it takes
  * 266 MB down to 319 KB while keeping every province recognisable and the
@@ -122,14 +147,32 @@ const SOURCES = {
 const BUILDS = {
   world: (src, dst) =>
     `-i "${src}" -filter-fields ADM0_A3,ISO_A3,NAME `
-    + `-simplify 20% keep-shapes `
-    + `-o format=geojson precision=0.01 "${dst}"`,
+    + `-simplify 35% keep-shapes `
+    + `-o format=geojson precision=0.005 "${dst}"`,
 
   provinces: (src, dst) =>
     `-i "${src}" -proj wgs84 `
     + `-simplify 0.1% keep-shapes `
     + `-filter-fields PRUID,PRENAME,PRFNAME `
     + `-o format=geojson precision=0.001 "${dst}"`,
+
+  // Canada's trunk network, as Natural Earth classes it.
+  //
+  // `type` is the source's own classification, so filtering on it keeps the
+  // judgement of what counts as "major" with the publisher. Ferry routes are
+  // kept deliberately: on this coastline they are highway, not leisure — the
+  // Marine Atlantic crossing to Newfoundland and the BC Ferries links carry
+  // the Trans-Canada itself, and dropping them leaves the network visibly
+  // severed at exactly the places it is most interesting.
+  //
+  // scalerank <= 7 drops the very local segments the 10m file also carries;
+  // at globe zoom those are noise the reader cannot resolve anyway.
+  highways: (src, dst) =>
+    `-i "${src}" `
+    + `-filter 'sov_a3 === "CAN" && (type === "Major Highway" || type === "Ferry Route") && scalerank <= 7' `
+    + `-filter-fields type,name,label,length_km,scalerank `
+    + `-simplify 25% keep-shapes `
+    + `-o format=geojson precision=0.005 "${dst}"`,
 
   // -dissolve2 rather than -dissolve: the former unions the polygons and drops
   // the shared arcs, which is what removes the interprovincial borders; the
@@ -167,9 +210,11 @@ mkdirSync(OUT, { recursive: true });
 
 console.log(`build_geo — mapshaper ${MAPSHAPER_VERSION} (pinned)`);
 const world = await download(SOURCES.world);
+const highways = await download(SOURCES.highways);
 const provinces = await download(SOURCES.provinces);
 
 await build("world", world);
+await build("highways", highways);
 await build("provinces", provinces);
 // Derived from the file the previous line just wrote, not from a download.
 await build("canada", join(OUT, "provinces.json"));

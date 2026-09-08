@@ -178,6 +178,62 @@ def build_country(sectors: dict | None, rates: dict | None) -> dict:
     }
 
 
+def build_corridors() -> dict:
+    """
+    The marine trade lanes, as GeoJSON, from `registry/corridors.yaml`.
+
+    Emitted here rather than by `scripts/build_geo.mjs` because it is not
+    geometry we downloaded — it is geometry we WROTE. Keeping it beside the
+    other derived outputs, and out of `web/public/geo/` where every file is a
+    reproducible download, is the difference visible on disk.
+
+    A lane is either a fan (`from` several ports toward one `waypoint`) or a
+    `chain` through ports in order. The Seaway is the only chain, because it is
+    the only one whose shape is real geography rather than a direction of trade.
+
+    The disclaimer rides inside the payload so the layer cannot be rendered
+    without it — the same rule the companies panel follows for market data.
+    """
+    spec = yaml.safe_load((R.REGISTRY_DIR / "corridors.yaml").read_text(encoding="utf-8"))
+    ports = {p["id"]: p for p in spec["ports"]}
+
+    features: list[dict] = []
+    for port in spec["ports"]:
+        features.append({
+            "type": "Feature",
+            "properties": {"kind": "port", "id": port["id"],
+                           "name_en": port["name"]["en"], "name_fr": port["name"]["fr"],
+                           "basin": port["basin"]},
+            "geometry": {"type": "Point", "coordinates": port["coord"]},
+        })
+
+    for lane in spec["lanes"]:
+        if "chain" in lane:
+            paths = [[ports[pid]["coord"] for pid in lane["chain"]]]
+        else:
+            paths = [[ports[pid]["coord"], lane["waypoint"]] for pid in lane["from"]]
+        for path in paths:
+            features.append({
+                "type": "Feature",
+                "properties": {"kind": "lane", "id": lane["id"],
+                               "name_en": lane["name"]["en"], "name_fr": lane["name"]["fr"]},
+                "geometry": {"type": "LineString", "coordinates": path},
+            })
+
+    missing = {pid for lane in spec["lanes"]
+               for pid in lane.get("chain", []) + lane.get("from", [])
+               if pid not in ports}
+    if missing:
+        raise ValueError(f"corridors.yaml: lanes reference unknown ports {sorted(missing)}")
+
+    return {
+        "type": "FeatureCollection",
+        "provenance": spec["provenance"],
+        "disclaimer": spec["disclaimer"],
+        "features": features,
+    }
+
+
 def main() -> int:
     argparse.ArgumentParser(description=__doc__).parse_args()
     logging.basicConfig(level=logging.INFO, format="%(levelname)-7s %(message)s")
@@ -207,6 +263,12 @@ def main() -> int:
     write_if_changed(web / "country.json", country)
     log.info("country.json: %d headline figures (%s)",
              len(country["headline"]), ", ".join(h["key"] for h in country["headline"]))
+
+    corridors = build_corridors()
+    write_if_changed(web / "corridors.json", corridors)
+    log.info("corridors.json: %d ports, %d lane segments (DERIVED)",
+             sum(1 for f in corridors["features"] if f["properties"]["kind"] == "port"),
+             sum(1 for f in corridors["features"] if f["properties"]["kind"] == "lane"))
 
     palette = yaml.safe_load((R.REGISTRY_DIR / "palette.yaml").read_text(encoding="utf-8"))
     write_if_changed(web / "palette.json", palette)
