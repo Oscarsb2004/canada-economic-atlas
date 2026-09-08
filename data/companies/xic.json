@@ -1,5 +1,5 @@
 {
-  "as_of": "Sep 3, 2026",
+  "as_of": "Sep 4, 2026",
   "caveat": {
     "en": "Index weight, not company output. Capped at 10% per holding. Not a measure of contribution to GDP.",
     "fr": "Pondération de l'indice, et non la production des entreprises. Plafonnée à 10 % par titre. Ne mesure pas la contribution au PIB."
@@ -12,9 +12,9 @@
         "52"
       ],
       "name": "ROYAL BANK OF CANADA",
-      "price": 292.37,
+      "price": 291.48,
       "provenance": "market_data",
-      "shares": 9285452.0,
+      "shares": 9288587.0,
       "ticker": "RY",
       "weight_pct": 7.82
     },
@@ -25,11 +25,11 @@
         "52"
       ],
       "name": "TORONTO DOMINION",
-      "price": 169.9,
+      "price": 168.24,
       "provenance": "market_data",
-      "shares": 11102297.0,
+      "shares": 11106046.0,
       "ticker": "TD",
-      "weight_pct": 5.44
+      "weight_pct": 5.4
     },
     {
       "currency": "CAD",
@@ -40,11 +40,11 @@
         "31-33"
       ],
       "name": "SHOPIFY SUBORDINATE VOTING CLASS A",
-      "price": 200.96,
+      "price": 200.76,
       "provenance": "market_data",
-      "shares": 8105022.0,
+      "shares": 8107759.0,
       "ticker": "SHOP",
-      "weight_pct": 4.69
+      "weight_pct": 4.7
     },
     {
       "currency": "CAD",
@@ -53,9 +53,9 @@
         "52"
       ],
       "name": "BANK OF MONTREAL",
-      "price": 243.56,
+      "price": 242.76,
       "provenance": "market_data",
-      "shares": 4655030.0,
+      "shares": 4656602.0,
       "ticker": "BMO",
       "weight_pct": 3.27
     },
@@ -66,11 +66,11 @@
         "52"
       ],
       "name": "BANK OF NOVA SCOTIA",
-      "price": 130.77,
+      "price": 129.65,
       "provenance": "market_data",
-      "shares": 8167403.0,
+      "shares": 8170161.0,
       "ticker": "BNS",
-      "weight_pct": 3.08
+      "weight_pct": 3.06
     },
     {
       "currency": "CAD",
@@ -80,9 +80,9 @@
         "48-49"
       ],
       "name": "ENBRIDGE",
-      "price": 69.7,
+      "price": 69.32,
       "provenance": "market_data",
-      "shares": 14510683.0,
+      "shares": 14515583.0,
       "ticker": "ENB",
       "weight_pct": 2.91
     },
@@ -93,11 +93,11 @@
         "52"
       ],
       "name": "CANADIAN IMPERIAL BANK OF COMMERCE",
-      "price": 163.0,
+      "price": 162.75,
       "provenance": "market_data",
-      "shares": 6116142.0,
+      "shares": 6118207.0,
       "ticker": "CM",
-      "weight_pct": 2.87
+      "weight_pct": 2.88
     },
     {
       "currency": "CAD",
@@ -107,11 +107,11 @@
         "48-49"
       ],
       "name": "CANADIAN NATURAL RESOURCES LTD",
-      "price": 70.55,
+      "price": 69.78,
       "provenance": "market_data",
-      "shares": 13861516.0,
+      "shares": 13866197.0,
       "ticker": "CNQ",
-      "weight_pct": 2.82
+      "weight_pct": 2.8
     },
     {
       "currency": "CAD",
@@ -121,11 +121,11 @@
         "31-33"
       ],
       "name": "AGNICO EAGLE MINES",
-      "price": 285.82,
+      "price": 283.22,
       "provenance": "market_data",
-      "shares": 3379908.0,
+      "shares": 3381049.0,
       "ticker": "AEM",
-      "weight_pct": 2.78
+      "weight_pct": 2.77
     },
     {
       "currency": "CAD",
@@ -134,11 +134,11 @@
         "52"
       ],
       "name": "BROOKFIELD CLASS A",
-      "price": 55.74,
+      "price": 55.71,
       "provenance": "market_data",
-      "shares": 14197508.0,
+      "shares": 14202302.0,
       "ticker": "BN",
-      "weight_pct": 2.28
+      "weight_pct": 2.29
     },
     {
       "currency": "CAD",
@@ -150,11 +150,11 @@
         "56"
       ],
       "name": "CANADIAN PACIFIC KANSAS CITY",
-      "price": 125.89,
+      "price": 126.77,
       "provenance": "market_data",
-      "shares": 5899280.0,
+      "shares": 5901272.0,
       "ticker": "CP",
-      "weight_pct": 2.14
+      "weight_pct": 2.16
     },
     {
       "currency": "CAD",
@@ -164,11 +164,11 @@
         "48-49"
       ],
       "name": "SUNCOR ENERGY INC",
-      "price": 93.61,
+      "price": 93.14,
       "provenance": "market_data",
-      "shares": 7846420.0,
+      "shares": 7849069.0,
       "ticker": "SU",
-      "weight_pct": 2.12
+      "weight_pct": 2.11
     },
     {
       "currency": "CAD",
@@ -178,11 +178,11 @@
         "31-33"
       ],
       "name": "BARRICK MINING",
-      "price": 63.03,
+      "price": 61.92,
       "provenance": "market_data",
-      "shares": 11134268.0,
+      "shares": 11138028.0,
       "ticker": "ABX",
-      "weight_pct": 2.02
+      "weight_pct": 1.99
     },
     {
       "currency": "CAD",
@@ -191,11 +191,11 @@
         "52"
       ],
       "name": "MANULIFE FINANCIAL",
-      "price": 61.42,
+      "price": 61.34,
       "provenance": "market_data",
-      "shares": 11090296.0,
+      "shares": 11094041.0,
       "ticker": "MFC",
-      "weight_pct": 1.96
+      "weight_pct": 1.97
     },
     {
       "currency": "CAD",
@@ -205,11 +205,11 @@
         "31-33"
       ],
       "name": "WHEATON PRECIOUS METALS",
-      "price": 216.35,
+      "price": 214.42,
       "provenance": "market_data",
-      "shares": 3017615.0,
+      "shares": 3018634.0,
       "ticker": "WPM",
-      "weight_pct": 1.88
+      "weight_pct": 1.87
     },
     {
       "currency": "CAD",
@@ -221,11 +221,11 @@
         "56"
       ],
       "name": "CANADIAN NATIONAL RAILWAY",
-      "price": 169.87,
+      "price": 170.58,
       "provenance": "market_data",
-      "shares": 3594222.0,
+      "shares": 3595435.0,
       "ticker": "CNR",
-      "weight_pct": 1.76
+      "weight_pct": 1.77
     },
     {
       "currency": "CAD",
@@ -235,9 +235,9 @@
         "48-49"
       ],
       "name": "TC ENERGY",
-      "price": 86.67,
+      "price": 86.53,
       "provenance": "market_data",
-      "shares": 6922864.0,
+      "shares": 6925202.0,
       "ticker": "TRP",
       "weight_pct": 1.73
     },
@@ -248,9 +248,9 @@
         "52"
       ],
       "name": "NATIONAL BANK OF CANADA",
-      "price": 217.9,
+      "price": 217.91,
       "provenance": "market_data",
-      "shares": 2561381.0,
+      "shares": 2562246.0,
       "ticker": "NA",
       "weight_pct": 1.61
     },
@@ -262,11 +262,11 @@
         "31-33"
       ],
       "name": "FRANCO NEVADA",
-      "price": 373.23,
+      "price": 367.97,
       "provenance": "market_data",
-      "shares": 1281586.0,
+      "shares": 1282018.0,
       "ticker": "FNV",
-      "weight_pct": 1.38
+      "weight_pct": 1.36
     },
     {
       "currency": "CAD",
@@ -275,25 +275,11 @@
         "52"
       ],
       "name": "SUN LIFE FINANCIAL INC",
-      "price": 111.29,
+      "price": 112.09,
       "provenance": "market_data",
-      "shares": 3681587.0,
+      "shares": 3682830.0,
       "ticker": "SLF",
-      "weight_pct": 1.18
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Energy",
-      "naics_codes": [
-        "21",
-        "48-49"
-      ],
-      "name": "CENOVUS ENERGY",
-      "price": 45.24,
-      "provenance": "market_data",
-      "shares": 8970736.0,
-      "ticker": "CVE",
-      "weight_pct": 1.17
+      "weight_pct": 1.19
     },
     {
       "currency": "CAD",
@@ -303,11 +289,39 @@
         "31-33"
       ],
       "name": "ALIMENTATION COUCHE TARD INC",
-      "price": 81.91,
+      "price": 82.0,
       "provenance": "market_data",
-      "shares": 4943181.0,
+      "shares": 4944850.0,
       "ticker": "ATD",
       "weight_pct": 1.17
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Energy",
+      "naics_codes": [
+        "21",
+        "48-49"
+      ],
+      "name": "CAMECO",
+      "price": 139.44,
+      "provenance": "market_data",
+      "shares": 2895228.0,
+      "ticker": "CCO",
+      "weight_pct": 1.17
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Energy",
+      "naics_codes": [
+        "21",
+        "48-49"
+      ],
+      "name": "CENOVUS ENERGY",
+      "price": 44.83,
+      "provenance": "market_data",
+      "shares": 8973765.0,
+      "ticker": "CVE",
+      "weight_pct": 1.16
     },
     {
       "currency": "CAD",
@@ -318,24 +332,10 @@
         "31-33"
       ],
       "name": "CONSTELLATION SOFTWARE",
-      "price": 3041.38,
+      "price": 3023.96,
       "provenance": "market_data",
-      "shares": 132376.0,
+      "shares": 132420.0,
       "ticker": "CSU",
-      "weight_pct": 1.16
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Energy",
-      "naics_codes": [
-        "21",
-        "48-49"
-      ],
-      "name": "CAMECO",
-      "price": 138.65,
-      "provenance": "market_data",
-      "shares": 2894251.0,
-      "ticker": "CCO",
       "weight_pct": 1.16
     },
     {
@@ -348,25 +348,11 @@
         "56"
       ],
       "name": "WASTE CONNECTIONS",
-      "price": 230.03,
+      "price": 228.15,
       "provenance": "market_data",
-      "shares": 1696047.0,
+      "shares": 1696619.0,
       "ticker": "WCN",
       "weight_pct": 1.12
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Materials",
-      "naics_codes": [
-        "21",
-        "31-33"
-      ],
-      "name": "NUTRIEN LTD",
-      "price": 111.21,
-      "provenance": "market_data",
-      "shares": 3195011.0,
-      "ticker": "NTR",
-      "weight_pct": 1.02
     },
     {
       "currency": "CAD",
@@ -377,10 +363,24 @@
         "31-33"
       ],
       "name": "CELESTICA",
-      "price": 427.53,
+      "price": 432.45,
       "provenance": "market_data",
-      "shares": 828403.0,
+      "shares": 828682.0,
       "ticker": "CLS",
+      "weight_pct": 1.04
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Materials",
+      "naics_codes": [
+        "21",
+        "31-33"
+      ],
+      "name": "NUTRIEN LTD",
+      "price": 109.99,
+      "provenance": "market_data",
+      "shares": 3196090.0,
+      "ticker": "NTR",
       "weight_pct": 1.02
     },
     {
@@ -391,11 +391,11 @@
         "31-33"
       ],
       "name": "KINROSS GOLD",
-      "price": 43.53,
+      "price": 42.69,
       "provenance": "market_data",
-      "shares": 7925201.0,
+      "shares": 7927877.0,
       "ticker": "K",
-      "weight_pct": 0.99
+      "weight_pct": 0.98
     },
     {
       "currency": "CAD",
@@ -404,11 +404,11 @@
         "52"
       ],
       "name": "POWER CORPORATION OF CANADA",
-      "price": 94.02,
+      "price": 95.28,
       "provenance": "market_data",
-      "shares": 3519732.0,
+      "shares": 3520920.0,
       "ticker": "POW",
-      "weight_pct": 0.95
+      "weight_pct": 0.97
     },
     {
       "currency": "CAD",
@@ -420,9 +420,9 @@
         "31-33"
       ],
       "name": "DOLLARAMA",
-      "price": 176.89,
+      "price": 177.21,
       "provenance": "market_data",
-      "shares": 1801310.0,
+      "shares": 1801918.0,
       "ticker": "DOL",
       "weight_pct": 0.92
     },
@@ -433,11 +433,11 @@
         "52"
       ],
       "name": "INTACT FINANCIAL CORP",
-      "price": 268.79,
+      "price": 266.05,
       "provenance": "market_data",
-      "shares": 1174816.0,
+      "shares": 1175212.0,
       "ticker": "IFC",
-      "weight_pct": 0.91
+      "weight_pct": 0.9
     },
     {
       "currency": "CAD",
@@ -446,9 +446,9 @@
         "52"
       ],
       "name": "FAIRFAX FINANCIAL HOLDINGS SUB VOT",
-      "price": 2313.21,
+      "price": 2297.34,
       "provenance": "market_data",
-      "shares": 132074.0,
+      "shares": 132118.0,
       "ticker": "FFH",
       "weight_pct": 0.88
     },
@@ -460,9 +460,9 @@
         "31-33"
       ],
       "name": "TECK RESOURCES SUBORDINATE VOTING",
-      "price": 94.96,
+      "price": 95.59,
       "provenance": "market_data",
-      "shares": 2978732.0,
+      "shares": 2979737.0,
       "ticker": "TECK.B",
       "weight_pct": 0.82
     },
@@ -473,9 +473,9 @@
         "22"
       ],
       "name": "FORTIS",
-      "price": 76.57,
+      "price": 76.47,
       "provenance": "market_data",
-      "shares": 3385259.0,
+      "shares": 3386402.0,
       "ticker": "FTS",
       "weight_pct": 0.75
     },
@@ -487,9 +487,9 @@
         "48-49"
       ],
       "name": "PEMBINA PIPELINE",
-      "price": 67.06,
+      "price": 66.95,
       "provenance": "market_data",
-      "shares": 3863216.0,
+      "shares": 3864520.0,
       "ticker": "PPL",
       "weight_pct": 0.75
     },
@@ -503,9 +503,9 @@
         "31-33"
       ],
       "name": "RESTAURANTS BRANDS INTERNATIONAL",
-      "price": 110.6,
+      "price": 110.91,
       "provenance": "market_data",
-      "shares": 2308081.0,
+      "shares": 2308860.0,
       "ticker": "QSR",
       "weight_pct": 0.74
     },
@@ -517,11 +517,11 @@
         "31-33"
       ],
       "name": "LOBLAW COMPANIES LTD",
-      "price": 62.44,
+      "price": 63.31,
       "provenance": "market_data",
-      "shares": 3709699.0,
+      "shares": 3710951.0,
       "ticker": "L",
-      "weight_pct": 0.67
+      "weight_pct": 0.68
     },
     {
       "currency": "CAD",
@@ -531,9 +531,9 @@
         "71"
       ],
       "name": "BCE INC",
-      "price": 32.83,
+      "price": 32.79,
       "provenance": "market_data",
-      "shares": 6205541.0,
+      "shares": 6207636.0,
       "ticker": "BCE",
       "weight_pct": 0.59
     },
@@ -544,12 +544,12 @@
         "21",
         "31-33"
       ],
-      "name": "PAN AMERICAN SILVER",
-      "price": 72.58,
+      "name": "FIRST QUANTUM MINERALS",
+      "price": 44.58,
       "provenance": "market_data",
-      "shares": 2804571.0,
-      "ticker": "PAAS",
-      "weight_pct": 0.59
+      "shares": 4497346.0,
+      "ticker": "FM",
+      "weight_pct": 0.58
     },
     {
       "currency": "CAD",
@@ -558,26 +558,12 @@
         "21",
         "31-33"
       ],
-      "name": "FIRST QUANTUM MINERALS",
-      "price": 45.04,
+      "name": "PAN AMERICAN SILVER",
+      "price": 71.04,
       "provenance": "market_data",
-      "shares": 4495828.0,
-      "ticker": "FM",
+      "shares": 2805518.0,
+      "ticker": "PAAS",
       "weight_pct": 0.58
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Energy",
-      "naics_codes": [
-        "21",
-        "48-49"
-      ],
-      "name": "IMPERIAL OIL LTD",
-      "price": 181.13,
-      "provenance": "market_data",
-      "shares": 998408.0,
-      "ticker": "IMO",
-      "weight_pct": 0.52
     },
     {
       "currency": "CAD",
@@ -589,10 +575,24 @@
         "56"
       ],
       "name": "BOMBARDIER CLASS B",
-      "price": 304.3,
+      "price": 315.12,
       "provenance": "market_data",
-      "shares": 586376.0,
+      "shares": 586574.0,
       "ticker": "BBD.B",
+      "weight_pct": 0.53
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Energy",
+      "naics_codes": [
+        "21",
+        "48-49"
+      ],
+      "name": "IMPERIAL OIL LTD",
+      "price": 177.99,
+      "provenance": "market_data",
+      "shares": 998745.0,
+      "ticker": "IMO",
       "weight_pct": 0.51
     },
     {
@@ -602,11 +602,11 @@
         "52"
       ],
       "name": "BROOKFIELD ASSET MANAGEMENT VOTING",
-      "price": 69.32,
+      "price": 70.0,
       "provenance": "market_data",
-      "shares": 2510054.0,
+      "shares": 2510901.0,
       "ticker": "BAM",
-      "weight_pct": 0.5
+      "weight_pct": 0.51
     },
     {
       "currency": "CAD",
@@ -618,38 +618,11 @@
         "56"
       ],
       "name": "WSP GLOBAL INC",
-      "price": 184.07,
+      "price": 186.86,
       "provenance": "market_data",
-      "shares": 896828.0,
+      "shares": 897130.0,
       "ticker": "WSP",
       "weight_pct": 0.48
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Materials",
-      "naics_codes": [
-        "21",
-        "31-33"
-      ],
-      "name": "LUNDIN MINING",
-      "price": 35.91,
-      "provenance": "market_data",
-      "shares": 4504573.0,
-      "ticker": "LUN",
-      "weight_pct": 0.47
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Financials",
-      "naics_codes": [
-        "52"
-      ],
-      "name": "GREAT WEST LIFECO INC",
-      "price": 91.42,
-      "provenance": "market_data",
-      "shares": 1748405.0,
-      "ticker": "GWO",
-      "weight_pct": 0.46
     },
     {
       "currency": "CAD",
@@ -661,25 +634,38 @@
         "31-33"
       ],
       "name": "MAGNA INTERNATIONAL",
-      "price": 92.53,
+      "price": 95.35,
       "provenance": "market_data",
-      "shares": 1703043.0,
+      "shares": 1703618.0,
       "ticker": "MG",
-      "weight_pct": 0.45
+      "weight_pct": 0.47
     },
     {
       "currency": "CAD",
-      "gics_sector": "Energy",
+      "gics_sector": "Financials",
+      "naics_codes": [
+        "52"
+      ],
+      "name": "GREAT WEST LIFECO INC",
+      "price": 92.59,
+      "provenance": "market_data",
+      "shares": 1748995.0,
+      "ticker": "GWO",
+      "weight_pct": 0.47
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Materials",
       "naics_codes": [
         "21",
-        "48-49"
+        "31-33"
       ],
-      "name": "TOURMALINE OIL CORP",
-      "price": 63.29,
+      "name": "LUNDIN MINING",
+      "price": 35.48,
       "provenance": "market_data",
-      "shares": 2454495.0,
-      "ticker": "TOU",
-      "weight_pct": 0.45
+      "shares": 4506094.0,
+      "ticker": "LUN",
+      "weight_pct": 0.46
     },
     {
       "currency": "CAD",
@@ -688,9 +674,9 @@
         "22"
       ],
       "name": "BROOKFIELD INFRASTRUCTURE PARTNERS",
-      "price": 50.83,
+      "price": 51.34,
       "provenance": "market_data",
-      "shares": 3044858.0,
+      "shares": 3045886.0,
       "ticker": "BIP.UN",
       "weight_pct": 0.45
     },
@@ -701,25 +687,25 @@
         "21",
         "48-49"
       ],
-      "name": "WHITECAP RESOURCES INC",
-      "price": 18.12,
+      "name": "TOURMALINE OIL CORP",
+      "price": 62.79,
       "provenance": "market_data",
-      "shares": 8087654.0,
-      "ticker": "WCP",
-      "weight_pct": 0.42
+      "shares": 2455323.0,
+      "ticker": "TOU",
+      "weight_pct": 0.45
     },
     {
       "currency": "CAD",
-      "gics_sector": "Materials",
+      "gics_sector": "Energy",
       "naics_codes": [
         "21",
-        "31-33"
+        "48-49"
       ],
-      "name": "ALAMOS GOLD CLASS A",
-      "price": 52.02,
+      "name": "WHITECAP RESOURCES INC",
+      "price": 17.98,
       "provenance": "market_data",
-      "shares": 2798858.0,
-      "ticker": "AGI",
+      "shares": 8090385.0,
+      "ticker": "WCP",
       "weight_pct": 0.42
     },
     {
@@ -732,10 +718,24 @@
         "56"
       ],
       "name": "RB GLOBAL",
-      "price": 114.73,
+      "price": 115.6,
       "provenance": "market_data",
-      "shares": 1239721.0,
+      "shares": 1240139.0,
       "ticker": "RBA",
+      "weight_pct": 0.41
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Materials",
+      "naics_codes": [
+        "21",
+        "31-33"
+      ],
+      "name": "ALAMOS GOLD CLASS A",
+      "price": 51.16,
+      "provenance": "market_data",
+      "shares": 2799803.0,
+      "ticker": "AGI",
       "weight_pct": 0.41
     },
     {
@@ -745,9 +745,9 @@
         "22"
       ],
       "name": "EMERA INC",
-      "price": 69.31,
+      "price": 69.73,
       "provenance": "market_data",
-      "shares": 2037727.0,
+      "shares": 2038415.0,
       "ticker": "EMA",
       "weight_pct": 0.41
     },
@@ -759,9 +759,9 @@
         "71"
       ],
       "name": "TELUS",
-      "price": 13.4,
+      "price": 13.39,
       "provenance": "market_data",
-      "shares": 10400790.0,
+      "shares": 10404302.0,
       "ticker": "T",
       "weight_pct": 0.4
     },
@@ -773,9 +773,9 @@
         "71"
       ],
       "name": "ROGERS COMMUNICATIONS NON-VOTING I",
-      "price": 52.44,
+      "price": 51.85,
       "provenance": "market_data",
-      "shares": 2575089.0,
+      "shares": 2575958.0,
       "ticker": "RCI.B",
       "weight_pct": 0.39
     },
@@ -788,12 +788,12 @@
         "48-49",
         "56"
       ],
-      "name": "THOMSON REUTERS CORP",
-      "price": 153.97,
+      "name": "GFL ENVIRONMENTAL SUBORDINATE VOTI",
+      "price": 60.45,
       "provenance": "market_data",
-      "shares": 873304.0,
-      "ticker": "TRI",
-      "weight_pct": 0.39
+      "shares": 2193828.0,
+      "ticker": "GFL",
+      "weight_pct": 0.38
     },
     {
       "currency": "CAD",
@@ -804,12 +804,12 @@
         "48-49",
         "56"
       ],
-      "name": "GFL ENVIRONMENTAL SUBORDINATE VOTI",
-      "price": 59.99,
+      "name": "THOMSON REUTERS CORP",
+      "price": 146.24,
       "provenance": "market_data",
-      "shares": 2193088.0,
-      "ticker": "GFL",
-      "weight_pct": 0.38
+      "shares": 873598.0,
+      "ticker": "TRI",
+      "weight_pct": 0.37
     },
     {
       "currency": "CAD",
@@ -820,9 +820,9 @@
         "31-33"
       ],
       "name": "CGI INC CLASS A",
-      "price": 103.24,
+      "price": 102.02,
       "provenance": "market_data",
-      "shares": 1249221.0,
+      "shares": 1249642.0,
       "ticker": "GIB.A",
       "weight_pct": 0.37
     },
@@ -834,11 +834,11 @@
         "31-33"
       ],
       "name": "EQUINOX GOLD",
-      "price": 18.07,
+      "price": 17.75,
       "provenance": "market_data",
-      "shares": 7037398.0,
+      "shares": 7039774.0,
       "ticker": "EQX",
-      "weight_pct": 0.37
+      "weight_pct": 0.36
     },
     {
       "currency": "CAD",
@@ -847,9 +847,9 @@
         "52"
       ],
       "name": "IA FINANCIAL INC",
-      "price": 204.44,
+      "price": 203.86,
       "provenance": "market_data",
-      "shares": 597449.0,
+      "shares": 597650.0,
       "ticker": "IAG",
       "weight_pct": 0.35
     },
@@ -861,10 +861,23 @@
         "31-33"
       ],
       "name": "METRO",
-      "price": 89.69,
+      "price": 90.05,
       "provenance": "market_data",
-      "shares": 1275077.0,
+      "shares": 1275507.0,
       "ticker": "MRU",
+      "weight_pct": 0.33
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Utilities",
+      "naics_codes": [
+        "22"
+      ],
+      "name": "HYDRO ONE",
+      "price": 53.11,
+      "provenance": "market_data",
+      "shares": 2124001.0,
+      "ticker": "H",
       "weight_pct": 0.33
     },
     {
@@ -875,11 +888,11 @@
         "31-33"
       ],
       "name": "HUDBAY MINERALS",
-      "price": 38.21,
+      "price": 37.94,
       "provenance": "market_data",
-      "shares": 2955519.0,
+      "shares": 2956517.0,
       "ticker": "HBM",
-      "weight_pct": 0.33
+      "weight_pct": 0.32
     },
     {
       "currency": "CAD",
@@ -887,11 +900,11 @@
       "naics_codes": [
         "22"
       ],
-      "name": "HYDRO ONE",
-      "price": 52.91,
+      "name": "ALTAGAS",
+      "price": 52.54,
       "provenance": "market_data",
-      "shares": 2123284.0,
-      "ticker": "H",
+      "shares": 2080615.0,
+      "ticker": "ALA",
       "weight_pct": 0.32
     },
     {
@@ -902,37 +915,10 @@
         "31-33"
       ],
       "name": "IAMGOLD CORP",
-      "price": 28.92,
+      "price": 28.35,
       "provenance": "market_data",
-      "shares": 3823167.0,
+      "shares": 3824458.0,
       "ticker": "IMG",
-      "weight_pct": 0.32
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Energy",
-      "naics_codes": [
-        "21",
-        "48-49"
-      ],
-      "name": "KEYERA",
-      "price": 58.47,
-      "provenance": "market_data",
-      "shares": 1884626.0,
-      "ticker": "KEY",
-      "weight_pct": 0.32
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Utilities",
-      "naics_codes": [
-        "22"
-      ],
-      "name": "ALTAGAS",
-      "price": 52.22,
-      "provenance": "market_data",
-      "shares": 2079913.0,
-      "ticker": "ALA",
       "weight_pct": 0.31
     },
     {
@@ -945,10 +931,24 @@
         "56"
       ],
       "name": "TOROMONT INDUSTRIES LTD",
-      "price": 194.52,
+      "price": 198.36,
       "provenance": "market_data",
-      "shares": 544510.0,
+      "shares": 544693.0,
       "ticker": "TIH",
+      "weight_pct": 0.31
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Energy",
+      "naics_codes": [
+        "21",
+        "48-49"
+      ],
+      "name": "KEYERA",
+      "price": 56.33,
+      "provenance": "market_data",
+      "shares": 1885262.0,
+      "ticker": "KEY",
       "weight_pct": 0.31
     },
     {
@@ -959,9 +959,9 @@
         "31-33"
       ],
       "name": "GEORGE WESTON",
-      "price": 100.5,
+      "price": 100.93,
       "provenance": "market_data",
-      "shares": 1033774.0,
+      "shares": 1034123.0,
       "ticker": "WN",
       "weight_pct": 0.3
     },
@@ -972,25 +972,11 @@
         "52"
       ],
       "name": "TMX GROUP LTD",
-      "price": 54.16,
+      "price": 54.43,
       "provenance": "market_data",
-      "shares": 1826560.0,
+      "shares": 1827176.0,
       "ticker": "X",
       "weight_pct": 0.29
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Materials",
-      "naics_codes": [
-        "21",
-        "31-33"
-      ],
-      "name": "ELDORADO GOLD",
-      "price": 60.44,
-      "provenance": "market_data",
-      "shares": 1572316.0,
-      "ticker": "ELD",
-      "weight_pct": 0.27
     },
     {
       "currency": "CAD",
@@ -1002,11 +988,11 @@
         "56"
       ],
       "name": "TFI INTERNATIONAL",
-      "price": 183.2,
+      "price": 189.5,
       "provenance": "market_data",
-      "shares": 516821.0,
+      "shares": 516995.0,
       "ticker": "TFII",
-      "weight_pct": 0.27
+      "weight_pct": 0.28
     },
     {
       "currency": "CAD",
@@ -1018,10 +1004,24 @@
         "56"
       ],
       "name": "ATKINSREALIS GROUP INC",
-      "price": 86.0,
+      "price": 87.28,
       "provenance": "market_data",
-      "shares": 1077105.0,
+      "shares": 1077468.0,
       "ticker": "ATRL",
+      "weight_pct": 0.27
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Materials",
+      "naics_codes": [
+        "21",
+        "31-33"
+      ],
+      "name": "ELDORADO GOLD",
+      "price": 59.55,
+      "provenance": "market_data",
+      "shares": 1572847.0,
+      "ticker": "ELD",
       "weight_pct": 0.27
     },
     {
@@ -1034,9 +1034,9 @@
         "31-33"
       ],
       "name": "GILDAN ACTIVEWEAR",
-      "price": 74.05,
+      "price": 73.89,
       "provenance": "market_data",
-      "shares": 1239212.0,
+      "shares": 1239630.0,
       "ticker": "GIL",
       "weight_pct": 0.26
     },
@@ -1047,10 +1047,24 @@
         "21",
         "31-33"
       ],
-      "name": "FIRST MAJESTIC SILVER",
-      "price": 29.53,
+      "name": "CCL INDUSTRIES CLASS B",
+      "price": 95.0,
       "provenance": "market_data",
-      "shares": 3101858.0,
+      "shares": 948868.0,
+      "ticker": "CCL.B",
+      "weight_pct": 0.26
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Materials",
+      "naics_codes": [
+        "21",
+        "31-33"
+      ],
+      "name": "FIRST MAJESTIC SILVER",
+      "price": 28.97,
+      "provenance": "market_data",
+      "shares": 3102905.0,
       "ticker": "AG",
       "weight_pct": 0.26
     },
@@ -1062,25 +1076,11 @@
         "31-33"
       ],
       "name": "DPM METALS",
-      "price": 61.68,
+      "price": 60.96,
       "provenance": "market_data",
-      "shares": 1465799.0,
+      "shares": 1466294.0,
       "ticker": "DPM",
       "weight_pct": 0.26
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Materials",
-      "naics_codes": [
-        "21",
-        "31-33"
-      ],
-      "name": "CCL INDUSTRIES CLASS B",
-      "price": 93.27,
-      "provenance": "market_data",
-      "shares": 948548.0,
-      "ticker": "CCL.B",
-      "weight_pct": 0.25
     },
     {
       "currency": "CAD",
@@ -1092,11 +1092,11 @@
         "31-33"
       ],
       "name": "ARITZIA SUBORDINATE VOTING",
-      "price": 126.08,
+      "price": 128.67,
       "provenance": "market_data",
-      "shares": 637237.0,
+      "shares": 637452.0,
       "ticker": "ATZ",
-      "weight_pct": 0.23
+      "weight_pct": 0.24
     },
     {
       "currency": "CAD",
@@ -1108,11 +1108,11 @@
         "56"
       ],
       "name": "FINNING INTERNATIONAL INC",
-      "price": 90.06,
+      "price": 91.56,
       "provenance": "market_data",
-      "shares": 865010.0,
+      "shares": 865302.0,
       "ticker": "FTT",
-      "weight_pct": 0.22
+      "weight_pct": 0.23
     },
     {
       "currency": "CAD",
@@ -1124,9 +1124,9 @@
         "56"
       ],
       "name": "STANTEC",
-      "price": 100.67,
+      "price": 101.78,
       "provenance": "market_data",
-      "shares": 764238.0,
+      "shares": 764496.0,
       "ticker": "STN",
       "weight_pct": 0.22
     },
@@ -1138,11 +1138,11 @@
         "31-33"
       ],
       "name": "SSR MINING",
-      "price": 53.6,
+      "price": 51.46,
       "provenance": "market_data",
-      "shares": 1434724.0,
+      "shares": 1435208.0,
       "ticker": "SSRM",
-      "weight_pct": 0.22
+      "weight_pct": 0.21
     },
     {
       "currency": "CAD",
@@ -1152,11 +1152,11 @@
         "31-33"
       ],
       "name": "G MINING VENTURES CORP",
-      "price": 53.13,
+      "price": 51.6,
       "provenance": "market_data",
-      "shares": 1410293.0,
+      "shares": 1410769.0,
       "ticker": "GMIN",
-      "weight_pct": 0.22
+      "weight_pct": 0.21
     },
     {
       "currency": "CAD",
@@ -1168,9 +1168,9 @@
         "56"
       ],
       "name": "CAE",
-      "price": 33.74,
+      "price": 33.73,
       "provenance": "market_data",
-      "shares": 2131224.0,
+      "shares": 2131943.0,
       "ticker": "CAE",
       "weight_pct": 0.21
     },
@@ -1182,9 +1182,9 @@
         "48-49"
       ],
       "name": "SOUTH BOW",
-      "price": 51.55,
+      "price": 51.3,
       "provenance": "market_data",
-      "shares": 1379056.0,
+      "shares": 1379521.0,
       "ticker": "SOBO",
       "weight_pct": 0.2
     },
@@ -1198,9 +1198,9 @@
         "56"
       ],
       "name": "ELEMENT FLEET MANAGEMENT",
-      "price": 26.33,
+      "price": 26.35,
       "provenance": "market_data",
-      "shares": 2633364.0,
+      "shares": 2634253.0,
       "ticker": "EFN",
       "weight_pct": 0.2
     },
@@ -1212,25 +1212,11 @@
         "31-33"
       ],
       "name": "B2GOLD",
-      "price": 7.83,
+      "price": 7.76,
       "provenance": "market_data",
-      "shares": 8843336.0,
+      "shares": 8846322.0,
       "ticker": "BTO",
       "weight_pct": 0.2
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Materials",
-      "naics_codes": [
-        "21",
-        "31-33"
-      ],
-      "name": "LUNDIN GOLD",
-      "price": 101.58,
-      "provenance": "market_data",
-      "shares": 655998.0,
-      "ticker": "LUG",
-      "weight_pct": 0.19
     },
     {
       "currency": "CAD",
@@ -1239,24 +1225,10 @@
         "22"
       ],
       "name": "CAPITAL POWER CORP",
-      "price": 62.32,
+      "price": 63.03,
       "provenance": "market_data",
-      "shares": 1049729.0,
+      "shares": 1050083.0,
       "ticker": "CPX",
-      "weight_pct": 0.19
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Consumer Staples",
-      "naics_codes": [
-        "44-45",
-        "31-33"
-      ],
-      "name": "SAPUTO",
-      "price": 40.3,
-      "provenance": "market_data",
-      "shares": 1603021.0,
-      "ticker": "SAP",
       "weight_pct": 0.19
     },
     {
@@ -1266,9 +1238,9 @@
         "22"
       ],
       "name": "BROOKFIELD RENEWABLE PARTNERS NON",
-      "price": 42.81,
+      "price": 43.5,
       "provenance": "market_data",
-      "shares": 1507935.0,
+      "shares": 1508444.0,
       "ticker": "BEP.UN",
       "weight_pct": 0.19
     },
@@ -1279,11 +1251,11 @@
         "21",
         "31-33"
       ],
-      "name": "OR ROYALTIES INC",
-      "price": 52.01,
+      "name": "LUNDIN GOLD",
+      "price": 99.88,
       "provenance": "market_data",
-      "shares": 1238849.0,
-      "ticker": "OR",
+      "shares": 656219.0,
+      "ticker": "LUG",
       "weight_pct": 0.19
     },
     {
@@ -1294,26 +1266,25 @@
         "48-49"
       ],
       "name": "NEXGEN ENERGY",
-      "price": 14.73,
+      "price": 14.89,
       "provenance": "market_data",
-      "shares": 4366465.0,
+      "shares": 4367939.0,
       "ticker": "NXE",
       "weight_pct": 0.19
     },
     {
       "currency": "CAD",
-      "gics_sector": "Information Technology",
+      "gics_sector": "Consumer Staples",
       "naics_codes": [
-        "51",
-        "54",
+        "44-45",
         "31-33"
       ],
-      "name": "DESCARTES SYSTEMS GROUP",
-      "price": 111.48,
+      "name": "SAPUTO",
+      "price": 40.13,
       "provenance": "market_data",
-      "shares": 569947.0,
-      "ticker": "DSG",
-      "weight_pct": 0.18
+      "shares": 1603562.0,
+      "ticker": "SAP",
+      "weight_pct": 0.19
     },
     {
       "currency": "CAD",
@@ -1322,11 +1293,25 @@
         "21",
         "31-33"
       ],
-      "name": "CAPSTONE COPPER CORP",
-      "price": 15.23,
+      "name": "OR ROYALTIES INC",
+      "price": 51.63,
       "provenance": "market_data",
-      "shares": 4151023.0,
-      "ticker": "CS",
+      "shares": 1239267.0,
+      "ticker": "OR",
+      "weight_pct": 0.18
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Communication",
+      "naics_codes": [
+        "51",
+        "71"
+      ],
+      "name": "QUEBECOR CLASS B",
+      "price": 63.94,
+      "provenance": "market_data",
+      "shares": 997441.0,
+      "ticker": "QBR.B",
       "weight_pct": 0.18
     },
     {
@@ -1337,9 +1322,9 @@
         "31-33"
       ],
       "name": "OCEANAGOLD CORPORATION CORP",
-      "price": 42.31,
+      "price": 42.32,
       "provenance": "market_data",
-      "shares": 1486922.0,
+      "shares": 1487424.0,
       "ticker": "OGC",
       "weight_pct": 0.18
     },
@@ -1353,24 +1338,39 @@
         "31-33"
       ],
       "name": "CANADIAN TIRE LTD CLASS A",
-      "price": 190.78,
+      "price": 191.99,
       "provenance": "market_data",
-      "shares": 326281.0,
+      "shares": 326391.0,
       "ticker": "CTC.A",
       "weight_pct": 0.18
     },
     {
       "currency": "CAD",
-      "gics_sector": "Communication",
+      "gics_sector": "Materials",
+      "naics_codes": [
+        "21",
+        "31-33"
+      ],
+      "name": "CAPSTONE COPPER CORP",
+      "price": 15.05,
+      "provenance": "market_data",
+      "shares": 4152424.0,
+      "ticker": "CS",
+      "weight_pct": 0.18
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Information Technology",
       "naics_codes": [
         "51",
-        "71"
+        "54",
+        "31-33"
       ],
-      "name": "QUEBECOR CLASS B",
-      "price": 61.94,
+      "name": "DESCARTES SYSTEMS GROUP",
+      "price": 109.13,
       "provenance": "market_data",
-      "shares": 997105.0,
-      "ticker": "QBR.B",
+      "shares": 570139.0,
+      "ticker": "DSG",
       "weight_pct": 0.18
     },
     {
@@ -1381,9 +1381,9 @@
         "31-33"
       ],
       "name": "IVANHOE MINES CLASS A",
-      "price": 11.66,
+      "price": 11.78,
       "provenance": "market_data",
-      "shares": 4998230.0,
+      "shares": 4999918.0,
       "ticker": "IVN",
       "weight_pct": 0.17
     },
@@ -1395,9 +1395,9 @@
         "48-49"
       ],
       "name": "PRAIRIESKY ROYALTY",
-      "price": 36.29,
+      "price": 36.31,
       "provenance": "market_data",
-      "shares": 1540623.0,
+      "shares": 1541143.0,
       "ticker": "PSK",
       "weight_pct": 0.16
     },
@@ -1409,25 +1409,10 @@
         "31-33"
       ],
       "name": "DISCOVERY MINING LTD",
-      "price": 13.33,
+      "price": 13.12,
       "provenance": "market_data",
-      "shares": 4191855.0,
+      "shares": 4193270.0,
       "ticker": "DSV",
-      "weight_pct": 0.16
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Information Technology",
-      "naics_codes": [
-        "51",
-        "54",
-        "31-33"
-      ],
-      "name": "OPEN TEXT",
-      "price": 33.86,
-      "provenance": "market_data",
-      "shares": 1605139.0,
-      "ticker": "OTEX",
       "weight_pct": 0.16
     },
     {
@@ -1437,9 +1422,9 @@
         "53"
       ],
       "name": "FIRSTSERVICE SUBORDINATE VOTING",
-      "price": 197.03,
+      "price": 199.56,
       "provenance": "market_data",
-      "shares": 274571.0,
+      "shares": 274663.0,
       "ticker": "FSV",
       "weight_pct": 0.16
     },
@@ -1453,10 +1438,25 @@
         "56"
       ],
       "name": "AIR CANADA VOTING AND VARIABLE VOT",
-      "price": 28.73,
+      "price": 28.72,
       "provenance": "market_data",
-      "shares": 1861820.0,
+      "shares": 1862448.0,
       "ticker": "AC",
+      "weight_pct": 0.15
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Information Technology",
+      "naics_codes": [
+        "51",
+        "54",
+        "31-33"
+      ],
+      "name": "OPEN TEXT",
+      "price": 33.12,
+      "provenance": "market_data",
+      "shares": 1605681.0,
+      "ticker": "OTEX",
       "weight_pct": 0.15
     },
     {
@@ -1467,9 +1467,9 @@
         "31-33"
       ],
       "name": "K92 MINING",
-      "price": 29.99,
+      "price": 29.2,
       "provenance": "market_data",
-      "shares": 1622847.0,
+      "shares": 1623395.0,
       "ticker": "KNT",
       "weight_pct": 0.14
     },
@@ -1479,11 +1479,11 @@
       "naics_codes": [
         "52"
       ],
-      "name": "DEFINITY FINANCIAL",
-      "price": 73.65,
+      "name": "IGM FINANCIAL INC",
+      "price": 87.45,
       "provenance": "market_data",
-      "shares": 627849.0,
-      "ticker": "DFY",
+      "shares": 521590.0,
+      "ticker": "IGM",
       "weight_pct": 0.13
     },
     {
@@ -1492,11 +1492,11 @@
       "naics_codes": [
         "52"
       ],
-      "name": "IGM FINANCIAL INC",
-      "price": 87.0,
+      "name": "DEFINITY FINANCIAL",
+      "price": 71.86,
       "provenance": "market_data",
-      "shares": 521414.0,
-      "ticker": "IGM",
+      "shares": 628061.0,
+      "ticker": "DFY",
       "weight_pct": 0.13
     },
     {
@@ -1507,23 +1507,10 @@
         "31-33"
       ],
       "name": "CHARTWELL RETIREMENT RESIDENCES RE",
-      "price": 20.98,
+      "price": 20.94,
       "provenance": "market_data",
-      "shares": 2147201.0,
+      "shares": 2147926.0,
       "ticker": "CSH.UN",
-      "weight_pct": 0.13
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Financials",
-      "naics_codes": [
-        "52"
-      ],
-      "name": "ONEX",
-      "price": 113.61,
-      "provenance": "market_data",
-      "shares": 383632.0,
-      "ticker": "ONEX",
       "weight_pct": 0.13
     },
     {
@@ -1533,10 +1520,39 @@
         "22"
       ],
       "name": "CANADIAN UTILITIES LTD CLASS A",
-      "price": 50.58,
+      "price": 50.91,
       "provenance": "market_data",
-      "shares": 860548.0,
+      "shares": 860838.0,
       "ticker": "CU",
+      "weight_pct": 0.13
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Financials",
+      "naics_codes": [
+        "52"
+      ],
+      "name": "ONEX",
+      "price": 113.85,
+      "provenance": "market_data",
+      "shares": 383761.0,
+      "ticker": "ONEX",
+      "weight_pct": 0.13
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Industrials",
+      "naics_codes": [
+        "31-33",
+        "23",
+        "48-49",
+        "56"
+      ],
+      "name": "MDA SPACE",
+      "price": 40.84,
+      "provenance": "market_data",
+      "shares": 1067846.0,
+      "ticker": "MDA",
       "weight_pct": 0.13
     },
     {
@@ -1547,9 +1563,9 @@
         "48-49"
       ],
       "name": "TAMARACK VALLEY ENERGY",
-      "price": 13.53,
+      "price": 13.36,
       "provenance": "market_data",
-      "shares": 3182284.0,
+      "shares": 3183358.0,
       "ticker": "TVE",
       "weight_pct": 0.12
     },
@@ -1561,9 +1577,9 @@
         "31-33"
       ],
       "name": "TOREX GOLD RESOURCES",
-      "price": 70.69,
+      "price": 69.58,
       "provenance": "market_data",
-      "shares": 608965.0,
+      "shares": 609170.0,
       "ticker": "TXG",
       "weight_pct": 0.12
     },
@@ -1576,11 +1592,11 @@
         "48-49",
         "56"
       ],
-      "name": "MDA SPACE",
-      "price": 40.06,
+      "name": "EXCHANGE INCOME CORP",
+      "price": 120.46,
       "provenance": "market_data",
-      "shares": 1067486.0,
-      "ticker": "MDA",
+      "shares": 349536.0,
+      "ticker": "EIF",
       "weight_pct": 0.12
     },
     {
@@ -1591,26 +1607,24 @@
         "31-33"
       ],
       "name": "CENTERRA GOLD",
-      "price": 31.78,
+      "price": 31.73,
       "provenance": "market_data",
-      "shares": 1320042.0,
+      "shares": 1320487.0,
       "ticker": "CG",
       "weight_pct": 0.12
     },
     {
       "currency": "CAD",
-      "gics_sector": "Industrials",
+      "gics_sector": "Consumer Staples",
       "naics_codes": [
-        "31-33",
-        "23",
-        "48-49",
-        "56"
+        "44-45",
+        "31-33"
       ],
-      "name": "EXCHANGE INCOME CORP",
-      "price": 119.18,
+      "name": "EMPIRE CLASS A",
+      "price": 47.94,
       "provenance": "market_data",
-      "shares": 349418.0,
-      "ticker": "EIF",
+      "shares": 842771.0,
+      "ticker": "EMP.A",
       "weight_pct": 0.12
     },
     {
@@ -1620,9 +1634,9 @@
         "53"
       ],
       "name": "COLLIERS INTERNATIONAL GROUP SUBOR",
-      "price": 138.84,
+      "price": 137.0,
       "provenance": "market_data",
-      "shares": 294020.0,
+      "shares": 294119.0,
       "ticker": "CIGI",
       "weight_pct": 0.12
     },
@@ -1634,24 +1648,10 @@
         "31-33"
       ],
       "name": "MONTAGE GOLD",
-      "price": 19.55,
+      "price": 19.28,
       "provenance": "market_data",
-      "shares": 2082066.0,
+      "shares": 2082769.0,
       "ticker": "MAU",
-      "weight_pct": 0.12
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Consumer Staples",
-      "naics_codes": [
-        "44-45",
-        "31-33"
-      ],
-      "name": "EMPIRE CLASS A",
-      "price": 47.82,
-      "provenance": "market_data",
-      "shares": 842487.0,
-      "ticker": "EMP.A",
       "weight_pct": 0.12
     },
     {
@@ -1661,11 +1661,11 @@
         "53"
       ],
       "name": "RIOCAN REAL ESTATE INVESTMENT TRUS",
-      "price": 20.64,
+      "price": 20.86,
       "provenance": "market_data",
-      "shares": 1920340.0,
+      "shares": 1920988.0,
       "ticker": "REI.UN",
-      "weight_pct": 0.11
+      "weight_pct": 0.12
     },
     {
       "currency": "CAD",
@@ -1675,9 +1675,9 @@
         "31-33"
       ],
       "name": "ARIS MINING",
-      "price": 28.36,
+      "price": 27.74,
       "provenance": "market_data",
-      "shares": 1369952.0,
+      "shares": 1370414.0,
       "ticker": "ARIS",
       "weight_pct": 0.11
     },
@@ -1690,9 +1690,9 @@
         "31-33"
       ],
       "name": "BLACKBERRY",
-      "price": 10.61,
+      "price": 10.64,
       "provenance": "market_data",
-      "shares": 3565773.0,
+      "shares": 3566977.0,
       "ticker": "BB",
       "weight_pct": 0.11
     },
@@ -1704,24 +1704,36 @@
         "31-33"
       ],
       "name": "SKEENA RESOURCES",
-      "price": 45.71,
+      "price": 45.77,
       "provenance": "market_data",
-      "shares": 808914.0,
+      "shares": 809187.0,
       "ticker": "SKE",
       "weight_pct": 0.11
     },
     {
       "currency": "CAD",
-      "gics_sector": "Materials",
+      "gics_sector": "Utilities",
       "naics_codes": [
-        "21",
-        "31-33"
+        "22"
       ],
-      "name": "AYA GOLD & SILVER INC",
-      "price": 41.1,
+      "name": "ALGONQUIN POWER UTILITIES",
+      "price": 7.85,
       "provenance": "market_data",
-      "shares": 876801.0,
-      "ticker": "AYA",
+      "shares": 4634553.0,
+      "ticker": "AQN",
+      "weight_pct": 0.11
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Utilities",
+      "naics_codes": [
+        "22"
+      ],
+      "name": "NORTHLAND POWER INC",
+      "price": 20.92,
+      "provenance": "market_data",
+      "shares": 1724372.0,
+      "ticker": "NPI",
       "weight_pct": 0.1
     },
     {
@@ -1732,9 +1744,9 @@
         "48-49"
       ],
       "name": "GIBSON ENERGY",
-      "price": 31.46,
+      "price": 31.24,
       "provenance": "market_data",
-      "shares": 1143758.0,
+      "shares": 1144144.0,
       "ticker": "GEI",
       "weight_pct": 0.1
     },
@@ -1746,36 +1758,10 @@
         "31-33"
       ],
       "name": "METHANEX CORP",
-      "price": 81.78,
+      "price": 81.18,
       "provenance": "market_data",
-      "shares": 438423.0,
+      "shares": 438571.0,
       "ticker": "MX",
-      "weight_pct": 0.1
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Utilities",
-      "naics_codes": [
-        "22"
-      ],
-      "name": "ALGONQUIN POWER UTILITIES",
-      "price": 7.7,
-      "provenance": "market_data",
-      "shares": 4632989.0,
-      "ticker": "AQN",
-      "weight_pct": 0.1
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Utilities",
-      "naics_codes": [
-        "22"
-      ],
-      "name": "NORTHLAND POWER INC",
-      "price": 20.42,
-      "provenance": "market_data",
-      "shares": 1723790.0,
-      "ticker": "NPI",
       "weight_pct": 0.1
     },
     {
@@ -1785,9 +1771,9 @@
         "53"
       ],
       "name": "GRANITE REAL ESTATE INVESTMENT STA",
-      "price": 87.96,
+      "price": 88.55,
       "provenance": "market_data",
-      "shares": 400028.0,
+      "shares": 400163.0,
       "ticker": "GRT.UN",
       "weight_pct": 0.1
     },
@@ -1798,25 +1784,25 @@
         "21",
         "31-33"
       ],
-      "name": "FORTUNA MINING CORP",
-      "price": 17.44,
+      "name": "WEST FRASER TIMBER",
+      "price": 95.08,
       "provenance": "market_data",
-      "shares": 2009214.0,
-      "ticker": "FVI",
+      "shares": 370835.0,
+      "ticker": "WFG",
       "weight_pct": 0.1
     },
     {
       "currency": "CAD",
-      "gics_sector": "Energy",
+      "gics_sector": "Materials",
       "naics_codes": [
         "21",
-        "48-49"
+        "31-33"
       ],
-      "name": "ATHABASCA OIL",
-      "price": 10.79,
+      "name": "AYA GOLD & SILVER INC",
+      "price": 39.97,
       "provenance": "market_data",
-      "shares": 3208856.0,
-      "ticker": "ATH",
+      "shares": 877097.0,
+      "ticker": "AYA",
       "weight_pct": 0.1
     },
     {
@@ -1827,9 +1813,9 @@
         "48-49"
       ],
       "name": "ENERGY FUELS",
-      "price": 19.79,
+      "price": 20.02,
       "provenance": "market_data",
-      "shares": 1745476.0,
+      "shares": 1746065.0,
       "ticker": "EFR",
       "weight_pct": 0.1
     },
@@ -1840,24 +1826,24 @@
         "22"
       ],
       "name": "ATCO CLASS I",
-      "price": 71.84,
+      "price": 72.78,
       "provenance": "market_data",
-      "shares": 479888.0,
+      "shares": 480050.0,
       "ticker": "ACO.X",
       "weight_pct": 0.1
     },
     {
       "currency": "CAD",
-      "gics_sector": "Materials",
+      "gics_sector": "Energy",
       "naics_codes": [
         "21",
-        "31-33"
+        "48-49"
       ],
-      "name": "WEST FRASER TIMBER",
-      "price": 92.48,
+      "name": "ATHABASCA OIL",
+      "price": 10.86,
       "provenance": "market_data",
-      "shares": 370710.0,
-      "ticker": "WFG",
+      "shares": 3209939.0,
+      "ticker": "ATH",
       "weight_pct": 0.1
     },
     {
@@ -1868,9 +1854,9 @@
         "48-49"
       ],
       "name": "PEYTO EXPLORATION & DEVELOPMENT",
-      "price": 25.31,
+      "price": 25.35,
       "provenance": "market_data",
-      "shares": 1352581.0,
+      "shares": 1353037.0,
       "ticker": "PEY",
       "weight_pct": 0.1
     },
@@ -1881,11 +1867,38 @@
         "21",
         "31-33"
       ],
-      "name": "WESDOME GOLD MINES LTD",
-      "price": 34.59,
+      "name": "FORTUNA MINING CORP",
+      "price": 17.05,
       "provenance": "market_data",
-      "shares": 984012.0,
+      "shares": 2009892.0,
+      "ticker": "FVI",
+      "weight_pct": 0.1
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Materials",
+      "naics_codes": [
+        "21",
+        "31-33"
+      ],
+      "name": "WESDOME GOLD MINES LTD",
+      "price": 34.25,
+      "provenance": "market_data",
+      "shares": 984344.0,
       "ticker": "WDO",
+      "weight_pct": 0.1
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Real Estate",
+      "naics_codes": [
+        "53"
+      ],
+      "name": "CANADIAN APARTMENT PROPERTIES REAL",
+      "price": 32.91,
+      "provenance": "market_data",
+      "shares": 1017077.0,
+      "ticker": "CAR.UN",
       "weight_pct": 0.1
     },
     {
@@ -1896,23 +1909,10 @@
         "31-33"
       ],
       "name": "ERO COPPER",
-      "price": 48.66,
+      "price": 48.24,
       "provenance": "market_data",
-      "shares": 691898.0,
+      "shares": 692131.0,
       "ticker": "ERO",
-      "weight_pct": 0.1
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Real Estate",
-      "naics_codes": [
-        "53"
-      ],
-      "name": "CANADIAN APARTMENT PROPERTIES REAL",
-      "price": 32.8,
-      "provenance": "market_data",
-      "shares": 1016734.0,
-      "ticker": "CAR.UN",
       "weight_pct": 0.1
     },
     {
@@ -1924,9 +1924,9 @@
         "31-33"
       ],
       "name": "KINAXIS INC",
-      "price": 177.14,
+      "price": 177.17,
       "provenance": "market_data",
-      "shares": 180044.0,
+      "shares": 180104.0,
       "ticker": "KXS",
       "weight_pct": 0.09
     },
@@ -1937,10 +1937,23 @@
         "53"
       ],
       "name": "FIRST CAPITAL REALTY REAL ESTATE I",
-      "price": 22.7,
+      "price": 22.73,
       "provenance": "market_data",
-      "shares": 1401675.0,
+      "shares": 1402148.0,
       "ticker": "FCR.UN",
+      "weight_pct": 0.09
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Utilities",
+      "naics_codes": [
+        "22"
+      ],
+      "name": "TRANSALTA CORP",
+      "price": 16.55,
+      "provenance": "market_data",
+      "shares": 1883153.0,
+      "ticker": "TA",
       "weight_pct": 0.09
     },
     {
@@ -1951,38 +1964,11 @@
         "31-33"
       ],
       "name": "ENDEAVOUR SILVER CORP",
-      "price": 15.81,
+      "price": 15.4,
       "provenance": "market_data",
-      "shares": 1971261.0,
+      "shares": 1971926.0,
       "ticker": "EDR",
       "weight_pct": 0.09
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Utilities",
-      "naics_codes": [
-        "22"
-      ],
-      "name": "TRANSALTA CORP",
-      "price": 16.26,
-      "provenance": "market_data",
-      "shares": 1882518.0,
-      "ticker": "TA",
-      "weight_pct": 0.09
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Energy",
-      "naics_codes": [
-        "21",
-        "48-49"
-      ],
-      "name": "BAYTEX ENERGY",
-      "price": 6.83,
-      "provenance": "market_data",
-      "shares": 4172957.0,
-      "ticker": "BTE",
-      "weight_pct": 0.08
     },
     {
       "currency": "CAD",
@@ -1992,23 +1978,24 @@
         "31-33"
       ],
       "name": "TREKOR METALS",
-      "price": 11.61,
+      "price": 11.69,
       "provenance": "market_data",
-      "shares": 2415769.0,
+      "shares": 2416584.0,
       "ticker": "TKO",
       "weight_pct": 0.08
     },
     {
       "currency": "CAD",
-      "gics_sector": "Real Estate",
+      "gics_sector": "Energy",
       "naics_codes": [
-        "53"
+        "21",
+        "48-49"
       ],
-      "name": "CHOICE PROPERTIES REAL ESTATE INVE",
-      "price": 15.28,
+      "name": "BAYTEX ENERGY",
+      "price": 6.73,
       "provenance": "market_data",
-      "shares": 1800307.0,
-      "ticker": "CHP.UN",
+      "shares": 4174366.0,
+      "ticker": "BTE",
       "weight_pct": 0.08
     },
     {
@@ -2021,10 +2008,23 @@
         "56"
       ],
       "name": "RUSSEL METALS",
-      "price": 74.11,
+      "price": 76.15,
       "provenance": "market_data",
-      "shares": 365122.0,
+      "shares": 365245.0,
       "ticker": "RUS",
+      "weight_pct": 0.08
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Real Estate",
+      "naics_codes": [
+        "53"
+      ],
+      "name": "CHOICE PROPERTIES REAL ESTATE INVE",
+      "price": 15.4,
+      "provenance": "market_data",
+      "shares": 1800915.0,
+      "ticker": "CHP.UN",
       "weight_pct": 0.08
     },
     {
@@ -2035,52 +2035,10 @@
         "48-49"
       ],
       "name": "CES ENERGY SOLUTIONS CORP",
-      "price": 18.96,
+      "price": 19.03,
       "provenance": "market_data",
-      "shares": 1405555.0,
+      "shares": 1406029.0,
       "ticker": "CEU",
-      "weight_pct": 0.08
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Materials",
-      "naics_codes": [
-        "21",
-        "31-33"
-      ],
-      "name": "SILVERCORP METALS INC",
-      "price": 18.08,
-      "provenance": "market_data",
-      "shares": 1466192.0,
-      "ticker": "SVM",
-      "weight_pct": 0.08
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Materials",
-      "naics_codes": [
-        "21",
-        "31-33"
-      ],
-      "name": "SEABRIDGE GOLD",
-      "price": 44.96,
-      "provenance": "market_data",
-      "shares": 584820.0,
-      "ticker": "SEA",
-      "weight_pct": 0.08
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Energy",
-      "naics_codes": [
-        "21",
-        "48-49"
-      ],
-      "name": "DENISON MINES CORP",
-      "price": 4.69,
-      "provenance": "market_data",
-      "shares": 5571093.0,
-      "ticker": "DML",
       "weight_pct": 0.08
     },
     {
@@ -2093,24 +2051,25 @@
         "31-33"
       ],
       "name": "LINAMAR",
-      "price": 100.19,
+      "price": 102.93,
       "provenance": "market_data",
-      "shares": 256032.0,
+      "shares": 256118.0,
       "ticker": "LNR",
-      "weight_pct": 0.07
+      "weight_pct": 0.08
     },
     {
       "currency": "CAD",
-      "gics_sector": "Financials",
+      "gics_sector": "Energy",
       "naics_codes": [
-        "52"
+        "21",
+        "48-49"
       ],
-      "name": "SPROTT INC",
-      "price": 180.07,
+      "name": "DENISON MINES CORP",
+      "price": 4.72,
       "provenance": "market_data",
-      "shares": 140956.0,
-      "ticker": "SII",
-      "weight_pct": 0.07
+      "shares": 5572974.0,
+      "ticker": "DML",
+      "weight_pct": 0.08
     },
     {
       "currency": "CAD",
@@ -2122,10 +2081,51 @@
         "56"
       ],
       "name": "BIRD CONSTRUCTION",
-      "price": 68.04,
+      "price": 70.24,
       "provenance": "market_data",
-      "shares": 366756.0,
+      "shares": 366879.0,
       "ticker": "BDT",
+      "weight_pct": 0.07
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Materials",
+      "naics_codes": [
+        "21",
+        "31-33"
+      ],
+      "name": "SEABRIDGE GOLD",
+      "price": 44.04,
+      "provenance": "market_data",
+      "shares": 585017.0,
+      "ticker": "SEA",
+      "weight_pct": 0.07
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Financials",
+      "naics_codes": [
+        "52"
+      ],
+      "name": "SPROTT INC",
+      "price": 179.2,
+      "provenance": "market_data",
+      "shares": 141003.0,
+      "ticker": "SII",
+      "weight_pct": 0.07
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Materials",
+      "naics_codes": [
+        "21",
+        "31-33"
+      ],
+      "name": "SILVERCORP METALS INC",
+      "price": 17.22,
+      "provenance": "market_data",
+      "shares": 1466687.0,
+      "ticker": "SVM",
       "weight_pct": 0.07
     },
     {
@@ -2135,9 +2135,9 @@
         "53"
       ],
       "name": "DREAM INDUSTRIAL REAL ESTATE INVES",
-      "price": 13.35,
+      "price": 13.33,
       "provenance": "market_data",
-      "shares": 1865134.0,
+      "shares": 1865763.0,
       "ticker": "DIR.UN",
       "weight_pct": 0.07
     },
@@ -2149,9 +2149,9 @@
         "31-33"
       ],
       "name": "STELLA JONES",
-      "price": 68.45,
+      "price": 68.77,
       "provenance": "market_data",
-      "shares": 359633.0,
+      "shares": 359754.0,
       "ticker": "SJ",
       "weight_pct": 0.07
     },
@@ -2163,9 +2163,9 @@
         "48-49"
       ],
       "name": "ENERFLEX",
-      "price": 30.46,
+      "price": 30.75,
       "provenance": "market_data",
-      "shares": 803675.0,
+      "shares": 803946.0,
       "ticker": "EFX",
       "weight_pct": 0.07
     },
@@ -2177,9 +2177,9 @@
         "48-49"
       ],
       "name": "TOPAZ ENERGY",
-      "price": 31.89,
+      "price": 31.71,
       "provenance": "market_data",
-      "shares": 762921.0,
+      "shares": 763178.0,
       "ticker": "TPZ",
       "weight_pct": 0.07
     },
@@ -2190,23 +2190,26 @@
         "53"
       ],
       "name": "SMARTCENTRES RL ESTATE INVESTMENT",
-      "price": 27.52,
+      "price": 27.57,
       "provenance": "market_data",
-      "shares": 853707.0,
+      "shares": 853995.0,
       "ticker": "SRU.UN",
       "weight_pct": 0.07
     },
     {
       "currency": "CAD",
-      "gics_sector": "Financials",
+      "gics_sector": "Consumer Discretionary",
       "naics_codes": [
-        "52"
+        "44-45",
+        "72",
+        "71",
+        "31-33"
       ],
-      "name": "EQB",
-      "price": 133.97,
+      "name": "BRP SUBORDINATE VOTING",
+      "price": 93.06,
       "provenance": "market_data",
-      "shares": 171749.0,
-      "ticker": "EQB",
+      "shares": 252969.0,
+      "ticker": "DOO",
       "weight_pct": 0.07
     },
     {
@@ -2219,10 +2222,23 @@
         "56"
       ],
       "name": "BOYD GROUP SERVICES INC",
-      "price": 124.39,
+      "price": 125.26,
       "provenance": "market_data",
-      "shares": 183762.0,
+      "shares": 183824.0,
       "ticker": "BYD",
+      "weight_pct": 0.07
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Financials",
+      "naics_codes": [
+        "52"
+      ],
+      "name": "EQB",
+      "price": 132.92,
+      "provenance": "market_data",
+      "shares": 171807.0,
+      "ticker": "EQB",
       "weight_pct": 0.07
     },
     {
@@ -2233,11 +2249,11 @@
         "31-33"
       ],
       "name": "NGEX MINERALS",
-      "price": 25.55,
+      "price": 25.37,
       "provenance": "market_data",
-      "shares": 886042.0,
+      "shares": 886341.0,
       "ticker": "NGEX",
-      "weight_pct": 0.07
+      "weight_pct": 0.06
     },
     {
       "currency": "CAD",
@@ -2247,26 +2263,10 @@
         "31-33"
       ],
       "name": "PREMIUM BRANDS HOLDINGS",
-      "price": 79.11,
+      "price": 78.75,
       "provenance": "market_data",
-      "shares": 282412.0,
+      "shares": 282507.0,
       "ticker": "PBH",
-      "weight_pct": 0.06
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Consumer Discretionary",
-      "naics_codes": [
-        "44-45",
-        "72",
-        "71",
-        "31-33"
-      ],
-      "name": "BRP SUBORDINATE VOTING",
-      "price": 88.23,
-      "provenance": "market_data",
-      "shares": 252884.0,
-      "ticker": "DOO",
       "weight_pct": 0.06
     },
     {
@@ -2277,9 +2277,9 @@
         "31-33"
       ],
       "name": "TRIPLE FLAG PRECIOUS METALS",
-      "price": 47.64,
+      "price": 46.99,
       "provenance": "market_data",
-      "shares": 463665.0,
+      "shares": 463821.0,
       "ticker": "TFPM",
       "weight_pct": 0.06
     },
@@ -2291,24 +2291,10 @@
         "31-33"
       ],
       "name": "NOVAGOLD RESOURCES INC",
-      "price": 11.5,
+      "price": 11.16,
       "provenance": "market_data",
-      "shares": 1904401.0,
+      "shares": 1905044.0,
       "ticker": "NG",
-      "weight_pct": 0.06
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Materials",
-      "naics_codes": [
-        "21",
-        "31-33"
-      ],
-      "name": "SOUTHERN CROSS GOLD CONSOLIDATED L",
-      "price": 12.35,
-      "provenance": "market_data",
-      "shares": 1711191.0,
-      "ticker": "SXGC",
       "weight_pct": 0.06
     },
     {
@@ -2319,9 +2305,9 @@
         "48-49"
       ],
       "name": "HEADWATER EXPLORATION INC",
-      "price": 14.27,
+      "price": 14.22,
       "provenance": "market_data",
-      "shares": 1472977.0,
+      "shares": 1473474.0,
       "ticker": "HWX",
       "weight_pct": 0.06
     },
@@ -2332,10 +2318,24 @@
         "21",
         "31-33"
       ],
-      "name": "ALLIED GOLD",
-      "price": 33.08,
+      "name": "SOUTHERN CROSS GOLD CONSOLIDATED L",
+      "price": 12.05,
       "provenance": "market_data",
-      "shares": 628452.0,
+      "shares": 1711768.0,
+      "ticker": "SXGC",
+      "weight_pct": 0.06
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Materials",
+      "naics_codes": [
+        "21",
+        "31-33"
+      ],
+      "name": "ALLIED GOLD",
+      "price": 32.64,
+      "provenance": "market_data",
+      "shares": 628664.0,
       "ticker": "AAUC",
       "weight_pct": 0.06
     },
@@ -2349,9 +2349,9 @@
         "56"
       ],
       "name": "AECON GROUP",
-      "price": 43.65,
+      "price": 45.06,
       "provenance": "market_data",
-      "shares": 454043.0,
+      "shares": 454196.0,
       "ticker": "ARE",
       "weight_pct": 0.06
     },
@@ -2363,11 +2363,11 @@
         "31-33"
       ],
       "name": "ALTIUS MINERALS CORP",
-      "price": 63.84,
+      "price": 64.0,
       "provenance": "market_data",
-      "shares": 297644.0,
+      "shares": 297744.0,
       "ticker": "ALS",
-      "weight_pct": 0.05
+      "weight_pct": 0.06
     },
     {
       "currency": "CAD",
@@ -2379,9 +2379,9 @@
         "56"
       ],
       "name": "BADGER INFRASTRUCTURE SOLUTIONS LT",
-      "price": 82.92,
+      "price": 84.46,
       "provenance": "market_data",
-      "shares": 223124.0,
+      "shares": 223199.0,
       "ticker": "BDGI",
       "weight_pct": 0.05
     },
@@ -2393,24 +2393,10 @@
         "48-49"
       ],
       "name": "PAREX RESOURCES",
-      "price": 28.91,
+      "price": 28.76,
       "provenance": "market_data",
-      "shares": 639672.0,
+      "shares": 639888.0,
       "ticker": "PXT",
-      "weight_pct": 0.05
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Energy",
-      "naics_codes": [
-        "21",
-        "48-49"
-      ],
-      "name": "VERMILION ENERGY",
-      "price": 17.95,
-      "provenance": "market_data",
-      "shares": 1004839.0,
-      "ticker": "VET",
       "weight_pct": 0.05
     },
     {
@@ -2421,10 +2407,24 @@
         "31-33"
       ],
       "name": "PERPETUA RESOURCES",
-      "price": 34.55,
+      "price": 34.65,
       "provenance": "market_data",
-      "shares": 518484.0,
+      "shares": 518659.0,
       "ticker": "PPTA",
+      "weight_pct": 0.05
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Energy",
+      "naics_codes": [
+        "21",
+        "48-49"
+      ],
+      "name": "VERMILION ENERGY",
+      "price": 17.77,
+      "provenance": "market_data",
+      "shares": 1005178.0,
+      "ticker": "VET",
       "weight_pct": 0.05
     },
     {
@@ -2434,24 +2434,10 @@
         "53"
       ],
       "name": "HANDR REAL ESTATE INVESTMENT TRUST",
-      "price": 9.83,
+      "price": 9.82,
       "provenance": "market_data",
-      "shares": 1763741.0,
+      "shares": 1764336.0,
       "ticker": "HR.UN",
-      "weight_pct": 0.05
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Materials",
-      "naics_codes": [
-        "21",
-        "31-33"
-      ],
-      "name": "ABRASILVER RESOURCE CORP",
-      "price": 16.3,
-      "provenance": "market_data",
-      "shares": 1054781.0,
-      "ticker": "ABRA",
       "weight_pct": 0.05
     },
     {
@@ -2464,10 +2450,24 @@
         "56"
       ],
       "name": "BROOKFIELD BUSINESS CORP CLASS A",
-      "price": 37.67,
+      "price": 38.78,
       "provenance": "market_data",
-      "shares": 440369.0,
+      "shares": 440517.0,
       "ticker": "BBUC",
+      "weight_pct": 0.05
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Materials",
+      "naics_codes": [
+        "21",
+        "31-33"
+      ],
+      "name": "ABRASILVER RESOURCE CORP",
+      "price": 15.8,
+      "provenance": "market_data",
+      "shares": 1055137.0,
+      "ticker": "ABRA",
       "weight_pct": 0.05
     },
     {
@@ -2477,10 +2477,23 @@
         "53"
       ],
       "name": "PRIMARIS REAL ESTATE INVESTMENT UN",
-      "price": 21.16,
+      "price": 21.15,
       "provenance": "market_data",
-      "shares": 782653.0,
+      "shares": 782917.0,
       "ticker": "PMZ.UN",
+      "weight_pct": 0.05
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Real Estate",
+      "naics_codes": [
+        "53"
+      ],
+      "name": "BOARDWALK REAL ESTATE INVESTMENT T",
+      "price": 63.55,
+      "provenance": "market_data",
+      "shares": 258441.0,
+      "ticker": "BEI.UN",
       "weight_pct": 0.05
     },
     {
@@ -2491,23 +2504,24 @@
         "31-33"
       ],
       "name": "BAUSCH HEALTH COMPANIES",
-      "price": 9.32,
+      "price": 9.06,
       "provenance": "market_data",
-      "shares": 1769260.0,
+      "shares": 1769857.0,
       "ticker": "BHC",
       "weight_pct": 0.05
     },
     {
       "currency": "CAD",
-      "gics_sector": "Real Estate",
+      "gics_sector": "Energy",
       "naics_codes": [
-        "53"
+        "21",
+        "48-49"
       ],
-      "name": "BOARDWALK REAL ESTATE INVESTMENT T",
-      "price": 63.36,
+      "name": "PARAMOUNT RESOURCE LTD CLASS A",
+      "price": 31.4,
       "provenance": "market_data",
-      "shares": 258354.0,
-      "ticker": "BEI.UN",
+      "shares": 507218.0,
+      "ticker": "POU",
       "weight_pct": 0.05
     },
     {
@@ -2518,9 +2532,9 @@
         "48-49"
       ],
       "name": "FREEHOLD ROYALTIES",
-      "price": 17.64,
+      "price": 17.6,
       "provenance": "market_data",
-      "shares": 902126.0,
+      "shares": 902430.0,
       "ticker": "FRU",
       "weight_pct": 0.05
     },
@@ -2532,38 +2546,10 @@
         "48-49"
       ],
       "name": "SPARTAN DELTA",
-      "price": 13.3,
+      "price": 13.01,
       "provenance": "market_data",
-      "shares": 1189482.0,
+      "shares": 1189883.0,
       "ticker": "SDE",
-      "weight_pct": 0.05
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Energy",
-      "naics_codes": [
-        "21",
-        "48-49"
-      ],
-      "name": "PARAMOUNT RESOURCE LTD CLASS A",
-      "price": 31.19,
-      "provenance": "market_data",
-      "shares": 507047.0,
-      "ticker": "POU",
-      "weight_pct": 0.05
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Health Care",
-      "naics_codes": [
-        "62",
-        "31-33"
-      ],
-      "name": "EXTENDICARE",
-      "price": 31.16,
-      "provenance": "market_data",
-      "shares": 493848.0,
-      "ticker": "EXE",
       "weight_pct": 0.04
     },
     {
@@ -2574,40 +2560,38 @@
         "31-33"
       ],
       "name": "NORTH WEST COMPANY INC",
-      "price": 49.3,
+      "price": 49.38,
       "provenance": "market_data",
-      "shares": 311786.0,
+      "shares": 311891.0,
       "ticker": "NWC",
       "weight_pct": 0.04
     },
     {
       "currency": "CAD",
-      "gics_sector": "Energy",
+      "gics_sector": "Health Care",
       "naics_codes": [
-        "21",
-        "48-49"
+        "62",
+        "31-33"
       ],
-      "name": "INTERNATIONAL PETROLEUM",
-      "price": 34.95,
+      "name": "EXTENDICARE",
+      "price": 31.1,
       "provenance": "market_data",
-      "shares": 431333.0,
-      "ticker": "IPCO",
+      "shares": 494014.0,
+      "ticker": "EXE",
       "weight_pct": 0.04
     },
     {
       "currency": "CAD",
-      "gics_sector": "Industrials",
+      "gics_sector": "Health Care",
       "naics_codes": [
-        "31-33",
-        "23",
-        "48-49",
-        "56"
+        "62",
+        "31-33"
       ],
-      "name": "NFI GROUP",
-      "price": 23.92,
+      "name": "CURALEAF HLDGS",
+      "price": 13.72,
       "provenance": "market_data",
-      "shares": 622658.0,
-      "ticker": "NFI",
+      "shares": 1115158.0,
+      "ticker": "CURA",
       "weight_pct": 0.04
     },
     {
@@ -2618,9 +2602,9 @@
         "31-33"
       ],
       "name": "5N PLUS",
-      "price": 24.92,
+      "price": 25.54,
       "provenance": "market_data",
-      "shares": 596440.0,
+      "shares": 596641.0,
       "ticker": "VNP",
       "weight_pct": 0.04
     },
@@ -2633,11 +2617,11 @@
         "48-49",
         "56"
       ],
-      "name": "ATS",
-      "price": 27.02,
+      "name": "MULLEN GROUP",
+      "price": 25.79,
       "provenance": "market_data",
-      "shares": 548204.0,
-      "ticker": "ATS",
+      "shares": 588154.0,
+      "ticker": "MTL",
       "weight_pct": 0.04
     },
     {
@@ -2649,25 +2633,41 @@
         "48-49",
         "56"
       ],
-      "name": "MULLEN GROUP",
-      "price": 25.07,
+      "name": "NFI GROUP",
+      "price": 24.3,
       "provenance": "market_data",
-      "shares": 587956.0,
-      "ticker": "MTL",
+      "shares": 622868.0,
+      "ticker": "NFI",
       "weight_pct": 0.04
     },
     {
       "currency": "CAD",
-      "gics_sector": "Health Care",
+      "gics_sector": "Energy",
       "naics_codes": [
-        "62",
-        "31-33"
+        "21",
+        "48-49"
       ],
-      "name": "CURALEAF HLDGS",
-      "price": 13.18,
+      "name": "INTERNATIONAL PETROLEUM",
+      "price": 34.56,
       "provenance": "market_data",
-      "shares": 1114782.0,
-      "ticker": "CURA",
+      "shares": 431478.0,
+      "ticker": "IPCO",
+      "weight_pct": 0.04
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Industrials",
+      "naics_codes": [
+        "31-33",
+        "23",
+        "48-49",
+        "56"
+      ],
+      "name": "ATS",
+      "price": 27.15,
+      "provenance": "market_data",
+      "shares": 548389.0,
+      "ticker": "ATS",
       "weight_pct": 0.04
     },
     {
@@ -2678,9 +2678,9 @@
         "31-33"
       ],
       "name": "SIENNA SENIOR LIVING INC",
-      "price": 20.64,
+      "price": 20.65,
       "provenance": "market_data",
-      "shares": 703212.0,
+      "shares": 703449.0,
       "ticker": "SIA",
       "weight_pct": 0.04
     },
@@ -2691,9 +2691,9 @@
         "53"
       ],
       "name": "KILLAM APARTMENT REIT UNITS CLASS",
-      "price": 17.64,
+      "price": 17.88,
       "provenance": "market_data",
-      "shares": 800212.0,
+      "shares": 800482.0,
       "ticker": "KMP.UN",
       "weight_pct": 0.04
     },
@@ -2707,22 +2707,8 @@
       "name": "I GOLD CORP",
       "price": 2.47,
       "provenance": "market_data",
-      "shares": 5703710.0,
+      "shares": 5705636.0,
       "ticker": "IAU",
-      "weight_pct": 0.04
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Materials",
-      "naics_codes": [
-        "21",
-        "31-33"
-      ],
-      "name": "VIZSLA SILVER",
-      "price": 5.74,
-      "provenance": "market_data",
-      "shares": 2287013.0,
-      "ticker": "VZLA",
       "weight_pct": 0.04
     },
     {
@@ -2735,9 +2721,9 @@
         "56"
       ],
       "name": "HAMMOND POWER SOLUTIONS CLASS A",
-      "price": 229.86,
+      "price": 242.12,
       "provenance": "market_data",
-      "shares": 57111.0,
+      "shares": 57130.0,
       "ticker": "HPS.A",
       "weight_pct": 0.04
     },
@@ -2748,9 +2734,9 @@
         "52"
       ],
       "name": "TRISURA GROUP",
-      "price": 41.95,
+      "price": 41.9,
       "provenance": "market_data",
-      "shares": 312143.0,
+      "shares": 312248.0,
       "ticker": "TSU",
       "weight_pct": 0.04
     },
@@ -2762,10 +2748,24 @@
         "31-33"
       ],
       "name": "MAPLE LEAF FOODS",
-      "price": 26.66,
+      "price": 26.55,
       "provenance": "market_data",
-      "shares": 490206.0,
+      "shares": 490371.0,
       "ticker": "MFI",
+      "weight_pct": 0.04
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Materials",
+      "naics_codes": [
+        "21",
+        "31-33"
+      ],
+      "name": "VIZSLA SILVER",
+      "price": 5.54,
+      "provenance": "market_data",
+      "shares": 2287785.0,
+      "ticker": "VZLA",
       "weight_pct": 0.04
     },
     {
@@ -2776,10 +2776,24 @@
         "31-33"
       ],
       "name": "JAMIESON WELLNESS",
-      "price": 45.41,
+      "price": 45.43,
       "provenance": "market_data",
-      "shares": 275834.0,
+      "shares": 275927.0,
       "ticker": "JWEL",
+      "weight_pct": 0.04
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Energy",
+      "naics_codes": [
+        "21",
+        "48-49"
+      ],
+      "name": "TERRAVEST INDUSTRIES INC",
+      "price": 123.77,
+      "provenance": "market_data",
+      "shares": 99540.0,
+      "ticker": "TVK",
       "weight_pct": 0.04
     },
     {
@@ -2791,9 +2805,9 @@
         "31-33"
       ],
       "name": "LIGHTSPEED COMMERCE",
-      "price": 14.59,
+      "price": 14.57,
       "provenance": "market_data",
-      "shares": 842840.0,
+      "shares": 843124.0,
       "ticker": "LSPD",
       "weight_pct": 0.04
     },
@@ -2805,9 +2819,9 @@
         "48-49"
       ],
       "name": "ADVANTAGE ENERGY",
-      "price": 11.04,
+      "price": 11.06,
       "provenance": "market_data",
-      "shares": 1102488.0,
+      "shares": 1102860.0,
       "ticker": "AAV",
       "weight_pct": 0.04
     },
@@ -2819,25 +2833,11 @@
         "48-49"
       ],
       "name": "STRATHCONA RESOURCES LTD",
-      "price": 42.98,
+      "price": 43.11,
       "provenance": "market_data",
-      "shares": 282739.0,
+      "shares": 282834.0,
       "ticker": "SCR",
       "weight_pct": 0.04
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Energy",
-      "naics_codes": [
-        "21",
-        "48-49"
-      ],
-      "name": "BIRCHCLIFF ENERGY",
-      "price": 6.51,
-      "provenance": "market_data",
-      "shares": 1838453.0,
-      "ticker": "BIR",
-      "weight_pct": 0.03
     },
     {
       "currency": "CAD",
@@ -2847,36 +2847,10 @@
         "71"
       ],
       "name": "COGECO COMMUNICATIONS SUBORDINATE",
-      "price": 60.0,
+      "price": 60.48,
       "provenance": "market_data",
-      "shares": 199297.0,
+      "shares": 199364.0,
       "ticker": "CCA",
-      "weight_pct": 0.03
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Financials",
-      "naics_codes": [
-        "52"
-      ],
-      "name": "LAURENTIAN BANK OF CANADA",
-      "price": 40.62,
-      "provenance": "market_data",
-      "shares": 293302.0,
-      "ticker": "LB",
-      "weight_pct": 0.03
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Real Estate",
-      "naics_codes": [
-        "53"
-      ],
-      "name": "CROMBIE REAL ESTATE INVESTMENT TRU",
-      "price": 16.03,
-      "provenance": "market_data",
-      "shares": 740554.0,
-      "ticker": "CRR.UN",
       "weight_pct": 0.03
     },
     {
@@ -2889,9 +2863,9 @@
         "56"
       ],
       "name": "RICHELIEU HARDWARE",
-      "price": 35.3,
+      "price": 35.76,
       "provenance": "market_data",
-      "shares": 336125.0,
+      "shares": 336238.0,
       "ticker": "RCH",
       "weight_pct": 0.03
     },
@@ -2902,11 +2876,37 @@
         "21",
         "48-49"
       ],
-      "name": "TERRAVEST INDUSTRIES INC",
-      "price": 118.95,
+      "name": "BIRCHCLIFF ENERGY",
+      "price": 6.5,
       "provenance": "market_data",
-      "shares": 99507.0,
-      "ticker": "TVK",
+      "shares": 1839073.0,
+      "ticker": "BIR",
+      "weight_pct": 0.03
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Financials",
+      "naics_codes": [
+        "52"
+      ],
+      "name": "LAURENTIAN BANK OF CANADA",
+      "price": 40.62,
+      "provenance": "market_data",
+      "shares": 293401.0,
+      "ticker": "LB",
+      "weight_pct": 0.03
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Real Estate",
+      "naics_codes": [
+        "53"
+      ],
+      "name": "CROMBIE REAL ESTATE INVESTMENT TRU",
+      "price": 16.03,
+      "provenance": "market_data",
+      "shares": 740804.0,
+      "ticker": "CRR.UN",
       "weight_pct": 0.03
     },
     {
@@ -2917,9 +2917,9 @@
         "48-49"
       ],
       "name": "KELT EXPLORATION",
-      "price": 10.43,
+      "price": 10.27,
       "provenance": "market_data",
-      "shares": 1127204.0,
+      "shares": 1127584.0,
       "ticker": "KEL",
       "weight_pct": 0.03
     },
@@ -2930,9 +2930,9 @@
         "53"
       ],
       "name": "ALTUS GROUP",
-      "price": 48.11,
+      "price": 48.42,
       "provenance": "market_data",
-      "shares": 238713.0,
+      "shares": 238793.0,
       "ticker": "AIF",
       "weight_pct": 0.03
     },
@@ -2943,24 +2943,10 @@
         "21",
         "31-33"
       ],
-      "name": "AVINO SILVER AND GOLD MINES LTD",
-      "price": 10.59,
-      "provenance": "market_data",
-      "shares": 1052458.0,
-      "ticker": "ASM",
-      "weight_pct": 0.03
-    },
-    {
-      "currency": "CAD",
-      "gics_sector": "Materials",
-      "naics_codes": [
-        "21",
-        "31-33"
-      ],
       "name": "LABRADOR IRON ORE ROYALTY",
-      "price": 26.25,
+      "price": 26.32,
       "provenance": "market_data",
-      "shares": 422104.0,
+      "shares": 422246.0,
       "ticker": "LIF",
       "weight_pct": 0.03
     },
@@ -2971,10 +2957,24 @@
         "21",
         "31-33"
       ],
-      "name": "AMERICAS GOLD AND SILVER",
-      "price": 7.62,
+      "name": "AVINO SILVER AND GOLD MINES LTD",
+      "price": 10.14,
       "provenance": "market_data",
-      "shares": 1399352.0,
+      "shares": 1052813.0,
+      "ticker": "ASM",
+      "weight_pct": 0.03
+    },
+    {
+      "currency": "CAD",
+      "gics_sector": "Materials",
+      "naics_codes": [
+        "21",
+        "31-33"
+      ],
+      "name": "AMERICAS GOLD AND SILVER",
+      "price": 7.43,
+      "provenance": "market_data",
+      "shares": 1399824.0,
       "ticker": "USA",
       "weight_pct": 0.03
     },
@@ -2985,9 +2985,9 @@
         "22"
       ],
       "name": "SUPERIOR PLUS",
-      "price": 7.04,
+      "price": 7.12,
       "provenance": "market_data",
-      "shares": 1435585.0,
+      "shares": 1436069.0,
       "ticker": "SPB",
       "weight_pct": 0.03
     },
@@ -2998,9 +2998,9 @@
         "53"
       ],
       "name": "ALLIED PROPERTIES REAL ESTATE INVT",
-      "price": 8.53,
+      "price": 8.57,
       "provenance": "market_data",
-      "shares": 1106000.0,
+      "shares": 1106373.0,
       "ticker": "AP.UN",
       "weight_pct": 0.03
     },
@@ -3011,9 +3011,9 @@
         "53"
       ],
       "name": "CT REIT UNITS TRUST",
-      "price": 17.21,
+      "price": 17.16,
       "provenance": "market_data",
-      "shares": 499439.0,
+      "shares": 499607.0,
       "ticker": "CRT.UN",
       "weight_pct": 0.02
     },
@@ -3025,9 +3025,9 @@
         "31-33"
       ],
       "name": "LITHIUM AMERICAS",
-      "price": 4.11,
+      "price": 4.14,
       "provenance": "market_data",
-      "shares": 1999965.0,
+      "shares": 2000640.0,
       "ticker": "LAC",
       "weight_pct": 0.02
     },
@@ -3041,15 +3041,15 @@
         "56"
       ],
       "name": "CARGOJET",
-      "price": 80.44,
+      "price": 79.24,
       "provenance": "market_data",
-      "shares": 98420.0,
+      "shares": 98453.0,
       "ticker": "CJT",
       "weight_pct": 0.02
     }
   ],
   "count": 215,
-  "generated_at": "2026-09-05T14:43:42Z",
+  "generated_at": "2026-09-08T22:27:54Z",
   "source": {
     "attribution": "BlackRock Canada, iShares XIC published holdings",
     "licence": "fund-disclosure",

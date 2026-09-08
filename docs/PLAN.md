@@ -59,10 +59,10 @@ Python pipeline (numbered stages)   →   web/public/data/   →   React app
   01_projects   MPO: ArcGIS + HTML + images                    left:  MapLibre globe
   02_sectors    StatCan WDS                                    right: Observable Plot
   03_companies  XIC constituents
-  04_bundle     assemble + validate what the web reads
+  99_bundle     assemble + validate what the web reads
 ```
 
-`04_bundle.py` writes **directly into `web/public/data/`**, which is committed.
+`99_bundle.py` writes **directly into `web/public/data/`**, which is committed.
 Vite serves `public/` verbatim, so the app is a plain `fetch()` with no loader
 plumbing, no import graph, and no build-time data step.
 
@@ -98,7 +98,7 @@ canada-economic-atlas/
 ├── requirements.txt           # PINNED (ASI leaves these open; that bites it in CI)
 ├── run.py                     # single entry: bootstraps .venv, runs stages or dev server
 ├── pipeline/
-│   ├── 01_projects.py  02_sectors.py  03_companies.py  04_bundle.py
+│   ├── 01_projects.py  02_sectors.py  03_companies.py  99_bundle.py
 ├── atlas/                     # importable package; logic lives here, not in stages
 │   ├── core/schema.py         # canonical dataclasses + Provenance enum
 │   ├── core/registry.py       # YAML loaders, hard validation on load
@@ -563,7 +563,7 @@ is `DERIVED` and visibly labelled as ours.
 2. `01_projects.py` end to end → **checkpoint: you review real JSON, the history
    mechanism, and the derived images before any React exists.**
 3. `02_sectors.py` (bulk CSV path), then `03_companies.py`.
-4. `04_bundle.py` + `meta.json` contract.
+4. `99_bundle.py` + `meta.json` contract.
 5. Palette selection → **run the validator** → only then any chart code.
 6. `web/`: scaffold → globe → pins → project viewer → charts → tabs → theme.
 7. `verify/` + tests + `CLAUDE.md` via `/init`.

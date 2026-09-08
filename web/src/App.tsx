@@ -60,7 +60,7 @@ export default function App() {
         <h1 style={{ fontSize: "var(--fs-lead)" }}>Could not load the bundle</h1>
         <p className="muted">{error}</p>
         <p className="muted" style={{ fontSize: "var(--fs-small)" }}>
-          Run the pipeline: <code>python pipeline/04_bundle.py</code>
+          Run the pipeline: <code>python pipeline/99_bundle.py</code>
         </p>
       </div>
     );

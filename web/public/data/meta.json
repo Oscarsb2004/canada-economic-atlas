@@ -1,17 +1,18 @@
 {
   "app": "canada-economic-atlas",
   "files": [
+    "companies/xic.json",
+    "corridors.json",
+    "country.json",
     "events/major-projects-office/projects.json",
     "events/major-projects-office/strategies.json",
-    "sectors/national-monthly.json",
+    "palette.json",
     "sectors/national-constant.json",
+    "sectors/national-monthly.json",
     "sectors/provincial-annual.json",
-    "sectors/rates.json",
-    "companies/xic.json",
-    "country.json",
-    "palette.json"
+    "sectors/rates.json"
   ],
-  "generated_at": "2026-09-08T17:10:50Z",
+  "generated_at": "2026-09-08T22:27:55Z",
   "licences": {
     "boc-terms": {
       "attribution": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",

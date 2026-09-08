@@ -459,6 +459,28 @@ def test_alto_is_not_drawn_as_a_region():
 
 # ── The independence rule, enforced ────────────────────────────────────────────
 
+def test_the_bundle_is_the_last_stage():
+    """
+    `run.py` executes stages in SORTED KEY ORDER, so the number is the run order.
+
+    The bundle reads what every other stage wrote. A stage numbered above it
+    would have its output bundled a run late — the first run ships nothing, the
+    second ships the first run's data — which is silent and reads as a caching
+    bug rather than an ordering one. Numbering the bundle 99 leaves room for
+    every future stage in between, and this test is what keeps that a rule
+    rather than a comment somebody edits past.
+    """
+    sys.path.insert(0, str(ROOT))
+    run = importlib.import_module("run")
+
+    assert sorted(run.STAGES)[-1] == "99", (
+        f"the bundle must sort last; stages are {sorted(run.STAGES)}"
+    )
+    assert "bundle" in run.STAGES["99"]
+    for num, path in run.STAGES.items():
+        assert (ROOT / path).exists(), f"stage {num} names a missing script: {path}"
+
+
 def test_verify_does_not_import_atlas():
     """
     Verification that imports the code it checks inherits that code's bugs.

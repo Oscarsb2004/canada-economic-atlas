@@ -8,7 +8,7 @@ member of the Athena family after `African-Stability-Index` and this project.
 **Nothing in here blocks your next steps.** Stages 02, 03 and the `web/` build
 proceed exactly as `STATUS.md` describes. Four of the five asks below are small
 additions to work you are already going to do; the fifth is a comment banner.
-Read this before writing `04_bundle.py` and before running the palette validator,
+Read this before writing `99_bundle.py` and before running the palette validator,
 because those two are the places where doing it now costs nothing and doing it
 later costs a migration.
 
@@ -58,7 +58,7 @@ committed JSON at a documented path, or it does without.
 
 ## 3. What it needs from here
 
-### A1 — Emit a country-level record for Canada · _land it in `04_bundle.py`_
+### A1 — Emit a country-level record for Canada · _land it in `99_bundle.py`_
 
 This is the entire data integration surface. The sibling needs Canada as one node
 among many: an ISO3 key and a few headline figures, so its country panel shows
@@ -212,10 +212,10 @@ Stated so nobody builds any of it on its behalf:
 
 | Ask | Where it lands | Cost |
 |---|---|---|
-| A1 `country.json` — ISO3 + 4 headline figures with `SourceRef` | `04_bundle.py` | ~30 lines, additive |
+| A1 `country.json` — ISO3 + 4 headline figures with `SourceRef` | `99_bundle.py` | ~30 lines, additive |
 | A2 world geometry at a documented path + build script | `web/` scaffold | you were doing this anyway; add the script |
 | A3 validate **5** categorical slots, commit the palette artifact | palette gate | same single validator run |
-| A4 `meta.schema_version` is semver and honoured | `04_bundle.py` | a promise, not code |
+| A4 `meta.schema_version` is semver and honoured | `99_bundle.py` | a promise, not code |
 | A5 portable/project-specific banners in `schema.py` | `schema.py` | a comment |
 
 Questions about any of this go through Oscar; the sibling repo is

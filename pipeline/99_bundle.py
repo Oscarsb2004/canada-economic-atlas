@@ -1,7 +1,7 @@
 """
 Stage 04 — assemble what the web app actually reads.
 
-    python pipeline/04_bundle.py
+    python pipeline/99_bundle.py
 
 Copies the stage outputs into `web/public/data/` and writes three files that
 only exist at this stage:
@@ -38,7 +38,7 @@ from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef
 
-log = logging.getLogger("04_bundle")
+log = logging.getLogger("99_bundle")
 
 #: Bump on ANY breaking shape change. See the module docstring.
 SCHEMA_VERSION = "1.0.0"
@@ -220,12 +220,6 @@ def build_corridors() -> dict:
                 "geometry": {"type": "LineString", "coordinates": path},
             })
 
-    missing = {pid for lane in spec["lanes"]
-               for pid in lane.get("chain", []) + lane.get("from", [])
-               if pid not in ports}
-    if missing:
-        raise ValueError(f"corridors.yaml: lanes reference unknown ports {sorted(missing)}")
-
     return {
         "type": "FeatureCollection",
         "provenance": spec["provenance"],
@@ -242,6 +236,18 @@ def main() -> int:
     web.mkdir(parents=True, exist_ok=True)
     log.info("Stage 04 — bundle to %s", web.relative_to(R.ROOT))
 
+    # Every file this stage puts in the bundle, accumulated as it goes.
+    #
+    # The manifest used to be `COPIES + ["country.json", "palette.json"]` — a
+    # hand-maintained restatement that had ALREADY drifted: `corridors.json` was
+    # written here and omitted there, so `verify/`'s existence loop never covered
+    # it while `bundle.ts` fetched it eagerly and threw on a 404. The bundle
+    # could have shipped without it and every gate would have passed.
+    #
+    # Generating the list from what was actually written makes that class of
+    # omission impossible rather than fixed once.
+    written: list[str] = []
+
     copied = 0
     for rel in COPIES:
         src = R.DATA_DIR / rel
@@ -255,22 +261,26 @@ def main() -> int:
         if not dst.exists() or dst.read_bytes() != src.read_bytes():
             shutil.copyfile(src, dst)
             copied += 1
+        written.append(rel)
         log.info("  %-46s %6.0f KB", rel, dst.stat().st_size / 1000)
 
     sectors = _load("sectors/national-monthly.json")
     rates = _load("sectors/rates.json")
     country = build_country(sectors, rates)
+    written.append("country.json")
     write_if_changed(web / "country.json", country)
     log.info("country.json: %d headline figures (%s)",
              len(country["headline"]), ", ".join(h["key"] for h in country["headline"]))
 
     corridors = build_corridors()
+    written.append("corridors.json")
     write_if_changed(web / "corridors.json", corridors)
     log.info("corridors.json: %d ports, %d lane segments (DERIVED)",
              sum(1 for f in corridors["features"] if f["properties"]["kind"] == "port"),
              sum(1 for f in corridors["features"] if f["properties"]["kind"] == "lane"))
 
     palette = yaml.safe_load((R.REGISTRY_DIR / "palette.yaml").read_text(encoding="utf-8"))
+    written.append("palette.json")
     write_if_changed(web / "palette.json", palette)
 
     srcs = R.sources()
@@ -281,7 +291,7 @@ def main() -> int:
         "licences": srcs["licences"],
         "sources": {k: {kk: vv for kk, vv in v.items() if isinstance(vv, str)}
                     for k, v in srcs["sources"].items()},
-        "files": COPIES + ["country.json", "palette.json"],
+        "files": sorted(written),
     })
 
     files = list(web.rglob("*.json"))

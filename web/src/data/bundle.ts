@@ -344,8 +344,15 @@ export function mapFeatures(projects: Project[]): MapFeature[] {
   return out;
 }
 
-/** A compile-time exhaustiveness guard: an unhandled kind is a type error. */
-function assertNever(kind: never): never {
+/**
+ * A compile-time exhaustiveness guard: an unhandled case is a type error.
+ *
+ * Exported because it is now used in three places — geometry kinds here, pin
+ * kinds in `tabs/store.ts`, and view ids in `panels/SectorPanel.tsx`. One guard
+ * rather than three copies, for the same reason `atlas/core/jsonio.py` exists:
+ * copies of a rule drift, and the drift is invisible until it matters.
+ */
+export function assertNever(kind: never): never {
   throw new Error(`unhandled geometry kind: ${String(kind)}`);
 }
 

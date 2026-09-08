@@ -26,7 +26,7 @@ a work queue — two lists of "next" is how one of them goes stale.
 | `registry/sectors.yaml` | Done. 20 NAICS + T-codes, partition and cross-cuts. |
 | `atlas/sources/companies.py` | Done. XIC holdings parser. |
 | **`pipeline/03_companies.py`** | **Done and run.** 216 companies, 6 junk rows dropped. |
-| **`pipeline/04_bundle.py`** | **Done and run.** 10 files, 1.40 MB in `web/public/data/`. |
+| **`pipeline/99_bundle.py`** | **Done and run.** 10 files, 1.40 MB in `web/public/data/`. |
 | `registry/gics_naics.yaml` | Done. Lossy crosswalk, versioned, splits documented. |
 | **`registry/palette.yaml`** | **LOCKED.** 5 validated categorical slots, dark only. |
 | **`scripts/build_geo.mjs`** | **Done and run.** Reproducible world + provinces geometry. |
@@ -176,7 +176,7 @@ hold — every "make it global" request now has somewhere else to go.
 It asks five small things of this repo, none of which block steps 1–3, but two of
 which are much cheaper done in the same pass as the work already planned:
 
-- **`04_bundle.py`** additionally writes `web/public/data/country.json` — Canada as
+- **`99_bundle.py`** additionally writes `web/public/data/country.json` — Canada as
   an ISO3 node with ~4 headline figures, each carrying its `SourceRef`.
 - **The palette gate validates 5 categorical slots, not 3.** Slots 1–3 stay what
   this project would have chosen; the sibling needs 5 for bloc encoding, and one
@@ -186,7 +186,7 @@ which are much cheaper done in the same pass as the work already planned:
   in `schema.py`.
 
 **Full detail, with the exact JSON shape: [`docs/INTEROP-world-strategic-map.md`](docs/INTEROP-world-strategic-map.md).**
-Read it before writing `04_bundle.py` or running `validate_palette.js`.
+Read it before writing `99_bundle.py` or running `validate_palette.js`.
 
 ---
 

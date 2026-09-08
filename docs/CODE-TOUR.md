@@ -31,7 +31,7 @@ of today's data and will not stay true. Findings are in Part III with severities
    NRCan ArcGIS  ──┐
    canada.ca HTML ─┼─► 01_projects ─► data/events/  ─┐
    federal images ─┘                 data/history/   │
-                                                     ├─► 04_bundle ─► web/public/data/ ─► fetch()
+                                                     ├─► 99_bundle ─► web/public/data/ ─► fetch()
    StatCan WDS  ────► 02_sectors  ─► data/sectors/  ─┤                web/public/media/    │
    Bank of Canada ──┘                                │                                     ▼
                                                      │                            ┌────────┴────────┐
@@ -210,7 +210,7 @@ revenues within a sector overshoots that sector's GDP by two to three times.
 corners show against the terrain) and a ~1400 px JPEG. The circular mask is drawn
 at 4× and downsampled so the edge is antialiased.
 
-## `pipeline/01_projects.py` … `04_bundle.py`
+## `pipeline/01_projects.py` … `99_bundle.py`
 
 Numbered stages at root, logic in the package. Each writes only when content
 changed, which is what makes the zero-diff guarantee testable.

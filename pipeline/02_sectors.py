@@ -84,7 +84,7 @@ def _load_taxonomy() -> tuple[dict, set[str]]:
 #:
 #: The hash is of the SOURCE PAYLOAD, not of our derived output. That is what
 #: makes it a real change signal: StatCan revises cubes, and a new zip with the
-#: same release stamp is a thing that happens. 04_bundle.py reads this so the
+#: same release stamp is a thing that happens. 99_bundle.py reads this so the
 #: SourceRef it publishes carries a hash instead of an empty string -- the
 #: sibling repo flagged the blank field as unusable for change detection, which
 #: was fair.

@@ -19,10 +19,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import { assertNever } from "../data/bundle";
 import type { RangeId, SectorView } from "../filters/FilterRow";
 
 /** What a pin can point at. */
-export type PinKind = "sector-view" | "sector-focus" | "project";
+export type PinKind = "sector-view" | "sector-focus" | "project" | "corridor";
 
 export interface Pin {
   /** Stable id so reorder and rename do not depend on array position. */
@@ -38,6 +39,8 @@ export interface Pin {
     code?: string;
     /** Project slug. */
     slug?: string;
+    /** Trade corridor id. */
+    corridor?: string;
   };
   pinnedAt: string;
 }
@@ -56,11 +59,32 @@ interface TabsState {
   isPinned: (kind: PinKind, params: Pin["params"]) => boolean;
 }
 
-/** Two pins are the same if they ask the same question. */
+/**
+ * Two pins are the same if they ask the same question.
+ *
+ * A `switch` with `assertNever`, not a chain of `if`s with a fallthrough. The
+ * fallthrough version compared `view` and `range` for any kind it did not name,
+ * so a new `PinKind` — and `corridor` is one — would dedupe on two fields it
+ * never sets. Both would be `undefined`, every corridor pin would compare equal
+ * to every other, and **the first corridor pinned would silently block all the
+ * rest**. `add()` treats a match as a no-op, so nothing would even error.
+ *
+ * The same reasoning as CLAUDE.md §2b: a decision over an open enum has to be
+ * exhaustive, or the member nobody thought about gets the wrong branch.
+ */
 function sameQuestion(a: Pin["params"], b: Pin["params"], kind: PinKind): boolean {
-  if (kind === "project") return a.slug === b.slug;
-  if (kind === "sector-focus") return a.code === b.code;
-  return a.view === b.view && a.range === b.range;
+  switch (kind) {
+    case "project":
+      return a.slug === b.slug;
+    case "sector-focus":
+      return a.code === b.code;
+    case "corridor":
+      return a.corridor === b.corridor;
+    case "sector-view":
+      return a.view === b.view && a.range === b.range;
+    default:
+      return assertNever(kind);
+  }
 }
 
 export const useTabs = create<TabsState>()(

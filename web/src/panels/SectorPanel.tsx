@@ -65,33 +65,30 @@ export function SectorPanel({
   const sectors = useMemo(() => latestBySector(bundle.national), [bundle.national]);
   const growth = useMemo(() => yoyBySector(bundle.national), [bundle.national]);
   const meta = bundle.national.find((s) => s.geo === "CA" && s.code === "T001");
-  const hint = VIEWS.find((v) => v.id === view)!.hint;
+  // A Map rather than four `VIEWS.find(...)!` non-null assertions. `VIEWS` is
+  // typed `{ id: SectorView; ... }[]` but nothing constrains it to be COMPLETE,
+  // so a view id missing from it was a runtime crash, not a type error.
+  const meta_ = new Map(VIEWS.map((v) => [v.id, v]));
+  const current = meta_.get(view)!;
+  const hint = current.hint;
 
-  return (
-    <div>
-      <FilterRow
-        view={view}
-        onView={setView}
-        range={range}
-        onRange={setRange}
-        rangeApplies={VIEWS.find((v) => v.id === view)!.usesRange}
-      />
-
-      <div style={{ display: "flex", alignItems: "baseline", gap: "var(--sp-3)" }}>
-        <h2 style={{ fontSize: "var(--fs-lead)", margin: "0 0 2px", flex: 1 }}>
-          {VIEWS.find((v) => v.id === view)!.label}
-        </h2>
-        <PinButton
-          kind="sector-view"
-          params={{ view, range }}
-          defaultLabel={`${VIEWS.find((v) => v.id === view)!.label} · ${RANGES.find((r) => r.id === range)!.label}`}
-        />
-      </div>
-      <p className="muted" style={{ margin: "0 0 var(--sp-3)", fontSize: "var(--fs-small)" }}>
-        {hint}
-      </p>
-
-      {view === "composition" && (
+  /**
+   * One body per view, as a Record the compiler makes total.
+   *
+   * This was five independent `{view === "..." && (...)}` blocks with no
+   * switch and no guard. Adding a sixth `SectorView` rendered the heading, the
+   * hint, and then nothing — silently, with no compile error and every
+   * verification gate still passing. That is the same failure shape CLAUDE.md
+   * §2b legislates against for geometry, and this was the last place in the app
+   * still using a non-total set of predicates.
+   *
+   * `Record<SectorView, ...>` is exhaustive by construction: a new view id
+   * fails the build until it has a body. It is defined inside the component
+   * because every body closes over `national`, `constant`, `width` and the
+   * palette; the thunk keeps them lazy so only the active view builds a spec.
+   */
+  const VIEW_BODIES: Record<SectorView, () => React.ReactNode> = {
+    composition: () => (
         <>
           <PlotFigure
             label="Goods-producing and services-producing industries over time"
@@ -116,9 +113,8 @@ export function SectorPanel({
             rows={tableComposition(constant)}
           />
         </>
-      )}
-
-      {view === "ranking" && (
+    ),
+    ranking: () => (
         <>
           <PlotFigure
             label="Sectors ranked by latest real GDP"
@@ -134,9 +130,8 @@ export function SectorPanel({
             numericFrom={2}
           />
         </>
-      )}
-
-      {view === "growth" && (
+    ),
+    growth: () => (
         <>
           <PlotFigure
             label="Year-over-year growth by sector"
@@ -158,9 +153,8 @@ export function SectorPanel({
             numericFrom={2}
           />
         </>
-      )}
-
-      {view === "trends" && (
+    ),
+    trends: () => (
         <>
           {/* Small multiples: the design-system answer to twenty series.
               Twenty categorical hues would be an anti-pattern; twenty panels
@@ -175,9 +169,8 @@ export function SectorPanel({
             shared scale would flatten fifteen of them into flat lines.
           </p>
         </>
-      )}
-
-      {view === "heatmap" && (
+    ),
+    heatmap: () => (
         <>
           <PlotFigure
             label="Year-over-year growth by sector and month"
@@ -190,7 +183,34 @@ export function SectorPanel({
           />
           <DivergingKey palette={bundle.palette} />
         </>
-      )}
+    ),
+  };
+
+  return (
+    <div>
+      <FilterRow
+        view={view}
+        onView={setView}
+        range={range}
+        onRange={setRange}
+        rangeApplies={current.usesRange}
+      />
+
+      <div style={{ display: "flex", alignItems: "baseline", gap: "var(--sp-3)" }}>
+        <h2 style={{ fontSize: "var(--fs-lead)", margin: "0 0 2px", flex: 1 }}>
+          {current.label}
+        </h2>
+        <PinButton
+          kind="sector-view"
+          params={{ view, range }}
+          defaultLabel={`${current.label} · ${RANGES.find((r) => r.id === range)!.label}`}
+        />
+      </div>
+      <p className="muted" style={{ margin: "0 0 var(--sp-3)", fontSize: "var(--fs-small)" }}>
+        {hint}
+      </p>
+
+      {VIEW_BODIES[view]()}
 
       {/* Emphasis sits below every view: pick a sector and see it against the
           other nineteen. This is the most underused form in the system and the

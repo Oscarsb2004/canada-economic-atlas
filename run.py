@@ -3,7 +3,7 @@
 run.py — the only command this project needs.
 
     python run.py                 run the whole pipeline, then verify
-    python run.py --stage 01      run one stage (01 | 02 | 03 | 04)
+    python run.py --stage 01      run one stage (see --help for the list)
     python run.py --verify        independent verification only
     python run.py --test          pytest only
     python run.py --web           the dev server (needs `npm install` in web/)
@@ -31,11 +31,20 @@ VENV = ROOT / ".venv"
 PY = VENV / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
 STAMP = VENV / ".atlas-requirements"
 
+#: Stage number -> script. A full run executes these in SORTED KEY ORDER, so the
+#: number is the run order and the bundle must sort last.
+#:
+#: That is why the bundle is 99 and not 05. It reads what the other stages wrote,
+#: so a stage numbered above it would have its output bundled a run late: the
+#: first run would ship nothing and the second would ship the first run's data.
+#: Silent, and it would read as a caching bug. Numbering the bundle last leaves
+#: every future stage room in between. `test_the_bundle_is_the_last_stage` makes
+#: the rule mechanical rather than a comment.
 STAGES = {
     "01": "pipeline/01_projects.py",
     "02": "pipeline/02_sectors.py",
     "03": "pipeline/03_companies.py",
-    "04": "pipeline/04_bundle.py",
+    "99": "pipeline/99_bundle.py",
 }
 
 
