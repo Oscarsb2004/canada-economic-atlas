@@ -76,17 +76,39 @@ function buildStyle(bundle: Bundle): StyleSpecification {
       // fill layer bound to the world source just painted the same country
       // polygons as `land`, twice.
       { id: "ocean", type: "background", paint: { "background-color": ink.gridline } },
+      // Land, everywhere EXCEPT Canada — see `canada-land` below for why.
       {
         id: "land",
         type: "fill",
         source: "world",
+        filter: ["!=", ["get", "ADM0_A3"], "CAN"],
         paint: { "fill-color": ink.axis, "fill-opacity": 1 },
       },
       {
         id: "land-outline",
         type: "line",
         source: "world",
+        filter: ["!=", ["get", "ADM0_A3"], "CAN"],
         paint: { "line-color": bundle.palette.surface.page, "line-width": 0.5 },
+      },
+      // Canada's landmass, from the SAME geometry as the highlight above it.
+      //
+      // Painting it from `world` instead — which is what happened until the
+      // highlight moved to `canada.json` — puts a 9-polygon grey shape under a
+      // 451-polygon blue one. The mismatch is visible and reads as a rendering
+      // fault: grey land bleeds past the coastline in the Arctic where Natural
+      // Earth merges the channels, and Vancouver Island and Haida Gwaii are
+      // outlined in blue over open ocean because the coarse source has no
+      // polygon for them at all.
+      //
+      // Same colour as `land`, so Canada is not singled out by fill — the
+      // coastline is what marks it. Same vertices as the outline, so the two
+      // can never disagree.
+      {
+        id: "canada-land",
+        type: "fill",
+        source: "canada",
+        paint: { "fill-color": ink.axis, "fill-opacity": 1 },
       },
       // Canada, highlighted as a LIT COASTLINE rather than a filled shape.
       //

@@ -153,6 +153,16 @@ class Strategy:
     provinces: tuple[str, ...]
     precision: str
     render: str
+    #: The French page's terminal slug, when it is NOT the same as `slug`.
+    #: Eight of the nine strategies use one slug in both languages; the ninth
+    #: translates it ("critical-minerals" -> "mineraux-critiques"), so a join on
+    #: slug equality alone drops its French silently.
+    slug_fr: str = ""
+
+    @property
+    def fr_key(self) -> str:
+        """The slug the French service will publish for this strategy."""
+        return self.slug_fr or self.slug
 
     @property
     def draws_region(self) -> bool:
@@ -214,6 +224,7 @@ def strategies() -> tuple[Strategy, ...]:
             provinces=provinces,
             precision=s.get("precision", "provincial"),
             render=s.get("render", "region"),
+            slug_fr=str(s.get("slug_fr", "") or ""),
         ))
     return tuple(out)
 

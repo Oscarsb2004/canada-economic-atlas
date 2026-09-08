@@ -218,6 +218,44 @@ def _write_history(slug: str, payload: dict, digest: str) -> bool:
 
 # ── Build ──────────────────────────────────────────────────────────────────────
 
+def _coverage_manifest(fetch: Fetcher, arcgis_slugs: list[str]) -> dict:
+    """
+    What each source says exists, side by side, as a committed record.
+
+    Three lists per kind: what the website's index page links to, what the
+    ArcGIS service publishes, and the difference. The difference is the whole
+    point — `only_on_site` is a project with a page and no map presence, and
+    nothing in this pipeline would otherwise notice it.
+
+    A failed index fetch records `null` rather than an empty list, because an
+    empty list would read as "the site lists nothing" and silently pass a
+    coverage check that never ran.
+    """
+    out: dict[str, dict] = {}
+    for kind, urls in mpo.INDEX_URLS.items():
+        try:
+            listed = mpo.index_slugs(fetch.text(urls["en"]), kind, lang="en")
+        except Exception as exc:                          # noqa: BLE001
+            log.warning("%s index unreadable, coverage not checked this run: %s", kind, exc)
+            out[kind] = {"site_index": None, "reason": str(exc)[:200]}
+            continue
+
+        published = arcgis_slugs if kind == "projects" else None
+        entry: dict = {"site_index": listed, "site_index_url": urls["en"]}
+        if published is not None:
+            entry["arcgis"] = published
+            entry["only_on_site"] = sorted(set(listed) - set(published))
+            entry["only_in_arcgis"] = sorted(set(published) - set(listed))
+            if entry["only_on_site"]:
+                log.warning("%s listed on canada.ca but ABSENT from the map service: %s",
+                            kind, entry["only_on_site"])
+            if entry["only_in_arcgis"]:
+                log.warning("%s in the map service but not listed on canada.ca: %s",
+                            kind, entry["only_in_arcgis"])
+        out[kind] = entry
+    return out
+
+
 def build_project(fetch: Fetcher, slug: str, feats_en: list[dict],
                   feats_fr: list[dict], do_images: bool) -> tuple[Project, bool]:
     """One project, from its ArcGIS features plus its EN and FR pages."""
@@ -315,6 +353,15 @@ def main() -> int:
 
     log.info("%d features → %d projects", n_features, len(feats_en))
 
+    # Coverage, against the website's own listing rather than against a number
+    # we wrote down. Everything above reads the ArcGIS service; the site is a
+    # separate publication with its own cadence, so a project that has a page
+    # but has not yet reached the map service is invisible to every check that
+    # only counts features. The manifest is committed so `verify/` can compare
+    # offline, which is the point — a coverage claim that needs the network is
+    # a coverage claim nobody runs.
+    manifest = _coverage_manifest(fetch, sorted(feats_en))
+
     slugs = sorted(feats_en)
     if args.limit:
         slugs = slugs[: args.limit]
@@ -333,9 +380,24 @@ def main() -> int:
     # Strategies: attributes only, joined to the hand-made province mapping.
     strategies = []
     attrs_fr = _fetch_strategy_attrs(fetch, "fr")
-    for slug, attrs in sorted(_fetch_strategy_attrs(fetch, "en").items()):
+    attrs_en = _fetch_strategy_attrs(fetch, "en")
+
+    # The French service keys on the FRENCH page slug, which is usually — but
+    # not always — the same string. `critical-minerals` is published as
+    # `mineraux-critiques`, so a join on slug equality alone drops its French
+    # and nothing says so. The registry declares the exception; this asserts
+    # that the declaration is complete, because an unmatched French feature is
+    # the signature of the next one.
+    fr_keys = {(R.strategy(s).fr_key if R.strategy(s) else s): s for s in attrs_en}
+    unmatched = sorted(set(attrs_fr) - set(fr_keys))
+    if unmatched:
+        log.error("French strategy features match no English slug: %s. Add `slug_fr:` "
+                  "to registry/strategies.yaml for each, or the French is dropped "
+                  "silently.", unmatched)
+
+    for slug, attrs in sorted(attrs_en.items()):
         mapped = R.strategy(slug)
-        fr = attrs_fr.get(slug, {})
+        fr = attrs_fr.get(mapped.fr_key if mapped else slug, {})
         strategies.append({
             "slug": slug,
             "name": {"en": mpo.attr(attrs, "name", "en"), "fr": mpo.attr(fr, "name", "fr")},
@@ -361,6 +423,8 @@ def main() -> int:
         "event": EVENT_SLUG, "generated_at": _now(), "projects": to_jsonable(projects)})
     wrote_s = write_if_changed(out_dir / "strategies.json", {
         "event": EVENT_SLUG, "generated_at": _now(), "strategies": strategies})
+    write_if_changed(out_dir / "coverage.json", {
+        "event": EVENT_SLUG, "generated_at": _now(), "sources": manifest})
 
     corridors = sum(1 for p in projects for s in p.sites if s.geometry.kind is GeometryKind.CORRIDOR)
     log.info("%d projects (%d corridor sites), %d strategies", len(projects), corridors, len(strategies))

@@ -50,6 +50,14 @@ strategies:
     provinces: ["NS", "NB", "PE", "NL"]
 
   - slug: critical-minerals
+    # The ONE strategy whose French page slug is translated rather than shared.
+    # Eight of nine use the same terminal slug in both languages, which is why
+    # the join was built on slug equality — and why this one silently lost its
+    # French name from the first run until a declared `fields_present` check
+    # asked for it. Declared here rather than special-cased in the pipeline;
+    # stage 01 now fails loudly if any French feature matches no entry, so the
+    # next divergence cannot be silent.
+    slug_fr: mineraux-critiques
     location_verbatim: "All provinces and territories, except Prince Edward Island"
     provinces: ["NL", "NS", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
     # 12 of 13. PE excluded, per the source string.

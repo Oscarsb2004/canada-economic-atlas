@@ -1,6 +1,6 @@
 {
   "event": "major-projects-office",
-  "generated_at": "2026-09-03T17:42:50Z",
+  "generated_at": "2026-09-08T15:46:08Z",
   "strategies": [
     {
       "description": {
@@ -82,20 +82,20 @@
     {
       "description": {
         "en": "Canada is a powerhouse in the extraction and upgrading of critical minerals for strategic industries in Canada and to diversify and serve export markets. A priority for the Major Projects Office (MPO) will be to get more critical minerals projects to final investment decisions, with a focus on responsibility and regulatory certainty for projects and enabling infrastructure including ports and roads. This will enable critical mineral proponents working with Indigenous and local communities, investors, and provinces and territories to develop projects in regions like the Fosse du Labrador in Québec and Newfoundland and Labrador, and the Northwest Critical Mineral and Conservation Corridor in British Columbia.\r\n\r\nThis approach contributes to the Canadian Critical Minerals Strategy, led by Natural Resources Canada, which applies a full value chain approach to critical minerals and industrial development.",
-        "fr": ""
+        "fr": "Le Canada est une véritable puissance dans le domaine de l’extraction et de la valorisation de minéraux critiques pour les industries stratégiques du pays, ainsi que pour diversifier et servir les marchés d’exportation. L’une des priorités du Bureau des grands projets (BGP) sera de porter davantage de projets liés aux minéraux critiques au stade de la décision finale d’investissement, en mettant l’accent sur la responsabilité et la certitude réglementaire des projets et les infrastructures de soutien, notamment les ports et les routes. Cela permettra aux promoteurs de minéraux critiques qui collaborent avec les communautés autochtones et locales, les investisseurs ainsi que les provinces et les territoires, d’élaborer des projets dans des régions comme le Fosse du Labrador au Québec et à Terre-Neuve-et-Labrador, et le corridor de conservation des minéraux critiques du Nord-Ouest en Colombie-Britannique.\r\n\r\nCette démarche s’inscrit dans le cadre de la Stratégie canadienne sur les minéraux critiques, dirigée par Ressources naturelles Canada, qui adopte une approche couvrant l’ensemble de la chaîne de valeur afin de favoriser le développement des minéraux critiques et de l’industrie."
       },
       "draws_region": true,
       "location_verbatim": {
         "en": "All provinces and territories, except Prince Edward Island",
-        "fr": ""
+        "fr": "Toutes les provinces et les territoires, sauf Île-du-Prince-Édouard"
       },
       "name": {
         "en": "Critical Minerals Strategy",
-        "fr": ""
+        "fr": "Stratégie sur les minéraux critiques"
       },
       "page_url": {
         "en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/critical-minerals.html",
-        "fr": ""
+        "fr": "https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/autres/referees/mineraux-critiques.html"
       },
       "provenance": "derived",
       "provinces": [

@@ -1,0 +1,65 @@
+{
+  "event": "major-projects-office",
+  "generated_at": "2026-09-08T15:44:49Z",
+  "sources": {
+    "projects": {
+      "arcgis": [
+        "aesc",
+        "contrecoeur",
+        "crawford",
+        "darlington",
+        "geo",
+        "grays-bay",
+        "ksi-lisims",
+        "lng-canada",
+        "mackenzie",
+        "mcilvenna",
+        "nctl",
+        "northcliff",
+        "nouveau-monde",
+        "nukkiksautiit",
+        "red-chris",
+        "roberts-bank",
+        "taltson",
+        "west"
+      ],
+      "only_in_arcgis": [],
+      "only_on_site": [],
+      "site_index": [
+        "aesc",
+        "contrecoeur",
+        "crawford",
+        "darlington",
+        "geo",
+        "grays-bay",
+        "ksi-lisims",
+        "lng-canada",
+        "mackenzie",
+        "mcilvenna",
+        "nctl",
+        "northcliff",
+        "nouveau-monde",
+        "nukkiksautiit",
+        "red-chris",
+        "roberts-bank",
+        "taltson",
+        "west"
+      ],
+      "site_index_url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national.html"
+    },
+    "strategies": {
+      "site_index": [
+        "alto",
+        "churchill-plus",
+        "corridor",
+        "critical-minerals",
+        "interconnect",
+        "labrador",
+        "pathways-plus",
+        "vancouver",
+        "wind-west"
+      ],
+      "site_index_url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred.html"
+    }
+  }
+}

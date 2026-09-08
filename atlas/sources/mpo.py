@@ -448,8 +448,69 @@ def parse_page(html: str, url: str, lang: str = "en") -> ParsedPage:
     )
 
 
+# ── Coverage ───────────────────────────────────────────────────────────────────
+
 #: A project slug, which is also a filename and a URL path segment.
 _SAFE_SLUG = re.compile(r"^[a-z0-9][a-z0-9._-]*$")
+
+#: The website's own listing pages, one per kind of referred item.
+#:
+#: These are the COVERAGE ORACLE. Everything else in this module reads the
+#: ArcGIS service, which is a different publication with its own release
+#: cadence — and a project that has a page but has not yet reached the map
+#: service is exactly the failure mode nothing was watching for. Comparing the
+#: two is the only way a silently missing project becomes a loud one.
+INDEX_URLS = {
+    "projects": {
+        "en": CANADA_CA + "/en/privy-council/major-projects-office/projects/national.html",
+        "fr": CANADA_CA + "/fr/conseil-prive/bureau-grands-projets/projets/national.html",
+    },
+    "strategies": {
+        "en": CANADA_CA + "/en/privy-council/major-projects-office/projects/other/referred.html",
+        "fr": CANADA_CA + "/fr/conseil-prive/bureau-grands-projets/projets/autres/renvoyes.html",
+    },
+}
+
+#: The path segment that marks a detail page, per kind. Matched as a substring
+#: of the href rather than by position, so a template that reorders its nav
+#: does not change what is found.
+_INDEX_MARKER = {
+    "projects": "/projects/national/",
+    "strategies": "/projects/other/referred/",
+}
+_INDEX_MARKER_FR = {
+    "projects": "/projets/national/",
+    "strategies": "/projets/autres/renvoyes/",
+}
+
+
+def index_slugs(html: str, kind: str, lang: str = "en") -> list[str]:
+    """
+    Every detail-page slug an index page links to, sorted and deduplicated.
+
+    Read from `<main>` only. The site-wide header, footer and breadcrumb also
+    carry links into this section, and counting those would inflate coverage
+    with pages that are not projects — which is worse than undercounting,
+    because it reports success.
+
+    Returns a sorted list so two runs over an unchanged page compare equal
+    regardless of DOM order.
+    """
+    marker = (_INDEX_MARKER if lang == "en" else _INDEX_MARKER_FR)[kind]
+    soup = BeautifulSoup(html, "lxml")
+    main = soup.select_one("main[property=mainContentOfPage]") or soup.select_one("main")
+    if main is None:
+        raise ValueError(f"{kind} index ({lang}): no <main> content element")
+
+    out: set[str] = set()
+    for a in main.find_all("a", href=True):
+        href = a["href"]
+        if marker not in href or not href.endswith(".html"):
+            continue
+        slug = href.rsplit("/", 1)[-1][: -len(".html")]
+        if _SAFE_SLUG.match(slug):
+            out.add(slug)
+    return sorted(out)
 
 
 def slug_from_url(url: str) -> str:

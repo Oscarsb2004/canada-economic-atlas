@@ -33,6 +33,8 @@ from pathlib import Path
 
 import yaml
 
+from verify.checks import run_declared_checks
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 WEB = ROOT / "web" / "public"
@@ -372,6 +374,12 @@ def main() -> int:
             check(r)
         except FileNotFoundError as exc:
             r.gate(False, f"{check.__name__} could not run", f"missing file: {exc}")
+
+    # Everything declared in registry/checks.yaml. The functions above name
+    # their fields inline, which is correct for the one event that exists and
+    # wrong for the second; these are generic over a dataset's declared shape,
+    # so covering a new event is a YAML entry rather than a new branch here.
+    run_declared_checks(r)
 
     print(f"verify — {len(r.passed)} passed, {len(r.gate_failures)} failed, "
           f"{len(r.advisories)} advisory\n")

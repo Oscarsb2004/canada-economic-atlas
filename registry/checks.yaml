@@ -1,0 +1,157 @@
+# checks.yaml — declarative verification.
+#
+# `verify/` reads this file and runs the named check KINDS against the datasets
+# each entry points at. The division is the same one the rest of the registry
+# makes: code is Python, coverage is YAML.
+#
+#   A new APPLICATION of an existing check   →  an entry in this file, only.
+#   A new KIND of check                      →  a function in verify/checks.py,
+#                                               registered in its KINDS table.
+#
+# WHY THIS EXISTS RATHER THAN MORE `if` BRANCHES IN verify/run.py
+#
+# The checks that used to live there name their fields inline — `p["sites"]`,
+# `p["description"]["fr"]`. That is fine for one event and wrong for the second,
+# because a future event need not have sites, need not call its records
+# `projects`, and need not carry geometry at all. `events.yaml` already makes
+# adding an event a YAML edit; verification had not caught up, so adding an
+# event meant editing the verifier. Now it does not.
+#
+# ADDING A DATASET THAT IS NOT SHAPED LIKE THIS ONE
+#
+# Every path below is declared, never assumed. `records` names the array,
+# `id_field` the identity, and the dotted paths reach into whatever nesting a
+# record actually has. `[]` in a path means "every element of this array", so
+# `sites[].geometry` works for an event with many sites per record and equally
+# for one with a single `location.geometry`. A dataset that declares no
+# geometry paths simply skips the geometry checks rather than failing them.
+#
+# SEVERITY
+#
+#   gate    blocks a release. Use for claims that are structurally true or the
+#           data is wrong.
+#   note    reports and never blocks. Use for anything a human should look at
+#           but which has legitimate exceptions — blocking a release on a
+#           judgement call trains people to ignore the gate.
+
+version: 1
+
+# ── Shared geometry references ─────────────────────────────────────────────────
+# Named here so a dataset cites a region set by name rather than by path, and
+# moving a file is one edit.
+regions:
+  canada:
+    file: web/public/geo/canada.json
+    label: Canada
+  provinces:
+    file: web/public/geo/provinces.json
+    # Which properties carry a human-readable name, in preference order. Both
+    # are listed because the location text may be in either language.
+    name_fields: [PRENAME, PRFNAME]
+
+# ── Datasets ───────────────────────────────────────────────────────────────────
+datasets:
+  mpo-projects:
+    path: data/events/major-projects-office/projects.json
+    records: projects
+    id_field: slug
+    # Where the point geometries live inside one record.
+    geometry_path: sites[].geometry.coordinates
+    # The source's own words about where the thing is. Compared against the
+    # region the coordinate actually lands in — never parsed into a location.
+    place_text_path: sites[].geometry.location_verbatim
+    checks:
+      - kind: unique_ids
+        severity: gate
+        why: >
+          The slug is the identity across the ArcGIS service, the page and the
+          filesystem. A duplicate means two projects are overwriting each other.
+
+      - kind: record_count
+        severity: gate
+        expect_from: "events.yaml:events[slug=major-projects-office].expected.projects"
+        why: >
+          Asserted in events.yaml rather than here so the count lives beside the
+          event it describes. The ArcGIS layer publishes 20 features for 18
+          projects; a change in either should fail loudly.
+
+      - kind: fields_present
+        severity: gate
+        fields: [name.en, name.fr, description.en, description.fr, page_url.en]
+        why: >
+          A silent French parse failure looks exactly like a page with no
+          French, and the FR headings on canada.ca are not what you would guess.
+
+      - kind: coverage_manifest
+        severity: gate
+        manifest: data/events/major-projects-office/coverage.json
+        source_kind: projects
+        why: >
+          Compares the committed records against what the website's own index
+          page listed at scrape time. This is the check that catches a project
+          that exists on canada.ca and has not reached the map service — the
+          one failure mode that counting ArcGIS features can never see.
+
+      - kind: geometry_within_region
+        severity: gate
+        region: canada
+        # Marine terminals are outside every land polygon BY CONSTRUCTION: the
+        # StatCan cartographic file excludes coastal water, and Roberts Bank,
+        # Contrecoeur, Grays Bay and Ksi Lisims are all port or offshore sites.
+        # 30 km admits those and still rejects a coordinate in the wrong
+        # country, the wrong ocean, or with its sign flipped.
+        tolerance_km: 30
+        why: >
+          Catches a transposed or sign-flipped coordinate, which is the error a
+          human eye does not catch on a globe at world zoom.
+
+      - kind: geometry_region_matches_text
+        severity: note
+        region: provinces
+        tolerance_km: 30
+        why: >
+          Advisory, never a gate. The source's location prose and the province
+          the coordinate lands in usually agree; where they do not it is
+          normally a real boundary case — a road whose southern end is in the
+          Northwest Territories serving a port in Nunavut — and not an error.
+          Worth a human's eye, never worth blocking a release.
+
+  mpo-strategies:
+    path: data/events/major-projects-office/strategies.json
+    records: strategies
+    id_field: slug
+    # Deliberately no geometry paths. ArcGIS layer 2 returns EMPTY polygons for
+    # the strategies, so their locations are prose, hand-mapped to provinces in
+    # registry/strategies.yaml. The geometry checks skip a dataset that declares
+    # no geometry rather than failing it — which is the whole reason those paths
+    # are declared instead of assumed.
+    checks:
+      - kind: unique_ids
+        severity: gate
+
+      - kind: record_count
+        severity: gate
+        expect_from: "events.yaml:events[slug=major-projects-office].expected.strategies"
+
+      - kind: fields_present
+        severity: gate
+        fields: [name.en, name.fr, location_verbatim.en]
+        why: >
+          `location_verbatim` is load-bearing for the strategies specifically:
+          the province mapping is OUR reading of that prose and cannot stand
+          without the words it was read from.
+
+      - kind: coverage_manifest
+        severity: gate
+        manifest: data/events/major-projects-office/coverage.json
+        source_kind: strategies
+
+      - kind: enum_field
+        severity: gate
+        field: provenance
+        # Read from the schema's own enum at runtime rather than restated, so
+        # this cannot drift from what the pipeline is allowed to emit.
+        allowed: [derived, absent]
+        why: >
+          A strategy's province list is inference, not reproduction. It must
+          never be labelled as an official dataset value.

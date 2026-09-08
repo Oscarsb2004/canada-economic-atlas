@@ -151,6 +151,55 @@ def test_mismatched_benefit_counts_lose_no_bullet():
     assert not any(b.en and b.fr for b in out)
 
 
+INDEX_PAGE = """
+<html><body>
+  <header><a href="/en/privy-council/major-projects-office/projects/national/header-junk.html">nav</a></header>
+  <main property="mainContentOfPage">
+    <a href="/en/privy-council/major-projects-office/projects/national/alpha.html">Alpha</a>
+    <a href="/en/privy-council/major-projects-office/projects/national/beta.html">Beta</a>
+    <a href="/en/privy-council/major-projects-office/projects/national/alpha.html">Alpha again</a>
+    <a href="/en/privy-council/major-projects-office/projects/map.html">Map</a>
+    <a href="https://example.org/elsewhere.html">Off site</a>
+  </main>
+  <footer><a href="/en/privy-council/major-projects-office/projects/national/footer-junk.html">f</a></footer>
+</body></html>
+"""
+
+
+def test_index_slugs_reads_only_the_main_content():
+    """
+    The coverage oracle must count projects, not navigation.
+
+    canada.ca's header, footer and breadcrumb all link into this section. A
+    document-wide scan inflates the count with pages that are not projects,
+    which is worse than undercounting: it reports coverage that was never
+    checked. Deduplicated and sorted so two runs over an unchanged page compare
+    equal regardless of DOM order.
+    """
+    assert mpo.index_slugs(INDEX_PAGE, "projects", lang="en") == ["alpha", "beta"]
+
+
+def test_index_slugs_ignores_pages_outside_the_detail_path():
+    """`projects/map.html` sits in the section and is not a project."""
+    got = mpo.index_slugs(INDEX_PAGE, "projects", lang="en")
+    assert "map" not in got and "elsewhere" not in got
+
+
+def test_strategy_french_slug_is_declared_not_assumed():
+    """
+    Eight of the nine strategies share a terminal slug across languages and the
+    ninth translates it, so a join on slug equality alone silently dropped
+    `critical-minerals`'s French name from the first run onward. The exception
+    is declared in the registry; this is what stops it being re-assumed.
+    """
+    cm = R.strategy("critical-minerals")
+    assert cm is not None
+    assert cm.fr_key == "mineraux-critiques"
+    # Every other strategy still keys on its own slug.
+    others = [s for s in R.strategies() if s.slug != "critical-minerals"]
+    assert others and all(s.fr_key == s.slug for s in others)
+
+
 def test_hero_image_is_read_from_data_bgimg_not_constructed():
     """
     The hero is a `data-bgimg` attribute on a div, not an <img>. Three project
