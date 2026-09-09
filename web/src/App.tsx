@@ -15,8 +15,9 @@
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 
-import { Globe, type MapOverlays, type ToggleableOverlay } from "./map/Globe";
+import { Globe, type MapOverlays, type ProvinceSummary, type ToggleableOverlay } from "./map/Globe";
 import { ProjectViewer } from "./panels/ProjectViewer";
+import { ProvincePanel } from "./panels/ProvincePanel";
 import { CorridorPanel } from "./panels/CorridorPanel";
 import { SectorPanel } from "./panels/SectorPanel";
 import { TabStrip } from "./tabs/TabStrip";
@@ -29,12 +30,15 @@ export default function App() {
   const [bundle, setBundle] = useState<Bundle | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<Project | null>(null);
+  const [selectedProvince, setSelectedProvince] = useState<ProvinceSummary | null>(null);
   const [lang] = useState<Lang>("en");
   const [analysisVisible, setAnalysisVisible] = useState(true);
   const [mapShare, setMapShare] = useState(50);
   const [resizing, setResizing] = useState(false);
   const splitRef = useRef<HTMLDivElement>(null);
   const [overlays, setOverlays] = useState<MapOverlays>({
+    provinces: true,
+    placeNames: true,
     nationalHighways: true,
     majorHighways: true,
     ferries: true,
@@ -53,7 +57,10 @@ export default function App() {
     if (!bundle) return;
     if (activePin?.kind === "project") {
       const p = bundle.projects.find((x) => x.slug === activePin.params.slug);
-      if (p) setSelected(p);
+      if (p) {
+        setSelected(p);
+        setSelectedProvince(null);
+      }
     }
   }, [activePin, bundle]);
 
@@ -95,6 +102,12 @@ export default function App() {
     setMapShare(Math.round(Math.min(75, Math.max(30, next))));
   };
 
+  const clearMapSelection = () => {
+    setSelected(null);
+    setSelectedProvince(null);
+    if (activePin?.kind === "project") activate(null);
+  };
+
   return (
     <div
       ref={splitRef}
@@ -107,7 +120,17 @@ export default function App() {
       <Globe
         bundle={bundle}
         selected={selected}
-        onSelect={setSelected}
+        onSelect={(project) => {
+          setSelected(project);
+          if (project) setSelectedProvince(null);
+        }}
+        selectedProvince={selectedProvince}
+        onSelectProvince={(province) => {
+          setSelected(null);
+          setSelectedProvince(province);
+          if (activePin?.kind === "project") activate(null);
+        }}
+        onClearSelection={clearMapSelection}
         overlays={overlays}
         onToggleOverlay={toggleOverlay}
         analysisVisible={analysisVisible}
@@ -158,6 +181,8 @@ export default function App() {
               if (activePin?.kind === "project") activate(null);
             }}
           />
+        ) : selectedProvince ? (
+          <ProvincePanel province={selectedProvince} onClose={clearMapSelection} />
         ) : (
           <Overview
             bundle={bundle}

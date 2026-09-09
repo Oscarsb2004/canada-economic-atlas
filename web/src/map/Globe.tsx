@@ -32,7 +32,7 @@ import maplibregl, { type LngLatLike, type StyleSpecification } from "maplibre-g
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import type { Bundle, CorridorNodeKind, Project } from "../data/bundle";
-import { PRUID_TO_CODE, asset, mapFeatures, provincialTotals } from "../data/bundle";
+import { PRUID_TO_CODE, asset, mapFeatures } from "../data/bundle";
 
 /** Where the globe opens: Canada, tilted so the Arctic projects are visible. */
 const HOME: { center: LngLatLike; zoom: number } = {
@@ -47,6 +47,9 @@ interface Props {
   bundle: Bundle;
   selected: Project | null;
   onSelect: (p: Project | null) => void;
+  selectedProvince: ProvinceSummary | null;
+  onSelectProvince: (province: ProvinceSummary) => void;
+  onClearSelection: () => void;
   overlays: MapOverlays;
   onToggleOverlay: (overlay: ToggleableOverlay) => void;
   analysisVisible: boolean;
@@ -59,6 +62,8 @@ interface Props {
  * imply that live vessel positions are available before a source is chosen.
  */
 export type ToggleableOverlay =
+  | "provinces"
+  | "placeNames"
   | "nationalHighways"
   | "majorHighways"
   | "ferries"
@@ -67,7 +72,13 @@ export type ToggleableOverlay =
 
 export type MapOverlays = Record<ToggleableOverlay, boolean>;
 
-const OVERLAY_LAYER_IDS: Record<Exclude<ToggleableOverlay, "majorProjects">, readonly string[]> = {
+export interface ProvinceSummary {
+  code: string;
+  name: string;
+}
+
+const OVERLAY_LAYER_IDS: Record<Exclude<ToggleableOverlay, "majorProjects" | "placeNames">, readonly string[]> = {
+  provinces: ["provinces-fill", "provinces"],
   nationalHighways: ["nhs-outline", "nhs"],
   majorHighways: ["major-highways-outline", "major-highways"],
   ferries: ["ferries"],
@@ -90,7 +101,9 @@ function buildStyle(bundle: Bundle): StyleSpecification {
     sources: {
       world: { type: "geojson", data: bundle.world as never },
       canada: { type: "geojson", data: bundle.canada as never },
-      provinces: { type: "geojson", data: provincesWithGdp(bundle) as never },
+      // PRUID is stable in StatCan's boundary file. Promoting it to the feature
+      // id lets hover state stay on exactly one province across mouse moves.
+      provinces: { type: "geojson", data: bundle.provinces as never, promoteId: "PRUID" },
       // `corridors` is the MPO PROJECT routes; `trade` is the national trade
       // network. Two different things that both wanted the same word — naming
       // them apart here rather than letting one shadow the other.
@@ -170,25 +183,24 @@ function buildStyle(bundle: Bundle): StyleSpecification {
           "line-opacity": ["interpolate", ["linear"], ["zoom"], 2.4, 0.5, 4.5, 0.18],
         },
       },
-      // Provincial choropleth. Magnitude is a SEQUENTIAL job: one hue,
-      // light-to-dark, from the validated ramp. A categorical scale here would
-      // claim the provinces are unordered identities when the thing being shown
-      // is how much each produces.
-      //
-      // It fades in with the boundaries: at world zoom it would be a coloured
-      // smudge, and the globe's job there is "Canada in the world".
+      // Provinces are geographic identities, not a proxy for GDP. They retain
+      // one neutral treatment until the reader hovers or selects one, at which
+      // point the accent makes the target unambiguous without assigning every
+      // province a misleading individual colour.
       {
         id: "provinces-fill",
         type: "fill",
         source: "provinces",
         paint: {
           "fill-color": [
-            "interpolate",
-            ["linear"],
-            ["coalesce", ["get", "gdp"], 0],
-            ...seqStops(bundle),
+            "case",
+            ["any", ["boolean", ["feature-state", "hover"], false], ["boolean", ["feature-state", "selected"], false]],
+            accent,
+            ink.axis,
           ],
-          "fill-opacity": ["interpolate", ["linear"], ["zoom"], 2.4, 0, 3.8, 0.85],
+          // Keep a subtle neutral surface at the overview zoom so the
+          // provincial boundaries remain discoverable before the user hovers.
+          "fill-opacity": ["interpolate", ["linear"], ["zoom"], 1.5, 0.16, 3.8, 0.84],
         },
       },
       // ── The physical economy, under the pins ───────────────────────────────
@@ -332,10 +344,8 @@ function buildStyle(bundle: Bundle): StyleSpecification {
           "circle-stroke-color": ink.secondary,
         } as never,
       })),
-      // Drawn after `provinces-fill` on purpose: the choropleth reaches 0.85
-      // opacity over exactly this footprint, so an outline underneath it would
-      // fade out along every coast at precisely the zoom where the coast is
-      // most legible.
+      // Drawn after `provinces-fill` so the selected outline is never swallowed
+      // by the province surface beneath it.
       {
         id: "canada-outline",
         type: "line",
@@ -353,9 +363,19 @@ function buildStyle(bundle: Bundle): StyleSpecification {
         type: "line",
         source: "provinces",
         paint: {
-          "line-color": accent,
-          "line-width": 0.6,
-          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2.2, 0, 3.6, 0.55],
+          "line-color": [
+            "case",
+            ["any", ["boolean", ["feature-state", "hover"], false], ["boolean", ["feature-state", "selected"], false]],
+            accent,
+            ink.secondary,
+          ],
+          "line-width": [
+            "case",
+            ["any", ["boolean", ["feature-state", "hover"], false], ["boolean", ["feature-state", "selected"], false]],
+            1.8,
+            0.6,
+          ],
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 1.5, 0.2, 3.6, 0.7],
         },
       },
       // Corridors: routes whose endpoints are all the source published.
@@ -382,39 +402,6 @@ function buildStyle(bundle: Bundle): StyleSpecification {
  * that routing is not final. Two published endpoints are not a route — drawing
  * a solid line would imply an alignment the government has not committed to.
  */
-/**
- * Province polygons with their latest GDP attached.
- *
- * MapLibre cannot join across sources, so the value has to ride on the feature.
- * The join key is PRUID, which is what the StatCan boundary file publishes;
- * everything else in the bundle uses the two-letter code.
- */
-function provincesWithGdp(bundle: Bundle): GeoJSON.FeatureCollection {
-  const totals = provincialTotals(bundle.provincial);
-  return {
-    ...bundle.provinces,
-    features: bundle.provinces.features.map((f) => {
-      const code = PRUID_TO_CODE[String(f.properties?.PRUID ?? "")];
-      return { ...f, properties: { ...f.properties, code, gdp: totals[code] ?? null } };
-    }),
-  };
-}
-
-/**
- * Interpolation stops for the sequential ramp.
- *
- * Ontario and Quebec dwarf the territories, so a linear domain would leave
- * eleven provinces in the first swatch. The stops are spaced on a square-root
- * progression of the maximum, which keeps the small economies distinguishable
- * without claiming a false ordering.
- */
-function seqStops(bundle: Bundle): (number | string)[] {
-  const totals = Object.values(provincialTotals(bundle.provincial));
-  const max = Math.max(...totals, 1);
-  const steps = bundle.palette.sequential.steps;
-  return steps.flatMap((hex, i) => [Math.round(max * (i / (steps.length - 1)) ** 2), hex]);
-}
-
 /**
  * Every corridor-node kind, and how thick its ring is.
  *
@@ -483,6 +470,9 @@ export function Globe({
   bundle,
   selected,
   onSelect,
+  selectedProvince,
+  onSelectProvince,
+  onClearSelection,
   overlays,
   onToggleOverlay,
   analysisVisible,
@@ -491,11 +481,19 @@ export function Globe({
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const markers = useRef<Map<string, maplibregl.Marker>>(new Map());
+  const placeMarkers = useRef<Map<string, maplibregl.Marker>>(new Map());
+  const overlaysRef = useRef(overlays);
+  overlaysRef.current = overlays;
+  const refreshPlaceLabelsRef = useRef<() => void>(() => {});
 
   // Keep the latest callback without re-running the map setup effect, which
   // would tear down and rebuild the globe on every parent render.
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
+  const onProvinceSelectRef = useRef(onSelectProvince);
+  onProvinceSelectRef.current = onSelectProvince;
+  const onClearSelectionRef = useRef(onClearSelection);
+  onClearSelectionRef.current = onClearSelection;
 
   useEffect(() => {
     // NO `if (map.current) return` guard here. It looks like it prevents a
@@ -611,17 +609,132 @@ export function Globe({
       markers.current.set(`${project.slug}:${index}`, marker);
     });
 
-    // Clicking empty ocean clears the selection, which is the obvious gesture
-    // and otherwise leaves the panel stuck on whatever was last opened.
-    m.on("click", () => onSelectRef.current(null));
+    /**
+     * A full country-wide town label layer cannot put one DOM node at every
+     * source coordinate: it would make a small screen carry thousands of
+     * overlapping elements. Instead each viewport is packed into a shrinking
+     * pixel grid. Zooming in makes the cells smaller, revealing towns that
+     * shared a label cell farther out; at street-level zoom every place gets
+     * its own label. This is the same practical rule as a tiled map label
+     * engine, without fetching tiles or relying on a hosted glyph service.
+     */
+    const syncPlaceLabels = () => {
+      placeMarkers.current.forEach((marker) => marker.remove());
+      placeMarkers.current.clear();
+
+      const zoom = m.getZoom();
+      if (!overlaysRef.current.placeNames || zoom < 2.8) return;
+
+      const { clientWidth: width, clientHeight: height } = m.getContainer();
+      const cellSize = Math.max(8, 150 - (zoom - 3) * 24);
+      const occupied = new Set<string>();
+      const places = bundle.places.features
+        .map((feature) => {
+          if (feature.geometry?.type !== "Point") return null;
+          const [lng, lat] = feature.geometry.coordinates;
+          const properties = feature.properties as Record<string, unknown> | null;
+          const id = String(properties?.id ?? "");
+          const name = String(properties?.name_en ?? "");
+          if (!id || !name || !Number.isFinite(lng) || !Number.isFinite(lat)) return null;
+          const point = m.project([lng, lat]);
+          if (point.x < -32 || point.x > width + 32 || point.y < -32 || point.y > height + 32) return null;
+          return { id, name, lng, lat, point };
+        })
+        .filter((place): place is NonNullable<typeof place> => place !== null)
+        // The source identifier is stable, so when places compete for a cell
+        // the visible name does not flicker as the map is panned a pixel.
+        .sort((a, b) => Number(a.id) - Number(b.id));
+
+      for (const place of places) {
+        const cell = `${Math.floor(place.point.x / cellSize)}:${Math.floor(place.point.y / cellSize)}`;
+        if (occupied.has(cell)) continue;
+        occupied.add(cell);
+
+        const element = document.createElement("span");
+        element.className = "place-label";
+        element.textContent = place.name;
+        element.setAttribute("aria-hidden", "true");
+        const marker = new maplibregl.Marker({ element, anchor: "top-left", offset: [3, 2] })
+          .setLngLat([place.lng, place.lat])
+          .addTo(m);
+        placeMarkers.current.set(place.id, marker);
+      }
+    };
+    refreshPlaceLabelsRef.current = syncPlaceLabels;
+    m.on("moveend", syncPlaceLabels);
+    // NavigationControl's zoom buttons can emit a zoom-only camera update.
+    // Listen explicitly so labels arrive at the same moment as the new scale.
+    m.on("zoomend", syncPlaceLabels);
+    // `idle` is the final camera signal after a globe animation. In particular
+    // it covers a control-button zoom that coalesces its move and zoom events.
+    m.on("idle", syncPlaceLabels);
+    syncPlaceLabels();
+
+    // Province identity belongs to the StatCan boundary feature rather than a
+    // hand-maintained coordinate table. The promoted PRUID gives every island
+    // in a province one shared hover state.
+    let hoveredProvinceId: string | number | null = null;
+    m.on("mousemove", "provinces-fill", (event) => {
+      const feature = event.features?.[0];
+      const id = feature?.id;
+      if (id == null || id === hoveredProvinceId) return;
+      if (hoveredProvinceId != null) {
+        m.setFeatureState({ source: "provinces", id: hoveredProvinceId }, { hover: false });
+      }
+      hoveredProvinceId = id;
+      m.setFeatureState({ source: "provinces", id }, { hover: true });
+      m.getCanvas().style.cursor = "pointer";
+    });
+    m.on("mouseleave", "provinces-fill", () => {
+      if (hoveredProvinceId != null) {
+        m.setFeatureState({ source: "provinces", id: hoveredProvinceId }, { hover: false });
+      }
+      hoveredProvinceId = null;
+      m.getCanvas().style.cursor = "";
+    });
+    m.on("click", "provinces-fill", (event) => {
+      const feature = event.features?.[0];
+      const pruid = String(feature?.properties?.PRUID ?? "");
+      const code = PRUID_TO_CODE[pruid];
+      const name = String(feature?.properties?.PRENAME ?? "");
+      if (code && name) onProvinceSelectRef.current({ code, name });
+    });
+
+    // Clicking empty ocean clears either type of selection, which is the
+    // obvious gesture and otherwise leaves a detail panel stuck open.
+    m.on("click", (event) => {
+      // Layer-specific click handlers fire as well as this map-wide handler.
+      // Query first so choosing a province cannot immediately clear itself.
+      if (m.queryRenderedFeatures(event.point, { layers: ["provinces-fill"] }).length === 0) {
+        onClearSelectionRef.current();
+      }
+    });
 
     return () => {
       markers.current.forEach((mk) => mk.remove());
       markers.current.clear();
+      m.off("moveend", syncPlaceLabels);
+      m.off("zoomend", syncPlaceLabels);
+      m.off("idle", syncPlaceLabels);
+      placeMarkers.current.forEach((marker) => marker.remove());
+      placeMarkers.current.clear();
+      refreshPlaceLabelsRef.current = () => {};
       m.remove();
       map.current = null;
     };
   }, [bundle]);
+
+  // Selection persists after the cursor leaves. It uses the same feature state
+  // as hover, but does not need another colour or a second province layer.
+  useEffect(() => {
+    const m = map.current;
+    if (!m || !m.isStyleLoaded()) return;
+    bundle.provinces.features.forEach((feature) => {
+      const code = PRUID_TO_CODE[String(feature.properties?.PRUID ?? "")];
+      const id = String(feature.properties?.PRUID ?? "");
+      if (id) m.setFeatureState({ source: "provinces", id }, { selected: code === selectedProvince?.code });
+    });
+  }, [bundle.provinces.features, selectedProvince]);
 
   // Fly to the selection, and mark the matching pins pressed.
   useEffect(() => {
@@ -679,6 +792,7 @@ export function Globe({
       if (m.getLayer("corridors")) {
         m.setLayoutProperty("corridors", "visibility", overlays.majorProjects ? "visible" : "none");
       }
+      refreshPlaceLabelsRef.current();
     };
 
     if (m.isStyleLoaded()) syncVisibility();
@@ -699,6 +813,18 @@ export function Globe({
       <div ref={container} className="map-canvas" aria-label="Map of Canada in the world" />
       <aside className="map-layer-bar" aria-label="Map layers">
         <div className="map-layer-bar__title">Map layers</div>
+        <LayerToggle
+          checked={overlays.provinces}
+          label="Provinces and territories"
+          detail="Hover or click for a profile"
+          onChange={() => onToggleOverlay("provinces")}
+        />
+        <LayerToggle
+          checked={overlays.placeNames}
+          label="City and town names"
+          detail="Government of Canada place names"
+          onChange={() => onToggleOverlay("placeNames")}
+        />
         <LayerToggle
           checked={overlays.nationalHighways}
           label="National Highway System"
@@ -732,6 +858,10 @@ export function Globe({
         <div className="map-layer-bar__future">
           <span>Ship tracking</span>
           <small>Planned — no source connected</small>
+        </div>
+        <div className="map-layer-bar__future">
+          <span>Population heatmap</span>
+          <small>Planned — 3D visualization</small>
         </div>
         <button type="button" className="map-layer-bar__analysis" onClick={onToggleAnalysis}>
           {analysisVisible ? "Hide analysis" : "Show analysis"}

@@ -241,6 +241,12 @@ export interface Bundle {
    *  coastline the Marine Atlantic and BC Ferries links carry the Trans-Canada. */
   highways: GeoJSON.FeatureCollection;
   /**
+   * Government of Canada populated-place labels: cities, towns, villages,
+   * First Nations communities and small hamlets. The map declutters these by
+   * zoom and screen position; the full source collection remains available.
+   */
+  places: GeoJSON.FeatureCollection;
+  /**
    * Transport Canada's five national trade corridors, with their own words.
    *
    * This replaced a hand-drawn `FeatureCollection` of schematic sea lanes. Once
@@ -291,7 +297,7 @@ async function json<T>(path: string): Promise<T> {
  * whose shape changed is worse than failing, because it looks like it worked.
  */
 export async function loadBundle(): Promise<Bundle> {
-  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, companiesDoc, rates, world, provinces, canada, nhs, highways, corridors] =
+  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, companiesDoc, rates, world, provinces, canada, nhs, highways, places, corridors] =
     await Promise.all([
       json<Bundle["meta"]>("/data/meta.json"),
       json<Palette>("/data/palette.json"),
@@ -307,6 +313,7 @@ export async function loadBundle(): Promise<Bundle> {
       json<GeoJSON.FeatureCollection>("/geo/canada.json"),
       json<GeoJSON.FeatureCollection>("/geo/nhs.json"),
       json<GeoJSON.FeatureCollection>("/geo/highways.json"),
+      json<GeoJSON.FeatureCollection>("/geo/places.json"),
       json<{ corridors: TradeCorridor[] }>("/data/events/trade-corridors/corridors.json"),
     ]);
 
@@ -332,6 +339,7 @@ export async function loadBundle(): Promise<Bundle> {
     canada,
     nhs,
     highways,
+    places,
     corridors: corridors.corridors,
   };
 }

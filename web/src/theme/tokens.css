@@ -210,6 +210,93 @@ body {
   .map-layer-bar { width: min(202px, calc(100% - 68px)); }
 }
 
+/* ── Province profile ───────────────────────────────────────────────────── */
+
+.province-panel { padding: var(--sp-5); }
+
+.province-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-bottom: var(--sp-4);
+  border-bottom: var(--hairline);
+}
+
+.province-panel h1 { margin: 0; font-size: var(--fs-title); }
+.province-panel h2 { margin: 0 0 var(--sp-1); font-size: var(--fs-small); }
+
+.province-panel__eyebrow {
+  margin: 0 0 var(--sp-1);
+  color: var(--ink-muted);
+  font-size: var(--fs-micro);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.province-panel__header .muted,
+.province-panel__identity p,
+.province-panel__section p { margin: 0; }
+
+.province-panel__close {
+  flex: 0 0 auto;
+  padding: 5px var(--sp-2);
+  border: var(--hairline);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: var(--fs-small);
+  cursor: pointer;
+}
+
+.province-panel__close:hover { border-color: var(--accent); color: var(--accent); }
+
+.province-panel__identity {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: var(--sp-3);
+  align-items: center;
+  margin: var(--sp-5) 0;
+  padding: var(--sp-3);
+  border: var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface-chart);
+}
+
+.province-panel__emblem {
+  display: grid;
+  width: 72px;
+  height: 48px;
+  place-items: center;
+  border: 1px dashed var(--ink-muted);
+  color: var(--ink-muted);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.05em;
+}
+
+.province-panel__section {
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: var(--hairline);
+}
+
+/* MapLibre markers for the official populated-place layer. The labels are
+   deliberately non-interactive: they identify the map, while pins and province
+   surfaces retain the click targets. */
+.place-label {
+  display: block;
+  color: var(--ink-primary);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  pointer-events: none;
+  text-shadow: 0 1px 2px var(--surface-page), 0 0 4px var(--surface-page);
+  white-space: nowrap;
+}
+
 /* ── Map pins ──────────────────────────────────────────────────────────────── */
 
 /*

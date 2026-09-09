@@ -150,6 +150,18 @@ const SOURCES = {
        + "boundary-limites/files-fichiers/lpr_000b21a_e.zip",
     file: "lpr_000b21a_e.zip",
   },
+  places: {
+    name: "Geolocated placenames in Canada",
+    publisher: "Innovation, Science and Economic Development Canada",
+    version: "published 2018-08-22",
+    licence: "ogl-canada-2.0",
+    dataset: "https://open.canada.ca/data/en/dataset/fe945388-1dd9-4a4a-9a1e-5c552579a28c",
+    // A national point layer of cities, towns, villages, First Nations
+    // communities and small hamlets. Unlike a municipality-boundary layer,
+    // it carries the place the reader expects to see named on a map.
+    url: "https://ised-isde.canada.ca/app/scr/sittibc/web/api/openData/MAG_EXO.CSV",
+    file: "MAG_EXO.CSV",
+  },
 };
 
 /**
@@ -323,6 +335,76 @@ function pruneEmpty(key, dst) {
   return dropped;
 }
 
+/**
+ * CSV is the source's published form, not a convenience format we control.
+ *
+ * Some Canadian place names contain commas and embedded line breaks, so a
+ * `split("\\n")` parser would turn a real place into two malformed records.
+ * This small RFC-4180 reader keeps the transformation dependency-free and
+ * deliberately refuses a changed header rather than publishing an empty map.
+ */
+function parseCsv(text) {
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let quoted = false;
+  for (let i = 0; i < text.length; i += 1) {
+    const ch = text[i];
+    if (quoted) {
+      if (ch === '"' && text[i + 1] === '"') {
+        cell += '"';
+        i += 1;
+      } else if (ch === '"') quoted = false;
+      else cell += ch;
+      continue;
+    }
+    if (ch === '"') quoted = true;
+    else if (ch === ',') {
+      row.push(cell);
+      cell = "";
+    } else if (ch === '\n') {
+      row.push(cell.replace(/\r$/, ""));
+      rows.push(row);
+      row = [];
+      cell = "";
+    } else cell += ch;
+  }
+  if (cell || row.length) {
+    row.push(cell.replace(/\r$/, ""));
+    rows.push(row);
+  }
+  return rows;
+}
+
+/** Convert the Government of Canada placename CSV to lean browser GeoJSON. */
+function buildPlaces(src) {
+  const header = ["PNuid_NLidu", "Name_en", "Nom_fr", "Province", "Latitude", "Longitude"];
+  const rows = parseCsv(readFileSync(src, "utf8"));
+  if (JSON.stringify(rows.shift()) !== JSON.stringify(header)) {
+    throw new Error("MAG_EXO.CSV header changed — inspect the source before rebuilding place labels");
+  }
+
+  const ids = new Set();
+  const features = rows.map((row, index) => {
+    const [id, name_en, name_fr, province, latText, lngText] = row;
+    const lat = Number(latText);
+    const lng = Number(lngText);
+    if (!id || !name_en || !Number.isFinite(lat) || !Number.isFinite(lng)
+      || lat < 40 || lat > 85 || lng < -142 || lng > -50 || ids.has(id)) {
+      throw new Error(`MAG_EXO.CSV row ${index + 2} is not one unique Canadian populated place`);
+    }
+    ids.add(id);
+    return {
+      type: "Feature",
+      properties: { id, name_en, name_fr, province },
+      geometry: { type: "Point", coordinates: [lng, lat] },
+    };
+  });
+  const dst = join(OUT, "places.json");
+  writeFileSync(dst, JSON.stringify({ type: "FeatureCollection", features }), "utf8");
+  console.log(`  places.json  ${features.length.toLocaleString()} named places, ${statSync(dst).size.toLocaleString()} bytes`);
+}
+
 async function build(key, src) {
   const dst = join(OUT, `${key}.json`);
   await mapshaper.runCommands(BUILDS[key](src, dst));
@@ -338,11 +420,13 @@ const world = await download(SOURCES.world);
 const nhs = await downloadPaged(SOURCES.nhs);
 const highways = await download(SOURCES.highways);
 const provinces = await download(SOURCES.provinces);
+const places = await download(SOURCES.places);
 
 await build("world", world);
 await build("nhs", nhs);
 await build("highways", highways);
 await build("provinces", provinces);
+buildPlaces(places);
 // Derived from the file the previous line just wrote, not from a download.
 await build("canada", join(OUT, "provinces.json"));
 

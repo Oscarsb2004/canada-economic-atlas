@@ -8,13 +8,15 @@ name: Build (and deploy to Pages on demand)
 # To refresh the data, run `python run.py` locally and commit the result. The
 # diff is the review.
 #
-# Pages is enabled and every push to main deploys.
+# Pull requests prove that a proposed change builds. Only a merge to protected
+# main deploys Pages; no feature branch can publish the public site.
 #
 # The `build` job is worth having on its own even when a deploy is not wanted:
 # it typechecks and runs a real production build, so a push that would have
 # shipped a broken site fails here instead of shipping.
 
 on:
+  pull_request:
   push:
     branches: [main]
   workflow_dispatch:
@@ -28,8 +30,6 @@ concurrency:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 jobs:
   build:
@@ -65,8 +65,12 @@ jobs:
           path: web/dist
 
   deploy:
+    if: github.event_name == 'push'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

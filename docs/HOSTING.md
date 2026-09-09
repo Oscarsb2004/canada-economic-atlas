@@ -8,17 +8,21 @@ account beyond GitHub and nothing to renew.
 
 ---
 
-## The normal case: you do nothing
+## The normal case: merge a reviewed pull request
 
-**Push to `main` and the site updates.** There is no deploy command, no build
-step to remember, and no dashboard to visit.
+`main` is the published branch. A feature-branch push runs the build check but
+cannot deploy; merging its pull request into `main` is what updates the site.
+Direct pushes to `main` are blocked by the checkout hook and should also be
+blocked by the repository ruleset described in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ```bash
-git push
+git switch -c feat/short-description
+# make and verify the change
+git push -u origin feat/short-description
 ```
 
-That is the whole procedure. The workflow runs `npm ci`, typechecks, builds, and
-publishes `web/dist`. Two to three minutes end to end.
+Open the pull request, wait for its build check, then merge it. The workflow
+runs `npm ci`, typechecks, builds, and publishes `web/dist` only for that merge.
 
 ### Why there is no scrape in CI
 
@@ -37,15 +41,17 @@ trustworthy: that what you reviewed is what shipped.
 
 ```bash
 python run.py          # pipeline, then verify
-git add -A
+git switch -c data/refresh-YYYY-MM-DD
+git add data/ web/public/data/
 git commit -m "Refresh: <what moved>"
-git push               # deploys
+git push -u origin data/refresh-YYYY-MM-DD
 ```
 
-**The diff is the review.** A run against unchanged sources produces a zero-line
-diff and there is nothing to commit — that is the acceptance test for every
-stage, not a coincidence. So a diff that *does* appear is a real change at the
-source, and it is worth reading before pushing rather than after.
+Open a pull request and merge it after its build check passes. **The diff is the
+review.** A run against unchanged sources produces a zero-line diff and there is
+nothing to commit — that is the acceptance test for every stage, not a
+coincidence. So a diff that *does* appear is a real change at the source, and it
+is worth reading before opening the pull request.
 
 Two things you will see and should not be alarmed by:
 

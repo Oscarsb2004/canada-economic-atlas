@@ -55,6 +55,13 @@ python run.py --refresh  # bypass the HTTP cache when pulling
 cd web && npm run dev    # the app, at http://localhost:5173
 ```
 
+## Contributing safely
+
+Do not work or push directly on `main`: it is the deployed branch. Create a
+feature branch, push that branch, and merge a pull request after its build
+passes. The one-time local guard and the exact workflow are in
+[`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md).
+
 ## Layout
 
 ```

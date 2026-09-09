@@ -4,7 +4,8 @@
   "type": "module",
   "description": "Build tooling for the committed map geometry. The web app has its own package.json under web/.",
   "scripts": {
-    "geo": "node scripts/build_geo.mjs"
+    "geo": "node scripts/build_geo.mjs",
+    "setup-git-safety": "git config core.hooksPath .githooks"
   },
   "devDependencies": {
     "mapshaper": "0.7.56"
