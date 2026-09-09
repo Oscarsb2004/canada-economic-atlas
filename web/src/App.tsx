@@ -13,9 +13,9 @@
  * but it is deliberately a small one.
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 
-import { Globe } from "./map/Globe";
+import { Globe, type MapOverlays, type ToggleableOverlay } from "./map/Globe";
 import { ProjectViewer } from "./panels/ProjectViewer";
 import { CorridorPanel } from "./panels/CorridorPanel";
 import { SectorPanel } from "./panels/SectorPanel";
@@ -30,6 +30,17 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<Project | null>(null);
   const [lang] = useState<Lang>("en");
+  const [analysisVisible, setAnalysisVisible] = useState(true);
+  const [mapShare, setMapShare] = useState(50);
+  const [resizing, setResizing] = useState(false);
+  const splitRef = useRef<HTMLDivElement>(null);
+  const [overlays, setOverlays] = useState<MapOverlays>({
+    nationalHighways: true,
+    majorHighways: true,
+    ferries: true,
+    majorProjects: true,
+    tradePlaces: true,
+  });
 
   const pins = useTabs((s) => s.pins);
   const activeId = useTabs((s) => s.activeId);
@@ -71,13 +82,70 @@ export default function App() {
     return <div style={{ padding: "var(--sp-6)" }} className="muted">Loading…</div>;
   }
 
+  const toggleOverlay = (overlay: ToggleableOverlay) => {
+    setOverlays((current) => ({ ...current, [overlay]: !current[overlay] }));
+  };
+
+  const resizeMap = (clientX: number) => {
+    const rect = splitRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    // Both panes need enough room to remain useful. The divider is therefore
+    // bounded rather than allowing a drag to create an inaccessible sliver.
+    const next = ((clientX - rect.left) / rect.width) * 100;
+    setMapShare(Math.round(Math.min(75, Math.max(30, next))));
+  };
+
   return (
-    <div className="split">
+    <div
+      ref={splitRef}
+      className={`split${analysisVisible ? "" : " split--analysis-hidden"}`}
+      style={{ "--map-share": `${mapShare}%` } as CSSProperties}
+    >
       <a className="skip-link" href="#analysis">
         Skip the map and go to the analysis
       </a>
-      <Globe bundle={bundle} selected={selected} onSelect={setSelected} />
-      <div className="pane-side" id="analysis" role="region" aria-label="Analysis">
+      <Globe
+        bundle={bundle}
+        selected={selected}
+        onSelect={setSelected}
+        overlays={overlays}
+        onToggleOverlay={toggleOverlay}
+        analysisVisible={analysisVisible}
+        onToggleAnalysis={() => setAnalysisVisible((visible) => !visible)}
+      />
+      {analysisVisible && <div
+        className={`split-divider${resizing ? " split-divider--dragging" : ""}`}
+        role="separator"
+        aria-label="Resize map and analysis panes"
+        aria-orientation="vertical"
+        aria-valuemin={30}
+        aria-valuemax={75}
+        aria-valuenow={mapShare}
+        tabIndex={0}
+        onPointerDown={(event) => {
+          event.currentTarget.setPointerCapture(event.pointerId);
+          setResizing(true);
+          resizeMap(event.clientX);
+        }}
+        onPointerMove={(event) => {
+          if (event.currentTarget.hasPointerCapture(event.pointerId)) resizeMap(event.clientX);
+        }}
+        onPointerUp={(event) => {
+          setResizing(false);
+          event.currentTarget.releasePointerCapture(event.pointerId);
+        }}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            setMapShare((share) => Math.max(30, share - 5));
+          }
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            setMapShare((share) => Math.min(75, share + 5));
+          }
+        }}
+      />}
+      {analysisVisible && <div className="pane-side" id="analysis" role="region" aria-label="Analysis">
         <div style={{ padding: "0 var(--sp-4)" }}>
           <TabStrip />
         </div>
@@ -103,7 +171,7 @@ export default function App() {
             key={activePin?.id ?? "overview"}
           />
         )}
-      </div>
+      </div>}
     </div>
   );
 }

@@ -54,18 +54,54 @@ body {
 /* ── Layout: the split the whole product is built around ───────────────────── */
 
 .split {
+  --map-share: 50%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, var(--map-share)) 10px minmax(0, 1fr);
   height: 100%;
+}
+
+.split--analysis-hidden { grid-template-columns: minmax(0, 1fr); }
+
+.split-divider {
+  position: relative;
+  z-index: 4;
+  cursor: col-resize;
+  background: var(--surface-page);
+  border-left: var(--hairline);
+  border-right: var(--hairline);
+  touch-action: none;
+}
+
+.split-divider::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 36px;
+  left: 3px;
+  top: calc(50% - 18px);
+  border-radius: 2px;
+  background: var(--ink-muted);
+  opacity: 0.65;
+}
+
+.split-divider:hover::after,
+.split-divider:focus-visible::after,
+.split-divider--dragging::after {
+  background: var(--accent);
+  opacity: 1;
 }
 
 /* Below this width a half-screen map is too small to read, so the halves
    stack rather than shrinking both into uselessness. */
 @media (max-width: 1100px) {
   .split { grid-template-columns: 1fr; grid-template-rows: 55vh 1fr; }
+  .split--analysis-hidden { grid-template-rows: 1fr; }
+  .split-divider { display: none; }
 }
 
 .pane-map { position: relative; min-width: 0; }
+
+.map-canvas { position: absolute; inset: 0; }
 
 .pane-side {
   min-width: 0;
@@ -94,6 +130,84 @@ body {
 
 @media (max-width: 1100px) {
   .pane-side { border-left: none; border-top: var(--hairline); }
+}
+
+/* ── Map layer control ──────────────────────────────────────────────────── */
+
+/* This is an overlay rather than map chrome supplied by MapLibre: it controls
+   both vector layers and the HTML project markers, which live in different
+   rendering systems. Keeping it in React makes their state one thing. */
+.map-layer-bar {
+  position: absolute;
+  z-index: 3;
+  top: var(--sp-3);
+  left: var(--sp-3);
+  width: min(224px, calc(100% - 76px));
+  padding: var(--sp-2);
+  border: var(--hairline);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface-chart) 94%, transparent);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 35%);
+  backdrop-filter: blur(6px);
+}
+
+.map-layer-bar__title {
+  margin: 1px var(--sp-1) var(--sp-2);
+  color: var(--ink-secondary);
+  font-size: var(--fs-micro);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.map-layer-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 5px var(--sp-1);
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.map-layer-toggle input { margin: 1px 0 0; accent-color: var(--accent); }
+
+.map-layer-toggle span > span,
+.map-layer-toggle small,
+.map-layer-bar__future span,
+.map-layer-bar__future small { display: block; }
+
+.map-layer-toggle small,
+.map-layer-bar__future small {
+  margin-top: 2px;
+  color: var(--ink-muted);
+  font-size: var(--fs-micro);
+}
+
+.map-layer-bar__future {
+  margin: var(--sp-1) 0;
+  padding: var(--sp-2) var(--sp-1);
+  border-top: var(--hairline);
+  color: var(--ink-muted);
+  line-height: 1.2;
+}
+
+.map-layer-bar__analysis {
+  width: 100%;
+  margin-top: var(--sp-1);
+  padding: 5px var(--sp-2);
+  border: var(--hairline);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: var(--fs-small);
+  cursor: pointer;
+}
+
+.map-layer-bar__analysis:hover { border-color: var(--accent); color: var(--accent); }
+
+@media (max-width: 600px) {
+  .map-layer-bar { width: min(202px, calc(100% - 68px)); }
 }
 
 /* ── Map pins ──────────────────────────────────────────────────────────────── */

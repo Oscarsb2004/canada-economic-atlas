@@ -47,7 +47,32 @@ interface Props {
   bundle: Bundle;
   selected: Project | null;
   onSelect: (p: Project | null) => void;
+  overlays: MapOverlays;
+  onToggleOverlay: (overlay: ToggleableOverlay) => void;
+  analysisVisible: boolean;
+  onToggleAnalysis: () => void;
 }
+
+/**
+ * Map controls are explicit state, rather than a collection of layer ids leaking
+ * into App. A disabled future layer has no boolean here: it cannot accidentally
+ * imply that live vessel positions are available before a source is chosen.
+ */
+export type ToggleableOverlay =
+  | "nationalHighways"
+  | "majorHighways"
+  | "ferries"
+  | "majorProjects"
+  | "tradePlaces";
+
+export type MapOverlays = Record<ToggleableOverlay, boolean>;
+
+const OVERLAY_LAYER_IDS: Record<Exclude<ToggleableOverlay, "majorProjects">, readonly string[]> = {
+  nationalHighways: ["nhs-outline", "nhs"],
+  majorHighways: ["major-highways-outline", "major-highways"],
+  ferries: ["ferries"],
+  tradePlaces: ["node-port", "node-border_crossing"],
+};
 
 /**
  * A style with no external sources at all.
@@ -179,6 +204,34 @@ function buildStyle(bundle: Bundle): StyleSpecification {
       // exists to show, and these are context for the pins rather than
       // competition for them.
       //
+      // Natural Earth's Canadian Major Highway collection supplements the NHS.
+      // It is deliberately quieter: it is a generalized reference network,
+      // whereas the blue NHS line above it carries Transport Canada's formal
+      // designation.
+      {
+        id: "major-highways-outline",
+        type: "line",
+        source: "highways",
+        filter: ["==", ["get", "type"], "Major Highway"],
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: {
+          "line-color": ink.gridline,
+          "line-width": ["interpolate", ["linear"], ["zoom"], 2, 1.3, 6, 3.4],
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.72, 4.5, 0.86],
+        },
+      },
+      {
+        id: "major-highways",
+        type: "line",
+        source: "highways",
+        filter: ["==", ["get", "type"], "Major Highway"],
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: {
+          "line-color": ink.muted,
+          "line-width": ["interpolate", ["linear"], ["zoom"], 2, 0.55, 6, 1.7],
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.72, 4.5, 0.9],
+        },
+      },
       // The National Highway System, coloured by Transport Canada's own class.
       //
       // ONE layer with a `match` built from a typed table, not three hand-rolled
@@ -188,6 +241,24 @@ function buildStyle(bundle: Bundle): StyleSpecification {
       // a colour. Weight rather than hue carries the class: the accent is
       // already doing selection here, and the validated palette caps
       // categorical encoding well below what is competing for it on this map.
+      // A light casing makes the network survive both the GDP fill and the
+      // dark land colour. It is a second line layer, not a made-up road class:
+      // the blue line above remains Transport Canada's designation.
+      {
+        id: "nhs-outline",
+        type: "line",
+        source: "nhs",
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: {
+          "line-color": ink.secondary,
+          "line-width": [
+            "interpolate", ["linear"], ["zoom"],
+            2, ["match", ["get", "type_code"], ...nhsWidthAt(1.5), 1.1],
+            6, ["match", ["get", "type_code"], ...nhsWidthAt(5.4), 3.4],
+          ],
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.72, 4.5, 0.9],
+        },
+      } as never,
       {
         id: "nhs",
         type: "line",
@@ -209,10 +280,10 @@ function buildStyle(bundle: Bundle): StyleSpecification {
           // style construction is wrapped and the error named at the call site.
           "line-width": [
             "interpolate", ["linear"], ["zoom"],
-            2, ["match", ["get", "type_code"], ...nhsWidthAt(0.4), 0.2],
-            6, ["match", ["get", "type_code"], ...nhsWidthAt(2.4), 1.2],
+            2, ["match", ["get", "type_code"], ...nhsWidthAt(0.8), 0.5],
+            6, ["match", ["get", "type_code"], ...nhsWidthAt(3.5), 2],
           ],
-          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.22, 4.5, 0.62],
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.78, 4.5, 0.92],
         },
       } as never,
       // Ferry routes, from Natural Earth. The NHS is ROADS ONLY, and on this
@@ -408,7 +479,15 @@ function corridorGeoJSON(bundle: Bundle): GeoJSON.FeatureCollection {
   };
 }
 
-export function Globe({ bundle, selected, onSelect }: Props) {
+export function Globe({
+  bundle,
+  selected,
+  onSelect,
+  overlays,
+  onToggleOverlay,
+  analysisVisible,
+  onToggleAnalysis,
+}: Props) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const markers = useRef<Map<string, maplibregl.Marker>>(new Map());
@@ -577,14 +656,109 @@ export function Globe({ bundle, selected, onSelect }: Props) {
     else m.flyTo({ ...target, speed: 0.85, curve: 1.5 });
   }, [selected]);
 
+  // The control bar changes visibility only; it never removes data from the
+  // style. That keeps a toggle instantaneous and means the published geometry
+  // stays inspectable in the same map instance.
+  useEffect(() => {
+    const m = map.current;
+    if (!m) return;
+
+    const syncVisibility = () => {
+      (Object.entries(OVERLAY_LAYER_IDS) as [keyof typeof OVERLAY_LAYER_IDS, readonly string[]][])
+        .forEach(([overlay, layerIds]) => {
+          layerIds.forEach((layerId) => {
+            if (m.getLayer(layerId)) {
+              m.setLayoutProperty(layerId, "visibility", overlays[overlay] ? "visible" : "none");
+            }
+          });
+        });
+
+      markers.current.forEach((marker) => {
+        marker.getElement().style.display = overlays.majorProjects ? "block" : "none";
+      });
+      if (m.getLayer("corridors")) {
+        m.setLayoutProperty("corridors", "visibility", overlays.majorProjects ? "visible" : "none");
+      }
+    };
+
+    if (m.isStyleLoaded()) syncVisibility();
+    else m.once("style.load", syncVisibility);
+
+    return () => {
+      m.off("style.load", syncVisibility);
+    };
+  }, [overlays]);
+
   return (
     <div
-      ref={container}
       className="pane-map"
-      aria-label="Map of Canada in the world"
       // Space: the canvas behind the sphere. The style's background layer is
       // the ocean, so this is the only place the void gets a colour.
       style={{ background: bundle.palette.surface.page }}
-    />
+    >
+      <div ref={container} className="map-canvas" aria-label="Map of Canada in the world" />
+      <aside className="map-layer-bar" aria-label="Map layers">
+        <div className="map-layer-bar__title">Map layers</div>
+        <LayerToggle
+          checked={overlays.nationalHighways}
+          label="National Highway System"
+          detail="Transport Canada"
+          onChange={() => onToggleOverlay("nationalHighways")}
+        />
+        <LayerToggle
+          checked={overlays.majorHighways}
+          label="Major highways"
+          detail="Natural Earth reference network"
+          onChange={() => onToggleOverlay("majorHighways")}
+        />
+        <LayerToggle
+          checked={overlays.ferries}
+          label="Ferry routes"
+          detail="Natural Earth"
+          onChange={() => onToggleOverlay("ferries")}
+        />
+        <LayerToggle
+          checked={overlays.majorProjects}
+          label="Major Projects Office"
+          detail="Project pins and published route endpoints"
+          onChange={() => onToggleOverlay("majorProjects")}
+        />
+        <LayerToggle
+          checked={overlays.tradePlaces}
+          label="Trade corridor places"
+          detail="Ports and border crossings"
+          onChange={() => onToggleOverlay("tradePlaces")}
+        />
+        <div className="map-layer-bar__future">
+          <span>Ship tracking</span>
+          <small>Planned — no source connected</small>
+        </div>
+        <button type="button" className="map-layer-bar__analysis" onClick={onToggleAnalysis}>
+          {analysisVisible ? "Hide analysis" : "Show analysis"}
+        </button>
+      </aside>
+    </div>
+  );
+}
+
+function LayerToggle({
+  checked,
+  label,
+  detail,
+  onChange,
+}: {
+  checked: boolean;
+  label: string;
+  detail: string;
+  onChange: () => void;
+}) {
+  return (
+    <label className="map-layer-toggle">
+      <input type="checkbox" checked={checked} onChange={onChange} />
+      <span>
+        <span>{label}</span>
+        <small>{detail}</small>
+      </span>
+    </label>
   );
 }
