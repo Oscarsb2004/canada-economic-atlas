@@ -178,6 +178,17 @@ sources:
     # Every MPO project already carries official coordinates, so this is unused
     # by stage 01 today.
 
+  canada_placenames:
+    title: Geolocated placenames in Canada
+    publisher: Innovation, Science and Economic Development Canada
+    licence: ogl-canada-2.0
+    attribution: Innovation, Science and Economic Development Canada — Geolocated placenames in Canada
+    dataset_record: https://open.canada.ca/data/en/dataset/fe945388-1dd9-4a4a-9a1e-5c552579a28c
+    csv: https://ised-isde.canada.ca/app/scr/sittibc/web/api/openData/MAG_EXO.CSV
+    # City, town, village, First Nations community and small-hamlet points.
+    # Geometry is built separately by scripts/build_geo.mjs because it is map
+    # reference data, not an event or an economic series.
+
   statcan_boundaries:
     title: 2021 Census cartographic boundary files — provinces and territories
     publisher: Statistics Canada

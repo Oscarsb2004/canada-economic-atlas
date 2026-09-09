@@ -37,6 +37,15 @@
       "dataset": "https://open.canada.ca/data/en/dataset/ef70dc3b-1069-4037-9bce-61f47e628a1d",
       "url": "https://www12.statcan.gc.ca/census-recensement/2021/geo/sip-pis/boundary-limites/files-fichiers/lpr_000b21a_e.zip",
       "file": "lpr_000b21a_e.zip"
+    },
+    "places": {
+      "name": "Geolocated placenames in Canada",
+      "publisher": "Innovation, Science and Economic Development Canada",
+      "version": "published 2018-08-22",
+      "licence": "ogl-canada-2.0",
+      "dataset": "https://open.canada.ca/data/en/dataset/fe945388-1dd9-4a4a-9a1e-5c552579a28c",
+      "url": "https://ised-isde.canada.ca/app/scr/sittibc/web/api/openData/MAG_EXO.CSV",
+      "file": "MAG_EXO.CSV"
     }
   },
   "commands": {

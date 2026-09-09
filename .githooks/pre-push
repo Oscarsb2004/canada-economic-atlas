@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+# Direct pushes to main publish the public site. Keep the guard versioned so
+# every checkout can opt into the same rule with `npm run setup-git-safety`.
+#
+# This is a seatbelt, not the remote lock: GitHub branch protection remains the
+# enforcement point because hooks can be skipped with --no-verify.
+while read local_ref local_sha remote_ref remote_sha
+do
+  if [ "$remote_ref" = "refs/heads/main" ]; then
+    echo >&2 "Blocked: direct pushes to main are disabled in this checkout."
+    echo >&2 "Push your feature branch, open a pull request, then merge it on GitHub."
+    exit 1
+  fi
+done
+
+exit 0

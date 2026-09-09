@@ -12,7 +12,7 @@
     "sectors/provincial-annual.json",
     "sectors/rates.json"
   ],
-  "generated_at": "2026-09-08T22:36:38Z",
+  "generated_at": "2026-09-09T01:28:53Z",
   "licences": {
     "boc-terms": {
       "attribution": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
@@ -45,6 +45,14 @@
       "licence": "boc-terms",
       "publisher": "Bank of Canada",
       "title": "Bank of Canada Valet API"
+    },
+    "canada_placenames": {
+      "attribution": "Innovation, Science and Economic Development Canada — Geolocated placenames in Canada",
+      "csv": "https://ised-isde.canada.ca/app/scr/sittibc/web/api/openData/MAG_EXO.CSV",
+      "dataset_record": "https://open.canada.ca/data/en/dataset/fe945388-1dd9-4a4a-9a1e-5c552579a28c",
+      "licence": "ogl-canada-2.0",
+      "publisher": "Innovation, Science and Economic Development Canada",
+      "title": "Geolocated placenames in Canada"
     },
     "geogratis_names": {
       "base": "https://geogratis.gc.ca/services/geoname/en/geonames.geojson",
