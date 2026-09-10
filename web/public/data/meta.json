@@ -12,7 +12,7 @@
     "sectors/provincial-annual.json",
     "sectors/rates.json"
   ],
-  "generated_at": "2026-09-09T01:28:53Z",
+  "generated_at": "2026-09-10T14:38:43Z",
   "licences": {
     "boc-terms": {
       "attribution": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
@@ -85,11 +85,35 @@
       "strategies_index_en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred.html",
       "title": "Major Projects Office project pages"
     },
+    "nrcan_nrwn": {
+      "attribution": "Natural Resources Canada — National Railway Network (NRWN)",
+      "dataset_record": "https://open.canada.ca/data/en/dataset/ac26807e-a1e8-49fa-87bf-451175a859b8",
+      "distribution": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/",
+      "licence": "ogl-canada-2.0",
+      "publisher": "Natural Resources Canada",
+      "title": "National Railway Network (NRWN) — GeoBase Series"
+    },
     "statcan_boundaries": {
       "dataset_record": "https://open.canada.ca/data/en/dataset/ef70dc3b-1069-4037-9bce-61f47e628a1d",
       "licence": "statcan-open",
       "publisher": "Statistics Canada",
       "title": "2021 Census cartographic boundary files — provinces and territories"
+    },
+    "statcan_municipal_population": {
+      "attribution": "Statistics Canada, 2021 Census of Population",
+      "csv": "https://www150.statcan.gc.ca/n1/en/tbl/csv/98100002-eng.zip",
+      "dataset_record": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=9810000201",
+      "licence": "statcan-open",
+      "publisher": "Statistics Canada",
+      "title": "Population and dwelling counts — census subdivisions (municipalities)"
+    },
+    "statcan_population_centres": {
+      "attribution": "Statistics Canada, 2021 Census population centres",
+      "csv": "https://www150.statcan.gc.ca/n1/en/tbl/csv/98100011-eng.zip",
+      "dataset_record": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=9810001101",
+      "licence": "statcan-open",
+      "publisher": "Statistics Canada",
+      "title": "Population and dwelling counts — Canada and population centres"
     },
     "statcan_wds": {
       "base": "https://www150.statcan.gc.ca/t1/wds/rest/",

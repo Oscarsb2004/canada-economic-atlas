@@ -383,6 +383,35 @@ that does not exist, and a checker that cries wolf on four of nineteen is one
 nobody reads. The tolerance is declared per dataset in `registry/checks.yaml`,
 so an event whose sites are all inland can set it to zero.
 
+**Census population centres are agglomerations, not places.** Place labels
+ranked by a join to 2021 population centres left 12,071 of 13,018 places
+unranked and pushed Ottawa (1,017,449), Mississauga, Brampton, Surrey, Laval and
+Gatineau to street zoom: Mississauga and Brampton sit inside the "Toronto"
+centre, and Ottawa's is published as "Ottawa - Gatineau (Ontario part)".
+Municipal (census subdivision) population now fills ONLY the gaps — 2,858
+places ranked (947 census centre, unchanged; 1,911 municipal) — because
+replacing centres outright would have demoted Vancouver (municipal 662,248
+against a centre of 2,426,160). Duplicate municipal names within a province are
+withheld (131), and `population_source` records which figure each label
+carries. Four amalgamations stay unmatched — Greater Sudbury, Saguenay,
+Chatham-Kent, Clarington — because the placename source records the historic
+community, and hand-mapping them would be authoring a join.
+
+Note what the new place-label gates do NOT do: they would not have caught this.
+A missing population at the last zoom tier is internally consistent. What makes
+a failed join visible is the coverage note — "N of 13,018 ranked" — which is
+advisory by design, since any "enough places matched" threshold would be
+invented.
+
+**`isStyleLoaded()` is false while ANY source is loading.** The selected-province
+highlight returned early on it with no retry, so it failed for the second or two
+after rail's 16 MB `setData`. Reproduced: enable rail, click Ontario, and the
+panel opens but the province never highlights, even after the map goes idle.
+Gate on the specific source (`getSource("provinces")`) and fall back to
+`once("style.load")`. The rail lazy-load had the same shape — `railLoaded` set
+after an optional `source?.setData` — and now marks itself loaded only once the
+data has reached a source.
+
 **MapLibre rejects the WHOLE STYLE for one bad paint expression.** A zoom-based
 `interpolate` must be the TOP-LEVEL expression of a paint property, with any
 data-driven `match` in its output slots — not a `match` containing ramps, and not

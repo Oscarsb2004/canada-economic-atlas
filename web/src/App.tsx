@@ -41,6 +41,7 @@ export default function App() {
     placeNames: true,
     nationalHighways: true,
     majorHighways: true,
+    rail: false,
     ferries: true,
     majorProjects: true,
     tradePlaces: true,

@@ -34,6 +34,7 @@ language toggle is the next item in the backlog.
 | The long-term plan across all three repos | [docs/PROGRAM.md](docs/PROGRAM.md) |
 | What every file does | [docs/CODE-TOUR.md](docs/CODE-TOUR.md) |
 | What is analytically defensible, and what is not | [docs/ROADMAP.md](docs/ROADMAP.md) |
+| Rail layer source, coverage, and design decisions | [docs/RAIL.md](docs/RAIL.md) |
 | How the site is published | [docs/HOSTING.md](docs/HOSTING.md) |
 | The full design | [docs/PLAN.md](docs/PLAN.md) |
 

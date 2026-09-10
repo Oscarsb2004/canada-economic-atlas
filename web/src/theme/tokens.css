@@ -287,14 +287,18 @@ body {
    surfaces retain the click targets. */
 .place-label {
   display: block;
-  color: var(--ink-primary);
+  color: var(--ink-secondary);
   font-size: var(--fs-micro);
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1;
   letter-spacing: 0.01em;
   pointer-events: none;
   text-shadow: 0 1px 2px var(--surface-page), 0 0 4px var(--surface-page);
   white-space: nowrap;
+}
+
+.place-label--capital {
+  font-weight: 700;
 }
 
 /* ── Map pins ──────────────────────────────────────────────────────────────── */

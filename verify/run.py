@@ -382,6 +382,90 @@ def check_bundle(r: Report) -> None:
            "no NHS feature has collapsed geometry",
            f"{len(empty)} with properties and no geometry: {empty[:3]}")
 
+    # ── Rail (NRWN) ────────────────────────────────────────────────────────────
+    #
+    # The rail layer arrived with an existence check and nothing else, where the
+    # National Highway System carries three. Same failure modes, same gates: a
+    # projected coordinate renders as nothing rather than raising, collapsed
+    # geometry is counted but never drawn, and the build's own claim that it
+    # kept only operational track should hold in the file it wrote.
+    rail_path = WEB / "geo/rail.json"
+    if rail_path.exists():
+        rail = json.loads(rail_path.read_text(encoding="utf-8"))["features"]
+        rail_pts = [c for f in rail if f.get("geometry")
+                    for part in (f["geometry"]["coordinates"]
+                                 if f["geometry"]["type"] == "MultiLineString"
+                                 else [f["geometry"]["coordinates"]])
+                    for c in part]
+        off = [c for c in rail_pts if not (-142.0 <= c[0] <= -52.0 and 41.0 <= c[1] <= 84.0)]
+        r.gate(not off,
+               f"every NRWN rail coordinate is in degrees ({len(rail_pts):,} points)",
+               f"{len(off)} outside Canada's bounding box — first {off[:2]}")
+        collapsed = sum(1 for f in rail if not f.get("geometry"))
+        r.gate(not collapsed,
+               "no rail feature has collapsed geometry",
+               f"{collapsed} with properties and no geometry")
+        statuses = sorted({str(f["properties"].get("STATUS")) for f in rail})
+        r.gate(statuses == ["Operational"],
+               "rail carries only track the publisher calls Operational",
+               f"STATUS values: {statuses}")
+
+    # ── Place labels ──────────────────────────────────────────────────────────
+    #
+    # Nothing checked these until 2026-09-10, when a population join that looked
+    # entirely plausible turned out to leave 12,071 of 13,018 places unranked:
+    # Ottawa, Mississauga, Brampton, Surrey, Laval and Gatineau were all pushed to
+    # street zoom while every gate passed. These hold the label contract itself.
+    # Coverage is REPORTED rather than thresholded, because any fixed "enough
+    # places matched" number would be invented.
+    places_doc = json.loads((WEB / "geo/places.json").read_text(encoding="utf-8"))
+    place_props = [f["properties"] for f in places_doc["features"]]
+
+    # A larger population must never get a LATER label than a smaller one.
+    # Stated as an ordering rather than by restating the zoom tiers, so this
+    # catches a broken join or a broken tier table without duplicating either.
+    ranked = sorted((p for p in place_props if not p.get("capital")),
+                    key=lambda p: -(p.get("population") or 0))
+    inversions, latest_zoom_above = [], None
+    prev_pop, group_max = None, None
+    for p in ranked:
+        pop, zoom = p.get("population") or 0, p["min_zoom"]
+        if pop != prev_pop:
+            latest_zoom_above = group_max if latest_zoom_above is None else max(latest_zoom_above, group_max or 0)
+            prev_pop, group_max = pop, zoom
+        else:
+            group_max = max(group_max, zoom)
+        if latest_zoom_above is not None and zoom < latest_zoom_above:
+            inversions.append(f"{p['name_en']} ({p['province']}, {pop}) at {zoom}")
+    r.gate(not inversions,
+           "a larger population never gets a later place label",
+           f"{len(inversions)} inversions, e.g. {inversions[:3]}")
+
+    # One capital per province and territory, counted against the boundary file
+    # rather than a list of codes restated here.
+    capitals = [p["province"] for p in place_props if p.get("capital")]
+    n_provinces = len(json.loads((WEB / "geo/provinces.json").read_text(encoding="utf-8"))["features"])
+    r.gate(len(capitals) == n_provinces and len(set(capitals)) == n_provinces,
+           f"exactly one capital label per province and territory ({n_provinces})",
+           f"capitals found: {sorted(capitals)}")
+
+    # A population must say which published figure it is, and only those two.
+    bad_source = [p["name_en"] for p in place_props
+                  if (p.get("population") is None) != (p.get("population_source") is None)
+                  or p.get("population_source") not in (None, "population_centre", "census_subdivision")]
+    r.gate(not bad_source,
+           "every ranked place names which census figure ranks it",
+           f"{len(bad_source)} inconsistent, e.g. {bad_source[:5]}")
+
+    by_source = {}
+    for p in place_props:
+        by_source[p.get("population_source")] = by_source.get(p.get("population_source"), 0) + 1
+    unmatched = places_doc.get("unmatched_large_municipalities", [])
+    r.note(f"place labels: {len(place_props) - by_source.get(None, 0):,} of {len(place_props):,} ranked "
+           f"({by_source.get('population_centre', 0):,} census centre, "
+           f"{by_source.get('census_subdivision', 0):,} municipal); municipalities of 100k+ with no "
+           f"same-named place: {[u['name'] for u in unmatched]}")
+
     # The globe highlights Canada from canada.json rather than from Natural
     # Earth filtered to CAN, because the 1:110m feature is 9 polygons with no
     # Vancouver Island and almost no Arctic archipelago. A regression to that
