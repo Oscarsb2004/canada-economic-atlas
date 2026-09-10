@@ -262,3 +262,73 @@ datasets:
           Every corridor node is a POINT and must be reachable on the map. This
           is the gate that would have caught the corridor projects rendering as
           dashes with no marker.
+
+  # ── Municipalities: every census subdivision ─────────────────────────────────
+  #
+  # Written by pipeline/05_municipalities.py from table 98-10-0002. Not bundled
+  # to the app; this is the identity spine later civic and fiscal data joins to,
+  # so it is gated as hard as anything the app renders.
+  municipalities:
+    path: data/geography/municipalities.json
+    records: municipalities
+    id_field: csd_uid
+    checks:
+      - kind: unique_ids
+        severity: gate
+        why: >
+          The CSDUID is the join key for every later municipal dataset. Two
+          records sharing one would silently merge two places' figures.
+
+      - kind: record_count
+        severity: gate
+        expect_from: "sources.yaml:sources.statcan_municipal_population.expected.census_subdivisions"
+        why: >
+          5,161 in the 2021 census. Asserted beside the source, so a new census
+          changes the URL, the vintage and the count in one reviewed edit.
+
+      - kind: fields_present
+        severity: gate
+        fields: [dguid, name.en, name.fr, province, census_division_uid,
+                 census_division_name.en, census_division_name.fr,
+                 csd_type_abbr, csd_type.en, csd_type.fr]
+        why: >
+          The legal type is what a "cities only" view filters on, and a missing
+          French string is the silent failure this project has hit twice.
+          Presence, not truthiness: a population of zero is a published value.
+
+      - kind: enum_field
+        severity: gate
+        field: province
+        # QUOTED. Bare ON is YAML 1.1 for true, and this check would then reject
+        # every Ontario municipality.
+        allowed: ["NL", "PE", "NS", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
+
+      - kind: sums_to_published_totals
+        severity: gate
+        group_field: province
+        value_field: population_2021
+        totals_path: province_totals
+        tolerance: 0
+        why: >
+          Measured exact on the 2021 table for all thirteen. Catches a
+          subdivision filed under the wrong province, or a value read from the
+          wrong column — neither of which changes the record count.
+
+      - kind: sums_to_published_totals
+        severity: gate
+        group_field: province
+        value_field: private_dwellings_2021
+        totals_path: province_totals
+        tolerance: 0
+
+      - kind: sums_to_published_totals
+        severity: gate
+        group_field: province
+        value_field: occupied_dwellings_2021
+        totals_path: province_totals
+        tolerance: 0
+        why: >
+          The three 2021 counts are declared; the 2016 counts deliberately are
+          NOT. Their components differ from the published 2016 province totals
+          in NL, QC and ON (Ontario by 344 people; cause not established).
+          Declaring them would gate on an identity the publisher never claimed.

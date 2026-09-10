@@ -45,8 +45,12 @@ log = logging.getLogger(__name__)
 
 WDS = "https://www150.statcan.gc.ca/t1/wds/rest"
 
-#: Undocumented cap on getDataFromVectorsAndLatestNPeriods POST bodies.
-#: 300 succeeds, 400 returns HTTP 416. Only the incremental path hits this.
+#: Undocumented cap on getDataFromVectorsAndLatestNPeriods POST bodies: 300
+#: succeeds, 400 returns HTTP 416. NOTHING IN THIS REPO CALLS THAT ENDPOINT —
+#: every stage reads bulk CSV — so this records a finding for the incremental
+#: refresh BACKLOG E3 would add; it is not a live limit. An earlier comment said
+#: "the incremental path hits this" when no incremental path existed, and a test
+#: asserted the constant equalled the number it was defined as.
 VECTOR_BATCH_MAX = 300
 
 #: "Manufacturing [31-33]" -> "31-33". The bracketed code is the join key.
@@ -91,9 +95,11 @@ def download_cube(fetch: Fetcher, pid: str, lang: str, dest_dir: Path) -> Path:
     return dest
 
 
-def read_cube(zip_path: Path, pid: str) -> tuple[list[str], list[list[str]]]:
+def read_cube(zip_path: Path, pid: str, member: str | None = None) -> tuple[list[str], list[list[str]]]:
     """
-    Header and rows of a downloaded cube's data CSV.
+    Header and rows of a downloaded cube's data CSV — or, with `member`, of
+    another file in the same archive. The census table's geographic
+    attributes (legal type, province code) live only in `_MetaData.csv`.
 
     The delimiter is detected, not assumed. The English cube is comma-separated
     and the FRENCH CUBE IS SEMICOLON-SEPARATED — the European convention, since
@@ -107,7 +113,7 @@ def read_cube(zip_path: Path, pid: str) -> tuple[list[str], list[list[str]]]:
     with zipfile.ZipFile(zip_path) as z:
         # Read once into memory rather than seeking: a zip member stream is not
         # seekable, and these cubes are ~50 MB of text, which is fine.
-        with z.open(f"{pid}.csv") as fh:
+        with z.open(member or f"{pid}.csv") as fh:
             body = io.TextIOWrapper(fh, encoding="utf-8-sig").read()
 
     first = body[: body.find("\n")]

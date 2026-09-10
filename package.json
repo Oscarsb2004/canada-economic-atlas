@@ -8,6 +8,7 @@
     "setup-git-safety": "git config core.hooksPath .githooks"
   },
   "devDependencies": {
+    "adm-zip": "0.5.18",
     "mapshaper": "0.7.56"
   }
 }

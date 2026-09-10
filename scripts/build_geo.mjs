@@ -7,6 +7,7 @@
  *     web/public/geo/world.json      177 country polygons, for the globe
  *     web/public/geo/provinces.json  13 provinces and territories, for drill-down
  *     web/public/geo/canada.json     the national outline, dissolved from those
+ *     web/public/geo/rail.json       NRCan's operational National Railway Network
  *     web/public/geo/SOURCES.json    the manifest describing the three above
  *
  * These live under web/public/geo/ rather than web/public/data/ because they are
@@ -69,6 +70,7 @@
  */
 
 import mapshaperPkg from "mapshaper";
+import AdmZip from "adm-zip";
 import { createRequire } from "node:module";
 import { mkdirSync, existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -83,6 +85,8 @@ const RAW = join(ROOT, "data", "raw", "geo");
 const OUT = join(ROOT, "web", "public", "geo");
 
 const force = process.argv.includes("--force");
+const RAIL_REGIONS = ["ab", "bc", "mb", "nb", "nl", "ns", "nt", "on", "qc", "sk", "yt"];
+const RAIL_SOURCE_ROOT = "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn";
 
 /** Pinned provenance. Changing any of this changes the committed output. */
 const SOURCES = {
@@ -161,6 +165,43 @@ const SOURCES = {
     // it carries the place the reader expects to see named on a map.
     url: "https://ised-isde.canada.ca/app/scr/sittibc/web/api/openData/MAG_EXO.CSV",
     file: "MAG_EXO.CSV",
+  },
+  population_centres: {
+    name: "Population and dwelling counts: Canada and population centres",
+    publisher: "Statistics Canada",
+    version: "2021 Census",
+    licence: "statcan-open",
+    dataset: "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=9810001101",
+    url: "https://www150.statcan.gc.ca/n1/en/tbl/csv/98100011-eng.zip",
+    file: "98100011-eng.zip",
+  },
+  municipal_population: {
+    name: "Population and dwelling counts: census subdivisions (municipalities)",
+    publisher: "Statistics Canada",
+    version: "2021 Census",
+    licence: "statcan-open",
+    dataset: "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=9810000201",
+    // The FALLBACK label rank — see populationByMunicipality for why.
+    url: "https://www150.statcan.gc.ca/n1/en/tbl/csv/98100002-eng.zip",
+    file: "98100002-eng.zip",
+  },
+  rail: {
+    name: "National Railway Network (NRWN) — GeoBase Series",
+    publisher: "Natural Resources Canada",
+    version: "pre-packaged English Shapefiles; official catalogue updated 2021-05-19",
+    licence: "ogl-canada-2.0",
+    dataset: "https://open.canada.ca/data/en/dataset/ac26807e-a1e8-49fa-87bf-451175a859b8",
+    // NRCan distributes the national network as one English Shapefile archive
+    // per region. Its directory has no PE or NU archive; the build records that
+    // absence rather than filling either jurisdiction from another source.
+    distribution: RAIL_SOURCE_ROOT,
+    files: Object.fromEntries(RAIL_REGIONS.map((region) => {
+      const file = `nrwn_rfn_${region}_shp_en.zip`;
+      return [region.toUpperCase(), {
+        file,
+        url: `${RAIL_SOURCE_ROOT}/${region}/${file}`,
+      }];
+    })),
   },
 };
 
@@ -243,6 +284,21 @@ const BUILDS = {
     + `-filter-fields type,name,label,length_km,scalerank `
     + `-simplify 25% keep-shapes `
     + `-o format=geojson precision=0.005 "${dst}"`,
+
+  // NRWN's official Track Classification carries Main, Siding, Spur, Yard,
+  // Connecting, Crossover and Wye. The map keeps each class — deciding that
+  // only Main lines "count" would be our judgement — but dissolves identical
+  // published attributes so it does not ship tens of thousands of individual
+  // centreline fragments. No geometric simplify is used: the NHS experiment
+  // proved that `keep-shapes` protects polygon rings, not short line segments.
+  // Decimal precision (about 11 m) reduces repeated coordinate bytes without
+  // changing the source's topology or its attribute categories.
+  rail: (src, dst) =>
+    `-i ${src} combine-files -merge-layers `
+    + `-filter 'STATUS === "Operational"' `
+    + `-filter-fields TRACKCLASS,STATUS,TRANSPTYPE,USETYPE,OWNERENA,OPERATOENA,ADMINAREAC,SUBDI1NAME `
+    + `-dissolve fields=TRACKCLASS,STATUS,TRANSPTYPE,USETYPE,OWNERENA,OPERATOENA,ADMINAREAC,SUBDI1NAME `
+    + `-o format=geojson precision=0.0001 "${dst}"`,
 
   // -dissolve2 rather than -dissolve: the former unions the polygons and drops
   // the shared arcs, which is what removes the interprovincial borders; the
@@ -377,13 +433,133 @@ function parseCsv(text) {
 }
 
 /** Convert the Government of Canada placename CSV to lean browser GeoJSON. */
-function buildPlaces(src) {
+const CAPITALS = {
+  NL: "St. John's", PE: "Charlottetown", NS: "Halifax", NB: "Fredericton",
+  QC: "Québec", ON: "Toronto", MB: "Winnipeg", SK: "Regina", AB: "Edmonton",
+  BC: "Victoria", YT: "Whitehorse", NT: "Yellowknife", NU: "Iqaluit",
+};
+
+const PRUID_TO_CODE = {
+  10: "NL", 11: "PE", 12: "NS", 13: "NB", 24: "QC", 35: "ON", 46: "MB",
+  47: "SK", 48: "AB", 59: "BC", 60: "YT", 61: "NT", 62: "NU",
+};
+
+function normalName(value) {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
+/** Census population centres are the published, comparable rank for labels. */
+function populationByPlace(src) {
+  const zip = new AdmZip(src);
+  const entry = zip.getEntries().find((item) => item.entryName === "98100011.csv");
+  if (!entry) throw new Error("98100011-eng.zip contains no 98100011.csv table");
+  const rows = parseCsv(entry.getData().toString("utf8"));
+  const header = rows.shift().map((value) => value.replace(/^\uFEFF/, ""));
+  const dguid = header.indexOf("DGUID");
+  const name = header.indexOf("GEO");
+  const population = header.findIndex((value) => value.includes("Population, 2021"));
+  if (dguid < 0 || name < 0 || population < 0) {
+    throw new Error("98100011.csv layout changed — inspect the census table before rebuilding labels");
+  }
+  const out = new Map();
+  let currentProvince;
+  for (const row of rows) {
+    // Population-centre DGUIDs carry an area ID, not their province. The table
+    // is grouped by province/territory, whose 2021A0002xx heading establishes
+    // the province for the following population-centre rows.
+    const provinceMatch = /^2021A0002(\d{2})$/.exec(row[dguid] ?? "");
+    if (provinceMatch) {
+      currentProvince = PRUID_TO_CODE[Number(provinceMatch[1])];
+      continue;
+    }
+    if (!/^2021S051/.test(row[dguid] ?? "")) continue;
+    const code = currentProvince;
+    const count = Number(row[population]);
+    if (!code || !Number.isFinite(count)) continue;
+    out.set(`${code}:${normalName(row[name])}`, count);
+  }
+  if (out.size < 500) throw new Error(`expected hundreds of population centres, found ${out.size}`);
+  return out;
+}
+
+/**
+ * Municipal (census subdivision) population — the FALLBACK rank for labels.
+ *
+ * Population CENTRES are urban agglomerations, not places. Mississauga and
+ * Brampton sit inside the "Toronto" centre, Surrey inside "Vancouver", Laval
+ * inside "Montréal", and Ottawa's centre is published as "Ottawa - Gatineau
+ * (Ontario part)". None has a centre of its own name, so the centre join alone
+ * left 12,071 of 13,018 places unranked and pushed their labels to street zoom
+ * — the national capital (1,017,449) among them.
+ *
+ * A fallback, not a replacement: a municipality is smaller than its
+ * agglomeration (Vancouver 662,248 against a centre of 2,426,160), so switching
+ * outright would demote every metro core that already ranks correctly. Only
+ * places the centre table cannot rank are filled, and no existing rank moves.
+ *
+ * Duplicate names within a province are WITHHELD rather than guessed — Prince
+ * Edward Island alone publishes two "Souris" and two "Morell". A label ranked
+ * by the wrong municipality's population is worse than an unranked one.
+ */
+function populationByMunicipality(src) {
+  const zip = new AdmZip(src);
+  const entry = zip.getEntries().find((item) => item.entryName === "98100002.csv");
+  if (!entry) throw new Error("98100002-eng.zip contains no 98100002.csv table");
+  const rows = parseCsv(entry.getData().toString("utf8"));
+  const header = rows.shift().map((value) => value.replace(/^\uFEFF/, ""));
+  const dguid = header.indexOf("DGUID");
+  const name = header.indexOf("GEO");
+  const population = header.findIndex((value) => value.includes("Population, 2021"));
+  if (dguid < 0 || name < 0 || population < 0) {
+    throw new Error("98100002.csv layout changed — inspect the census table before rebuilding labels");
+  }
+  const found = new Map();
+  for (const row of rows) {
+    // A census subdivision DGUID is 2021A0005 + its 7-digit CSDUID, whose first
+    // two digits ARE the province code. The province comes from the identifier
+    // itself, not from the row's position in the table.
+    const match = /^2021A0005(\d{2})\d{5}$/.exec(row[dguid] ?? "");
+    if (!match || (row[population] ?? "") === "") continue;
+    const code = PRUID_TO_CODE[Number(match[1])];
+    const count = Number(row[population]);
+    if (!code || !Number.isFinite(count)) continue;
+    const key = `${code}:${normalName(row[name])}`;
+    // `null` marks a name published more than once in the same province.
+    found.set(key, found.has(key) ? null : { count, label: row[name] });
+  }
+  const populations = new Map([...found].filter(([, value]) => value !== null));
+  if (populations.size < 4000) {
+    throw new Error(`expected thousands of municipalities, found ${populations.size}`);
+  }
+  return { populations, withheld: found.size - populations.size };
+}
+
+function minZoomForPopulation(population) {
+  if (population >= 1_000_000) return 2.8;
+  if (population >= 100_000) return 3.6;
+  if (population >= 25_000) return 4.5;
+  if (population >= 5_000) return 5.5;
+  if (population >= 1_000) return 6.7;
+  // The source's hamlets and other named places arrive only after the census
+  // population-centre hierarchy has had room to breathe.
+  return 8.2;
+}
+
+function buildPlaces(src, populationSrc, municipalSrc) {
   const header = ["PNuid_NLidu", "Name_en", "Nom_fr", "Province", "Latitude", "Longitude"];
-  const rows = parseCsv(readFileSync(src, "utf8"));
+  // MAG_EXO.CSV is served as a legacy single-byte CSV. Decoding it as UTF-8
+  // turns names such as Québec into replacement characters, which in turn
+  // breaks the capital and population-centre joins below.
+  const rows = parseCsv(readFileSync(src, "latin1"));
   if (JSON.stringify(rows.shift()) !== JSON.stringify(header)) {
     throw new Error("MAG_EXO.CSV header changed — inspect the source before rebuilding place labels");
   }
 
+  const populations = populationByPlace(populationSrc);
+  const municipal = populationByMunicipality(municipalSrc);
+  const matchedMunicipalities = new Set();
+  const capitalsFound = new Set();
   const ids = new Set();
   const features = rows.map((row, index) => {
     const [id, name_en, name_fr, province, latText, lngText] = row;
@@ -394,15 +570,73 @@ function buildPlaces(src) {
       throw new Error(`MAG_EXO.CSV row ${index + 2} is not one unique Canadian populated place`);
     }
     ids.add(id);
+    const capital = CAPITALS[province] === name_en;
+    if (capital) capitalsFound.add(province);
+    const key = `${province}:${normalName(name_en)}`;
+    const centre = populations.get(key);
+    const municipality = municipal.populations.get(key);
+    if (municipality) matchedMunicipalities.add(key);
+    // The centre figure wins wherever it exists, so every place that already
+    // ranked correctly keeps its rank; the municipality only fills a gap.
+    const population = centre ?? municipality?.count ?? null;
+    const population_source = centre !== undefined ? "population_centre"
+      : municipality ? "census_subdivision" : null;
     return {
       type: "Feature",
-      properties: { id, name_en, name_fr, province },
+      properties: {
+        id, name_en, name_fr, province, capital, population, population_source,
+        min_zoom: capital ? 1.5 : minZoomForPopulation(population ?? 0),
+      },
       geometry: { type: "Point", coordinates: [lng, lat] },
     };
   });
+  if (capitalsFound.size !== Object.keys(CAPITALS).length) {
+    throw new Error(`place source is missing a provincial or territorial capital: ${Object.keys(CAPITALS).filter((code) => !capitalsFound.has(code)).join(", ")}`);
+  }
+  // Reported, never thrown. Municipalities of 100,000+ that no place name
+  // matches are amalgamations whose placename record uses the historic
+  // community — "Greater Sudbury / Grand Sudbury" is "Sudbury" there. Mapping
+  // them by hand would be this project authoring a join neither publisher
+  // makes. Carried in the file (a GeoJSON foreign member) so verify/ can report
+  // it, and any change to the list shows in the diff.
+  const unmatched_large_municipalities = [...municipal.populations]
+    .filter(([key, value]) => value.count >= 100_000 && !matchedMunicipalities.has(key))
+    .map(([, value]) => ({ name: value.label, population: value.count }))
+    .sort((a, b) => b.population - a.population || a.name.localeCompare(b.name));
+  const ranked = features.filter((f) => f.properties.population_source);
   const dst = join(OUT, "places.json");
-  writeFileSync(dst, JSON.stringify({ type: "FeatureCollection", features }), "utf8");
-  console.log(`  places.json  ${features.length.toLocaleString()} named places, ${statSync(dst).size.toLocaleString()} bytes`);
+  writeFileSync(dst, JSON.stringify({
+    type: "FeatureCollection",
+    unmatched_large_municipalities,
+    features,
+  }), "utf8");
+  console.log(`  places.json  ranked ${ranked.length.toLocaleString()} places `
+    + `(${ranked.filter((f) => f.properties.population_source === "population_centre").length} census centre, `
+    + `${ranked.filter((f) => f.properties.population_source === "census_subdivision").length} municipal); `
+    + `${municipal.withheld} duplicate municipal names withheld; `
+    + `${unmatched_large_municipalities.length} large municipalities unmatched`);
+  console.log(`  places.json  ${features.length.toLocaleString()} named places, ${capitalsFound.size} capitals, ${statSync(dst).size.toLocaleString()} bytes`);
+}
+
+/**
+ * The NRWN archives contain six feature classes. Extract only TRACK into a
+ * stable local basename, so mapshaper never accidentally merges crossings or
+ * stations into the line layer when combining the eleven regional packages.
+ */
+function extractRailTrack(src, region) {
+  const zip = new AdmZip(src);
+  const entries = zip.getEntries().filter((entry) => /_TRACK\.(dbf|prj|shp|shx)$/i.test(entry.entryName));
+  if (entries.length !== 4) {
+    throw new Error(`${src} has ${entries.length} TRACK shapefile parts; expected .dbf, .prj, .shp and .shx`);
+  }
+  const directory = join(RAW, "nrwn-track");
+  mkdirSync(directory, { recursive: true });
+  const base = join(directory, `nrwn_${region.toLowerCase()}_track`);
+  for (const entry of entries) {
+    const extension = entry.entryName.slice(entry.entryName.lastIndexOf(".")).toLowerCase();
+    writeFileSync(`${base}${extension}`, entry.getData());
+  }
+  return `${base}.shp`;
 }
 
 async function build(key, src) {
@@ -412,23 +646,46 @@ async function build(key, src) {
   console.log(`  ${key}.json  ${statSync(dst).size.toLocaleString()} bytes`);
 }
 
+async function buildRail(regionalArchives) {
+  const tracks = regionalArchives.map(({ region, path }) => extractRailTrack(path, region));
+  const dst = join(OUT, "rail.json");
+  await mapshaper.runCommands(BUILDS.rail(tracks.map((path) => `"${path}"`).join(" "), dst));
+  pruneEmpty("rail", dst);
+  console.log(`  rail.json  ${statSync(dst).size.toLocaleString()} bytes`);
+}
+
 mkdirSync(RAW, { recursive: true });
 mkdirSync(OUT, { recursive: true });
 
 console.log(`build_geo — mapshaper ${MAPSHAPER_VERSION} (pinned)`);
-const world = await download(SOURCES.world);
-const nhs = await downloadPaged(SOURCES.nhs);
-const highways = await download(SOURCES.highways);
-const provinces = await download(SOURCES.provinces);
-const places = await download(SOURCES.places);
+const placesOnly = process.argv.includes("--places-only");
+const railOnly = process.argv.includes("--rail-only");
+if (placesOnly && railOnly) throw new Error("choose at most one targeted build: --places-only or --rail-only");
+const targeted = placesOnly || railOnly;
+const world = targeted ? null : await download(SOURCES.world);
+const nhs = targeted ? null : await downloadPaged(SOURCES.nhs);
+const highways = targeted ? null : await download(SOURCES.highways);
+const provinces = targeted ? null : await download(SOURCES.provinces);
+const places = railOnly ? null : await download(SOURCES.places);
+const populationCentres = railOnly ? null : await download(SOURCES.population_centres);
+const municipalPopulation = railOnly ? null : await download(SOURCES.municipal_population);
+const railArchives = placesOnly ? [] : await Promise.all(
+  Object.entries(SOURCES.rail.files).map(async ([region, spec]) => ({
+    region,
+    path: await download(spec),
+  })),
+);
 
-await build("world", world);
-await build("nhs", nhs);
-await build("highways", highways);
-await build("provinces", provinces);
-buildPlaces(places);
+if (!targeted) {
+  await build("world", world);
+  await build("nhs", nhs);
+  await build("highways", highways);
+  await build("provinces", provinces);
+}
+if (!railOnly) buildPlaces(places, populationCentres, municipalPopulation);
 // Derived from the file the previous line just wrote, not from a download.
-await build("canada", join(OUT, "provinces.json"));
+if (!targeted) await build("canada", join(OUT, "provinces.json"));
+if (!placesOnly) await buildRail(railArchives);
 
 // A manifest beside the geometry, so a reader can see what produced these files
 // without reading this script, and the sibling repo can assert it is
@@ -444,8 +701,10 @@ writeFileSync(
         Object.entries(BUILDS).map(([k, f]) => [
           k,
           f(
-            // canada.json is derived from another output rather than a download.
-            SOURCES[k] ? `data/raw/geo/${SOURCES[k].file}` : "web/public/geo/provinces.json",
+            k === "rail"
+              ? Object.keys(SOURCES.rail.files).map((region) => `"data/raw/geo/nrwn-track/nrwn_${region.toLowerCase()}_track.shp"`).join(" ")
+              // canada.json is derived from another output rather than a download.
+              : SOURCES[k] ? `data/raw/geo/${SOURCES[k].file}` : "web/public/geo/provinces.json",
             `web/public/geo/${k}.json`,
           ),
         ]),
@@ -477,6 +736,20 @@ writeFileSync(
           "orderByFields=OBJECTID ASC is mandatory. ESRI does not guarantee page "
           + "order without an explicit sort, and an unstable order breaks the "
           + "zero-line-diff guarantee on unchanged upstream data.",
+        places_population:
+          "Place labels rank by 2021 Census population-centre population, "
+          + "falling back to census-subdivision (municipal) population only "
+          + "where no centre matches. Centres are agglomerations, so Ottawa, "
+          + "Mississauga, Brampton, Surrey, Laval and Gatineau have none of their "
+          + "own name. Duplicate municipal names within a province are withheld, "
+          + "and population_source records which figure each place carries.",
+        rail:
+          "rail.json is NRCan's operational NRWN track segment class from the "
+          + "eleven regional English Shapefile archives it publishes (AB, BC, MB, "
+          + "NB, NL, NS, NT, ON, QC, SK, YT). The directory publishes no PE or NU "
+          + "archive, so neither is supplemented or inferred. Track Classification "
+          + "is retained; all official operational classes are rendered. Owner and "
+          + "operator are retained as attributes, not visual categories.",
         canada:
           "canada.json is the national outline, dissolved from provinces.json "
           + "so its arcs are identical to the province geometry. It replaces "

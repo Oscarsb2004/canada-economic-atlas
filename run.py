@@ -34,7 +34,8 @@ STAMP = VENV / ".atlas-requirements"
 #: Stage number -> script. A full run executes these in SORTED KEY ORDER, so the
 #: number is the run order and the bundle must sort last.
 #:
-#: That is why the bundle is 99 and not 05. It reads what the other stages wrote,
+#: That is why the bundle is 99 rather than the next free number. It reads what
+#: the other stages wrote,
 #: so a stage numbered above it would have its output bundled a run late: the
 #: first run would ship nothing and the second would ship the first run's data.
 #: Silent, and it would read as a caching bug. Numbering the bundle last leaves
@@ -45,6 +46,7 @@ STAGES = {
     "02": "pipeline/02_sectors.py",
     "03": "pipeline/03_companies.py",
     "04": "pipeline/04_trade.py",
+    "05": "pipeline/05_municipalities.py",
     "99": "pipeline/99_bundle.py",
 }
 

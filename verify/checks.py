@@ -35,6 +35,7 @@ from __future__ import annotations
 
 import json
 import re
+from collections import Counter
 from pathlib import Path
 from typing import Any, Callable
 
@@ -113,7 +114,8 @@ def resolve_registry(ref: str) -> Any:
 # ── Check kinds ────────────────────────────────────────────────────────────────
 #
 # Each takes (records, spec, ctx) and returns (ok, label, detail). `ctx` carries
-# the dataset declaration and the shared region definitions.
+# the dataset declaration, the shared region definitions, and the whole parsed
+# `document`, for checks that compare records to figures published beside them.
 
 def _points(record: dict, ctx: dict) -> list[tuple[float, float]]:
     """Every [lon, lat] pair a record declares, however deeply nested."""
@@ -145,11 +147,49 @@ def _region(spec: dict, ctx: dict) -> dict:
     return region
 
 
+def _blank(value: Any) -> bool:
+    return value is None or (isinstance(value, str) and not value.strip())
+
+
+def _present(values: list[Any]) -> bool:
+    """
+    Whether a resolved path reached a real value.
+
+    NOT truthiness. `fields_present` used to test `not resolve_one(...)`, which
+    reads 0, 0.0 and False as missing — so a municipality with no usual
+    residents, a coordinate on the equator or an explicit
+    `overlaps_provinces: false` would fail a presence gate while being exactly
+    right. Absent means: the path did not resolve, or it reached None, a blank
+    string, or an empty collection.
+    """
+    if not values or _blank(values[0]):
+        return False
+    if isinstance(values[0], (list, dict)):
+        return bool(values[0])
+    return True
+
+
 def check_unique_ids(records, spec, ctx):
+    """
+    Every record has an identity, and no two share one.
+
+    Two defects in the version this replaced. `ids.count(i)` inside a set
+    comprehension is quadratic — harmless at 18 projects, ~27 million
+    comparisons at 5,161 municipalities. And a record with NO id passed, since
+    one missing id is not a duplicate; with two missing, sorting None against
+    strings raised TypeError, which reported that the check had crashed rather
+    than which records were wrong.
+    """
     field = ctx["dataset"]["id_field"]
-    ids = [r.get(field) for r in records]
-    dupes = sorted({i for i in ids if ids.count(i) > 1})
-    return not dupes, f"{ctx['name']}: {field} is unique", str(dupes)
+    counts = Counter(r.get(field) for r in records)
+    missing = sum(n for i, n in counts.items() if _blank(i))
+    dupes = sorted(str(i) for i, n in counts.items() if n > 1 and not _blank(i))
+    detail = []
+    if dupes:
+        detail.append(f"duplicated: {dupes[:12]}")
+    if missing:
+        detail.append(f"{missing} records have no {field}")
+    return not detail, f"{ctx['name']}: {field} is present and unique", " · ".join(detail)
 
 
 def check_record_count(records, spec, ctx):
@@ -167,7 +207,7 @@ def check_fields_present(records, spec, ctx):
         f"{r.get(idf)}.{path}"
         for r in records
         for path in spec["fields"]
-        if not resolve_one(r, path)
+        if not _present(resolve(r, path))
     ]
     return (
         not missing,
@@ -434,6 +474,68 @@ def check_cross_source_agreement(records, spec, ctx):
     )
 
 
+def check_sums_to_published_totals(records, spec, ctx):
+    """
+    Components against the aggregate the SAME publisher printed for them.
+
+    For census subdivisions: every province's published 2021 population is the
+    sum of its subdivisions, exactly — measured on table 98-10-0002 for all
+    thirteen, with the unpublished reserves blank on both sides. A record count
+    catches a dropped or duplicated record; this also catches a subdivision
+    filed under the wrong province and a value read from the wrong column,
+    neither of which changes the count.
+
+    It does NOT hold for every column of that table. The 2016 counts differ from
+    the published 2016 province totals in NL, QC and ON (cause not established),
+    so the registry declares this per field, and a field is declared only after
+    the identity has been measured.
+
+    Unpublished values (None) are skipped, never summed as zero. A group with
+    records but no published total, or a total with no records, fails — each is
+    a join that went wrong without changing any single number.
+    """
+    idf = ctx["dataset"]["id_field"]
+    group_field, value_field = spec["group_field"], spec["value_field"]
+    total_field = spec.get("totals_value_field", value_field)
+    tolerance = float(spec.get("tolerance", 0))
+    totals = resolve_one(ctx.get("document", {}), spec["totals_path"])
+    if not isinstance(totals, dict) or not totals:
+        return (False, f"{ctx['name']}: published totals at {spec['totals_path']}",
+                "the document carries no totals at that path")
+
+    sums: dict[str, int | float] = {}
+    for r in records:
+        group = str(resolve_one(r, group_field))
+        value = resolve_one(r, value_field)
+        sums.setdefault(group, 0)
+        if value is None:
+            continue
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            return (False, f"{ctx['name']}: {value_field} is numeric",
+                    f"{r.get(idf)} has {value!r}")
+        sums[group] += value
+
+    problems = []
+    for group in sorted(set(sums) | set(totals)):
+        entry = totals.get(group)
+        published = entry.get(total_field) if isinstance(entry, dict) else entry
+        if group not in sums:
+            problems.append(f"{group}: a published total with no records")
+        elif entry is None:
+            problems.append(f"{group}: records with no published total")
+        elif published is None:
+            problems.append(f"{group}: the published {total_field} is not available")
+        elif abs(sums[group] - published) > tolerance:
+            problems.append(f"{group}: components sum to {sums[group]:,} "
+                            f"against a published {published:,}")
+    return (
+        not problems,
+        f"{ctx['name']}: {value_field} sums to the published total in all "
+        f"{len(totals)} {group_field} groups (tolerance {tolerance:g})",
+        " · ".join(problems[:12]),
+    )
+
+
 KINDS: dict[str, Callable] = {
     "unique_ids": check_unique_ids,
     "record_count": check_record_count,
@@ -445,6 +547,7 @@ KINDS: dict[str, Callable] = {
     "source_section_shape": check_source_section_shape,
     "records_are_reachable": check_records_are_reachable,
     "cross_source_agreement": check_cross_source_agreement,
+    "sums_to_published_totals": check_sums_to_published_totals,
 }
 
 
@@ -471,8 +574,24 @@ def run_declared_checks(report) -> None:
             report.gate(False, f"{name}: dataset exists", f"{dataset['path']} missing")
             continue
 
-        records = json.loads(path.read_text(encoding="utf-8")).get(dataset["records"], [])
-        ctx = {"name": name, "dataset": dataset, "regions": regions}
+        # A renamed or missing records key used to become `[]` — and every check
+        # that asks "is anything wrong with these records" passes on an empty
+        # list: no duplicates, no missing fields, no strays. Only a dataset that
+        # also declared a record_count would have noticed. So the array must
+        # exist, and be non-empty unless the registry says empty is legitimate.
+        document = json.loads(path.read_text(encoding="utf-8"))
+        records = document.get(dataset["records"]) if isinstance(document, dict) else None
+        if not isinstance(records, list):
+            found = "missing" if records is None else f"a {type(records).__name__}, not an array"
+            keys = sorted(document)[:12] if isinstance(document, dict) else "(not an object)"
+            report.gate(False, f"{name}: {dataset['records']!r} is an array in {dataset['path']}",
+                        f"{found}; top-level keys are {keys}")
+            continue
+        if not records and not dataset.get("allow_empty", False):
+            report.gate(False, f"{name}: {dataset['path']} carries records",
+                        f"{dataset['records']!r} is empty and the dataset does not declare allow_empty")
+            continue
+        ctx = {"name": name, "dataset": dataset, "regions": regions, "document": document}
 
         for spec in dataset.get("checks", []):
             kind = spec.get("kind")

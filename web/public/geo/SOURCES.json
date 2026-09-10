@@ -46,6 +46,78 @@
       "dataset": "https://open.canada.ca/data/en/dataset/fe945388-1dd9-4a4a-9a1e-5c552579a28c",
       "url": "https://ised-isde.canada.ca/app/scr/sittibc/web/api/openData/MAG_EXO.CSV",
       "file": "MAG_EXO.CSV"
+    },
+    "population_centres": {
+      "name": "Population and dwelling counts: Canada and population centres",
+      "publisher": "Statistics Canada",
+      "version": "2021 Census",
+      "licence": "statcan-open",
+      "dataset": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=9810001101",
+      "url": "https://www150.statcan.gc.ca/n1/en/tbl/csv/98100011-eng.zip",
+      "file": "98100011-eng.zip"
+    },
+    "municipal_population": {
+      "name": "Population and dwelling counts: census subdivisions (municipalities)",
+      "publisher": "Statistics Canada",
+      "version": "2021 Census",
+      "licence": "statcan-open",
+      "dataset": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=9810000201",
+      "url": "https://www150.statcan.gc.ca/n1/en/tbl/csv/98100002-eng.zip",
+      "file": "98100002-eng.zip"
+    },
+    "rail": {
+      "name": "National Railway Network (NRWN) — GeoBase Series",
+      "publisher": "Natural Resources Canada",
+      "version": "pre-packaged English Shapefiles; official catalogue updated 2021-05-19",
+      "licence": "ogl-canada-2.0",
+      "dataset": "https://open.canada.ca/data/en/dataset/ac26807e-a1e8-49fa-87bf-451175a859b8",
+      "distribution": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn",
+      "files": {
+        "AB": {
+          "file": "nrwn_rfn_ab_shp_en.zip",
+          "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/ab/nrwn_rfn_ab_shp_en.zip"
+        },
+        "BC": {
+          "file": "nrwn_rfn_bc_shp_en.zip",
+          "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/bc/nrwn_rfn_bc_shp_en.zip"
+        },
+        "MB": {
+          "file": "nrwn_rfn_mb_shp_en.zip",
+          "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/mb/nrwn_rfn_mb_shp_en.zip"
+        },
+        "NB": {
+          "file": "nrwn_rfn_nb_shp_en.zip",
+          "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/nb/nrwn_rfn_nb_shp_en.zip"
+        },
+        "NL": {
+          "file": "nrwn_rfn_nl_shp_en.zip",
+          "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/nl/nrwn_rfn_nl_shp_en.zip"
+        },
+        "NS": {
+          "file": "nrwn_rfn_ns_shp_en.zip",
+          "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/ns/nrwn_rfn_ns_shp_en.zip"
+        },
+        "NT": {
+          "file": "nrwn_rfn_nt_shp_en.zip",
+          "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/nt/nrwn_rfn_nt_shp_en.zip"
+        },
+        "ON": {
+          "file": "nrwn_rfn_on_shp_en.zip",
+          "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/on/nrwn_rfn_on_shp_en.zip"
+        },
+        "QC": {
+          "file": "nrwn_rfn_qc_shp_en.zip",
+          "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/qc/nrwn_rfn_qc_shp_en.zip"
+        },
+        "SK": {
+          "file": "nrwn_rfn_sk_shp_en.zip",
+          "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/sk/nrwn_rfn_sk_shp_en.zip"
+        },
+        "YT": {
+          "file": "nrwn_rfn_yt_shp_en.zip",
+          "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/yt/nrwn_rfn_yt_shp_en.zip"
+        }
+      }
     }
   },
   "commands": {
@@ -53,6 +125,7 @@
     "provinces": "-i \"data/raw/geo/lpr_000b21a_e.zip\" -proj wgs84 -simplify 0.1% keep-shapes -filter-fields PRUID,PRENAME,PRFNAME -o format=geojson precision=0.001 \"web/public/geo/provinces.json\"",
     "nhs": "-i \"data/raw/geo/tc_national_highway_system.geojson\" -each 'rtnumber1 = rtnumber1 === \"None\" ? \"\" : rtnumber1' -dissolve fields=type_code,rtnumber1 -o format=geojson precision=0.01 \"web/public/geo/nhs.json\"",
     "highways": "-i \"data/raw/geo/ne_10m_roads.geojson\" -filter 'sov_a3 === \"CAN\" && (type === \"Major Highway\" || type === \"Ferry Route\") && scalerank <= 7' -filter-fields type,name,label,length_km,scalerank -simplify 25% keep-shapes -o format=geojson precision=0.005 \"web/public/geo/highways.json\"",
+    "rail": "-i \"data/raw/geo/nrwn-track/nrwn_ab_track.shp\" \"data/raw/geo/nrwn-track/nrwn_bc_track.shp\" \"data/raw/geo/nrwn-track/nrwn_mb_track.shp\" \"data/raw/geo/nrwn-track/nrwn_nb_track.shp\" \"data/raw/geo/nrwn-track/nrwn_nl_track.shp\" \"data/raw/geo/nrwn-track/nrwn_ns_track.shp\" \"data/raw/geo/nrwn-track/nrwn_nt_track.shp\" \"data/raw/geo/nrwn-track/nrwn_on_track.shp\" \"data/raw/geo/nrwn-track/nrwn_qc_track.shp\" \"data/raw/geo/nrwn-track/nrwn_sk_track.shp\" \"data/raw/geo/nrwn-track/nrwn_yt_track.shp\" combine-files -merge-layers -filter 'STATUS === \"Operational\"' -filter-fields TRACKCLASS,STATUS,TRANSPTYPE,USETYPE,OWNERENA,OPERATOENA,ADMINAREAC,SUBDI1NAME -dissolve fields=TRACKCLASS,STATUS,TRANSPTYPE,USETYPE,OWNERENA,OPERATOENA,ADMINAREAC,SUBDI1NAME -o format=geojson precision=0.0001 \"web/public/geo/rail.json\"",
     "canada": "-i \"web/public/geo/provinces.json\" -dissolve2 -each 'name=\"Canada\"' -o format=geojson precision=0.001 \"web/public/geo/canada.json\""
   },
   "notes": {
@@ -63,6 +136,8 @@
     "nhs_route_concurrency": "Only rtnumber1 and rtename1 are kept. Where two designated routes share a carriageway the NHS records the others in rtnumber2-5 and rtename2-4, and those are not requested. A segment carrying both the Trans-Canada and a provincial route therefore shows only the first.",
     "nhs_projection": "The layer's own extent is WKID 3978 (Lambert). outSR=4326 is what makes it degrees; a metre coordinate would render as nothing rather than raising, so verify/ gates the bounding box.",
     "nhs_pagination": "orderByFields=OBJECTID ASC is mandatory. ESRI does not guarantee page order without an explicit sort, and an unstable order breaks the zero-line-diff guarantee on unchanged upstream data.",
+    "places_population": "Place labels rank by 2021 Census population-centre population, falling back to census-subdivision (municipal) population only where no centre matches. Centres are agglomerations, so Ottawa, Mississauga, Brampton, Surrey, Laval and Gatineau have none of their own name. Duplicate municipal names within a province are withheld, and population_source records which figure each place carries.",
+    "rail": "rail.json is NRCan's operational NRWN track segment class from the eleven regional English Shapefile archives it publishes (AB, BC, MB, NB, NL, NS, NT, ON, QC, SK, YT). The directory publishes no PE or NU archive, so neither is supplemented or inferred. Track Classification is retained; all official operational classes are rendered. Owner and operator are retained as attributes, not visual categories.",
     "canada": "canada.json is the national outline, dissolved from provinces.json so its arcs are identical to the province geometry. It replaces filtering world.json to ADM0_A3=CAN, which at 1:110m is 9 polygons and omits Vancouver Island, Haida Gwaii and most of the Arctic archipelago."
   }
 }

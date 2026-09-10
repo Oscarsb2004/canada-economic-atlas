@@ -453,31 +453,36 @@ def parse_page(html: str, url: str, lang: str = "en") -> ParsedPage:
 #: A project slug, which is also a filename and a URL path segment.
 _SAFE_SLUG = re.compile(r"^[a-z0-9][a-z0-9._-]*$")
 
-def index_slugs(html: str, marker: str) -> list[str]:
+#: The ways canada.ca links to its own pages absolutely.
+_SITE_PREFIXES = (CANADA_CA, "http://www.canada.ca", "//www.canada.ca")
+
+
+def _section_href(href: str, section_path: str) -> str:
     """
-    Every detail-page slug reachable from one index page, under `marker`.
+    A link as a crawlable path inside `section_path`, or "" if it is not one.
 
-    Read from `<main>` only. The site-wide header, footer and breadcrumb also
-    link into this section, and counting those inflates coverage with pages
-    that are not records — worse than undercounting, because it reports success.
+    The crawl used to test `href.startswith(section_path)`, which was wrong in
+    both directions. An ABSOLUTE link — `https://www.canada.ca/en/…` — never
+    starts with a path, so a page the CMS happened to link absolutely was never
+    crawled and its group never reported. And a bare prefix admits a sibling
+    section whose name merely begins the same way:
+    `…/major-projects-office-archive/x.html` starts with
+    `…/major-projects-office`. The section is its own page or a path that
+    continues with "/", and nothing else.
 
-    Sorted and deduplicated, so two runs over an unchanged page compare equal
-    regardless of DOM order.
+    (This replaces `index_slugs`, which read one index page, was superseded by
+    the crawl, and had no caller left but its own tests.)
     """
-    soup = BeautifulSoup(html, "lxml")
-    main = soup.select_one("main[property=mainContentOfPage]") or soup.select_one("main")
-    if main is None:
-        raise ValueError("index page has no <main> content element")
-
-    out: set[str] = set()
-    for a in main.find_all("a", href=True):
-        href = a["href"].split("#")[0].split("?")[0]
-        if marker not in href or not href.endswith(".html"):
-            continue
-        slug = href.rsplit("/", 1)[-1][: -len(".html")]
-        if _SAFE_SLUG.match(slug):
-            out.add(slug)
-    return sorted(out)
+    href = href.split("#")[0].split("?")[0].strip()
+    for prefix in _SITE_PREFIXES:
+        if href.startswith(prefix):
+            href = href[len(prefix):]
+            break
+    if not (href.startswith("/") and href.endswith(".html")):
+        return ""
+    if href == section_path + ".html" or href.startswith(section_path + "/"):
+        return href
+    return ""
 
 
 def crawl_section(fetch, section_path: str, *, max_pages: int = 300) -> dict:
@@ -531,8 +536,8 @@ def crawl_section(fetch, section_path: str, *, max_pages: int = 300) -> dict:
         if main is None:
             continue
         for a in main.find_all("a", href=True):
-            href = a["href"].split("#")[0].split("?")[0]
-            if href.startswith(section_path) and href.endswith(".html") and href not in seen:
+            href = _section_href(a["href"], section_path)
+            if href and href not in seen:
                 queue.append(href)
 
     return {

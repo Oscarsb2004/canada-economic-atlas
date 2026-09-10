@@ -194,3 +194,51 @@ sources:
     publisher: Statistics Canada
     licence: statcan-open
     dataset_record: https://open.canada.ca/data/en/dataset/ef70dc3b-1069-4037-9bce-61f47e628a1d
+
+  statcan_population_centres:
+    title: Population and dwelling counts — Canada and population centres
+    publisher: Statistics Canada
+    licence: statcan-open
+    attribution: Statistics Canada, 2021 Census population centres
+    dataset_record: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=9810001101
+    csv: https://www150.statcan.gc.ca/n1/en/tbl/csv/98100011-eng.zip
+    # Population centres (1,000+ people) rank the map labels. Smaller official
+    # placenames remain searchable/labelled only at closer zoom levels.
+
+  statcan_municipal_population:
+    title: Population and dwelling counts — census subdivisions (municipalities)
+    publisher: Statistics Canada
+    licence: statcan-open
+    attribution: Statistics Canada, 2021 Census of Population
+    dataset_record: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=9810000201
+    csv: https://www150.statcan.gc.ca/n1/en/tbl/csv/98100002-eng.zip
+    csv_fr: https://www150.statcan.gc.ca/n1/fr/tbl/csv/98100002-fra.zip
+    census_vintage: "2021"
+    # What one read of the 2021 table contains. Stage 05 stops before writing if
+    # these move, and registry/checks.yaml gates the subdivision count through
+    # `expect_from`, so a new census is one reviewed edit here.
+    expected:
+      census_subdivisions: 5161
+      census_divisions: 293
+      provinces_and_territories: 13
+    # TWO CONSUMERS, TWO PARSERS — for now.
+    #
+    # scripts/build_geo.mjs reads the English file as the FALLBACK rank for place
+    # labels. Population centres are agglomerations, so Ottawa, Mississauga,
+    # Brampton, Surrey, Laval and Gatineau have no centre of their own name; the
+    # municipality is the published figure for the place.
+    #
+    # pipeline/05_municipalities.py reads both languages into Municipality
+    # records. BACKLOG M1 makes the build read that output instead, so one parser
+    # decides what a subdivision's population is.
+
+  nrcan_nrwn:
+    title: National Railway Network (NRWN) — GeoBase Series
+    publisher: Natural Resources Canada
+    licence: ogl-canada-2.0
+    attribution: Natural Resources Canada — National Railway Network (NRWN)
+    dataset_record: https://open.canada.ca/data/en/dataset/ac26807e-a1e8-49fa-87bf-451175a859b8
+    distribution: https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/
+    # The publisher distributes regional Shapefile archives. Track Segment is
+    # the only feature class rendered; its official Track Classification,
+    # Owner and Operator attributes remain with each output feature.

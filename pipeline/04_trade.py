@@ -108,6 +108,17 @@ def _modes(en: tc.ParsedCorridor, fr: tc.ParsedCorridor) -> tuple[CorridorMode, 
             items = (tuple(Text(en=a, fr="") for a in m.items)
                      + tuple(Text(en="", fr=b) for b in (f.items if f else ())))
         out.append(CorridorMode(label=label, items=items))
+
+    # A mode the French page publishes and the English page does not. The loop
+    # above walks the English modes only, so this used to be dropped without a
+    # word — the same deletion of a published sentence the unpaired bullets
+    # exist to prevent, one level up.
+    if len(fr.modes) > len(en.modes):
+        log.warning("FR publishes %d modes, EN %d — carrying the extra French modes unpaired",
+                    len(fr.modes), len(en.modes))
+    for f in fr.modes[len(en.modes):]:
+        out.append(CorridorMode(label=Text(en="", fr=f.label),
+                                items=tuple(Text(en="", fr=b) for b in f.items)))
     return tuple(out)
 
 

@@ -577,6 +577,88 @@ class TradeCorridor:
         return tuple(n for n in self.nodes if n.kind is CorridorNodeKind.BORDER_CROSSING)
 
 
+# ── Geography: municipalities ──────────────────────────────────────────────────
+
+@dataclass(frozen=True, slots=True)
+class Municipality:
+    """
+    One census subdivision — the unit Statistics Canada publishes municipal
+    figures for, and the identity later civic, fiscal and demographic data
+    joins to.
+
+    NOT A `City`. "City" is a legal status each province defines for itself.
+    Halifax (439,819) is a Regional municipality, Oakville a Town, Saanich a
+    District municipality; Greenwood, BC is a City of 702. A class keyed on that
+    status would drop Halifax and keep Greenwood. So every subdivision is a
+    record, `csd_type` carries the legal type as published, and "cities" is a
+    filter a view applies.
+
+    NOT ALWAYS A GOVERNMENT. 992 subdivisions are Indian reserves and others are
+    unorganized territory: no council, no municipal budget. Where a local
+    government exists it may be one tier of two. Fiscal records therefore attach
+    to a separate local-government entity mapped onto subdivisions, never to
+    this record — see docs/CIVIC-FISCAL.md.
+
+    `csd_type` IS VERBATIM IN BOTH LANGUAGES, AND NOT ALWAYS TRANSLATED. The
+    French file publishes "Town" for Ontario towns and "Réserve indienne" for
+    reserves; the English file publishes "Ville" and "Municipalité" for Quebec.
+    Where StatCan leaves a legal type in the language of the statute that
+    created it, this record does too.
+
+    Identity is `csd_uid` WITH `census_vintage`. Codes change between censuses
+    when municipalities amalgamate or dissolve, and StatCan's 2018–2020 municipal
+    finance tables use 2016 codes, so a bare seven-digit code is ambiguous
+    across datasets. `geo_key` is the unambiguous form.
+
+    Every measure is optional and None means NOT PUBLISHED — 63 incompletely
+    enumerated reserves, and ranks where none applies. Zero is a published
+    value: 268 subdivisions have no usual residents. `symbols` keeps StatCan's
+    flag for every measure that has one — ".." not available, "..." not
+    applicable, "r" revised, "E" use with caution — so the reason for a None
+    and the quality of a value both survive. (A dict on a frozen dataclass:
+    the record is comparable but not hashable, and nothing needs to hash it.)
+
+    The percentage changes, density and ranks are StatCan's figures, not ours,
+    so `provenance` is OFFICIAL_DATASET. SourceRefs live once on the payload
+    rather than 5,161 times on the records.
+
+    Not in the web bundle, so it has no mirror in `bundle.ts` yet (BACKLOG M11).
+    """
+
+    csd_uid: str                          # PR(2) CD(2) CSD(3), e.g. "1001186"
+    dguid: str                            # "2021A0005" + csd_uid
+    name: Text
+    province: str                         # two-letter code, read from the uid
+    census_division_uid: str              # csd_uid[:4]
+    census_division_name: Text
+    csd_type_abbr: str                    # "T", "IRI", ...
+    csd_type: Text
+    population_2021: int | None = None
+    # The 2016 counts do NOT sum to the published 2016 province totals
+    # (measured: NL, QC, ON differ). Never aggregate them upward.
+    population_2016: int | None = None
+    population_change_pct: float | None = None
+    private_dwellings_2021: int | None = None
+    private_dwellings_2016: int | None = None
+    private_dwellings_change_pct: float | None = None
+    occupied_dwellings_2021: int | None = None
+    occupied_dwellings_2016: int | None = None
+    occupied_dwellings_change_pct: float | None = None
+    land_area_km2: float | None = None
+    density_per_km2: float | None = None
+    rank_national: int | None = None
+    rank_provincial: int | None = None
+    symbols: dict[str, str] = field(default_factory=dict)   # measure -> "..", "...", "r", "E", "r,E"
+    census_vintage: str = "2021"
+    source_table: str = ""
+    provenance: Provenance = Provenance.OFFICIAL_DATASET
+
+    @property
+    def geo_key(self) -> str:
+        """`csd:2021:1001186` — the code qualified by the census that issued it."""
+        return f"csd:{self.census_vintage}:{self.csd_uid}"
+
+
 # ── Transport ──────────────────────────────────────────────────────────────────
 
 def to_jsonable(obj: Any) -> Any:

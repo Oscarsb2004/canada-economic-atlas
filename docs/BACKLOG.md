@@ -208,6 +208,48 @@ from being reinvented badly.
 | P7 | **WSM ↔ atlas link-through** (their G2t). Generalise `country.json` so any country *may* have a deep-dive bundle and the WSM selection panel links to it when one exists. Canada is the working case; the contract is already in `docs/INTEROP-world-strategic-map.md`. **This is the integration that matters** — it is worth more than the launcher, because it is the one that makes the two projects one argument rather than two tabs. | G4 | M | |
 | P8 | **Publish the MapLibre globe findings to WSM** before their C3. `setProjection` inside `style.load`; the `background` layer paints the sphere, not the canvas; never guard a map-init effect on its own ref under StrictMode. All three cost real debugging here and all three are in their critical path. | — | S | |
 
+## Stage M — municipalities, provinces and public finance
+
+The direction: a record for every city with its population and name, room for a
+deep dive into each city's budget, and provincial budgets and outlooks read
+alongside, with key sectors legible throughout — the first step from a
+major-projects atlas toward a wider economic, social and demographic system.
+The pushback, limitations and verified sources are in
+[`CIVIC-FISCAL.md`](CIVIC-FISCAL.md); read it before starting anything past M4.
+Three corrections to the ask shape everything below:
+
+- **The record is a municipality, not a city.** "City" is a provincial legal
+  status — Halifax is a Regional municipality, Greenwood BC a City of 702. All
+  5,161 census subdivisions are records; the type is a field; "cities" is a
+  filter.
+- **A census subdivision is not a government.** 992 are Indian reserves, others
+  unorganized territory, and two-tier regions put one resident under two
+  budgets. Money attaches to a local-government entity mapped onto subdivisions,
+  never to the subdivision.
+- **Budgets, actuals and outlooks are three different claims,** and functions of
+  government are not NAICS sectors. No figure is summed across either line.
+
+Identity before money. M1–M4 are cheap and mechanical and unlock everything
+else. M5 onward needs decisions only you can make, and should not start before
+E0 — fiscal data is exactly the "second dataset not shaped like the first" that
+E0 prepares `verify/` for.
+
+| | Item | Goal | Effort | Human? |
+|---|---|---|---|---|
+| M0 | ~~**`Municipality` records.** Every census subdivision from 98-10-0002 in both languages, None kept apart from zero, StatCan's symbols kept per value, gated on count, presence, province codes and exact provincial sums. `pipeline/05_municipalities.py`.~~ | G4 | M | |
+| **M1** | **One parser per table.** `build_geo.mjs` still reads 98-10-0002 itself to rank place labels. Make it read `data/geography/municipalities.json`, so one definition of a subdivision's population exists. | G1 | S | |
+| M2 | **Province and census-division records** from the totals and bilingual names already in the payload; the province panel reads them rather than carrying its own. | G2 G4 | S | |
+| **M3** | **Places and projects → subdivision by geometry.** Point-in-polygon against the 2021 census subdivision boundary file, never name matching — Greater Sudbury, Saguenay, Chatham-Kent and Clarington already defeat names. Marked `DERIVED`. | G2 | M | |
+| **M4** | **2016 ↔ 2021 correspondence.** StatCan's individual-municipality finance tables use 2016 codes. Load the published correspondence file; never infer the join from names. **Prerequisite for M6.** | G4 | S | |
+| **M5** | **`LocalGovernment` with tiers.** Upper tier (regional municipality, county, BC regional district, MRC, agglomeration) and lower tier, many-to-many onto subdivisions, each mapping sourced. No national list exists — decide the scope (the ~110 in StatCan's tables? one province?) before building. | G4 | L | ✓ |
+| **M6** | **StatCan individual-municipality finance, 2018–2020.** 10-10-0169-01 (government finance statistics) and 10-10-0170-01 (functions of government), ~110 municipalities, released 2025-04-08. Design `FiscalRecord` only after reading both cubes, with a required `basis` (`actual` / `budget` / `outlook` / `estimate`). | G3 | M | |
+| M7 | **Provincial and aggregate local finance.** 10-10-0017-01 (provinces and territories, annual 2007–2024) and 10-10-0020-01 (local government in aggregate). Read the full dimension lists first — 0017's metadata call has not yet completed. Consolidated tables only for any cross-level total. | G3 | M | |
+| M8 | **Ontario FIR and BC Local Government Statistics.** The two provinces that publish every municipality's return as data. One adapter each; their line items map neither to each other nor to CGFS without a crosswalk. | G3 | L | |
+| **M9** | **Budgets and fiscal outlooks as documents.** Reproduce published tables with a page reference and `basis: budget` / `outlook`; narrative claims stay in their sentence (CLAUDE.md §1). Never plot a budget on an actuals axis without saying so on the axis. Choose which governments first. | G1 | L | ✓ |
+| M10 | **COFOG ↔ NAICS crosswalk,** hand-curated and `DERIVED`, like `gics_naics.yaml`. Functions of government and industries answer different questions; the UI names which one a chart uses. | G2 | M | ✓ |
+| M11 | **Municipal and provincial panels.** Sliced payloads per view, never the whole municipalities file. Per-capita figures name their denominator and its year. | G2 G3 | M | |
+| M12 | **Census profile variables** — age, income, labour, housing — on the same identity. The social and demographic half of the system. | G3 | L | |
+
 ## Stage H — open decisions
 
 | | Item | Effort | Human? |

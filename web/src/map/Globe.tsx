@@ -66,6 +66,7 @@ export type ToggleableOverlay =
   | "placeNames"
   | "nationalHighways"
   | "majorHighways"
+  | "rail"
   | "ferries"
   | "majorProjects"
   | "tradePlaces";
@@ -81,9 +82,27 @@ const OVERLAY_LAYER_IDS: Record<Exclude<ToggleableOverlay, "majorProjects" | "pl
   provinces: ["provinces-fill", "provinces"],
   nationalHighways: ["nhs-outline", "nhs"],
   majorHighways: ["major-highways-outline", "major-highways"],
+  rail: ["rail-outline", "rail"],
   ferries: ["ferries"],
   tradePlaces: ["node-port", "node-border_crossing"],
 };
+
+const EMPTY_GEOJSON: GeoJSON.FeatureCollection = { type: "FeatureCollection", features: [] };
+
+function railWidthAt(main: number, other: number) {
+  return [
+    "match", ["get", "TRACKCLASS"],
+    "Main", main,
+    "Siding", other,
+    "Spur", other,
+    "Yard", other,
+    "Connecting", other,
+    "Crossover", other,
+    "Wye", other,
+    "Ferry Route", other,
+    other,
+  ];
+}
 
 /**
  * A style with no external sources at all.
@@ -95,6 +114,7 @@ const OVERLAY_LAYER_IDS: Record<Exclude<ToggleableOverlay, "majorProjects" | "pl
 function buildStyle(bundle: Bundle): StyleSpecification {
   const ink = bundle.palette.ink;
   const accent = bundle.palette.categorical[0].hex;
+  const railColor = bundle.palette.categorical[1].hex;
 
   return {
     version: 8,
@@ -109,6 +129,10 @@ function buildStyle(bundle: Bundle): StyleSpecification {
       // them apart here rather than letting one shadow the other.
       nhs: { type: "geojson", data: bundle.nhs as never },
       highways: { type: "geojson", data: bundle.highways as never },
+      // Rail is 16 MB of official linework. It starts empty and is fetched only
+      // when its off-by-default control is enabled, rather than making every
+      // initial globe view pay for a layer it may never use.
+      rail: { type: "geojson", data: EMPTY_GEOJSON as never },
       trade: { type: "geojson", data: corridorNodeGeoJSON(bundle) as never },
       corridors: { type: "geojson", data: corridorGeoJSON(bundle) as never },
     },
@@ -244,6 +268,40 @@ function buildStyle(bundle: Bundle): StyleSpecification {
           "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.72, 4.5, 0.9],
         },
       },
+      // Natural Resources Canada's National Railway Network. Orange denotes
+      // this transport mode, not a carrier; the source's eight Track
+      // Classification values are expressed by width, so Main lines remain
+      // legible without treating every siding or yard as equally prominent.
+      {
+        id: "rail-outline",
+        type: "line",
+        source: "rail",
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: {
+          "line-color": ink.gridline,
+          "line-width": [
+            "interpolate", ["linear"], ["zoom"],
+            2, railWidthAt(1.15, 0.7),
+            6, railWidthAt(3.3, 1.9),
+          ],
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.7, 5, 0.88],
+        },
+      } as never,
+      {
+        id: "rail",
+        type: "line",
+        source: "rail",
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: {
+          "line-color": railColor,
+          "line-width": [
+            "interpolate", ["linear"], ["zoom"],
+            2, railWidthAt(0.55, 0.28),
+            6, railWidthAt(1.8, 0.9),
+          ],
+          "line-opacity": ["interpolate", ["linear"], ["zoom"], 2, 0.78, 5, 0.94],
+        },
+      } as never,
       // The National Highway System, coloured by Transport Canada's own class.
       //
       // ONE layer with a `match` built from a typed table, not three hand-rolled
@@ -481,6 +539,8 @@ export function Globe({
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const markers = useRef<Map<string, maplibregl.Marker>>(new Map());
+  const railLoaded = useRef(false);
+  const railLoading = useRef(false);
   const placeMarkers = useRef<Map<string, maplibregl.Marker>>(new Map());
   const overlaysRef = useRef(overlays);
   overlaysRef.current = overlays;
@@ -612,21 +672,20 @@ export function Globe({
     /**
      * A full country-wide town label layer cannot put one DOM node at every
      * source coordinate: it would make a small screen carry thousands of
-     * overlapping elements. Instead each viewport is packed into a shrinking
-     * pixel grid. Zooming in makes the cells smaller, revealing towns that
-     * shared a label cell farther out; at street-level zoom every place gets
-     * its own label. This is the same practical rule as a tiled map label
-     * engine, without fetching tiles or relying on a hosted glyph service.
+     * overlapping elements. Capitals are the one deliberate exception: each
+     * province and territory has its capital at the entry view. The remaining
+     * places use their published 2021 Census population tier and then a
+     * shrinking pixel grid, so larger centres arrive before smaller towns.
      */
     const syncPlaceLabels = () => {
       placeMarkers.current.forEach((marker) => marker.remove());
       placeMarkers.current.clear();
 
       const zoom = m.getZoom();
-      if (!overlaysRef.current.placeNames || zoom < 2.8) return;
+      if (!overlaysRef.current.placeNames) return;
 
       const { clientWidth: width, clientHeight: height } = m.getContainer();
-      const cellSize = Math.max(8, 150 - (zoom - 3) * 24);
+      const cellSize = Math.max(8, 170 - (zoom - 3) * 24);
       const occupied = new Set<string>();
       const places = bundle.places.features
         .map((feature) => {
@@ -635,23 +694,28 @@ export function Globe({
           const properties = feature.properties as Record<string, unknown> | null;
           const id = String(properties?.id ?? "");
           const name = String(properties?.name_en ?? "");
-          if (!id || !name || !Number.isFinite(lng) || !Number.isFinite(lat)) return null;
+          const capital = properties?.capital === true;
+          const minZoom = Number(properties?.min_zoom);
+          const population = Number(properties?.population ?? 0);
+          if (!id || !name || !Number.isFinite(lng) || !Number.isFinite(lat)
+            || (!capital && (!Number.isFinite(minZoom) || zoom < minZoom))) return null;
           const point = m.project([lng, lat]);
           if (point.x < -32 || point.x > width + 32 || point.y < -32 || point.y > height + 32) return null;
-          return { id, name, lng, lat, point };
+          return { id, name, lng, lat, point, capital, population };
         })
         .filter((place): place is NonNullable<typeof place> => place !== null)
-        // The source identifier is stable, so when places compete for a cell
-        // the visible name does not flicker as the map is panned a pixel.
-        .sort((a, b) => Number(a.id) - Number(b.id));
+        // A capital always outranks a non-capital; otherwise population is the
+        // publisher's ranking. The stable id settles ties without label flicker.
+        .sort((a, b) => Number(b.capital) - Number(a.capital)
+          || b.population - a.population || Number(a.id) - Number(b.id));
 
       for (const place of places) {
         const cell = `${Math.floor(place.point.x / cellSize)}:${Math.floor(place.point.y / cellSize)}`;
-        if (occupied.has(cell)) continue;
-        occupied.add(cell);
+        if (!place.capital && occupied.has(cell)) continue;
+        if (!place.capital) occupied.add(cell);
 
         const element = document.createElement("span");
-        element.className = "place-label";
+        element.className = place.capital ? "place-label place-label--capital" : "place-label";
         element.textContent = place.name;
         element.setAttribute("aria-hidden", "true");
         const marker = new maplibregl.Marker({ element, anchor: "top-left", offset: [3, 2] })
@@ -728,12 +792,26 @@ export function Globe({
   // as hover, but does not need another colour or a second province layer.
   useEffect(() => {
     const m = map.current;
-    if (!m || !m.isStyleLoaded()) return;
-    bundle.provinces.features.forEach((feature) => {
-      const code = PRUID_TO_CODE[String(feature.properties?.PRUID ?? "")];
-      const id = String(feature.properties?.PRUID ?? "");
-      if (id) m.setFeatureState({ source: "provinces", id }, { selected: code === selectedProvince?.code });
-    });
+    if (!m) return;
+    const apply = () => {
+      bundle.provinces.features.forEach((feature) => {
+        const code = PRUID_TO_CODE[String(feature.properties?.PRUID ?? "")];
+        const id = String(feature.properties?.PRUID ?? "");
+        if (id) m.setFeatureState({ source: "provinces", id }, { selected: code === selectedProvince?.code });
+      });
+    };
+    // Gate on the PROVINCES SOURCE, not on `isStyleLoaded()`. The latter is
+    // false whenever ANY source is still loading — including the 16 MB rail
+    // layer for a second or two after its toggle — and this effect used to
+    // return early on it with no retry. Reproduced 2026-09-10: enable rail,
+    // click Ontario while the rail data parses, and the panel opens but the
+    // province is never highlighted, even once the map goes idle. Feature
+    // state only needs its own source to exist, which it does from style load.
+    if (m.getSource("provinces")) apply();
+    else m.once("style.load", apply);
+    return () => {
+      m.off("style.load", apply);
+    };
   }, [bundle.provinces.features, selectedProvince]);
 
   // Fly to the selection, and mark the matching pins pressed.
@@ -769,9 +847,9 @@ export function Globe({
     else m.flyTo({ ...target, speed: 0.85, curve: 1.5 });
   }, [selected]);
 
-  // The control bar changes visibility only; it never removes data from the
-  // style. That keeps a toggle instantaneous and means the published geometry
-  // stays inspectable in the same map instance.
+  // The control bar changes visibility only for geometry already in the map.
+  // Rail is the exception: it is fetched on demand because the authoritative,
+  // nationwide geometry is large and starts disabled.
   useEffect(() => {
     const m = map.current;
     if (!m) return;
@@ -802,6 +880,47 @@ export function Globe({
       m.off("style.load", syncVisibility);
     };
   }, [overlays]);
+
+  useEffect(() => {
+    const m = map.current;
+    if (!m || !overlays.rail || railLoaded.current || railLoading.current) return;
+
+    railLoading.current = true;
+    void fetch(asset("/geo/rail.json"))
+      .then(async (response) => {
+        if (!response.ok) throw new Error(`/geo/rail.json → HTTP ${response.status}`);
+        return response.json() as Promise<GeoJSON.FeatureCollection>;
+      })
+      .then((data) => {
+        const target = map.current;
+        if (!target) return;
+        // Mark the layer loaded only once the data has actually reached a
+        // source. This used to set `railLoaded` unconditionally after an
+        // optional `source?.setData(...)`, so if the fetch resolved before the
+        // style existed the data was silently discarded AND the flag stopped
+        // any retry — the toggle would read "on" over an empty layer for the
+        // life of the page. Same shape as the province-highlight race, which
+        // was reproduced; this one needs a toggle before style load, so it is
+        // latent rather than observed.
+        const apply = () => {
+          const source = target.getSource("rail") as maplibregl.GeoJSONSource | undefined;
+          if (!source) return false;
+          source.setData(data);
+          railLoaded.current = true;
+          return true;
+        };
+        if (!apply()) target.once("style.load", () => { apply(); });
+      })
+      .catch((error: unknown) => {
+        // Keep the rest of the map usable if the optional layer fails to load.
+        // The error remains visible to a maintainer without pretending the
+        // official source is available.
+        console.error("Unable to load the official NRWN rail layer", error);
+      })
+      .finally(() => {
+        railLoading.current = false;
+      });
+  }, [overlays.rail]);
 
   return (
     <div
@@ -836,6 +955,12 @@ export function Globe({
           label="Major highways"
           detail="Natural Earth reference network"
           onChange={() => onToggleOverlay("majorHighways")}
+        />
+        <LayerToggle
+          checked={overlays.rail}
+          label="Rail network"
+          detail="Natural Resources Canada · NRWN"
+          onChange={() => onToggleOverlay("rail")}
         />
         <LayerToggle
           checked={overlays.ferries}
