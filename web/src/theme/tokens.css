@@ -206,6 +206,38 @@ body {
 
 .map-layer-bar__analysis:hover { border-color: var(--accent); color: var(--accent); }
 
+/* The language toggle lives in the layer bar because the bar is the one piece
+   of chrome that stays on screen when the analysis pane is hidden. */
+.map-layer-bar__lang {
+  display: flex;
+  gap: 4px;
+  margin-top: var(--sp-1);
+  padding-top: var(--sp-2);
+  border-top: var(--hairline);
+}
+
+.map-layer-bar__lang button {
+  flex: 1;
+  min-height: 24px;
+  padding: 2px var(--sp-2);
+  border: var(--hairline);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: var(--fs-small);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.map-layer-bar__lang button:hover { border-color: var(--accent); }
+
+.map-layer-bar__lang button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: color-mix(in oklab, var(--accent) 18%, transparent);
+  color: var(--ink-primary);
+}
+
 @media (max-width: 600px) {
   .map-layer-bar { width: min(202px, calc(100% - 68px)); }
 }

@@ -8,9 +8,10 @@
  * The right half follows the map rather than being a fixed second view, which
  * is the arrangement chosen in planning: one panel, driven by selection.
  *
- * M3 scope. The analytical charts, the filter row and the pinned tabs are M4
- * and M5 — the overview below is a real read of the bundle, not a placeholder,
- * but it is deliberately a small one.
+ * Everything renders inside `I18nProvider`. The reader's language used to be
+ * `useState("en")` with no setter, which made every French string in the
+ * bundle — descriptions, benefits, sector labels, corridor paragraphs —
+ * unreachable. BACKLOG B1.
  */
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
@@ -23,15 +24,24 @@ import { SectorPanel } from "./panels/SectorPanel";
 import { TabStrip } from "./tabs/TabStrip";
 import { useTabs } from "./tabs/store";
 import { applyPalette } from "./theme/applyPalette";
-import { asset, loadBundle, t, type Bundle, type Lang, type Project } from "./data/bundle";
+import { asset, loadBundle, t, type Bundle, type Project } from "./data/bundle";
 import type { RangeId, SectorView } from "./filters/FilterRow";
+import { I18nProvider, LOCALE, fmtHeadlineMoney, fmtPercent, useI18n } from "./i18n";
 
 export default function App() {
+  return (
+    <I18nProvider>
+      <Atlas />
+    </I18nProvider>
+  );
+}
+
+function Atlas() {
+  const { s } = useI18n();
   const [bundle, setBundle] = useState<Bundle | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<Project | null>(null);
   const [selectedProvince, setSelectedProvince] = useState<ProvinceSummary | null>(null);
-  const [lang] = useState<Lang>("en");
   const [analysisVisible, setAnalysisVisible] = useState(true);
   const [mapShare, setMapShare] = useState(50);
   const [resizing, setResizing] = useState(false);
@@ -47,9 +57,9 @@ export default function App() {
     tradePlaces: true,
   });
 
-  const pins = useTabs((s) => s.pins);
-  const activeId = useTabs((s) => s.activeId);
-  const activate = useTabs((s) => s.activate);
+  const pins = useTabs((st) => st.pins);
+  const activeId = useTabs((st) => st.activeId);
+  const activate = useTabs((st) => st.activate);
   const activePin = pins.find((p) => p.id === activeId) ?? null;
 
   // A project pin drives the same selection the map does, so opening one flies
@@ -77,17 +87,17 @@ export default function App() {
   if (error) {
     return (
       <div style={{ padding: "var(--sp-6)" }}>
-        <h1 style={{ fontSize: "var(--fs-lead)" }}>Could not load the bundle</h1>
+        <h1 style={{ fontSize: "var(--fs-lead)" }}>{s.bundleError}</h1>
         <p className="muted">{error}</p>
         <p className="muted" style={{ fontSize: "var(--fs-small)" }}>
-          Run the pipeline: <code>python pipeline/99_bundle.py</code>
+          {s.bundleErrorHint} <code>python pipeline/99_bundle.py</code>
         </p>
       </div>
     );
   }
 
   if (!bundle) {
-    return <div style={{ padding: "var(--sp-6)" }} className="muted">Loading…</div>;
+    return <div style={{ padding: "var(--sp-6)" }} className="muted">{s.loading}</div>;
   }
 
   const toggleOverlay = (overlay: ToggleableOverlay) => {
@@ -116,7 +126,7 @@ export default function App() {
       style={{ "--map-share": `${mapShare}%` } as CSSProperties}
     >
       <a className="skip-link" href="#analysis">
-        Skip the map and go to the analysis
+        {s.skipToAnalysis}
       </a>
       <Globe
         bundle={bundle}
@@ -140,7 +150,7 @@ export default function App() {
       {analysisVisible && <div
         className={`split-divider${resizing ? " split-divider--dragging" : ""}`}
         role="separator"
-        aria-label="Resize map and analysis panes"
+        aria-label={s.resizePanes}
         aria-orientation="vertical"
         aria-valuemin={30}
         aria-valuemax={75}
@@ -169,14 +179,13 @@ export default function App() {
           }
         }}
       />}
-      {analysisVisible && <div className="pane-side" id="analysis" role="region" aria-label="Analysis">
+      {analysisVisible && <div className="pane-side" id="analysis" role="region" aria-label={s.analysis}>
         <div style={{ padding: "0 var(--sp-4)" }}>
           <TabStrip />
         </div>
         {selected ? (
           <ProjectViewer
             project={selected}
-            lang={lang}
             onClose={() => {
               setSelected(null);
               if (activePin?.kind === "project") activate(null);
@@ -187,7 +196,6 @@ export default function App() {
         ) : (
           <Overview
             bundle={bundle}
-            lang={lang}
             onSelect={setSelected}
             initialView={activePin?.params.view}
             initialRange={activePin?.params.range}
@@ -205,19 +213,18 @@ export default function App() {
 /** The default right half: what the economy looks like, and what is being built. */
 function Overview({
   bundle,
-  lang,
   onSelect,
   initialView,
   initialRange,
   initialFocus,
 }: {
   bundle: Bundle;
-  lang: Lang;
   onSelect: (p: Project) => void;
   initialView?: SectorView;
   initialRange?: RangeId;
   initialFocus?: string;
 }) {
+  const { lang, s } = useI18n();
   // Plot renders to a fixed pixel width, so the pane has to be measured rather
   // than left to CSS. ResizeObserver keeps the charts correct through the
   // 1100px breakpoint where the split stacks.
@@ -237,12 +244,12 @@ function Overview({
   }, []);
 
   const headline = useMemo(() => {
-    const by = (code: string) => bundle.national.find((s) => s.code === code && s.geo === "CA");
+    const by = (code: string) => bundle.national.find((x) => x.code === code && x.geo === "CA");
     const latest = (code: string) => {
-      const s = by(code);
-      if (!s) return null;
-      for (let i = s.values.length - 1; i >= 0; i--) {
-        if (s.values[i] != null) return { period: s.periods[i], value: s.values[i]!, series: s };
+      const series = by(code);
+      if (!series) return null;
+      for (let i = series.values.length - 1; i >= 0; i--) {
+        if (series.values[i] != null) return { period: series.periods[i], value: series.values[i]!, series };
       }
       return null;
     };
@@ -250,15 +257,19 @@ function Overview({
   }, [bundle]);
 
   const rate = bundle.rates.policy_rate;
-  const projects = [...bundle.projects].sort((a, b) => a.name.en.localeCompare(b.name.en));
+  // Sorted by the name the reader sees, with that language's collation — "Île"
+  // belongs among the I's in French, not after Z.
+  const projects = [...bundle.projects].sort((a, b) =>
+    t(a.name, lang).localeCompare(t(b.name, lang), LOCALE[lang]),
+  );
 
   return (
     <div ref={paneRef} style={{ padding: "var(--sp-4)" }}>
       <h1 style={{ fontSize: "var(--fs-title)", margin: "0 0 var(--sp-1)" }}>
-        Canada Economic Atlas
+        {s.appTitle}
       </h1>
       <p className="muted" style={{ margin: "0 0 var(--sp-5)", fontSize: "var(--fs-small)" }}>
-        Real GDP by sector, and the Major Projects Office portfolio.
+        {s.appSubtitle}
       </p>
 
       {/* A KPI row, not a chart: these are single current values, and a
@@ -272,26 +283,26 @@ function Overview({
         }}
       >
         <Stat
-          label="Real GDP, all industries"
-          value={headline.total ? fmtMillions(headline.total.value) : "—"}
+          label={s.kpiGdp}
+          value={headline.total ? fmtHeadlineMoney(headline.total.value, lang) : "—"}
           sub={headline.total?.period ?? ""}
           accent="var(--series-1)"
         />
         <Stat
-          label="Goods-producing"
-          value={headline.goods ? fmtMillions(headline.goods.value) : "—"}
+          label={s.kpiGoods}
+          value={headline.goods ? fmtHeadlineMoney(headline.goods.value, lang) : "—"}
           sub={headline.goods?.period ?? ""}
           accent="var(--series-1)"
         />
         <Stat
-          label="Services-producing"
-          value={headline.services ? fmtMillions(headline.services.value) : "—"}
+          label={s.kpiServices}
+          value={headline.services ? fmtHeadlineMoney(headline.services.value, lang) : "—"}
           sub={headline.services?.period ?? ""}
           accent="var(--series-2)"
         />
         <Stat
-          label="Policy rate"
-          value={rate ? `${rate.value.toFixed(2)}%` : "—"}
+          label={s.kpiPolicyRate}
+          value={rate ? fmtPercent(rate.value, lang, 2) : "—"}
           sub={rate?.period ?? ""}
           accent="var(--series-3)"
         />
@@ -302,9 +313,7 @@ function Overview({
           bug rather than a revision. */}
       {headline.total && (
         <p className="muted" style={{ fontSize: "var(--fs-micro)", marginTop: "calc(-1 * var(--sp-4))" }}>
-          Chained 2017 dollars, seasonally adjusted at annual rates · StatCan table{" "}
-          {headline.total.series.source_table} · released{" "}
-          {headline.total.series.release_time || "—"}
+          {s.vintage(headline.total.series.source_table, headline.total.series.release_time || "—")}
         </p>
       )}
 
@@ -318,7 +327,7 @@ function Overview({
         />
       </div>
 
-      <CorridorPanel bundle={bundle} lang={lang} />
+      <CorridorPanel bundle={bundle} />
 
       <h2
         style={{
@@ -329,7 +338,7 @@ function Overview({
           margin: "var(--sp-5) 0 var(--sp-2)",
         }}
       >
-        Major Projects Office · {projects.length} projects
+        {s.mpoHeading(projects.length)}
       </h2>
 
       <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
@@ -369,6 +378,8 @@ function Overview({
                 />
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: "block" }}>{t(p.name, lang)}</span>
+                  {/* Sector and location wording are carried in English only
+                      (BACKLOG B1a), so they read English in both languages. */}
                   <span className="muted" style={{ fontSize: "var(--fs-small)" }}>
                     {p.sector} · {p.sites[0]?.geometry.location_verbatim ?? ""}
                   </span>
@@ -383,8 +394,7 @@ function Overview({
         className="muted"
         style={{ fontSize: "var(--fs-micro)", marginTop: "var(--sp-5)", paddingBottom: "var(--sp-5)" }}
       >
-        Bundle schema {bundle.meta.schema_version} · generated{" "}
-        {bundle.meta.generated_at.slice(0, 10)}
+        {s.bundleFooter(bundle.meta.schema_version, bundle.meta.generated_at.slice(0, 10))}
       </footer>
     </div>
   );
@@ -412,11 +422,4 @@ function Stat({
       <div className="muted" style={{ fontSize: "var(--fs-micro)" }}>{sub}</div>
     </div>
   );
-}
-
-/** Millions of dollars, shown as billions where that reads better. */
-function fmtMillions(v: number): string {
-  return v >= 1000
-    ? `$${(v / 1000).toLocaleString("en-CA", { maximumFractionDigits: 1 })}B`
-    : `$${v.toLocaleString("en-CA", { maximumFractionDigits: 0 })}M`;
 }

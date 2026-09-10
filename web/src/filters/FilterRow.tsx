@@ -15,6 +15,8 @@
  * reason: it scopes everything below it.
  */
 
+import { useI18n } from "../i18n";
+
 export type SectorView = "composition" | "ranking" | "growth" | "trends" | "heatmap";
 
 /**
@@ -24,19 +26,23 @@ export type SectorView = "composition" | "ranking" | "growth" | "trends" | "heat
  * ago" — and a window never moves the latest period, so Range genuinely cannot
  * change what they show. Offering a control that silently does nothing is worse
  * than not offering it: the reader concludes the data is broken, not the UI.
+ *
+ * A Record over the view ids, so a new view without a range rule fails the
+ * build. Labels and hints live in `i18n.tsx`, keyed the same way. The key order
+ * here is the order the chips appear in.
  */
-export const VIEWS: { id: SectorView; label: string; hint: string; usesRange: boolean }[] = [
-  { id: "composition", label: "Composition", hint: "Goods vs services over time", usesRange: true },
-  { id: "ranking", label: "Size", hint: "Sectors by latest GDP", usesRange: false },
-  { id: "growth", label: "Growth", hint: "Year-over-year change by sector", usesRange: false },
-  { id: "trends", label: "Trends", hint: "All sectors as small multiples", usesRange: true },
-  { id: "heatmap", label: "Heatmap", hint: "Growth by sector and month", usesRange: true },
-];
+export const VIEWS: Record<SectorView, { usesRange: boolean }> = {
+  composition: { usesRange: true },
+  ranking: { usesRange: false },
+  growth: { usesRange: false },
+  trends: { usesRange: true },
+  heatmap: { usesRange: true },
+};
 
 export const RANGES = [
-  { id: "5y", label: "5 years", months: 60 },
-  { id: "10y", label: "10 years", months: 120 },
-  { id: "all", label: "All", months: 0 },
+  { id: "5y", months: 60 },
+  { id: "10y", months: 120 },
+  { id: "all", months: 0 },
 ] as const;
 
 export type RangeId = (typeof RANGES)[number]["id"];
@@ -51,6 +57,7 @@ interface Props {
 }
 
 export function FilterRow({ view, onView, range, onRange, rangeApplies }: Props) {
+  const { s } = useI18n();
   return (
     <div
       style={{
@@ -63,10 +70,10 @@ export function FilterRow({ view, onView, range, onRange, rangeApplies }: Props)
         marginBottom: "var(--sp-4)",
       }}
     >
-      <Group label="View">
-        {VIEWS.map((v) => (
-          <Chip key={v.id} active={view === v.id} onClick={() => onView(v.id)} title={v.hint}>
-            {v.label}
+      <Group label={s.filterView}>
+        {(Object.keys(VIEWS) as SectorView[]).map((id) => (
+          <Chip key={id} active={view === id} onClick={() => onView(id)} title={s.views[id].hint}>
+            {s.views[id].label}
           </Chip>
         ))}
       </Group>
@@ -75,16 +82,16 @@ export function FilterRow({ view, onView, range, onRange, rangeApplies }: Props)
           switch views — but disabled, because on these views it cannot do
           anything and a live-looking dead control is a bug report waiting to
           happen. The title says why. */}
-      <Group label="Range">
+      <Group label={s.filterRange}>
         {RANGES.map((r) => (
           <Chip
             key={r.id}
             active={range === r.id}
             onClick={() => onRange(r.id)}
             disabled={!rangeApplies}
-            title={rangeApplies ? undefined : "This view reads the latest period only"}
+            title={rangeApplies ? undefined : s.rangeInapplicable}
           >
-            {r.label}
+            {s.ranges[r.id]}
           </Chip>
         ))}
       </Group>

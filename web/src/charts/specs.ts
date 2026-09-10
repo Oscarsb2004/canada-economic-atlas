@@ -26,12 +26,21 @@
  * Chained dollars are not additive — measured at +0.311% drift on 2026-06,
  * against +0.000% for 2017 constant prices. A stacked chart asserts that the
  * parts make the whole, so it must read the basis where they actually do.
+ *
+ * EVERY BUILDER TAKES THE READER'S LANGUAGE
+ *
+ * Sector labels are StatCan's own, in both languages, and picked with `t()`.
+ * Numbers and month names come from the locale via `i18n.tsx`. Nothing here
+ * hardcodes an English label: the composition chart's colour domain used to be
+ * the literal "Goods-producing industries", which would have matched no French
+ * row and drawn both areas in the scale's fallback colour.
  */
 
 import * as Plot from "@observablehq/plot";
 
-import type { Company, Palette, Series } from "../data/bundle";
-import { MARK, axisX, axisY, chartDefaults, fmtMoneyM, gridY, token } from "./Plot";
+import { t, type Company, type Lang, type Palette, type Series } from "../data/bundle";
+import { fmtMoneyM, fmtMonth, fmtPct, fmtPercent, stringsFor } from "../i18n";
+import { MARK, axisX, axisY, chartDefaults, gridY, token } from "./Plot";
 
 /**
  * Tooltip styling, shared.
@@ -66,14 +75,15 @@ function toDate(period: string): Date {
 }
 
 /** Series to tidy rows, dropping nulls — a suppressed period is not a zero. */
-export function toRows(series: Series[], codes?: Set<string>): Row[] {
+export function toRows(series: Series[], lang: Lang, codes?: Set<string>): Row[] {
   const out: Row[] = [];
   for (const s of series) {
     if (codes && !codes.has(s.code)) continue;
+    const label = t(s.label, lang);
     for (let i = 0; i < s.periods.length; i++) {
       const v = s.values[i];
       if (v == null) continue;
-      out.push({ code: s.code, label: s.label.en, period: s.periods[i], date: toDate(s.periods[i]), value: v });
+      out.push({ code: s.code, label, period: s.periods[i], date: toDate(s.periods[i]), value: v });
     }
   }
   return out;
@@ -84,11 +94,11 @@ export function sectorsOnly(series: Series[]): Series[] {
 }
 
 /** Most recent non-null value per series. */
-export function latestBySector(series: Series[]): { code: string; label: string; value: number }[] {
+export function latestBySector(series: Series[], lang: Lang): { code: string; label: string; value: number }[] {
   return sectorsOnly(series)
     .map((s) => {
       const i = lastRealIndex(s.values);
-      return i < 0 ? null : { code: s.code, label: s.label.en, value: s.values[i]! };
+      return i < 0 ? null : { code: s.code, label: t(s.label, lang), value: s.values[i]! };
     })
     .filter((x): x is { code: string; label: string; value: number } => x != null)
     .sort((a, b) => b.value - a.value);
@@ -130,7 +140,7 @@ function lastRealIndex(values: (number | null)[]): number {
  * compared against some other period: a y/y number measured over the wrong
  * interval is worse than an absent one.
  */
-export function yoyBySector(series: Series[]): { code: string; label: string; value: number }[] {
+export function yoyBySector(series: Series[], lang: Lang): { code: string; label: string; value: number }[] {
   return sectorsOnly(series)
     .map((s) => {
       const i = lastRealIndex(s.values);
@@ -139,7 +149,7 @@ export function yoyBySector(series: Series[]): { code: string; label: string; va
       const now = s.values[i];
       const then = s.values[j];
       if (now == null || then == null || then === 0) return null;
-      return { code: s.code, label: s.label.en, value: ((now - then) / then) * 100 };
+      return { code: s.code, label: t(s.label, lang), value: ((now - then) / then) * 100 };
     })
     .filter((x): x is { code: string; label: string; value: number } => x != null)
     .sort((a, b) => b.value - a.value);
@@ -147,16 +157,20 @@ export function yoyBySector(series: Series[]): { code: string; label: string; va
 
 // ── 1. Composition over time ───────────────────────────────────────────────────
 
-export function composition(constant: Series[], palette: Palette, width: number) {
-  const rows = toRows(constant.filter((s) => s.geo === "CA"), new Set(["T002", "T003"]));
+export function composition(constant: Series[], palette: Palette, width: number, lang: Lang) {
+  const national = constant.filter((s) => s.geo === "CA");
+  const rows = toRows(national, lang, new Set(["T002", "T003"]));
   const colors = [palette.categorical[0].hex, palette.categorical[1].hex];
+  // The colour domain is the data's own labels in the reader's language, so the
+  // domain and the rows can never be written in two different languages.
+  const domain = ["T002", "T003"].map((code) => t(national.find((s) => s.code === code)?.label, lang));
 
   return Plot.plot({
     ...chartDefaults(190),
     width,
     marginLeft: 46,
-    color: { domain: ["Goods-producing industries", "Services-producing industries"], range: colors },
-    y: { label: null, tickFormat: (d: number) => fmtMoneyM(d) },
+    color: { domain, range: colors },
+    y: { label: null, tickFormat: (d: number) => fmtMoneyM(d, lang) },
     marks: [
       gridY(),
       // A WASH, not a block. Two large areas at full chroma read loud and
@@ -179,7 +193,7 @@ export function composition(constant: Series[], palette: Palette, width: number)
         strokeWidth: MARK.lineWidth,
         strokeLinejoin: "round",
       }),
-      axisY({ ticks: 4, tickFormat: (d: number) => fmtMoneyM(d as number) }),
+      axisY({ ticks: 4, tickFormat: (d: number) => fmtMoneyM(d as number, lang) }),
       axisX({ ticks: 6 }),
       Plot.ruleY([0], { stroke: token("--ink-axis") }),
       // The crosshair finds the X: a hairline snaps to the nearest date, so the
@@ -197,8 +211,8 @@ export function composition(constant: Series[], palette: Palette, width: number)
           y: "value",
           ...TIP,
           format: {
-            x: (d: Date) => d.toLocaleDateString("en-CA", { year: "numeric", month: "short" }),
-            y: (d: number) => fmtMoneyM(d),
+            x: (d: Date) => fmtMonth(d, lang),
+            y: (d: number) => fmtMoneyM(d, lang),
             z: true,
           },
         }),
@@ -209,15 +223,15 @@ export function composition(constant: Series[], palette: Palette, width: number)
 
 // ── 2. Sector ranking ──────────────────────────────────────────────────────────
 
-export function ranking(series: Series[], palette: Palette, width: number) {
-  const data = latestBySector(series);
+export function ranking(series: Series[], palette: Palette, width: number, lang: Lang) {
+  const data = latestBySector(series, lang);
 
   return Plot.plot({
     ...chartDefaults(Math.max(260, data.length * 17)),
     width,
     // Long sector names need the room; this is why the ranking is horizontal.
     marginLeft: 168,
-    x: { grid: true, label: null, tickFormat: (d: number) => fmtMoneyM(d) },
+    x: { grid: true, label: null, tickFormat: (d: number) => fmtMoneyM(d, lang) },
     y: { label: null, domain: data.map((d) => d.label) },
     marks: [
       Plot.gridX({ stroke: token("--ink-gridline"), strokeWidth: 1 }),
@@ -234,10 +248,10 @@ export function ranking(series: Series[], palette: Palette, width: number) {
         rx1: 4,
         insetTop: 1.5,
         insetBottom: 1.5,
-        tip: { ...TIP, format: { x: (d: number) => fmtMoneyM(d), y: true } },
+        tip: { ...TIP, format: { x: (d: number) => fmtMoneyM(d, lang), y: true } },
       }),
       axisY({ fontSize: 10 }),
-      axisX({ ticks: 4, tickFormat: (d: number) => fmtMoneyM(d as number) }),
+      axisX({ ticks: 4, tickFormat: (d: number) => fmtMoneyM(d as number, lang) }),
       Plot.ruleX([0], { stroke: token("--ink-axis") }),
     ],
   });
@@ -245,8 +259,8 @@ export function ranking(series: Series[], palette: Palette, width: number) {
 
 // ── 3. All-sector trends: small multiples ──────────────────────────────────────
 
-export function smallMultiples(series: Series[], palette: Palette, width: number) {
-  const rows = toRows(sectorsOnly(series));
+export function smallMultiples(series: Series[], palette: Palette, width: number, lang: Lang) {
+  const rows = toRows(sectorsOnly(series), lang);
 
   return Plot.plot({
     ...chartDefaults(560),
@@ -256,7 +270,7 @@ export function smallMultiples(series: Series[], palette: Palette, width: number
     // design-system answer to "too many series", and here it is one option.
     fy: { label: null },
     facet: { data: rows, y: "label", marginRight: 4 },
-    y: { label: null, ticks: 2, tickFormat: (d: number) => fmtMoneyM(d) },
+    y: { label: null, ticks: 2, tickFormat: (d: number) => fmtMoneyM(d, lang) },
     x: { label: null, ticks: 4 },
     marks: [
       gridY({ ticks: 2 }),
@@ -273,21 +287,22 @@ export function smallMultiples(series: Series[], palette: Palette, width: number
 
 // ── 4. Growth heatmap ──────────────────────────────────────────────────────────
 
-export function growthHeatmap(series: Series[], palette: Palette, width: number, months = 60) {
+export function growthHeatmap(series: Series[], palette: Palette, width: number, lang: Lang, months = 60) {
   const sectors = sectorsOnly(series);
   const rows: { label: string; date: Date; pct: number }[] = [];
 
   for (const s of sectors) {
     const n = s.periods.length;
+    const label = t(s.label, lang);
     for (let i = Math.max(12, n - months); i < n; i++) {
       const now = s.values[i];
       const prev = s.values[i - 12];
       if (now == null || prev == null || prev === 0) continue;
-      rows.push({ label: s.label.en, date: toDate(s.periods[i]), pct: ((now - prev) / prev) * 100 });
+      rows.push({ label, date: toDate(s.periods[i]), pct: ((now - prev) / prev) * 100 });
     }
   }
 
-  const order = latestBySector(series).map((d) => d.label);
+  const order = latestBySector(series, lang).map((d) => d.label);
   const span = Math.max(6, ...rows.map((r) => Math.abs(r.pct)));
 
   return Plot.plot({
@@ -303,7 +318,7 @@ export function growthHeatmap(series: Series[], palette: Palette, width: number,
       range: [palette.diverging.negative[1], palette.diverging.midpoint, palette.diverging.positive[1]],
       domain: [-span, span],
       pivot: 0,
-      label: "y/y %",
+      label: stringsFor(lang).heatmapScale,
     },
     y: { label: null, domain: order },
     // `interval: "month"` is required, not cosmetic. A cell mark puts x on a
@@ -320,8 +335,8 @@ export function growthHeatmap(series: Series[], palette: Palette, width: number,
         tip: {
           ...TIP,
           format: {
-            fill: (d: number) => `${d >= 0 ? "+" : ""}${d.toFixed(1)}%`,
-            x: (d: Date) => d.toLocaleDateString("en-CA", { year: "numeric", month: "short" }),
+            fill: (d: number) => fmtPct(d, lang),
+            x: (d: Date) => fmtMonth(d, lang),
             y: true,
           },
         },
@@ -334,8 +349,8 @@ export function growthHeatmap(series: Series[], palette: Palette, width: number,
 
 // ── 5. Emphasis: one sector against the rest ───────────────────────────────────
 
-export function emphasis(series: Series[], palette: Palette, width: number, selectedCode: string) {
-  const rows = toRows(sectorsOnly(series));
+export function emphasis(series: Series[], palette: Palette, width: number, selectedCode: string, lang: Lang) {
+  const rows = toRows(sectorsOnly(series), lang);
   const others = rows.filter((r) => r.code !== selectedCode);
   const chosen = rows.filter((r) => r.code === selectedCode);
 
@@ -343,7 +358,7 @@ export function emphasis(series: Series[], palette: Palette, width: number, sele
     ...chartDefaults(210),
     width,
     marginLeft: 52,
-    y: { label: null, tickFormat: (d: number) => fmtMoneyM(d) },
+    y: { label: null, tickFormat: (d: number) => fmtMoneyM(d, lang) },
     marks: [
       gridY(),
       // The nineteen others in de-emphasis grey: context, not competition.
@@ -373,7 +388,7 @@ export function emphasis(series: Series[], palette: Palette, width: number, sele
         stroke: token("--surface-page"),
         strokeWidth: MARK.gap,
       }),
-      axisY({ ticks: 4, tickFormat: (d: number) => fmtMoneyM(d as number) }),
+      axisY({ ticks: 4, tickFormat: (d: number) => fmtMoneyM(d as number, lang) }),
       axisX({ ticks: 6 }),
       Plot.ruleX(chosen, Plot.pointerX({ x: "date", stroke: token("--ink-secondary"), strokeWidth: 1 })),
       Plot.tip(
@@ -383,8 +398,8 @@ export function emphasis(series: Series[], palette: Palette, width: number, sele
           y: "value",
           ...TIP,
           format: {
-            x: (d: Date) => d.toLocaleDateString("en-CA", { year: "numeric", month: "short" }),
-            y: (d: number) => fmtMoneyM(d),
+            x: (d: Date) => fmtMonth(d, lang),
+            y: (d: number) => fmtMoneyM(d, lang),
           },
         }),
       ),
@@ -394,15 +409,15 @@ export function emphasis(series: Series[], palette: Palette, width: number, sele
 
 // ── 6. Contribution to growth ──────────────────────────────────────────────────
 
-export function growthBars(series: Series[], palette: Palette, width: number) {
-  const data = yoyBySector(series);
+export function growthBars(series: Series[], palette: Palette, width: number, lang: Lang) {
+  const data = yoyBySector(series, lang);
   const span = Math.max(...data.map((d) => Math.abs(d.value)), 3);
 
   return Plot.plot({
     ...chartDefaults(Math.max(260, data.length * 17)),
     width,
     marginLeft: 168,
-    x: { label: null, domain: [-span, span], tickFormat: (d: number) => `${d > 0 ? "+" : ""}${d}%` },
+    x: { label: null, domain: [-span, span], tickFormat: (d: number) => fmtPct(d, lang, 0) },
     y: { label: null, domain: data.map((d) => d.label) },
     color: {
       type: "diverging",
@@ -418,10 +433,13 @@ export function growthBars(series: Series[], palette: Palette, width: number) {
         fill: "value",
         insetTop: 1.5,
         insetBottom: 1.5,
-        tip: { ...TIP, format: { x: (d: number) => `${d >= 0 ? "+" : ""}${d.toFixed(1)}%`, y: true, fill: false } },
+        tip: { ...TIP, format: { x: (d: number) => fmtPct(d, lang), y: true, fill: false } },
       }),
       axisY({ fontSize: 10 }),
-      axisX({ ticks: 5 }),
+      // The axis MARK takes its own tickFormat; the scale's is not inherited by
+      // an explicit axis mark. Without it this axis read "-4 -2 0 2 4" — bare
+      // numbers on a chart of percentages — in both languages.
+      axisX({ ticks: 5, tickFormat: (d: number) => fmtPct(d as number, lang, 0) }),
       // The baseline a diverging bar diverges from. Solid, one step off surface.
       Plot.ruleX([0], { stroke: token("--ink-axis"), strokeWidth: 1 }),
     ],
@@ -430,7 +448,7 @@ export function growthBars(series: Series[], palette: Palette, width: number) {
 
 // ── 7. Companies ───────────────────────────────────────────────────────────────
 
-export function companyBars(companies: Company[], palette: Palette, width: number, top = 12) {
+export function companyBars(companies: Company[], palette: Palette, width: number, lang: Lang, top = 12) {
   const data = companies
     .filter((c) => c.weight_pct != null)
     .slice(0, top)
@@ -440,7 +458,7 @@ export function companyBars(companies: Company[], palette: Palette, width: numbe
     ...chartDefaults(Math.max(180, data.length * 19)),
     width,
     marginLeft: 150,
-    x: { label: null, tickFormat: (d: number) => `${d}%` },
+    x: { label: null, tickFormat: (d: number) => fmtPercent(d, lang, 0) },
     y: { label: null, domain: data.map((d) => d.name) },
     marks: [
       Plot.gridX({ stroke: token("--ink-gridline"), strokeWidth: 1 }),
@@ -451,10 +469,12 @@ export function companyBars(companies: Company[], palette: Palette, width: numbe
         rx1: 4,
         insetTop: 2,
         insetBottom: 2,
-        tip: { ...TIP, format: { x: (d: number) => `${d.toFixed(2)}%`, y: true } },
+        tip: { ...TIP, format: { x: (d: number) => fmtPercent(d, lang, 2), y: true } },
       }),
       axisY({ fontSize: 10 }),
-      axisX({ ticks: 4 }),
+      // Same as the growth bars: the mark needs the format, or index weights
+      // read "0 2 4 6" with no unit.
+      axisX({ ticks: 4, tickFormat: (d: number) => fmtPercent(d as number, lang, 0) }),
       Plot.ruleX([0], { stroke: token("--ink-axis") }),
     ],
   });

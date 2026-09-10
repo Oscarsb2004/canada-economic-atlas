@@ -9,10 +9,15 @@
  * Reordering is by keyboard-reachable buttons rather than drag: drag-and-drop
  * without a keyboard equivalent is exactly the kind of interaction that works
  * for some readers and not others.
+ *
+ * A pin's label is written in the language it was pinned in and does not change
+ * when the reader switches. It is the reader's own name for the view — they can
+ * rename it — so rewriting it would overwrite something they own.
  */
 
 import { useEffect, useRef, useState } from "react";
 
+import { useI18n } from "../i18n";
 import { useTabs, type Pin, type PinKind } from "./store";
 
 export function PinButton({
@@ -24,22 +29,23 @@ export function PinButton({
   params: Pin["params"];
   defaultLabel: string;
 }) {
-  const add = useTabs((s) => s.add);
+  const { s } = useI18n();
+  const add = useTabs((st) => st.add);
   // Selecting the derived BOOLEAN is what makes this re-render correctly.
   // Zustand re-runs the selector on every state change and compares the result,
   // so this component wakes only when the answer flips. Selecting `s.isPinned`
   // instead would capture a stable function reference and never re-render at
   // all — which is why an earlier version subscribed to `s.pins` and then wrote
   // `pins.length >= 0 && ...`, a guard that is always true and did nothing.
-  const pinned = useTabs((s) => s.isPinned(kind, params));
+  const pinned = useTabs((st) => st.isPinned(kind, params));
 
   return (
     <button
       type="button"
       onClick={() => add({ kind, label: defaultLabel, params })}
       disabled={pinned}
-      aria-label={pinned ? `${defaultLabel} is pinned` : `Pin ${defaultLabel}`}
-      title={pinned ? "Already pinned" : "Pin this view"}
+      aria-label={pinned ? s.isPinned(defaultLabel) : s.pinNamed(defaultLabel)}
+      title={pinned ? s.alreadyPinned : s.pinThisView}
       style={{
         minHeight: 24,
         padding: "2px 9px",
@@ -53,12 +59,13 @@ export function PinButton({
         opacity: pinned ? 0.7 : 1,
       }}
     >
-      {pinned ? "Pinned" : "Pin"}
+      {pinned ? s.pinnedButton : s.pin}
     </button>
   );
 }
 
 export function TabStrip() {
+  const { s } = useI18n();
   const { pins, activeId, activate, remove, rename, move } = useTabs();
   const [editing, setEditing] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -72,7 +79,7 @@ export function TabStrip() {
   return (
     <div
       role="tablist"
-      aria-label="Pinned views"
+      aria-label={s.pinnedViews}
       style={{
         display: "flex",
         flexWrap: "wrap",
@@ -87,7 +94,7 @@ export function TabStrip() {
         className="muted"
         style={{ fontSize: "var(--fs-micro)", textTransform: "uppercase", letterSpacing: "0.05em", marginRight: 4 }}
       >
-        Pinned
+        {s.pinnedStrip}
       </span>
 
       <button
@@ -97,7 +104,7 @@ export function TabStrip() {
         onClick={() => activate(null)}
         style={chip(activeId === null)}
       >
-        Overview
+        {s.overview}
       </button>
 
       {pins.map((p, i) => {
@@ -116,7 +123,7 @@ export function TabStrip() {
                   if (e.key === "Enter") (e.target as HTMLInputElement).blur();
                   if (e.key === "Escape") setEditing(null);
                 }}
-                aria-label={`Rename ${p.label}`}
+                aria-label={s.renameNamed(p.label)}
                 style={{
                   ...chip(true),
                   minWidth: 90,
@@ -131,7 +138,7 @@ export function TabStrip() {
                 aria-selected={active}
                 onClick={() => activate(p.id)}
                 onDoubleClick={() => setEditing(p.id)}
-                title={`${p.label} — double-click to rename`}
+                title={s.renameHint(p.label)}
                 style={chip(active)}
               >
                 {p.label}
@@ -140,17 +147,17 @@ export function TabStrip() {
 
             {active && (
               <>
-                <IconBtn label={`Move ${p.label} left`} onClick={() => move(p.id, -1)} disabled={i === 0}>
+                <IconBtn label={s.moveLeft(p.label)} onClick={() => move(p.id, -1)} disabled={i === 0}>
                   ‹
                 </IconBtn>
                 <IconBtn
-                  label={`Move ${p.label} right`}
+                  label={s.moveRight(p.label)}
                   onClick={() => move(p.id, 1)}
                   disabled={i === pins.length - 1}
                 >
                   ›
                 </IconBtn>
-                <IconBtn label={`Unpin ${p.label}`} onClick={() => remove(p.id)}>
+                <IconBtn label={s.unpin(p.label)} onClick={() => remove(p.id)}>
                   ✕
                 </IconBtn>
               </>

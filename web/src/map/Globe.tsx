@@ -31,8 +31,9 @@ import { useEffect, useRef } from "react";
 import maplibregl, { type LngLatLike, type StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import type { Bundle, CorridorNodeKind, Project } from "../data/bundle";
-import { PRUID_TO_CODE, asset, mapFeatures } from "../data/bundle";
+import type { Bundle, CorridorNodeKind, Lang, Project, Text } from "../data/bundle";
+import { PRUID_TO_CODE, asset, mapFeatures, t } from "../data/bundle";
+import { LanguageToggle, stringsFor, useI18n } from "../i18n";
 
 /** Where the globe opens: Canada, tilted so the Arctic projects are visible. */
 const HOME: { center: LngLatLike; zoom: number } = {
@@ -75,7 +76,8 @@ export type MapOverlays = Record<ToggleableOverlay, boolean>;
 
 export interface ProvinceSummary {
   code: string;
-  name: string;
+  /** StatCan's own names from the boundary file, PRENAME and PRFNAME. */
+  name: Text;
 }
 
 const OVERLAY_LAYER_IDS: Record<Exclude<ToggleableOverlay, "majorProjects" | "placeNames">, readonly string[]> = {
@@ -88,6 +90,13 @@ const OVERLAY_LAYER_IDS: Record<Exclude<ToggleableOverlay, "majorProjects" | "pl
 };
 
 const EMPTY_GEOJSON: GeoJSON.FeatureCollection = { type: "FeatureCollection", features: [] };
+
+/**
+ * Every toggleable overlay, in display order. Read off the label table, which
+ * `satisfies Record<ToggleableOverlay, ...>`, so an overlay added without a
+ * label is a build failure rather than a checkbox that never appears.
+ */
+const LAYER_ORDER = Object.keys(stringsFor("en").layers) as ToggleableOverlay[];
 
 function railWidthAt(main: number, other: number) {
   return [
@@ -524,6 +533,13 @@ function corridorGeoJSON(bundle: Bundle): GeoJSON.FeatureCollection {
   };
 }
 
+/** A pin's tooltip and accessible name, in the reader's language. */
+function labelPin(el: HTMLElement, name: Text, linear: boolean, lang: Lang) {
+  const text = linear ? stringsFor(lang).pinRoute(t(name, lang)) : t(name, lang);
+  el.title = text;
+  el.setAttribute("aria-label", text);
+}
+
 export function Globe({
   bundle,
   selected,
@@ -545,6 +561,13 @@ export function Globe({
   const overlaysRef = useRef(overlays);
   overlaysRef.current = overlays;
   const refreshPlaceLabelsRef = useRef<() => void>(() => {});
+  const { lang, s } = useI18n();
+  // Read by the map's own event handlers, which are registered once per bundle:
+  // a language change must relabel the map, not rebuild the globe.
+  const langRef = useRef(lang);
+  langRef.current = lang;
+  /** Each pin's site, so its accessible name can follow the language. */
+  const pinSites = useRef<Map<string, { name: Text; linear: boolean }>>(new Map());
 
   // Keep the latest callback without re-running the map setup effect, which
   // would tear down and rebuild the globe on every parent render.
@@ -650,11 +673,9 @@ export function Globe({
       // textContent/attributes, never innerHTML: these names come from a
       // federal dataset, which is untrusted input as far as the DOM is
       // concerned.
-      const label = line
-        ? `${site.name.en} — route, marker at its midpoint`
-        : site.name.en;
-      el.title = label;
-      el.setAttribute("aria-label", label);
+      const key = `${project.slug}:${index}`;
+      pinSites.current.set(key, { name: site.name, linear: line != null });
+      labelPin(el, site.name, line != null, langRef.current);
       if (hero?.thumb) el.style.backgroundImage = `url(${asset(hero.thumb)})`;
 
       el.addEventListener("click", (e) => {
@@ -666,7 +687,7 @@ export function Globe({
         .setLngLat(anchor)
         .addTo(m);
 
-      markers.current.set(`${project.slug}:${index}`, marker);
+      markers.current.set(key, marker);
     });
 
     /**
@@ -693,7 +714,9 @@ export function Globe({
           const [lng, lat] = feature.geometry.coordinates;
           const properties = feature.properties as Record<string, unknown> | null;
           const id = String(properties?.id ?? "");
-          const name = String(properties?.name_en ?? "");
+          // The Government of Canada publishes both names; show the reader's,
+          // falling back to English where the French is blank.
+          const name = String((langRef.current === "fr" && properties?.name_fr) || properties?.name_en || "");
           const capital = properties?.capital === true;
           const minZoom = Number(properties?.min_zoom);
           const population = Number(properties?.population ?? 0);
@@ -760,8 +783,11 @@ export function Globe({
       const feature = event.features?.[0];
       const pruid = String(feature?.properties?.PRUID ?? "");
       const code = PRUID_TO_CODE[pruid];
-      const name = String(feature?.properties?.PRENAME ?? "");
-      if (code && name) onProvinceSelectRef.current({ code, name });
+      const name = {
+        en: String(feature?.properties?.PRENAME ?? ""),
+        fr: String(feature?.properties?.PRFNAME ?? ""),
+      };
+      if (code && name.en) onProvinceSelectRef.current({ code, name });
     });
 
     // Clicking empty ocean clears either type of selection, which is the
@@ -777,6 +803,7 @@ export function Globe({
     return () => {
       markers.current.forEach((mk) => mk.remove());
       markers.current.clear();
+      pinSites.current.clear();
       m.off("moveend", syncPlaceLabels);
       m.off("zoomend", syncPlaceLabels);
       m.off("idle", syncPlaceLabels);
@@ -813,6 +840,16 @@ export function Globe({
       m.off("style.load", apply);
     };
   }, [bundle.provinces.features, selectedProvince]);
+
+  // The language changed: relabel what the map built imperatively. Pins and
+  // place labels are DOM the map owns, so React re-rendering does not reach them.
+  useEffect(() => {
+    markers.current.forEach((marker, key) => {
+      const site = pinSites.current.get(key);
+      if (site) labelPin(marker.getElement(), site.name, site.linear, lang);
+    });
+    refreshPlaceLabelsRef.current();
+  }, [lang]);
 
   // Fly to the selection, and mark the matching pins pressed.
   useEffect(() => {
@@ -929,67 +966,29 @@ export function Globe({
       // the ocean, so this is the only place the void gets a colour.
       style={{ background: bundle.palette.surface.page }}
     >
-      <div ref={container} className="map-canvas" aria-label="Map of Canada in the world" />
-      <aside className="map-layer-bar" aria-label="Map layers">
-        <div className="map-layer-bar__title">Map layers</div>
-        <LayerToggle
-          checked={overlays.provinces}
-          label="Provinces and territories"
-          detail="Hover or click for a profile"
-          onChange={() => onToggleOverlay("provinces")}
-        />
-        <LayerToggle
-          checked={overlays.placeNames}
-          label="City and town names"
-          detail="Government of Canada place names"
-          onChange={() => onToggleOverlay("placeNames")}
-        />
-        <LayerToggle
-          checked={overlays.nationalHighways}
-          label="National Highway System"
-          detail="Transport Canada"
-          onChange={() => onToggleOverlay("nationalHighways")}
-        />
-        <LayerToggle
-          checked={overlays.majorHighways}
-          label="Major highways"
-          detail="Natural Earth reference network"
-          onChange={() => onToggleOverlay("majorHighways")}
-        />
-        <LayerToggle
-          checked={overlays.rail}
-          label="Rail network"
-          detail="Natural Resources Canada · NRWN"
-          onChange={() => onToggleOverlay("rail")}
-        />
-        <LayerToggle
-          checked={overlays.ferries}
-          label="Ferry routes"
-          detail="Natural Earth"
-          onChange={() => onToggleOverlay("ferries")}
-        />
-        <LayerToggle
-          checked={overlays.majorProjects}
-          label="Major Projects Office"
-          detail="Project pins and published route endpoints"
-          onChange={() => onToggleOverlay("majorProjects")}
-        />
-        <LayerToggle
-          checked={overlays.tradePlaces}
-          label="Trade corridor places"
-          detail="Ports and border crossings"
-          onChange={() => onToggleOverlay("tradePlaces")}
-        />
+      <div ref={container} className="map-canvas" aria-label={s.mapLabel} />
+      <aside className="map-layer-bar" aria-label={s.layersTitle}>
+        <div className="map-layer-bar__title">{s.layersTitle}</div>
+        {LAYER_ORDER.map((overlay) => (
+          <LayerToggle
+            key={overlay}
+            checked={overlays[overlay]}
+            label={s.layers[overlay].label}
+            detail={s.layers[overlay].detail}
+            onChange={() => onToggleOverlay(overlay)}
+          />
+        ))}
         <div className="map-layer-bar__future">
-          <span>Ship tracking</span>
-          <small>Planned — no source connected</small>
+          <span>{s.futureShips.label}</span>
+          <small>{s.futureShips.detail}</small>
         </div>
         <div className="map-layer-bar__future">
-          <span>Population heatmap</span>
-          <small>Planned — 3D visualization</small>
+          <span>{s.futureHeatmap.label}</span>
+          <small>{s.futureHeatmap.detail}</small>
         </div>
+        <LanguageToggle className="map-layer-bar__lang" />
         <button type="button" className="map-layer-bar__analysis" onClick={onToggleAnalysis}>
-          {analysisVisible ? "Hide analysis" : "Show analysis"}
+          {analysisVisible ? s.hideAnalysis : s.showAnalysis}
         </button>
       </aside>
     </div>

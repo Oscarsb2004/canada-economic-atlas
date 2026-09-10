@@ -130,14 +130,6 @@ export function axisX(options: Plot.AxisXOptions = {}) {
   return Plot.axisX({ tickSize: 0, fill: token("--ink-muted"), ...options });
 }
 
-/** Compact currency for axis ticks and labels: 2,369,309 (millions) → $2.4T. */
-export function fmtMoneyM(v: number): string {
-  const abs = Math.abs(v);
-  if (abs >= 1_000_000) return `$${(v / 1_000_000).toFixed(1)}T`;
-  if (abs >= 1_000) return `$${(v / 1_000).toFixed(0)}B`;
-  return `$${v.toFixed(0)}M`;
-}
-
-export function fmtPct(v: number, digits = 1): string {
-  return `${v >= 0 ? "+" : ""}${v.toFixed(digits)}%`;
-}
+// Number and date formatting lives in `i18n.tsx`: it is a property of the
+// reader's locale, not of the chart, and the hand-written English formatters
+// that were here could not produce "183 G $".

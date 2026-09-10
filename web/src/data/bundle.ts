@@ -219,6 +219,8 @@ export interface Bundle {
   /** 13 geographies x 23 codes, annual. Feeds the provincial choropleth. */
   provincial: Series[];
   companies: Company[];
+  /** The company panel's caveat, in both languages, read from the payload (CLAUDE.md §9). */
+  companiesCaveat: Text;
   rates: { policy_rate?: { period: string; value: number; label: string } };
   world: GeoJSON.FeatureCollection;
   provinces: GeoJSON.FeatureCollection;
@@ -306,7 +308,7 @@ export async function loadBundle(): Promise<Bundle> {
       json<{ series: Series[] }>("/data/sectors/national-monthly.json"),
       json<{ series: Series[] }>("/data/sectors/national-constant.json"),
       json<{ series: Series[] }>("/data/sectors/provincial-annual.json"),
-      json<{ companies: Company[] }>("/data/companies/xic.json"),
+      json<{ companies: Company[]; caveat: Text }>("/data/companies/xic.json"),
       json<Bundle["rates"]>("/data/sectors/rates.json"),
       json<GeoJSON.FeatureCollection>("/geo/world.json"),
       json<GeoJSON.FeatureCollection>("/geo/provinces.json"),
@@ -333,6 +335,7 @@ export async function loadBundle(): Promise<Bundle> {
     constant: constantDoc.series,
     provincial: provincialDoc.series,
     companies: companiesDoc.companies,
+    companiesCaveat: companiesDoc.caveat,
     rates,
     world,
     provinces,

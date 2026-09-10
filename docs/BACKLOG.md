@@ -114,7 +114,9 @@ and it is not close.
 
 | | Item | Goal | Effort | Human? |
 |---|---|---|---|---|
-| **B1** | **Language toggle.** `App.tsx:31` pins `lang` to `"en"` with no setter. Every record in the bundle is bilingual — descriptions, quick facts, benefits, sector labels straight from the StatCan cube — and none of the French is reachable. One control, threaded through the props that already accept `lang`. The single largest ratio of unlocked-to-new work in the project. | G1 G4 | S | |
+| B1 | ~~**Language toggle.** EN / FR in the map layer bar, remembered per browser, and `?lang=fr` in a link. Data text comes from the bundle's own French; interface text lives in `web/src/i18n.tsx`, typed so a missing French string fails the build; numbers and dates come from the fr-CA locale. It was not "one control through the props that already accept `lang`" — twelve components rendered English directly, including every chart label, so the effort was M, not S.~~ | G1 G4 | M | |
+| B1a | **French for the fields the pipeline carries in English only:** an MPO project's sector, a site's location wording, an update's date as written, GICS sector and company names, and the map's source credits. Capture each from its French source in stages 01 and 03 — never translate them in the app, which would be authoring a publisher's text. | G1 | S | |
+| B1b | **Review the interface French.** Everything under `fr` in `i18n.tsx` was written by this project, not a translator. Section headings already match the federal pages ("Faits saillants", "Avantages", "Dernière mise à jour"); the rest needs a fluent reader's pass. | G1 | S | ✓ |
 | **B2** | **Pull the four declared-but-unused StatCan tables.** SEPH employment `14100201`, revenue `33100225`, capex `34100035`, nominal annual `36100710`. These are `registry/sectors.yaml` entries, not new code — loaders, bilingual handling, delimiter detection and determinism all work. ⚠ SEPH not LFS `14100355`: the LFS industry aggregation collapses wholesale+retail and will not join to the 20-sector key. | G3 | M | |
 | **B3** | **Portfolio timeline.** 86 dated updates across 18 projects, each with `date_verbatim` and a verbatim body, captured since day one and never rendered. Filterable by project and sector. Pure reproduction — no new claims. | G1 G2 | M | |
 | **B4** | **"What changed" view** off `data/history/`. Federal pages are edited in place — Crawford gained a March 2026 update long after its November 2025 referral. Showing *when the government changed what it said* is something no other view of this data offers. The history is append-only and only moves on real content change, which is what makes the view trustworthy. | G1 G5 | M | |
@@ -249,6 +251,52 @@ E0 prepares `verify/` for.
 | M10 | **COFOG ↔ NAICS crosswalk,** hand-curated and `DERIVED`, like `gics_naics.yaml`. Functions of government and industries answer different questions; the UI names which one a chart uses. | G2 | M | ✓ |
 | M11 | **Municipal and provincial panels.** Sliced payloads per view, never the whole municipalities file. Per-capita figures name their denominator and its year. | G2 G3 | M | |
 | M12 | **Census profile variables** — age, income, labour, housing — on the same identity. The social and demographic half of the system. | G3 | L | |
+
+## Stage Q — the financial sector, evaluated critically
+
+Finance reaches this project three ways: as an **industry** (NAICS 52 in the GDP
+charts), as **market data** (the XIC company panel), and as **capital** — who
+pays for the major projects, and the public finances of Stage M. Each has a
+failure mode that looks correct on screen. Measured on 2026-09-10, before any of
+this stage was built:
+
+- **The company panel overstates finance about 4.5×.** Financials are 34.5% of
+  XIC index weight (23 of 215 holdings; the big five banks alone 22.4%). Finance
+  and insurance is about 7.7% of GDP (June 2026, chained dollars, so approximate).
+  CLAUDE.md §9's caveat is carried in the payload, but a caveat does not survive
+  the two numbers sitting side by side.
+- **The crosswalk maps every Financials holding wholly to NAICS 52.** Brookfield
+  Corporation (2.29%) earns much of its income from infrastructure, power and
+  property — precisely the assets the MPO portfolio is about.
+- **Real estate is the largest GDP sector and nearly absent from the market
+  panel.** NAICS 53 is 312,736 M against 182,759 M for finance, while GICS Real
+  Estate is 1.21% of XIC. Much of NAICS 53 is likely the imputed rent of
+  owner-occupied housing, which no listed company earns — verify against table
+  36-10-0434's own line before the app says so.
+- **Bank output is measured indirectly** (much of it through interest margins),
+  so finance GDP moves with rates. It grew +3.6% y/y against +2.0% for all
+  industries. The only monetary series in the project is the policy rate.
+- **Finance is concentrated.** Ontario holds about 55% of national finance GDP
+  (2025, summed chained provincial values, so approximate), and finance is
+  10.8% of Ontario's economy against 0.9–6.6% everywhere else.
+- **Missing entirely:** household credit, mortgages, housing, bank lending, and
+  who finances the major projects.
+
+Q1–Q2 need no new data and can start after B1. Q4–Q6 wait on B2. Q7–Q9 wait on
+M7 and C2. Nothing in this stage is investment analysis: it evaluates how public
+data about finance is represented, and every computed figure is `DERIVED`.
+
+| | Item | Goal | Effort | Human? |
+|---|---|---|---|---|
+| **Q1** | **Written critique, `docs/FINANCE.md`.** How finance appears in every current view, what each view implies, what misleads, with the measurements above re-run from committed data. No new data, no code. | G1 G3 | S | |
+| **Q2** | **Fix the company-panel comparison.** Index weight must never share a scale or a row with GDP share. Choose the form in Q1 — separate panels, or an explicit weight-vs-output contrast that names both measures on the axis. | G1 | S | ✓ |
+| Q3 | **Company-level crosswalk overrides for conglomerates** (Brookfield, Power Corporation and similar), `DERIVED`, each split sourced to the company's own segment disclosure. `gics_naics.yaml` is per GICS sector and cannot express this. | G2 | M | ✓ |
+| Q4 | **Finance in current dollars.** Nominal share of GDP from 36100710 (B2); chained shares are approximate by construction. | G3 | S | |
+| Q5 | **Gross output against value added for finance.** Needs B2's revenue table — first confirm 33100225 covers NAICS 52 at all; a bank's revenue is not a manufacturer's. | G3 | M | |
+| Q6 | **Real estate decomposed:** owner-occupied imputed rent against market activity, if 36-10-0434 publishes the split. Verify the member exists before designing the view. | G3 | S | |
+| Q7 | **Monetary and credit context:** Bank of Canada series beyond the policy rate, household credit and mortgage aggregates, housing. Source selection is the decision; table IDs are unconfirmed and must be read from each publisher before use. | G3 G5 | L | ✓ |
+| **Q8** | **Who finances the major projects.** Canada Infrastructure Bank participation, federal loan guarantees, pension-fund and private partners — per project, only where published, reproduced verbatim. Joins to C2's capital values. The most important finance question this project can answer. | G2 | L | ✓ |
+| Q9 | **Provincial public finance beside provincial finance GDP,** from M7. Never mixes a fiscal basis, never sums across levels of government without consolidation. | G2 G3 | M | |
 
 ## Stage H — open decisions
 
