@@ -212,9 +212,25 @@ sources:
     attribution: Statistics Canada, 2021 Census of Population
     dataset_record: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=9810000201
     csv: https://www150.statcan.gc.ca/n1/en/tbl/csv/98100002-eng.zip
-    # The FALLBACK rank for place labels. Population centres are agglomerations,
-    # so Ottawa, Mississauga, Brampton, Surrey, Laval and Gatineau have no centre
-    # of their own name; the municipality is the published figure for the place.
+    csv_fr: https://www150.statcan.gc.ca/n1/fr/tbl/csv/98100002-fra.zip
+    census_vintage: "2021"
+    # What one read of the 2021 table contains. Stage 05 stops before writing if
+    # these move, and registry/checks.yaml gates the subdivision count through
+    # `expect_from`, so a new census is one reviewed edit here.
+    expected:
+      census_subdivisions: 5161
+      census_divisions: 293
+      provinces_and_territories: 13
+    # TWO CONSUMERS, TWO PARSERS — for now.
+    #
+    # scripts/build_geo.mjs reads the English file as the FALLBACK rank for place
+    # labels. Population centres are agglomerations, so Ottawa, Mississauga,
+    # Brampton, Surrey, Laval and Gatineau have no centre of their own name; the
+    # municipality is the published figure for the place.
+    #
+    # pipeline/05_municipalities.py reads both languages into Municipality
+    # records. BACKLOG M1 makes the build read that output instead, so one parser
+    # decides what a subdivision's population is.
 
   nrcan_nrwn:
     title: National Railway Network (NRWN) — GeoBase Series

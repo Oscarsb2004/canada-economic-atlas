@@ -13,8 +13,8 @@ expectations, using different logic than the pipeline used to produce it.
 
 African-Stability-Index states this rule and then broke it — its advisory layer
 quietly loaded the panel through the same module the interface used — so here it
-is enforced: `tests/test_verify_independence.py` AST-scans this package and
-fails on any `atlas.*` import.
+is enforced: `tests/test_pipeline.py::test_verify_does_not_import_atlas`
+AST-scans this package and fails on any `atlas.*` import.
 
 Two layers:
 
@@ -235,20 +235,29 @@ def check_sectors(r: Report) -> None:
             r.gate(False, f"{name}: aggregates present", "missing T001/T002/T003")
             continue
 
-        # Find the last period where all three have values, and check the identity.
-        drift = None
-        for i in range(len(t["values"]) - 1, -1, -1):
-            tv, gv, sv = t["values"][i], g["values"][i], s["values"][i]
-            if None not in (tv, gv, sv):
-                drift = (gv + sv - tv) / tv * 100
+        # The latest period where all three have values, aligned BY PERIOD.
+        # This used to walk one index over three lists, which assumes the
+        # series start and end together: one series a month longer and every
+        # comparison pairs different months, or an IndexError stops verify. And
+        # the detail was formatted eagerly as f"{drift:+.4f}", which raises
+        # TypeError when no period qualifies — so the one case this gate exists
+        # to report crashed the verifier instead of failing the gate.
+        tp, gp, sp = (dict(zip(x["periods"], x["values"])) for x in (t, g, s))
+        drift, at = None, None
+        for period in sorted(set(tp) & set(gp) & set(sp), reverse=True):
+            tv, gv, sv = tp[period], gp[period], sp[period]
+            if None not in (tv, gv, sv) and tv:
+                drift, at = (gv + sv - tv) / tv * 100, period
                 break
+        detail = (f"drift {drift:+.4f}% at {at}" if drift is not None
+                  else "no period where all three aggregates have values")
 
         if exact:
             # Constant prices ARE additive. Anything past rounding is a real bug.
             r.gate(
                 drift is not None and abs(drift) < 0.01,
                 f"{name}: goods + services == all industries (additive basis)",
-                f"drift {drift:+.4f}%",
+                detail,
             )
         else:
             # Chained dollars are documented as non-additive. A small drift is
@@ -256,7 +265,7 @@ def check_sectors(r: Report) -> None:
             r.gate(
                 drift is not None and abs(drift) < 1.0,
                 f"{name}: chained-dollar drift within tolerance",
-                f"drift {drift:+.4f}%",
+                detail,
             )
             if drift is not None:
                 r.note(f"{name}: chained non-additivity is {drift:+.3f}% (expected, not a fault)")

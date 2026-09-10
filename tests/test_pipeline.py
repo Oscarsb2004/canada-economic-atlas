@@ -9,8 +9,11 @@ dangerous kind, because the output looks plausible and nothing raises.
 from __future__ import annotations
 
 import ast
+import csv
 import importlib
+import io
 import sys
+import zipfile
 from pathlib import Path
 
 import pytest
@@ -18,11 +21,13 @@ import yaml
 
 from atlas.core import registry as R
 from atlas.core.schema import (
-    Geometry, GeometryKind, Provenance, Series, SourceRef, Text, to_jsonable,
+    Geometry, GeometryKind, Municipality, Provenance, Series, SourceRef, Text, to_jsonable,
 )
+from atlas.sources import census
 from atlas.sources import companies as C
 from atlas.sources import mpo
 from atlas.sources import statcan
+from atlas.sources import tc_corridors as tc
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -151,38 +156,91 @@ def test_mismatched_benefit_counts_lose_no_bullet():
     assert not any(b.en and b.fr for b in out)
 
 
-INDEX_PAGE = """
-<html><body>
-  <header><a href="/en/privy-council/major-projects-office/projects/national/header-junk.html">nav</a></header>
-  <main property="mainContentOfPage">
-    <a href="/en/privy-council/major-projects-office/projects/national/alpha.html">Alpha</a>
-    <a href="/en/privy-council/major-projects-office/projects/national/beta.html">Beta</a>
-    <a href="/en/privy-council/major-projects-office/projects/national/alpha.html">Alpha again</a>
-    <a href="/en/privy-council/major-projects-office/projects/map.html">Map</a>
-    <a href="https://example.org/elsewhere.html">Off site</a>
-  </main>
-  <footer><a href="/en/privy-council/major-projects-office/projects/national/footer-junk.html">f</a></footer>
-</body></html>
-"""
+# ── Section crawl ──────────────────────────────────────────────────────────────
+
+SECTION = "/en/privy-council/major-projects-office"
 
 
-def test_index_slugs_reads_only_the_main_content():
+def _page(*links: str, header: tuple[str, ...] = ()) -> str:
+    nav = "".join(f'<a href="{h}">nav</a>' for h in header)
+    body = "".join(f'<a href="{h}">link</a>' for h in links)
+    return (f"<html><body><header>{nav}</header>"
+            f'<main property="mainContentOfPage">{body}</main></body></html>')
+
+
+class _FakeFetch:
+    """Serves canned pages by URL, raises for anything else, records every request."""
+
+    def __init__(self, pages: dict[str, str]):
+        self.pages = pages
+        self.requested: list[str] = []
+
+    def text(self, url: str) -> str:
+        self.requested.append(url)
+        if url not in self.pages:
+            raise RuntimeError(f"HTTP 404 for {url}")
+        return self.pages[url]
+
+
+def test_crawl_follows_absolute_links_and_stays_inside_the_section():
     """
-    The coverage oracle must count projects, not navigation.
+    The coverage crawl decides which page groups exist under the MPO section,
+    and `source_section_shape` reports any group nobody declared. Its link
+    filter was `href.startswith(section_path)`, wrong both ways:
 
-    canada.ca's header, footer and breadcrumb all link into this section. A
-    document-wide scan inflates the count with pages that are not projects,
-    which is worse than undercounting: it reports coverage that was never
-    checked. Deduplicated and sorted so two runs over an unchanged page compare
-    equal regardless of DOM order.
+    - an ABSOLUTE link (`https://www.canada.ca/en/…`) never starts with a path,
+      so `beta` below — linked absolutely, with a query and a fragment — was
+      never crawled and its project never counted;
+    - a sibling section that merely shares the prefix
+      (`…/major-projects-office-archive/`) WAS crawled, and would have been
+      reported as an undeclared group inside the MPO section.
+
+    Header links are ignored (only `<main>` is read), a broken link is recorded
+    rather than raised, and nothing is requested twice.
     """
-    assert mpo.index_slugs(INDEX_PAGE, "/projects/national/") == ["alpha", "beta"]
+    site = mpo.CANADA_CA
+    pages = {
+        site + SECTION + ".html": _page(
+            SECTION + "/projects/national.html",
+            SECTION + "/missing.html",
+            header=(SECTION + "/projects/national/header-junk.html",),
+        ),
+        site + SECTION + "/projects/national.html": _page(
+            SECTION + "/projects/national/alpha.html",
+            site + SECTION + "/projects/national/beta.html?utm_source=x#top",
+            SECTION + "-archive/old.html",
+            "https://example.org/elsewhere.html",
+            SECTION + "/projects/national/alpha.html",
+        ),
+        site + SECTION + "/projects/national/alpha.html": _page(),
+        site + SECTION + "/projects/national/beta.html": _page(SECTION + ".html"),
+    }
+    fetch = _FakeFetch(pages)
+    out = mpo.crawl_section(fetch, SECTION)
+
+    assert out["groups"] == {"projects": ["national"], "projects/national": ["alpha", "beta"]}
+    assert [b["path"] for b in out["broken_links"]] == [SECTION + "/missing.html"]
+    assert out["pages_crawled"] == 5
+    assert len(fetch.requested) == len(set(fetch.requested)) == 5
+    assert not any("header-junk" in u or "-archive" in u or "example.org" in u
+                   for u in fetch.requested)
 
 
-def test_index_slugs_ignores_pages_outside_the_detail_path():
-    """`projects/map.html` sits in the section and is not a project."""
-    got = mpo.index_slugs(INDEX_PAGE, "/projects/national/")
-    assert "map" not in got and "elsewhere" not in got
+def test_crawl_is_bounded_by_max_pages():
+    """
+    `max_pages` is a stop, not a target. A template change that links an
+    endless chain must end the crawl rather than walk canada.ca one request a
+    second.
+    """
+    class Endless(_FakeFetch):
+        def text(self, url: str) -> str:
+            self.requested.append(url)
+            return _page(f"{SECTION}/deep/p{len(self.requested)}.html")
+
+    fetch = Endless({})
+    out = mpo.crawl_section(fetch, SECTION, max_pages=3)
+    assert out["pages_crawled"] == 3
+    assert len(fetch.requested) == 3
 
 
 def test_strategy_french_slug_is_declared_not_assumed():
@@ -242,6 +300,21 @@ def test_a_region_has_no_anchor_and_says_so():
     assert region.anchor_provenance is Provenance.ABSENT
 
 
+def test_a_placed_point_says_the_placement_is_ours():
+    """
+    A single point LOOKS published, so `anchor_provenance` infers
+    OFFICIAL_DATASET for one. Transport Canada names its corridor ports and
+    publishes no coordinates, so stage 04 places them itself and must be able
+    to say so. The override has to survive the JSON round trip too, because the
+    web app reads the dict, not the dataclass.
+    """
+    placed = Geometry(kind=GeometryKind.POINT, coordinates=((-63.57, 44.65),),
+                      coordinate_provenance=Provenance.DERIVED)
+    assert placed.anchor_provenance is Provenance.DERIVED
+    again = Geometry.from_dict(placed.to_dict())
+    assert again == placed and again.anchor_provenance is Provenance.DERIVED
+
+
 def test_corridor_anchor_walks_the_route_rather_than_averaging_ends():
     """
     With two endpoints the two agree, which is exactly why averaging looks
@@ -249,12 +322,17 @@ def test_corridor_anchor_walks_the_route_rather_than_averaging_ends():
     vertex. An L-shaped route's halfway point is along the path, not at the
     centre of its bounding box.
     """
+    # Lopsided on purpose: 1 unit north, then 10 east. Halfway along the route
+    # is 5.5 units in, at (4.5, 1.0). Every shortcut lands elsewhere — the
+    # endpoint average and the bounding-box centre are (5.0, 0.5), the middle
+    # vertex is (0.0, 1.0). The previous route had two EQUAL legs, so halfway
+    # along it WAS the middle vertex, and an implementation that just picked
+    # the middle coordinate passed.
     bent = Geometry(kind=GeometryKind.CORRIDOR,
-                    coordinates=((0.0, 0.0), (0.0, 10.0), (10.0, 10.0)))
+                    coordinates=((0.0, 0.0), (0.0, 1.0), (10.0, 1.0)))
     lon, lat = bent.anchor
-    # Halfway along a 10-then-10 path is the corner region, near (0, 10) —
-    # NOT the endpoint average of (5, 5).
-    assert lat > 9.0 and lon < 1.0
+    assert lon == pytest.approx(4.5, abs=0.05)
+    assert lat == pytest.approx(1.0, abs=0.05)
 
 
 def test_hero_image_is_read_from_data_bgimg_not_constructed():
@@ -376,15 +454,6 @@ def test_industry_code_is_parsed_from_the_label():
     assert statcan.code_of("Some heading with no code") == ""
 
 
-def test_vector_batch_cap_is_the_undocumented_300():
-    """
-    getDataFromVectorsAndLatestNPeriods accepts 300 vectors and returns HTTP 416
-    at 400. It is documented nowhere. Bulk CSV avoids the path entirely, but the
-    incremental refresh still uses it.
-    """
-    assert statcan.VECTOR_BATCH_MAX == 300
-
-
 def test_number_parsing_handles_thousands_separators():
     """
     The XIC holdings file writes "3,047.11". A bare float() raises on roughly
@@ -425,10 +494,32 @@ def test_yaml_does_not_coerce_ontario_to_a_boolean():
     unquoted `provinces: [ON, QC]` silently drops Ontario from every strategy
     that includes it, with no error and a plausible-looking result.
     """
-    for s in R.strategies():
-        assert all(isinstance(p, str) for p in s.provinces), s.slug
     critical = R.strategy("critical-minerals")
     assert critical is not None and "ON" in critical.provinces
+
+
+def test_an_unquoted_on_in_strategies_yaml_is_refused(monkeypatch):
+    """
+    The test above only proves today's file is quoted. The loop it used to carry
+    — "every loaded province code is a string" — could never fail, because the
+    loader raises on a non-string code before any caller sees one. What protects
+    the next edit is that guard, so feed it the trap.
+    """
+    doc = yaml.safe_load(
+        "strategies: [{slug: probe, location_verbatim: somewhere, provinces: [ON, QC]}]")
+    # The precondition, asserted: if PyYAML ever stopped coercing, this test
+    # should say so rather than pass for a reason nobody intended.
+    assert doc["strategies"][0]["provinces"][0] is True
+
+    real = R._load
+    monkeypatch.setattr(R, "_load", lambda name: doc if name == "strategies.yaml" else real(name))
+    R.strategies.cache_clear()
+    try:
+        with pytest.raises(R.RegistryError, match="boolean"):
+            R.strategies()
+    finally:
+        monkeypatch.undo()
+        R.strategies.cache_clear()
 
 
 def test_sector_partition_actually_partitions():
@@ -455,6 +546,166 @@ def test_alto_is_not_drawn_as_a_region():
     """
     alto = R.strategy("alto")
     assert alto is not None and alto.draws_region is False
+
+
+# ── Trade corridors ────────────────────────────────────────────────────────────
+
+def _corridor_doc(*, central_provinces: str = '["ON", "QC"]', central_ports: str = "[toronto]",
+                  atlantic_provinces: str = '["NB", "NS", "PE", "NL"]',
+                  northern_note: bool = True) -> str:
+    """A minimal corridors.yaml covering all 13 codes, with one knob per failure."""
+    note = ('\n    unmapped_note: { en: "Defined by latitude.", fr: "Défini par la latitude." }'
+            if northern_note else "")
+    return f"""
+ports:
+  - {{ id: toronto, name: {{ en: Toronto, fr: Toronto }}, coord: [-79.36, 43.64] }}
+crossings: []
+corridors:
+  - {{ id: west, summary: {{ en: W, fr: O }}, location_verbatim: {{ en: west }}, provinces: ["BC", "AB", "SK", "MB"] }}
+  - {{ id: central, summary: {{ en: C, fr: C }}, location_verbatim: {{ en: centre }}, provinces: {central_provinces}, ports: {central_ports} }}
+  - {{ id: atlantic, summary: {{ en: A, fr: A }}, location_verbatim: {{ en: east }}, provinces: {atlantic_provinces} }}
+  - id: northern
+    summary: {{ en: N, fr: N }}
+    location_verbatim: {{ en: north }}
+    provinces: ["YT", "NT", "NU"]
+    overlaps_provinces: true{note}
+"""
+
+
+@pytest.fixture
+def load_corridors(monkeypatch):
+    """Run the corridor loaders against a YAML string instead of the registry file."""
+    real = R._load
+
+    def load(text: str):
+        doc = yaml.safe_load(text)
+        monkeypatch.setattr(R, "_load", lambda name: doc if name == "corridors.yaml" else real(name))
+        R.corridor_nodes.cache_clear()
+        R.corridors.cache_clear()
+        return R.corridors()
+
+    yield load
+    R.corridor_nodes.cache_clear()
+    R.corridors.cache_clear()
+
+
+def test_the_corridor_fixture_loads(load_corridors):
+    """The control: the minimal document is valid, so each failure below is its knob."""
+    got = {c.corridor_id: c for c in load_corridors(_corridor_doc())}
+    assert set(got) == {"west", "central", "atlantic", "northern"}
+    assert got["central"].provinces == ("ON", "QC")
+    assert got["northern"].overlaps_provinces and got["northern"].unmapped_note_en
+
+
+@pytest.mark.parametrize("knob,message", [
+    ({"central_provinces": "[ON, QC]"}, "boolean"),
+    ({"central_ports": "[toronto, atlantis]"}, "unknown nodes"),
+    ({"northern_note": False}, "unmapped_note"),
+    ({"atlantic_provinces": '["NB", "NS", "PE"]'}, "belong to no corridor"),
+])
+def test_corridor_registry_refuses_each_silent_failure(load_corridors, knob, message):
+    """
+    Four edits to corridors.yaml that would each load, draw, and be wrong:
+
+    - `[ON, QC]` unquoted loads as `[True, "QC"]`; Ontario leaves the Central
+      Corridor and nothing on the map says so.
+    - A node id with a typo is a port that is listed and never placed.
+    - `overlaps_provinces` without a note is an overlap the reader never sees,
+      so a latitude-defined corridor reads as exactly three territories.
+    - A province in no corridor vanishes from every corridor view. Overlap is
+      Transport Canada's framing; a GAP would be ours.
+    """
+    with pytest.raises(R.RegistryError, match=message):
+        load_corridors(_corridor_doc(**knob))
+
+
+CORRIDOR_PAGE = """
+<main property="mainContentOfPage">
+  <details><summary>Supporting the Economy</summary><p>Not a corridor.</p></details>
+  <details>
+    <summary>Infrastructure That Supports Trade and Mobility Corridors</summary>
+    <p>Looks exactly like a corridor.</p>
+    <div class="well well-sm"><h4>Infrastructure</h4><p>Rail</p><ul><li>Not ours.</li></ul></div>
+  </details>
+  <details>
+    <summary>Atlantic
+      Corridor</summary>
+    <p>It links the ports of Halifax Footnote 3 , Saint John and St. John's.</p>
+    <div class="well well-sm">
+      <h4>Atlantic Corridor Infrastructure</h4>
+      <p>Rail</p><ul><li>CN main line</li><li>CPKC</li></ul>
+      <p>Road</p><ul><li>Highway 104</li></ul>
+    </div>
+  </details>
+</main>
+"""
+
+
+def test_corridors_are_matched_by_declared_name_not_by_shape():
+    """
+    Transport Canada's page has eight `<details>` blocks and five corridors. One
+    of the other three — "Infrastructure That Supports Trade and Mobility
+    Corridors" — carries the same infrastructure box a corridor does, so any
+    structural rule finds a sixth corridor. Only declared summaries are read.
+
+    Also pinned: the CMS's footnote marker is navigation, not the government's
+    sentence, and each `<ul>` belongs to the `<p>` label before it rather than
+    being read as one run of bullets.
+    """
+    got = tc.parse_page(CORRIDOR_PAGE, ["Atlantic Corridor"])
+    assert list(got) == ["Atlantic Corridor"]
+    atlantic = got["Atlantic Corridor"]
+    assert atlantic.description == "It links the ports of Halifax, Saint John and St. John's."
+    assert [(m.label, m.items) for m in atlantic.modes] == [
+        ("Rail", ["CN main line", "CPKC"]),
+        ("Road", ["Highway 104"]),
+    ]
+
+
+def test_a_declared_corridor_missing_from_the_page_raises():
+    """
+    Five declared and four found is the failure this event was nearly built
+    with. It must stop the stage, not ship four corridors.
+    """
+    with pytest.raises(ValueError, match="Northern Corridor"):
+        tc.parse_page(CORRIDOR_PAGE, ["Atlantic Corridor", "Northern Corridor"])
+
+
+def test_unequal_corridor_lists_are_carried_unpaired_in_both_directions():
+    """
+    The Northern Corridor publishes 13 infrastructure items in English and 12 in
+    French, so positional pairing would present one sentence as the translation
+    of another. Where counts differ, each language keeps its whole list.
+
+    One level up had the same hole and no guard: `_modes` walked the English
+    modes only, so a mode the French page published and the English page did
+    not was dropped silently. It is now carried French-only.
+    """
+    sys.path.insert(0, str(ROOT / "pipeline"))
+    stage = importlib.import_module("04_trade")
+
+    en = tc.ParsedCorridor(summary="N", description="", modes=[
+        tc.ParsedMode("Rail", ["One", "Two"]),
+        tc.ParsedMode("Road", ["Alaska Highway"]),
+    ])
+    fr = tc.ParsedCorridor(summary="N", description="", modes=[
+        tc.ParsedMode("Transport ferroviaire", ["Un", "Deux", "Trois"]),
+        tc.ParsedMode("Routes", ["Route de l'Alaska"]),
+        tc.ParsedMode("Transport aérien", ["Aéroport d'Iqaluit"]),
+    ])
+    rail, road, air = stage._modes(en, fr)
+
+    assert rail.label == Text(en="Rail", fr="Transport ferroviaire")
+    assert [i.en for i in rail.items if i.en] == ["One", "Two"]
+    assert [i.fr for i in rail.items if i.fr] == ["Un", "Deux", "Trois"]
+    assert not any(i.en and i.fr for i in rail.items)
+
+    # Equal counts still pair.
+    assert road.items == (Text(en="Alaska Highway", fr="Route de l'Alaska"),)
+
+    # The French-only mode survives, and claims no English.
+    assert air.label == Text(en="", fr="Transport aérien")
+    assert air.items == (Text(en="", fr="Aéroport d'Iqaluit"),)
 
 
 # ── The independence rule, enforced ────────────────────────────────────────────
@@ -572,3 +823,188 @@ def test_cache_entries_expire():
         os.utime(path, (old, old))
         assert f._cache_read(url) is None, "a stale entry must read as a miss"
         assert f.expired == 1
+
+
+# ── Census subdivisions ────────────────────────────────────────────────────────
+
+def _census_header(geo: str, measure: str, symbols: str) -> list[str]:
+    header = ["REF_DATE", geo, "DGUID", "Coordinate"]
+    for n in range(1, 14):
+        header += [f"{measure} {n} [{n}]", symbols]
+    return header
+
+
+#: Table 98-10-0002 in miniature. Each row: English name, French name, DGUID,
+#: (type abbreviation, English type, French type) for subdivisions, then the 13
+#: value cells and the 13 symbol cells, exactly as the table lays them out.
+_CENSUS_ROWS = [
+    ("Canada", "Canada", "2021A000011124", None,
+     ["250", "260", "-3.8", "120", "118", "1.7", "100", "98", "2.0", "1000.50", "0.3", "", ""],
+     [""] * 11 + ["...", "..."]),
+    ("Newfoundland and Labrador", "Terre-Neuve-et-Labrador", "2021A000210", None,
+     ["250", "260", "-3.8", "120", "118", "1.7", "100", "98", "2.0", "1000.50", "0.3", "", ""],
+     [""] * 11 + ["...", "..."]),
+    ("Division No.  1", "Division No.  1", "2021A00031001", None,
+     ["250", "260", "-3.8", "120", "118", "1.7", "100", "98", "2.0", "1000.50", "0.3", "27", "1"],
+     [""] * 13),
+    # A town whose 2016 count StatCan has revised.
+    ("Admirals Beach", "Admirals Beach", "2021A00051001186", ("T", "Town", "Town"),
+     ["97", "135", "-28.1", "76", "80", "-5.0", "48", "62", "-22.6", "24.20", "4.0", "4267", "325"],
+     ["", "r"] + [""] * 11),
+    # Nobody lives here: zero is published, and a change from zero is not applicable.
+    ("Probe Unorganized", "Probe Unorganized", "2021A00051001201", ("NO", "Unorganized", "Non organisé"),
+     ["0", "0", "", "3", "2", "50.0", "0", "0", "", "400.00", "0.0", "5000", "400"],
+     ["", "", "..."] + [""] * 5 + ["..."] + [""] * 4),
+    # An incompletely enumerated reserve: 2021 not available, 2016 and area published.
+    ("Probe Reserve", "Probe Reserve", "2021A00051001999", ("IRI", "Indian reserve", "Réserve indienne"),
+     ["", "40", "", "", "12", "", "", "10", "", "1.50", "", "", ""],
+     ["..", "", "..", "..", "", "..", "..", "", "..", "", "..", "..", ".."]),
+]
+
+
+def _census_zip(tmp_path, lang, *, drop="", population_of_beach="", pr_code_of_beach=""):
+    """One language's zip: English comma-separated, French semicolon-separated."""
+    sep = "," if lang == "en" else ";"
+    geo, symbols, measure = (
+        ("GEO", "Symbols", "Population and dwelling counts (13): Measure") if lang == "en"
+        else ("GÉO", "Symboles", "Chiffres de population et des logements (13) : Mesure"))
+    data, meta = io.StringIO(), io.StringIO()
+    rows, attrs = csv.writer(data, delimiter=sep), csv.writer(meta, delimiter=sep)
+    rows.writerow(_census_header(geo, measure, symbols))
+    attrs.writerow(["Cube Title", "Product Id", "CANSIM Id", "URL"])
+
+    for member, (en_name, fr_name, dguid, kind, values, syms) in enumerate(_CENSUS_ROWS, start=1):
+        if dguid == drop:
+            continue
+        beach = dguid.endswith("1001186")
+        values = list(values)
+        if beach and population_of_beach:
+            values[0] = population_of_beach
+        cells = ["2021", en_name if lang == "en" else fr_name, dguid, str(member)]
+        for value, symbol in zip(values, syms):
+            cells += [value, symbol]
+        rows.writerow(cells)
+
+        # A member row — which the attribute reader must skip — then attributes.
+        attrs.writerow(["1", en_name, f"[{dguid[9:]}]", str(member), ""])
+        found = {16: dguid}
+        if kind:
+            found[5] = kind[0]
+            found[10] = pr_code_of_beach if (beach and pr_code_of_beach) else dguid[9:11]
+            found[15] = kind[1] if lang == "en" else kind[2]
+        for key, value in found.items():
+            attrs.writerow(["1", str(member), str(key), "ATTR", "label", "label", value])
+
+    path = tmp_path / f"98100002-{lang}-{drop}{population_of_beach}{pr_code_of_beach}.zip"
+    with zipfile.ZipFile(path, "w") as z:
+        z.writestr("98100002.csv", "\ufeff" + data.getvalue())
+        z.writestr("98100002_MetaData.csv", "\ufeff" + meta.getvalue())
+    return path
+
+
+def test_census_values_keep_not_available_apart_from_zero():
+    """
+    The table writes an unpublished value as a BLANK cell with its reason in the
+    Symbols column beside it: ".." not available (63 incompletely enumerated
+    reserves), "..." not applicable (a percentage change from zero). Zero is a
+    value — 268 subdivisions have no usual residents.
+
+    Three things raise instead of becoming a quiet None: a blank with no reason,
+    a symbol not in StatCan's legend, and a cell that is not a number. Each is
+    the table changing shape.
+    """
+    assert census.number("0", int) == 0
+    assert census.number("-28.1", float) == pytest.approx(-28.1)
+    assert census.number("", int, "..") is None
+    assert census.number("", float, "...") is None
+    assert census.number("135", int, "r") == 135          # revised is still a value
+    assert census.number("7", int, "r,E") == 7            # flags combine
+    with pytest.raises(ValueError, match="no published reason"):
+        census.number("", int, "")
+    with pytest.raises(ValueError, match="unknown symbol"):
+        census.number("5", int, "Z")
+    with pytest.raises(ValueError, match="neither a number"):
+        census.number("n/a", int)
+
+
+def test_census_columns_are_found_by_member_number_not_header_text():
+    """
+    The English and French headers share nothing but the member number StatCan
+    appends — "Land area in square kilometres, 2021 [10]" is "Superficie des
+    terres en kilomètres carrés, 2021 [10]". Selecting by English text would
+    return no French values and raise nothing.
+
+    Each value's flags are read from the next column, so a header where that
+    column is missing must raise rather than read one value as another's symbol.
+    """
+    en = _census_header("GEO", "Population and dwelling counts (13): Measure", "Symbols")
+    fr = _census_header("GÉO", "Chiffres de population et des logements (13) : Mesure", "Symboles")
+    want = {n: 2 + 2 * n for n in range(1, 14)}
+    assert census.measure_columns(en) == census.measure_columns(fr) == want
+
+    with pytest.raises(ValueError, match=r"no value column for members \[13\]"):
+        census.measure_columns(en[:-2])
+    with pytest.raises(ValueError, match="no symbol column"):
+        census.measure_columns([c for c in en if c != "Symbols"])
+
+
+def test_census_build_reads_every_subdivision_in_both_languages(tmp_path):
+    """
+    The whole path from two zips to records: the province and division read
+    from the identifier, the legal type from each language's metadata as
+    published (the French file says "Town" for this town, and "Réserve
+    indienne" for the reserve), None and zero kept apart, and every flag kept
+    beside the value it qualifies.
+    """
+    counts = census.build(_census_zip(tmp_path, "en"), _census_zip(tmp_path, "fr"))
+    by = {m.csd_uid: m for m in counts.municipalities}
+    assert list(by) == ["1001186", "1001201", "1001999"]
+    assert all(isinstance(m, Municipality) for m in by.values())
+
+    beach = by["1001186"]
+    assert beach.province == "NL" and beach.census_division_uid == "1001"
+    assert beach.census_division_name == Text(en="Division No.  1", fr="Division No.  1")
+    assert beach.csd_type_abbr == "T" and beach.csd_type == Text(en="Town", fr="Town")
+    assert beach.population_2021 == 97
+    assert beach.population_change_pct == pytest.approx(-28.1)
+    assert beach.symbols == {"population_2016": "r"}
+    assert beach.geo_key == "csd:2021:1001186"
+
+    empty = by["1001201"]
+    assert empty.population_2021 == 0 and empty.population_change_pct is None
+    assert empty.symbols == {"population_change_pct": "...", "occupied_dwellings_change_pct": "..."}
+
+    reserve = by["1001999"]
+    assert reserve.csd_type == Text(en="Indian reserve", fr="Réserve indienne")
+    assert reserve.population_2021 is None and reserve.population_2016 == 40
+    assert reserve.symbols["population_2021"] == ".."
+    assert to_jsonable(reserve)["population_2021"] is None      # null in JSON, never 0
+
+    assert counts.province_names == {
+        "NL": Text(en="Newfoundland and Labrador", fr="Terre-Neuve-et-Labrador")}
+    assert counts.census_division_names == {"1001": Text(en="Division No.  1", fr="Division No.  1")}
+    assert counts.canada_total["rank_national"] is None
+
+
+def test_census_english_and_french_must_describe_the_same_table(tmp_path):
+    """
+    The French file is the only source of French names, and a free second read
+    of every value. A geography in one file and not the other, or a value that
+    differs between them, means one download is not the table the other is.
+    """
+    en = _census_zip(tmp_path, "en")
+    with pytest.raises(ValueError, match="different geographies"):
+        census.build(en, _census_zip(tmp_path, "fr", drop="2021A00051001999"))
+    with pytest.raises(ValueError, match="different values"):
+        census.build(en, _census_zip(tmp_path, "fr", population_of_beach="98"))
+
+
+def test_census_province_is_checked_against_the_metadata(tmp_path):
+    """
+    A CSDUID starts with its province: 1001186 is in province 10. The metadata
+    states the province too, and the two disagreeing means a join is wrong
+    somewhere — so it is collected and raised, naming the subdivision.
+    """
+    with pytest.raises(ValueError, match="1001186: metadata says province 11"):
+        census.build(_census_zip(tmp_path, "en", pr_code_of_beach="11"),
+                     _census_zip(tmp_path, "fr"))

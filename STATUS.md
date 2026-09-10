@@ -1,6 +1,6 @@
 # STATUS — where this project actually is
 
-_Last updated: 2026-09-08._
+_Last updated: 2026-09-10._
 
 Read this first when picking the project back up. The full design is in
 `docs/PLAN.md` and **the ordered work queue is [`docs/BACKLOG.md`](docs/BACKLOG.md)**.
@@ -27,14 +27,16 @@ a work queue — two lists of "next" is how one of them goes stale.
 | `atlas/sources/companies.py` | Done. XIC holdings parser. |
 | **`pipeline/03_companies.py`** | **Done and run.** 216 companies, 6 junk rows dropped. |
 | **`pipeline/99_bundle.py`** | **Done and run.** 10 files, 1.40 MB in `web/public/data/`. |
+| `atlas/sources/census.py` | Done. Table 98-10-0002, both languages, symbols kept, EN/FR cross-checked. |
+| **`pipeline/05_municipalities.py`** | **Done and run.** 5,161 `Municipality` records, `data/geography/municipalities.json` (5.6 MB). Not bundled. |
 | `registry/gics_naics.yaml` | Done. Lossy crosswalk, versioned, splits documented. |
 | **`registry/palette.yaml`** | **LOCKED.** 5 validated categorical slots, dark only. |
 | **`scripts/build_geo.mjs`** | **Done and run.** Reproducible world + provinces geometry. |
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
 | **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
 | **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
-| **`verify/` (M6)** | **Done.** 58 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
-| **`tests/` (M6)** | **Done.** 44 tests, each explaining the failure it prevents. |
+| **`verify/` (M6)** | **Done.** 83 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
+| **`tests/` (M6)** | **Done.** 67 tests, each explaining the failure it prevents. |
 | **`run.py`, `CLAUDE.md`** | **Done.** Single entry point; agent invariants. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
@@ -112,12 +114,12 @@ found and fixed two real issues (see below).
 
 ## v1 is COMPLETE per the `PLAN.md` §10 scope fence
 
-Full pipeline runs end to end; 44 tests pass; 58 gate checks pass; a re-run from
+Full pipeline runs end to end; 67 tests pass; 83 gate checks pass; a re-run from
 a clean baseline leaves a zero-line git diff.
 
 ```
 python run.py          # pipeline + verify
-python run.py --test   # 44 tests
+python run.py --test   # 67 tests
 cd web && npm run dev  # the app
 ```
 
@@ -263,6 +265,38 @@ fixed in M6:
 ---
 
 ## Findings that cost real work — do not rediscover
+
+**Stage M0 (2026-09-10): the record is a `Municipality`, not a `City`.** City
+is a provincial legal status — 165 subdivisions are typed City, Halifax is a
+Regional municipality, Greenwood BC is a City of 702 — and 992 subdivisions are
+Indian reserves with no municipal budget. Every census subdivision is a record,
+the type is a field, and money will attach to a separate local-government entity
+(BACKLOG Stage M, `docs/CIVIC-FISCAL.md`).
+
+**98-10-0002's Symbols column carries meaning.** An unpublished value is a BLANK
+cell with its reason beside it: `..` not available (63 reserves), `...` not
+applicable (a change from zero). Published values are flagged too: `r` revised on
+597 subdivisions' 2016 counts, `E` use with caution. The first parser ignored
+the column; `Municipality.symbols` keeps it, and a blank with no reason or an
+unknown symbol raises.
+
+**The 2021 counts sum exactly to their province; the 2016 counts do not.**
+Population, private dwellings and occupied dwellings for 2021 match all 13
+published totals at zero tolerance, and `verify/` gates all three. The 2016
+columns differ in NL, QC and ON (Ontario by 344), so no 2016 identity is
+declared — gating on it would assert something the publisher never claimed.
+
+**The French metadata's municipal type is not always translated.** "Town" appears
+698 times in the FRENCH file (Ontario and elsewhere); "Ville" and "Municipalité"
+appear in the ENGLISH file for Quebec. Reproduced as published, both sides.
+
+**Verification that passes on nothing.** The declared-check runner read records
+with `.get(key, [])`, so a renamed array passed every check on an empty list;
+`fields_present` read 0 as missing; `unique_ids` passed records with no id. All
+fixed and tested — and a throwaway EN/FR comparison in the same session filtered
+rows with `len(row) > 30` on 30-column rows, matched nothing, and printed
+"identical". A check that ran over zero rows must say so. The full scan, 14
+defects and their tests, is in `docs/TESTS.md`.
 
 **The page markup doubles itself.** canada.ca emits the Proponent/Sector/Location
 cards and the entire Description twice — once in `visible-md visible-lg`, once in
