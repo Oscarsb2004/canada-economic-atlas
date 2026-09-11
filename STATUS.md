@@ -225,7 +225,7 @@ summed by `statcan.build_crosswalk_series` and labelled `derived`; the cube's ow
   unallocated are blank for 14 early years because a non-profit member is not
   published.
 - Measured, then gated: members sum to the total within 0.008%; output is never
-  below value added in any of 518 sector-years (1.14× utilities to 3.61×
+  below value added in any of 518 code-and-year comparisons (1.14× utilities to 3.61×
   manufacturing, 1.89× overall in 2022); provinces + territories + "Canadian
   territorial enclaves abroad" sum to Canada within 0.001% — without the
   enclaves, public administration is 0.56% short.
@@ -358,7 +358,7 @@ the type is a field, and money will attach to a separate local-government entity
 **98-10-0002's Symbols column carries meaning.** An unpublished value is a BLANK
 cell with its reason beside it: `..` not available (63 reserves), `...` not
 applicable (a change from zero). Published values are flagged too: `r` revised on
-597 subdivisions' 2016 counts, `E` use with caution. The first parser ignored
+604 subdivisions' 2016 counts (seven flagged `r,E`), `E` use with caution. The first parser ignored
 the column; `Municipality.symbols` keeps it, and a blank with no reason or an
 unknown symbol raises.
 

@@ -9,8 +9,9 @@ WHY THE RECORD IS A MUNICIPALITY, NOT A CITY
 "City" is a legal status, and it means different things in different provinces.
 On the 2021 table only 165 of Canada's 5,161 census subdivisions are typed City
 (229 more are Ville). Halifax (439,819) is a Regional municipality; Oakville
-(213,759) and Richmond Hill (202,022) are Towns; Langley (132,603) and Saanich
-(117,735) are District municipalities. Greenwood, BC is a City of 702 people and
+(213,759) and Richmond Hill (202,022) are Towns; the district municipality of
+Langley (132,603; the City of Langley, 28,963, is a separate subdivision) and
+Saanich (117,735) are District municipalities. Greenwood, BC is a City of 702 people and
 L'Île-Dorval a Ville of 30. A class keyed on legal status would drop Halifax and
 keep L'Île-Dorval. So every census subdivision is a record, its legal type is a
 FIELD, and "city" is a filter a view applies — never an identity the data asserts.
@@ -42,8 +43,8 @@ THE TRAPS, ALL MEASURED ON THE 2021 TABLE
   usual residents. The reason is kept per record in `symbols`, so "not
   available" and "not applicable" stay distinguishable.
 
-  Published values carry flags too: "r" revised (the 2016 counts of 597
-  subdivisions) and "E" use with caution. They are kept in `symbols` as well.
+  Published values carry flags too: "r" revised (the 2016 counts of 604
+  subdivisions, seven of them flagged "r,E") and "E" use with caution. They are kept in `symbols` as well.
   Reading the value and dropping its flag would present a revised or low-quality
   figure with full authority.
 

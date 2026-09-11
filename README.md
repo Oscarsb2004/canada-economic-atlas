@@ -14,18 +14,33 @@ each project was announced with.
 
 Part of the Athena platform family, alongside `African-Stability-Index`.
 
+## Where the data comes from
+
+**This project reproduces other publishers' data. It does not create its own.**
+
+Every figure in the atlas is published by a government source — Statistics
+Canada, the Major Projects Office, Transport Canada, Natural Resources Canada, the
+Bank of Canada — and travels with the reference to where it was published. The
+company panel is the one exception to *government*: it reproduces BlackRock's
+published iShares XIC fund holdings, labelled as market data.
+
+Where the atlas shows a figure of its own, it is the output of a **stated formula
+over published inputs** — a sum over a declared crosswalk, a ratio, a published
+component subtracted from its aggregate — marked `DERIVED`, with the formula
+beside it. Nothing is estimated, judged or ranked by this project, and no number
+is typed in by hand. [`CLAUDE.md` §11](CLAUDE.md) records why that rule exists.
+
 ## Status
 
-**v1 is complete and deployed.** The four pipeline stages run end to end, 29
-tests and 47 verification gates pass, and a re-run against unchanged sources
-produces a zero-line git diff — which is the acceptance test for every stage,
-not a coincidence.
+**v1 is complete and deployed, and the pipeline has grown past it.** Six pipeline
+stages run end to end — `01` projects, `02` sectors, `03` companies, `04` trade
+corridors, `05` municipalities, `99` the bundle — with seven declared Statistics
+Canada pulls in stage 02. 83 tests and 136 verification gates pass, and a re-run
+against unchanged sources produces a zero-line git diff, which is the acceptance
+test for every stage.
 
-What is live: 18 Major Projects Office projects geolocated on a globe with their
-verbatim text, nine chart forms over 23 national and 299 provincial GDP series,
-a provincial choropleth, and pinnable views. Every record is captured in **both
-official languages**; the interface currently renders English only, and the
-language toggle is the next item in the backlog.
+Every record is captured in **both official languages**, and the interface
+renders either, from an EN / FR toggle in the map's layer panel.
 
 | | |
 |---|---|
@@ -34,6 +49,7 @@ language toggle is the next item in the backlog.
 | The long-term plan across all three repos | [docs/PROGRAM.md](docs/PROGRAM.md) |
 | What every file does | [docs/CODE-TOUR.md](docs/CODE-TOUR.md) |
 | What is analytically defensible, and what is not | [docs/ROADMAP.md](docs/ROADMAP.md) |
+| Municipalities, provinces and public finance | [docs/CIVIC-FISCAL.md](docs/CIVIC-FISCAL.md) |
 | Rail layer source, coverage, and design decisions | [docs/RAIL.md](docs/RAIL.md) |
 | How the site is published | [docs/HOSTING.md](docs/HOSTING.md) |
 | The full design | [docs/PLAN.md](docs/PLAN.md) |
@@ -49,10 +65,10 @@ That is the only command needed. On first use it creates `.venv`, installs
 activate by hand, and it reinstalls only when the pins actually change.
 
 ```bash
-python run.py --stage 01 # one stage (01 | 02 | 03 | 04)
+python run.py --stage 02 # one stage (01 | 02 | 03 | 04 | 05 | 99)
 python run.py --verify   # independent verification only
 python run.py --test     # pytest only
-python run.py --refresh  # bypass the HTTP cache when pulling
+python run.py --refresh  # bypass the HTTP cache and re-fetch StatCan cubes
 cd web && npm run dev    # the app, at http://localhost:5173
 ```
 
@@ -66,30 +82,32 @@ passes. The one-time local guard and the exact workflow are in
 ## Layout
 
 ```
-atlas/            importable package — the project's own code
-  core/schema.py  canonical objects; "the frontend and the backend are the same object"
+atlas/              importable package — the project's own code
+  core/schema.py    canonical objects; "the frontend and the backend are the same object"
   core/registry.py  YAML loaders with validation on load
-  net.py          the ONE way this project talks to the internet
-  sources/mpo.py  Major Projects Office: ArcGIS backbone + verbatim page parser
-registry/         configuration as YAML: sources, events, strategies
-pipeline/         numbered stages (not yet written)
-data/             pipeline outputs, committed for clone-and-run
-web/              React + Vite + MapLibre (not yet written)
-verify/           independent verification; must NOT import atlas/
+  net.py            the ONE way this project talks to the internet
+  sources/          one module per publisher: mpo, statcan, census, tc_corridors, companies
+registry/           configuration as YAML: sources, events, strategies, sectors and their pulls, checks
+pipeline/           numbered stages 01–05, and 99 the bundle
+data/               pipeline outputs, committed for clone-and-run
+web/                React + Vite + MapLibre app
+verify/             independent verification; must NOT import atlas/
 ```
 
 ## Principles
 
-1. **Federal text is reproduced, never authored.** Every scraped string travels
+1. **Others' data, reproduced.** See *Where the data comes from* above.
+2. **Federal text is reproduced, never authored.** Every scraped string travels
    with the `SourceRef` that produced it. Numbers embedded in prose stay in prose.
-2. **The frontend and the backend are the same object.** Identity travels with
+3. **The frontend and the backend are the same object.** Identity travels with
    the value; the UI never re-derives a label, a total, or a rank.
-3. **Configuration is YAML, code is Python.**
-4. **Provenance is rendered, not hidden.** Anything this pipeline computes is
-   marked `DERIVED` and is visibly ours.
+4. **Configuration is YAML, code is Python.**
+5. **Provenance is rendered, not hidden.** Anything this pipeline computes is
+   marked `DERIVED`, carries its formula, and is visibly ours.
 
 ## Attribution
 
-Major Projects Office of Canada & Natural Resources Canada, under the
-Open Government Licence – Canada. Statistics Canada data under the Statistics
-Canada Open Licence. See `registry/sources.yaml` for the full list.
+Major Projects Office of Canada & Natural Resources Canada, and Transport Canada,
+under the Open Government Licence – Canada. Statistics Canada data under the
+Statistics Canada Open Licence. Bank of Canada data under the Bank of Canada Terms
+of Use. See `registry/sources.yaml` for the full list.

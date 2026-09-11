@@ -118,6 +118,30 @@ compatibility against it on load. `web/public/data/country.json` is its
 integration surface — `headline` is a list so new figures append harmlessly.
 See `docs/INTEROP-world-strategic-map.md`.
 
+## 11. This project reproduces data. It does not create it.
+
+Every figure is a publisher's: Statistics Canada, the Major Projects Office,
+Transport Canada, Natural Resources Canada, the Bank of Canada. A figure of our
+own is allowed only as the output of a **stated formula over published inputs** —
+a sum over a declared crosswalk, a ratio, a published component subtracted from
+its aggregate — marked `DERIVED`, with the formula written beside it. No
+estimates, no judgements, and no rankings or top-N lists of our own making.
+
+The same rule binds what we write ABOUT the data. On 2026-09-11 a planning item
+said real estate was the largest sector in 7 of 13 provinces and in the top three
+in 11. It was 6 and 13. Neither number had been computed — both were read off
+printed output by eye, and the 7 was carried forward after newer output said
+otherwise. An audit of 50 numbers written that week found three more of the same
+kind: 597 where the output's own breakdown gave 604, a "Langley" that is two
+different subdivisions, and "518 sector-years" that also counted the total. The
+pipeline's data was right every time. The hand step between output and prose was
+not.
+
+So every number written into a doc, a registry comment, a commit or a pull
+request is pasted from the output of a command run in the same change, and that
+command's query must match the claim's wording: "sector-years" counts sectors,
+"flagged revised" counts every flag that contains `r`.
+
 ---
 
 ## Commands

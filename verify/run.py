@@ -403,7 +403,7 @@ def check_sector_pulls(r: Report) -> None:
                     if value < floor_value:
                         below.append(f"{code} {period}: {value:,.0f} < {floor_value:,.0f}")
             r.gate(compared > 0 and not below,
-                   f"{name}: {floor['label']} ({compared} sector-years against {floor['file']})",
+                   f"{name}: {floor['label']} ({compared} code-and-year comparisons against {floor['file']})",
                    str(below[:6]) if compared else "nothing comparable")
 
         if pull.get("crosswalk"):
