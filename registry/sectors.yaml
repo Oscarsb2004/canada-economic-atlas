@@ -197,6 +197,77 @@ pulls:
       # province suppressed.
       provinces_sum_to_canada: { tolerance_pct: 0.05 }
 
+  # "Output, by sector and industry, provincial and territorial" — gross output
+  # at basic prices, current dollars, 1997–2022: the same accounts and years as
+  # the nominal GDP above. BACKLOG B2a, option A, chosen 2026-09-11.
+  #
+  # NOT CLASSIFIED BY NAICS. It uses the Input-Output Industry Classification
+  # (IOIC) and splits every industry by institutional sector — business (BS),
+  # non-profit institutions serving households (NP), government (GS). No member
+  # is "NAICS 61": education is BS610 + NP61000 + GS610. So the twenty sectors
+  # below are a CROSSWALK. Each member is assigned by the NAICS code it embeds
+  # (BS551113 is NAICS 551113, so 55), the sums are this project's, and every
+  # summed series is `derived`. The cube's own "Total industries" is reproduced.
+  #
+  # Two choices, both visible in the payload's `crosswalk`:
+  #   - 52, 53 and 55 are one IOIC aggregate, BS5B0. They separate only a level
+  #     down, where BS5A000 is exactly other finance (BS52E000), real estate
+  #     agents (BS531A00) and holding companies (BS551113). Owner-occupied
+  #     dwellings (BS53C) sits outside BS5B0 and belongs to 53.
+  #   - NP999999, "Other non-profit institutions serving households", embeds no
+  #     NAICS code. It is kept as `unallocated`, never guessed into a sector.
+  #
+  # Measured before any tolerance was set: the members sum to Total industries
+  # within 0.008% in all 156 complete geography-years; output is never below
+  # value added in any sector or year; provinces + territories + "Canadian
+  # territorial enclaves abroad" sum to Canada within 0.00001% (without the
+  # enclaves, public administration falls 0.56% short). For 14 of the 26 years
+  # 62, 81 and unallocated are blank, because a non-profit member is not
+  # published for them — blank, never summed from the members that are.
+  output_annual:
+    pid: "36100488"
+    output: output-annual.json
+    frequency: annual
+    measure: gross_output
+    keep_status: true
+    industry_column: { en: "Industry", fr: "Industries" }
+    total: { member: "Total industries", code: T001 }
+    labels_from: national-annual-current.json
+    crosswalk:
+      "11": [BS11A, BS113, BS114, BS115]
+      "21": [BS210]
+      "22": [BS220]
+      "23": [BS23A, BS23B, BS23C, BS23D, BS23E]
+      "31-33": [BS3A0]
+      "41": [BS410]
+      "44-45": [BS4A0]
+      "48-49": [BS4B0]
+      "51": [BS510]
+      "52": [BS52B00, BS52E000, BS52410]
+      "53": [BS531A00, BS53110, BS53B00, BS53C]
+      "54": [BS540]
+      "55": [BS551113]
+      "56": [BS560]
+      "61": [BS610, NP61000, GS610]
+      "62": [BS620, NP62400, NP621000, GS620]
+      "71": [BS710, NP71000]
+      "72": [BS720]
+      "81": [BS810, NP81310, NP813A00]
+      "91": [GS911, GS912, GS913, GS914]
+      unallocated: [NP999999]
+    verify:
+      provinces: true
+      extra_geos: ["Canadian territorial enclaves abroad"]
+      identities:
+        - parts: ["11", "21", "22", "23", "31-33", "41", "44-45", "48-49", "51", "52", "53",
+                  "54", "55", "56", "61", "62", "71", "72", "81", "91", "unallocated"]
+          total: T001
+          tolerance_pct: 0.01
+      provinces_sum_to_canada: { tolerance_pct: 0.001, include_extra_geos: true }
+      not_below:
+        - file: national-annual-current.json
+          label: gross output is never below value added
+
   provincial_annual:
     pid: "36100711"
     output: provincial-annual.json

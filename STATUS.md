@@ -22,7 +22,7 @@ a work queue — two lists of "next" is how one of them goes stale.
 | `atlas/media.py` | Done. Circular 96 px thumb + 1400 px JPEG, deterministic. |
 | **`pipeline/01_projects.py`** | **Done and run.** All 18 projects + 9 strategies. |
 | `atlas/sources/statcan.py` | Done. Bulk cube download, both languages, delimiter-safe. |
-| **`pipeline/02_sectors.py`** | **Done and run.** Six declared pulls: real GDP (23 national monthly on two price bases, 299 provincial), nominal GDP (23), capital expenditures (280), SEPH employment (350, streamed). |
+| **`pipeline/02_sectors.py`** | **Done and run.** Seven declared pulls: real GDP (23 national monthly on two price bases, 299 provincial), nominal GDP (23), gross output (330, IOIC crosswalk), capital expenditures (280), SEPH employment (350, streamed). The StatCan section is complete at its basic level. |
 | `registry/sectors.yaml` | Done. 20 NAICS + T-codes, partition and cross-cuts. |
 | `atlas/sources/companies.py` | Done. XIC holdings parser. |
 | **`pipeline/03_companies.py`** | **Done and run.** 216 companies, 6 junk rows dropped. |
@@ -35,8 +35,8 @@ a work queue — two lists of "next" is how one of them goes stale.
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
 | **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
 | **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
-| **`verify/` (M6)** | **Done.** 121 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
-| **`tests/` (M6)** | **Done.** 75 tests, each explaining the failure it prevents. |
+| **`verify/` (M6)** | **Done.** 136 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
+| **`tests/` (M6)** | **Done.** 80 tests, each explaining the failure it prevents. |
 | **`run.py`, `CLAUDE.md`** | **Done.** Single entry point; agent invariants. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
@@ -114,12 +114,12 @@ found and fixed two real issues (see below).
 
 ## v1 is COMPLETE per the `PLAN.md` §10 scope fence
 
-Full pipeline runs end to end; 75 tests pass; 121 gate checks pass; a re-run from
+Full pipeline runs end to end; 80 tests pass; 136 gate checks pass; a re-run from
 a clean baseline leaves a zero-line git diff.
 
 ```
 python run.py          # pipeline + verify
-python run.py --test   # 75 tests
+python run.py --test   # 80 tests
 cd web && npm run dev  # the app
 ```
 
@@ -143,8 +143,9 @@ not be folded into it: it is what stops an item being done the wrong way.
 Two facts from that audit worth surfacing here:
 
 - ~~Only 3 of the 7 StatCan tables declared in `registry/sources.yaml` are
-  actually pulled.~~ Six of seven are pulled as of B2 (2026-09-10); the seventh,
-  `33100225`, turned out not to be revenue by industry and waits on B2a.
+  actually pulled.~~ Resolved by B2 and B2a (2026-09-10/11). `33100225` turned
+  out not to be revenue by industry and stays unpulled; gross output comes from
+  `36100488` instead.
 - **86 dated project updates and 18 slugs of change history are captured and
   never rendered.** The portfolio has no time axis in the UI despite having one
   in the data.
@@ -206,6 +207,32 @@ And the zero-line-diff rule caught a bug older than B2: `write_if_changed` compa
 a file as read (lists) against a payload as built (tuples), so any payload holding
 a tuple rewrote itself on every run. It now compares against the payload as it
 reads back.
+
+**B2a landed 2026-09-11 — gross output, option A.** `36100488` *Output, by sector
+and industry, provincial and territorial* is current dollars, 1997–2022, the same
+accounts and years as nominal GDP — and it is **not classified by NAICS**. It uses
+the Input-Output Industry Classification and splits each industry by institutional
+sector: business (`BS…`), non-profit (`NP…`), government (`GS…`). No member is
+"NAICS 61"; education is `BS610 + NP61000 + GS610`. So the twenty sectors are a
+crosswalk in `sectors.yaml`, each member assigned by the NAICS code it embeds,
+summed by `statcan.build_crosswalk_series` and labelled `derived`; the cube's own
+"Total industries" is reproduced as official.
+
+- 52, 53 and 55 are one IOIC aggregate (`BS5B0`) and separate only one level
+  down, where `BS5A000` is exactly other finance + real estate agents + holding
+  companies. `NP999999` embeds no NAICS code and is kept as `unallocated`.
+- A sector with any blank member is blank, never a partial sum: 62, 81 and
+  unallocated are blank for 14 early years because a non-profit member is not
+  published.
+- Measured, then gated: members sum to the total within 0.008%; output is never
+  below value added in any of 518 sector-years (1.14× utilities to 3.61×
+  manufacturing, 1.89× overall in 2022); provinces + territories + "Canadian
+  territorial enclaves abroad" sum to Canada within 0.001% — without the
+  enclaves, public administration is 0.56% short.
+
+The StatCan section is complete at its basic level. Going deeper — below the twenty
+sectors, seasonally adjusted employment, StatCan's own productivity measures — is
+BACKLOG B2b, deliberately later.
 
 **Stage M (municipalities and public finance) and Stage Q (a critical
 evaluation of the financial sector) were added 2026-09-10.** M0 — `Municipality`

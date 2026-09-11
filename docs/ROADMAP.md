@@ -204,7 +204,11 @@ four landed (BACKLOG B2), and none of them was only a registry entry:
   combined codes such as `[22,221]`.
 - `33100225` is **not** revenue by industry. It is quarterly balance sheets and
   income statements for *non-financial* industries, in enterprise groups that
-  mostly do not map to two-digit NAICS. Not pulled; BACKLOG B2a.
+  mostly do not map to two-digit NAICS. Not pulled.
+- Gross output came instead from `36100488` (BACKLOG B2a, 2026-09-11). It is
+  classified by IOIC rather than NAICS and split by institutional sector, so
+  its twenty sectors are a declared, `DERIVED` crosswalk — gated on summing to
+  the cube's own total and on never falling below value added.
 
 ⚠ Use SEPH `14100201`, **not** LFS `14100355`: the LFS industry aggregation
 collapses wholesale+retail, finance+real estate and information+recreation, so

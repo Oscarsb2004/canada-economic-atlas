@@ -14,6 +14,7 @@ Outputs (data/sectors/)
     national-annual-current.json   GDP at basic prices, current dollars    36100710
     capex-annual.json              capital expenditures, by province       34100035
     employment-monthly.json        employment (SEPH), unadjusted           14100201
+    output-annual.json             gross output, IOIC summed to sectors    36100488
     rates.json                     Bank of Canada policy rate
     _cubes.json                    sha256 of every cube zip
 
@@ -54,7 +55,8 @@ before writing the entries showed otherwise:
 
   33100225, declared in sources.yaml as revenue by industry, is NOT pulled: it is
   a balance-sheet table for non-financial corporations whose industry groups do
-  not join the 20-sector key. BACKLOG B2a.
+  not join the 20-sector key. Gross output comes instead from 36100488 (B2a),
+  which is not classified by NAICS at all — see `_crosswalk_series`.
 """
 
 from __future__ import annotations
@@ -168,6 +170,66 @@ def _previous_hashes(out_dir: Path) -> dict[str, str]:
         return {}
 
 
+def _crosswalk_series(pull: dict, header_en: list[str], rows_en, header_fr: list[str], rows_fr,
+                      release: str, status: dict | None) -> tuple[list[Series], dict]:
+    """
+    A pull whose cube is not classified by NAICS, summed into the twenty sectors.
+
+    The sector NAMES are StatCan's own NAICS labels in both languages, read from
+    the GDP cube's output (`labels_from`), which is why that pull runs first. The
+    cube's total keeps its own label, and a one-member bucket with no NAICS name
+    — `unallocated` — keeps its member's. The payload lists every member summed
+    into every sector, in both languages, so the crosswalk is inspectable where
+    the numbers are.
+    """
+    pid = pull["pid"]
+    crosswalk = {str(s): [str(m) for m in ms] for s, ms in pull["crosswalk"].items()}
+    total_code = str(pull["total"]["code"])
+    wanted = {m for ms in crosswalk.values() for m in ms} | {total_code}
+    en = statcan.member_labels(header_en, rows_en, column=pull["industry_column"]["en"],
+                               codes=wanted, total_code=total_code)
+    fr = statcan.member_labels(header_fr, rows_fr, column=pull["industry_column"]["fr"],
+                               codes=wanted, total_code=total_code)
+
+    source = R.DATA_DIR / "sectors" / pull["labels_from"]
+    if not source.exists():
+        raise SystemExit(f"{pid}: sector labels come from {source.name}; run its pull first")
+    named = {s["code"]: Text.from_dict(s["label"])
+             for s in json.loads(source.read_text(encoding="utf-8"))["series"]}
+
+    labels = {total_code: Text(en=en.get(total_code, ""), fr=fr.get(total_code, ""))}
+    for sector, members in crosswalk.items():
+        if sector in named:
+            labels[sector] = named[sector]
+        elif len(members) == 1:
+            labels[sector] = Text(en=en.get(members[0], ""), fr=fr.get(members[0], ""))
+        else:
+            raise SystemExit(f"{pid}: sector {sector} has no NAICS label and more than one member")
+
+    series = statcan.build_crosswalk_series(
+        header_en, rows_en,
+        pid=pid,
+        measure=pull["measure"],
+        frequency=pull["frequency"],
+        column=pull["industry_column"]["en"],
+        crosswalk=crosswalk,
+        total_member=pull["total"]["member"],
+        total_code=total_code,
+        labels=labels,
+        geo_codes=GEO_CODES,
+        release=release,
+        status_out=status,
+    )
+    extra = {
+        "crosswalk": {
+            sector: [{"code": m, "label": {"en": en.get(m, ""), "fr": fr.get(m, "")}} for m in members]
+            for sector, members in crosswalk.items()
+        },
+        "crosswalk_provenance": Provenance.DERIVED.value,
+    }
+    return series, extra
+
+
 def pull_cube(fetch: Fetcher, key: str, pull: dict, codes: set[str], raw_dir: Path,
               fallback_release: str = "") -> tuple[list[Series], dict]:
     """One declared pull, in both languages, as the series and the payload that holds them."""
@@ -192,25 +254,32 @@ def pull_cube(fetch: Fetcher, key: str, pull: dict, codes: set[str], raw_dir: Pa
         header_fr, rows_fr = statcan.read_cube(zip_fr, pid)
 
     status: dict[str, tuple[str, ...]] = {}
-    series = statcan.build_series(
-        header_en, rows_en,
-        pid=pid,
-        measure=pull["measure"],
-        frequency=pull["frequency"],
-        filters=pull.get("filters", {}),
-        keep_codes=keep,
-        geo_codes=GEO_CODES,
-        release=statcan.release_time(fetch, pid) or fallback_release,
-        code_aliases=aliases,
-        status_out=status if pull.get("keep_status") else None,
-    )
-
-    # French labels AFTER the English build, so the French file is read only
-    # until the codes the build actually kept have all been seen — for SEPH that
-    # is a few thousand rows of a five-million-row file.
-    labels_fr = statcan.french_labels(header_fr, rows_fr, code_aliases=aliases,
-                                      want={s.code for s in series})
-    series = [replace(s, label=Text(en=s.label.en, fr=labels_fr.get(s.code, ""))) for s in series]
+    release = statcan.release_time(fetch, pid) or fallback_release
+    extra: dict = {}
+    if pull.get("crosswalk"):
+        if pull.get("stream"):
+            raise SystemExit(f"{key}: a crosswalk pull reads its rows twice and cannot stream")
+        series, extra = _crosswalk_series(pull, header_en, rows_en, header_fr, rows_fr, release,
+                                          status if pull.get("keep_status") else None)
+    else:
+        series = statcan.build_series(
+            header_en, rows_en,
+            pid=pid,
+            measure=pull["measure"],
+            frequency=pull["frequency"],
+            filters=pull.get("filters", {}),
+            keep_codes=keep,
+            geo_codes=GEO_CODES,
+            release=release,
+            code_aliases=aliases,
+            status_out=status if pull.get("keep_status") else None,
+        )
+        # French labels AFTER the English build, so the French file is read only
+        # until the codes the build actually kept have all been seen — for SEPH
+        # that is a few thousand rows of a five-million-row file.
+        labels_fr = statcan.french_labels(header_fr, rows_fr, code_aliases=aliases,
+                                          want={s.code for s in series})
+        series = [replace(s, label=Text(en=s.label.en, fr=labels_fr.get(s.code, ""))) for s in series]
     unlabelled = sorted({s.code for s in series if not s.label.fr})
     if unlabelled:
         log.warning("%s: no French label for %s", key, unlabelled)
@@ -237,6 +306,7 @@ def pull_cube(fetch: Fetcher, key: str, pull: dict, codes: set[str], raw_dir: Pa
         # Which label each period gets is OUR reading of the cube's note.
         payload["period_basis_provenance"] = Provenance.DERIVED.value
 
+    payload.update(extra)
     log.info("  → %d series", len(series))
     return series, payload
 

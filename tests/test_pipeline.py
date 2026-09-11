@@ -1181,3 +1181,109 @@ def test_capex_intentions_are_labelled_and_the_rule_needs_its_note():
     with pytest.raises(ValueError, match="Most recent 2 years"):
         statcan.latest_periods_basis(["2025", "2026"], {"4": "Something else entirely."},
                                      contains="Most recent 2 years", labels=["preliminary_actual", "intentions"])
+
+
+# ── B2a: gross output, from a cube that is not NAICS ───────────────────────────
+
+IOIC_HEADER = ["REF_DATE", "GEO", "DGUID", "Industry", "UOM", "UOM_ID", "SCALAR_FACTOR",
+               "SCALAR_ID", "VECTOR", "COORDINATE", "VALUE", "STATUS", "SYMBOL",
+               "TERMINATED", "DECIMALS"]
+EDUCATION = {"61": ["BS610", "NP61000", "GS610"]}
+
+
+def _ioic_row(period, member, value, status=""):
+    return [period, "Canada", "", member, "Dollars", "81", "millions", "6",
+            "v1", "1.1", value, status, "", "", "0"]
+
+
+def _ioic_series(rows, crosswalk=EDUCATION, **extra):
+    labels = {"T001": Text(en="Total industries", fr="Ensemble des industries"),
+              "61": Text(en="Educational services", fr="Services d'enseignement"),
+              "62": Text(en="Health care and social assistance", fr="Soins de santé et assistance sociale")}
+    return statcan.build_crosswalk_series(
+        IOIC_HEADER, rows, pid="36100488", measure="gross_output", frequency="annual",
+        column="Industry", crosswalk=crosswalk, total_member="Total industries",
+        total_code="T001", labels=labels, geo_codes={"Canada": "CA"}, **extra)
+
+
+def test_a_non_naics_cube_is_summed_into_sectors_and_says_the_sum_is_ours():
+    """
+    36-10-0488 is classified by IOIC and split by institutional sector, so no
+    member is NAICS 61: education is business + non-profit + government
+    members. The sum is this project's and must be labelled DERIVED; the cube's
+    own total is reproduced and must not be.
+    """
+    rows = [_ioic_row("2022", "Total industries", "1000"),
+            _ioic_row("2022", "Educational services [BS610]", "10"),
+            _ioic_row("2022", "Educational services [NP61000]", "6"),
+            _ioic_row("2022", "Government education services [GS610]", "145"),
+            _ioic_row("2022", "Hospitals [GS622000]", "99")]
+    out = {x.code: x for x in _ioic_series(rows)}
+    assert set(out) == {"T001", "61"}
+    assert out["61"].values == (161.0,) and out["61"].provenance is Provenance.DERIVED
+    assert out["T001"].values == (1000.0,) and out["T001"].provenance is Provenance.OFFICIAL_DATASET
+    assert out["61"].scalar == "millions" and out["61"].label.fr == "Services d'enseignement"
+
+
+def test_a_sector_with_a_blank_member_is_blank_not_partial():
+    """
+    For 14 years a non-profit member of health care is not published. Summing
+    the members that are would report most of the sector as all of it, and the
+    chart would show a dip that is a publication gap.
+    """
+    status: dict = {}
+    rows = [_ioic_row("2021", "Total industries", "1000"),
+            _ioic_row("2021", "Educational services [BS610]", "10"),
+            _ioic_row("2021", "Educational services [NP61000]", "6"),
+            _ioic_row("2021", "Government education services [GS610]", "145"),
+            _ioic_row("2022", "Total industries", "1100"),
+            _ioic_row("2022", "Educational services [BS610]", "11"),
+            _ioic_row("2022", "Educational services [NP61000]", "", status=".."),
+            _ioic_row("2022", "Government education services [GS610]", "150")]
+    out = {x.code: x for x in _ioic_series(rows, status_out=status)}
+    assert out["61"].periods == ("2021", "2022")
+    assert out["61"].values == (161.0, None)
+    assert status == {"CA/61": ("", "..")}
+
+
+def test_a_member_summed_into_two_sectors_raises():
+    """A member in two sectors is counted twice, and only the total would ever say so."""
+    rows = [_ioic_row("2022", "Total industries", "1"), _ioic_row("2022", "Educational services [BS610]", "1")]
+    with pytest.raises(ValueError, match="mapped to both"):
+        _ioic_series(rows, crosswalk={"61": ["BS610"], "62": ["BS610"]})
+
+
+def test_member_labels_find_the_uncoded_total_in_either_language():
+    """
+    The total is the cube's one member without a code, so its French wording is
+    found rather than assumed. Two uncoded members make the total ambiguous.
+    """
+    header = ["PÉRIODE DE RÉFÉRENCE", "GÉO", "DGUID", "Industries", "VALEUR"]
+    rows = [["2022", "Canada", "", "Ensemble des industries", "1"],
+            ["2022", "Canada", "", "Services d'enseignement [BS610]", "1"]]
+    got = statcan.member_labels(header, rows, column="Industries", codes={"T001", "BS610"}, total_code="T001")
+    assert got == {"T001": "Ensemble des industries", "BS610": "Services d'enseignement"}
+    with pytest.raises(ValueError, match="two members without a code"):
+        statcan.member_labels(header, rows[:1] + [["2022", "Canada", "", "Autre total", "1"]],
+                              column="Industries", codes={"T001", "BS610"}, total_code="T001")
+
+
+def test_the_output_crosswalk_counts_every_member_once_and_guesses_nothing():
+    """
+    The registry's IOIC crosswalk must cover each of the twenty sectors, assign
+    each member once, never list a parent aggregate beside its own children
+    (BS5B0 or BS5A000 next to the finance members would count finance twice),
+    and keep the one member with no NAICS code as `unallocated`.
+    """
+    tax = yaml.safe_load((ROOT / "registry" / "sectors.yaml").read_text(encoding="utf-8"))
+    pull = tax["pulls"]["output_annual"]
+    crosswalk = pull["crosswalk"]
+    members = [m for ms in crosswalk.values() for m in ms]
+    assert len(members) == len(set(members))
+    assert set(crosswalk) - {"unallocated"} == {s["code"] for s in tax["sectors"]}
+    assert crosswalk["unallocated"] == ["NP999999"]
+    assert not {"BS5B0", "BS5A000", "NP000", "NPA0000"} & set(members)
+    # It reads the GDP output for its sector names, so it must run after that pull.
+    order = list(tax["pulls"])
+    source = next(k for k, v in tax["pulls"].items() if v.get("output") == pull["labels_from"])
+    assert order.index(source) < order.index("output_annual")

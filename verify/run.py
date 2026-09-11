@@ -342,9 +342,13 @@ def check_sector_pulls(r: Report) -> None:
                f"now published: {back} — re-check the reason in sectors.yaml before these join anything")
 
         geos = {s["geo"] for s in series}
+        extra_geos = {str(g) for g in spec.get("extra_geos", [])}
         if spec.get("provinces"):
-            r.gate(geos == everywhere, f"{name}: Canada and all 13 provinces and territories",
-                   str(sorted(geos ^ everywhere)))
+            want = everywhere | extra_geos
+            r.gate(geos == want,
+                   f"{name}: Canada and all 13 provinces and territories"
+                   + (f", plus {', '.join(sorted(extra_geos))}" if extra_geos else ""),
+                   str(sorted(geos ^ want)))
 
         disordered = [f"{s['geo']}/{s['code']}" for s in series
                       if s["periods"] != sorted(s["periods"]) or len(set(s["periods"])) != len(s["periods"])
@@ -365,11 +369,16 @@ def check_sector_pulls(r: Report) -> None:
 
         if spec.get("provinces_sum_to_canada"):
             tol = float(spec["provinces_sum_to_canada"]["tolerance_pct"])
+            # Some cubes publish a geography beyond the thirteen — "Canadian
+            # territorial enclaves abroad" in 36100488 — without which the
+            # provinces do not sum to Canada (0.56% short in public administration).
+            parts_geos = sorted(PROVINCE_CODES) + (
+                sorted(extra_geos) if spec["provinces_sum_to_canada"].get("include_extra_geos") else [])
             worst, at, compared = 0.0, "", 0
             for (geo, code), values in by.items():
                 if geo != "CA":
                     continue
-                gap, when, n = _worst_gap([by.get((p, code)) for p in sorted(PROVINCE_CODES)], values)
+                gap, when, n = _worst_gap([by.get((p, code)) for p in parts_geos], values)
                 compared += n
                 if gap > worst:
                     worst, at = gap, f"{code} {when}"
@@ -377,6 +386,41 @@ def check_sector_pulls(r: Report) -> None:
                    f"{name}: provinces sum to Canada within {tol}% "
                    f"({compared:,} comparisons with no province suppressed)",
                    f"worst {worst:.4f}% at {at}" if compared else "nothing comparable")
+
+        for floor in spec.get("not_below", []):
+            other = _load_json(DATA / "sectors" / floor["file"])
+            geo = floor.get("geo", "CA")
+            theirs = {s["code"]: dict(zip(s["periods"], s["values"])) for s in other["series"] if s["geo"] == geo}
+            below, compared = [], 0
+            for (g, code), values in by.items():
+                if g != geo or code not in theirs:
+                    continue
+                for period, value in values.items():
+                    floor_value = theirs[code].get(period)
+                    if value is None or floor_value is None:
+                        continue
+                    compared += 1
+                    if value < floor_value:
+                        below.append(f"{code} {period}: {value:,.0f} < {floor_value:,.0f}")
+            r.gate(compared > 0 and not below,
+                   f"{name}: {floor['label']} ({compared} sector-years against {floor['file']})",
+                   str(below[:6]) if compared else "nothing comparable")
+
+        if pull.get("crosswalk"):
+            total_code = str(pull["total"]["code"])
+            mislabelled = [f"{s['geo']}/{s['code']}" for s in series
+                           if (s["code"] == total_code) != (s.get("provenance") == "official_dataset")
+                           or (s["code"] != total_code and s.get("provenance") != "derived")]
+            r.gate(not mislabelled,
+                   f"{name}: summed sectors are labelled derived; only the cube's own total is official",
+                   str(mislabelled[:6]))
+            members = [str(m) for ms in pull["crosswalk"].values() for m in ms]
+            twice = sorted({m for m in members if members.count(m) > 1})
+            shown = {k: [e.get("code") for e in v] for k, v in (doc.get("crosswalk") or {}).items()}
+            declared = {str(k): [str(m) for m in v] for k, v in pull["crosswalk"].items()}
+            r.gate(not twice and shown == declared,
+                   f"{name}: every member is summed into exactly one sector, and the payload shows which",
+                   f"counted twice: {twice}" if twice else "payload crosswalk differs from the registry")
 
         if pull.get("period_basis"):
             pb = pull["period_basis"]

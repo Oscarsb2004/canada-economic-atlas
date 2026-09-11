@@ -143,6 +143,7 @@ sources:
       employment_seph:  { pid: 14100201, freq: monthly,   note: "UNADJUSTED; excludes agriculture ([11N] is forestry only); four sectors under combined codes — pulled via sectors.yaml employment_monthly" }
       revenue_quarterly: { pid: 33100225, freq: quarterly, note: "NOT revenue by industry: non-financial balance sheets and income statements, enterprise groups that do not join the 20-sector key. Not pulled — BACKLOG B2a" }
       capex_annual:     { pid: 34100035, freq: annual,    note: "latest 2 years are preliminary actuals and intentions, flagged only in a note; STATUS mixes suppression with quality A-F" }
+      output_annual:    { pid: 36100488, freq: annual,    note: "gross output by IOIC industry and institutional sector (BS/NP/GS), NOT NAICS; summed to sectors by a derived crosswalk in sectors.yaml" }
 
   boc_valet:
     title: Bank of Canada Valet API

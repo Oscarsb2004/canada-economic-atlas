@@ -148,4 +148,5 @@ countries · `setProjection` must be called inside `style.load` · SEPH
 (14100201) is unadjusted and excludes agriculture — `[11N]` is forestry, never
 NAICS 11 · the latest two capex years (34100035) are preliminary actuals and
 intentions, said only in a note · 33100225 is non-financial balance sheets,
-not revenue by industry.
+not revenue by industry · 36100488 gross output is IOIC, not NAICS — its twenty
+sectors are this project's crosswalk and render as derived.

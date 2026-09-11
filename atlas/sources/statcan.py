@@ -369,6 +369,142 @@ def latest_periods_basis(
     return basis, note_id
 
 
+def member_labels(
+    header: list[str],
+    rows: Iterable[list[str]],
+    *,
+    column: str,
+    codes: set[str],
+    total_code: str,
+) -> dict[str, str]:
+    """
+    Code -> label for the members of a non-NAICS industry column, in the file's
+    language, stopping once every wanted code is found.
+
+    The cube's total is its one member with no bracketed code — "Total
+    industries" in English, whatever the French file calls it — and is recorded
+    under `total_code`, so the French total is found without guessing its
+    wording. A second uncoded member raises: the total could no longer be told
+    apart from it.
+    """
+    if column not in header:
+        raise ValueError(f"no {column!r} column; header is {header}")
+    i = header.index(column)
+    out: dict[str, str] = {}
+    uncoded: str | None = None
+    for row in rows:
+        if len(row) <= i:
+            continue
+        member = row[i].strip()
+        code = code_of(member)
+        if not code:
+            if uncoded is not None and uncoded != member:
+                raise ValueError(f"two members without a code: {uncoded!r} and {member!r}")
+            uncoded, code = member, total_code
+        if code in codes and code not in out:
+            out[code] = label_of(member)
+            if codes <= out.keys():
+                break
+    return out
+
+
+def build_crosswalk_series(
+    header: list[str],
+    rows: Iterable[list[str]],
+    *,
+    pid: str,
+    measure: str,
+    frequency: str,
+    column: str,
+    crosswalk: dict[str, list[str]],
+    total_member: str,
+    total_code: str,
+    labels: dict[str, Text],
+    geo_codes: dict[str, str] | None = None,
+    release: str = "",
+    status_out: dict[str, tuple[str, ...]] | None = None,
+) -> list[Series]:
+    """
+    Sector series summed from a cube that is NOT classified by NAICS.
+
+    Table 36-10-0488 (output by industry) uses the Input-Output Industry
+    Classification, and splits every industry by institutional sector: business
+    (BS…), non-profit institutions serving households (NP…) and government
+    (GS…). No member of it is "NAICS 61" — education is BS610 + NP61000 + GS610.
+    `crosswalk` maps each registry sector to the members that make it up, and
+    the sum is this project's, so every summed series is `Provenance.DERIVED`.
+    The cube's own total is reproduced under `total_code` and stays
+    OFFICIAL_DATASET.
+
+    A sector is None in any period where ANY of its members is blank or
+    missing. Summing the published members and skipping the blank one would
+    report part of a sector as all of it.
+
+    A member mapped to two sectors raises: it would be counted twice, and
+    nothing downstream would notice except a total that no longer adds up.
+    """
+    owner: dict[str, str] = {}
+    for sector, members in crosswalk.items():
+        for member in members:
+            if member in owner:
+                raise ValueError(f"cube {pid}: member {member} is mapped to both {owner[member]} and {sector}")
+            owner[member] = sector
+    if column not in header:
+        raise ValueError(f"cube {pid}: no {column!r} column; header is {header}")
+    idx = {name: i for i, name in enumerate(header)}
+    width = len(header)
+
+    # (geo, period) -> code -> (value or None, STATUS)
+    cells: dict[tuple[str, str], dict[str, tuple[float | None, str]]] = defaultdict(dict)
+    unit = scalar = ""
+    for row in rows:
+        if len(row) < width:
+            continue
+        member = row[idx[column]].strip()
+        code = total_code if member == total_member else code_of(member)
+        if code != total_code and code not in owner:
+            continue
+        raw = row[idx["VALUE"]].strip()
+        status = row[idx["STATUS"]].strip() if "STATUS" in idx else ""
+        cells[(row[idx["GEO"]].strip(), row[idx["REF_DATE"]].strip())][code] = (float(raw) if raw else None, status)
+        if not unit:
+            unit = row[idx["UOM"]].strip()
+            scalar = SCALARS.get(row[idx["SCALAR_ID"]].strip(), row[idx["SCALAR_FACTOR"]].strip())
+
+    published = {code for by_code in cells.values() for code in by_code}
+    unseen = sorted((set(owner) | {total_code}) - published)
+    if unseen:
+        raise ValueError(f"cube {pid}: crosswalk members never published: {unseen}")
+
+    out: list[Series] = []
+    for geo in sorted({g for g, _ in cells}):
+        geo_code = (geo_codes or {}).get(geo, geo)
+        periods = sorted(p for g, p in cells if g == geo)
+        plan = [(total_code, [total_code], Provenance.OFFICIAL_DATASET)]
+        plan += [(sector, members, Provenance.DERIVED) for sector, members in crosswalk.items()]
+        for code, members, provenance in plan:
+            if code not in labels:
+                raise ValueError(f"cube {pid}: no label for {code}")
+            values: list[float | None] = []
+            statuses: list[str] = []
+            for period in periods:
+                got = [cells[(geo, period)].get(m) for m in members]
+                flags = ",".join(sorted({g[1] for g in got if g is not None and g[1]}))
+                if any(g is None or g[0] is None for g in got):
+                    values.append(None)
+                else:
+                    values.append(sum(g[0] for g in got))
+                statuses.append(flags)
+            if status_out is not None and any(statuses):
+                status_out[f"{geo_code}/{code}"] = tuple(statuses)
+            out.append(Series(
+                code=code, label=labels[code], geo=geo_code, measure=measure, unit=unit,
+                scalar=scalar, frequency=frequency, periods=tuple(periods), values=tuple(values),
+                source_table=pid, release_time=release, provenance=provenance,
+            ))
+    return out
+
+
 def release_time(fetch: Fetcher, pid: str) -> str:
     """
     The cube's own publication stamp, via `getCubeMetadata`.
