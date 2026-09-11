@@ -56,7 +56,15 @@ def write_if_changed(path: Path, payload: dict) -> bool:
             existing = json.loads(path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, UnicodeDecodeError):
             existing = None
-        if existing is not None and strip_volatile(existing) == strip_volatile(payload):
+        # Compare against the payload AS IT WILL READ BACK, not as it was built.
+        # A tuple serialises as a JSON array and loads as a list, and
+        # `("E", "x") != ["E", "x"]` in Python — so a payload carrying any tuple
+        # compared unequal to its own file on every run and was rewritten with a
+        # fresh `generated_at`. Found in B2, when the quality codes stage 02 now
+        # carries made capex-annual.json and employment-monthly.json change on a
+        # re-run of unchanged sources.
+        readback = json.loads(json.dumps(payload, ensure_ascii=False))
+        if existing is not None and strip_volatile(existing) == strip_volatile(readback):
             return False
 
     path.write_text(

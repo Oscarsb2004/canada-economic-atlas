@@ -36,7 +36,9 @@ import logging
 import re
 import zipfile
 from collections import defaultdict
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Iterable, Iterator
 
 from atlas.core.schema import Provenance, Series, Text
 from atlas.net import Fetcher
@@ -79,20 +81,100 @@ def label_of(label: str) -> str:
 
 # ── Bulk download ──────────────────────────────────────────────────────────────
 
-def download_cube(fetch: Fetcher, pid: str, lang: str, dest_dir: Path) -> Path:
+#: How far a WDS `releaseTime` can sit behind UTC. The stamp has no offset
+#: ("2026-08-28T08:30") and is Ottawa time — UTC-4 in summer, UTC-5 in winter —
+#: so reading it as UTC-5 is the latest the release can have happened.
+_RELEASE_LATEST_OFFSET = timedelta(hours=5)
+
+
+def release_path(zip_path: Path) -> Path:
+    """The sidecar naming the release a cube zip was downloaded under."""
+    return zip_path.with_suffix(".release")
+
+
+def recorded_release(zip_path: Path) -> str:
+    """The release recorded for `zip_path`, or "" if none was."""
+    try:
+        return release_path(zip_path).read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+
+
+def _written_after(zip_path: Path, release: str) -> bool:
     """
-    Fetch a whole cube as a zip and return the local path.
+    Whether `zip_path` was written after `release` was certainly published — in
+    which case it holds that release, since WDS says nothing newer exists.
+    An unparseable stamp is never "after": the answer then is to download.
+    """
+    try:
+        stamp = datetime.fromisoformat(release)
+    except ValueError:
+        return False
+    if stamp.tzinfo is None:
+        stamp = stamp.replace(tzinfo=timezone.utc) + _RELEASE_LATEST_OFFSET
+    return datetime.fromtimestamp(zip_path.stat().st_mtime, tz=timezone.utc) >= stamp
+
+
+def download_cube(fetch: Fetcher, pid: str, lang: str, dest_dir: Path, *,
+                  live_release: str, refresh: bool = False) -> tuple[Path, str]:
+    """
+    Make sure a whole cube zip is on disk, and say which release it holds.
+
+    Returns (path, release). The release is the one recorded when THIS zip was
+    downloaded, never simply what WDS says now; "" means the zip cannot be
+    dated and must not be parsed (the path may not even exist).
 
     `lang` is StatCan's own suffix vocabulary: "eng" or "fra".
+
+    The defect this replaces: an existing zip was always skipped while the stamp
+    was fetched live, and `--refresh` reached only the HTTP text cache. The first
+    run after a StatCan release therefore wrote the NEW stamp over figures parsed
+    from the OLD zip — a file claiming a vintage it did not contain, which
+    `verify/` cannot see because a stamp is present and well-formed.
+
+    So the zip follows the release, recorded in a `<pid>-<lang>.release` sidecar:
+
+      no live stamp   keep the zip and its recorded stamp, even under `refresh`.
+                      A zip nobody can date is worse than a dated old one.
+      `refresh`       download.
+      stamps match    keep. SEPH's zips are 129 MB and 141 MB.
+      none recorded   a zip from before the sidecar: adopt the live stamp if the
+                      file was written after that release was surely out,
+                      otherwise download.
+      stamps differ   download.
+
+    The sidecar is removed before a download and written only after it
+    completes, so a download that dies part-way leaves no stamp vouching for a
+    partial file. Not covered: StatCan replacing a zip WITHOUT moving
+    `releaseTime`. `--refresh` is for that, and `_cubes.json` hashes show it.
     """
+    dest = dest_dir / f"{pid}-{lang}.zip"
+    recorded = recorded_release(dest) if dest.exists() else ""
+
+    if not live_release:
+        if dest.exists():
+            log.warning("cube %s-%s: live release unknown; keeping the zip on disk (%s)",
+                        pid, lang, recorded or "no recorded release")
+        return dest, recorded
+    if dest.exists() and not refresh:
+        if recorded == live_release:
+            return dest, recorded
+        if not recorded and _written_after(dest, live_release):
+            release_path(dest).write_text(live_release, encoding="utf-8")
+            log.info("cube %s-%s: written after release %s; recorded", pid, lang, live_release)
+            return dest, live_release
+
     api_lang = "en" if lang == "eng" else "fr"
     resp = fetch.json(f"{WDS}/getFullTableDownloadCSV/{pid}/{api_lang}")
     if resp.get("status") != "SUCCESS":
         raise RuntimeError(f"WDS refused cube {pid}: {resp}")
 
-    dest = dest_dir / f"{pid}-{lang}.zip"
-    fetch.download(resp["object"], dest)
-    return dest
+    log.info("cube %s-%s: %s -> release %s; downloading", pid, lang,
+             recorded or ("refresh" if refresh else "no zip or no recorded release"), live_release)
+    release_path(dest).unlink(missing_ok=True)
+    fetch.download(resp["object"], dest, force=True)
+    release_path(dest).write_text(live_release, encoding="utf-8")
+    return dest, live_release
 
 
 def read_cube(zip_path: Path, pid: str, member: str | None = None) -> tuple[list[str], list[list[str]]]:
@@ -124,11 +206,34 @@ def read_cube(zip_path: Path, pid: str, member: str | None = None) -> tuple[list
     return header, list(reader)
 
 
+def iter_cube(zip_path: Path, pid: str, member: str | None = None) -> Iterator[list[str]]:
+    """
+    A cube's rows one at a time, HEADER FIRST, without holding the file.
+
+        rows = iter_cube(path, pid)
+        header = next(rows)
+
+    `read_cube` reads the whole CSV into memory, which is right for a 7 MB GDP
+    cube and wrong for SEPH (14100201): 986 MB of English CSV and 1,075 MB of
+    French, 5.3 million rows. Parsed into lists of strings that is several
+    gigabytes, for a pull that keeps one row in sixty.
+
+    Same delimiter detection as `read_cube` — the French file is semicolons —
+    and `newline=""` so a quoted field containing a line break stays one field.
+    """
+    with zipfile.ZipFile(zip_path) as z, z.open(member or f"{pid}.csv") as fh:
+        text = io.TextIOWrapper(fh, encoding="utf-8-sig", newline="")
+        first = text.readline()
+        delimiter = ";" if first.count(";") > first.count(",") else ","
+        yield next(csv.reader([first], delimiter=delimiter))
+        yield from csv.reader(text, delimiter=delimiter)
+
+
 # ── Shaping ────────────────────────────────────────────────────────────────────
 
 def build_series(
     header: list[str],
-    rows: list[list[str]],
+    rows: Iterable[list[str]],
     *,
     pid: str,
     measure: str,
@@ -138,6 +243,8 @@ def build_series(
     labels_fr: dict[str, str] | None = None,
     geo_codes: dict[str, str] | None = None,
     release: str = "",
+    code_aliases: dict[str, str] | None = None,
+    status_out: dict[str, tuple[str, ...]] | None = None,
 ) -> list[Series]:
     """
     Turn cube rows into `Series`, one per (geography, industry code).
@@ -151,6 +258,17 @@ def build_series(
     dropped — a suppressed or not-yet-published period is not the same as a
     period that does not exist, and collapsing them would silently shorten a
     series. `Series.__post_init__` enforces that periods and values stay aligned.
+
+    `code_aliases` maps a code as published onto the registry's key — SEPH
+    publishes Utilities as [22,221]. An alias that lands two DIFFERENT published
+    members on one key raises: their months would interleave into one series
+    with every period twice, and nothing downstream could tell.
+
+    `status_out`, when given, receives each series' STATUS column keyed
+    "GEO/CODE", but only for series where some cell carries one. The column
+    holds suppression ("x", "..") and quality grades (A–F, E = use with
+    caution), and a value read without its grade is published with authority
+    the source withheld.
     """
     idx = {name: i for i, name in enumerate(header)}
     naics_col = next(c for c in header if c.startswith("North American Industry"))
@@ -169,14 +287,30 @@ def build_series(
     def cell(row: list[str], col: str) -> str:
         return row[idx[col]].strip() if col in idx else ""
 
+    aliases = code_aliases or {}
+    width = len(header)
     grouped: dict[tuple[str, str], list[list[str]]] = defaultdict(list)
+    member_of: dict[tuple[str, str], str] = {}
     for row in rows:
+        # A short row is a blank line or a footnote, never data; indexing it
+        # would raise IndexError far from the cause.
+        if len(row) < width:
+            continue
         if any(cell(row, col) != want for col, want in filters.items()):
             continue
-        code = code_of(cell(row, naics_col))
+        member = cell(row, naics_col)
+        published = code_of(member)
+        code = aliases.get(published, published)
         if code not in keep_codes:
             continue
-        grouped[(cell(row, "GEO"), code)].append(row)
+        key = (cell(row, "GEO"), code)
+        first = member_of.setdefault(key, member)
+        if first != member:
+            raise ValueError(
+                f"cube {pid}: {first!r} and {member!r} both map to code {code} in "
+                f"{key[0]}. An alias may rename a published code, never merge two."
+            )
+        grouped[key].append(row)
 
     # Same failure in the other direction: the columns exist but a filter VALUE
     # was renamed ("Chained (2017) dollars" -> something else), so nothing
@@ -198,11 +332,17 @@ def build_series(
             raw = cell(row, "VALUE")
             values.append(float(raw) if raw else None)
 
+        geo_code = (geo_codes or {}).get(geo, geo)
+        if status_out is not None:
+            statuses = tuple(cell(row, "STATUS") for row in group)
+            if any(statuses):
+                status_out[f"{geo_code}/{code}"] = statuses
+
         out.append(Series(
             code=code,
             label=Text(en=label_of(raw_label),
                        fr=(labels_fr or {}).get(code, "")),
-            geo=(geo_codes or {}).get(geo, geo),
+            geo=geo_code,
             measure=measure,
             unit=cell(group[0], "UOM"),
             scalar=SCALARS.get(cell(group[0], "SCALAR_ID"), cell(group[0], "SCALAR_FACTOR")),
@@ -216,19 +356,233 @@ def build_series(
     return out
 
 
-def french_labels(header: list[str], rows: list[list[str]]) -> dict[str, str]:
-    """Map classification code -> French industry label, from the -fra cube."""
+def french_labels(
+    header: list[str],
+    rows: Iterable[list[str]],
+    *,
+    code_aliases: dict[str, str] | None = None,
+    want: set[str] | None = None,
+) -> dict[str, str]:
+    """
+    Map classification code -> French industry label, from the -fra cube.
+
+    `want`, when given, stops the read as soon as every wanted code has a label.
+    Industry members repeat for every period, so for SEPH all of them appear in
+    the first few thousand rows of a five-million-row file, and reading the rest
+    would only re-read them. `code_aliases` must be the same map the English
+    build used, or the French labels land on the published code, not the key.
+    """
     # "Système de classification des industries de l'Amérique du Nord (SCIAN)"
     # in the French cube; "North American Industry Classification System (NAICS)"
     # in the English one.
     i = next(n for n, c in enumerate(header)
              if "SCIAN" in c or c.startswith("North American Industry"))
+    aliases = code_aliases or {}
     out: dict[str, str] = {}
     for row in rows:
+        if len(row) <= i:
+            continue
         raw = row[i].strip()
-        code = code_of(raw)
+        published = code_of(raw)
+        code = aliases.get(published, published)
         if code and code not in out:
             out[code] = label_of(raw)
+            if want and want <= out.keys():
+                break
+    return out
+
+
+def cube_metadata(zip_path: Path, pid: str) -> dict:
+    """
+    The cube's own title and numbered notes, from `<pid>_MetaData.csv`, in the
+    zip's language.
+
+    The notes are where StatCan says the things no column does — that SEPH
+    excludes agriculture, that the last two capex years are intentions — so a
+    payload that reproduces them carries its own caveats rather than relying on
+    someone reading the table page.
+    """
+    _, rows = read_cube(zip_path, pid, member=f"{pid}_MetaData.csv")
+    title = rows[0][0].strip() if rows and rows[0] else ""
+    notes: dict[str, str] = {}
+    start = next((i for i, r in enumerate(rows)
+                  if len(r) >= 2 and "note" in r[0].lower() and "note" in r[1].lower()), None)
+    if start is not None:
+        for r in rows[start + 1:]:
+            if len(r) < 2 or not r[0].strip().isdigit():
+                break
+            notes[r[0].strip()] = r[1].strip()
+    return {"title": title, "notes": notes}
+
+
+def latest_periods_basis(
+    periods: Iterable[str],
+    notes: dict[str, str],
+    *,
+    contains: str,
+    labels: list[str],
+    earlier: str = "actual",
+) -> tuple[dict[str, str], str]:
+    """
+    Which periods are measurements and which are not, when a cube says so only
+    in a note. Returns (period -> basis, the note's id).
+
+    Table 34-10-0035 has no column separating actual spending from preliminary
+    actuals and intentions; its note says "Most recent 2 years of data are
+    preliminary actuals and intentions". The latest `len(labels)` periods get
+    `labels`, in order, and every earlier period gets `earlier`.
+
+    The rule applies only while the cube still publishes the note: `contains`
+    must appear in one, or this raises. A rule read out of a note must stop the
+    moment the note changes, not keep labelling years by a statement the
+    publisher withdrew.
+    """
+    note_id = next((i for i, text in notes.items() if contains in text), None)
+    if note_id is None:
+        raise ValueError(
+            f"no cube note contains {contains!r}; the period basis cannot be "
+            f"assigned. Notes were: {list(notes.values())[:6]}"
+        )
+    ordered = sorted(set(periods))
+    basis = {p: earlier for p in ordered}
+    for period, label in zip(ordered[-len(labels):], labels):
+        basis[period] = label
+    return basis, note_id
+
+
+def member_labels(
+    header: list[str],
+    rows: Iterable[list[str]],
+    *,
+    column: str,
+    codes: set[str],
+    total_code: str,
+) -> dict[str, str]:
+    """
+    Code -> label for the members of a non-NAICS industry column, in the file's
+    language, stopping once every wanted code is found.
+
+    The cube's total is its one member with no bracketed code — "Total
+    industries" in English, whatever the French file calls it — and is recorded
+    under `total_code`, so the French total is found without guessing its
+    wording. A second uncoded member raises: the total could no longer be told
+    apart from it.
+    """
+    if column not in header:
+        raise ValueError(f"no {column!r} column; header is {header}")
+    i = header.index(column)
+    out: dict[str, str] = {}
+    uncoded: str | None = None
+    for row in rows:
+        if len(row) <= i:
+            continue
+        member = row[i].strip()
+        code = code_of(member)
+        if not code:
+            if uncoded is not None and uncoded != member:
+                raise ValueError(f"two members without a code: {uncoded!r} and {member!r}")
+            uncoded, code = member, total_code
+        if code in codes and code not in out:
+            out[code] = label_of(member)
+            if codes <= out.keys():
+                break
+    return out
+
+
+def build_crosswalk_series(
+    header: list[str],
+    rows: Iterable[list[str]],
+    *,
+    pid: str,
+    measure: str,
+    frequency: str,
+    column: str,
+    crosswalk: dict[str, list[str]],
+    total_member: str,
+    total_code: str,
+    labels: dict[str, Text],
+    geo_codes: dict[str, str] | None = None,
+    release: str = "",
+    status_out: dict[str, tuple[str, ...]] | None = None,
+) -> list[Series]:
+    """
+    Sector series summed from a cube that is NOT classified by NAICS.
+
+    Table 36-10-0488 (output by industry) uses the Input-Output Industry
+    Classification, and splits every industry by institutional sector: business
+    (BS…), non-profit institutions serving households (NP…) and government
+    (GS…). No member of it is "NAICS 61" — education is BS610 + NP61000 + GS610.
+    `crosswalk` maps each registry sector to the members that make it up, and
+    the sum is this project's, so every summed series is `Provenance.DERIVED`.
+    The cube's own total is reproduced under `total_code` and stays
+    OFFICIAL_DATASET.
+
+    A sector is None in any period where ANY of its members is blank or
+    missing. Summing the published members and skipping the blank one would
+    report part of a sector as all of it.
+
+    A member mapped to two sectors raises: it would be counted twice, and
+    nothing downstream would notice except a total that no longer adds up.
+    """
+    owner: dict[str, str] = {}
+    for sector, members in crosswalk.items():
+        for member in members:
+            if member in owner:
+                raise ValueError(f"cube {pid}: member {member} is mapped to both {owner[member]} and {sector}")
+            owner[member] = sector
+    if column not in header:
+        raise ValueError(f"cube {pid}: no {column!r} column; header is {header}")
+    idx = {name: i for i, name in enumerate(header)}
+    width = len(header)
+
+    # (geo, period) -> code -> (value or None, STATUS)
+    cells: dict[tuple[str, str], dict[str, tuple[float | None, str]]] = defaultdict(dict)
+    unit = scalar = ""
+    for row in rows:
+        if len(row) < width:
+            continue
+        member = row[idx[column]].strip()
+        code = total_code if member == total_member else code_of(member)
+        if code != total_code and code not in owner:
+            continue
+        raw = row[idx["VALUE"]].strip()
+        status = row[idx["STATUS"]].strip() if "STATUS" in idx else ""
+        cells[(row[idx["GEO"]].strip(), row[idx["REF_DATE"]].strip())][code] = (float(raw) if raw else None, status)
+        if not unit:
+            unit = row[idx["UOM"]].strip()
+            scalar = SCALARS.get(row[idx["SCALAR_ID"]].strip(), row[idx["SCALAR_FACTOR"]].strip())
+
+    published = {code for by_code in cells.values() for code in by_code}
+    unseen = sorted((set(owner) | {total_code}) - published)
+    if unseen:
+        raise ValueError(f"cube {pid}: crosswalk members never published: {unseen}")
+
+    out: list[Series] = []
+    for geo in sorted({g for g, _ in cells}):
+        geo_code = (geo_codes or {}).get(geo, geo)
+        periods = sorted(p for g, p in cells if g == geo)
+        plan = [(total_code, [total_code], Provenance.OFFICIAL_DATASET)]
+        plan += [(sector, members, Provenance.DERIVED) for sector, members in crosswalk.items()]
+        for code, members, provenance in plan:
+            if code not in labels:
+                raise ValueError(f"cube {pid}: no label for {code}")
+            values: list[float | None] = []
+            statuses: list[str] = []
+            for period in periods:
+                got = [cells[(geo, period)].get(m) for m in members]
+                flags = ",".join(sorted({g[1] for g in got if g is not None and g[1]}))
+                if any(g is None or g[0] is None for g in got):
+                    values.append(None)
+                else:
+                    values.append(sum(g[0] for g in got))
+                statuses.append(flags)
+            if status_out is not None and any(statuses):
+                status_out[f"{geo_code}/{code}"] = tuple(statuses)
+            out.append(Series(
+                code=code, label=labels[code], geo=geo_code, measure=measure, unit=unit,
+                scalar=scalar, frequency=frequency, periods=tuple(periods), values=tuple(values),
+                source_table=pid, release_time=release, provenance=provenance,
+            ))
     return out
 
 
@@ -243,8 +597,13 @@ def release_time(fetch: Fetcher, pid: str) -> str:
     whose figures are years stale — the vintage is what makes that comparison
     honest rather than flattering.
 
+    This is the release WDS reports NOW. It decides whether a zip on disk is
+    current (`download_cube`); it is never itself the stamp written beside
+    figures, which must be the one recorded for the zip they were read from.
+
     Returns "" on failure rather than raising: a missing vintage should degrade
-    the display, not abort a pull that otherwise succeeded.
+    the run, not abort it. `download_cube` then keeps the zip it has, and that
+    zip's recorded stamp.
     """
     try:
         body = fetch.post_json(f"{WDS}/getCubeMetadata", [{"productId": int(pid)}])

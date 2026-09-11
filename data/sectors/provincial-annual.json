@@ -1,6 +1,6 @@
 {
   "count": 299,
-  "generated_at": "2026-09-03T21:35:32Z",
+  "generated_at": "2026-09-10T20:49:19Z",
   "series": [
     {
       "code": "T001",
@@ -23025,5 +23025,9 @@
         646.6
       ]
     }
-  ]
+  ],
+  "title": {
+    "en": "Gross domestic product (GDP) at basic prices, by industry, provinces and territories",
+    "fr": "Produit intérieur brut (PIB) aux prix de base, par industries, provinces et territoires"
+  }
 }

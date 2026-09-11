@@ -51,7 +51,9 @@ table:
 - Only **165** subdivisions are typed *City*, and **229** *Ville*.
 - **Halifax** (439,819) is a *Regional municipality*.
 - **Oakville** (213,759) and **Richmond Hill** (202,022) are *Towns*.
-- **Langley** (132,603) and **Saanich** (117,735) are *District municipalities*.
+- **Langley**, the district municipality (132,603), and **Saanich** (117,735) are
+  *District municipalities*. The City of Langley (28,963) is a separate subdivision
+  with the same name.
 - **Greenwood, BC** is a *City* of 702 people, and **L'Île-Dorval** a *Ville* of 30.
 
 A `City` class would drop Halifax and keep L'Île-Dorval. So every subdivision is
@@ -149,8 +151,8 @@ Hence M0–M4 before M6.
   counts the money twice. Totals across levels of government come from
   StatCan's *consolidated* tables, never from summing the unconsolidated ones.
 - **2016 counts are not aggregable.** In 98-10-0002, the 2016 subdivision counts
-  do not sum to the published 2016 province totals for NL, QC and ON. 597
-  subdivisions' 2016 populations carry the `r` (revised) flag. The schema says
+  do not sum to the published 2016 province totals for NL, QC and ON. 604
+  subdivisions' 2016 populations carry the `r` (revised) flag, seven of them as `r,E`. The schema says
   never to aggregate them upward, and `verify/` gates only the 2021 identities.
 - **Budget documents are documents.** Each municipality publishes its own format,
   usually PDF. A table in a budget can be reproduced with its page reference.

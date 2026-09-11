@@ -775,6 +775,26 @@ def test_write_if_changed_ignores_only_volatile_keys():
         assert write_if_changed(path, real) is True, "a real change must rewrite"
 
 
+def test_write_if_changed_does_not_rewrite_a_payload_holding_tuples():
+    """
+    B2. A tuple serialises as a JSON array and reads back as a list, and
+    `("E", "x") != ["E", "x"]` in Python. `write_if_changed` compared the file as
+    read against the payload as built, so any payload carrying a tuple was
+    unequal to its own file on every run and was rewritten with a new
+    `generated_at` — capex-annual.json and employment-monthly.json changed on a
+    re-run of unchanged sources, breaking the zero-line-diff rule (CLAUDE.md §6).
+    """
+    import tempfile
+
+    from atlas.core.jsonio import write_if_changed
+
+    with tempfile.TemporaryDirectory() as d:
+        path = Path(d) / "out.json"
+        assert write_if_changed(path, {"generated_at": "A", "status": {"CA/23": ("E", "x")}}) is True
+        assert write_if_changed(path, {"generated_at": "B", "status": {"CA/23": ("E", "x")}}) is False,             "an unchanged payload holding a tuple must not rewrite"
+        assert write_if_changed(path, {"generated_at": "B", "status": {"CA/23": ("E", "F")}}) is True
+
+
 def test_cube_filter_mismatch_raises_instead_of_yielding_nothing():
     """
     F13. A renamed StatCan column used to reject every row and return an empty
@@ -1008,3 +1028,421 @@ def test_census_province_is_checked_against_the_metadata(tmp_path):
     with pytest.raises(ValueError, match="1001186: metadata says province 11"):
         census.build(_census_zip(tmp_path, "en", pr_code_of_beach="11"),
                      _census_zip(tmp_path, "fr"))
+
+
+# ── B2: the newer StatCan cubes ────────────────────────────────────────────────
+
+SEPH_HEADER = ["REF_DATE", "GEO", "DGUID", "Type of employee",
+               "North American Industry Classification System (NAICS)", "UOM", "UOM_ID",
+               "SCALAR_FACTOR", "SCALAR_ID", "VECTOR", "COORDINATE", "VALUE", "STATUS",
+               "SYMBOL", "TERMINATED", "DECIMALS"]
+
+
+def _seph_row(period, member, value, status="A", geo="Canada", employee="All employees"):
+    return [period, geo, "", employee, member, "Persons", "249", "units", "0",
+            "v1", "1.1", value, status, "", "", "0"]
+
+
+def _cube_zip(path, pid, rows, *, sep=",", metadata=None):
+    buf = io.StringIO()
+    csv.writer(buf, delimiter=sep).writerows(rows)
+    with zipfile.ZipFile(path, "w") as z:
+        z.writestr(f"{pid}.csv", "\ufeff" + buf.getvalue())
+        if metadata is not None:
+            meta = io.StringIO()
+            csv.writer(meta, delimiter=sep).writerows(metadata)
+            z.writestr(f"{pid}_MetaData.csv", "\ufeff" + meta.getvalue())
+    return path
+
+
+def _seph_series(rows, **extra):
+    return statcan.build_series(
+        SEPH_HEADER, rows, pid="14100201", measure="employment_nsa", frequency="monthly",
+        filters={"Type of employee": "All employees"}, geo_codes={"Canada": "CA"}, **extra)
+
+
+def test_iter_cube_streams_exactly_what_read_cube_loads(tmp_path):
+    """
+    SEPH is 986 MB of English CSV and 1,075 MB of French; `read_cube` parses a
+    file whole, which for SEPH is several gigabytes of Python strings. The
+    streaming reader must yield the same header and rows — including from a
+    semicolon-separated French file — or switching readers changes the data.
+    """
+    rows = [SEPH_HEADER,
+            _seph_row("2026-05", "Services publics [22,221]", "117000"),
+            _seph_row("2026-06", "Construction [23]", "1200000", status="")]
+    path = _cube_zip(tmp_path / "fr.zip", "14100201", rows, sep=";")
+    header, loaded = statcan.read_cube(path, "14100201")
+    stream = statcan.iter_cube(path, "14100201")
+    assert next(stream) == header == SEPH_HEADER
+    assert list(stream) == loaded
+
+
+def test_combined_codes_join_the_key_and_never_merge_two_members():
+    """
+    SEPH publishes Utilities as [22,221]; `code_aliases` maps it to 22 so the
+    series joins GDP. An alias that lands two DIFFERENT published members on
+    one code would interleave their months into one series, every period twice
+    — so that raises rather than merging.
+    """
+    rows = [_seph_row("2026-05", "Utilities [22,221]", "117000"),
+            _seph_row("2026-06", "Utilities [22,221]", "118000")]
+    out = _seph_series(rows, keep_codes={"22"}, code_aliases={"22,221": "22"})
+    assert [(x.code, x.periods, x.values) for x in out] == [("22", ("2026-05", "2026-06"), (117000.0, 118000.0))]
+
+    clash = rows + [_seph_row("2026-06", "Utilities [22]", "1")]
+    with pytest.raises(ValueError, match="both map to code 22"):
+        _seph_series(clash, keep_codes={"22"}, code_aliases={"22,221": "22"})
+
+
+def test_quality_and_suppression_codes_travel_with_the_values():
+    """
+    STATUS holds both suppression ("x") and quality grades (A–F; E is "use with
+    caution"). A suppressed cell is a None, never a zero, and the grade stays
+    beside the value it qualifies.
+    """
+    status: dict = {}
+    rows = [_seph_row("2026-05", "Construction [23]", "1200000", status="E"),
+            _seph_row("2026-06", "Construction [23]", "", status="x"),
+            _seph_row("2026-06", "Manufacturing [31-33]", "1700000", status="")]
+    out = _seph_series(rows, keep_codes={"23", "31-33"}, status_out=status)
+    assert {x.code: x.values for x in out} == {"23": (1200000.0, None), "31-33": (1700000.0,)}
+    # A series with no status at all adds nothing to the map.
+    assert status == {"CA/23": ("E", "x")}
+
+
+def test_seph_forestry_is_never_joined_to_agriculture():
+    """
+    SEPH excludes agriculture: its [11N] is "Forestry, logging and support",
+    forestry alone. Mapping it to NAICS 11 would divide agriculture-plus-forestry
+    GDP by forestry jobs and report a productivity figure several times too
+    high, with nothing on screen to suggest it. The registry must declare 11
+    absent for SEPH, with a reason, and must never alias 11N.
+    """
+    tax = yaml.safe_load((ROOT / "registry" / "sectors.yaml").read_text(encoding="utf-8"))
+    seph = tax["pulls"]["employment_monthly"]
+    assert seph["measure"] == "employment_nsa", "SEPH is unadjusted; the measure name must say so"
+    assert "11" in (seph.get("absent_codes") or {}) and seph["absent_codes"]["11"].strip()
+    assert "11N" not in (seph.get("code_aliases") or {})
+
+
+def test_french_labels_stop_reading_once_every_wanted_label_is_found():
+    """
+    Industry members repeat for every period, so all of SEPH's appear in the
+    first few thousand of its five million French rows. Reading past the last
+    wanted label would re-read 1 GB to learn nothing.
+    """
+    header = ["PÉRIODE DE RÉFÉRENCE", "GÉO",
+              "Système de classification des industries de l'Amérique du Nord (SCIAN)", "VALEUR"]
+
+    def rows():
+        yield ["2026-05", "Canada", "Services publics [22,221]", "1"]
+        yield ["2026-05", "Canada", "Construction [23]", "1"]
+        raise AssertionError("read past the last wanted label")
+
+    got = statcan.french_labels(header, rows(), code_aliases={"22,221": "22"}, want={"22", "23"})
+    assert got == {"22": "Services publics", "23": "Construction"}
+
+
+def test_cube_metadata_reads_the_title_and_numbered_notes(tmp_path):
+    """The cube's own words about itself — title and notes — read from its metadata file."""
+    note = "Most recent 2 years of data are preliminary actuals and intentions and do not have the repairs expenditures."
+    metadata = [
+        ["Cube Title", "Product Id", "CANSIM Id"],
+        ["Capital and repair expenditures, non-residential tangible assets, by industry and geography", "34100035", ""],
+        [],
+        ["Note ID", "Note"],
+        ["1", "From reference year 2013, this table replaces an archived table."],
+        ["4", note],
+        [],
+        ["Correction ID", "Correction Date"],
+    ]
+    path = _cube_zip(tmp_path / "capex.zip", "34100035", [["REF_DATE"]], metadata=metadata)
+    meta = statcan.cube_metadata(path, "34100035")
+    assert meta["title"].startswith("Capital and repair expenditures")
+    assert meta["notes"] == {"1": "From reference year 2013, this table replaces an archived table.", "4": note}
+
+
+def test_capex_intentions_are_labelled_and_the_rule_needs_its_note():
+    """
+    34-10-0035 has no column separating spending from intentions; its note says
+    the most recent two years are preliminary actuals and intentions. Plotting
+    2026 intentions as spending would put a plan on the same line as a
+    measurement. The labels follow the note — and if the note is gone, the rule
+    stops rather than labelling years by a statement the publisher withdrew.
+    """
+    notes = {"4": "Most recent 2 years of data are preliminary actuals and intentions and do not have the repairs expenditures."}
+    basis, note_id = statcan.latest_periods_basis(
+        ["2023", "2024", "2025", "2026"], notes,
+        contains="Most recent 2 years", labels=["preliminary_actual", "intentions"])
+    assert basis == {"2023": "actual", "2024": "actual", "2025": "preliminary_actual", "2026": "intentions"}
+    assert note_id == "4"
+
+    with pytest.raises(ValueError, match="Most recent 2 years"):
+        statcan.latest_periods_basis(["2025", "2026"], {"4": "Something else entirely."},
+                                     contains="Most recent 2 years", labels=["preliminary_actual", "intentions"])
+
+
+# ── B2a: gross output, from a cube that is not NAICS ───────────────────────────
+
+IOIC_HEADER = ["REF_DATE", "GEO", "DGUID", "Industry", "UOM", "UOM_ID", "SCALAR_FACTOR",
+               "SCALAR_ID", "VECTOR", "COORDINATE", "VALUE", "STATUS", "SYMBOL",
+               "TERMINATED", "DECIMALS"]
+EDUCATION = {"61": ["BS610", "NP61000", "GS610"]}
+
+
+def _ioic_row(period, member, value, status=""):
+    return [period, "Canada", "", member, "Dollars", "81", "millions", "6",
+            "v1", "1.1", value, status, "", "", "0"]
+
+
+def _ioic_series(rows, crosswalk=EDUCATION, **extra):
+    labels = {"T001": Text(en="Total industries", fr="Ensemble des industries"),
+              "61": Text(en="Educational services", fr="Services d'enseignement"),
+              "62": Text(en="Health care and social assistance", fr="Soins de santé et assistance sociale")}
+    return statcan.build_crosswalk_series(
+        IOIC_HEADER, rows, pid="36100488", measure="gross_output", frequency="annual",
+        column="Industry", crosswalk=crosswalk, total_member="Total industries",
+        total_code="T001", labels=labels, geo_codes={"Canada": "CA"}, **extra)
+
+
+def test_a_non_naics_cube_is_summed_into_sectors_and_says_the_sum_is_ours():
+    """
+    36-10-0488 is classified by IOIC and split by institutional sector, so no
+    member is NAICS 61: education is business + non-profit + government
+    members. The sum is this project's and must be labelled DERIVED; the cube's
+    own total is reproduced and must not be.
+    """
+    rows = [_ioic_row("2022", "Total industries", "1000"),
+            _ioic_row("2022", "Educational services [BS610]", "10"),
+            _ioic_row("2022", "Educational services [NP61000]", "6"),
+            _ioic_row("2022", "Government education services [GS610]", "145"),
+            _ioic_row("2022", "Hospitals [GS622000]", "99")]
+    out = {x.code: x for x in _ioic_series(rows)}
+    assert set(out) == {"T001", "61"}
+    assert out["61"].values == (161.0,) and out["61"].provenance is Provenance.DERIVED
+    assert out["T001"].values == (1000.0,) and out["T001"].provenance is Provenance.OFFICIAL_DATASET
+    assert out["61"].scalar == "millions" and out["61"].label.fr == "Services d'enseignement"
+
+
+def test_a_sector_with_a_blank_member_is_blank_not_partial():
+    """
+    For 14 years a non-profit member of health care is not published. Summing
+    the members that are would report most of the sector as all of it, and the
+    chart would show a dip that is a publication gap.
+    """
+    status: dict = {}
+    rows = [_ioic_row("2021", "Total industries", "1000"),
+            _ioic_row("2021", "Educational services [BS610]", "10"),
+            _ioic_row("2021", "Educational services [NP61000]", "6"),
+            _ioic_row("2021", "Government education services [GS610]", "145"),
+            _ioic_row("2022", "Total industries", "1100"),
+            _ioic_row("2022", "Educational services [BS610]", "11"),
+            _ioic_row("2022", "Educational services [NP61000]", "", status=".."),
+            _ioic_row("2022", "Government education services [GS610]", "150")]
+    out = {x.code: x for x in _ioic_series(rows, status_out=status)}
+    assert out["61"].periods == ("2021", "2022")
+    assert out["61"].values == (161.0, None)
+    assert status == {"CA/61": ("", "..")}
+
+
+def test_a_member_summed_into_two_sectors_raises():
+    """A member in two sectors is counted twice, and only the total would ever say so."""
+    rows = [_ioic_row("2022", "Total industries", "1"), _ioic_row("2022", "Educational services [BS610]", "1")]
+    with pytest.raises(ValueError, match="mapped to both"):
+        _ioic_series(rows, crosswalk={"61": ["BS610"], "62": ["BS610"]})
+
+
+def test_member_labels_find_the_uncoded_total_in_either_language():
+    """
+    The total is the cube's one member without a code, so its French wording is
+    found rather than assumed. Two uncoded members make the total ambiguous.
+    """
+    header = ["PÉRIODE DE RÉFÉRENCE", "GÉO", "DGUID", "Industries", "VALEUR"]
+    rows = [["2022", "Canada", "", "Ensemble des industries", "1"],
+            ["2022", "Canada", "", "Services d'enseignement [BS610]", "1"]]
+    got = statcan.member_labels(header, rows, column="Industries", codes={"T001", "BS610"}, total_code="T001")
+    assert got == {"T001": "Ensemble des industries", "BS610": "Services d'enseignement"}
+    with pytest.raises(ValueError, match="two members without a code"):
+        statcan.member_labels(header, rows[:1] + [["2022", "Canada", "", "Autre total", "1"]],
+                              column="Industries", codes={"T001", "BS610"}, total_code="T001")
+
+
+def test_the_output_crosswalk_counts_every_member_once_and_guesses_nothing():
+    """
+    The registry's IOIC crosswalk must cover each of the twenty sectors, assign
+    each member once, never list a parent aggregate beside its own children
+    (BS5B0 or BS5A000 next to the finance members would count finance twice),
+    and keep the one member with no NAICS code as `unallocated`.
+    """
+    tax = yaml.safe_load((ROOT / "registry" / "sectors.yaml").read_text(encoding="utf-8"))
+    pull = tax["pulls"]["output_annual"]
+    crosswalk = pull["crosswalk"]
+    members = [m for ms in crosswalk.values() for m in ms]
+    assert len(members) == len(set(members))
+    assert set(crosswalk) - {"unallocated"} == {s["code"] for s in tax["sectors"]}
+    assert crosswalk["unallocated"] == ["NP999999"]
+    assert not {"BS5B0", "BS5A000", "NP000", "NPA0000"} & set(members)
+    # It reads the GDP output for its sector names, so it must run after that pull.
+    order = list(tax["pulls"])
+    source = next(k for k, v in tax["pulls"].items() if v.get("output") == pull["labels_from"])
+    assert order.index(source) < order.index("output_annual")
+
+
+# ── Cube vintage ───────────────────────────────────────────────────────────────
+
+class _FakeWDS:
+    """
+    Stands in for `Fetcher` at the two calls `download_cube` makes, keeping the
+    real `download` rule — an existing file is skipped unless `force` — so a
+    regression that stops forcing fails here instead of passing on a stub.
+    """
+
+    def __init__(self, files: dict[str, bytes]):
+        self.files = files
+        self.downloads: list[tuple[str, bool]] = []
+
+    def json(self, url: str) -> dict:
+        pid, lang = url.rstrip("/").split("/")[-2:]
+        return {"status": "SUCCESS", "object": f"https://example.invalid/{pid}-{lang}.zip"}
+
+    def download(self, url: str, dest: Path, *, force: bool = False) -> Path:
+        self.downloads.append((url, force))
+        if dest.exists() and not force:
+            return dest
+        dest.write_bytes(self.files[dest.name])
+        return dest
+
+
+def test_a_new_release_replaces_the_zip_and_a_failed_lookup_moves_nothing(tmp_path):
+    """
+    An existing zip was always skipped while the release stamp was fetched live,
+    so the first run after a StatCan release wrote the NEW stamp over figures
+    parsed from the OLD zip — and `--refresh` never reached the download. The
+    file claimed a vintage it did not contain, and `verify/` could not see it.
+
+    The zip must follow the release, and the stamp returned must be the one
+    recorded for the zip on disk. When getCubeMetadata fails, the zip and its
+    stamp both stay put: nothing may claim a release that was not observed.
+    """
+    old, new = "2026-07-29T08:30", "2026-08-28T08:30"
+    dest = tmp_path / "36100434-eng.zip"
+    dest.write_bytes(b"july zip")
+    statcan.release_path(dest).write_text(old, encoding="utf-8")
+    fetch = _FakeWDS({dest.name: b"august zip"})
+
+    # The lookup fails: keep the zip and its recorded stamp, even under --refresh.
+    for refresh in (False, True):
+        got = statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release="", refresh=refresh)
+        assert got == (dest, old)
+    assert fetch.downloads == [] and dest.read_bytes() == b"july zip"
+    assert statcan.recorded_release(dest) == old
+
+    # The release has not moved: 141 MB is not re-fetched to learn nothing.
+    assert statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=old) == (dest, old)
+    assert fetch.downloads == []
+
+    # A newer release: the zip is replaced, and the stamp moves with it.
+    assert statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=new) == (dest, new)
+    assert fetch.downloads == [("https://example.invalid/36100434-en.zip", True)]
+    assert dest.read_bytes() == b"august zip" and statcan.recorded_release(dest) == new
+
+    # --refresh reaches the download even when the release has not moved.
+    statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=new, refresh=True)
+    assert fetch.downloads[-1] == ("https://example.invalid/36100434-en.zip", True)
+    assert len(fetch.downloads) == 2
+
+
+def test_a_zip_from_before_stamps_were_recorded_is_dated_by_when_it_was_written(tmp_path):
+    """
+    Zips downloaded before the sidecar existed have no recorded release.
+    Re-fetching all of them once pulls SEPH's 270 MB for nothing; adopting the
+    live stamp blindly is the original defect. A file written after the release
+    was surely out holds that release. The stamp has no offset and is Ottawa
+    time, so "surely" means reading it as UTC-5 — a zip written at 09:00 EDT on
+    release day might be the old file, and is replaced.
+    """
+    import os
+    from datetime import datetime, timezone
+
+    release = "2026-08-28T08:30"
+    dest = tmp_path / "36100434-eng.zip"
+    fetch = _FakeWDS({dest.name: b"fresh"})
+
+    def legacy_zip(written_utc: str) -> None:
+        dest.write_bytes(b"legacy")
+        t = datetime.fromisoformat(written_utc).replace(tzinfo=timezone.utc).timestamp()
+        os.utime(dest, (t, t))
+
+    legacy_zip("2026-09-03T21:18")
+    assert statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=release) == (dest, release)
+    assert fetch.downloads == [] and dest.read_bytes() == b"legacy"
+    assert statcan.recorded_release(dest) == release
+
+    statcan.release_path(dest).unlink()
+    legacy_zip("2026-08-28T13:00")
+    assert statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=release) == (dest, release)
+    assert len(fetch.downloads) == 1 and dest.read_bytes() == b"fresh"
+
+
+def test_the_published_stamp_is_the_parsed_zips_not_what_wds_says_at_run_time(tmp_path, monkeypatch):
+    """
+    The stage-level half of the vintage defect. Stage 02 stamped every series
+    with getCubeMetadata's answer at run time, so the stamp described StatCan's
+    latest release whatever zip was read. July's figures must carry July's stamp
+    while the lookup is down, August's stamp must arrive only with August's
+    month, and zips nobody can date must not be parsed at all.
+    """
+    sys.path.insert(0, str(ROOT / "pipeline"))
+    stage = importlib.import_module("02_sectors")
+    pid, july, august = "36100434", "2026-07-29T08:30", "2026-08-28T08:30"
+    pull = {"pid": pid, "frequency": "monthly", "measure": "gdp_chained", "output": "national-monthly.json"}
+
+    def cube(lang: str, periods: list[str]) -> bytes:
+        en = lang == "eng"
+        header = (["REF_DATE", "GEO", "North American Industry Classification System (NAICS)",
+                   "UOM", "SCALAR_ID", "VALUE"] if en else
+                  ["PÉRIODE DE RÉFÉRENCE", "GÉO",
+                   "Système de classification des industries de l'Amérique du Nord (SCIAN)",
+                   "UNITÉ DE MESURE", "IDENTIFICATEUR SCALAIRE", "VALEUR"])
+        member = "All industries [T001]" if en else "Ensemble des industries [T001]"
+        rows = [header] + [[p, "Canada", member, "Dollars", "6", "100"] for p in periods]
+        path = _cube_zip(tmp_path / f"{lang}-{len(periods)}.zip", pid, rows, sep="," if en else ";",
+                         metadata=[["Cube Title"], ["GDP" if en else "PIB"]])
+        return path.read_bytes()
+
+    raw = tmp_path / "raw"
+    raw.mkdir()
+    for lang in ("eng", "fra"):
+        (raw / f"{pid}-{lang}.zip").write_bytes(cube(lang, ["2026-06"]))
+        statcan.release_path(raw / f"{pid}-{lang}.zip").write_text(july, encoding="utf-8")
+    fetch = _FakeWDS({f"{pid}-{lang}.zip": cube(lang, ["2026-06", "2026-07"]) for lang in ("eng", "fra")})
+
+    def pull_with(live: str):
+        monkeypatch.setattr(statcan, "release_time", lambda _fetch, _pid: live)
+        (series,), _ = stage.pull_cube(fetch, "national_monthly", pull, {"T001"}, raw)
+        return series
+
+    s = pull_with("")
+    assert (s.periods, s.release_time) == (("2026-06",), july)
+    assert fetch.downloads == []
+
+    # WDS says August but the July zip is kept. With today's `download_cube` a
+    # live stamp always replaces the zip, so only this pins the payload to the
+    # zip's stamp: a later "skip the 141 MB download" change must not publish
+    # August's stamp over July's figures.
+    real_download = statcan.download_cube
+    monkeypatch.setattr(statcan, "download_cube",
+                        lambda *a, **kw: real_download(*a, **{**kw, "live_release": ""}))
+    s = pull_with(august)
+    assert (s.periods, s.release_time) == (("2026-06",), july)
+    monkeypatch.setattr(statcan, "download_cube", real_download)
+
+    s = pull_with(august)
+    assert (s.periods, s.release_time) == (("2026-06", "2026-07"), august)
+    assert len(fetch.downloads) == 2
+
+    for lang in ("eng", "fra"):
+        statcan.release_path(raw / f"{pid}-{lang}.zip").unlink()
+    with pytest.raises(stage.VintageUnknown, match="no recorded release"):
+        pull_with("")

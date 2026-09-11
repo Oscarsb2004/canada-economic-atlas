@@ -191,6 +191,25 @@ new code:
 | Capex by industry | `34100035` | Investment context for A2; includes 2026 *intentions* |
 | Nominal GDP annual | `36100710` | Current-dollar shares (with its ~3-year lag stated) |
 
+**Corrected 2026-09-10, after the cubes were downloaded and read.** Three of the
+four landed (BACKLOG B2), and none of them was only a registry entry:
+
+- `36100710` is current dollars, as assumed — verified by value, since the
+  product id says nothing about price basis.
+- `34100035` has no column separating actual spending from intentions; one of
+  its notes says the latest two years are preliminary actuals and intentions,
+  and the payload now labels every period by that note.
+- `14100201` is ~1 GB of CSV per language, unadjusted for seasonality, excludes
+  agriculture (`[11N]` is forestry alone), and publishes four sectors under
+  combined codes such as `[22,221]`.
+- `33100225` is **not** revenue by industry. It is quarterly balance sheets and
+  income statements for *non-financial* industries, in enterprise groups that
+  mostly do not map to two-digit NAICS. Not pulled.
+- Gross output came instead from `36100488` (BACKLOG B2a, 2026-09-11). It is
+  classified by IOIC rather than NAICS and split by institutional sector, so
+  its twenty sectors are a declared, `DERIVED` crosswalk — gated on summing to
+  the cube's own total and on never falling below value added.
+
 ⚠ Use SEPH `14100201`, **not** LFS `14100355`: the LFS industry aggregation
 collapses wholesale+retail, finance+real estate and information+recreation, so
 it will not join to the 20-sector GDP key.
