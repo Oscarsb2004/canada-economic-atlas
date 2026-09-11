@@ -22,11 +22,11 @@ a work queue — two lists of "next" is how one of them goes stale.
 | `atlas/media.py` | Done. Circular 96 px thumb + 1400 px JPEG, deterministic. |
 | **`pipeline/01_projects.py`** | **Done and run.** All 18 projects + 9 strategies. |
 | `atlas/sources/statcan.py` | Done. Bulk cube download, both languages, delimiter-safe. |
-| **`pipeline/02_sectors.py`** | **Done and run.** 23 national + 299 provincial series. |
+| **`pipeline/02_sectors.py`** | **Done and run.** Six declared pulls: real GDP (23 national monthly on two price bases, 299 provincial), nominal GDP (23), capital expenditures (280), SEPH employment (350, streamed). |
 | `registry/sectors.yaml` | Done. 20 NAICS + T-codes, partition and cross-cuts. |
 | `atlas/sources/companies.py` | Done. XIC holdings parser. |
 | **`pipeline/03_companies.py`** | **Done and run.** 216 companies, 6 junk rows dropped. |
-| **`pipeline/99_bundle.py`** | **Done and run.** 10 files, 1.40 MB in `web/public/data/`. |
+| **`pipeline/99_bundle.py`** | **Done and run.** 11 files, 1.49 MB in `web/public/data/`. |
 | `atlas/sources/census.py` | Done. Table 98-10-0002, both languages, symbols kept, EN/FR cross-checked. |
 | **`pipeline/05_municipalities.py`** | **Done and run.** 5,161 `Municipality` records, `data/geography/municipalities.json` (5.6 MB). Not bundled. |
 | `registry/gics_naics.yaml` | Done. Lossy crosswalk, versioned, splits documented. |
@@ -35,8 +35,8 @@ a work queue — two lists of "next" is how one of them goes stale.
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
 | **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
 | **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
-| **`verify/` (M6)** | **Done.** 83 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
-| **`tests/` (M6)** | **Done.** 67 tests, each explaining the failure it prevents. |
+| **`verify/` (M6)** | **Done.** 121 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
+| **`tests/` (M6)** | **Done.** 75 tests, each explaining the failure it prevents. |
 | **`run.py`, `CLAUDE.md`** | **Done.** Single entry point; agent invariants. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
@@ -114,12 +114,12 @@ found and fixed two real issues (see below).
 
 ## v1 is COMPLETE per the `PLAN.md` §10 scope fence
 
-Full pipeline runs end to end; 67 tests pass; 83 gate checks pass; a re-run from
+Full pipeline runs end to end; 75 tests pass; 121 gate checks pass; a re-run from
 a clean baseline leaves a zero-line git diff.
 
 ```
 python run.py          # pipeline + verify
-python run.py --test   # 67 tests
+python run.py --test   # 75 tests
 cd web && npm run dev  # the app
 ```
 
@@ -142,9 +142,9 @@ not be folded into it: it is what stops an item being done the wrong way.
 
 Two facts from that audit worth surfacing here:
 
-- **Only 3 of the 7 StatCan tables declared in `registry/sources.yaml` are
-  actually pulled.** Employment, revenue, capex and nominal-annual are declared
-  and unused. That is the cheapest high-value work left.
+- ~~Only 3 of the 7 StatCan tables declared in `registry/sources.yaml` are
+  actually pulled.~~ Six of seven are pulled as of B2 (2026-09-10); the seventh,
+  `33100225`, turned out not to be revenue by industry and waits on B2a.
 - **86 dated project updates and 18 slugs of change history are captured and
   never rendered.** The portfolio has no time axis in the UI despite having one
   in the data.
@@ -153,9 +153,9 @@ Two facts from that audit worth surfacing here:
 
 **[`docs/BACKLOG.md`](docs/BACKLOG.md) is the single ordered queue** — five
 goals, stages B through Q, with effort and the items that need a decision from
-you flagged. Critical path: ~~B1 language toggle~~ **→ B2 the four unpulled
-StatCan tables → B3 the portfolio timeline → C1 the sector crosswalk → C4
-projects beside sector GDP.** C1 is deferred to you: the work stops there and
+you flagged. Critical path: ~~B1 language toggle~~ → ~~B2 the unpulled StatCan
+tables~~ **→ B3 the portfolio timeline → C1 the sector crosswalk → C4 projects
+beside sector GDP.** C1 is deferred to you: the work stops there and
 lays out the options before anything is built.
 
 **B1 landed 2026-09-10.** EN / FR toggle in the map layer bar, remembered per
@@ -169,6 +169,43 @@ panel rendered its own English caveat instead of the payload's bilingual one,
 and two chart axes printed bare numbers with no % in either language. Some
 fields are carried in English only by the pipeline (B1a), and the interface
 French is ours, not a translator's (B1b).
+
+**B2 landed 2026-09-10 — three of four tables, and none was "just a registry
+entry".** The backlog said the loaders already handled them; downloading and
+reading each cube before writing its entry found otherwise:
+
+- **`36100710` nominal GDP** is current dollars, verified by value ($2,674,953M
+  for 2022 against $2,206,344M chained). Additive: goods + services and the
+  twenty sectors each equal the total to 0.0002% over 26 years — gated at 0.01%.
+- **`34100035` capital expenditures** has no column saying which years are
+  actual. Note 4 says the latest two are preliminary actuals and intentions, so
+  the payload labels every period from that note (2025 preliminary_actual, 2026
+  intentions) and the stage stops if the note disappears. STATUS mixes
+  suppression ("x", "..") with quality grades A–F, and both now travel with the
+  values. Its "All Industries" total has no code, and the twenty sectors do not
+  sum to it where any is suppressed (1.39%), so no total is invented.
+- **`14100201` SEPH** is 986 MB of English CSV and 1,075 MB of French. It is
+  streamed, and the French file is read only until every wanted label is seen —
+  the whole stage runs in about a minute. It is **unadjusted for seasonality**
+  (`measure: employment_nsa`) and **excludes agriculture**: `[11N]` is forestry
+  alone, so NAICS 11 is declared absent and gated to stay absent. Four sectors
+  are published under combined codes (`[22,221]`, `[54,541]`, `[55,551,5511]`,
+  `[61,611]`) and aliased; the build refuses any alias that would merge two
+  published members. Its partition holds exactly: services fell 123,578 short
+  until `[55,551,5511]` was found — that sector is 123,577 employees.
+- **`33100225` is not revenue by industry.** It is quarterly balance sheets and
+  income statements for *non-financial* industries, in enterprise groups where
+  only 5 of the 20 sectors stand alone. Not pulled; decision B2a, which blocks
+  D5 and Q5.
+
+Also found: stage 02 never re-downloads a cube zip that already exists (not even
+with `--refresh`) while fetching the release stamp live, so a payload can claim a
+newer release than the data inside it. Out of B2's scope; raised as its own task.
+
+And the zero-line-diff rule caught a bug older than B2: `write_if_changed` compared
+a file as read (lists) against a payload as built (tuples), so any payload holding
+a tuple rewrote itself on every run. It now compares against the payload as it
+reads back.
 
 **Stage M (municipalities and public finance) and Stage Q (a critical
 evaluation of the financial sector) were added 2026-09-10.** M0 — `Municipality`

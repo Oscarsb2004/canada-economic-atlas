@@ -12,7 +12,7 @@
     "sectors/provincial-annual.json",
     "sectors/rates.json"
   ],
-  "generated_at": "2026-09-10T14:38:43Z",
+  "generated_at": "2026-09-10T20:50:59Z",
   "licences": {
     "boc-terms": {
       "attribution": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
@@ -101,7 +101,9 @@
     },
     "statcan_municipal_population": {
       "attribution": "Statistics Canada, 2021 Census of Population",
+      "census_vintage": "2021",
       "csv": "https://www150.statcan.gc.ca/n1/en/tbl/csv/98100002-eng.zip",
+      "csv_fr": "https://www150.statcan.gc.ca/n1/fr/tbl/csv/98100002-fra.zip",
       "dataset_record": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=9810000201",
       "licence": "statcan-open",
       "publisher": "Statistics Canada",

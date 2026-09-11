@@ -285,6 +285,144 @@ def check_sectors(r: Report) -> None:
         r.gate(not ragged, f"{name}: periods and values aligned", str(ragged))
 
 
+def check_sector_pulls(r: Report) -> None:
+    """
+    Every pull in `sectors.yaml` that declares a `verify` block (BACKLOG B2).
+
+    The identities and tolerances live beside each pull in the registry, and
+    every tolerance there was MEASURED on the cube before it was written down —
+    so a failure here is a change in the data, not a guess about it.
+
+    Two gates exist because of how these cubes fail silently. A code declared
+    ABSENT must stay absent: SEPH excludes agriculture, and if a later release
+    starts publishing [11] the join to GDP needs a person, not an automatic pass.
+    And where a cube mixes actuals with intentions, every period must carry its
+    basis and cite the cube's own note.
+    """
+    tax = _load_yaml(REGISTRY / "sectors.yaml")
+    sectors = [s["code"] for s in tax["sectors"]]
+    everywhere = PROVINCE_CODES | {"CA"}
+
+    for key, pull in (tax.get("pulls") or {}).items():
+        spec = pull.get("verify")
+        if not spec:
+            continue
+        name = pull["output"]
+        path = DATA / "sectors" / name
+        if not path.exists():
+            r.gate(False, f"{name}: written by stage 02",
+                   f"missing — python pipeline/02_sectors.py --pull {key}")
+            continue
+        doc = _load_json(path)
+        series = doc.get("series", [])
+        if not series:
+            r.gate(False, f"{name}: carries series", "no series in the file")
+            continue
+
+        r.gate(doc.get("count") == len(series), f"{name}: count matches its {len(series)} series",
+               f"count says {doc.get('count')}")
+        foreign = sorted({f"{s['geo']}/{s['code']}" for s in series
+                          if s.get("source_table") != pull["pid"] or s.get("measure") != pull["measure"]})
+        r.gate(not foreign, f"{name}: every series is {pull['measure']} from cube {pull['pid']}", str(foreign[:8]))
+        r.gate(all(s.get("release_time") for s in series),
+               f"{name}: every series carries the cube's release stamp", "blank release_time")
+        no_fr = sorted({s["code"] for s in series if not s["label"].get("fr")})
+        r.gate(not no_fr, f"{name}: every series has its French label from the -fra cube", str(no_fr[:8]))
+        title = doc.get("title") or {}
+        r.gate(bool(title.get("en") and title.get("fr")),
+               f"{name}: the cube's own title in both languages", str(title))
+
+        absent = {str(c) for c in (pull.get("absent_codes") or {})}
+        national = {s["code"] for s in series if s["geo"] == "CA"}
+        missing = [c for c in sectors if c not in national and c not in absent]
+        r.gate(not missing, f"{name}: every registry sector present, less {len(absent)} declared absent",
+               str(missing))
+        back = sorted(absent & national)
+        r.gate(not back, f"{name}: codes declared absent are still absent",
+               f"now published: {back} — re-check the reason in sectors.yaml before these join anything")
+
+        geos = {s["geo"] for s in series}
+        if spec.get("provinces"):
+            r.gate(geos == everywhere, f"{name}: Canada and all 13 provinces and territories",
+                   str(sorted(geos ^ everywhere)))
+
+        disordered = [f"{s['geo']}/{s['code']}" for s in series
+                      if s["periods"] != sorted(s["periods"]) or len(set(s["periods"])) != len(s["periods"])
+                      or len(s["periods"]) != len(s["values"])]
+        r.gate(not disordered, f"{name}: periods ordered, unique and aligned with values", str(disordered[:8]))
+
+        by = {(s["geo"], s["code"]): dict(zip(s["periods"], s["values"])) for s in series}
+
+        for ident in spec.get("identities", []):
+            parts = [str(p) for p in ident["parts"]]
+            total, tol, geo = str(ident["total"]), float(ident["tolerance_pct"]), ident.get("geo", "CA")
+            worst, at, compared = _worst_gap([by.get((geo, p)) for p in parts], by.get((geo, total)))
+            label = f"{name}: {' + '.join(parts)} = {total} within {tol}%"
+            if not compared:
+                r.gate(False, label, "no period where every part and the total are published")
+            else:
+                r.gate(worst <= tol, f"{label} ({compared} periods)", f"worst {worst:.4f}% at {at}")
+
+        if spec.get("provinces_sum_to_canada"):
+            tol = float(spec["provinces_sum_to_canada"]["tolerance_pct"])
+            worst, at, compared = 0.0, "", 0
+            for (geo, code), values in by.items():
+                if geo != "CA":
+                    continue
+                gap, when, n = _worst_gap([by.get((p, code)) for p in sorted(PROVINCE_CODES)], values)
+                compared += n
+                if gap > worst:
+                    worst, at = gap, f"{code} {when}"
+            r.gate(compared > 0 and worst <= tol,
+                   f"{name}: provinces sum to Canada within {tol}% "
+                   f"({compared:,} comparisons with no province suppressed)",
+                   f"worst {worst:.4f}% at {at}" if compared else "nothing comparable")
+
+        if pull.get("period_basis"):
+            pb = pull["period_basis"]
+            latest = [str(x) for x in pb["latest"]]
+            periods = sorted({p for s in series for p in s["periods"]})
+            expected = {p: "actual" for p in periods}
+            expected.update(zip(periods[-len(latest):], latest))
+            basis = doc.get("period_basis") or {}
+            r.gate(basis == expected,
+                   f"{name}: the latest {len(latest)} periods are labelled {', '.join(latest)}",
+                   f"got {dict(list(basis.items())[-3:])}")
+            note = ((doc.get("notes") or {}).get("en") or {}).get(str(doc.get("period_basis_note_id")), "")
+            r.gate(pb["note_contains"] in note, f"{name}: the period basis cites the cube's own note",
+                   f"note {doc.get('period_basis_note_id')!r} reads {note[:80]!r}")
+
+        if pull.get("keep_status"):
+            lengths = {f"{s['geo']}/{s['code']}": len(s["periods"]) for s in series}
+            status = doc.get("status") or {}
+            misaligned = [k for k, v in status.items() if lengths.get(k) != len(v)]
+            r.gate(bool(status) and not misaligned,
+                   f"{name}: quality and suppression codes travel with {len(status)} series",
+                   str(misaligned[:8]) if status else "no status carried")
+
+
+def _worst_gap(parts: list[dict | None], total: dict | None) -> tuple[float, str, int]:
+    """
+    Largest |sum(parts) - total| / |total| in percent, over the periods where the
+    total and every part are published. Returns (worst, its period, periods compared).
+
+    A suppressed part means that period is not comparable, never that the part is
+    zero: summing around a suppressed cell is how a correct table fails a gate.
+    """
+    if total is None or any(p is None for p in parts):
+        return 0.0, "", 0
+    worst, at, compared = 0.0, "", 0
+    for period, t in total.items():
+        values = [p.get(period) for p in parts]
+        if not t or any(v is None for v in values):
+            continue
+        compared += 1
+        gap = abs(sum(values) - t) / abs(t) * 100
+        if gap > worst:
+            worst, at = gap, period
+    return worst, at, compared
+
+
 def check_companies(r: Report) -> None:
     """The company panel is market data and stays labelled as such."""
     doc = _load_json(DATA / "companies" / "xic.json")
@@ -501,7 +639,8 @@ def main() -> int:
     args = ap.parse_args()
 
     r = Report()
-    for check in (check_projects, check_strategies, check_sectors, check_companies, check_bundle):
+    for check in (check_projects, check_strategies, check_sectors, check_sector_pulls,
+                  check_companies, check_bundle):
         try:
             check(r)
         except FileNotFoundError as exc:

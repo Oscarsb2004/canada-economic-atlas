@@ -37,6 +37,7 @@ import re
 import zipfile
 from collections import defaultdict
 from pathlib import Path
+from typing import Iterable, Iterator
 
 from atlas.core.schema import Provenance, Series, Text
 from atlas.net import Fetcher
@@ -124,11 +125,34 @@ def read_cube(zip_path: Path, pid: str, member: str | None = None) -> tuple[list
     return header, list(reader)
 
 
+def iter_cube(zip_path: Path, pid: str, member: str | None = None) -> Iterator[list[str]]:
+    """
+    A cube's rows one at a time, HEADER FIRST, without holding the file.
+
+        rows = iter_cube(path, pid)
+        header = next(rows)
+
+    `read_cube` reads the whole CSV into memory, which is right for a 7 MB GDP
+    cube and wrong for SEPH (14100201): 986 MB of English CSV and 1,075 MB of
+    French, 5.3 million rows. Parsed into lists of strings that is several
+    gigabytes, for a pull that keeps one row in sixty.
+
+    Same delimiter detection as `read_cube` — the French file is semicolons —
+    and `newline=""` so a quoted field containing a line break stays one field.
+    """
+    with zipfile.ZipFile(zip_path) as z, z.open(member or f"{pid}.csv") as fh:
+        text = io.TextIOWrapper(fh, encoding="utf-8-sig", newline="")
+        first = text.readline()
+        delimiter = ";" if first.count(";") > first.count(",") else ","
+        yield next(csv.reader([first], delimiter=delimiter))
+        yield from csv.reader(text, delimiter=delimiter)
+
+
 # ── Shaping ────────────────────────────────────────────────────────────────────
 
 def build_series(
     header: list[str],
-    rows: list[list[str]],
+    rows: Iterable[list[str]],
     *,
     pid: str,
     measure: str,
@@ -138,6 +162,8 @@ def build_series(
     labels_fr: dict[str, str] | None = None,
     geo_codes: dict[str, str] | None = None,
     release: str = "",
+    code_aliases: dict[str, str] | None = None,
+    status_out: dict[str, tuple[str, ...]] | None = None,
 ) -> list[Series]:
     """
     Turn cube rows into `Series`, one per (geography, industry code).
@@ -151,6 +177,17 @@ def build_series(
     dropped — a suppressed or not-yet-published period is not the same as a
     period that does not exist, and collapsing them would silently shorten a
     series. `Series.__post_init__` enforces that periods and values stay aligned.
+
+    `code_aliases` maps a code as published onto the registry's key — SEPH
+    publishes Utilities as [22,221]. An alias that lands two DIFFERENT published
+    members on one key raises: their months would interleave into one series
+    with every period twice, and nothing downstream could tell.
+
+    `status_out`, when given, receives each series' STATUS column keyed
+    "GEO/CODE", but only for series where some cell carries one. The column
+    holds suppression ("x", "..") and quality grades (A–F, E = use with
+    caution), and a value read without its grade is published with authority
+    the source withheld.
     """
     idx = {name: i for i, name in enumerate(header)}
     naics_col = next(c for c in header if c.startswith("North American Industry"))
@@ -169,14 +206,30 @@ def build_series(
     def cell(row: list[str], col: str) -> str:
         return row[idx[col]].strip() if col in idx else ""
 
+    aliases = code_aliases or {}
+    width = len(header)
     grouped: dict[tuple[str, str], list[list[str]]] = defaultdict(list)
+    member_of: dict[tuple[str, str], str] = {}
     for row in rows:
+        # A short row is a blank line or a footnote, never data; indexing it
+        # would raise IndexError far from the cause.
+        if len(row) < width:
+            continue
         if any(cell(row, col) != want for col, want in filters.items()):
             continue
-        code = code_of(cell(row, naics_col))
+        member = cell(row, naics_col)
+        published = code_of(member)
+        code = aliases.get(published, published)
         if code not in keep_codes:
             continue
-        grouped[(cell(row, "GEO"), code)].append(row)
+        key = (cell(row, "GEO"), code)
+        first = member_of.setdefault(key, member)
+        if first != member:
+            raise ValueError(
+                f"cube {pid}: {first!r} and {member!r} both map to code {code} in "
+                f"{key[0]}. An alias may rename a published code, never merge two."
+            )
+        grouped[key].append(row)
 
     # Same failure in the other direction: the columns exist but a filter VALUE
     # was renamed ("Chained (2017) dollars" -> something else), so nothing
@@ -198,11 +251,17 @@ def build_series(
             raw = cell(row, "VALUE")
             values.append(float(raw) if raw else None)
 
+        geo_code = (geo_codes or {}).get(geo, geo)
+        if status_out is not None:
+            statuses = tuple(cell(row, "STATUS") for row in group)
+            if any(statuses):
+                status_out[f"{geo_code}/{code}"] = statuses
+
         out.append(Series(
             code=code,
             label=Text(en=label_of(raw_label),
                        fr=(labels_fr or {}).get(code, "")),
-            geo=(geo_codes or {}).get(geo, geo),
+            geo=geo_code,
             measure=measure,
             unit=cell(group[0], "UOM"),
             scalar=SCALARS.get(cell(group[0], "SCALAR_ID"), cell(group[0], "SCALAR_FACTOR")),
@@ -216,20 +275,98 @@ def build_series(
     return out
 
 
-def french_labels(header: list[str], rows: list[list[str]]) -> dict[str, str]:
-    """Map classification code -> French industry label, from the -fra cube."""
+def french_labels(
+    header: list[str],
+    rows: Iterable[list[str]],
+    *,
+    code_aliases: dict[str, str] | None = None,
+    want: set[str] | None = None,
+) -> dict[str, str]:
+    """
+    Map classification code -> French industry label, from the -fra cube.
+
+    `want`, when given, stops the read as soon as every wanted code has a label.
+    Industry members repeat for every period, so for SEPH all of them appear in
+    the first few thousand rows of a five-million-row file, and reading the rest
+    would only re-read them. `code_aliases` must be the same map the English
+    build used, or the French labels land on the published code, not the key.
+    """
     # "Système de classification des industries de l'Amérique du Nord (SCIAN)"
     # in the French cube; "North American Industry Classification System (NAICS)"
     # in the English one.
     i = next(n for n, c in enumerate(header)
              if "SCIAN" in c or c.startswith("North American Industry"))
+    aliases = code_aliases or {}
     out: dict[str, str] = {}
     for row in rows:
+        if len(row) <= i:
+            continue
         raw = row[i].strip()
-        code = code_of(raw)
+        published = code_of(raw)
+        code = aliases.get(published, published)
         if code and code not in out:
             out[code] = label_of(raw)
+            if want and want <= out.keys():
+                break
     return out
+
+
+def cube_metadata(zip_path: Path, pid: str) -> dict:
+    """
+    The cube's own title and numbered notes, from `<pid>_MetaData.csv`, in the
+    zip's language.
+
+    The notes are where StatCan says the things no column does — that SEPH
+    excludes agriculture, that the last two capex years are intentions — so a
+    payload that reproduces them carries its own caveats rather than relying on
+    someone reading the table page.
+    """
+    _, rows = read_cube(zip_path, pid, member=f"{pid}_MetaData.csv")
+    title = rows[0][0].strip() if rows and rows[0] else ""
+    notes: dict[str, str] = {}
+    start = next((i for i, r in enumerate(rows)
+                  if len(r) >= 2 and "note" in r[0].lower() and "note" in r[1].lower()), None)
+    if start is not None:
+        for r in rows[start + 1:]:
+            if len(r) < 2 or not r[0].strip().isdigit():
+                break
+            notes[r[0].strip()] = r[1].strip()
+    return {"title": title, "notes": notes}
+
+
+def latest_periods_basis(
+    periods: Iterable[str],
+    notes: dict[str, str],
+    *,
+    contains: str,
+    labels: list[str],
+    earlier: str = "actual",
+) -> tuple[dict[str, str], str]:
+    """
+    Which periods are measurements and which are not, when a cube says so only
+    in a note. Returns (period -> basis, the note's id).
+
+    Table 34-10-0035 has no column separating actual spending from preliminary
+    actuals and intentions; its note says "Most recent 2 years of data are
+    preliminary actuals and intentions". The latest `len(labels)` periods get
+    `labels`, in order, and every earlier period gets `earlier`.
+
+    The rule applies only while the cube still publishes the note: `contains`
+    must appear in one, or this raises. A rule read out of a note must stop the
+    moment the note changes, not keep labelling years by a statement the
+    publisher withdrew.
+    """
+    note_id = next((i for i, text in notes.items() if contains in text), None)
+    if note_id is None:
+        raise ValueError(
+            f"no cube note contains {contains!r}; the period basis cannot be "
+            f"assigned. Notes were: {list(notes.values())[:6]}"
+        )
+    ordered = sorted(set(periods))
+    basis = {p: earlier for p in ordered}
+    for period, label in zip(ordered[-len(labels):], labels):
+        basis[period] = label
+    return basis, note_id
 
 
 def release_time(fetch: Fetcher, pid: str) -> str:

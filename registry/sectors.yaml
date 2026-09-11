@@ -59,15 +59,29 @@ sectors:
   - { code: "81",    parent: T003 }   # Other services (except public administration)
   - { code: "91",    parent: T003 }   # Public administration
 
-# Which slice of each cube to keep. The monthly cube is Canada-only and its
-# Prices dimension has exactly two members, both constant-price — there is no
-# current-dollar monthly GDP by industry, so nominal comes from the annual
-# cubes with their ~3-year lag.
+# Every cube this project pulls, and which slice of it. `pipeline/02_sectors.py`
+# runs these in order; `verify/run.py` gates every pull that declares `verify`.
+#
+#   output          the file written under data/sectors/
+#   filters         column -> the one member kept
+#   stream          read the CSV row by row rather than whole (SEPH is ~1 GB)
+#   code_aliases    a code as published -> the key above; renames, never merges
+#   extra_codes     codes kept beyond the taxonomy, such as the cube's own aggregates
+#   absent_codes    sector codes the cube does not publish, each with its reason
+#   keep_status     carry the STATUS column (suppression, quality A–F) beside values
+#   period_basis    label the latest periods, from one of the cube's own notes
+#   verify          identities and tolerances, every one measured before it was set
+#
+# The monthly GDP cube is Canada-only and its Prices dimension has exactly two
+# members, both constant-price — there is no current-dollar monthly GDP by
+# industry, so nominal comes from the annual cube with its ~3-year lag.
 pulls:
   national_monthly:
     pid: "36100434"
+    output: national-monthly.json
     frequency: monthly
     measure: gdp_chained
+    partition_check: true
     filters:
       GEO: "Canada"
       Seasonal adjustment: "Seasonally adjusted at annual rates"
@@ -78,17 +92,117 @@ pulls:
   # aggregate reads this series instead.
   national_monthly_constant:
     pid: "36100434"
+    output: national-constant.json
     frequency: monthly
     measure: gdp_constant
+    partition_check: true
     filters:
       GEO: "Canada"
       Seasonal adjustment: "Seasonally adjusted at annual rates"
       Prices: "2017 constant prices"
 
+  # ── B2 ─────────────────────────────────────────────────────────────────────
+  #
+  # BACKLOG B2 called these "registry entries, not new code". Every claim below
+  # was read off the downloaded cube on 2026-09-10, before it was written here.
+
+  # "Gross domestic product (GDP) at basic prices, by industry" — CURRENT
+  # dollars, verified rather than assumed from the product id: its 2022 total
+  # is $2,674,953M against $2,206,344M chained. Canada only, 1997–2022.
+  national_annual_current:
+    pid: "36100710"
+    output: national-annual-current.json
+    frequency: annual
+    measure: gdp_current
+    filters:
+      GEO: "Canada"
+    verify:
+      # Current dollars ARE additive. Measured worst over 26 years: 0.00011%
+      # for goods + services, 0.00021% for the twenty sectors.
+      identities:
+        - { parts: [T002, T003], total: T001, tolerance_pct: 0.01 }
+        - parts: ["11", "21", "22", "23", "31-33", "41", "44-45", "48-49", "51", "52",
+                  "53", "54", "55", "56", "61", "62", "71", "72", "81", "91"]
+          total: T001
+          tolerance_pct: 0.01
+
+  # "Capital and repair expenditures, non-residential tangible assets, by
+  # industry and geography" — annual from 2006, Canada and every province.
+  #
+  # Its total, "All Industries", is published WITHOUT a code, so no T001 exists
+  # here and none is invented. The twenty sectors do not sum to that total
+  # either: wherever a sector is suppressed the gap reaches 1.39%.
+  capex_annual:
+    pid: "34100035"
+    output: capex-annual.json
+    frequency: annual
+    measure: capex
+    keep_status: true
+    filters:
+      Capital and repair expenditures: "Capital expenditures"
+    period_basis:
+      note_contains: "Most recent 2 years of data are preliminary actuals and intentions"
+      latest: [preliminary_actual, intentions]
+    verify:
+      provinces: true
+      # Measured: 0.046% worst over the 137 year-and-sector pairs where no
+      # province is suppressed. A suppressed cell makes a year incomparable,
+      # never zero.
+      provinces_sum_to_canada: { tolerance_pct: 0.1 }
+
+  # "Employment by industry, monthly, unadjusted for seasonality" (SEPH) —
+  # all employees, 2001-01 onward, Canada and every province.
+  #
+  # NOT seasonally adjusted, while GDP is adjusted at annual rates: a month of
+  # one against a month of the other measures the season. Hence `employment_nsa`.
+  # Productivity wants annual averages, or a seasonally adjusted SEPH table.
+  employment_monthly:
+    pid: "14100201"
+    output: employment-monthly.json
+    frequency: monthly
+    measure: employment_nsa
+    stream: true
+    keep_status: true
+    filters:
+      Type of employee: "All employees"
+    # Four sectors are published under combined codes — a two-digit sector with
+    # its only subsector. Renamed onto the key; the build refuses to merge two.
+    code_aliases:
+      "22,221": "22"
+      "54,541": "54"
+      "55,551,5511": "55"
+      "61,611": "61"
+    # SEPH's own aggregates, kept so its partition can be gated. They are NOT
+    # T001/T002/T003: SEPH excludes agriculture, fishing and trapping, private
+    # households, religious organisations and the military.
+    extra_codes: ["11N", "11-33N", "41-91N", "11-91N", "00-91N", "00"]
+    absent_codes:
+      "11": >
+        SEPH excludes agriculture. Its "Forestry, logging and support [11N]" is
+        forestry alone, and joining it to NAICS 11 would divide
+        agriculture-plus-forestry GDP by forestry jobs.
+    verify:
+      provinces: true
+      identities:
+        # Measured exact at 2026-06 once 55 is aliased; without it services
+        # fell 123,578 employees short.
+        - { parts: ["11N", "21", "22", "23", "31-33"], total: "11-33N", tolerance_pct: 0.001 }
+        - parts: ["41", "44-45", "48-49", "51", "52", "53", "54", "55", "56", "61", "62",
+                  "71", "72", "81", "91"]
+          total: "41-91N"
+          tolerance_pct: 0.001
+        - { parts: ["11-33N", "41-91N"], total: "11-91N", tolerance_pct: 0.001 }
+        - { parts: ["11-91N", "00"], total: "00-91N", tolerance_pct: 0.001 }
+      # Measured: 0.003% worst at 2026-06 over the 44 industries with no
+      # province suppressed.
+      provinces_sum_to_canada: { tolerance_pct: 0.05 }
+
   provincial_annual:
     pid: "36100711"
+    output: provincial-annual.json
     frequency: annual
     measure: gdp_chained
+    scope: provincial
     filters:
       Prices: "Chained (2017) dollars"
     # No "Canada" member exists in this cube — it is provinces and territories

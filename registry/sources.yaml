@@ -140,9 +140,9 @@ sources:
       gdp_quarterly:    { pid: 36100449, freq: quarterly }
       gdp_annual_pid:   { pid: 36100710, freq: annual,    note: "current dollars; ~3-year lag, ends 2022" }
       gdp_provincial:   { pid: 36100711, freq: annual,    note: "REPLACED the now-inactive 36100402" }
-      employment_seph:  { pid: 14100201, freq: monthly,   note: "clean 2-digit NAICS; joins to GDP" }
-      revenue_quarterly: { pid: 33100225, freq: quarterly, note: "total operating revenue by industry" }
-      capex_annual:     { pid: 34100035, freq: annual,    note: "includes forward intentions" }
+      employment_seph:  { pid: 14100201, freq: monthly,   note: "UNADJUSTED; excludes agriculture ([11N] is forestry only); four sectors under combined codes — pulled via sectors.yaml employment_monthly" }
+      revenue_quarterly: { pid: 33100225, freq: quarterly, note: "NOT revenue by industry: non-financial balance sheets and income statements, enterprise groups that do not join the 20-sector key. Not pulled — BACKLOG B2a" }
+      capex_annual:     { pid: 34100035, freq: annual,    note: "latest 2 years are preliminary actuals and intentions, flagged only in a note; STATUS mixes suppression with quality A-F" }
 
   boc_valet:
     title: Bank of Canada Valet API

@@ -1,8 +1,11 @@
 {
   "cubes": {
+    "14100201": "5d68692d316ac22f27c5988b82c810d35e38e49e451fb510a582c4f80d6d2f62",
+    "34100035": "a65541e3a9ad9026f90e9ff302157babff7e5845bb0c4c1d026d8e94c7b72120",
     "36100434": "38b3468c8871e331b2dec987262c024b8e4bb6ff430b9984078ff6edbb2e1939",
+    "36100710": "ff92872743ace6e499b1087e68977499aa66278d6442237164798e0ffff79fcb",
     "36100711": "8c5826a9ea2593212d3348a57aee8b2e59f908d0616717696dc121f9d707207f"
   },
-  "generated_at": "2026-09-04T01:37:50Z",
+  "generated_at": "2026-09-10T20:49:19Z",
   "note": "sha256 of each downloaded StatCan cube zip; the change signal for figures published in the bundle."
 }

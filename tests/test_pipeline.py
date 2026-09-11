@@ -775,6 +775,26 @@ def test_write_if_changed_ignores_only_volatile_keys():
         assert write_if_changed(path, real) is True, "a real change must rewrite"
 
 
+def test_write_if_changed_does_not_rewrite_a_payload_holding_tuples():
+    """
+    B2. A tuple serialises as a JSON array and reads back as a list, and
+    `("E", "x") != ["E", "x"]` in Python. `write_if_changed` compared the file as
+    read against the payload as built, so any payload carrying a tuple was
+    unequal to its own file on every run and was rewritten with a new
+    `generated_at` — capex-annual.json and employment-monthly.json changed on a
+    re-run of unchanged sources, breaking the zero-line-diff rule (CLAUDE.md §6).
+    """
+    import tempfile
+
+    from atlas.core.jsonio import write_if_changed
+
+    with tempfile.TemporaryDirectory() as d:
+        path = Path(d) / "out.json"
+        assert write_if_changed(path, {"generated_at": "A", "status": {"CA/23": ("E", "x")}}) is True
+        assert write_if_changed(path, {"generated_at": "B", "status": {"CA/23": ("E", "x")}}) is False,             "an unchanged payload holding a tuple must not rewrite"
+        assert write_if_changed(path, {"generated_at": "B", "status": {"CA/23": ("E", "F")}}) is True
+
+
 def test_cube_filter_mismatch_raises_instead_of_yielding_nothing():
     """
     F13. A renamed StatCan column used to reject every row and return an empty
@@ -1008,3 +1028,156 @@ def test_census_province_is_checked_against_the_metadata(tmp_path):
     with pytest.raises(ValueError, match="1001186: metadata says province 11"):
         census.build(_census_zip(tmp_path, "en", pr_code_of_beach="11"),
                      _census_zip(tmp_path, "fr"))
+
+
+# ── B2: the newer StatCan cubes ────────────────────────────────────────────────
+
+SEPH_HEADER = ["REF_DATE", "GEO", "DGUID", "Type of employee",
+               "North American Industry Classification System (NAICS)", "UOM", "UOM_ID",
+               "SCALAR_FACTOR", "SCALAR_ID", "VECTOR", "COORDINATE", "VALUE", "STATUS",
+               "SYMBOL", "TERMINATED", "DECIMALS"]
+
+
+def _seph_row(period, member, value, status="A", geo="Canada", employee="All employees"):
+    return [period, geo, "", employee, member, "Persons", "249", "units", "0",
+            "v1", "1.1", value, status, "", "", "0"]
+
+
+def _cube_zip(path, pid, rows, *, sep=",", metadata=None):
+    buf = io.StringIO()
+    csv.writer(buf, delimiter=sep).writerows(rows)
+    with zipfile.ZipFile(path, "w") as z:
+        z.writestr(f"{pid}.csv", "\ufeff" + buf.getvalue())
+        if metadata is not None:
+            meta = io.StringIO()
+            csv.writer(meta, delimiter=sep).writerows(metadata)
+            z.writestr(f"{pid}_MetaData.csv", "\ufeff" + meta.getvalue())
+    return path
+
+
+def _seph_series(rows, **extra):
+    return statcan.build_series(
+        SEPH_HEADER, rows, pid="14100201", measure="employment_nsa", frequency="monthly",
+        filters={"Type of employee": "All employees"}, geo_codes={"Canada": "CA"}, **extra)
+
+
+def test_iter_cube_streams_exactly_what_read_cube_loads(tmp_path):
+    """
+    SEPH is 986 MB of English CSV and 1,075 MB of French; `read_cube` parses a
+    file whole, which for SEPH is several gigabytes of Python strings. The
+    streaming reader must yield the same header and rows — including from a
+    semicolon-separated French file — or switching readers changes the data.
+    """
+    rows = [SEPH_HEADER,
+            _seph_row("2026-05", "Services publics [22,221]", "117000"),
+            _seph_row("2026-06", "Construction [23]", "1200000", status="")]
+    path = _cube_zip(tmp_path / "fr.zip", "14100201", rows, sep=";")
+    header, loaded = statcan.read_cube(path, "14100201")
+    stream = statcan.iter_cube(path, "14100201")
+    assert next(stream) == header == SEPH_HEADER
+    assert list(stream) == loaded
+
+
+def test_combined_codes_join_the_key_and_never_merge_two_members():
+    """
+    SEPH publishes Utilities as [22,221]; `code_aliases` maps it to 22 so the
+    series joins GDP. An alias that lands two DIFFERENT published members on
+    one code would interleave their months into one series, every period twice
+    — so that raises rather than merging.
+    """
+    rows = [_seph_row("2026-05", "Utilities [22,221]", "117000"),
+            _seph_row("2026-06", "Utilities [22,221]", "118000")]
+    out = _seph_series(rows, keep_codes={"22"}, code_aliases={"22,221": "22"})
+    assert [(x.code, x.periods, x.values) for x in out] == [("22", ("2026-05", "2026-06"), (117000.0, 118000.0))]
+
+    clash = rows + [_seph_row("2026-06", "Utilities [22]", "1")]
+    with pytest.raises(ValueError, match="both map to code 22"):
+        _seph_series(clash, keep_codes={"22"}, code_aliases={"22,221": "22"})
+
+
+def test_quality_and_suppression_codes_travel_with_the_values():
+    """
+    STATUS holds both suppression ("x") and quality grades (A–F; E is "use with
+    caution"). A suppressed cell is a None, never a zero, and the grade stays
+    beside the value it qualifies.
+    """
+    status: dict = {}
+    rows = [_seph_row("2026-05", "Construction [23]", "1200000", status="E"),
+            _seph_row("2026-06", "Construction [23]", "", status="x"),
+            _seph_row("2026-06", "Manufacturing [31-33]", "1700000", status="")]
+    out = _seph_series(rows, keep_codes={"23", "31-33"}, status_out=status)
+    assert {x.code: x.values for x in out} == {"23": (1200000.0, None), "31-33": (1700000.0,)}
+    # A series with no status at all adds nothing to the map.
+    assert status == {"CA/23": ("E", "x")}
+
+
+def test_seph_forestry_is_never_joined_to_agriculture():
+    """
+    SEPH excludes agriculture: its [11N] is "Forestry, logging and support",
+    forestry alone. Mapping it to NAICS 11 would divide agriculture-plus-forestry
+    GDP by forestry jobs and report a productivity figure several times too
+    high, with nothing on screen to suggest it. The registry must declare 11
+    absent for SEPH, with a reason, and must never alias 11N.
+    """
+    tax = yaml.safe_load((ROOT / "registry" / "sectors.yaml").read_text(encoding="utf-8"))
+    seph = tax["pulls"]["employment_monthly"]
+    assert seph["measure"] == "employment_nsa", "SEPH is unadjusted; the measure name must say so"
+    assert "11" in (seph.get("absent_codes") or {}) and seph["absent_codes"]["11"].strip()
+    assert "11N" not in (seph.get("code_aliases") or {})
+
+
+def test_french_labels_stop_reading_once_every_wanted_label_is_found():
+    """
+    Industry members repeat for every period, so all of SEPH's appear in the
+    first few thousand of its five million French rows. Reading past the last
+    wanted label would re-read 1 GB to learn nothing.
+    """
+    header = ["PÉRIODE DE RÉFÉRENCE", "GÉO",
+              "Système de classification des industries de l'Amérique du Nord (SCIAN)", "VALEUR"]
+
+    def rows():
+        yield ["2026-05", "Canada", "Services publics [22,221]", "1"]
+        yield ["2026-05", "Canada", "Construction [23]", "1"]
+        raise AssertionError("read past the last wanted label")
+
+    got = statcan.french_labels(header, rows(), code_aliases={"22,221": "22"}, want={"22", "23"})
+    assert got == {"22": "Services publics", "23": "Construction"}
+
+
+def test_cube_metadata_reads_the_title_and_numbered_notes(tmp_path):
+    """The cube's own words about itself — title and notes — read from its metadata file."""
+    note = "Most recent 2 years of data are preliminary actuals and intentions and do not have the repairs expenditures."
+    metadata = [
+        ["Cube Title", "Product Id", "CANSIM Id"],
+        ["Capital and repair expenditures, non-residential tangible assets, by industry and geography", "34100035", ""],
+        [],
+        ["Note ID", "Note"],
+        ["1", "From reference year 2013, this table replaces an archived table."],
+        ["4", note],
+        [],
+        ["Correction ID", "Correction Date"],
+    ]
+    path = _cube_zip(tmp_path / "capex.zip", "34100035", [["REF_DATE"]], metadata=metadata)
+    meta = statcan.cube_metadata(path, "34100035")
+    assert meta["title"].startswith("Capital and repair expenditures")
+    assert meta["notes"] == {"1": "From reference year 2013, this table replaces an archived table.", "4": note}
+
+
+def test_capex_intentions_are_labelled_and_the_rule_needs_its_note():
+    """
+    34-10-0035 has no column separating spending from intentions; its note says
+    the most recent two years are preliminary actuals and intentions. Plotting
+    2026 intentions as spending would put a plan on the same line as a
+    measurement. The labels follow the note — and if the note is gone, the rule
+    stops rather than labelling years by a statement the publisher withdrew.
+    """
+    notes = {"4": "Most recent 2 years of data are preliminary actuals and intentions and do not have the repairs expenditures."}
+    basis, note_id = statcan.latest_periods_basis(
+        ["2023", "2024", "2025", "2026"], notes,
+        contains="Most recent 2 years", labels=["preliminary_actual", "intentions"])
+    assert basis == {"2023": "actual", "2024": "actual", "2025": "preliminary_actual", "2026": "intentions"}
+    assert note_id == "4"
+
+    with pytest.raises(ValueError, match="Most recent 2 years"):
+        statcan.latest_periods_basis(["2025", "2026"], {"4": "Something else entirely."},
+                                     contains="Most recent 2 years", labels=["preliminary_actual", "intentions"])

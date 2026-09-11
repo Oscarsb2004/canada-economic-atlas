@@ -1,6 +1,6 @@
 {
   "count": 23,
-  "generated_at": "2026-09-05T00:31:47Z",
+  "generated_at": "2026-09-10T20:48:39Z",
   "series": [
     {
       "code": "T001",
@@ -16723,5 +16723,9 @@
         171928.0
       ]
     }
-  ]
+  ],
+  "title": {
+    "en": "Gross domestic product (GDP) at basic prices, by industry, monthly",
+    "fr": "Produit intérieur brut (PIB) aux prix de base, par industries, mensuel"
+  }
 }

@@ -144,4 +144,8 @@ canada.ca doubles some content blocks but not others · French headings are
 "Faits saillants" / "Dernière mise à jour" · the French StatCan cube is
 semicolon-delimited · the French ArcGIS service has French field names · YAML
 1.1 reads bare `ON` as `true` · Natural Earth `ISO_A3` is `-99` for five
-countries · `setProjection` must be called inside `style.load`.
+countries · `setProjection` must be called inside `style.load` · SEPH
+(14100201) is unadjusted and excludes agriculture — `[11N]` is forestry, never
+NAICS 11 · the latest two capex years (34100035) are preliminary actuals and
+intentions, said only in a note · 33100225 is non-financial balance sheets,
+not revenue by industry.

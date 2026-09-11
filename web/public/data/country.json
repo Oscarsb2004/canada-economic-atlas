@@ -7,7 +7,7 @@
     "boc": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
     "statcan": "Statistics Canada Open Licence"
   },
-  "generated_at": "2026-09-08T22:27:55Z",
+  "generated_at": "2026-09-10T20:50:59Z",
   "headline": [
     {
       "frequency": "monthly",
@@ -24,7 +24,7 @@
         "content_sha256": "38b3468c8871e331b2dec987262c024b8e4bb6ff430b9984078ff6edbb2e1939",
         "licence": "statcan-open",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-05T00:31:47Z",
+        "retrieved_at": "2026-09-10T20:48:34Z",
         "url": "https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadCSV/36100434/en"
       },
       "source_table": "36100434",
@@ -46,7 +46,7 @@
         "content_sha256": "38b3468c8871e331b2dec987262c024b8e4bb6ff430b9984078ff6edbb2e1939",
         "licence": "statcan-open",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-05T00:31:47Z",
+        "retrieved_at": "2026-09-10T20:48:34Z",
         "url": "https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadCSV/36100434/en"
       },
       "source_table": "36100434",
@@ -68,7 +68,7 @@
         "content_sha256": "38b3468c8871e331b2dec987262c024b8e4bb6ff430b9984078ff6edbb2e1939",
         "licence": "statcan-open",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-05T00:31:47Z",
+        "retrieved_at": "2026-09-10T20:48:34Z",
         "url": "https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadCSV/36100434/en"
       },
       "source_table": "36100434",
@@ -82,7 +82,7 @@
         "en": "Target for the overnight rate (business daily)",
         "fr": ""
       },
-      "period": "2026-09-07",
+      "period": "2026-09-08",
       "provenance": "official_dataset",
       "release_time": "",
       "scalar": "units",
@@ -90,7 +90,7 @@
         "content_sha256": "",
         "licence": "boc-terms",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-08T22:27:53Z",
+        "retrieved_at": "2026-09-10T20:49:20Z",
         "url": "https://www.bankofcanada.ca/valet/observations/V39079/json"
       },
       "source_table": "V39079",
