@@ -4,14 +4,14 @@
  * This is the "native viewer" the brief asked for: clicking a pin opens the
  * project here, in the page, rather than sending the reader to canada.ca.
  *
- * EVERY STRING BELOW COMES FROM THE FEDERAL PAGE.
+ * EVERY STRING IN THE BODY COMES FROM THE FEDERAL PAGE.
  *
  * Nothing here summarises, paraphrases, or rounds. In particular the dollar
  * figures and job counts stay inside their sentences — the pages say "Will
  * attract $5 billion in investment", and lifting that into a styled number
  * would be this app making a claim in a form the source never used. The only
  * text this component authors is its own section headings and the provenance
- * line, which are visibly ours.
+ * line, which are visibly ours and live in `i18n.tsx`.
  *
  * The source link is present but secondary. The point is that you do not have
  * to click it.
@@ -19,18 +19,19 @@
 
 import type { Lang, Project, Text } from "../data/bundle";
 import { asset, safeExternalUrl, t } from "../data/bundle";
+import { useI18n } from "../i18n";
 import { PinButton } from "../tabs/TabStrip";
 
 interface Props {
   project: Project;
-  lang: Lang;
   onClose: () => void;
 }
 
-export function ProjectViewer({ project, lang, onClose }: Props) {
+export function ProjectViewer({ project, onClose }: Props) {
+  const { lang, s } = useI18n();
   const hero = project.media.find((m) => m.role === "hero");
   const page = safeExternalUrl(t(project.page_url, lang));
-  const verbatim = project.sources.find((s) => s.provenance === "page_verbatim");
+  const verbatim = project.sources.find((x) => x.provenance === "page_verbatim");
   const benefits = benefitsFor(project, lang);
 
   return (
@@ -38,6 +39,7 @@ export function ProjectViewer({ project, lang, onClose }: Props) {
       <header style={{ display: "flex", alignItems: "start", gap: "var(--sp-3)" }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", gap: "var(--sp-2)", marginBottom: "var(--sp-2)" }}>
+            {/* The MPO sector is carried in English only (BACKLOG B1a). */}
             <span className="tag">{project.sector}</span>
             {project.status.en && <span className="tag">{t(project.status, lang)}</span>}
           </div>
@@ -56,7 +58,7 @@ export function ProjectViewer({ project, lang, onClose }: Props) {
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close project"
+          aria-label={s.closeProject}
           style={{
             background: "transparent",
             border: "var(--hairline)",
@@ -84,20 +86,21 @@ export function ProjectViewer({ project, lang, onClose }: Props) {
         />
       )}
 
-      {/* The source's own caveat, carried with the geometry rather than buried
-          in a footer. It is the government's statement, not ours. */}
+      {/* The location wording is the source's, carried in English only
+          (BACKLOG B1a). The approximation caveat after it is ours: it restates
+          the geometry's `approximate` flag, and is translated with the rest of
+          the interface. */}
       <p className="muted" style={{ fontSize: "var(--fs-small)", margin: "0 0 var(--sp-4)" }}>
-        {project.sites.map((s) => s.geometry.location_verbatim).filter(Boolean).join(" · ")}
-        {project.sites.some((s) => s.geometry.approximate) &&
-          " — locations are approximate and subject to final routing decisions"}
+        {project.sites.map((x) => x.geometry.location_verbatim).filter(Boolean).join(" · ")}
+        {project.sites.some((x) => x.geometry.approximate) && s.locationsApproximate}
       </p>
 
-      <Section title="Description">
+      <Section title={s.sectionDescription}>
         <p style={{ margin: 0 }}>{t(project.description, lang)}</p>
       </Section>
 
       {project.quick_facts.length > 0 && (
-        <Section title="Quick facts">
+        <Section title={s.sectionQuickFacts}>
           <ul style={{ margin: 0, paddingLeft: "1.1em" }}>
             {project.quick_facts.map((f, i) => (
               <li key={i} style={{ marginBottom: "var(--sp-2)" }}>
@@ -110,7 +113,7 @@ export function ProjectViewer({ project, lang, onClose }: Props) {
       )}
 
       {benefits.length > 0 && (
-        <Section title="Benefits">
+        <Section title={s.sectionBenefits}>
           <ul style={{ margin: 0, paddingLeft: "1.1em" }}>
             {benefits.map((b, i) => (
               <li key={i} style={{ marginBottom: "var(--sp-2)" }}>
@@ -122,7 +125,7 @@ export function ProjectViewer({ project, lang, onClose }: Props) {
       )}
 
       {project.updates.length > 0 && (
-        <Section title="Latest updates">
+        <Section title={s.sectionUpdates}>
           <ol style={{ margin: 0, padding: 0, listStyle: "none" }}>
             {project.updates.map((u, i) => (
               <li
@@ -146,10 +149,10 @@ export function ProjectViewer({ project, lang, onClose }: Props) {
       )}
 
       {project.sites.length > 1 && (
-        <Section title="Sites">
+        <Section title={s.sectionSites}>
           <ul style={{ margin: 0, paddingLeft: "1.1em" }}>
-            {project.sites.map((s, i) => (
-              <li key={i}>{t(s.name, lang)}</li>
+            {project.sites.map((x, i) => (
+              <li key={i}>{t(x.name, lang)}</li>
             ))}
           </ul>
         </Section>
@@ -164,15 +167,11 @@ export function ProjectViewer({ project, lang, onClose }: Props) {
         }}
         className="muted"
       >
-        <div>
-          Text reproduced verbatim from the Major Projects Office
-          {verbatim?.retrieved_at && ` · captured ${verbatim.retrieved_at.slice(0, 10)}`}
-          {" · Open Government Licence – Canada"}
-        </div>
+        <div>{s.verbatimFooter(verbatim?.retrieved_at?.slice(0, 10) ?? "")}</div>
         {page && (
           <div style={{ marginTop: "var(--sp-1)" }}>
             <a href={page} target="_blank" rel="noreferrer noopener">
-              Official project page ↗
+              {s.officialPage}
             </a>
           </div>
         )}

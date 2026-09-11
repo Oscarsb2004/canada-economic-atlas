@@ -16,6 +16,8 @@
 
 import type { ReactNode } from "react";
 
+import { useI18n } from "../i18n";
+
 interface Props {
   caption: string;
   columns: string[];
@@ -26,6 +28,7 @@ interface Props {
 }
 
 export function TableView({ caption, columns, rows, numericFrom = 1 }: Props) {
+  const { s } = useI18n();
   return (
     <details style={{ marginTop: "var(--sp-2)" }}>
       <summary
@@ -37,7 +40,7 @@ export function TableView({ caption, columns, rows, numericFrom = 1 }: Props) {
           letterSpacing: "0.05em",
         }}
       >
-        Table view · {rows.length} rows
+        {s.tableView(rows.length)}
       </summary>
       <div style={{ overflowX: "auto", marginTop: "var(--sp-2)" }}>
         <table

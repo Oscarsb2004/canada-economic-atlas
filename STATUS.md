@@ -152,10 +152,28 @@ Two facts from that audit worth surfacing here:
 ### What to do next
 
 **[`docs/BACKLOG.md`](docs/BACKLOG.md) is the single ordered queue** — five
-goals, stages B through P, with effort and the items that need a decision from
-you flagged. Critical path: **B1 language toggle → B2 the four unpulled StatCan
-tables → B3 the portfolio timeline → C1 the sector crosswalk → C4 projects
-beside sector GDP.**
+goals, stages B through Q, with effort and the items that need a decision from
+you flagged. Critical path: ~~B1 language toggle~~ **→ B2 the four unpulled
+StatCan tables → B3 the portfolio timeline → C1 the sector crosswalk → C4
+projects beside sector GDP.** C1 is deferred to you: the work stops there and
+lays out the options before anything is built.
+
+**B1 landed 2026-09-10.** EN / FR toggle in the map layer bar, remembered per
+browser, `?lang=fr` in a link. Interface text lives in `web/src/i18n.tsx`,
+typed so a string missing in French fails the build; numbers and dates come
+from the fr-CA locale via `Intl` (en-CA output is character-for-character what
+the old hand-written formatter produced). What it found on the way: every chart
+label read `label.en` directly, the composition chart's colour domain was a
+hardcoded English string that would have matched no French row, the company
+panel rendered its own English caveat instead of the payload's bilingual one,
+and two chart axes printed bare numbers with no % in either language. Some
+fields are carried in English only by the pipeline (B1a), and the interface
+French is ours, not a translator's (B1b).
+
+**Stage M (municipalities and public finance) and Stage Q (a critical
+evaluation of the financial sector) were added 2026-09-10.** M0 — `Municipality`
+records for all 5,161 census subdivisions — is done. Q1 and Q2 need no new data
+and are the natural next finance work.
 
 Stage P covers the family: what the three repos actually duplicate, why the
 recommendation is to share a spine rather than merge, and the `athena.toml` +
