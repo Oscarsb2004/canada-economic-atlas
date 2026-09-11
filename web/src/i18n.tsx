@@ -189,6 +189,23 @@ const en = {
   showAnalysis: "Show analysis",
   hideAnalysis: "Hide analysis",
   pinRoute: (name: string) => `${name} — route, marker at its midpoint`,
+
+  timelineHeading: (n: number) => `Portfolio timeline · ${n} dated updates`,
+  timelineIntro:
+    "Every update the Major Projects Office has published on a project page, in its own words, placed by the date the entry opens with. Entries that name no date are listed apart, in the order their page publishes them, and are never placed on the timeline.",
+  timelineFigure: "Project updates over time, one row per project",
+  timelineProject: "Project",
+  timelineAll: "All projects",
+  timelineSector: "Sector",
+  timelineAllSectors: "All sectors",
+  timelineMonthOnly: "month only",
+  timelineYearOnly: "year only",
+  timelineList: (n: number) => `Dated updates, newest first · ${n}`,
+  timelineUndated: (n: number) => `Updates with no published date · ${n}`,
+  timelineOpenProject: (name: string) => `Open ${name}`,
+  timelineEmpty: "No dated updates match these filters.",
+  timelineSource:
+    "Text reproduced verbatim from the Major Projects Office · Open Government Licence – Canada. Dates are read from the opening words of each entry, at the precision the page published.",
 };
 
 export type Strings = typeof en;
@@ -330,6 +347,23 @@ const fr: Strings = {
   showAnalysis: "Afficher l’analyse",
   hideAnalysis: "Masquer l’analyse",
   pinRoute: (name) => `${name} — tracé, repère à son point médian`,
+
+  timelineHeading: (n) => `Chronologie du portefeuille · ${n} mises à jour datées`,
+  timelineIntro:
+    "Chaque mise à jour publiée par le Bureau des grands projets sur une page de projet, dans ses propres mots, placée à la date par laquelle l’entrée commence. Les entrées sans date sont présentées à part, dans l’ordre de leur page, et ne sont jamais placées sur la chronologie.",
+  timelineFigure: "Mises à jour des projets au fil du temps, une ligne par projet",
+  timelineProject: "Projet",
+  timelineAll: "Tous les projets",
+  timelineSector: "Secteur",
+  timelineAllSectors: "Tous les secteurs",
+  timelineMonthOnly: "mois seulement",
+  timelineYearOnly: "année seulement",
+  timelineList: (n) => `Mises à jour datées, des plus récentes aux plus anciennes · ${n}`,
+  timelineUndated: (n) => `Mises à jour sans date publiée · ${n}`,
+  timelineOpenProject: (name) => `Ouvrir ${name}`,
+  timelineEmpty: "Aucune mise à jour datée ne correspond à ces filtres.",
+  timelineSource:
+    "Texte reproduit textuellement du Bureau des grands projets · Licence du gouvernement ouvert – Canada. Les dates sont lues dans les premiers mots de chaque entrée, à la précision publiée par la page.",
 };
 
 const STRINGS: Record<Lang, Strings> = { en, fr };

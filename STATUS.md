@@ -1,6 +1,6 @@
 # STATUS — where this project actually is
 
-_Last updated: 2026-09-10._
+_Last updated: 2026-09-11._
 
 Read this first when picking the project back up. The full design is in
 `docs/PLAN.md` and **the ordered work queue is [`docs/BACKLOG.md`](docs/BACKLOG.md)**.
@@ -35,8 +35,8 @@ a work queue — two lists of "next" is how one of them goes stale.
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
 | **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
 | **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
-| **`verify/` (M6)** | **Done.** 136 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
-| **`tests/` (M6)** | **Done.** 80 tests, each explaining the failure it prevents. |
+| **`verify/` (M6)** | **Done.** 138 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
+| **`tests/` (M6)** | **Done.** 96 tests, each explaining the failure it prevents. |
 | **`run.py`, `CLAUDE.md`** | **Done.** Single entry point; agent invariants. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
@@ -114,12 +114,12 @@ found and fixed two real issues (see below).
 
 ## v1 is COMPLETE per the `PLAN.md` §10 scope fence
 
-Full pipeline runs end to end; 80 tests pass; 136 gate checks pass; a re-run from
+Full pipeline runs end to end; 96 tests pass; 138 gate checks pass; a re-run from
 a clean baseline leaves a zero-line git diff.
 
 ```
 python run.py          # pipeline + verify
-python run.py --test   # 80 tests
+python run.py --test   # 96 tests
 cd web && npm run dev  # the app
 ```
 
@@ -347,6 +347,25 @@ fixed in M6:
 ---
 
 ## Findings that cost real work — do not rediscover
+
+**B3 (2026-09-11): the update date had never been parsed.** `Update.date` was
+documented as ISO 8601 and held the English page's words ("November 13, 2025")
+in 56 of 86 updates and nothing in the other 30; the French wording was not
+stored at all. Nothing read the field, so nothing noticed until the timeline
+had to sort by it. The pattern also missed the publisher's own separators
+("January 5,2026", "19 mai, 2026") and had no form for "In July 2026" or
+"In 2022". Stage 01 now stores ISO at the precision published — 57 to the day,
+4 to the month, 1 to the year, 24 undated — with each language's wording, and
+`verify/` re-reads the words independently in both languages.
+
+**A better parser is not a content change.** `verbatim_blob` hashed
+`date_verbatim`, our reading of the page. The improved parser moved seven hashes
+and stage 01 appended seven "content changed" history entries on a day the
+government changed nothing — six English pages had gained a newly-read date,
+Nouveau Monde a French one. The hash now reads `_HASHED_UPDATE_DATE`, a frozen
+copy of the old pattern (the `benefits_block_text` decision again); the re-run
+added 0 entries. Also fixed in the same function: on an EN/FR count mismatch
+`_updates` kept the English list and dropped every French entry.
 
 **Stage M0 (2026-09-10): the record is a `Municipality`, not a `City`.** City
 is a provincial legal status — 165 subdivisions are typed City, Halifax is a

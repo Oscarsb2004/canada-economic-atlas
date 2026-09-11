@@ -39,7 +39,7 @@
 import * as Plot from "@observablehq/plot";
 
 import { t, type Company, type Lang, type Palette, type Series } from "../data/bundle";
-import { fmtMoneyM, fmtMonth, fmtPct, fmtPercent, stringsFor } from "../i18n";
+import { LOCALE, fmtMoneyM, fmtMonth, fmtPct, fmtPercent, stringsFor } from "../i18n";
 import { MARK, axisX, axisY, chartDefaults, gridY, token } from "./Plot";
 
 /**
@@ -476,6 +476,66 @@ export function companyBars(companies: Company[], palette: Palette, width: numbe
       // read "0 2 4 6" with no unit.
       axisX({ ticks: 4, tickFormat: (d: number) => fmtPercent(d as number, lang, 0) }),
       Plot.ruleX([0], { stroke: token("--ink-axis") }),
+    ],
+  });
+}
+
+// ── 8. Portfolio timeline ──────────────────────────────────────────────────────
+
+export interface TimelineMark {
+  project: string;
+  date: Date;
+  /** How precisely the page dated the entry. Only "day" is a point in time. */
+  precision: "day" | "month" | "year";
+  /** The date as the page wrote it, for the tooltip. */
+  when: string;
+}
+
+/**
+ * One row per project, one mark per dated update.
+ *
+ * A dot strip rather than a Gantt: the source publishes events, not durations,
+ * and a bar between two updates would draw a span nobody announced. Day-dated
+ * entries are filled; month- and year-only entries are hollow, placed at the
+ * start of their month or year, so position never claims a day that was not
+ * written. One hue throughout — the row already says which project.
+ */
+export function timeline(marks: TimelineMark[], palette: Palette, width: number, lang: Lang) {
+  const rows = [...new Set(marks.map((m) => m.project))].sort((a, b) => a.localeCompare(b, LOCALE[lang]));
+  const s = stringsFor(lang);
+  const tipTitle = (m: TimelineMark) =>
+    `${m.when}${m.precision === "month" ? ` · ${s.timelineMonthOnly}` : m.precision === "year" ? ` · ${s.timelineYearOnly}` : ""}\n${m.project}`;
+
+  return Plot.plot({
+    ...chartDefaults(Math.max(120, rows.length * 18 + 36)),
+    width,
+    marginLeft: 190,
+    x: { label: null, type: "time" },
+    y: { label: null, domain: rows },
+    marks: [
+      Plot.gridX({ stroke: token("--ink-gridline"), strokeWidth: 1 }),
+      Plot.dot(marks.filter((m) => m.precision === "day"), {
+        x: "date",
+        y: "project",
+        r: MARK.dotRadius,
+        fill: palette.categorical[0].hex,
+        stroke: token("--surface-page"),
+        strokeWidth: 1,
+        title: tipTitle,
+        tip: { ...TIP },
+      }),
+      Plot.dot(marks.filter((m) => m.precision !== "day"), {
+        x: "date",
+        y: "project",
+        r: MARK.dotRadius,
+        fill: "none",
+        stroke: palette.categorical[0].hex,
+        strokeWidth: 1.5,
+        title: tipTitle,
+        tip: { ...TIP },
+      }),
+      axisY({ fontSize: 10 }),
+      axisX({ ticks: 6 }),
     ],
   });
 }

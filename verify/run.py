@@ -68,6 +68,45 @@ def _load_yaml(path: Path):
     return yaml.safe_load(path.read_text(encoding="utf-8"))
 
 
+#: Month names for re-reading an update's date independently of the pipeline.
+_MONTH_NUMBER = {
+    "en": {m: i for i, m in enumerate(
+        "january february march april may june july august september october november december".split(), 1)},
+    "fr": {m: i for i, m in enumerate(
+        "janvier février mars avril mai juin juillet août septembre octobre novembre décembre".split(), 1)},
+}
+
+
+def _iso_from_written_date(text: str, lang: str) -> str:
+    """
+    ISO 8601, at the precision written, from a date as a page wrote it.
+
+    Tokenised rather than matched with a pattern, so it does not share the
+    pipeline's parser or its mistakes: "January 5,2026" and "19 mai, 2026"
+    split into the same tokens as their tidy forms. Returns "?" when the words
+    hold no year, which no stored date can equal.
+    """
+    months = _MONTH_NUMBER[lang]
+    day = month = year = None
+    for token in text.replace(",", " ").split():
+        low = token.lower()
+        if low in months:
+            month = months[low]
+        elif low.endswith("er") and low[:-2].isdigit():
+            day = int(low[:-2])
+        elif token.isdigit() and len(token) == 4:
+            year = token
+        elif token.isdigit():
+            day = int(token)
+    if year is None:
+        return "?"
+    if month is None:
+        return year
+    if day is None:
+        return f"{year}-{month:02d}"
+    return f"{year}-{month:02d}-{day:02d}"
+
+
 # ── Gate: events ───────────────────────────────────────────────────────────────
 
 def check_projects(r: Report) -> None:
@@ -178,6 +217,32 @@ def check_projects(r: Report) -> None:
     if unpaired:
         r.note(f"EN and FR publish a different number of benefits on {sorted(set(unpaired))}"
                f" — carried unpaired, each language rendering its own list")
+
+    # Latest updates (BACKLOG B3). `date` is what the portfolio timeline orders
+    # by, and it held a copy of the verbatim text while its schema comment said
+    # ISO — because nothing read it. So every stored date must be ISO at day,
+    # month or year precision or empty, and must equal the date re-read here from
+    # the words each page wrote, in both languages.
+    iso_shape = re.compile(r"^\d{4}(-\d{2}(-\d{2})?)?$")
+    malformed, disagree, dated, total = [], [], 0, 0
+    for p in projects:
+        for u in p.get("updates", []):
+            total += 1
+            stored = u.get("date", "")
+            dated += bool(stored)
+            if stored and not iso_shape.match(stored):
+                malformed.append(f'{p["slug"]}: {stored!r}')
+            for words, lang in ((u.get("date_verbatim", ""), "en"), (u.get("date_verbatim_fr", ""), "fr")):
+                if words and _iso_from_written_date(words, lang) != stored:
+                    disagree.append(f'{p["slug"]}: {words!r} ({lang}) vs {stored!r}')
+            if stored and not (u.get("date_verbatim") or u.get("date_verbatim_fr")):
+                disagree.append(f'{p["slug"]}: {stored!r} with no written date in either language')
+    r.gate(not malformed, "every update date is ISO 8601 at day, month or year precision, or empty",
+           str(malformed[:6]))
+    r.gate(not disagree, "every stored update date matches the words its page wrote, in both languages",
+           str(disagree[:6]))
+    r.note(f"updates: {dated} of {total} open with a date; the rest are undated and are never "
+           f"placed on the timeline")
 
     # Media: both derived sizes must exist on disk, not just be referenced.
     missing_media = []

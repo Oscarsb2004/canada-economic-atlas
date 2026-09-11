@@ -1446,3 +1446,102 @@ def test_the_published_stamp_is_the_parsed_zips_not_what_wds_says_at_run_time(tm
         statcan.release_path(raw / f"{pid}-{lang}.zip").unlink()
     with pytest.raises(stage.VintageUnknown, match="no recorded release"):
         pull_with("")
+
+
+# ── B3: update dates ───────────────────────────────────────────────────────────
+
+@pytest.mark.parametrize("lang,body,written,iso", [
+    ("en", "On August 15, 2026, the Tłı̨chǫ Government and the Yellowknives Dene First Nation",
+     "August 15, 2026", "2026-08-15"),
+    ("en", "On January 5,2026, the Montreal Port Authority obtained a permit", "January 5,2026", "2026-01-05"),
+    ("en", "In July 2026, MPO began consultations with Indigenous groups", "July 2026", "2026-07"),
+    ("en", "In 2022, the McIlvenna Bay Project underwent a process", "2022", "2022"),
+    ("en", "The MPO is working with proponents to determine funding solutions", "", ""),
+    ("fr", "Le 19 mai, 2026, le Gouvernement du Canada et Nouveau Monde Graphite", "19 mai, 2026", "2026-05-19"),
+    ("fr", "Le 1er août 2026, le promoteur a déposé", "1er août 2026", "2026-08-01"),
+    ("fr", "En juillet 2026, le Bureau des grands projets a entrepris", "juillet 2026", "2026-07"),
+    ("fr", "Le BGP collabore avec les promoteurs", "", ""),
+    ("en", "On February 30, 2026, nothing happened", "February 30, 2026", ""),
+])
+def test_update_dates_are_read_at_the_precision_published(lang, body, written, iso):
+    """
+    The portfolio timeline sorts by these. All but the `1er` and 30 February
+    cases are copied from live project pages. The strict pattern this replaced
+    missed "January 5,2026" and "19 mai, 2026" (the publisher's own separators)
+    and had no form for "In July 2026" at all. A month-only entry must not become
+    a day, an entry that names no date must not get one, and an impossible day is
+    no date rather than a corrected one.
+    """
+    assert mpo.parse_update_date(body, lang) == (written, iso)
+
+
+def _updates_page(lang, *bodies):
+    parsed = []
+    for body in bodies:
+        written, iso = mpo.parse_update_date(body, lang)
+        parsed.append(mpo.ParsedUpdate(date_verbatim=written, body=body, date_iso=iso))
+    return mpo.ParsedPage(url=f"http://x/{lang}.html", title="", updates=parsed)
+
+
+def test_updates_pair_by_position_and_take_the_date_from_either_page():
+    """
+    Where the English entry names no date and the French one does, the date is
+    the French page's — it is the same entry, published in both languages. Each
+    page's wording of the date is kept for its own language.
+    """
+    sys.path.insert(0, str(ROOT / "pipeline"))
+    stage = importlib.import_module("01_projects")
+    en = _updates_page("en", "The port obtained a permit that January.", "The MPO is working with proponents.")
+    fr = _updates_page("fr", "Le 5 janvier 2026, le port a obtenu un permis.", "Le BGP collabore avec les promoteurs.")
+    out = stage._updates(en, fr)
+    assert [(u.date, u.date_verbatim, u.date_verbatim_fr) for u in out] == [
+        ("2026-01-05", "", "5 janvier 2026"), ("", "", "")]
+    assert all(u.body.en and u.body.fr for u in out)
+
+
+def test_updates_that_do_not_line_up_are_carried_unpaired_never_dropped():
+    """
+    `_updates` used to keep only the English list whenever the counts differed,
+    deleting every French entry — the deletion `_benefits` exists to prevent.
+    Dates that disagree mean position pairs different entries, so that is
+    treated the same way.
+    """
+    sys.path.insert(0, str(ROOT / "pipeline"))
+    stage = importlib.import_module("01_projects")
+    en = _updates_page("en", "On May 19, 2026, work began.")
+    fr = _updates_page("fr", "Le 19 mai, 2026, les travaux ont commencé.",
+                       "En juillet 2026, le BGP a entrepris des consultations.")
+    out = stage._updates(en, fr)
+    assert [u.body.en for u in out if u.body.en] == ["On May 19, 2026, work began."]
+    assert [u.body.fr for u in out if u.body.fr] == ["Le 19 mai, 2026, les travaux ont commencé.",
+                                                       "En juillet 2026, le BGP a entrepris des consultations."]
+    assert not any(u.body.en and u.body.fr for u in out)
+    assert [u.date for u in out] == ["2026-05-19", "2026-05-19", "2026-07"]
+
+    same_count_different_days = stage._updates(_updates_page("en", "On May 19, 2026, work began."),
+                                               _updates_page("fr", "Le 20 mai 2026, les travaux ont commencé."))
+    assert len(same_count_different_days) == 2
+
+
+def test_reading_more_dates_does_not_move_the_content_hash():
+    """
+    The content hash decides whether stage 01 appends a "content changed"
+    history entry, so it may only move when the page's words move. It hashed
+    `date_verbatim` — our reading of the page — and when the date parser learned
+    "In July 2026" and "January 5,2026", seven projects gained history entries
+    the government never caused. The hash reads the frozen pattern; the display
+    reads the improved one.
+    """
+    from bs4 import BeautifulSoup
+
+    block = BeautifulSoup(
+        "<ul><li>In July 2026, MPO began consultations.</li>"
+        "<li>On January 5,2026, the port obtained a permit.</li>"
+        "<li>On May 19, 2026, work began.</li></ul>", "html.parser")
+    updates = mpo._updates(block, "en")
+    assert [u.date_verbatim for u in updates] == ["July 2026", "January 5,2026", "May 19, 2026"]
+    assert [u.hashed_date for u in updates] == ["", "", "May 19, 2026"]
+    page = mpo.ParsedPage(url="http://x/en.html", title="T", updates=updates)
+    assert "\x1eJuly 2026\x1f" not in page.verbatim_blob()
+    assert "\x1f\x1fIn July 2026, MPO began consultations." not in page.verbatim_blob()
+    assert "\x1e\x1fIn July 2026, MPO began consultations." in page.verbatim_blob()
