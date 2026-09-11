@@ -131,28 +131,17 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _previous_release(out_dir: Path, name: str) -> str:
+class VintageUnknown(RuntimeError):
     """
-    The release stamp already committed for this output, if any.
+    A cube whose zips cannot be dated, so they are not parsed and the output is
+    left as committed.
 
-    `statcan.release_time()` returns "" when getCubeMetadata is unreachable —
-    which is right for a single run, but writing that "" into the committed file
-    REPLACES a known-good vintage with nothing. A transient timeout would then
-    silently degrade the data and, worse, look like a real change in the diff.
-    So an empty fetch falls back to what is already on disk. Only a successful
-    fetch may move the stamp.
+    This replaces `_previous_release()`, which answered a failed getCubeMetadata
+    by reusing the stamp already in the output file. That stamp describes the run
+    that last WROTE the file, not the zip on disk — the same defect as the live
+    stamp, pointed the other way. What it protected still holds: an empty fetch
+    never blanks a known-good vintage, because now nothing is written at all.
     """
-    path = out_dir / name
-    if not path.exists():
-        return ""
-    try:
-        doc = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return ""
-    for s in doc.get("series", []):
-        if s.get("release_time"):
-            return s["release_time"]
-    return ""
 
 
 def _previous_hashes(out_dir: Path) -> dict[str, str]:
@@ -230,16 +219,28 @@ def _crosswalk_series(pull: dict, header_en: list[str], rows_en, header_fr: list
     return series, extra
 
 
-def pull_cube(fetch: Fetcher, key: str, pull: dict, codes: set[str], raw_dir: Path,
-              fallback_release: str = "") -> tuple[list[Series], dict]:
+def pull_cube(fetch: Fetcher, key: str, pull: dict, codes: set[str], raw_dir: Path, *,
+              refresh: bool = False) -> tuple[list[Series], dict]:
     """One declared pull, in both languages, as the series and the payload that holds them."""
     pid = pull["pid"]
     aliases = {str(k): str(v) for k, v in (pull.get("code_aliases") or {}).items()}
     keep = codes | {str(c) for c in pull.get("extra_codes", [])}
     log.info("%s: cube %s (%s, %s) → %s", key, pid, pull["frequency"], pull["measure"], pull["output"])
 
-    zip_en = statcan.download_cube(fetch, pid, "eng", raw_dir)
-    zip_fr = statcan.download_cube(fetch, pid, "fra", raw_dir)
+    # The live stamp decides whether the zips are current; the stamp PUBLISHED is
+    # the one recorded for the zips actually parsed. Straight after a release the
+    # two differ until the zips are replaced, and writing the live one over the
+    # old zip's figures is how a file came to claim a vintage it did not contain.
+    live = statcan.release_time(fetch, pid)
+    zip_en, release = statcan.download_cube(fetch, pid, "eng", raw_dir, live_release=live, refresh=refresh)
+    zip_fr, release_fr = statcan.download_cube(fetch, pid, "fra", raw_dir, live_release=live, refresh=refresh)
+    if not (release and release_fr):
+        raise VintageUnknown(f"{key}: cube {pid} has no recorded release and getCubeMetadata gave none")
+    if release != release_fr:
+        # Only reachable while the lookup is down — with a live stamp both zips
+        # end on it. Figures from one release titled from another is not a mix
+        # to publish.
+        raise VintageUnknown(f"{key}: cube {pid} English zip is release {release}, French is {release_fr}")
     CUBE_HASHES[pid] = _sha256(zip_en)
     meta_en, meta_fr = statcan.cube_metadata(zip_en, pid), statcan.cube_metadata(zip_fr, pid)
 
@@ -254,7 +255,6 @@ def pull_cube(fetch: Fetcher, key: str, pull: dict, codes: set[str], raw_dir: Pa
         header_fr, rows_fr = statcan.read_cube(zip_fr, pid)
 
     status: dict[str, tuple[str, ...]] = {}
-    release = statcan.release_time(fetch, pid) or fallback_release
     extra: dict = {}
     if pull.get("crosswalk"):
         if pull.get("stream"):
@@ -377,7 +377,8 @@ def main() -> int:
                     help="run only this pull from sectors.yaml; repeatable")
     ap.add_argument("--skip-provincial", action="store_true",
                     help="skip pulls declared `scope: provincial`")
-    ap.add_argument("--refresh", action="store_true", help="bypass the HTTP cache")
+    ap.add_argument("--refresh", action="store_true",
+                    help="bypass the HTTP cache and re-download the cube zips")
     args = ap.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)-7s %(message)s")
@@ -401,8 +402,11 @@ def main() -> int:
         if args.skip_provincial and pull.get("scope") == "provincial":
             log.info("%s: skipped (--skip-provincial)", key)
             continue
-        series, payload = pull_cube(fetch, key, pull, codes, raw_dir,
-                                    _previous_release(out_dir, pull["output"]))
+        try:
+            series, payload = pull_cube(fetch, key, pull, codes, raw_dir, refresh=args.refresh)
+        except VintageUnknown as exc:
+            log.warning("%s — %s left as committed", exc, pull["output"])
+            continue
         if pull.get("partition_check"):
             check_partition(series, tax)
         changed = write_if_changed(out_dir / pull["output"], payload)

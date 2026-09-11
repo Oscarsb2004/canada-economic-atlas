@@ -427,9 +427,25 @@ the English header.
 **An empty fetch must never overwrite good committed data.** `getCubeMetadata`
 timed out mid-run, `release_time()` returned `""` as designed, and that blank was
 written straight into the committed files — replacing a known-good vintage with
-nothing and appearing in the diff as a real change. `post_json` now retries, and
-an empty fetch falls back to the vintage already on disk. Only a successful
-fetch may move the stamp. Caught by `verify/` on its first real run.
+nothing and appearing in the diff as a real change. `post_json` now retries.
+Caught by `verify/` on its first real run. The fallback first written for it —
+reuse the stamp already in the output — was itself half of the next finding.
+
+**The zip never followed the release (2026-09-10).** `download_cube` skipped any
+zip already on disk while `release_time()` was fetched live on every run, and
+`--refresh` reached only the HTTP text cache. So the first run after a StatCan
+release wrote the NEW stamp over figures parsed from the OLD zip: a file
+claiming a vintage it did not contain, invisible to `verify/`, which can only
+see that a stamp is present. Each zip now has a
+`data/raw/statcan/<pid>-<lang>.release` sidecar naming the release it was
+downloaded under; the zip is re-fetched when the live stamp differs or on
+`--refresh`, and payloads carry the RECORDED stamp. When getCubeMetadata fails,
+the zip and its stamp stay put, and a zip with no stamp at all is not parsed —
+the committed file is left alone rather than stamped with a guess. Zips from
+before the sidecar are dated by file time against the release read as UTC-5
+(the stamp has no offset), so existing downloads are adopted, not re-fetched.
+Still blind to StatCan replacing a zip without moving `releaseTime`; `--refresh`
+and the `_cubes.json` hashes cover that.
 
 **The two language pages do not always publish the same number of benefits.**
 The French Taltson page has a fifth bullet the English page omits (on

@@ -1287,3 +1287,162 @@ def test_the_output_crosswalk_counts_every_member_once_and_guesses_nothing():
     order = list(tax["pulls"])
     source = next(k for k, v in tax["pulls"].items() if v.get("output") == pull["labels_from"])
     assert order.index(source) < order.index("output_annual")
+
+
+# ── Cube vintage ───────────────────────────────────────────────────────────────
+
+class _FakeWDS:
+    """
+    Stands in for `Fetcher` at the two calls `download_cube` makes, keeping the
+    real `download` rule — an existing file is skipped unless `force` — so a
+    regression that stops forcing fails here instead of passing on a stub.
+    """
+
+    def __init__(self, files: dict[str, bytes]):
+        self.files = files
+        self.downloads: list[tuple[str, bool]] = []
+
+    def json(self, url: str) -> dict:
+        pid, lang = url.rstrip("/").split("/")[-2:]
+        return {"status": "SUCCESS", "object": f"https://example.invalid/{pid}-{lang}.zip"}
+
+    def download(self, url: str, dest: Path, *, force: bool = False) -> Path:
+        self.downloads.append((url, force))
+        if dest.exists() and not force:
+            return dest
+        dest.write_bytes(self.files[dest.name])
+        return dest
+
+
+def test_a_new_release_replaces_the_zip_and_a_failed_lookup_moves_nothing(tmp_path):
+    """
+    An existing zip was always skipped while the release stamp was fetched live,
+    so the first run after a StatCan release wrote the NEW stamp over figures
+    parsed from the OLD zip — and `--refresh` never reached the download. The
+    file claimed a vintage it did not contain, and `verify/` could not see it.
+
+    The zip must follow the release, and the stamp returned must be the one
+    recorded for the zip on disk. When getCubeMetadata fails, the zip and its
+    stamp both stay put: nothing may claim a release that was not observed.
+    """
+    old, new = "2026-07-29T08:30", "2026-08-28T08:30"
+    dest = tmp_path / "36100434-eng.zip"
+    dest.write_bytes(b"july zip")
+    statcan.release_path(dest).write_text(old, encoding="utf-8")
+    fetch = _FakeWDS({dest.name: b"august zip"})
+
+    # The lookup fails: keep the zip and its recorded stamp, even under --refresh.
+    for refresh in (False, True):
+        got = statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release="", refresh=refresh)
+        assert got == (dest, old)
+    assert fetch.downloads == [] and dest.read_bytes() == b"july zip"
+    assert statcan.recorded_release(dest) == old
+
+    # The release has not moved: 141 MB is not re-fetched to learn nothing.
+    assert statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=old) == (dest, old)
+    assert fetch.downloads == []
+
+    # A newer release: the zip is replaced, and the stamp moves with it.
+    assert statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=new) == (dest, new)
+    assert fetch.downloads == [("https://example.invalid/36100434-en.zip", True)]
+    assert dest.read_bytes() == b"august zip" and statcan.recorded_release(dest) == new
+
+    # --refresh reaches the download even when the release has not moved.
+    statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=new, refresh=True)
+    assert fetch.downloads[-1] == ("https://example.invalid/36100434-en.zip", True)
+    assert len(fetch.downloads) == 2
+
+
+def test_a_zip_from_before_stamps_were_recorded_is_dated_by_when_it_was_written(tmp_path):
+    """
+    Zips downloaded before the sidecar existed have no recorded release.
+    Re-fetching all of them once pulls SEPH's 270 MB for nothing; adopting the
+    live stamp blindly is the original defect. A file written after the release
+    was surely out holds that release. The stamp has no offset and is Ottawa
+    time, so "surely" means reading it as UTC-5 — a zip written at 09:00 EDT on
+    release day might be the old file, and is replaced.
+    """
+    import os
+    from datetime import datetime, timezone
+
+    release = "2026-08-28T08:30"
+    dest = tmp_path / "36100434-eng.zip"
+    fetch = _FakeWDS({dest.name: b"fresh"})
+
+    def legacy_zip(written_utc: str) -> None:
+        dest.write_bytes(b"legacy")
+        t = datetime.fromisoformat(written_utc).replace(tzinfo=timezone.utc).timestamp()
+        os.utime(dest, (t, t))
+
+    legacy_zip("2026-09-03T21:18")
+    assert statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=release) == (dest, release)
+    assert fetch.downloads == [] and dest.read_bytes() == b"legacy"
+    assert statcan.recorded_release(dest) == release
+
+    statcan.release_path(dest).unlink()
+    legacy_zip("2026-08-28T13:00")
+    assert statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=release) == (dest, release)
+    assert len(fetch.downloads) == 1 and dest.read_bytes() == b"fresh"
+
+
+def test_the_published_stamp_is_the_parsed_zips_not_what_wds_says_at_run_time(tmp_path, monkeypatch):
+    """
+    The stage-level half of the vintage defect. Stage 02 stamped every series
+    with getCubeMetadata's answer at run time, so the stamp described StatCan's
+    latest release whatever zip was read. July's figures must carry July's stamp
+    while the lookup is down, August's stamp must arrive only with August's
+    month, and zips nobody can date must not be parsed at all.
+    """
+    sys.path.insert(0, str(ROOT / "pipeline"))
+    stage = importlib.import_module("02_sectors")
+    pid, july, august = "36100434", "2026-07-29T08:30", "2026-08-28T08:30"
+    pull = {"pid": pid, "frequency": "monthly", "measure": "gdp_chained", "output": "national-monthly.json"}
+
+    def cube(lang: str, periods: list[str]) -> bytes:
+        en = lang == "eng"
+        header = (["REF_DATE", "GEO", "North American Industry Classification System (NAICS)",
+                   "UOM", "SCALAR_ID", "VALUE"] if en else
+                  ["PÉRIODE DE RÉFÉRENCE", "GÉO",
+                   "Système de classification des industries de l'Amérique du Nord (SCIAN)",
+                   "UNITÉ DE MESURE", "IDENTIFICATEUR SCALAIRE", "VALEUR"])
+        member = "All industries [T001]" if en else "Ensemble des industries [T001]"
+        rows = [header] + [[p, "Canada", member, "Dollars", "6", "100"] for p in periods]
+        path = _cube_zip(tmp_path / f"{lang}-{len(periods)}.zip", pid, rows, sep="," if en else ";",
+                         metadata=[["Cube Title"], ["GDP" if en else "PIB"]])
+        return path.read_bytes()
+
+    raw = tmp_path / "raw"
+    raw.mkdir()
+    for lang in ("eng", "fra"):
+        (raw / f"{pid}-{lang}.zip").write_bytes(cube(lang, ["2026-06"]))
+        statcan.release_path(raw / f"{pid}-{lang}.zip").write_text(july, encoding="utf-8")
+    fetch = _FakeWDS({f"{pid}-{lang}.zip": cube(lang, ["2026-06", "2026-07"]) for lang in ("eng", "fra")})
+
+    def pull_with(live: str):
+        monkeypatch.setattr(statcan, "release_time", lambda _fetch, _pid: live)
+        (series,), _ = stage.pull_cube(fetch, "national_monthly", pull, {"T001"}, raw)
+        return series
+
+    s = pull_with("")
+    assert (s.periods, s.release_time) == (("2026-06",), july)
+    assert fetch.downloads == []
+
+    # WDS says August but the July zip is kept. With today's `download_cube` a
+    # live stamp always replaces the zip, so only this pins the payload to the
+    # zip's stamp: a later "skip the 141 MB download" change must not publish
+    # August's stamp over July's figures.
+    real_download = statcan.download_cube
+    monkeypatch.setattr(statcan, "download_cube",
+                        lambda *a, **kw: real_download(*a, **{**kw, "live_release": ""}))
+    s = pull_with(august)
+    assert (s.periods, s.release_time) == (("2026-06",), july)
+    monkeypatch.setattr(statcan, "download_cube", real_download)
+
+    s = pull_with(august)
+    assert (s.periods, s.release_time) == (("2026-06", "2026-07"), august)
+    assert len(fetch.downloads) == 2
+
+    for lang in ("eng", "fra"):
+        statcan.release_path(raw / f"{pid}-{lang}.zip").unlink()
+    with pytest.raises(stage.VintageUnknown, match="no recorded release"):
+        pull_with("")
