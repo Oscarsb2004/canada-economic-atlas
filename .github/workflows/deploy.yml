@@ -8,18 +8,23 @@ name: Build (and deploy to Pages on demand)
 # To refresh the data, run `python run.py` locally and commit the result. The
 # diff is the review.
 #
-# Pull requests prove that a proposed change builds. Only a merge to protected
-# main deploys Pages; no feature branch can publish the public site.
+# THE ONE EXCEPTION IS LIVE VESSEL POSITIONS (BACKLOG S2, docs/AIS.md). They
+# change by the minute, so they cannot be a reviewed, zero-line-diff commit on
+# main. Once a day the `vessels` job listens to aisstream.io, merges what it
+# heard into the last snapshot, and commits it to the `vessel-positions`
+# branch — never to main. Every build copies the latest snapshot in, so a push
+# to main deploys the most recent positions too.
 #
-# The `build` job is worth having on its own even when a deploy is not wanted:
-# it typechecks and runs a real production build, so a push that would have
-# shipped a broken site fails here instead of shipping.
+# Pull requests prove that a proposed change builds. Only main deploys Pages; no
+# feature branch can publish the public site.
 
 on:
   pull_request:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: "23 7 * * *"
 
 # One concurrent deploy; a queued run supersedes an older one rather than
 # racing it. `cancel-in-progress: false` lets an in-flight deploy finish so
@@ -32,7 +37,74 @@ permissions:
   contents: read
 
 jobs:
+  vessels:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    env:
+      AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Is an aisstream.io key configured?
+        id: key
+        run: |
+          if [ -z "$AISSTREAM_API_KEY" ]; then
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::No AISSTREAM_API_KEY repository secret, so no vessel snapshot was collected."
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-python@v5
+        if: steps.key.outputs.present == 'true'
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - run: pip install -r requirements.txt
+        if: steps.key.outputs.present == 'true'
+
+      - name: The last published snapshot
+        if: steps.key.outputs.present == 'true'
+        run: |
+          if git fetch --depth=1 origin vessel-positions; then
+            git show FETCH_HEAD:positions.json > "$RUNNER_TEMP/previous.json"
+          else
+            echo '{}' > "$RUNNER_TEMP/previous.json"
+          fi
+
+      # 15 minutes: long enough for class A ships to send the six-minute static
+      # message that carries their IMO number, short enough to stay polite.
+      - name: Listen
+        if: steps.key.outputs.present == 'true'
+        run: python live/collect_ais.py --seconds 900 --previous "$RUNNER_TEMP/previous.json" --out "$RUNNER_TEMP/positions.json"
+
+      - name: Commit to the vessel-positions branch
+        if: steps.key.outputs.present == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch --depth=1 origin vessel-positions; then
+            git checkout -B vessel-positions FETCH_HEAD
+          else
+            git checkout --orphan vessel-positions
+            git rm -rfq .
+          fi
+          git clean -fdxq
+          cp "$RUNNER_TEMP/positions.json" positions.json
+          git add positions.json
+          git commit -qm "Vessel snapshot $(date -u +%Y-%m-%dT%H:%MZ)" || echo "snapshot unchanged"
+          git push origin vessel-positions
+
   build:
+    needs: vessels
+    # Runs when `vessels` was skipped (every push and pull request) and even
+    # when it failed, so the site always deploys the last good snapshot.
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -51,6 +123,15 @@ jobs:
       - run: npx tsc --noEmit
         working-directory: web
 
+      - name: Latest vessel snapshot
+        run: |
+          mkdir -p web/public/data/vessels
+          if git fetch --depth=1 origin vessel-positions; then
+            git show FETCH_HEAD:positions.json > web/public/data/vessels/positions.json
+          else
+            echo "No vessel snapshot has been published yet; the layer will say so."
+          fi
+
       # A project site is served from /<repo>/, so the build needs that prefix.
       # Derived from the repo name rather than hardcoded, so a rename or a fork
       # does not silently ship a site whose assets all 404.
@@ -65,7 +146,7 @@ jobs:
           path: web/dist
 
   deploy:
-    if: github.event_name == 'push'
+    if: always() && needs.build.result == 'success' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     permissions:

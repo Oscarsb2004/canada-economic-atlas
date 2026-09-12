@@ -24,7 +24,6 @@ from atlas.core.schema import (
     Geometry, GeometryKind, Municipality, Provenance, Series, SourceRef, Text, to_jsonable,
 )
 from atlas.sources import census
-from atlas.sources import companies as C
 from atlas.sources import mpo
 from atlas.sources import statcan
 from atlas.sources import tc_corridors as tc
@@ -452,38 +451,6 @@ def test_industry_code_is_parsed_from_the_label():
     # No bracket means no code — that is how provincial-only members are told
     # apart from real NAICS sectors without a second lookup.
     assert statcan.code_of("Some heading with no code") == ""
-
-
-def test_number_parsing_handles_thousands_separators():
-    """
-    The XIC holdings file writes "3,047.11". A bare float() raises on roughly
-    every large row, which is how a naive reader ends up with only the small
-    constituents.
-    """
-    assert C._num("3,047.11") == pytest.approx(3047.11)
-    assert C._num("-") is None
-    assert C._num("") is None
-
-
-def test_holdings_preamble_and_junk_rows():
-    """Cash, derivatives and stale zero-priced equities are not companies."""
-    csv = (
-        '﻿Fund Holdings as of,"Sep 2, 2026"\n'
-        " \n"
-        "Ticker,Name,Sector,Asset Class,Market Value,Weight (%),Shares,Price,Currency\n"
-        '"RY","ROYAL BANK","Financials","Equity","1,000.00","7.82","9,285","287.89","CAD"\n'
-        '"MLPFT","CASH COLLATERAL","Cash and/or Derivatives","Cash Collateral","1.00","0.01","1","1.00","CAD"\n'
-        '"2299955D","STALE CO","Information Technology","Equity","0.61","0.00","60,915","0.00","CAD"\n'
-    )
-    as_of, rows = C.parse_holdings(csv)
-    assert as_of == "Sep 2, 2026"
-    assert len(rows) == 3
-
-    crosswalk = {e["gics"]: e for e in yaml.safe_load(
-        (ROOT / "registry" / "gics_naics.yaml").read_text(encoding="utf-8"))["map"]}
-    kept = C.to_companies(rows, crosswalk)
-    assert [c.ticker for c in kept] == ["RY"]
-    assert kept[0].provenance is Provenance.MARKET_DATA
 
 
 # ── Registry integrity ─────────────────────────────────────────────────────────
@@ -1545,3 +1512,567 @@ def test_reading_more_dates_does_not_move_the_content_hash():
     assert "\x1eJuly 2026\x1f" not in page.verbatim_blob()
     assert "\x1f\x1fIn July 2026, MPO began consultations." not in page.verbatim_blob()
     assert "\x1e\x1fIn July 2026, MPO began consultations." in page.verbatim_blob()
+
+
+# ── C1: project industries ─────────────────────────────────────────────────────
+
+_STRUCTURE_EN = (
+    "﻿Level,Hierarchical structure,Code,Parent,Class title,Superscript,Class definition\n"
+    '1,Sector,23,,Construction,,"This sector comprises establishments primarily engaged in constructing, '
+    'repairing and renovating buildings and engineering works, and in subdividing and developing land."\n'
+    '1,Sector,48-49,,Transportation and warehousing,,"This sector comprises establishments primarily '
+    'engaged in transporting passengers and goods."\n'
+    '2,Subsector,488,48-49,Support activities for transportation,,"This subsector comprises '
+    'establishments primarily engaged in providing services to transportation."\n'
+    '5,Canadian industry,488310,488,Port and harbour operations,,"This Canadian industry comprises '
+    'establishments primarily engaged in operating port and harbour facilities and services."\n'
+)
+# "Parent " with a trailing space, as StatCan's French file publishes it.
+_STRUCTURE_FR = (
+    "﻿Niveau,Structure hiérarchique,Code,Parent ,Titres de classes,Supérieurs,Définitions de la classe\n"
+    "1,Secteur,23,,Construction,,\"Ce secteur comprend les établissements dont l'activité principale est la "
+    "construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil.\"\n"
+    '1,Secteur,48-49,,Transport et entreposage,,"Ce secteur comprend le transport."\n'
+    '2,Sous-secteur,488,48-49,Activités de soutien au transport,,"Ce sous-secteur comprend le soutien."\n'
+    "5,Classe canadienne,488310,488,Opérations portuaires,,\"Cette classe canadienne comprend les "
+    "établissements dont l'activité principale consiste à exploiter des installations portuaires.\"\n"
+)
+_ELEMENTS_EN = (
+    "﻿Level,Code,Class title,Element Type Label,Element Description\n"
+    "5,488310,Port and harbour operations,Illustrative example(s),harbour operation\n"
+    "5,488310,Port and harbour operations,Illustrative example(s),waterfront terminal operation\n"
+    "5,488310,Port and harbour operations,Illustrative example(s),seaway operation\n"
+)
+# Sorted by the French wording, NOT in the English order — as StatCan publishes it.
+_ELEMENTS_FR = (
+    "﻿Niveau,Code,Titres de classes,Nom du type d'élément,Description d'élément\n"
+    '5,488310,Opérations portuaires,Exemple(s) illustratif(s),"ports, exploitation de"\n'
+    '5,488310,Opérations portuaires,Exemple(s) illustratif(s),"terminus riverain, exploitation de"\n'
+    '5,488310,Opérations portuaires,Exemple(s) illustratif(s),"voie maritime, exploitation de"\n'
+)
+_PORT_EVIDENCE = {"kind": "illustrative_example", "code": "488310",
+                  "en": "waterfront terminal operation", "fr": "terminus riverain, exploitation de"}
+
+
+def _classification():
+    from atlas.sources import naics
+    return naics.read(_STRUCTURE_EN, _STRUCTURE_FR, _ELEMENTS_EN, _ELEMENTS_FR)
+
+
+def test_naics_quotes_must_be_statistics_canadas_words_in_both_languages():
+    """
+    Every industry placement quotes StatCan, and the quote is the only thing
+    that makes the placement checkable (CLAUDE.md §11). A paraphrase, a quote
+    filed under the wrong element type, a fragment of an element, or a missing
+    French quote must stop the stage rather than publish words StatCan did not
+    write.
+    """
+    from atlas.sources import naics
+    c = _classification()
+    ok = naics.evidence(c, "488310", "illustrative_example",
+                        Text(en="waterfront terminal operation", fr="terminus riverain, exploitation de"))
+    assert ok.code == "488310"
+    naics.evidence(c, "23", "definition", Text(
+        en="constructing, repairing and renovating buildings and engineering works",
+        fr="la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"))
+    for bad in (
+        ("illustrative_example", Text(en="terminal operation, waterfront", fr="terminus riverain, exploitation de")),
+        ("exclusion", Text(en="waterfront terminal operation", fr="terminus riverain, exploitation de")),
+        ("illustrative_example", Text(en="waterfront terminal operation", fr="")),
+        ("illustrative_example", Text(en="waterfront terminal", fr="terminus riverain, exploitation de")),
+    ):
+        with pytest.raises(naics.NaicsError):
+            naics.evidence(c, "488310", *bad)
+
+
+def test_naics_sector_follows_statistics_canadas_parent_column():
+    """
+    The sector a code joins GDP on is read from StatCan's hierarchy: 488310's
+    parent chain ends at "48-49", a range no digit prefix of the code spells.
+    """
+    from atlas.sources import naics
+    c = _classification()
+    assert naics.sector_of(c, "488310") == "48-49"
+    with pytest.raises(naics.NaicsError):
+        naics.sector_of(c, "999999")
+
+
+def test_registry_evidence_kinds_match_the_parser():
+    """registry.py re-declares the kinds so it imports nothing from the package; they must not drift."""
+    from atlas.sources import naics
+    assert R.PROJECT_EVIDENCE_KINDS == naics.EVIDENCE_KINDS
+
+
+def test_the_committed_project_naics_registry_loads():
+    """Shape only: every entry has quoted codes, both languages, and a declared inventory."""
+    reg = R.project_naics()
+    assert reg["projects"]
+    assert all(isinstance(op["code"], str) for e in reg["projects"].values() for op in e["operating"])
+
+
+def test_project_naics_registry_rejects_an_unquoted_code(tmp_path, monkeypatch):
+    """
+    YAML reads a bare 212232 as an integer, which matches no StatCan code and
+    would fail far from the typo. The loader refuses it where it was written.
+    """
+    import shutil
+    shutil.copy(R.REGISTRY_DIR / "sources.yaml", tmp_path / "sources.yaml")
+    text = (R.REGISTRY_DIR / "mpo_naics.yaml").read_text(encoding="utf-8")
+    assert 'code: "212232"' in text
+    (tmp_path / "mpo_naics.yaml").write_text(text.replace('code: "212232"', "code: 212232", 1),
+                                             encoding="utf-8")
+    monkeypatch.setattr(R, "REGISTRY_DIR", tmp_path)
+    R.sources.cache_clear()
+    R.project_naics.cache_clear()
+    try:
+        with pytest.raises(R.RegistryError, match="quoted string"):
+            R.project_naics()
+    finally:
+        R.sources.cache_clear()
+        R.project_naics.cache_clear()
+
+
+def _inventory_row(pid, status_en, status_fr, points=((-73.0, 45.0),)):
+    from atlas.sources import mpi
+    return mpi.InventoryRow(project_id=pid, name=f"project {pid}", proponent="p", province="QC",
+                            status=Text(en=status_en, fr=status_fr),
+                            prior_status=Text(en="Approved", fr="Approuvé"), points=tuple(points))
+
+
+def test_an_inventory_join_is_held_to_distance():
+    """
+    Joins are declared by ID and then checked against geography, because names
+    disagree even when the project is the same. A declared ID whose nearest
+    point is past the limit fails, and a join the inventory gives no point for
+    fails unless the registry accepts it in so many words.
+    """
+    from atlas.sources import mpi
+    near = _inventory_row("0001", "Approved", "Approuvé", points=((-73.0, 45.0),))
+    assert mpi.check_join(near, [(-73.1, 45.0)], max_km=25, accept_without_coordinates=False, slug="x") < 25
+    with pytest.raises(mpi.InventoryError):
+        mpi.check_join(near, [(-75.0, 45.0)], max_km=25, accept_without_coordinates=False, slug="x")
+    bare = _inventory_row("0002", "Approved", "Approuvé", points=())
+    with pytest.raises(mpi.InventoryError):
+        mpi.check_join(bare, [(-73.0, 45.0)], max_km=25, accept_without_coordinates=False, slug="x")
+    assert mpi.check_join(bare, [(-73.0, 45.0)], max_km=25, accept_without_coordinates=True, slug="x") is None
+
+
+def test_the_inventory_is_read_in_both_languages_and_joined_on_id(tmp_path):
+    """
+    The French file carries French status words under French column names. It
+    is joined on Project ID, the two files must list the same projects, and an
+    ID stored as a number (so that "0329" became 329) is refused.
+    """
+    import openpyxl
+    from atlas.sources import mpi
+
+    def book(path, sheet, header, rows):
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = sheet
+        ws.append(header)
+        for row in rows:
+            ws.append(row)
+        wb.save(path)
+
+    points = ["Latitude 1", "Longitude 1"] + [f"{k} {i}" for i in range(2, 7) for k in ("Lat.", "Lon.")]
+    en_header = ["Project ID", "Project Name", "Company/ Proponent", "P/T", "Status 2025", "Status 2024"] + points
+    fr_header = ["Numéro d'identification", "Nom du projet", "Nom de l'entreprise", "P/T",
+                 "Status 2025", "Status 2024"]
+    read = dict(sheet_en="Data", sheet_fr="Données", status_field="Status 2025",
+                prior_status_field="Status 2024")
+
+    book(tmp_path / "en.xlsx", "Data", en_header,
+         [["0329", "Sisson Project", "Northcliff", "NB", "Under construction", "Approved", 46.37, -66.93]])
+    book(tmp_path / "fr.xlsx", "Données", fr_header,
+         [["0329", "Sisson Project", "Northcliff", "NB", "En construction", "Approuvé"]])
+    rows = mpi.read(tmp_path / "en.xlsx", tmp_path / "fr.xlsx", **read)
+    assert rows["0329"].status == Text(en="Under construction", fr="En construction")
+    assert rows["0329"].points == ((-66.93, 46.37),)       # [lon, lat]
+
+    book(tmp_path / "fr.xlsx", "Données", fr_header, [["0330", "Other", "x", "NB", "Approuvé", "Approuvé"]])
+    with pytest.raises(mpi.InventoryError, match="different projects"):
+        mpi.read(tmp_path / "en.xlsx", tmp_path / "fr.xlsx", **read)
+
+    book(tmp_path / "en.xlsx", "Data", en_header, [[329, "Sisson", "Northcliff", "NB", "Approved", "Approved"]])
+    with pytest.raises(mpi.InventoryError, match="not text"):
+        mpi.read(tmp_path / "en.xlsx", tmp_path / "fr.xlsx", **read)
+
+
+def _industry_registry(**projects):
+    return {
+        "join_max_km": 25,
+        "construction": {
+            "sector": "23",
+            "listed_when_status": {"en": "Under Construction", "fr": "En construction"},
+            "evidence": {"kind": "definition", "code": "23",
+                         "en": "constructing, repairing and renovating buildings and engineering works",
+                         "fr": "la construction, la réparation et la rénovation d'immeubles et "
+                               "d'ouvrages de génie civil"},
+        },
+        "projects": projects,
+    }
+
+
+def _port_project(slug, anchor=(-73.1, 45.0)):
+    return {"slug": slug,
+            "description": {"en": f"{slug} adds a container terminal.",
+                            "fr": f"{slug} ajoute un terminal à conteneurs."},
+            "sites": [{"geometry": {"anchor": list(anchor)}}]}
+
+
+def _port_entry(inventory):
+    return {"operating": [{"code": "488310",
+                           "asset": {"en": "a container terminal", "fr": "un terminal à conteneurs"},
+                           "evidence": [dict(_PORT_EVIDENCE)]}],
+            "inventory": inventory}
+
+
+def test_construction_listing_needs_a_published_status():
+    """
+    The decision was: counted in construction WHILE under construction, so a
+    published status is required, and "the inventory does not list it" is never
+    read as "not under construction". The English file writes the status in two
+    casings and both list the project. A status the two languages disagree on is
+    refused rather than shown in one of them.
+    """
+    from atlas import industries
+    inv = {
+        "0001": _inventory_row("0001", "Under construction", "En construction"),
+        "0002": _inventory_row("0002", "Approved", "Approuvé"),
+        "0003": _inventory_row("0003", "Under Construction", "Approuvé"),
+    }
+    reg = _industry_registry(a=_port_entry({"id": "0001"}), b=_port_entry({"id": "0002"}), c=_port_entry(None))
+    out = {x.slug: x.construction for x in industries.build(
+        [_port_project("a"), _port_project("b"), _port_project("c")], reg, _classification(), inv,
+        status_field="Status 2025")}
+    assert (out["a"].listed, out["a"].basis) == (True, "under_construction")
+    assert (out["b"].listed, out["b"].basis) == (False, "not_under_construction")
+    assert (out["c"].listed, out["c"].basis, out["c"].status) == (False, "not_in_inventory", None)
+
+    with pytest.raises(industries.IndustryError, match="disagrees between languages"):
+        industries.build([_port_project("d")], _industry_registry(d=_port_entry({"id": "0003"})),
+                         _classification(), inv, status_field="Status 2025")
+
+
+def test_a_placement_must_quote_the_project_page_and_cover_every_project():
+    """
+    The asset named in the registry must be the page's own words, in both
+    languages; and every project needs an entry, because a project without one
+    would silently drop out of every sector count (CLAUDE.md §2b).
+    """
+    from atlas import industries
+    entry = _port_entry(None)
+    entry["operating"][0]["asset"] = {"en": "a marine terminal", "fr": "un terminal à conteneurs"}
+    with pytest.raises(industries.IndustryError, match="asset quote"):
+        industries.build([_port_project("a")], _industry_registry(a=entry), _classification(), {},
+                         status_field="Status 2025")
+    with pytest.raises(industries.IndustryError, match="no entry for"):
+        industries.build([_port_project("a"), _port_project("b")], _industry_registry(a=_port_entry(None)),
+                         _classification(), {}, status_field="Status 2025")
+    placed = industries.build([_port_project("a")], _industry_registry(a=_port_entry(None)),
+                              _classification(), {}, status_field="Status 2025")[0].operating[0]
+    assert (placed.code, placed.sector, placed.provenance) == ("488310", "48-49", Provenance.DERIVED)
+
+
+# ── S1: the Canadian vessel register ───────────────────────────────────────────
+
+def _register_books(tmp_path, en_rows, fr_rows):
+    """Two workbooks shaped like Transport Canada's: English header on row 2, French on row 1."""
+    import openpyxl
+    from atlas.sources import vessels
+
+    def book(path, header, rows, blank_first_row):
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Report 1"
+        if blank_first_row:
+            ws.append([None])
+        ws.append([None] + header)
+        for row in rows:
+            ws.append([None] + row)
+        wb.save(path)
+
+    en_header = list(vessels.COLUMNS["en"].values())
+    fr_cols = list(vessels.COLUMNS["fr"].values())
+    # The French file carries an extra, empty expiry column the English lacks.
+    fr_header = fr_cols[:8] + ["Date d'expiration du certificat d'immatriculation"] + fr_cols[8:]
+    fr_rows = [r[:8] + [None] + r[8:] for r in fr_rows]
+    book(tmp_path / "en.xlsx", en_header, en_rows, True)
+    book(tmp_path / "fr.xlsx", fr_header, fr_rows, False)
+    return tmp_path / "en.xlsx", tmp_path / "fr.xlsx"
+
+
+def _register_row(number, name, imo, tonnage, port, descriptor):
+    from datetime import datetime
+    return [number, name, imo, None, 201901, None, port, datetime(2020, 8, 26), descriptor, tonnage, 5.0,
+            "CARVEL", "STEEL", 13.7, 5.0, 2.0, "DIESEL", 1, "MOTOR", 9, "SINGLE SCREW", 300]
+
+
+def test_imo_check_digit_is_the_published_formula():
+    """The one derived field on a vessel: a stated formula over the published IMO number."""
+    from atlas.sources import vessels
+    assert vessels.imo_check_digit_valid("9074729")
+    assert not vessels.imo_check_digit_valid("9074728")
+    assert not vessels.imo_check_digit_valid("946245")      # six digits, as one register entry publishes
+
+
+def test_vessel_register_pairs_languages_by_row_and_keeps_repeated_numbers(tmp_path):
+    """
+    The register lists some Official Numbers twice with different tonnage, so
+    the number alone cannot key a join: both rows are reproduced, identified by
+    their position, and the two languages are paired by row with the number
+    checked on every one. Words come from each language's own file.
+    """
+    from atlas.sources import vessels
+    en, fr = _register_books(
+        tmp_path,
+        [_register_row(843892, "MTS 3504", "9896531", 14.8, "HAY RIVER, NT", "FISHING"),
+         _register_row(843892, "MTS 3504", "9896531", 1818, "HAY RIVER, NT", "FISHING"),
+         _register_row(848816, "ABROAD", None, 20.0, "NOT IN CANADA", "TUG")],
+        [_register_row(843892, "MTS 3504", "9896531", 14.8, "HAY RIVER, NT", "PECHE"),
+         _register_row(843892, "MTS 3504", "9896531", 1818, "HAY RIVER, NT", "PECHE"),
+         _register_row(848816, "ABROAD", None, 20.0, "PAS AU CANADA", "REMORQUEUR")],
+    )
+    out = vessels.read(en, fr)
+    assert [(v.official_number, v.register_row, v.gross_tonnage) for v in out] == [
+        (843892, 1, 14.8), (843892, 2, 1818), (848816, 3, 20.0)]
+    assert out[0].descriptor == Text(en="FISHING", fr="PECHE")
+    assert out[2].port_of_registry == Text(en="NOT IN CANADA", fr="PAS AU CANADA")
+    assert (out[0].imo, out[0].imo_check_digit_valid, out[2].imo) == ("9896531", True, "")
+    assert out[0].registration_date == "2020-08-26"
+    assert out[0].year_of_build == 201901                   # as published; no year is read out of it
+
+
+def test_vessel_register_refuses_rows_out_of_order_or_numbers_that_disagree(tmp_path):
+    """
+    Pairing by position is only safe while both files list the same vessel on
+    every row; and a number (not a word) that differs between the files means
+    one of them is wrong, so neither is published.
+    """
+    from atlas.sources import vessels
+    a = _register_row(1, "A", None, 10.0, "HALIFAX", "TUG")
+    b = _register_row(2, "B", None, 11.0, "HALIFAX", "TUG")
+    en, fr = _register_books(tmp_path, [a, b], [b, a])
+    with pytest.raises(vessels.VesselRegisterError, match="same order"):
+        vessels.read(en, fr)
+
+    heavier = _register_row(1, "A", None, 99.0, "HALIFAX", "TUG")
+    en, fr = _register_books(tmp_path, [a], [heavier])
+    with pytest.raises(vessels.VesselRegisterError, match="differ between the English and French"):
+        vessels.read(en, fr)
+
+
+def test_an_inventory_distance_waiver_is_declared_and_only_where_needed():
+    """
+    Taltson is matched on the owner's decision although its inventory point is
+    134 km away. The waiver is per entry, must be larger than the limit, and is
+    refused where the distance does not need it — so a waiver cannot quietly
+    outlive the disagreement it was granted for.
+    """
+    from atlas.sources import mpi
+    far = _inventory_row("1063", "Under Construction", "En construction", points=((-111.0, 60.0),))
+    anchor = [(-113.5, 60.5)]
+    with pytest.raises(mpi.InventoryError, match="over the 25"):
+        mpi.check_join(far, anchor, max_km=25, accept_without_coordinates=False, slug="t")
+    assert mpi.check_join(far, anchor, max_km=25, accept_without_coordinates=False, slug="t",
+                          accept_km=200) > 25
+    near = _inventory_row("0001", "Approved", "Approuvé", points=((-113.5, 60.5),))
+    with pytest.raises(mpi.InventoryError, match="Remove the waiver"):
+        mpi.check_join(near, anchor, max_km=25, accept_without_coordinates=False, slug="t", accept_km=200)
+
+
+# ── S2: Canadian vessels from the AIS relay ───────────────────────────────────
+
+def _ais_position(mmsi, lon, lat, kind="PositionReport", **extra):
+    body = {"UserID": mmsi, "Valid": True, "Longitude": lon, "Latitude": lat, "Sog": 12.5, "Cog": 45.0,
+            "TrueHeading": 44, "NavigationalStatus": 0}
+    body.update(extra)
+    return {"MessageType": kind, "MetaData": {}, "Message": {kind: body}}
+
+
+def _ais_static(mmsi, imo, name="NORTHERN SPIRIT@@@@", destination="HALIFAX@@@"):
+    return {"MessageType": "ShipStaticData", "MetaData": {}, "Message": {"ShipStaticData": {
+        "UserID": mmsi, "Valid": True, "ImoNumber": imo, "CallSign": "CFA1234", "Name": name, "Type": 70,
+        "Destination": destination, "Eta": {"Month": 9, "Day": 14, "Hour": 6, "Minute": 30}}}}
+
+
+def _ais_register():
+    from atlas.sources import aisstream
+    return aisstream.register_index({"vessels": [
+        {"imo": "9074729", "imo_check_digit_valid": True, "official_number": 800001, "register_row": 1,
+         "name": "NORTHERN SPIRIT", "port_of_registry": {"en": "HALIFAX", "fr": "HALIFAX"},
+         "descriptor": {"en": "CARGO", "fr": "CARGO"}, "gross_tonnage": 9000},
+        {"imo": "946245", "imo_check_digit_valid": False, "official_number": 833669, "register_row": 2,
+         "name": "SEAFARI V", "port_of_registry": {"en": "QUEBEC", "fr": "QUEBEC"},
+         "descriptor": {"en": "PLEASURE CRAFT", "fr": "EMBARCATION DE PLAISANCE"}, "gross_tonnage": 12},
+    ]})
+
+
+def _ais_snapshot(tracker, previous=None):
+    from atlas.sources import aisstream
+    return aisstream.build_snapshot(tracker, previous, _ais_register(), window_from="2026-09-12T07:00:00Z",
+                                    window_to="2026-09-12T07:15:00Z", feed={"title": "aisstream.io"},
+                                    register_source={"title": "register"})
+
+
+def test_only_nine_digit_ship_stations_carry_a_flag_digit():
+    """
+    An MMSI begins with its country's digits only in the ship-station form.
+    Coast stations (00316…), group calls (0316…), aids to navigation (99316…)
+    and search-and-rescue aircraft (111316…) contain 316 without being vessels.
+    """
+    from atlas.sources import aisstream
+    assert aisstream.ship_station_mid(316001234) == "316"
+    assert aisstream.ship_station_mid("003161234") is None
+    assert aisstream.ship_station_mid("993161234") is None
+    assert aisstream.ship_station_mid("111316123") is None
+    assert aisstream.ship_station_mid("3160012345") is None
+
+
+def test_ais_not_available_values_are_null_never_a_position():
+    """
+    The AIS standard sends longitude 181 / latitude 91 for "no position", 102.3
+    knots for "no speed", 360 for "no course" and 511 for "no heading". Read as
+    numbers they put a ship off the map at impossible speed.
+    """
+    from atlas.sources import aisstream
+    t = aisstream.Tracker()
+    t.ingest(_ais_position(316000001, 181, 91), "2026-09-12T07:01:00Z")
+    assert t.heard["316000001"].position is None
+    t.ingest(_ais_position(316000001, -63.5, 44.6, Sog=102.3, Cog=360.0, TrueHeading=511), "2026-09-12T07:02:00Z")
+    assert t.heard["316000001"].position == {"lon": -63.5, "lat": 44.6, "sog": None, "cog": None,
+                                              "heading": None, "nav_status": 0}
+
+
+def test_snapshot_keeps_canadian_vessels_by_either_signal_and_carries_the_unheard_forward():
+    """
+    Canadian by radio identity (316) or by the register (IMO), both recorded; a
+    foreign vessel with neither is left out; a vessel not heard this window
+    keeps its last position and time rather than vanishing or moving; and a
+    vessel with no position heard yet is not placed anywhere.
+    """
+    from atlas.sources import aisstream
+    t = aisstream.Tracker()
+    t.ingest(_ais_position(316000001, -63.5, 44.6), "2026-09-12T07:01:00Z")          # Canadian MMSI, no IMO
+    t.ingest(_ais_position(538000002, 4.4, 51.9), "2026-09-12T07:02:00Z")            # foreign MMSI...
+    t.ingest(_ais_static(538000002, 9074729), "2026-09-12T07:05:00Z")                # ...registered in Canada
+    t.ingest(_ais_position(636000003, 103.8, 1.2), "2026-09-12T07:03:00Z")           # foreign, not registered
+    t.ingest(_ais_static(316000004, 9999999), "2026-09-12T07:04:00Z")                # Canadian, no position yet
+    t.ingest(_ais_position(316000005, -123.1, 49.3), "2026-09-12T07:06:00Z")
+    t.ingest(_ais_static(316000005, 1234567), "2026-09-12T07:07:00Z")                # Canadian, IMO not registered
+    previous = {"vessels": [{"mmsi": "316000009", "class": "A", "position": {"lon": -30.0, "lat": 45.0},
+                             "position_received_at": "2026-09-01T12:00:00Z", "imo": None,
+                             "name": "OUT OF RANGE", "flag_basis": ["mmsi_mid"], "notes": [], "register": []}]}
+    doc = _ais_snapshot(t, previous)
+    aisstream.validate_snapshot(doc)
+    by = {v["mmsi"]: v for v in doc["vessels"]}
+    assert sorted(by) == ["316000001", "316000005", "316000009", "538000002"]
+    assert by["538000002"]["flag_basis"] == ["register_imo"]
+    assert by["538000002"]["notes"] == ["mmsi_prefix_not_canadian"]
+    assert by["538000002"]["register"][0]["official_number"] == 800001
+    assert (by["538000002"]["name"], by["538000002"]["destination"]) == ("NORTHERN SPIRIT", "HALIFAX")
+    assert by["316000005"]["notes"] == ["imo_not_in_register"]
+    assert by["316000009"]["position_received_at"] == "2026-09-01T12:00:00Z"
+    assert doc["window"]["canadian_heard_this_window"] == 3
+
+
+def test_a_snapshot_that_cannot_justify_a_vessel_is_refused():
+    """Nothing reaches the public map without a flag reason, a real position and a time."""
+    from atlas.sources import aisstream
+    good = {"mmsi": "316000001", "flag_basis": ["mmsi_mid"], "notes": [], "register": [],
+            "position": {"lon": -63.5, "lat": 44.6}, "position_received_at": "2026-09-12T07:01:00Z"}
+    aisstream.validate_snapshot({"schema_version": 1, "vessels": [good]})
+    for bad in ({**good, "flag_basis": []}, {**good, "position": {"lon": 181, "lat": 91}},
+                {**good, "position_received_at": None}, {**good, "flag_basis": ["register_imo"]}):
+        with pytest.raises(aisstream.SnapshotError):
+            aisstream.validate_snapshot({"schema_version": 1, "vessels": [bad]})
+
+
+# ── Q2b: Canadian Business Counts ──────────────────────────────────────────────
+
+def test_the_latest_business_counts_table_is_found_by_its_exact_title():
+    """
+    StatCan publishes each half-year as a new table, so a registry product ID
+    goes stale. The newest "with employees, <Month Year>" table is chosen, and
+    the same series' "without employees" and metropolitan-area tables are not.
+    """
+    from atlas.sources import business_counts as bc
+    cubes = [
+        {"productId": 33101095, "cubeTitleEn": "Canadian Business Counts, with employees, December 2025", "releaseTime": "2026-02-13T13:30:00Z"},
+        {"productId": 33101174, "cubeTitleEn": "Canadian Business Counts, with employees, June 2026", "releaseTime": "2026-08-14T12:30:00Z"},
+        {"productId": 33101175, "cubeTitleEn": "Canadian Business Counts, without employees, June 2026", "releaseTime": "2026-08-15T12:30:00Z"},
+        {"productId": 33101176, "cubeTitleEn": "Canadian Business Counts, with employees, census metropolitan areas and census subdivisions, June 2026", "releaseTime": "2026-08-16T12:30:00Z"},
+    ]
+    assert bc.latest_table(cubes)["productId"] == 33101174
+    with pytest.raises(bc.BusinessCountsError):
+        bc.latest_table(cubes[2:])
+
+
+def _bc_tables(drop_french_row=False):
+    from atlas.sources import business_counts as bc
+    en_h = list(bc.COLUMNS["en"].values())
+    fr_h = list(bc.COLUMNS["fr"].values())
+    geos = [("Canada", "Canada", "1"), ("Ontario", "Ontario", "2")]
+    sizes = [("Total, with employees", "Total, avec employés", "1"), ("1 to 4 employees", "1 à 4 employés", "2")]
+    naics = [("Total, all industries [1]", "Total, toutes les industries [1]", "1"),
+             ("Unclassified [2]", "Non classifié [2]", "2"),
+             ("Construction [23]", "Construction [23]", "3"),
+             ("Residential building construction [2361]", "Construction résidentielle [2361]", "4")]
+    en, fr = [], []
+    for geo_en, geo_fr, g in geos:
+        for size_en, size_fr, s in sizes:
+            for n_en, n_fr, n in naics:
+                coord = f"{g}.{s}.{n}"
+                en.append(["2026-01", geo_en, size_en, n_en, coord, "7"])
+                fr.append(["2026-01", geo_fr, size_fr, n_fr, coord, "7"])
+    if drop_french_row:
+        fr = [r for r in fr if r[4] != "2.2.3"]   # Ontario, 1 to 4, Construction: a kept cell
+    return en_h, en, fr_h, fr
+
+
+def test_business_counts_join_languages_on_the_cell_and_keep_only_declared_sectors():
+    """
+    The two CSVs are joined on StatCan's coordinate, not row order. Only the
+    registry's sectors and the two aggregates are kept — a four-digit industry
+    is not a sector — and a cell missing from one language stops the stage.
+    """
+    from atlas.sources import business_counts as bc
+    doc = bc.build(*_bc_tables(), sector_codes=["23"], geo_codes={"Canada": "CA", "Ontario": "ON"})
+    assert [i["code"] for i in doc["industries"]] == ["total", "23", "unclassified"]
+    assert doc["industries"][2]["label"] == {"en": "Unclassified", "fr": "Non classifié"}
+    assert doc["size_ranges"][1] == {"en": "1 to 4 employees", "fr": "1 à 4 employés"}
+    assert doc["counts"]["ON"]["23"] == [7, 7]
+    assert doc["reference_period"] == "2026-01"
+    with pytest.raises(bc.BusinessCountsError, match="not the French one"):
+        bc.build(*_bc_tables(drop_french_row=True), sector_codes=["23"],
+                 geo_codes={"Canada": "CA", "Ontario": "ON"})
+    with pytest.raises(bc.BusinessCountsError, match="missing"):
+        bc.build(*_bc_tables(), sector_codes=["23", "52"], geo_codes={"Canada": "CA", "Ontario": "ON"})
+
+
+def test_an_unpublished_size_range_is_null_and_only_where_the_total_leaves_none():
+    """
+    StatCan publishes no zero rows: a size range with no locations simply has no
+    row. It is carried as null, never invented as 0 — and only when the published
+    total less the published ranges is exactly 0. Otherwise the gap is not a zero
+    and the stage stops.
+    """
+    from atlas.sources import business_counts as bc
+    en_h, en, fr_h, fr = _bc_tables()
+    geo = {"Canada": "CA", "Ontario": "ON"}
+
+    def without(rows, coord):
+        return [r for r in rows if r[4] != coord]
+
+    # Ontario / "1 to 4" / Construction removed from both files; its total (7)
+    # now exceeds the published ranges (none), so the gap is not a zero.
+    with pytest.raises(bc.BusinessCountsError, match="cannot be read as zero"):
+        bc.build(en_h, without(en, "2.2.3"), fr_h, without(fr, "2.2.3"), sector_codes=["23"], geo_codes=geo)
+
+    # Make the total 0 as well, and the absent range is a proven zero.
+    en0 = [r[:5] + ["0"] if r[4] == "2.1.3" else r for r in without(en, "2.2.3")]
+    fr0 = [r[:5] + ["0"] if r[4] == "2.1.3" else r for r in without(fr, "2.2.3")]
+    doc = bc.build(en_h, en0, fr_h, fr0, sector_codes=["23"], geo_codes=geo)
+    assert doc["counts"]["ON"]["23"] == [0, None]
+    assert doc["absent_cells"] == 1

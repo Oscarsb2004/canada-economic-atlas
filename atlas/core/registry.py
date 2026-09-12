@@ -236,6 +236,100 @@ def strategy(slug: str) -> Strategy | None:
     return next((s for s in strategies() if s.slug == slug), None)
 
 
+# ── Project industries ─────────────────────────────────────────────────────────
+
+#: Re-declared from atlas.sources.naics so this module imports nothing from the
+#: package; `tests/` asserts the two sets are equal.
+PROJECT_EVIDENCE_KINDS = frozenset(
+    {"definition", "illustrative_example", "all_examples", "inclusion", "exclusion"}
+)
+
+
+@lru_cache(maxsize=1)
+def project_naics() -> dict[str, Any]:
+    """
+    `mpo_naics.yaml`, validated for shape.
+
+    Whether each quote is really on its project page and really in Statistics
+    Canada's files is checked against those sources by stage 06, not here — this
+    only refuses a file that could not be checked at all.
+    """
+    name = "mpo_naics.yaml"
+    data = _load(name)
+    for key in ("version", "classification_source", "inventory_source", "join_max_km",
+                "construction", "projects"):
+        if key not in data:
+            raise RegistryError(f"{name}: `{key}` is required")
+    source(data["classification_source"])
+    source(data["inventory_source"])
+    if not isinstance(data["join_max_km"], (int, float)) or data["join_max_km"] <= 0:
+        raise RegistryError(f"{name}: join_max_km must be a positive number")
+
+    def code(value: Any, where: str) -> None:
+        # YAML reads a bare 212233 as an integer, and a bare 23 the same way.
+        if not isinstance(value, str) or not value:
+            raise RegistryError(f"{name}: {where} code {value!r} must be a quoted string")
+
+    def pair(value: Any, where: str, *, required: bool = True) -> None:
+        if value is None and not required:
+            return
+        if not (isinstance(value, dict) and isinstance(value.get("en"), str) and value["en"].strip()
+                and isinstance(value.get("fr"), str) and value["fr"].strip()):
+            raise RegistryError(f"{name}: {where} needs non-empty `en` AND `fr`")
+
+    def evidence(value: Any, where: str) -> None:
+        if not isinstance(value, dict) or value.get("kind") not in PROJECT_EVIDENCE_KINDS:
+            raise RegistryError(f"{name}: {where} needs a kind in {sorted(PROJECT_EVIDENCE_KINDS)}")
+        code(value.get("code"), where)
+        pair(value, where)
+
+    cons = data["construction"]
+    code(cons.get("sector"), "construction.sector")
+    pair(cons.get("listed_when_status"), "construction.listed_when_status")
+    evidence(cons.get("evidence"), "construction.evidence")
+
+    projects = data["projects"]
+    if not isinstance(projects, dict) or not projects:
+        raise RegistryError(f"{name}: `projects` must map each slug to its entry")
+    for slug, entry in projects.items():
+        ops = (entry or {}).get("operating")
+        if not isinstance(ops, list) or not ops:
+            raise RegistryError(f"{name}: {slug} has no operating industry")
+        for i, op in enumerate(ops):
+            where = f"{slug}.operating[{i}]"
+            code(op.get("code"), where)
+            pair(op.get("asset"), f"{where}.asset")
+            pair(op.get("note"), f"{where}.note", required=False)
+            if not isinstance(op.get("evidence"), list) or not op["evidence"]:
+                raise RegistryError(f"{name}: {where} quotes no evidence")
+            for j, ev in enumerate(op["evidence"]):
+                evidence(ev, f"{where}.evidence[{j}]")
+        if "inventory" not in entry:
+            raise RegistryError(
+                f"{name}: {slug} must declare `inventory` — an ID, or null. An absent key "
+                f"and a project the inventory does not list would otherwise look the same."
+            )
+        inv = entry["inventory"]
+        if inv is not None:
+            if not isinstance(inv, dict):
+                raise RegistryError(f"{name}: {slug}.inventory must be null or a mapping with `id`")
+            code(inv.get("id"), f"{slug}.inventory")
+            waiver = inv.get("accept_distance_km")
+            if waiver is not None:
+                if not isinstance(waiver, (int, float)) or waiver <= data["join_max_km"]:
+                    raise RegistryError(
+                        f"{name}: {slug}.inventory.accept_distance_km must be a number above "
+                        f"join_max_km — a waiver below the limit is not a waiver"
+                    )
+                if not entry.get("inventory_note"):
+                    raise RegistryError(
+                        f"{name}: {slug} waives the join distance and must say so on screen "
+                        f"in an `inventory_note`"
+                    )
+        pair(entry.get("inventory_note"), f"{slug}.inventory_note", required=False)
+    return data
+
+
 # ── Trade corridors ────────────────────────────────────────────────────────────
 
 @dataclass(frozen=True, slots=True)

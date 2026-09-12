@@ -35,13 +35,10 @@ licences:
       Source: Bank of Canada. Data used under the Bank of Canada Terms of Use;
       modified from the original.
 
-  fund-disclosure:
-    name: BlackRock iShares fund disclosure
-    url: https://www.blackrock.com/ca
-    redistribution: >-
-      Free to consume as published fund disclosure. The constituent list itself
-      is S&P Dow Jones Indices intellectual property; do not redistribute it as
-      "the S&P/TSX Composite list".
+  aisstream-unstated:
+    name: aisstream.io — no published terms of use (checked 2026-09-12)
+    url: https://aisstream.io
+    redistribution: unstated
 
 sources:
   mpo_arcgis:
@@ -161,14 +158,14 @@ sources:
     groups:
       fx_daily: FX_RATES_DAILY
 
-  xic_holdings:
-    title: iShares S&P/TSX Capped Composite Index ETF holdings
-    publisher: BlackRock Canada
-    licence: fund-disclosure
-    attribution: BlackRock Canada, iShares XIC published holdings
-    csv: https://www.blackrock.com/ca/investors/en/products/239837/ishares-sptsx-capped-composite-index-etf/1464253357814.ajax?fileType=csv&fileName=XIC_holdings&dataType=fund
-    # Weight is CAPPED index weight, not market cap, and not output. This panel
-    # is labelled market data throughout and never as GDP contribution.
+  statcan_business_counts:
+    title: Canadian Business Counts, with employees
+    publisher: Statistics Canada
+    licence: statcan-open
+    attribution: Statistics Canada, Canadian Business Counts, with employees
+    # A new table every six months (33101174 for June 2026); stage 03 finds the
+    # newest by its exact title rather than declaring a product ID here.
+    # Replaces the removed BlackRock company panel (CLAUDE.md §9).
 
   geogratis_names:
     title: Canadian Geographical Names Database
@@ -232,6 +229,61 @@ sources:
     # pipeline/05_municipalities.py reads both languages into Municipality
     # records. BACKLOG M1 makes the build read that output instead, so one parser
     # decides what a subdivision's population is.
+
+  statcan_naics_2022:
+    title: North American Industry Classification System (NAICS) Canada 2022 Version 1.0
+    publisher: Statistics Canada
+    licence: statcan-open
+    attribution: Statistics Canada, North American Industry Classification System (NAICS) Canada 2022 Version 1.0
+    dataset_record: https://open.canada.ca/data/en/dataset/980d598c-73c9-4003-b6e1-78a9a3081b6c
+    structure_en: https://www.statcan.gc.ca/eng/statistical-programs/document/naics-scian-2022-structure-v1-eng.csv
+    structure_fr: https://www.statcan.gc.ca/fra/programmes-statistiques/document/naics-scian-2022-structure-v1-fra.csv
+    elements_en: https://www.statcan.gc.ca/eng/statistical-programs/document/naics-scian-2022-element-v1-eng.csv
+    elements_fr: https://www.statcan.gc.ca/fra/programmes-statistiques/document/naics-scian-2022-element-v1-fra.csv
+    # Stage 06 checks every quote in registry/mpo_naics.yaml against these four
+    # files. The French element file is sorted by its own wording, not in the
+    # English file's order — see atlas/sources/naics.py.
+
+  nrcan_mpi_2025:
+    title: Major Projects Inventory 2025
+    publisher: Natural Resources Canada
+    licence: ogl-canada-2.0
+    attribution: Natural Resources Canada — Major Projects Inventory 2025
+    xlsx: https://ftp.maps.canada.ca/pub/nrcan_rncan/Natural-resources_Ressources-naturelles/major_projects_inventory/MPI_2025_Active_Projects_en.xlsx
+    sheet: MPI 2025 Data
+    xlsx_fr: https://ftp.maps.canada.ca/pub/nrcan_rncan/Natural-resources_Ressources-naturelles/major_projects_inventory/MPI_2025_Active_Projects_fr.xlsx
+    sheet_fr: Données IGP 2025
+    status_field: Status 2025
+    prior_status_field: Status 2024
+    # Read for construction status only (BACKLOG C1). Its cost columns are C2,
+    # and must not render before C3 states how few MPO projects have one.
+
+  tc_large_vessel_register:
+    title: Canadian Register of Large Vessels
+    publisher: Transport Canada
+    licence: ogl-canada-2.0
+    attribution: Transport Canada — Canadian Register of Large Vessels
+    dataset_record: https://open.canada.ca/data/en/dataset/bf00b7f4-e370-46b7-94e4-0bdedc98531b
+    xlsx_en: https://opendatatc.tc.canada.ca/large-vessel-registry_dataset_en.xlsx
+    xlsx_fr: https://opendatatc.tc.canada.ca/large-vessel-registry_dataset_fr.xlsx
+    # The identity half of the vessel layer (BACKLOG S1, docs/AIS.md). No MMSI
+    # and no call sign are published; IMO is the only key AIS shares. Updated
+    # "continually", so stage 07 re-reads it only with --refresh.
+
+  aisstream:
+    title: aisstream.io live AIS relay
+    publisher: aisstream.io
+    licence: aisstream-unstated
+    attribution: Vessel positions relayed by aisstream.io
+    stream: wss://stream.aisstream.io/v0/stream
+    documentation: https://aisstream.io/documentation
+    message_models: https://github.com/aisstream/ais-message-models
+    # Canada's Maritime Identification Digits, allocated by the ITU. The
+    # Canadian Coast Guard's Radio Aids to Marine Navigation uses 316010115 as
+    # its worked example of a Canadian ship's MMSI.
+    canadian_mids: ["316"]
+    # Not a government source, chosen 2026-09-12 because none publishes live
+    # positions. Shore-based receivers only: open-ocean positions are not heard.
 
   nrcan_nrwn:
     title: National Railway Network (NRWN) — GeoBase Series

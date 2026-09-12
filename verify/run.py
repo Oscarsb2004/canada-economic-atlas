@@ -532,23 +532,53 @@ def _worst_gap(parts: list[dict | None], total: dict | None) -> tuple[float, str
     return worst, at, compared
 
 
-def check_companies(r: Report) -> None:
-    """The company panel is market data and stays labelled as such."""
-    doc = _load_json(DATA / "companies" / "xic.json")
-    xw = {e["gics"] for e in _load_yaml(REGISTRY / "gics_naics.yaml")["map"]}
+def check_business_counts(r: Report) -> None:
+    """
+    BACKLOG Q2b — StatCan's Canadian Business Counts, with employees.
 
-    r.gate(bool(doc.get("caveat", {}).get("en")), "company payload carries its caveat", "missing")
+    The three identities were measured exact on 33101174 before they became
+    gates: size ranges sum to the total, the provinces and territories to
+    Canada, and the twenty sectors plus "Unclassified" to all industries.
+    """
+    doc = _load_json(DATA / "sectors" / "business-counts.json")
+    sectors = [s["code"] for s in _load_yaml(REGISTRY / "sectors.yaml")["sectors"]]
+    counts = doc.get("counts", {})
+    industries = ["total", *sectors, "unclassified"]
+    n = len(doc.get("size_ranges", []))
 
-    wrong_provenance = [c["ticker"] for c in doc["companies"] if c["provenance"] != "market_data"]
-    r.gate(not wrong_provenance, "every company is marked market_data", str(wrong_provenance))
+    r.gate(re.fullmatch(r"Canadian Business Counts, with employees, [A-Z][a-z]+ \d{4}", doc.get("title", {}).get("en", ""))
+           is not None and bool(doc.get("title", {}).get("fr")),
+           "business counts: the table is a 'with employees' half-year table, titled in both languages",
+           str(doc.get("title")))
+    r.gate(set(counts) == PROVINCE_CODES | {"CA"},
+           "business counts: Canada and all thirteen provinces and territories", str(sorted(counts)))
+    holes = [f"{g}:{k}" for g in counts for k in industries
+             if len(counts[g].get(k, [])) != n or counts[g][k][0] is None]
+    r.gate(n > 1 and not holes, "business counts: every sector has a published total and a slot for every size range",
+           str(holes[:8]))
+    if holes:
+        return
+    # StatCan publishes no zero rows; an unpublished size range is null. It counts
+    # as 0 below only because every identity then holds exactly — if one did not,
+    # reading the gaps as zeros would be wrong and these gates would say so.
+    counts = {g: {k: [0 if v is None else v for v in row] for k, row in by.items()} for g, by in doc["counts"].items()}
+    nulls = sum(v is None for by in doc["counts"].values() for row in by.values() for v in row)
+    r.gate(nulls == doc.get("absent_cells"), "business counts: the unpublished cells match the stated count",
+           f'{nulls} null, {doc.get("absent_cells")} stated')
 
-    # A GICS sector with no crosswalk entry silently drops a whole sector from
-    # the panel, so the crosswalk must be total over what was actually kept.
-    uncovered = sorted({c["gics_sector"] for c in doc["companies"]} - xw)
-    r.gate(not uncovered, "crosswalk covers every GICS sector present", str(uncovered))
-
-    junk = [c["ticker"] for c in doc["companies"] if (c["price"] or 0) <= 0]
-    r.gate(not junk, "no zero-priced rows survived the filter", str(junk))
+    bands = [f"{g}:{k}" for g in counts for k in industries if sum(counts[g][k][1:]) != counts[g][k][0]]
+    r.gate(not bands, "business counts: size ranges sum exactly to the total", str(bands[:8]))
+    geo = [f"{k}:{i}" for k in industries for i in range(n)
+           if sum(counts[p][k][i] for p in PROVINCE_CODES) != counts["CA"][k][i]]
+    r.gate(not geo, "business counts: provinces and territories sum exactly to Canada", str(geo[:8]))
+    parts = [f"{g}:{i}" for g in counts for i in range(n)
+             if sum(counts[g][s][i] for s in sectors) + counts[g]["unclassified"][i] != counts[g]["total"][i]]
+    r.gate(not parts, "business counts: sectors plus Unclassified sum exactly to all industries", str(parts[:8]))
+    labels = [i["code"] for i in doc.get("industries", []) if not (i["label"]["en"] and i["label"]["fr"])]
+    r.gate(not labels and all(nt["text"]["en"] and nt["text"]["fr"] for nt in doc.get("notes", [])),
+           "business counts: labels and StatCan's notes carry both languages", str(labels))
+    r.note(f'business counts: table {doc.get("table")} ({doc["title"]["en"]}), '
+           f'Canada, all industries: {counts["CA"]["total"][0]} locations with employees')
 
 
 # ── Gate: the bundle contract ──────────────────────────────────────────────────
@@ -742,6 +772,172 @@ def check_bundle(r: Report) -> None:
 
 # ── Entry point ────────────────────────────────────────────────────────────────
 
+#: Mean Earth radius for the join distances. Re-declared, not imported.
+EARTH_RADIUS_KM = 6371.0
+
+
+def _km(a: list[float], b: list[float]) -> float:
+    """Great-circle distance between two [lon, lat] points."""
+    import math
+    lon1, lat1, lon2, lat2 = (math.radians(v) for v in (a[0], a[1], b[0], b[1]))
+    h = (math.sin((lat2 - lat1) / 2) ** 2
+         + math.cos(lat1) * math.cos(lat2) * math.sin((lon2 - lon1) / 2) ** 2)
+    return 2 * EARTH_RADIUS_KM * math.asin(math.sqrt(h))
+
+
+def _in_sector(code: str, sector: str) -> bool:
+    """Whether a NAICS code sits in a sector, read from the codes themselves."""
+    if "-" in sector:                        # "31-33", "44-45", "48-49"
+        lo, hi = sector.split("-")
+        return len(code) >= 2 and lo <= code[:2] <= hi
+    return code.startswith(sector)
+
+
+def check_industries(r: Report) -> None:
+    """
+    BACKLOG C1 — every MPO project placed in NAICS, checked against what it cites.
+
+    Stage 06 refuses a quote that is not in its source. This re-reads the
+    OUTPUT: each asset quote against the committed project page text, each
+    sector against the registry's twenty and against the code's own digits, each
+    construction listing against the inventory status it carries, and each
+    inventory join against a distance recomputed here from the committed points.
+    """
+    base = DATA / "events" / "major-projects-office"
+    doc = _load_json(base / "industries.json")
+    projects = {p["slug"]: p for p in _load_json(base / "projects.json")["projects"]}
+    reg = _load_yaml(REGISTRY / "mpo_naics.yaml")
+    sectors = {s["code"] for s in _load_yaml(REGISTRY / "sectors.yaml")["sectors"]}
+    records = doc.get("projects", [])
+    slugs = [x["slug"] for x in records]
+
+    r.gate(len(slugs) == len(set(slugs)) and set(slugs) == set(projects),
+           "industries: every project is placed exactly once",
+           f"missing {sorted(set(projects) - set(slugs))}, extra {sorted(set(slugs) - set(projects))}")
+
+    bad_sector, not_derived, unquoted, untitled, unsupported = [], [], [], [], []
+    for x in records:
+        page = projects.get(x["slug"], {}).get("description", {})
+        for a in x["operating"]:
+            where = f'{x["slug"]}:{a["code"]}'
+            if a["sector"] not in sectors or not _in_sector(a["code"], a["sector"]):
+                bad_sector.append(f'{where} in {a["sector"]}')
+            if a.get("provenance") != "derived":
+                not_derived.append(where)
+            for lang in ("en", "fr"):
+                if not a["asset"][lang] or a["asset"][lang] not in page.get(lang, ""):
+                    unquoted.append(f"{where} ({lang})")
+                if (not a["title"][lang] or not a["sector_title"][lang]
+                        or any(not e["text"][lang] for e in a["evidence"])):
+                    untitled.append(f"{where} ({lang})")
+            if not any(e["code"] == a["code"] for e in a["evidence"]):
+                unsupported.append(where)
+    r.gate(not bad_sector, "industries: every placement sits in one of the twenty sectors its code belongs to",
+           str(bad_sector))
+    r.gate(not not_derived, "industries: every placement is marked derived", str(not_derived))
+    r.gate(not unquoted, "industries: every asset quote is on its project page, in both languages", str(unquoted))
+    r.gate(not untitled, "industries: every code, sector and quote carries both languages", str(untitled))
+    r.gate(not unsupported, "industries: every placement quotes Statistics Canada on its own code", str(unsupported))
+
+    rule = reg["construction"]["listed_when_status"]
+    max_km = reg["join_max_km"]
+    wrong_listing, bad_join = [], []
+    for x in records:
+        c = x["construction"]
+        st = c.get("status")
+        declared = reg["projects"][x["slug"]]["inventory"]
+        if st:
+            en = st["status"]["en"].strip().casefold() == rule["en"].casefold()
+            fr = st["status"]["fr"].strip().casefold() == rule["fr"].casefold()
+            expected = en
+            if en != fr:
+                wrong_listing.append(f'{x["slug"]}: languages disagree')
+        else:
+            expected = False
+        basis = ("not_in_inventory" if not st else "under_construction" if expected
+                 else "not_under_construction")
+        if c["listed"] != expected or c["basis"] != basis or c["sector"] != reg["construction"]["sector"]:
+            wrong_listing.append(f'{x["slug"]}: listed={c["listed"]} basis={c["basis"]}')
+
+        if (declared is None) != (st is None) or (st and st["inventory_id"] != declared["id"]):
+            bad_join.append(f'{x["slug"]}: carries a join the registry does not declare')
+        elif st and st["points"]:
+            anchors = [s["geometry"]["anchor"] for s in projects[x["slug"]]["sites"]
+                       if s["geometry"].get("anchor")]
+            km = min(_km(pt, an) for pt in st["points"] for an in anchors)
+            limit = declared.get("accept_distance_km") or max_km
+            if declared.get("accept_distance_km") and not (c.get("note") or {}).get("en"):
+                bad_join.append(f'{x["slug"]}: waives the distance limit without saying so on screen')
+            if km > limit or st["distance_km"] is None or abs(km - st["distance_km"]) > 0.01:
+                bad_join.append(f'{x["slug"]}: {km:.2f} km recomputed, {st["distance_km"]} recorded')
+        elif st and (st["distance_km"] is not None or not declared.get("accept_without_coordinates")):
+            bad_join.append(f'{x["slug"]}: no inventory point and no declared acceptance')
+    r.gate(not wrong_listing,
+           "industries: a project is listed in construction exactly when the inventory says so, in both languages",
+           str(wrong_listing))
+    r.gate(not bad_join,
+           f"industries: every inventory join is declared, and within {max_km} km or under a disclosed waiver",
+           str(bad_join))
+
+    listed = sorted(x["slug"] for x in records if x["construction"]["listed"])
+    joined = sum(1 for x in records if x["construction"].get("status"))
+    r.note(f"industries: {joined} of {len(records)} projects joined to the Major Projects Inventory; "
+           f"also counted in construction: {listed}")
+
+
+#: Fields the vessel register words per language. Re-declared, not imported.
+VESSEL_WORD_FIELDS = ("port_of_registry", "descriptor", "construction_type", "construction_material",
+                      "engine_type", "propulsion_type", "propulsion_method")
+
+
+def _imo_valid(imo: str) -> bool:
+    """IMO check digit: last digit of the sum of the first six times 7..2. Re-implemented here."""
+    if len(imo) != 7 or not imo.isdigit():
+        return False
+    return sum(int(imo[i]) * (7 - i) for i in range(6)) % 10 == int(imo[6])
+
+
+def check_vessels(r: Report) -> None:
+    """
+    BACKLOG S1 — the Canadian register entries that AIS can be joined to.
+
+    Re-reads the committed output: identity, the IMO filter the stage states,
+    the check-digit flag recomputed independently, and both languages present
+    wherever the register words a field.
+    """
+    doc = _load_json(DATA / "vessels" / "large-vessel-register.json")
+    vs = doc.get("vessels", [])
+    counts = doc.get("counts", {})
+
+    keys = [(v["official_number"], v["register_row"]) for v in vs]
+    r.gate(bool(vs) and len(keys) == len(set(keys)),
+           "vessels: every entry is identified by official number and register row", f"{len(vs)} entries")
+    r.gate(all(v["imo"] for v in vs), "vessels: every committed entry carries the IMO number it is kept for",
+           str([v["official_number"] for v in vs if not v["imo"]][:8]))
+    r.gate(counts.get("entries_with_imo") == len(vs),
+           "vessels: the committed entries are all of the register's IMO-bearing entries, by its own count",
+           f'{counts.get("entries_with_imo")} counted, {len(vs)} committed')
+    wrong = [v["official_number"] for v in vs if v["imo_check_digit_valid"] != _imo_valid(v["imo"])]
+    r.gate(not wrong, "vessels: every IMO check-digit flag matches the formula, recomputed", str(wrong[:8]))
+    r.gate(counts.get("imo_failing_check_digit") == sum(not v["imo_check_digit_valid"] for v in vs),
+           "vessels: the failing check-digit count matches the entries", str(counts.get("imo_failing_check_digit")))
+    undated = [v["official_number"] for v in vs if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", v["registration_date"])]
+    r.gate(not undated, "vessels: every registration date is an ISO date", str(undated[:8]))
+    one_sided = [f'{v["official_number"]}:{k}' for v in vs for k in VESSEL_WORD_FIELDS
+                 if bool(v[k]["en"]) != bool(v[k]["fr"])]
+    r.gate(not one_sided, "vessels: every field the register words is present in both languages", str(one_sided[:8]))
+    r.gate(all(v.get("provenance") == "official_dataset" for v in vs),
+           "vessels: every entry is marked official_dataset", "")
+    listed = counts.get("official_numbers_listed_twice", [])
+    repeated = sorted({n for n in (v["official_number"] for v in vs) if [x["official_number"] for x in vs].count(n) > 1})
+    r.gate(set(repeated) <= set(listed),
+           "vessels: every official number repeated among the entries is one the register lists twice",
+           f"repeated {repeated}, listed {listed}")
+    r.note(f'vessels: {len(vs)} of {counts.get("register_entries")} register entries carry an IMO number; '
+           f'{counts.get("imo_failing_check_digit")} fail the IMO check digit; '
+           f"official numbers listed twice in the register: {listed}")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--gate-only", action="store_true", help="suppress advisories")
@@ -749,7 +945,7 @@ def main() -> int:
 
     r = Report()
     for check in (check_projects, check_strategies, check_sectors, check_sector_pulls,
-                  check_companies, check_bundle):
+                  check_industries, check_vessels, check_business_counts, check_bundle):
         try:
             check(r)
         except FileNotFoundError as exc:

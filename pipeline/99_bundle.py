@@ -47,12 +47,13 @@ SCHEMA_VERSION = "1.0.0"
 COPIES = [
     "events/major-projects-office/projects.json",
     "events/major-projects-office/strategies.json",
+    "events/major-projects-office/industries.json",
     "events/trade-corridors/corridors.json",
     "sectors/national-monthly.json",
     "sectors/national-constant.json",
     "sectors/provincial-annual.json",
     "sectors/rates.json",
-    "companies/xic.json",
+    "sectors/business-counts.json",
 ]
 
 #: The figures the sibling repo joins on. Stable keys — renaming one is a

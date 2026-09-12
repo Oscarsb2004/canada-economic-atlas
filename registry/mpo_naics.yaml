@@ -1,0 +1,390 @@
+# mpo_naics.yaml — Major Projects Office projects placed in NAICS Canada 2022.
+#
+# THIS CROSSWALK IS OURS, NOT A GOVERNMENT CLASSIFICATION. Decided 2026-09-12
+# (docs/ROADMAP.md §A3):
+# option B, each project in the industry its finished asset would operate in,
+# plus option C, each project ALSO counted in construction (23) while a
+# published status says it is under construction.
+#
+# CLAUDE.md §11 admits a figure of our own only over a DECLARED crosswalk. This
+# file is that declaration, and it is written so no entry has to be taken on
+# trust: every entry carries two kinds of quote, and stage 06 refuses it unless
+# both are found verbatim in their sources:
+#
+#   asset     the words on the project's own MPO page that name what is being
+#             built — a substring of the page's description, in English AND
+#             French, each checked against that language's page.
+#   evidence  Statistics Canada's own words for the code — a substring of the
+#             class definition, or a whole example, inclusion or exclusion —
+#             in English AND French, each checked against that language's file.
+#
+# The two French element files are NOT in the English files' order (each is
+# sorted by its own language's wording), so a French quote is declared, never
+# paired by position. `atlas/sources/naics.py` has the measurement.
+#
+# THE RULES THE ENTRIES FOLLOW
+#
+# - The asset is what the project's MPO title names. A project gets more than
+#   one operating industry only when its title names more than one asset
+#   (Grays Bay Road and Port). A component mentioned only in the description —
+#   Taltson's transmission line, the West Coast pipeline's marine facility —
+#   does not add one.
+# - The code is as fine as the evidence allows and no finer. Red Chris is "a
+#   copper and gold mine"; NAICS separates copper (212233) from gold (212220) by
+#   which metal the ore is valued chiefly for, and the page does not say, so it
+#   is placed in the industry group both share (2122).
+# - At least one evidence quote must be on the assigned code itself.
+#
+# THE INVENTORY JOIN (construction status)
+#
+# Status comes from NRCan's Major Projects Inventory 2025, joined by DECLARED
+# Project ID, never by name. Stage 06 checks each declaration against geography:
+# the nearest published inventory coordinate must be within `join_max_km` of a
+# published MPO site anchor, or the entry must say `accept_without_coordinates`
+# when the inventory publishes none. Capital values are NOT read here — they
+# arrive with BACKLOG C2, behind C3's statement of how few projects have one.
+#
+# Codes are QUOTED STRINGS. YAML reads a bare 212233 as an integer and a bare
+# 23 the same way; the loader rejects anything that is not a string.
+
+version: 1
+classification_source: statcan_naics_2022
+inventory_source: nrcan_mpi_2025
+
+# Kitimat's LNG Canada Phase 2 inventory point is 8.83 km from the MPO anchor,
+# Matawinie's 21.16 km, Ksi Lisims's 15.88 km (measured 2026-09-12). The nearest
+# wrong candidate checked was 121.38 km away (Matawinie's Bécancour pilot plant).
+join_max_km: 25
+
+construction:
+  sector: "23"
+  # Compared case-insensitively: the English inventory publishes both "Under
+  # Construction" and "Under construction". Both languages must agree.
+  listed_when_status:
+    en: Under Construction
+    fr: En construction
+  evidence:
+    kind: definition
+    code: "23"
+    en: constructing, repairing and renovating buildings and engineering works
+    fr: la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil
+
+projects:
+  aesc:
+    operating:
+      - code: "488490"
+        asset:
+          en: a proposed ~400 km all-season road
+          fr: un projet de construction d’une route d’environ 400 km
+        evidence:
+          - kind: illustrative_example
+            code: "488490"
+            en: bridge, tunnel and highway operation
+            fr: pont, tunnel et voie publique, exploitation
+          - kind: exclusion
+            code: "23"
+            en: operating highways, streets and bridges (See 48-49 Transportation and warehousing)
+            fr: exploitation de routes, de rues et de ponts (Voir 48-49 Transport et entreposage)
+    inventory: null
+
+  contrecoeur:
+    operating:
+      - code: "488310"
+        asset:
+          en: adding port terminals and additional wharves
+          fr: en y ajoutant des terminaux portuaires et des quais supplémentaires
+        evidence:
+          - kind: illustrative_example
+            code: "488310"
+            en: waterfront terminal operation
+            fr: terminus riverain, exploitation de
+    inventory: null
+
+  crawford:
+    operating:
+      - code: "212232"
+        asset:
+          en: Canada Nickel Company proposes to build a mine, located in the world’s second-largest nickel reserve
+          fr: La Canada Nickel Company propose de construire une mine située sur la deuxième plus vaste réserve de nickel au monde
+        evidence:
+          - kind: definition
+            code: "212232"
+            en: mining, beneficiating or otherwise preparing nickel or nickel-copper ores
+            fr: l'extraction, l'enrichissement ou toute autre préparation de minerais de nickel ou de nickel-cuivre
+    inventory:
+      id: "5069"
+
+  darlington:
+    operating:
+      - code: "221113"
+        asset:
+          en: the first of four planned small modular reactor (SMR) units
+          fr: la première des quatre unités de petit réacteur modulaire (PRM) prévues
+        evidence:
+          - kind: definition
+            code: "221113"
+            en: the generation of electric power using nuclear energy
+            fr: produire de l'électricité à partir d'énergie nucléaire
+    inventory:
+      # Not 0333, the Darlington Refurbishment Project — a different project at
+      # the same station.
+      id: "0644"
+
+  geo:
+    operating:
+      - code: "562210"
+        asset:
+          en: designed to safely contain all current and future used nuclear fuel
+          fr: conçus pour contenir en toute sécurité tout le combustible nucléaire irradié actuel et futur
+        evidence:
+          - kind: illustrative_example
+            code: "562210"
+            en: radioactive waste disposal and treatment
+            fr: élimination et traitement des déchets radioactifs
+    inventory:
+      # "Adaptive Phased Management Deep Geological Repository", Nuclear Waste
+      # Management Organization, ON. The inventory publishes no coordinate for
+      # it, so the join cannot be checked by distance and says so.
+      # CONFIRMED 2026-09-12 from the MPO page itself, which names the same
+      # proponent and the same plan: "The Government of Canada selected the
+      # Adaptive Phased Management approach as Canada’s plan for used nuclear fuel".
+      id: "8330"
+      accept_without_coordinates: true
+
+  grays-bay:
+    operating:
+      - code: "488490"
+        asset:
+          en: a proposed all-season ~230 km road
+          fr: un projet de route praticable en toute saison d’environ 230 km
+        evidence:
+          - kind: illustrative_example
+            code: "488490"
+            en: bridge, tunnel and highway operation
+            fr: pont, tunnel et voie publique, exploitation
+          - kind: exclusion
+            code: "23"
+            en: operating highways, streets and bridges (See 48-49 Transportation and warehousing)
+            fr: exploitation de routes, de rues et de ponts (Voir 48-49 Transport et entreposage)
+      - code: "488310"
+        asset:
+          en: a deepwater port and airfield at Grays Bay
+          fr: un port en eau profonde et à un aérodrome à Grays Bay
+        evidence:
+          - kind: illustrative_example
+            code: "488310"
+            en: harbour operation
+            fr: ports, exploitation de
+    inventory: null
+
+  ksi-lisims:
+    operating:
+      - code: "488990"
+        asset:
+          en: a proposed floating natural gas liquefaction production, storage, and offloading facility with a marine terminal
+          fr: un projet d’installation flottante de production, de stockage et de déchargement de gaz naturel liquéfié avec un terminal maritime
+        evidence:
+          - kind: all_examples
+            code: "488990"
+            en: liquefaction and regasification of natural gas for purposes of transport
+            fr: liquéfaction et regazéification du gaz naturel aux fins de transport
+    inventory:
+      id: "1037"
+
+  lng-canada:
+    operating:
+      - code: "488990"
+        asset:
+          en: LNG Canada’s liquefied natural gas (LNG) facility
+          fr: l’installation de gaz naturel liquéfié (GNL) de LNG Canada
+        evidence:
+          - kind: all_examples
+            code: "488990"
+            en: liquefaction and regasification of natural gas for purposes of transport
+            fr: liquéfaction et regazéification du gaz naturel aux fins de transport
+    inventory:
+      # Not 4108, BC Hydro's LNG Canada Load Interconnection Project.
+      id: "6046"
+
+  mackenzie:
+    operating:
+      - code: "488490"
+        asset:
+          en: The Mackenzie Valley Highway will create a new all-season economic corridor
+          fr: La route de la vallée du Mackenzie créera un nouveau corridor économique praticable en toute saison
+        evidence:
+          - kind: illustrative_example
+            code: "488490"
+            en: bridge, tunnel and highway operation
+            fr: pont, tunnel et voie publique, exploitation
+          - kind: exclusion
+            code: "23"
+            en: operating highways, streets and bridges (See 48-49 Transportation and warehousing)
+            fr: exploitation de routes, de rues et de ponts (Voir 48-49 Transport et entreposage)
+    inventory: null
+
+  mcilvenna:
+    operating:
+      - code: "212233"
+        asset:
+          en: the project would produce copper and zinc ore concentrates
+          fr: l’exploitation produirait des concentrés de minerai de cuivre et de zinc
+        evidence:
+          - kind: definition
+            code: "212233"
+            en: mining, beneficiating or otherwise preparing copper or copper-zinc ores
+            fr: l'extraction, l'enrichissement ou toute autre préparation des minerais de cuivre ou de cuivre-zinc
+    inventory:
+      # The inventory names Foran Mining Corp.; the MPO page names Eldorado
+      # Gold. Joined on the declared ID and a 0.34 km distance, not on names.
+      # CONFIRMED 2026-09-12: Eldorado Gold closed its acquisition of Foran
+      # Mining, owner of McIlvenna Bay, on 2026-04-14 — after the inventory's
+      # 2025 edition was compiled. Eldorado's own filing:
+      # https://www.sec.gov/Archives/edgar/data/0000918608/000091860826000013/managementsdiscussionandan.htm
+      id: "4166"
+
+  nctl:
+    operating:
+      - code: "221121"
+        asset:
+          en: The project would twin existing transmission lines from Prince George to Terrace
+          fr: Le projet sera jumelé aux lignes de transport existantes de Prince George à Terrace
+        evidence:
+          - kind: inclusion
+            code: "221121"
+            en: transmission lines and the transformer stations that are integral to transmission
+            fr: transport effectué par des lignes et par les transformateurs qui font partie intégrante du système
+    inventory: null
+
+  northcliff:
+    operating:
+      - code: "212299"
+        asset:
+          en: a world-class tungsten and molybdenum deposit into a modern, long-life open-pit mine
+          fr: un gisement de tungstène et de molybdène de calibre mondial en une mine à ciel ouvert moderne et durable
+        evidence:
+          - kind: illustrative_example
+            code: "212299"
+            en: ore (e.g., ruthenium, scheelite, tantalum, tin, titanium, tungsten, quicksilver, zirconium) mining
+            fr: extraction de minerais (p. ex., ruthénium, scheelite, tantale, étain, titane, tungstène, mercure, zirconium)
+          - kind: illustrative_example
+            code: "212299"
+            en: molybdenum ore mining
+            fr: extraction de minerais de molybdène
+    inventory:
+      id: "0329"
+
+  nouveau-monde:
+    operating:
+      - code: "212398"
+        asset:
+          en: developing an open-pit graphite mine
+          fr: une mine de graphite à ciel ouvert
+        evidence:
+          - kind: all_examples
+            code: "212398"
+            en: graphite mining
+            fr: extraction de graphite
+    inventory:
+      # "Matawinie", Phase 2. Not 6099 (the Bécancour purified-graphite pilot
+      # plant) or 0795 (Uatnan, a different deposit).
+      id: "2093"
+
+  nukkiksautiit:
+    operating:
+      - code: "221111"
+        asset:
+          en: a proposed 15-30 megawatt hydropower plant along the Kuugaluk River
+          fr: une centrale hydroélectrique d’une capacité de 15 à 30 mégawatts située sur la rivière Kuugaluk
+        evidence:
+          - kind: definition
+            code: "221111"
+            en: the generation of electricity using hydraulic energy
+            fr: produire de l'électricité à partir de l'énergie hydraulique
+    inventory: null
+
+  red-chris:
+    operating:
+      - code: "2122"
+        asset:
+          en: a copper and gold mine located near Iskut
+          fr: une mine de cuivre et d’or située près d’Iskut
+        evidence:
+          - kind: definition
+            code: "2122"
+            en: mining metallic minerals (ores)
+            fr: l'extraction de minéraux métalliques (minerais)
+        note:
+          en: >-
+            Placed in the industry group, not an industry. NAICS separates copper
+            mining (212233) from gold mining (212220) by which metal an ore is
+            valued chiefly for, and the project page does not say.
+          fr: >-
+            Classé dans le groupe d'industries, et non dans une industrie. Le SCIAN
+            distingue l'extraction de cuivre (212233) de l'extraction d'or (212220)
+            selon le métal pour lequel le minerai est principalement exploité, ce
+            que la page du projet ne précise pas.
+    inventory:
+      # "Red Chris Block Cave Expansion". The inventory names Newcrest Mining
+      # Ltd./Imperial Metals; the MPO page names Newmont Mining & Imperial Metals.
+      # CONFIRMED 2026-09-12: Newmont acquired Newcrest on 2023-11-06 and owns
+      # Red Chris 70/30 with Imperial Metals; the block cave is the mine's
+      # expansion. https://operations.newmont.com/canada/red-chris-canada/
+      id: "6081"
+
+  roberts-bank:
+    operating:
+      - code: "488310"
+        asset:
+          en: a proposed container terminal
+          fr: un terminal à conteneurs proposé
+        evidence:
+          - kind: illustrative_example
+            code: "488310"
+            en: waterfront terminal operation
+            fr: terminus riverain, exploitation de
+    inventory: null
+
+  taltson:
+    operating:
+      - code: "221111"
+        asset:
+          en: It will build an additional 60 megawatt hydro facility
+          fr: Le projet construira une installation hydroélectrique offrant une capacité supplémentaire de 60 mégawatts
+        evidence:
+          - kind: definition
+            code: "221111"
+            en: the generation of electricity using hydraulic energy
+            fr: produire de l'électricité à partir de l'énergie hydraulique
+    # Joined to inventory 1063, "Taltson Hydroelectricity Expansion Project
+    # (Phase 1)", on the owner's decision of 2026-09-12, over two disagreements
+    # the evidence could not settle: the inventory names NTPC where the MPO page
+    # names the Government of the Northwest Territories, and its only point is
+    # 134.31 km from the MPO anchor (measured 2026-09-12). The distance limit is
+    # waived for this entry alone, and the note below says so on screen.
+    inventory:
+      id: "1063"
+      accept_distance_km: 135
+    inventory_note:
+      en: >-
+        Matched to the Major Projects Inventory's "Taltson Hydroelectricity
+        Expansion Project (Phase 1)", whose proponent (NTPC) and mapped location
+        (134 km away) differ from this page's. The match is this atlas's decision.
+      fr: >-
+        Associé au « Taltson Hydroelectricity Expansion Project (Phase 1) » de
+        l'Inventaire des grands projets, dont le promoteur (NTPC) et
+        l'emplacement cartographié (à 134 km) diffèrent de ceux de cette page.
+        L'association est une décision de cet atlas.
+
+  west:
+    operating:
+      - code: "486110"
+        asset:
+          en: an interprovincial pipeline, capable of transporting one million barrels per day (MMb/d) of crude oil
+          fr: un oléoduc interprovincial, capable de transporter un million de barils par jour (MMb/j) de pétrole brut
+        evidence:
+          - kind: definition
+            code: "486110"
+            en: the pipeline transportation of crude oil
+            fr: le transport du pétrole brut par oléoduc
+    inventory: null

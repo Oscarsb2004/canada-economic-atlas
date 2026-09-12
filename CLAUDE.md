@@ -53,7 +53,7 @@ so it carries `Provenance.DERIVED` and renders with a dashed ring.
 ## 3. Configuration is YAML, code is Python
 
 `registry/` is the whole configuration surface: sources, events, strategies,
-sectors, the GICS→NAICS crosswalk, the palette. All hand-editable, all validated
+sectors, the MPO→NAICS crosswalk, the palette. All hand-editable, all validated
 hard on load by `atlas/core/registry.py`.
 
 Adding an event means adding a `registry/events.yaml` entry and one module under
@@ -104,12 +104,24 @@ basis and **+0.000%** on 2017 constant prices.
 Any chart asserting that parts make a whole reads `national-constant.json`.
 `verify/` gates this: the constant basis must be additive to within 0.01%.
 
-## 9. Company data is market data, and says so
+## 9. A source's terms are read before its data is used
 
-Index weight is not output. Company revenue is gross output while GDP is value
-added, so summing companies within a sector overshoots that sector's GDP by two
-to three times. The caveat is carried inside the bundle payload so the panel
-cannot render the numbers without it. Never label this "top GDP contributors".
+The atlas once had a company panel: the largest listed companies in each sector,
+from BlackRock's published iShares XIC holdings. `sources.yaml` described the
+file as "free to consume". Nobody had read the terms. On 2026-09-12 they were:
+BlackRock Canada allows its site content for personal, non-commercial use only,
+forbids public reuse, and forbids automated copying without permission — which
+is exactly what stage 03 and the public site did. The panel, its stage, its
+parser and its crosswalk were removed the same day, and stage 03 now reproduces
+Statistics Canada's Canadian Business Counts instead.
+
+So every entry under `licences` in `sources.yaml` records what the publisher's
+terms actually say, read from the terms page and dated, never what we hope they
+allow. A source with no published terms says that, as `aisstream-unstated` does.
+
+The analytical rule the panel taught still holds for any replacement: index
+weight is not output, and company revenue is gross output while GDP is value
+added, so summing companies within a sector overshoots that sector's GDP.
 
 ## 10. `meta.schema_version` is a cross-repo contract
 
@@ -173,4 +185,9 @@ countries · `setProjection` must be called inside `style.load` · SEPH
 NAICS 11 · the latest two capex years (34100035) are preliminary actuals and
 intentions, said only in a note · 33100225 is non-financial balance sheets,
 not revenue by industry · 36100488 gross output is IOIC, not NAICS — its twenty
-sectors are this project's crosswalk and render as derived.
+sectors are this project's crosswalk and render as derived · StatCan's French
+NAICS element file is sorted by its French wording, not in the English order ·
+NRCan's English Major Projects Inventory writes "Under Construction" and "Under
+construction" · the vessel register lists two Official Numbers twice ·
+StatCan's business counts publish no zero rows (an absent size range is a zero
+only when the total says so) and are a new table ID every half-year.

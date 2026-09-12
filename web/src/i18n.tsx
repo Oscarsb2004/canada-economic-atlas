@@ -33,15 +33,15 @@
  * WHAT STAYS ENGLISH IN FRENCH, AND WHY
  *
  * The pipeline carries some fields in English only: an MPO project's sector, a
- * site's location wording, an update's date as written, GICS sector names and
- * company names, and the map's source credits. Translating them here would be
+ * site's location wording, an update's date as written, and the map's source
+ * credits. Translating them here would be
  * the app authoring text a publisher printed; they need the pipeline to capture
  * the French source (BACKLOG B1a).
  */
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
-import type { CorridorNodeKind, Lang } from "./data/bundle";
+import type { CorridorNodeKind, FlagBasis, Lang, NaicsEvidenceKind, VesselNote } from "./data/bundle";
 import type { RangeId, SectorView } from "./filters/FilterRow";
 import type { ToggleableOverlay } from "./map/Globe";
 
@@ -110,14 +110,19 @@ const en = {
   focusHeading: "One sector in context",
   focusFigure: (sector: string) => `${sector} against all other sectors`,
   focusSelect: "Sector",
-  companiesHeading: "Largest listed companies",
-  companiesIndex: "S&P/TSX Capped Composite · market data.",
-  companiesFigure: "Largest index constituents by weight",
-  companiesCaption: "S&P/TSX Capped Composite constituents by index weight",
-  colCompany: "Company",
-  colTicker: "Ticker",
-  colGics: "GICS sector",
-  colWeight: "Weight",
+  businessHeading: "Businesses with employees, by size",
+  businessGeo: "Geography",
+  businessTotal: (n: string, sector: string, geo: string) => `${n} locations with employees · ${sector} · ${geo}`,
+  businessFigure: (sector: string, geo: string) => `${sector}, ${geo}: locations with employees by employment size`,
+  businessCaption: (sector: string, geo: string) => `Locations with employees by employment size · ${sector} · ${geo}`,
+  businessNone: "Statistics Canada publishes no count for this sector here.",
+  businessUnpublished:
+    "* Statistics Canada publishes no row for this size range. Its total for the sector is already reached by the other ranges, so it counts none.",
+  businessNotes: "Statistics Canada's notes — these are locations, not firms",
+  businessSource: (title: string, table: string, released: string) =>
+    `Source: Statistics Canada, ${title}, table ${table} · released ${released} · reproduced under the Statistics Canada Open Licence.`,
+  colSize: "Employment size",
+  colLocations: "Locations",
   sectorSource: (table: string, released: string) =>
     `Source: Statistics Canada, table ${table} · released ${released} · reproduced under the Statistics Canada Open Licence.`,
 
@@ -172,6 +177,31 @@ const en = {
     `Text reproduced verbatim from the Major Projects Office${captured ? ` · captured ${captured}` : ""} · Open Government Licence – Canada`,
   officialPage: "Official project page ↗",
 
+  sectionIndustry: "Industry — this atlas's reading",
+  derivedTag: "Derived",
+  industryMissing: "This project has not been placed in an industry.",
+  industryCode: (code: string, title: string) => `NAICS ${code} · ${title}`,
+  industrySector: (code: string, title: string) => `Sector ${code} · ${title}`,
+  quoted: (text: string) => `“${text}”`,
+  industryAssetCite: "The project page, naming what is built",
+  evidenceKinds: {
+    definition: "definition",
+    illustrative_example: "illustrative example",
+    all_examples: "example",
+    inclusion: "inclusion",
+    exclusion: "exclusion",
+  } satisfies Record<NaicsEvidenceKind, string>,
+  industryEvidenceCite: (kind: string, code: string) =>
+    `Statistics Canada, NAICS Canada 2022 — ${kind} under ${code}`,
+  constructionListed: (sector: string, title: string, field: string, status: string) =>
+    `Also counted in ${sector} ${title} while under construction · Major Projects Inventory, ${field}: ${status}`,
+  constructionNotListed: (sector: string, title: string, field: string, status: string) =>
+    `Not counted in ${sector} ${title} · Major Projects Inventory, ${field}: ${status}`,
+  constructionNotPublished: (sector: string, title: string) =>
+    `Not counted in ${sector} ${title}: no construction status is published, because the project is not in NRCan's Major Projects Inventory`,
+  industrySources:
+    "Sources: Statistics Canada, NAICS Canada 2022 (Statistics Canada Open Licence) · Natural Resources Canada, Major Projects Inventory 2025 (Open Government Licence – Canada).",
+
   mapLabel: "Map of Canada in the world",
   layersTitle: "Map layers",
   layers: {
@@ -183,12 +213,35 @@ const en = {
     ferries: { label: "Ferry routes", detail: "Natural Earth" },
     majorProjects: { label: "Major Projects Office", detail: "Project pins and published route endpoints" },
     tradePlaces: { label: "Trade corridor places", detail: "Ports and border crossings" },
+    vessels: { label: "Canadian-flagged vessels", detail: "Positions relayed by aisstream.io, not a government source" },
   } satisfies Record<ToggleableOverlay, { label: string; detail: string }>,
-  futureShips: { label: "Ship tracking", detail: "Planned — no source connected" },
   futureHeatmap: { label: "Population heatmap", detail: "Planned — 3D visualization" },
   showAnalysis: "Show analysis",
   hideAnalysis: "Hide analysis",
   pinRoute: (name: string) => `${name} — route, marker at its midpoint`,
+  mapErrorDev: "Map error (shown in development only) — a layer may be missing:",
+  mapErrorDismiss: "Dismiss map error",
+  vesselsNoSnapshot: "No snapshot published yet · aisstream.io, not a government source",
+  vesselsSnapshot: (date: string, n: string) => `${n} vessels · last heard by ${date} UTC · aisstream.io, not government`,
+  vesselsLive: (n: string) => `${n} vessels · live on this computer · aisstream.io, not government`,
+  vesselUnnamed: (mmsi: string) => `Vessel ${mmsi}`,
+  vesselIds: (mmsi: string, imo: string | null) => (imo ? `MMSI ${mmsi} · IMO ${imo}` : `MMSI ${mmsi}`),
+  vesselFlagBasis: {
+    mmsi_mid: "Canadian radio identity (MMSI 316…)",
+    register_imo: "In Transport Canada's Register of Large Vessels, by IMO number",
+  } satisfies Record<FlagBasis, string>,
+  vesselNotes: {
+    imo_not_in_register: "Its IMO number is not in the Canadian Register of Large Vessels",
+    mmsi_prefix_not_canadian: "Its radio identity is not Canadian",
+  } satisfies Record<VesselNote, string>,
+  vesselHeard: (when: string) => `Last heard ${when} UTC`,
+  vesselMotion: (sog: string | null, cog: string | null) =>
+    [sog != null ? `${sog} knots` : "", cog != null ? `course ${cog}°` : ""].filter(Boolean).join(" · "),
+  vesselDestination: (destination: string) => `Destination as broadcast: ${destination}`,
+  vesselRegister: (port: string, descriptor: string) =>
+    [port ? `Port of registry ${port}` : "", descriptor].filter(Boolean).join(" · "),
+  vesselSource:
+    "Position relayed by aisstream.io from shore-based receivers — not a government source. A ship out of receiver range keeps its last heard position. Flag is not ownership.",
 
   timelineHeading: (n: number) => `Portfolio timeline · ${n} dated updates`,
   timelineIntro:
@@ -268,14 +321,19 @@ const fr: Strings = {
   focusHeading: "Un secteur en contexte",
   focusFigure: (sector) => `${sector} par rapport à tous les autres secteurs`,
   focusSelect: "Secteur",
-  companiesHeading: "Plus grandes sociétés cotées",
-  companiesIndex: "Indice composé plafonné S&P/TSX · données de marché.",
-  companiesFigure: "Principales composantes de l’indice selon la pondération",
-  companiesCaption: "Composantes de l’indice composé plafonné S&P/TSX selon la pondération",
-  colCompany: "Société",
-  colTicker: "Symbole",
-  colGics: "Secteur GICS",
-  colWeight: "Pondération",
+  businessHeading: "Entreprises avec employés, selon la taille",
+  businessGeo: "Géographie",
+  businessTotal: (n, sector, geo) => `${n} emplacements avec employés · ${sector} · ${geo}`,
+  businessFigure: (sector, geo) => `${sector}, ${geo} : emplacements avec employés selon la tranche d’effectif`,
+  businessCaption: (sector, geo) => `Emplacements avec employés selon la tranche d’effectif · ${sector} · ${geo}`,
+  businessNone: "Statistique Canada ne publie aucun dénombrement pour ce secteur ici.",
+  businessUnpublished:
+    "* Statistique Canada ne publie aucune ligne pour cette tranche. Son total pour le secteur est déjà atteint par les autres tranches : elle n’en compte donc aucun.",
+  businessNotes: "Notes de Statistique Canada — il s’agit d’emplacements, et non d’entreprises",
+  businessSource: (title, table, released) =>
+    `Source : Statistique Canada, ${title}, tableau ${table} · diffusé le ${released} · reproduit en vertu de la Licence ouverte de Statistique Canada.`,
+  colSize: "Tranche d’effectif",
+  colLocations: "Emplacements",
   sectorSource: (table, released) =>
     `Source : Statistique Canada, tableau ${table} · diffusé le ${released} · reproduit en vertu de la Licence ouverte de Statistique Canada.`,
 
@@ -330,6 +388,30 @@ const fr: Strings = {
     `Texte reproduit textuellement du Bureau des grands projets${captured ? ` · saisi le ${captured}` : ""} · Licence du gouvernement ouvert – Canada`,
   officialPage: "Page officielle du projet ↗",
 
+  sectionIndustry: "Industrie — lecture de cet atlas",
+  derivedTag: "Dérivé",
+  industryMissing: "Ce projet n’a pas été classé dans une industrie.",
+  industryCode: (code, title) => `SCIAN ${code} · ${title}`,
+  industrySector: (code, title) => `Secteur ${code} · ${title}`,
+  quoted: (text) => `« ${text} »`,
+  industryAssetCite: "La page du projet, qui nomme l’ouvrage",
+  evidenceKinds: {
+    definition: "définition",
+    illustrative_example: "exemple illustratif",
+    all_examples: "exemple",
+    inclusion: "inclusion",
+    exclusion: "exclusion",
+  },
+  industryEvidenceCite: (kind, code) => `Statistique Canada, SCIAN Canada 2022 — ${kind} sous ${code}`,
+  constructionListed: (sector, title, field, status) =>
+    `Aussi compté dans ${sector} ${title} pendant la construction · Inventaire des grands projets, ${field} : ${status}`,
+  constructionNotListed: (sector, title, field, status) =>
+    `Non compté dans ${sector} ${title} · Inventaire des grands projets, ${field} : ${status}`,
+  constructionNotPublished: (sector, title) =>
+    `Non compté dans ${sector} ${title} : aucun statut de construction n’est publié, car le projet ne figure pas dans l’Inventaire des grands projets de RNCan`,
+  industrySources:
+    "Sources : Statistique Canada, SCIAN Canada 2022 (Licence ouverte de Statistique Canada) · Ressources naturelles Canada, Inventaire des grands projets 2025 (Licence du gouvernement ouvert – Canada).",
+
   mapLabel: "Carte du Canada dans le monde",
   layersTitle: "Couches de la carte",
   layers: {
@@ -341,12 +423,35 @@ const fr: Strings = {
     ferries: { label: "Liaisons par traversier", detail: "Natural Earth" },
     majorProjects: { label: "Bureau des grands projets", detail: "Épingles des projets et extrémités de tracé publiées" },
     tradePlaces: { label: "Lieux des corridors commerciaux", detail: "Ports et postes frontaliers" },
+    vessels: { label: "Navires battant pavillon canadien", detail: "Positions relayées par aisstream.io, source non gouvernementale" },
   },
-  futureShips: { label: "Suivi des navires", detail: "Prévu — aucune source connectée" },
   futureHeatmap: { label: "Carte thermique de la population", detail: "Prévue — visualisation 3D" },
   showAnalysis: "Afficher l’analyse",
   hideAnalysis: "Masquer l’analyse",
   pinRoute: (name) => `${name} — tracé, repère à son point médian`,
+  mapErrorDev: "Erreur de carte (affichée en développement seulement) — une couche est peut-être absente :",
+  mapErrorDismiss: "Fermer l’erreur de carte",
+  vesselsNoSnapshot: "Aucun instantané publié · aisstream.io, source non gouvernementale",
+  vesselsSnapshot: (date, n) => `${n} navires · dernière réception au ${date} UTC · aisstream.io, non gouvernemental`,
+  vesselsLive: (n) => `${n} navires · en direct sur cet ordinateur · aisstream.io, non gouvernemental`,
+  vesselUnnamed: (mmsi) => `Navire ${mmsi}`,
+  vesselIds: (mmsi, imo) => (imo ? `ISMM ${mmsi} · OMI ${imo}` : `ISMM ${mmsi}`),
+  vesselFlagBasis: {
+    mmsi_mid: "Identité radio canadienne (ISMM 316…)",
+    register_imo: "Inscrit au Registre canadien des grands bâtiments de Transports Canada, par numéro OMI",
+  },
+  vesselNotes: {
+    imo_not_in_register: "Son numéro OMI ne figure pas au Registre canadien des grands bâtiments",
+    mmsi_prefix_not_canadian: "Son identité radio n’est pas canadienne",
+  },
+  vesselHeard: (when) => `Dernière réception ${when} UTC`,
+  vesselMotion: (sog, cog) =>
+    [sog != null ? `${sog} nœuds` : "", cog != null ? `cap ${cog}°` : ""].filter(Boolean).join(" · "),
+  vesselDestination: (destination) => `Destination diffusée : ${destination}`,
+  vesselRegister: (port, descriptor) =>
+    [port ? `Port d’immatriculation ${port}` : "", descriptor].filter(Boolean).join(" · "),
+  vesselSource:
+    "Position relayée par aisstream.io à partir de récepteurs côtiers — source non gouvernementale. Un navire hors de portée garde sa dernière position reçue. Le pavillon n’indique pas le propriétaire.",
 
   timelineHeading: (n) => `Chronologie du portefeuille · ${n} mises à jour datées`,
   timelineIntro:

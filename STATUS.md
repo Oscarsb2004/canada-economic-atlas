@@ -1,6 +1,6 @@
 # STATUS — where this project actually is
 
-_Last updated: 2026-09-11._
+_Last updated: 2026-09-12._
 
 Read this first when picking the project back up. The full design is in
 `docs/PLAN.md` and **the ordered work queue is [`docs/BACKLOG.md`](docs/BACKLOG.md)**.
@@ -14,29 +14,30 @@ a work queue — two lists of "next" is how one of them goes stale.
 
 | Component | State |
 |---|---|
-| `atlas/core/schema.py` | Done. Canonical dataclasses, `Provenance`, `Geometry`, `Site`, `Project`, `Series`, `Company`. Round-trip tested. |
+| `atlas/core/schema.py` | Done. Canonical dataclasses, `Provenance`, `Geometry`, `Site`, `Project`, `Series`. Round-trip tested. |
 | `atlas/net.py` | Done. Polite fetch: 1 req/s, retries with backoff, on-disk cache. Live-tested: 0.9 s cold, 0.001 s cached. |
-| `atlas/core/registry.py` | Done. Loads + hard-validates `sources.yaml`, `events.yaml`, `strategies.yaml`. |
+| `atlas/core/registry.py` | Done. Loads + hard-validates `sources.yaml`, `events.yaml`, `strategies.yaml`, `mpo_naics.yaml`. |
 | `atlas/sources/mpo.py` | Done. Full project-page parser, EN **and** FR, verified against live pages. |
-| `registry/*.yaml` | Done: sources, events, strategies, sectors, gics_naics, palette. |
+| `registry/*.yaml` | Done: sources, events, strategies, sectors, mpo_naics, palette. |
 | `atlas/media.py` | Done. Circular 96 px thumb + 1400 px JPEG, deterministic. |
 | **`pipeline/01_projects.py`** | **Done and run.** All 18 projects + 9 strategies. |
 | `atlas/sources/statcan.py` | Done. Bulk cube download, both languages, delimiter-safe. |
 | **`pipeline/02_sectors.py`** | **Done and run.** Seven declared pulls: real GDP (23 national monthly on two price bases, 299 provincial), nominal GDP (23), gross output (330, IOIC crosswalk), capital expenditures (280), SEPH employment (350, streamed). The StatCan section is complete at its basic level. |
 | `registry/sectors.yaml` | Done. 20 NAICS + T-codes, partition and cross-cuts. |
-| `atlas/sources/companies.py` | Done. XIC holdings parser. |
-| **`pipeline/03_companies.py`** | **Done and run.** 216 companies, 6 junk rows dropped. |
-| **`pipeline/99_bundle.py`** | **Done and run.** 11 files, 1.49 MB in `web/public/data/`. |
+| **`pipeline/03_business_counts.py`** | **Done and run.** BACKLOG Q2b, replacing the removed BlackRock company panel. Statistics Canada's newest *Canadian Business Counts, with employees* table, found by title (33101174, June 2026): Canada and 13 provinces and territories × 20 sectors, all industries and Unclassified × 9 size ranges, both languages, StatCan's notes carried. 260 unpublished cells carried as null, each shown by its total to be zero. `business-counts.json`, bundled. |
+| **`pipeline/99_bundle.py`** | **Done and run.** 12 files, 1.53 MB in `web/public/data/`. |
 | `atlas/sources/census.py` | Done. Table 98-10-0002, both languages, symbols kept, EN/FR cross-checked. |
 | **`pipeline/05_municipalities.py`** | **Done and run.** 5,161 `Municipality` records, `data/geography/municipalities.json` (5.6 MB). Not bundled. |
-| `registry/gics_naics.yaml` | Done. Lossy crosswalk, versioned, splits documented. |
+| **`pipeline/06_industries.py`** | **Done and run.** BACKLOG C1, option B + C. All 18 MPO projects placed in NAICS Canada 2022, every quote checked verbatim against Statistics Canada's EN/FR classification files and the project page. 10 joined to NRCan's Major Projects Inventory 2025 by declared ID for status; 3 counted in construction. `industries.json`, bundled, shown in the project viewer as derived. |
+| **`pipeline/07_vessels.py`** | **Done and run.** BACKLOG S1. Transport Canada's Canadian Register of Large Vessels, EN + FR paired by row: 26,907 entries, of which the 1,161 carrying an IMO number are committed to `data/vessels/large-vessel-register.json` (1.42 MB). Not bundled. |
+| **`live/collect_ais.py`** | **Built and run once (75 s, 2026-09-12): whole-world subscription accepted, 168 messages/s, 11,767 vessels heard, 346 Canadian, 7 also in the register.** Daily publishing waits on the `AISSTREAM_API_KEY` repository secret. BACKLOG S2/S3. aisstream.io → Canadian vessels by MMSI 316… or register IMO → a snapshot that keeps each vessel's last heard position. `python run.py --live` on localhost; a daily GitHub Action commits the snapshot to the `vessel-positions` branch and every build copies it in. The globe's "Canadian-flagged vessels" layer reads it. |
 | **`registry/palette.yaml`** | **LOCKED.** 5 validated categorical slots, dark only. |
 | **`scripts/build_geo.mjs`** | **Done and run.** Reproducible world + provinces geometry. |
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
 | **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
 | **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
-| **`verify/` (M6)** | **Done.** 138 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
-| **`tests/` (M6)** | **Done.** 96 tests, each explaining the failure it prevents. |
+| **`verify/` (M6)** | **Done.** 160 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
+| **`tests/` (M6)** | **Done.** 114 tests, each explaining the failure it prevents. |
 | **`run.py`, `CLAUDE.md`** | **Done.** Single entry point; agent invariants. |
 | Environment | `.venv` created, all pins from `requirements.txt` installed and confirmed. |
 
@@ -114,12 +115,12 @@ found and fixed two real issues (see below).
 
 ## v1 is COMPLETE per the `PLAN.md` §10 scope fence
 
-Full pipeline runs end to end; 96 tests pass; 138 gate checks pass; a re-run from
+Full pipeline runs end to end; 114 tests pass; 160 gate checks pass; a re-run from
 a clean baseline leaves a zero-line git diff.
 
 ```
 python run.py          # pipeline + verify
-python run.py --test   # 96 tests
+python run.py --test   # 114 tests
 cd web && npm run dev  # the app
 ```
 
@@ -347,6 +348,70 @@ fixed in M6:
 ---
 
 ## Findings that cost real work — do not rediscover
+
+**Q2b (2026-09-12): StatCan's business counts publish no zero rows.** Of 85,793
+rows in table 33101174, not one VALUE is 0; a size range with no locations has
+no row. 260 of the 2,772 cells the atlas reads are absent, never a total, and
+in all 260 the published ranges already reach the published total. They are
+carried as null and shown as zero with that reason — reading an absent row as
+zero without the check would be a guess. Each half-year is also a new product
+ID, so stage 03 finds the newest table by title.
+
+**2026-09-12: the company panel's source does not permit what the atlas does
+with it.** BlackRock Canada's terms limit site content to personal,
+non-commercial use, forbid public reuse, and forbid robot copying without
+permission. Stage 03 fetches the XIC holdings by script and the public site
+republishes them. `sources.yaml` had described the file as "free to consume";
+nobody had read the terms. The panel was removed entirely the same day, on the
+owner's decision (BACKLOG Q2a).
+
+**No government publishes live ship positions, and AIS filters cannot select
+a country.** aisstream.io filters by bounding box or by an explicit MMSI list,
+not by prefix, so the collector subscribes to the world and filters on
+Canada's MID, 316 (ITU; the Coast Guard's own worked example is 316010115).
+Only the nine-digit ship-station form counts — 316 also appears inside coast
+station, group and aid-to-navigation identities. The register joins only by
+IMO, because it publishes no MMSI.
+
+**The inventory disputes were settled outside the MPO pages.** The MPO pages
+never name Foran, Newcrest or NTPC. McIlvenna Bay: Eldorado Gold closed its
+purchase of Foran on 2026-04-14. Red Chris: Newmont bought Newcrest on
+2023-11-06. Taltson stayed unresolved on evidence and was matched on the
+owner's decision, with its 134 km distance waived and disclosed on screen.
+
+**S1 (2026-09-12): the vessel register's Official Number is not an identity.**
+843892 (MTS 3504) and 849528 (THE OLDER I GET) each appear twice, with
+different gross tonnage, in both languages. A join keyed on the number keeps
+one row and silently drops the other, so vessels are identified by number and
+row, and English and French are paired by row with the number checked on all
+26,907. Of those, 1,161 carry an IMO number (the only field AIS shares — the
+register publishes no MMSI); one of them, 946245, has six digits. Year of Build
+is published as values like 188700, 2026 and 0 and is not interpreted. The
+French file's header is on its first row and the English file's on its second,
+and the French file has a registration-expiry column that is empty in every row.
+
+**C1 (2026-09-12): StatCan's French NAICS element file is not in the English
+file's order.** Every code has the same number of elements in both files, so
+pairing by position looks safe, and every pair would look plausible. It is
+wrong: each file is sorted by its own language's wording, so the sixth English
+illustrative example of 488310, "waterfront terminal operation", sits beside
+the French "voie maritime, exploitation de". French quotes are declared in
+`registry/mpo_naics.yaml` and found in their own file, never paired.
+
+**The two open C1 classes were answered by StatCan's own text, not by us.**
+LNG liquefaction is an example under 488990 ("liquefaction and
+regasification of natural gas for purposes of transport"); the construction
+sector's exclusions send "operating highways, streets and bridges" to 48-49.
+Neither was findable by searching for "LNG" or "road operation".
+
+**The Major Projects Inventory covers more of the portfolio than the roadmap
+said.** Joined by declared ID and checked by distance, 10 of the 18 MPO
+projects are in it, not 6 — including the Darlington SMR project, an MPO
+Electricity project filed under the inventory's Energy sector. The English
+file writes the status in two casings ("Under Construction", "Under
+construction"); the French file has one ("En construction"). Proponent names
+disagree for the same project (McIlvenna Bay: Foran Mining vs Eldorado Gold),
+which is why the join is by ID and distance.
 
 **B3 (2026-09-11): the update date had never been parsed.** `Update.date` was
 documented as ISO 8601 and held the English page's words ("November 13, 2025")

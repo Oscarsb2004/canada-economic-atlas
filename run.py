@@ -7,6 +7,8 @@ run.py — the only command this project needs.
     python run.py --verify        independent verification only
     python run.py --test          pytest only
     python run.py --web           the dev server (needs `npm install` in web/)
+    python run.py --live          listen to aisstream.io and serve Canadian vessel positions
+                                  to the dev server (needs AISSTREAM_API_KEY in .env)
     python run.py --refresh       bypass the HTTP cache when pulling
 
 On first use it creates `.venv`, installs `requirements.txt` into it, and
@@ -44,9 +46,11 @@ STAMP = VENV / ".atlas-requirements"
 STAGES = {
     "01": "pipeline/01_projects.py",
     "02": "pipeline/02_sectors.py",
-    "03": "pipeline/03_companies.py",
+    "03": "pipeline/03_business_counts.py",
     "04": "pipeline/04_trade.py",
     "05": "pipeline/05_municipalities.py",
+    "06": "pipeline/06_industries.py",
+    "07": "pipeline/07_vessels.py",
     "99": "pipeline/99_bundle.py",
 }
 
@@ -93,6 +97,7 @@ def main() -> int:
     ap.add_argument("--verify", action="store_true")
     ap.add_argument("--test", action="store_true")
     ap.add_argument("--web", action="store_true")
+    ap.add_argument("--live", action="store_true")
     ap.add_argument("--refresh", action="store_true")
     args = ap.parse_args()
 
@@ -101,6 +106,11 @@ def main() -> int:
 
     if args.verify:
         return run("-m", "verify.run")
+
+    if args.live:
+        # Not a stage: live positions never satisfy a zero-line re-run, so they
+        # stay out of the pipeline and out of data/ (docs/AIS.md).
+        return run("live/collect_ais.py", "--serve")
 
     if args.web:
         web = ROOT / "web"

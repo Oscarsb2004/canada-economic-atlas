@@ -21,7 +21,6 @@ import { PlotFigure } from "../charts/Plot";
 import { TableView } from "../charts/TableView";
 import {
   composition,
-  companyBars,
   emphasis,
   growthBars,
   growthHeatmap,
@@ -32,8 +31,9 @@ import {
 } from "../charts/specs";
 import { FilterRow, RANGES, VIEWS, type RangeId, type SectorView } from "../filters/FilterRow";
 import { t, type Bundle, type Lang, type Series } from "../data/bundle";
-import { fmtMoneyM, fmtPct, fmtPercent, useI18n } from "../i18n";
+import { fmtMoneyM, fmtPct, useI18n } from "../i18n";
 import { PinButton } from "../tabs/TabStrip";
+import { BusinessCountsPanel } from "./BusinessCountsPanel";
 
 /** Trim every series to the last N months. 0 means all of it. */
 function windowed(series: Series[], months: number): Series[] {
@@ -264,54 +264,16 @@ export function SectorPanel({
         />
       </section>
 
+      {/* Who makes up the chosen sector — StatCan's counts of business
+          locations by size, following the sector picked above. */}
       <section style={{ marginTop: "var(--sp-5)" }}>
-        <CompanyPanel bundle={bundle} width={width} />
+        <BusinessCountsPanel bundle={bundle} width={width} sector={focus} sectorLabel={focusLabel} />
       </section>
 
       <footer className="muted" style={{ fontSize: "var(--fs-micro)", margin: "var(--sp-5) 0" }}>
         {s.sectorSource(meta?.source_table ?? "", meta?.release_time || "—")}
       </footer>
     </div>
-  );
-}
-
-/**
- * Panel B — market data, and labelled as such everywhere it appears.
- *
- * Index weight is not output. Company revenue is gross output while GDP is
- * value added, so summing companies within a sector overshoots that sector's
- * GDP by two to three times. The caveat is carried in the bundle payload
- * itself so this panel cannot render the numbers without it — and it is now
- * READ from the payload, in both languages. Until B1 the panel rendered its own
- * hardcoded English copy and dropped the payload's, which kept CLAUDE.md §9 in
- * spirit and broke it in fact.
- *
- * Company names and GICS sector names are carried in English only (B1a).
- */
-function CompanyPanel({ bundle, width }: { bundle: Bundle; width: number }) {
-  const { lang, s } = useI18n();
-  return (
-    <>
-      <h3 style={{ fontSize: "var(--fs-small)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ink-muted)", margin: "0 0 var(--sp-1)" }}>
-        {s.companiesHeading}
-      </h3>
-      <p className="muted" style={{ fontSize: "var(--fs-micro)", margin: "0 0 var(--sp-2)" }}>
-        {s.companiesIndex} {t(bundle.companiesCaveat, lang)}
-      </p>
-      <PlotFigure
-        label={s.companiesFigure}
-        deps={[bundle.companies, width, bundle.palette, lang]}
-        spec={() => companyBars(bundle.companies, bundle.palette, width, lang)}
-      />
-      <TableView
-        caption={s.companiesCaption}
-        columns={[s.colCompany, s.colTicker, s.colGics, s.colWeight]}
-        rows={bundle.companies
-          .slice(0, 25)
-          .map((c) => [c.name, c.ticker, c.gics_sector, fmtPercent(c.weight_pct ?? 0, lang, 2)])}
-        numericFrom={3}
-      />
-    </>
   );
 }
 

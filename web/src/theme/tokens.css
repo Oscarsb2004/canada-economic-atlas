@@ -405,6 +405,58 @@ body {
   padding: 1px 6px;
 }
 
+/*
+ * What this atlas computed or judged, as opposed to what a publisher said.
+ * Dashed, like a derived map pin: the same grammar for the same claim, and no
+ * colour, which stays reserved for data and selection (CLAUDE.md §1, §7).
+ */
+.tag--derived { border-style: dashed; }
+
+/* Vessel details (BACKLOG S3). MapLibre's popup is light by default. */
+.vessel-popup .maplibregl-popup-content {
+  background: var(--surface-chart);
+  color: var(--ink-primary);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  padding: var(--sp-2) var(--sp-4) var(--sp-2) var(--sp-3);
+  border: var(--hairline);
+}
+.vessel-popup .maplibregl-popup-tip { border-top-color: var(--surface-chart); border-bottom-color: var(--surface-chart); }
+.vessel-popup .maplibregl-popup-close-button { color: var(--ink-secondary); }
+.vessel-popup__name { font-weight: 600; margin-bottom: var(--sp-1); }
+.vessel-popup__source { margin-top: var(--sp-2); color: var(--ink-muted); font-size: var(--fs-micro); }
+
+/* Development-only map error banner (BACKLOG B8). Chrome, not data: no series colour. */
+.map-error {
+  position: absolute;
+  left: var(--sp-3);
+  right: var(--sp-3);
+  bottom: var(--sp-3);
+  z-index: 5;
+  display: flex;
+  gap: var(--sp-2);
+  align-items: baseline;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--surface-page);
+  color: var(--ink-primary);
+  border: 1px solid var(--ink-secondary);
+  border-radius: var(--radius);
+  font-size: var(--fs-small);
+}
+.map-error code { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.map-error button {
+  background: transparent;
+  border: none;
+  color: var(--ink-secondary);
+  cursor: pointer;
+}
+
+.derived-block {
+  border: 1px dashed var(--ink-axis);
+  border-radius: var(--radius);
+  padding: var(--sp-3);
+}
+
 .card {
   border: var(--hairline);
   border-radius: var(--radius);

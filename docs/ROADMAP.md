@@ -91,6 +91,15 @@ Verified matches: Crawford $2,835M · Deep Geological Repository $26,000M ·
 Ksi Lisims LNG $10,000M · LNG Canada Phase 2 $25,000M · McIlvenna Bay $1,082M ·
 Matawinie $481M.
 
+**Corrected 2026-09-12 — the ceiling is not 6, and it is not structural in the
+way this section says.** Stage 06 joins the inventory by declared Project ID,
+checked by distance, and 10 of the 18 projects join: the six above, plus Sisson
+(0329), Red Chris (6081), the Darlington SMR project (0644) and — on the owner's
+decision, under a disclosed distance waiver — Taltson (1063). Darlington is an
+MPO *Electricity* project; the inventory files electricity under its Energy
+sector, so "MPI does not track Electricity" was wrong. Only status is read so far;
+the costs remain C2, behind C3.
+
 So the rule for this feature is:
 
 > Adopt MPI's cost where a project matches, show **"not published"** where it
@@ -98,9 +107,10 @@ So the rule for this feature is:
 > as though it were the portfolio. A "$X billion portfolio" headline computed
 > from six of eighteen projects would be wrong by construction.
 
-The join must be a **curated `registry/mpi_join.yaml`** — explicit slug→Project
-ID pairs, hand-checked — not fuzzy name matching. Fuzzy matching got 6/18 here
-and would silently mismatch as either list grows.
+The join must be **explicit slug→Project ID pairs, checked** — not fuzzy name
+matching. Fuzzy matching got 6/18 here and would silently mismatch as either list
+grows. (Built 2026-09-12 inside `registry/mpo_naics.yaml`, each pair checked by
+distance in stage 06; there is no separate `mpi_join.yaml`.)
 
 Worth adding alongside: **Alberta's Major Projects inventory** (open.alberta.ca,
 $5M+, all sectors, not just resources) is the broadest project-level capital
@@ -123,6 +133,71 @@ NAICS 23 construction *activity* producing a 48-49 transportation *asset*. The
 crosswalk should say which it means.
 
 Then: pin count and capital by NAICS sector, sitting beside that sector's GDP.
+
+### C1 decision brief — written 2026-09-11, decision pending
+
+**Since this section was written, CLAUDE.md §11 changed the question.** A
+crosswalk is allowed only as a *declared* mapping with its formula beside it; a
+judgement is not. Every option below is judged against that.
+
+**The portfolio, from `projects.json`:** 18 projects in MPO's 5 sectors —
+Electricity 5, Mining 5, Transport 4, Energy 3, Industrial 1.
+
+**The sector level is wrong before any judgement is made.** Read against
+Statistics Canada's own NAICS Canada 2022 text:
+
+- **Deep Geological Repository** (MPO: Electricity). NAICS 562210 *Waste
+  treatment and disposal* lists "radioactive waste disposal and treatment" among
+  its examples. That is NAICS **56**, not 22. A sector-level
+  `Electricity → 22` sends the portfolio's largest MPI cost figure to the wrong
+  sector.
+- **Contrecoeur Container Terminal** (MPO: Industrial) is a port terminal —
+  transportation (48-49), not manufacturing.
+- **Matawinie** (MPO: Mining) is a mine *integrated with a battery material
+  plant* — 21 and 31-33.
+- **LNG Canada Phase 2 and Ksi Lisims LNG** (MPO: Energy). NAICS 486210 is
+  pipeline transportation of natural gas; neither 486210 nor subsector 211 names
+  LNG liquefaction in the text read on 2026-09-11. **Their class is unresolved**
+  and must be read from StatCan's NAICS index before any option below is built.
+- **Mackenzie Valley Highway, AESC, Grays Bay road** (MPO: Transport). NAICS
+  488490 includes "bridge, tunnel and highway operation" — but public roads are
+  run by governments, and whether their operation is classified there or to
+  public administration (91) is unresolved.
+
+**The options.**
+
+| | Option | What C4 then shows | Judgement involved | Where it misleads |
+|---|---|---|---|---|
+| **A** | **Sector-level crosswalk** — MPO's 5 sectors → NAICS, like `gics_naics.yaml`. The item as originally written. | Pin count by NAICS sector beside its GDP. | 5 assignments, each spanning projects that differ. | Provably wrong for the DGR, Contrecoeur and Matawinie above; the loss cannot be seen at sector grain. |
+| **B** | **Project-level, by the industry the finished asset operates in.** 18 entries in `registry/mpo_naics.yaml`, each quoting the NAICS Canada 2022 definition or example it rests on, `DERIVED`. | The same view, with the DGR under 56 and the ports under 48-49. | 18 assignments, each traceable to StatCan's own wording — the closest a mapping gets to §11's "declared". | Two classes (LNG, public roads) need resolving first; an unresolvable one is shown as unassigned, not guessed. |
+| **C** | **Construction activity.** Every project is NAICS 23 while it is being built. | All 18 beside construction GDP — one bar. | None: NAICS 23 covers all of them. | Uninformative. It answers "how big is construction", not "what is being built in this sector". |
+| **D** | **No join.** MPO's sectors stay as published, beside the NAICS sectors, with no mapping. | Two lists side by side; the reader joins them. | None. | G2 is not met: the app still cannot answer one question across both halves. |
+| **B + C** | **Both lenses, labelled.** B as the default, C as a toggle ("while under construction"). | B's view, plus the construction lens. | As B. | As B, plus one more control. |
+
+**Two facts that bear on every option.**
+
+- **Capital (C2) covers 10 of 18** (corrected 2026-09-12; this brief said 6).
+  Whatever the mapping, capital by sector is a partial figure and must say so (C3).
+- **How StatCan's capex table assigns investment to industries is unverified.**
+  If 34-10-0035 records an asset under the industry that *owns* it, option B is
+  the lens that lines up with it and C is not. Read the survey's Sources and
+  Methods before C4 compares project capital with capex by industry.
+
+**What deciding needs from you:** A, B, C, D or B + C. If B or B + C, the two
+unresolved classes are researched first and brought back before any entry is
+written.
+
+**Decided 2026-09-12: B + C** — "Choose B. However I agree they should possibly
+be double listed in construction while under construction." Built as stage 06;
+BACKLOG C1 records the result. Two readings made while building it:
+
+- **"While under construction" needs a published status**, so the construction
+  listing reads NRCan's Major Projects Inventory. A project the inventory does
+  not list is shown as *status not published*, never as *not under
+  construction*.
+- **Both unresolved classes resolved from StatCan's own text.** LNG
+  liquefaction is an example under 488990; construction's sector-level
+  exclusions send "operating highways, streets and bridges" to 48-49.
 
 ## A4. Provincial context · _cheap once A2 lands_
 
@@ -230,8 +305,8 @@ it will not join to the 20-sector GDP key.
   province's economy ÷ its share nationally). A standard, defensible measure,
   and the natural bridge to A4.
 - **Gross output vs value added by sector** (needs B1 revenue). This makes the
-  companies-panel caveat *visible* rather than a footnote: you could show
-  directly why summing company revenues overshoots sector GDP.
+  gross-output-versus-value-added distinction *visible*: it shows directly
+  why summing company revenues would overshoot sector GDP.
 
 ## B3. Data-quality surfaces the reader should see
 
@@ -246,8 +321,8 @@ stamps would put the vintage where the reader is, rather than in a footer.
 
 1. **B1** — four table pulls. Hours, not days, and everything else leans on it.
 2. **A1** — the timeline. Uses data already captured; no new sources.
-3. **A2 + the `mpi_join.yaml` registry** — capital values, with the 6-of-18
-   ceiling stated in the UI.
+3. **A2** — capital values through the C1 join (10 of 18), with that ceiling
+   stated in the UI.
 4. **A3** — the sector crosswalk. This is where the two halves finally meet.
 5. **B2** — the analyses B1 unlocked.
 6. **A4, A5** — provincial ratios, announcement scraping.

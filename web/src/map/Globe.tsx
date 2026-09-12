@@ -27,13 +27,13 @@
  * belongs in the filter row.
  */
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import maplibregl, { type LngLatLike, type StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import type { Bundle, CorridorNodeKind, Lang, Project, Text } from "../data/bundle";
+import type { Bundle, CorridorNodeKind, Lang, Project, Text, VesselRecord, VesselSnapshot } from "../data/bundle";
 import { PRUID_TO_CODE, asset, mapFeatures, t } from "../data/bundle";
-import { LanguageToggle, stringsFor, useI18n } from "../i18n";
+import { LOCALE, LanguageToggle, stringsFor, useI18n, type Strings } from "../i18n";
 
 /** Where the globe opens: Canada, tilted so the Arctic projects are visible. */
 const HOME: { center: LngLatLike; zoom: number } = {
@@ -59,8 +59,8 @@ interface Props {
 
 /**
  * Map controls are explicit state, rather than a collection of layer ids leaking
- * into App. A disabled future layer has no boolean here: it cannot accidentally
- * imply that live vessel positions are available before a source is chosen.
+ * into App. A planned layer with no source has no boolean here, so it cannot
+ * imply data that does not exist. Vessels joined on 2026-09-12, with a source.
  */
 export type ToggleableOverlay =
   | "provinces"
@@ -70,7 +70,8 @@ export type ToggleableOverlay =
   | "rail"
   | "ferries"
   | "majorProjects"
-  | "tradePlaces";
+  | "tradePlaces"
+  | "vessels";
 
 export type MapOverlays = Record<ToggleableOverlay, boolean>;
 
@@ -87,9 +88,78 @@ const OVERLAY_LAYER_IDS: Record<Exclude<ToggleableOverlay, "majorProjects" | "pl
   rail: ["rail-outline", "rail"],
   ferries: ["ferries"],
   tradePlaces: ["node-port", "node-border_crossing"],
+  vessels: ["vessels"],
 };
 
 const EMPTY_GEOJSON: GeoJSON.FeatureCollection = { type: "FeatureCollection", features: [] };
+
+/**
+ * A vessel is drawn faded once its last position is this much older than the
+ * snapshot. Display only — the popup always states the time it was last heard.
+ */
+const STALE_AFTER_HOURS = 24;
+
+/** How often the dev server asks the local collector for positions. */
+const LIVE_POLL_MS = 15_000;
+
+function vesselGeoJSON(doc: VesselSnapshot | null): GeoJSON.FeatureCollection {
+  if (!doc) return EMPTY_GEOJSON;
+  const taken = Date.parse(doc.generated_at);
+  return {
+    type: "FeatureCollection",
+    features: doc.vessels.map((v) => ({
+      type: "Feature",
+      geometry: { type: "Point", coordinates: [v.position.lon, v.position.lat] },
+      properties: {
+        mmsi: v.mmsi,
+        stale: taken - Date.parse(v.position_received_at) > STALE_AFTER_HOURS * 3_600_000,
+      },
+    })),
+  };
+}
+
+/**
+ * A vessel's details, as DOM built with textContent. Names, call signs and
+ * destinations are typed into transponders by crews and relayed by a third
+ * party, which makes every one of them untrusted input.
+ */
+function vesselPopup(v: VesselRecord, lang: Lang): HTMLElement {
+  const s = stringsFor(lang);
+  const root = document.createElement("div");
+  const line = (text: string, className?: string) => {
+    if (!text) return;
+    const el = document.createElement("div");
+    el.textContent = text;
+    if (className) el.className = className;
+    root.appendChild(el);
+  };
+  const register = v.register[0];
+  const number = new Intl.NumberFormat(LOCALE[lang], { maximumFractionDigits: 1 });
+  line(v.name ?? register?.name ?? s.vesselUnnamed(v.mmsi), "vessel-popup__name");
+  line(s.vesselIds(v.mmsi, v.imo));
+  line(v.flag_basis.map((b) => s.vesselFlagBasis[b]).join(" · "));
+  v.notes.forEach((n) => line(s.vesselNotes[n]));
+  line(s.vesselHeard(new Intl.DateTimeFormat(LOCALE[lang], {
+    dateStyle: "medium", timeStyle: "short", timeZone: "UTC",
+  }).format(new Date(v.position_received_at))));
+  line(s.vesselMotion(
+    v.position.sog != null ? number.format(v.position.sog) : null,
+    v.position.cog != null ? number.format(v.position.cog) : null,
+  ));
+  if (v.destination) line(s.vesselDestination(v.destination));
+  if (register) line(s.vesselRegister(t(register.port_of_registry, lang), t(register.descriptor, lang)));
+  line(s.vesselSource, "vessel-popup__source");
+  return root;
+}
+
+function vesselDetail(state: { doc: VesselSnapshot | null; live: boolean }, s: Strings, lang: Lang): string {
+  if (!state.doc) return s.vesselsNoSnapshot;
+  const count = new Intl.NumberFormat(LOCALE[lang]).format(state.doc.vessels.length);
+  if (state.live) return s.vesselsLive(count);
+  const when = new Intl.DateTimeFormat(LOCALE[lang], { dateStyle: "medium", timeStyle: "short", timeZone: "UTC" })
+    .format(new Date(state.doc.generated_at));
+  return s.vesselsSnapshot(when, count);
+}
 
 /**
  * Every toggleable overlay, in display order. Read off the label table, which
@@ -144,6 +214,7 @@ function buildStyle(bundle: Bundle): StyleSpecification {
       rail: { type: "geojson", data: EMPTY_GEOJSON as never },
       trade: { type: "geojson", data: corridorNodeGeoJSON(bundle) as never },
       corridors: { type: "geojson", data: corridorGeoJSON(bundle) as never },
+      vessels: { type: "geojson", data: vesselGeoJSON(bundle.vessels) as never },
     },
     layers: [
       // The background layer paints the SPHERE under globe projection, not the
@@ -411,6 +482,22 @@ function buildStyle(bundle: Bundle): StyleSpecification {
           "circle-stroke-color": ink.secondary,
         } as never,
       })),
+      // Canadian-flagged vessels where they were last heard (BACKLOG S3). One
+      // hue for all of them: the flag is the only category, and the popup, not a
+      // colour, says why each vessel counts as Canadian. Faded past
+      // STALE_AFTER_HOURS, because an old position is not a current one.
+      {
+        id: "vessels",
+        type: "circle",
+        source: "vessels",
+        paint: {
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 1.5, 1.8, 6, 4.5],
+          "circle-color": bundle.palette.categorical[2].hex,
+          "circle-opacity": ["case", ["get", "stale"], 0.35, 0.95],
+          "circle-stroke-width": 0.6,
+          "circle-stroke-color": bundle.palette.surface.page,
+        } as never,
+      },
       // Drawn after `provinces-fill` so the selected outline is never swallowed
       // by the province surface beneath it.
       {
@@ -561,6 +648,21 @@ export function Globe({
   const overlaysRef = useRef(overlays);
   overlaysRef.current = overlays;
   const refreshPlaceLabelsRef = useRef<() => void>(() => {});
+  /**
+   * The last map error, shown on the map in development builds (BACKLOG B8).
+   *
+   * The console line alone was not enough: two rendering faults in one week
+   * were diagnosed from screenshots, because a dropped layer leaves a map that
+   * looks finished. Production readers get the console only — a banner about a
+   * paint expression is noise to someone reading about pipelines.
+   */
+  const [mapError, setMapError] = useState<string | null>(null);
+  /** The positions on the map: the published snapshot, or the local collector's live view in dev. */
+  const [vessels, setVessels] = useState<{ doc: VesselSnapshot | null; live: boolean }>({
+    doc: bundle.vessels,
+    live: false,
+  });
+  const vesselIndex = useRef<Map<string, VesselRecord>>(new Map());
   const { lang, s } = useI18n();
   // Read by the map's own event handlers, which are registered once per bundle:
   // a language change must relabel the map, not rebuild the globe.
@@ -628,8 +730,10 @@ export function Globe({
     // is quietly missing. That is how a broken Canada highlight got as far as a
     // screenshot. Surfacing it costs three lines.
     m.on("error", (e) => {
+      const err = (e as unknown as { error?: Error }).error;
       // eslint-disable-next-line no-console
-      console.error("[map]", (e as unknown as { error?: Error }).error ?? e);
+      console.error("[map]", err ?? e);
+      if (import.meta.env.DEV) setMapError(err?.message ?? String(e));
     });
 
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
@@ -790,12 +894,23 @@ export function Globe({
       if (code && name.en) onProvinceSelectRef.current({ code, name });
     });
 
+    m.on("click", "vessels", (event) => {
+      const record = vesselIndex.current.get(String(event.features?.[0]?.properties?.mmsi ?? ""));
+      if (!record) return;
+      new maplibregl.Popup({ closeButton: true, maxWidth: "300px", className: "vessel-popup" })
+        .setLngLat([record.position.lon, record.position.lat])
+        .setDOMContent(vesselPopup(record, langRef.current))
+        .addTo(m);
+    });
+    m.on("mouseenter", "vessels", () => { m.getCanvas().style.cursor = "pointer"; });
+    m.on("mouseleave", "vessels", () => { m.getCanvas().style.cursor = ""; });
+
     // Clicking empty ocean clears either type of selection, which is the
     // obvious gesture and otherwise leaves a detail panel stuck open.
     m.on("click", (event) => {
       // Layer-specific click handlers fire as well as this map-wide handler.
       // Query first so choosing a province cannot immediately clear itself.
-      if (m.queryRenderedFeatures(event.point, { layers: ["provinces-fill"] }).length === 0) {
+      if (m.queryRenderedFeatures(event.point, { layers: ["provinces-fill", "vessels"] }).length === 0) {
         onClearSelectionRef.current();
       }
     });
@@ -959,6 +1074,50 @@ export function Globe({
       });
   }, [overlays.rail]);
 
+  // Push the current vessel document into the map's source and the popup's
+  // lookup. Gated on the SOURCE existing, like the province highlight, not on
+  // isStyleLoaded(), which is false while any other source is still loading.
+  useEffect(() => {
+    vesselIndex.current = new Map((vessels.doc?.vessels ?? []).map((v) => [v.mmsi, v]));
+    const m = map.current;
+    if (!m) return;
+    const apply = () => {
+      const source = m.getSource("vessels") as maplibregl.GeoJSONSource | undefined;
+      if (!source) return;
+      source.setData(vesselGeoJSON(vessels.doc));
+    };
+    if (m.getSource("vessels")) apply();
+    else m.once("style.load", apply);
+    return () => {
+      m.off("style.load", apply);
+    };
+  }, [vessels]);
+
+  // On localhost, `python run.py --live` serves what aisstream.io is relaying
+  // now. Poll it while the layer is on; where nothing answers, the published
+  // snapshot stays. The production build has no proxy and never polls.
+  useEffect(() => {
+    if (!import.meta.env.DEV || !overlays.vessels) return;
+    let cancelled = false;
+    const poll = async () => {
+      try {
+        const res = await fetch("/api/live/ships");
+        // 204: the dev proxy found no collector running.
+        if (res.status !== 200) return;
+        const doc = (await res.json()) as VesselSnapshot;
+        if (!cancelled && Array.isArray(doc.vessels) && doc.generated_at) setVessels({ doc, live: true });
+      } catch {
+        // The collector is not running; keep what is on the map.
+      }
+    };
+    void poll();
+    const id = window.setInterval(() => void poll(), LIVE_POLL_MS);
+    return () => {
+      cancelled = true;
+      window.clearInterval(id);
+    };
+  }, [overlays.vessels]);
+
   return (
     <div
       className="pane-map"
@@ -967,6 +1126,15 @@ export function Globe({
       style={{ background: bundle.palette.surface.page }}
     >
       <div ref={container} className="map-canvas" aria-label={s.mapLabel} />
+      {mapError && (
+        <div className="map-error" role="alert">
+          <strong>{s.mapErrorDev}</strong>
+          <code>{mapError}</code>
+          <button type="button" onClick={() => setMapError(null)} aria-label={s.mapErrorDismiss}>
+            ✕
+          </button>
+        </div>
+      )}
       <aside className="map-layer-bar" aria-label={s.layersTitle}>
         <div className="map-layer-bar__title">{s.layersTitle}</div>
         {LAYER_ORDER.map((overlay) => (
@@ -974,14 +1142,10 @@ export function Globe({
             key={overlay}
             checked={overlays[overlay]}
             label={s.layers[overlay].label}
-            detail={s.layers[overlay].detail}
+            detail={overlay === "vessels" ? vesselDetail(vessels, s, lang) : s.layers[overlay].detail}
             onChange={() => onToggleOverlay(overlay)}
           />
         ))}
-        <div className="map-layer-bar__future">
-          <span>{s.futureShips.label}</span>
-          <small>{s.futureShips.detail}</small>
-        </div>
         <div className="map-layer-bar__future">
           <span>{s.futureHeatmap.label}</span>
           <small>{s.futureHeatmap.detail}</small>
