@@ -243,7 +243,7 @@ shared, and you have asked for one place to see and run them all.
 | change-detection hashing | — | `atlas/core/jsonio.py` | `wsm` `comparable_json` |
 | `verify/` that must not import the package | yes, with an AST test | yes, with an AST test | wanted (E1) |
 | `SourceRef` / `Provenance` | partial | `schema.py`, banner-split portable vs project | "portable Athena core" |
-| `world.json` | — | canonical | **byte-identical copy, verified 2026-09-06** |
+| `world.json` | — | canonical: Natural Earth 1:10m at 10% since 2026-09-12 | **no longer identical** — checked 2026-09-12, the sibling's file is 1:110m at 20% (sha256 `5c74d9f3…`) while the atlas's main was already 1:50m (`6e7fe174…`) before the move to 1:10m; the sibling reproduces the atlas only by re-running `build_geo.mjs`'s recorded command |
 | validated palette | own | `registry/palette.yaml`, the only validated one | needs categorical slots |
 
 Two facts sharpen this. The atlas's `jsonio` and WSM's `comparable_json` solve

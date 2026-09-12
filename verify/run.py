@@ -769,6 +769,52 @@ def check_bundle(r: Report) -> None:
            "the Canada outline reaches Ellesmere (>83 degrees N)",
            f"northernmost point is {max(ys):.2f}")
 
+    # ── Canada's detail tier ──────────────────────────────────────────────────
+    #
+    # Fetched only when the reader zooms in, so the globe's first load never
+    # parses it — which also means no first-load symptom would reveal a broken
+    # file. Same failure modes as the other polygon layers: a projected
+    # coordinate renders as nothing, collapsed geometry is counted but never
+    # drawn, and a detail file that lost a province would leave a hole exactly
+    # where a reader has zoomed in to look.
+    def polygon_parts(geometry):
+        if geometry["type"] == "Polygon":
+            return [geometry["coordinates"]]
+        if geometry["type"] == "MultiPolygon":
+            return geometry["coordinates"]
+        return []
+
+    province_ids = {f["properties"]["PRUID"] for f in
+                    json.loads((WEB / "geo/provinces.json").read_text(encoding="utf-8"))["features"]}
+    for rel in ("geo/provinces-detail.json", "geo/canada-detail.json", "geo/water.json"):
+        path = WEB / rel
+        r.gate(path.exists(), f"{rel} is committed", "missing")
+        if not path.exists():
+            continue
+        feats = json.loads(path.read_text(encoding="utf-8"))["features"]
+        collapsed = sum(1 for f in feats if not f.get("geometry"))
+        r.gate(not collapsed, f"no {rel} feature has collapsed geometry",
+               f"{collapsed} with properties and no geometry")
+        coords = [c for f in feats if f.get("geometry")
+                  for part in polygon_parts(f["geometry"]) for ring in part for c in ring]
+        # NRCan's waterbodies include the lakes and rivers that cross the border,
+        # whole: measured 2026-09-12, water.json reaches -152.37 (Alaska) and
+        # 41.27 N (Lake Erie's US shore). So water gets a North American box.
+        # The gate exists to catch Lambert metres, which no box of degrees admits.
+        lon0, lon1, lat0, lat1 = (-170.0, -50.0, 38.0, 85.0) if rel.endswith("water.json") \
+            else (-142.0, -52.0, 41.0, 84.0)
+        off = [c for c in coords if not (lon0 <= c[0] <= lon1 and lat0 <= c[1] <= lat1)]
+        r.gate(bool(coords) and not off, f"every {rel} coordinate is in degrees ({len(coords):,} points)",
+               f"{len(off)} outside lon {lon0}..{lon1}, lat {lat0}..{lat1} — first {off[:2]}")
+        if rel.endswith("provinces-detail.json"):
+            ids = {f["properties"].get("PRUID") for f in feats}
+            r.gate(ids == province_ids, "the detailed provinces are the same 13 PRUIDs as provinces.json",
+                   f"detail has {sorted(ids)}")
+        if rel.endswith("canada-detail.json"):
+            n_parts = sum(len(polygon_parts(f["geometry"])) for f in feats if f.get("geometry"))
+            r.gate(n_parts >= len(parts), f"the detailed outline keeps at least the overview's islands ({n_parts:,})",
+                   f"{n_parts} polygons against {len(parts)} in canada.json")
+
 
 # ── Entry point ────────────────────────────────────────────────────────────────
 

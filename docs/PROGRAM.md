@@ -258,7 +258,7 @@ around this repo's current shape and force the sibling to bend to it.
 | change-detection hashing | — | `atlas/core/jsonio.py` | `comparable_json` |
 | `verify/` that must not import the package | yes, AST-tested | yes, AST-tested | wanted (WSM-E1) |
 | `SourceRef` / `Provenance` | partial | banner-split portable/project | "portable Athena core" |
-| `world.json` | — | canonical | byte-identical, verified 2026-09-06 |
+| `world.json` | — | canonical (1:10m since 2026-09-12) | not identical as of 2026-09-12: sibling 1:110m, atlas 1:50m then 1:10m — see BACKLOG |
 
 Two facts carry the argument. The hashing implementations solve one problem and
 **the sibling's found a bug this repo's shares in principle** — stripping

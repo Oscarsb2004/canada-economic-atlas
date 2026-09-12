@@ -4,11 +4,11 @@
   "sources": {
     "world": {
       "name": "Natural Earth — Admin 0 countries",
-      "scale": "1:50m",
+      "scale": "1:10m",
       "version": "v5.1.2",
       "licence": "public domain",
-      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_50m_admin_0_countries.geojson",
-      "file": "ne_50m_admin_0_countries.geojson"
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_admin_0_countries.geojson",
+      "file": "ne_10m_admin_0_countries.geojson"
     },
     "nhs": {
       "name": "Transport Canada — National Highway System",
@@ -37,6 +37,17 @@
       "dataset": "https://open.canada.ca/data/en/dataset/ef70dc3b-1069-4037-9bce-61f47e628a1d",
       "url": "https://www12.statcan.gc.ca/census-recensement/2021/geo/sip-pis/boundary-limites/files-fichiers/lpr_000b21a_e.zip",
       "file": "lpr_000b21a_e.zip"
+    },
+    "water": {
+      "name": "Atlas of Canada National Scale Data 1:1,000,000 — Waterbodies",
+      "publisher": "Natural Resources Canada",
+      "scale": "1:1,000,000",
+      "version": "record modified 2022-02-22",
+      "licence": "ogl-canada-2.0",
+      "dataset": "https://open.canada.ca/data/en/dataset/e9931fc7-034c-52ad-91c5-6c64d4ba0065",
+      "url": "https://ftp.geogratis.gc.ca/pub/nrcan_rncan/vector/framework_cadre/Atlas_of_Canada_1M/hydrology/AC_1M_Waterbodies.shp.zip",
+      "file": "AC_1M_Waterbodies.shp.zip",
+      "shapefile": "AC_1M_Waterbodies_shp/AC_1M_Waterbodies"
     },
     "places": {
       "name": "Geolocated placenames in Canada",
@@ -121,12 +132,15 @@
     }
   },
   "commands": {
-    "world": "-i \"data/raw/geo/ne_50m_admin_0_countries.geojson\" -filter-fields ADM0_A3,ISO_A3,NAME -simplify 35% keep-shapes -o format=geojson precision=0.005 \"web/public/geo/world.json\"",
+    "world": "-i \"data/raw/geo/ne_10m_admin_0_countries.geojson\" -filter-fields ADM0_A3,ISO_A3,NAME -simplify 10% keep-shapes -o format=geojson precision=0.001 \"web/public/geo/world.json\"",
     "provinces": "-i \"data/raw/geo/lpr_000b21a_e.zip\" -proj wgs84 -simplify 0.1% keep-shapes -filter-fields PRUID,PRENAME,PRFNAME -o format=geojson precision=0.001 \"web/public/geo/provinces.json\"",
     "nhs": "-i \"data/raw/geo/tc_national_highway_system.geojson\" -each 'rtnumber1 = rtnumber1 === \"None\" ? \"\" : rtnumber1' -dissolve fields=type_code,rtnumber1 -o format=geojson precision=0.01 \"web/public/geo/nhs.json\"",
     "highways": "-i \"data/raw/geo/ne_10m_roads.geojson\" -filter 'sov_a3 === \"CAN\" && (type === \"Major Highway\" || type === \"Ferry Route\") && scalerank <= 7' -filter-fields type,name,label,length_km,scalerank -simplify 25% keep-shapes -o format=geojson precision=0.005 \"web/public/geo/highways.json\"",
     "rail": "-i \"data/raw/geo/nrwn-track/nrwn_ab_track.shp\" \"data/raw/geo/nrwn-track/nrwn_bc_track.shp\" \"data/raw/geo/nrwn-track/nrwn_mb_track.shp\" \"data/raw/geo/nrwn-track/nrwn_nb_track.shp\" \"data/raw/geo/nrwn-track/nrwn_nl_track.shp\" \"data/raw/geo/nrwn-track/nrwn_ns_track.shp\" \"data/raw/geo/nrwn-track/nrwn_nt_track.shp\" \"data/raw/geo/nrwn-track/nrwn_on_track.shp\" \"data/raw/geo/nrwn-track/nrwn_qc_track.shp\" \"data/raw/geo/nrwn-track/nrwn_sk_track.shp\" \"data/raw/geo/nrwn-track/nrwn_yt_track.shp\" combine-files -merge-layers -filter 'STATUS === \"Operational\"' -filter-fields TRACKCLASS,STATUS,TRANSPTYPE,USETYPE,OWNERENA,OPERATOENA,ADMINAREAC,SUBDI1NAME -dissolve fields=TRACKCLASS,STATUS,TRANSPTYPE,USETYPE,OWNERENA,OPERATOENA,ADMINAREAC,SUBDI1NAME -o format=geojson precision=0.0001 \"web/public/geo/rail.json\"",
-    "canada": "-i \"web/public/geo/provinces.json\" -dissolve2 -each 'name=\"Canada\"' -o format=geojson precision=0.001 \"web/public/geo/canada.json\""
+    "canada": "-i \"web/public/geo/provinces.json\" -dissolve2 -each 'name=\"Canada\"' -o format=geojson precision=0.001 \"web/public/geo/canada.json\"",
+    "provinces-detail": "-i \"data/raw/geo/lpr_000b21a_e.zip\" -proj wgs84 -simplify 3% keep-shapes -filter-fields PRUID,PRENAME,PRFNAME -o format=geojson precision=0.0005 \"web/public/geo/provinces-detail.json\"",
+    "canada-detail": "-i \"web/public/geo/provinces-detail.json\" -dissolve2 -each 'name=\"Canada\"' -o format=geojson precision=0.0005 \"web/public/geo/canada-detail.json\"",
+    "water": "-i \"data/raw/geo/waterbodies/AC_1M_Waterbodies_shp/AC_1M_Waterbodies.shp\" -filter 'TYPE == \"Permanent Water\" && SHAPE_Area >= 1e7' -proj wgs84 -simplify 5% keep-shapes -filter-fields NAME,NOM -o format=geojson precision=0.0005 \"web/public/geo/water.json\""
   },
   "notes": {
     "iso_a3": "Natural Earth ISO_A3 is '-99' for Norway, France, N. Cyprus, Somaliland and Kosovo. Join on ADM0_A3.",
@@ -138,6 +152,7 @@
     "nhs_pagination": "orderByFields=OBJECTID ASC is mandatory. ESRI does not guarantee page order without an explicit sort, and an unstable order breaks the zero-line-diff guarantee on unchanged upstream data.",
     "places_population": "Place labels rank by 2021 Census population-centre population, falling back to census-subdivision (municipal) population only where no centre matches. Centres are agglomerations, so Ottawa, Mississauga, Brampton, Surrey, Laval and Gatineau have none of their own name. Duplicate municipal names within a province are withheld, and population_source records which figure each place carries.",
     "rail": "rail.json is NRCan's operational NRWN track segment class from the eleven regional English Shapefile archives it publishes (AB, BC, MB, NB, NL, NS, NT, ON, QC, SK, YT). The directory publishes no PE or NU archive, so neither is supplemented or inferred. Track Classification is retained; all official operational classes are rendered. Owner and operator are retained as attributes, not visual categories.",
+    "detail_tier": "provinces-detail.json, canada-detail.json and water.json are fetched by the app only when the camera reaches DETAIL_ZOOM, and replace the overview geometry in place. water.json is NRCan's permanent water of 10 km² or more, painted over the provinces because the StatCan boundary is land to the riverbank.",
     "canada": "canada.json is the national outline, dissolved from provinces.json so its arcs are identical to the province geometry. It replaces filtering world.json to ADM0_A3=CAN, which at 1:110m is 9 polygons and omits Vancouver Island, Haida Gwaii and most of the Arctic archipelago."
   }
 }

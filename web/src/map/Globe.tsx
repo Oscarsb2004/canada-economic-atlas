@@ -102,6 +102,14 @@ const STALE_AFTER_HOURS = 24;
 /** How often the dev server asks the local collector for positions. */
 const LIVE_POLL_MS = 15_000;
 
+/**
+ * Zoom at which Canada's detail tier is fetched (provinces-detail, canada-detail,
+ * water — about 5.4 MB gzipped together). The overview files stay the first
+ * load. Measured 2026-09-12 against 1,201 Canadian vessel positions: 636 fell
+ * inside the overview's land; at the detail tier's 3% simplification, 218.
+ */
+const DETAIL_ZOOM = 4;
+
 function vesselGeoJSON(doc: VesselSnapshot | null): GeoJSON.FeatureCollection {
   if (!doc) return EMPTY_GEOJSON;
   const taken = Date.parse(doc.generated_at);
@@ -212,6 +220,9 @@ function buildStyle(bundle: Bundle): StyleSpecification {
       // when its off-by-default control is enabled, rather than making every
       // initial globe view pay for a layer it may never use.
       rail: { type: "geojson", data: EMPTY_GEOJSON as never },
+      // NRCan's permanent lakes and rivers of 10 km² or more. Empty until the
+      // reader zooms past DETAIL_ZOOM, like the detailed coastline it belongs to.
+      water: { type: "geojson", data: EMPTY_GEOJSON as never },
       trade: { type: "geojson", data: corridorNodeGeoJSON(bundle) as never },
       corridors: { type: "geojson", data: corridorGeoJSON(bundle) as never },
       vessels: { type: "geojson", data: vesselGeoJSON(bundle.vessels) as never },
@@ -306,6 +317,17 @@ function buildStyle(bundle: Bundle): StyleSpecification {
           // provincial boundaries remain discoverable before the user hovers.
           "fill-opacity": ["interpolate", ["linear"], ["zoom"], 1.5, 0.16, 3.8, 0.84],
         },
+      },
+      // Lakes and rivers, painted in the ocean's colour OVER the province fill.
+      // The StatCan boundary is land to the riverbank of the Fraser and every
+      // lake, so without this a ship moored at New Westminster sits on land.
+      // Not interactive: a click here still reaches the province beneath.
+      {
+        id: "water",
+        type: "fill",
+        source: "water",
+        minzoom: DETAIL_ZOOM,
+        paint: { "fill-color": ink.gridline, "fill-opacity": 1 },
       },
       // ── The physical economy, under the pins ───────────────────────────────
       //
@@ -644,6 +666,10 @@ export function Globe({
   const markers = useRef<Map<string, maplibregl.Marker>>(new Map());
   const railLoaded = useRef(false);
   const railLoading = useRef(false);
+  /** Canada's detail tier: fetched at most once, at DETAIL_ZOOM. */
+  const detailState = useRef<"idle" | "loading" | "loaded" | "failed">("idle");
+  /** Bumped when the detail tier replaces the province geometry, to re-apply selection. */
+  const [detailVersion, setDetailVersion] = useState(0);
   const placeMarkers = useRef<Map<string, maplibregl.Marker>>(new Map());
   const overlaysRef = useRef(overlays);
   overlaysRef.current = overlays;
@@ -954,7 +980,7 @@ export function Globe({
     return () => {
       m.off("style.load", apply);
     };
-  }, [bundle.provinces.features, selectedProvince]);
+  }, [bundle.provinces.features, selectedProvince, detailVersion]);
 
   // The language changed: relabel what the map built imperatively. Pins and
   // place labels are DOM the map owns, so React re-rendering does not reach them.
@@ -1073,6 +1099,53 @@ export function Globe({
         railLoading.current = false;
       });
   }, [overlays.rail]);
+
+  // Canada's detail tier: the same provinces and outline at 3% instead of
+  // 0.1%, plus NRCan's lakes and rivers. Fetched once, the first time the
+  // camera is at DETAIL_ZOOM or closer, then swapped into the existing sources —
+  // hover, selection and every layer keep working because the PRUIDs are the
+  // same. The globe's first load never pays for it.
+  useEffect(() => {
+    const m = map.current;
+    if (!m) return;
+    const load = () => {
+      if (detailState.current !== "idle" || m.getZoom() < DETAIL_ZOOM) return;
+      detailState.current = "loading";
+      const get = (path: string) =>
+        fetch(asset(path)).then((response) => {
+          if (!response.ok) throw new Error(`${path} → HTTP ${response.status}`);
+          return response.json() as Promise<GeoJSON.FeatureCollection>;
+        });
+      Promise.all([get("/geo/provinces-detail.json"), get("/geo/canada-detail.json"), get("/geo/water.json")])
+        .then(([provinces, canada, water]) => {
+          const target = map.current;
+          if (!target) return;
+          // Same rule as rail: loaded only once the data reached its sources.
+          const apply = () => {
+            const entries = [["provinces", provinces], ["canada", canada], ["water", water]] as const;
+            const sources = entries.map(([id]) => target.getSource(id) as maplibregl.GeoJSONSource | undefined);
+            if (sources.some((source) => !source)) return false;
+            entries.forEach(([, data], i) => sources[i]!.setData(data));
+            detailState.current = "loaded";
+            setDetailVersion((v) => v + 1);
+            return true;
+          };
+          if (!apply()) target.once("style.load", () => { apply(); });
+        })
+        .catch((error: unknown) => {
+          // No retry loop on every zoom: the overview geometry stays, and the
+          // failure is visible to a maintainer.
+          detailState.current = "failed";
+          console.error("Unable to load Canada's detailed coastline and water", error);
+          if (import.meta.env.DEV) setMapError(error instanceof Error ? error.message : String(error));
+        });
+    };
+    load();
+    m.on("zoomend", load);
+    return () => {
+      m.off("zoomend", load);
+    };
+  }, [bundle]);
 
   // Push the current vessel document into the map's source and the popup's
   // lookup. Gated on the SOURCE existing, like the province highlight, not on
