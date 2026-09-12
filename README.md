@@ -74,8 +74,8 @@ python run.py --stage 02 # one stage (01 | 02 | 03 | 04 | 05 | 06 | 07 | 99)
 python run.py --verify   # independent verification only
 python run.py --test     # pytest only
 python run.py --refresh  # bypass the HTTP cache and re-fetch StatCan cubes
-python run.py --live     # Canadian vessel positions on localhost (needs an aisstream.io key — docs/AIS.md)
-cd web && npm run dev    # the app, at http://localhost:5173
+python run.py --live     # the atlas in your browser, with live Canadian vessels on the globe (key: docs/AIS.md)
+cd web && npm run dev    # the app alone, at http://localhost:5173
 ```
 
 ## Contributing safely

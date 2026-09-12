@@ -59,6 +59,8 @@ from atlas.sources import aisstream as A  # noqa: E402
 log = logging.getLogger("collect_ais")
 
 WORLD = [[[-90, -180], [90, 180]]]
+#: Seconds without a message before the stream is treated as dead and reopened.
+SILENCE_S = 60
 LIVE_DIR = R.DATA_DIR / "raw" / "live"
 REGISTER = R.DATA_DIR / "vessels" / "large-vessel-register.json"
 
@@ -127,18 +129,29 @@ class Collector:
             try:
                 # aisstream.io's own client enables deflate: it "requires" it
                 # to serve full message bandwidth.
+                #
+                # No client keepalive pings. aisstream.io answers them late or
+                # not at all: measured 2026-09-12, the one reply that came back
+                # took 8,230 ms, and with the library's default 20 s ping
+                # timeout the stream was dropped three times in 150 s, twice at
+                # exactly 50 s into a connection. A dead stream is caught by
+                # silence instead — the world brings ~100 messages a second.
                 async with websockets.connect(self.stream_url, compression="deflate",
-                                              max_size=2 ** 22, open_timeout=20) as ws:
+                                              max_size=2 ** 22, open_timeout=20,
+                                              ping_interval=None) as ws:
                     await ws.send(subscription)
                     log.info("subscribed to the whole world")
                     backoff = 1.0
                     last_report, last_count = time.monotonic(), self.tracker.messages
                     while until is None or time.monotonic() < until:
-                        timeout = None if until is None else max(0.1, until - time.monotonic())
+                        remaining = None if until is None else max(0.1, until - time.monotonic())
+                        timeout = SILENCE_S if remaining is None else min(SILENCE_S, remaining)
                         try:
                             raw = await asyncio.wait_for(ws.recv(), timeout=timeout)
                         except asyncio.TimeoutError:
-                            return
+                            if until is not None and time.monotonic() >= until:
+                                return
+                            raise ConnectionError(f"no message for {SILENCE_S} s")
                         message = json.loads(raw)
                         if isinstance(message, dict) and "error" in message:
                             raise SystemExit(f"aisstream.io refused the subscription: {message['error']}")
@@ -162,12 +175,34 @@ def _write(doc: dict[str, Any], path: Path) -> None:
     tmp.replace(path)
 
 
+class _Server(ThreadingHTTPServer):
+    # The stdlib sets SO_REUSEADDR, and on Windows that lets a second socket bind
+    # a port already in use without any error. On 2026-09-12 two collectors ran
+    # on 8765 at once, each holding its own stream on the same key, and neither
+    # said so. Without the option a second collector fails to start instead.
+    allow_reuse_address = os.name != "nt"
+    daemon_threads = True
+
+
+ABOUT = (b"This is the atlas's ship collector, not the atlas.\n"
+         b"The atlas polls /ships from here while `python run.py --live` runs;\n"
+         b"open the address that command printed for the dev server (normally http://localhost:5173).\n")
+
+
 def serve(collector: Collector, port: int) -> None:
     state: dict[str, bytes] = {"body": b'{"vessels":[]}'}
 
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self) -> None:  # noqa: N802 — the stdlib's name
-            if self.path.split("?")[0] != "/ships":
+            path = self.path.split("?")[0]
+            if path == "/":
+                self.send_response(200)
+                self.send_header("Content-Type", "text/plain; charset=utf-8")
+                self.send_header("Content-Length", str(len(ABOUT)))
+                self.end_headers()
+                self.wfile.write(ABOUT)
+                return
+            if path != "/ships":
                 self.send_error(404)
                 return
             body = state["body"]
@@ -181,9 +216,14 @@ def serve(collector: Collector, port: int) -> None:
         def log_message(self, *_: Any) -> None:
             return
 
-    server = ThreadingHTTPServer(("127.0.0.1", port), Handler)
+    try:
+        server = _Server(("127.0.0.1", port), Handler)
+    except OSError as exc:
+        # Bound before the stream opens, so a duplicate never takes a connection.
+        raise SystemExit(f"port {port} is already in use ({exc.strerror}) — is another "
+                         "`python run.py --live` still running? The atlas reads whichever collector holds it.")
     threading.Thread(target=server.serve_forever, daemon=True).start()
-    log.info("serving http://127.0.0.1:%d/ships — the dev server proxies it at /api/live/ships", port)
+    log.info("ship collector on port %d — the atlas polls it at /api/live/ships", port)
 
     async def refresh() -> None:
         while True:

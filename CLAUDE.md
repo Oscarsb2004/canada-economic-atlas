@@ -190,4 +190,6 @@ NAICS element file is sorted by its French wording, not in the English order ·
 NRCan's English Major Projects Inventory writes "Under Construction" and "Under
 construction" · the vessel register lists two Official Numbers twice ·
 StatCan's business counts publish no zero rows (an absent size range is a zero
-only when the total says so) and are a new table ID every half-year.
+only when the total says so) and are a new table ID every half-year · on
+Windows the stdlib HTTP server's SO_REUSEADDR lets a second process bind a port
+already in use, with no error.

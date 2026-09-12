@@ -1,8 +1,8 @@
 # AIS — Canadian-flagged vessels: live on localhost, daily on the site
 
 _Planned 2026-09-11. The register (S1, stage 07), the collector and the layer
-(S2, S3) were built and first run 2026-09-12; daily publishing waits on the
-`AISSTREAM_API_KEY` repository secret. The queue is `BACKLOG.md` Stage S; this file carries the
+(S2, S3) were built and first run 2026-09-12; the `AISSTREAM_API_KEY`
+repository secret was added the same day. The queue is `BACKLOG.md` Stage S; this file carries the
 reasoning, the sources as they were read, and the limits that must reach the
 screen._
 
@@ -100,9 +100,14 @@ aisstream.io ──wss──▶ live/collect_ais.py ──▶ snapshot: Canadian
   what it heard into the previous snapshot — a vessel out of range keeps its
   last position and time — and commits to its own branch. Main never receives a
   live-data commit, so its zero-line re-run rule (CLAUDE.md §6) is untouched.
-- **Localhost is live.** `python run.py --live` listens until stopped; the globe
-  polls it and the layer row says "live on this computer". It also keeps
-  `data/raw/live/positions.json` (gitignored) so the next session starts warm.
+- **Localhost is live.** `python run.py --live` starts the atlas and the
+  collector together and opens the atlas in the browser; Ctrl+C stops both. The
+  globe polls the collector and the layer row says "live on this computer". The
+  collector also keeps `data/raw/live/positions.json` (gitignored) so the next
+  session starts warm. Its own address (port 8765) answers raw JSON for the app,
+  not a page for a reader — on 2026-09-12 that address was opened in a browser
+  while the atlas itself was not running, because `--live` then started only the
+  collector. A second collector on the same port now refuses to start.
 - **The key never reaches the browser**, which aisstream.io forbids anyway.
 - **Whole world, filtered here.** aisstream.io filters by bounding box or an
   explicit MMSI list, not by prefix. The first run (75 s, 2026-09-12) had the
