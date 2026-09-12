@@ -29,3 +29,9 @@ data/raw/
 # Vite dev/build artefacts under web/
 web/node_modules/
 web/dist/
+
+# ── Live vessel positions (BACKLOG S2) ─────────────────────────────────────────
+# The aisstream.io key, and the snapshot the build copies in from the
+# `vessel-positions` branch. Neither is ever committed to main.
+.env
+web/public/data/vessels/

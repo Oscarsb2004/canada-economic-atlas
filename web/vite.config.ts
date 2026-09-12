@@ -17,7 +17,30 @@ export default defineConfig({
   // resolved at render time by asset() in src/data/bundle.ts — Vite only
   // rewrites what it can see in the import graph, and the bundle is fetched.
   base: process.env.VITE_BASE || "/",
-  server: { port: 5173, strictPort: false },
+  server: {
+    port: 5173,
+    strictPort: false,
+    // `python run.py --live` serves Canadian vessel positions on 8765 while it
+    // runs (BACKLOG S2). Development only: the production build has no proxy,
+    // and the published site reads the daily snapshot instead.
+    proxy: {
+      "/api/live": {
+        target: "http://127.0.0.1:8765",
+        rewrite: (p) => p.replace(/^\/api\/live/, ""),
+        // No collector running is the normal case. Answer 204 rather than the
+        // proxy's 500, which the browser would log as an error on every poll.
+        configure: (proxy) => {
+          proxy.on("error", (_err, _req, res) => {
+            const out = res as { headersSent?: boolean; writeHead?: (code: number) => void; end?: () => void };
+            if (out.writeHead && !out.headersSent) {
+              out.writeHead(204);
+              out.end?.();
+            }
+          });
+        },
+      },
+    },
+  },
   build: {
     outDir: "dist",
     sourcemap: true,

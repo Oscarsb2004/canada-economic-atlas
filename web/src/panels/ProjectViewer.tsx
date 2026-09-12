@@ -4,7 +4,7 @@
  * This is the "native viewer" the brief asked for: clicking a pin opens the
  * project here, in the page, rather than sending the reader to canada.ca.
  *
- * EVERY STRING IN THE BODY COMES FROM THE FEDERAL PAGE.
+ * EVERY STRING IN THE BODY COMES FROM THE FEDERAL PAGE — except one section.
  *
  * Nothing here summarises, paraphrases, or rounds. In particular the dollar
  * figures and job counts stay inside their sentences — the pages say "Will
@@ -13,27 +13,37 @@
  * text this component authors is its own section headings and the provenance
  * line, which are visibly ours and live in `i18n.tsx`.
  *
+ * The exception is the industry section (BACKLOG C1). Which NAICS industry a
+ * project belongs to is this atlas's reading, so it sits last, inside a dashed
+ * frame with a "Derived" tag — the grammar a derived map pin already uses — and
+ * it shows its working: the page's words for the asset and Statistics Canada's
+ * words for the code.
+ *
  * The source link is present but secondary. The point is that you do not have
  * to click it.
  */
 
-import type { Lang, Project, Text, Update } from "../data/bundle";
-import { asset, safeExternalUrl, t } from "../data/bundle";
-import { useI18n } from "../i18n";
+import type {
+  ConstructionListing, IndustriesDoc, Lang, Project, ProjectIndustries, Text, Update,
+} from "../data/bundle";
+import { assertNever, asset, safeExternalUrl, t } from "../data/bundle";
+import { useI18n, type Strings } from "../i18n";
 import { PinButton } from "../tabs/TabStrip";
 
 interface Props {
   project: Project;
+  industries: IndustriesDoc;
   onClose: () => void;
 }
 
-export function ProjectViewer({ project, onClose }: Props) {
+export function ProjectViewer({ project, industries, onClose }: Props) {
   const { lang, s } = useI18n();
   const hero = project.media.find((m) => m.role === "hero");
   const page = safeExternalUrl(t(project.page_url, lang));
   const verbatim = project.sources.find((x) => x.provenance === "page_verbatim");
   const benefits = benefitsFor(project, lang);
   const updates = updatesFor(project, lang);
+  const placement = industries.projects.find((x) => x.slug === project.slug);
 
   return (
     <article style={{ padding: "var(--sp-4)" }}>
@@ -162,6 +172,8 @@ export function ProjectViewer({ project, onClose }: Props) {
         </Section>
       )}
 
+      <IndustrySection placement={placement} doc={industries} lang={lang} s={s} />
+
       <footer
         style={{
           marginTop: "var(--sp-5)",
@@ -181,6 +193,111 @@ export function ProjectViewer({ project, onClose }: Props) {
         )}
       </footer>
     </article>
+  );
+}
+
+/**
+ * Where this atlas places the project in NAICS, and why.
+ *
+ * Every placement shows the two quotes it rests on, so a reader can disagree
+ * with the reading without taking anything on trust. A project with no
+ * placement still renders the section and says so: `verify/` gates that all
+ * eighteen are placed, and if that ever fails the viewer should show the gap
+ * rather than quietly omit a section.
+ */
+function IndustrySection({
+  placement,
+  doc,
+  lang,
+  s,
+}: {
+  placement: ProjectIndustries | undefined;
+  doc: IndustriesDoc;
+  lang: Lang;
+  s: Strings;
+}) {
+  return (
+    <Section
+      className="derived-block"
+      title={
+        <>
+          {s.sectionIndustry} <span className="tag tag--derived">{s.derivedTag}</span>
+        </>
+      }
+    >
+      {!placement ? (
+        <p className="muted" style={{ margin: 0 }}>{s.industryMissing}</p>
+      ) : (
+        <>
+          <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+            {placement.operating.map((a) => (
+              <li key={a.code} style={{ marginBottom: "var(--sp-4)" }}>
+                <div><strong>{s.industryCode(a.code, t(a.title, lang))}</strong></div>
+                <div className="secondary" style={{ fontSize: "var(--fs-small)" }}>
+                  {s.industrySector(a.sector, t(a.sector_title, lang))}
+                </div>
+                <Quote text={s.quoted(t(a.asset, lang))} cite={s.industryAssetCite} />
+                {a.evidence.map((e, i) => (
+                  <Quote
+                    key={i}
+                    text={s.quoted(t(e.text, lang))}
+                    cite={s.industryEvidenceCite(s.evidenceKinds[e.kind], e.code)}
+                  />
+                ))}
+                {t(a.note, lang) && (
+                  <p className="muted" style={{ fontSize: "var(--fs-small)", margin: "var(--sp-2) 0 0" }}>
+                    {t(a.note, lang)}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+          <p style={{ margin: 0 }}>{constructionLine(placement.construction, lang, s)}</p>
+          {t(placement.construction.note, lang) && (
+            <p className="muted" style={{ fontSize: "var(--fs-small)", margin: "var(--sp-1) 0 0" }}>
+              {t(placement.construction.note, lang)}
+            </p>
+          )}
+        </>
+      )}
+      <p className="muted" style={{ fontSize: "var(--fs-micro)", margin: "var(--sp-3) 0 0" }}>
+        {t(doc.method, lang)} {s.industrySources}
+      </p>
+    </Section>
+  );
+}
+
+/**
+ * The construction listing as one sentence. Exhaustive over `basis`, because
+ * "not in the inventory" and "not under construction" are different claims and
+ * a new basis must not fall into either by default (CLAUDE.md §2b).
+ */
+function constructionLine(c: ConstructionListing, lang: Lang, s: Strings): string {
+  const sector = t(c.sector_title, lang);
+  switch (c.basis) {
+    case "under_construction":
+      return s.constructionListed(c.sector, sector, c.status?.status_field ?? "", t(c.status?.status, lang));
+    case "not_under_construction":
+      return s.constructionNotListed(c.sector, sector, c.status?.status_field ?? "", t(c.status?.status, lang));
+    case "not_in_inventory":
+      return s.constructionNotPublished(c.sector, sector);
+    default:
+      return assertNever(c.basis);
+  }
+}
+
+function Quote({ text, cite }: { text: string; cite: string }) {
+  return (
+    <figure style={{ margin: "var(--sp-2) 0 0" }}>
+      <blockquote
+        style={{ margin: 0, paddingLeft: "var(--sp-3)", borderLeft: "2px solid var(--ink-axis)" }}
+      >
+        {text}
+      </blockquote>
+      <figcaption className="muted" style={{ fontSize: "var(--fs-micro)", paddingLeft: "var(--sp-3)" }}>
+        {cite}
+      </figcaption>
+    </figure>
   );
 }
 
@@ -214,9 +331,17 @@ function updatesFor(project: Project, lang: Lang): Update[] {
   return own.length > 0 ? own : project.updates;
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({
+  title,
+  children,
+  className,
+}: {
+  title: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <section style={{ marginBottom: "var(--sp-5)" }}>
+    <section className={className} style={{ marginBottom: "var(--sp-5)" }}>
       <h2
         style={{
           fontSize: "var(--fs-small)",

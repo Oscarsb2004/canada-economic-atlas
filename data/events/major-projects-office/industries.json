@@ -1,0 +1,1466 @@
+{
+  "classification": {
+    "dataset_record": "https://open.canada.ca/data/en/dataset/980d598c-73c9-4003-b6e1-78a9a3081b6c",
+    "sources": [
+      {
+        "content_sha256": "b141a22f08a9b825e55c7eebc49fcc842d3b2f3734a672052b7ae8fdb27eff80",
+        "licence": "statcan-open",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-12T20:44:13Z",
+        "url": "https://www.statcan.gc.ca/eng/statistical-programs/document/naics-scian-2022-structure-v1-eng.csv"
+      },
+      {
+        "content_sha256": "77bc6ba4f7af3994f88ed3dac7a74bd63b9cdd5e4f93e2f88e145e1a085c0673",
+        "licence": "statcan-open",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-12T20:44:13Z",
+        "url": "https://www.statcan.gc.ca/fra/programmes-statistiques/document/naics-scian-2022-structure-v1-fra.csv"
+      },
+      {
+        "content_sha256": "09c816471b222eaf1c1af0a38b166185595bc28857ec7fe158298b96d5be5439",
+        "licence": "statcan-open",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-12T20:44:13Z",
+        "url": "https://www.statcan.gc.ca/eng/statistical-programs/document/naics-scian-2022-element-v1-eng.csv"
+      },
+      {
+        "content_sha256": "dea259bed798b0f5ee6cabb6cc1ab625826de06c421336e182b2954c9514f4f5",
+        "licence": "statcan-open",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-12T20:44:13Z",
+        "url": "https://www.statcan.gc.ca/fra/programmes-statistiques/document/naics-scian-2022-element-v1-fra.csv"
+      }
+    ],
+    "title": "North American Industry Classification System (NAICS) Canada 2022 Version 1.0"
+  },
+  "generated_at": "2026-09-12T20:44:13Z",
+  "inventory": {
+    "join_max_km": 25,
+    "sources": [
+      {
+        "content_sha256": "690194ed71a0e0a2f8a6c297d90d17964cc3e1311e32adf81462454ddcc3dcb5",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-12T20:44:13Z",
+        "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Natural-resources_Ressources-naturelles/major_projects_inventory/MPI_2025_Active_Projects_en.xlsx"
+      },
+      {
+        "content_sha256": "55e7412a9000d5024359547da687d8017059793724a02d337562cb724ebf4ddc",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-12T20:44:13Z",
+        "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Natural-resources_Ressources-naturelles/major_projects_inventory/MPI_2025_Active_Projects_fr.xlsx"
+      }
+    ],
+    "status_field": "Status 2025",
+    "title": "Major Projects Inventory 2025"
+  },
+  "method": {
+    "en": "Each project is placed in the NAICS Canada 2022 industry its finished asset would operate in, quoting the project page for the asset and Statistics Canada for the industry. It is also counted in Construction (23) while NRCan's Major Projects Inventory gives its status as under construction. The placement is this atlas's reading, not a classification published by either government body.",
+    "fr": "Chaque projet est classé dans l'industrie du SCIAN Canada 2022 où son ouvrage achevé serait exploité, en citant la page du projet pour l'ouvrage et Statistique Canada pour l'industrie. Il est aussi compté dans la construction (23) tant que l'Inventaire des grands projets de RNCan indique qu'il est en construction. Ce classement est une lecture de cet atlas, et non une classification publiée par l'un ou l'autre de ces organismes."
+  },
+  "projects": [
+    {
+      "construction": {
+        "basis": "not_in_inventory",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": null
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "a proposed ~400 km all-season road",
+            "fr": "un projet de construction d’une route d’environ 400 km"
+          },
+          "code": "488490",
+          "evidence": [
+            {
+              "code": "488490",
+              "kind": "illustrative_example",
+              "text": {
+                "en": "bridge, tunnel and highway operation",
+                "fr": "pont, tunnel et voie publique, exploitation"
+              }
+            },
+            {
+              "code": "23",
+              "kind": "exclusion",
+              "text": {
+                "en": "operating highways, streets and bridges (See 48-49 Transportation and warehousing)",
+                "fr": "exploitation de routes, de rues et de ponts (Voir 48-49 Transport et entreposage)"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "48-49",
+          "sector_title": {
+            "en": "Transportation and warehousing",
+            "fr": "Transport et entreposage"
+          },
+          "title": {
+            "en": "Other support activities for road transportation",
+            "fr": "Autres activités de soutien au transport routier"
+          }
+        }
+      ],
+      "slug": "aesc"
+    },
+    {
+      "construction": {
+        "basis": "not_in_inventory",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": null
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "adding port terminals and additional wharves",
+            "fr": "en y ajoutant des terminaux portuaires et des quais supplémentaires"
+          },
+          "code": "488310",
+          "evidence": [
+            {
+              "code": "488310",
+              "kind": "illustrative_example",
+              "text": {
+                "en": "waterfront terminal operation",
+                "fr": "terminus riverain, exploitation de"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "48-49",
+          "sector_title": {
+            "en": "Transportation and warehousing",
+            "fr": "Transport et entreposage"
+          },
+          "title": {
+            "en": "Port and harbour operations",
+            "fr": "Opérations portuaires"
+          }
+        }
+      ],
+      "slug": "contrecoeur"
+    },
+    {
+      "construction": {
+        "basis": "not_under_construction",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": {
+          "distance_km": 0.05,
+          "inventory_id": "5069",
+          "name": "Crawford",
+          "points": [
+            [
+              -81.37309,
+              48.83972
+            ]
+          ],
+          "prior_status": {
+            "en": "In Review",
+            "fr": "En révision"
+          },
+          "proponent": "Canada Nickel Company Inc.",
+          "provenance": "official_dataset",
+          "status": {
+            "en": "In Review",
+            "fr": "En révision"
+          },
+          "status_field": "Status 2025"
+        }
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "Canada Nickel Company proposes to build a mine, located in the world’s second-largest nickel reserve",
+            "fr": "La Canada Nickel Company propose de construire une mine située sur la deuxième plus vaste réserve de nickel au monde"
+          },
+          "code": "212232",
+          "evidence": [
+            {
+              "code": "212232",
+              "kind": "definition",
+              "text": {
+                "en": "mining, beneficiating or otherwise preparing nickel or nickel-copper ores",
+                "fr": "l'extraction, l'enrichissement ou toute autre préparation de minerais de nickel ou de nickel-cuivre"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "21",
+          "sector_title": {
+            "en": "Mining, quarrying, and oil and gas extraction",
+            "fr": "Extraction minière, exploitation en carrière, et extraction de pétrole et de gaz"
+          },
+          "title": {
+            "en": "Nickel-copper ore mining",
+            "fr": "Extraction de minerais de nickel-cuivre"
+          }
+        }
+      ],
+      "slug": "crawford"
+    },
+    {
+      "construction": {
+        "basis": "under_construction",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": true,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": {
+          "distance_km": 0.1,
+          "inventory_id": "0644",
+          "name": "New Nuclear Power Plant - Darlington Small Modular Reactor Project",
+          "points": [
+            [
+              -78.706527,
+              43.872684
+            ]
+          ],
+          "prior_status": {
+            "en": "Removed – Ineligible",
+            "fr": "Retiré – Inéligible"
+          },
+          "proponent": "Ontario Power Generation",
+          "provenance": "official_dataset",
+          "status": {
+            "en": "Under Construction",
+            "fr": "En construction"
+          },
+          "status_field": "Status 2025"
+        }
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "the first of four planned small modular reactor (SMR) units",
+            "fr": "la première des quatre unités de petit réacteur modulaire (PRM) prévues"
+          },
+          "code": "221113",
+          "evidence": [
+            {
+              "code": "221113",
+              "kind": "definition",
+              "text": {
+                "en": "the generation of electric power using nuclear energy",
+                "fr": "produire de l'électricité à partir d'énergie nucléaire"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "22",
+          "sector_title": {
+            "en": "Utilities",
+            "fr": "Services publics"
+          },
+          "title": {
+            "en": "Nuclear electric power generation",
+            "fr": "Production d'électricité d'origine nucléaire"
+          }
+        }
+      ],
+      "slug": "darlington"
+    },
+    {
+      "construction": {
+        "basis": "not_under_construction",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": {
+          "distance_km": null,
+          "inventory_id": "8330",
+          "name": "Adaptive Phased Management Deep Geological Repository",
+          "points": [],
+          "prior_status": {
+            "en": "Announced & Planning",
+            "fr": "Annoncé et planifié"
+          },
+          "proponent": "Nuclear Waste Management Organization",
+          "provenance": "official_dataset",
+          "status": {
+            "en": "Announced & Planning",
+            "fr": "Annoncé et planifié"
+          },
+          "status_field": "Status 2025"
+        }
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "designed to safely contain all current and future used nuclear fuel",
+            "fr": "conçus pour contenir en toute sécurité tout le combustible nucléaire irradié actuel et futur"
+          },
+          "code": "562210",
+          "evidence": [
+            {
+              "code": "562210",
+              "kind": "illustrative_example",
+              "text": {
+                "en": "radioactive waste disposal and treatment",
+                "fr": "élimination et traitement des déchets radioactifs"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "56",
+          "sector_title": {
+            "en": "Administrative and support, waste management and remediation services",
+            "fr": "Services administratifs, services de soutien, services de gestion des déchets et services d'assainissement"
+          },
+          "title": {
+            "en": "Waste treatment and disposal",
+            "fr": "Traitement et élimination des déchets"
+          }
+        }
+      ],
+      "slug": "geo"
+    },
+    {
+      "construction": {
+        "basis": "not_in_inventory",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": null
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "a proposed all-season ~230 km road",
+            "fr": "un projet de route praticable en toute saison d’environ 230 km"
+          },
+          "code": "488490",
+          "evidence": [
+            {
+              "code": "488490",
+              "kind": "illustrative_example",
+              "text": {
+                "en": "bridge, tunnel and highway operation",
+                "fr": "pont, tunnel et voie publique, exploitation"
+              }
+            },
+            {
+              "code": "23",
+              "kind": "exclusion",
+              "text": {
+                "en": "operating highways, streets and bridges (See 48-49 Transportation and warehousing)",
+                "fr": "exploitation de routes, de rues et de ponts (Voir 48-49 Transport et entreposage)"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "48-49",
+          "sector_title": {
+            "en": "Transportation and warehousing",
+            "fr": "Transport et entreposage"
+          },
+          "title": {
+            "en": "Other support activities for road transportation",
+            "fr": "Autres activités de soutien au transport routier"
+          }
+        },
+        {
+          "asset": {
+            "en": "a deepwater port and airfield at Grays Bay",
+            "fr": "un port en eau profonde et à un aérodrome à Grays Bay"
+          },
+          "code": "488310",
+          "evidence": [
+            {
+              "code": "488310",
+              "kind": "illustrative_example",
+              "text": {
+                "en": "harbour operation",
+                "fr": "ports, exploitation de"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "48-49",
+          "sector_title": {
+            "en": "Transportation and warehousing",
+            "fr": "Transport et entreposage"
+          },
+          "title": {
+            "en": "Port and harbour operations",
+            "fr": "Opérations portuaires"
+          }
+        }
+      ],
+      "slug": "grays-bay"
+    },
+    {
+      "construction": {
+        "basis": "not_under_construction",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": {
+          "distance_km": 15.88,
+          "inventory_id": "1037",
+          "name": "Ksi Lisims LNG",
+          "points": [
+            [
+              -130.072604,
+              54.901569
+            ]
+          ],
+          "prior_status": {
+            "en": "Announced & Planning",
+            "fr": "Annoncé et planifié"
+          },
+          "proponent": "Nisga'a Nation, Western LNG, Rockies LNG Partners",
+          "provenance": "official_dataset",
+          "status": {
+            "en": "In Review",
+            "fr": "En révision"
+          },
+          "status_field": "Status 2025"
+        }
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "a proposed floating natural gas liquefaction production, storage, and offloading facility with a marine terminal",
+            "fr": "un projet d’installation flottante de production, de stockage et de déchargement de gaz naturel liquéfié avec un terminal maritime"
+          },
+          "code": "488990",
+          "evidence": [
+            {
+              "code": "488990",
+              "kind": "all_examples",
+              "text": {
+                "en": "liquefaction and regasification of natural gas for purposes of transport",
+                "fr": "liquéfaction et regazéification du gaz naturel aux fins de transport"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "48-49",
+          "sector_title": {
+            "en": "Transportation and warehousing",
+            "fr": "Transport et entreposage"
+          },
+          "title": {
+            "en": "Other support activities for transportation",
+            "fr": "Autres activités de soutien au transport"
+          }
+        }
+      ],
+      "slug": "ksi-lisims"
+    },
+    {
+      "construction": {
+        "basis": "not_under_construction",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": {
+          "distance_km": 8.83,
+          "inventory_id": "6046",
+          "name": "LNG Canada Phase 2",
+          "points": [
+            [
+              -128.638058,
+              54.081951
+            ]
+          ],
+          "prior_status": {
+            "en": "Announced & Planning",
+            "fr": "Annoncé et planifié"
+          },
+          "proponent": "LNG Canada (Shell Canada Limited, PETRONAS, Korea Gas Corporation (KOGAS), Mitsubishi Corporation, and PetroChina Company Limited)",
+          "provenance": "official_dataset",
+          "status": {
+            "en": "Announced & Planning",
+            "fr": "Annoncé et planifié"
+          },
+          "status_field": "Status 2025"
+        }
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "LNG Canada’s liquefied natural gas (LNG) facility",
+            "fr": "l’installation de gaz naturel liquéfié (GNL) de LNG Canada"
+          },
+          "code": "488990",
+          "evidence": [
+            {
+              "code": "488990",
+              "kind": "all_examples",
+              "text": {
+                "en": "liquefaction and regasification of natural gas for purposes of transport",
+                "fr": "liquéfaction et regazéification du gaz naturel aux fins de transport"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "48-49",
+          "sector_title": {
+            "en": "Transportation and warehousing",
+            "fr": "Transport et entreposage"
+          },
+          "title": {
+            "en": "Other support activities for transportation",
+            "fr": "Autres activités de soutien au transport"
+          }
+        }
+      ],
+      "slug": "lng-canada"
+    },
+    {
+      "construction": {
+        "basis": "not_in_inventory",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": null
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "The Mackenzie Valley Highway will create a new all-season economic corridor",
+            "fr": "La route de la vallée du Mackenzie créera un nouveau corridor économique praticable en toute saison"
+          },
+          "code": "488490",
+          "evidence": [
+            {
+              "code": "488490",
+              "kind": "illustrative_example",
+              "text": {
+                "en": "bridge, tunnel and highway operation",
+                "fr": "pont, tunnel et voie publique, exploitation"
+              }
+            },
+            {
+              "code": "23",
+              "kind": "exclusion",
+              "text": {
+                "en": "operating highways, streets and bridges (See 48-49 Transportation and warehousing)",
+                "fr": "exploitation de routes, de rues et de ponts (Voir 48-49 Transport et entreposage)"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "48-49",
+          "sector_title": {
+            "en": "Transportation and warehousing",
+            "fr": "Transport et entreposage"
+          },
+          "title": {
+            "en": "Other support activities for road transportation",
+            "fr": "Autres activités de soutien au transport routier"
+          }
+        }
+      ],
+      "slug": "mackenzie"
+    },
+    {
+      "construction": {
+        "basis": "under_construction",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": true,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": {
+          "distance_km": 0.34,
+          "inventory_id": "4166",
+          "name": "McIlvenna Bay",
+          "points": [
+            [
+              -102.89,
+              54.66
+            ]
+          ],
+          "prior_status": {
+            "en": "Approved",
+            "fr": "Approuvé"
+          },
+          "proponent": "Foran Mining Corp.",
+          "provenance": "official_dataset",
+          "status": {
+            "en": "Under Construction",
+            "fr": "En construction"
+          },
+          "status_field": "Status 2025"
+        }
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "the project would produce copper and zinc ore concentrates",
+            "fr": "l’exploitation produirait des concentrés de minerai de cuivre et de zinc"
+          },
+          "code": "212233",
+          "evidence": [
+            {
+              "code": "212233",
+              "kind": "definition",
+              "text": {
+                "en": "mining, beneficiating or otherwise preparing copper or copper-zinc ores",
+                "fr": "l'extraction, l'enrichissement ou toute autre préparation des minerais de cuivre ou de cuivre-zinc"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "21",
+          "sector_title": {
+            "en": "Mining, quarrying, and oil and gas extraction",
+            "fr": "Extraction minière, exploitation en carrière, et extraction de pétrole et de gaz"
+          },
+          "title": {
+            "en": "Copper-zinc ore mining",
+            "fr": "Extraction de minerais de cuivre-zinc"
+          }
+        }
+      ],
+      "slug": "mcilvenna"
+    },
+    {
+      "construction": {
+        "basis": "not_in_inventory",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": null
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "The project would twin existing transmission lines from Prince George to Terrace",
+            "fr": "Le projet sera jumelé aux lignes de transport existantes de Prince George à Terrace"
+          },
+          "code": "221121",
+          "evidence": [
+            {
+              "code": "221121",
+              "kind": "inclusion",
+              "text": {
+                "en": "transmission lines and the transformer stations that are integral to transmission",
+                "fr": "transport effectué par des lignes et par les transformateurs qui font partie intégrante du système"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "22",
+          "sector_title": {
+            "en": "Utilities",
+            "fr": "Services publics"
+          },
+          "title": {
+            "en": "Electric bulk power transmission and control",
+            "fr": "Transport et gestion d'électricité en bloc"
+          }
+        }
+      ],
+      "slug": "nctl"
+    },
+    {
+      "construction": {
+        "basis": "not_under_construction",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": {
+          "distance_km": 0.05,
+          "inventory_id": "0329",
+          "name": "Sisson Project",
+          "points": [
+            [
+              -67.045,
+              46.365
+            ]
+          ],
+          "prior_status": {
+            "en": "Approved",
+            "fr": "Approuvé"
+          },
+          "proponent": "Northcliff Resources (HDI Mining)",
+          "provenance": "official_dataset",
+          "status": {
+            "en": "Approved",
+            "fr": "Approuvé"
+          },
+          "status_field": "Status 2025"
+        }
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "a world-class tungsten and molybdenum deposit into a modern, long-life open-pit mine",
+            "fr": "un gisement de tungstène et de molybdène de calibre mondial en une mine à ciel ouvert moderne et durable"
+          },
+          "code": "212299",
+          "evidence": [
+            {
+              "code": "212299",
+              "kind": "illustrative_example",
+              "text": {
+                "en": "ore (e.g., ruthenium, scheelite, tantalum, tin, titanium, tungsten, quicksilver, zirconium) mining",
+                "fr": "extraction de minerais (p. ex., ruthénium, scheelite, tantale, étain, titane, tungstène, mercure, zirconium)"
+              }
+            },
+            {
+              "code": "212299",
+              "kind": "illustrative_example",
+              "text": {
+                "en": "molybdenum ore mining",
+                "fr": "extraction de minerais de molybdène"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "21",
+          "sector_title": {
+            "en": "Mining, quarrying, and oil and gas extraction",
+            "fr": "Extraction minière, exploitation en carrière, et extraction de pétrole et de gaz"
+          },
+          "title": {
+            "en": "All other metal ore mining",
+            "fr": "Extraction de tous les autres minerais métalliques"
+          }
+        }
+      ],
+      "slug": "northcliff"
+    },
+    {
+      "construction": {
+        "basis": "not_under_construction",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": {
+          "distance_km": 21.16,
+          "inventory_id": "2093",
+          "name": "Matawinie",
+          "points": [
+            [
+              -73.700146,
+              46.732001
+            ]
+          ],
+          "prior_status": {
+            "en": "Under Construction",
+            "fr": "En construction"
+          },
+          "proponent": "Nouveau Monde Graphite inc.",
+          "provenance": "official_dataset",
+          "status": {
+            "en": "Approved",
+            "fr": "Approuvé"
+          },
+          "status_field": "Status 2025"
+        }
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "developing an open-pit graphite mine",
+            "fr": "une mine de graphite à ciel ouvert"
+          },
+          "code": "212398",
+          "evidence": [
+            {
+              "code": "212398",
+              "kind": "all_examples",
+              "text": {
+                "en": "graphite mining",
+                "fr": "extraction de graphite"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "21",
+          "sector_title": {
+            "en": "Mining, quarrying, and oil and gas extraction",
+            "fr": "Extraction minière, exploitation en carrière, et extraction de pétrole et de gaz"
+          },
+          "title": {
+            "en": "All other non-metallic mineral mining and quarrying",
+            "fr": "Extraction de tous les autres minerais non métalliques"
+          }
+        }
+      ],
+      "slug": "nouveau-monde"
+    },
+    {
+      "construction": {
+        "basis": "not_in_inventory",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": null
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "a proposed 15-30 megawatt hydropower plant along the Kuugaluk River",
+            "fr": "une centrale hydroélectrique d’une capacité de 15 à 30 mégawatts située sur la rivière Kuugaluk"
+          },
+          "code": "221111",
+          "evidence": [
+            {
+              "code": "221111",
+              "kind": "definition",
+              "text": {
+                "en": "the generation of electricity using hydraulic energy",
+                "fr": "produire de l'électricité à partir de l'énergie hydraulique"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "22",
+          "sector_title": {
+            "en": "Utilities",
+            "fr": "Services publics"
+          },
+          "title": {
+            "en": "Hydro-electric power generation",
+            "fr": "Production d'hydroélectricité"
+          }
+        }
+      ],
+      "slug": "nukkiksautiit"
+    },
+    {
+      "construction": {
+        "basis": "not_under_construction",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": {
+          "distance_km": 7.26,
+          "inventory_id": "6081",
+          "name": "Red Chris Block Cave Expansion",
+          "points": [
+            [
+              -129.78,
+              57.72
+            ]
+          ],
+          "prior_status": {
+            "en": "Approved",
+            "fr": "Approuvé"
+          },
+          "proponent": "Newcrest Mining Ltd./Imperial Metals",
+          "provenance": "official_dataset",
+          "status": {
+            "en": "In Review",
+            "fr": "En révision"
+          },
+          "status_field": "Status 2025"
+        }
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "a copper and gold mine located near Iskut",
+            "fr": "une mine de cuivre et d’or située près d’Iskut"
+          },
+          "code": "2122",
+          "evidence": [
+            {
+              "code": "2122",
+              "kind": "definition",
+              "text": {
+                "en": "mining metallic minerals (ores)",
+                "fr": "l'extraction de minéraux métalliques (minerais)"
+              }
+            }
+          ],
+          "note": {
+            "en": "Placed in the industry group, not an industry. NAICS separates copper mining (212233) from gold mining (212220) by which metal an ore is valued chiefly for, and the project page does not say.",
+            "fr": "Classé dans le groupe d'industries, et non dans une industrie. Le SCIAN distingue l'extraction de cuivre (212233) de l'extraction d'or (212220) selon le métal pour lequel le minerai est principalement exploité, ce que la page du projet ne précise pas."
+          },
+          "provenance": "derived",
+          "sector": "21",
+          "sector_title": {
+            "en": "Mining, quarrying, and oil and gas extraction",
+            "fr": "Extraction minière, exploitation en carrière, et extraction de pétrole et de gaz"
+          },
+          "title": {
+            "en": "Metal ore mining",
+            "fr": "Extraction de minerais métalliques"
+          }
+        }
+      ],
+      "slug": "red-chris"
+    },
+    {
+      "construction": {
+        "basis": "not_in_inventory",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": null
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "a proposed container terminal",
+            "fr": "un terminal à conteneurs proposé"
+          },
+          "code": "488310",
+          "evidence": [
+            {
+              "code": "488310",
+              "kind": "illustrative_example",
+              "text": {
+                "en": "waterfront terminal operation",
+                "fr": "terminus riverain, exploitation de"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "48-49",
+          "sector_title": {
+            "en": "Transportation and warehousing",
+            "fr": "Transport et entreposage"
+          },
+          "title": {
+            "en": "Port and harbour operations",
+            "fr": "Opérations portuaires"
+          }
+        }
+      ],
+      "slug": "roberts-bank"
+    },
+    {
+      "construction": {
+        "basis": "under_construction",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": true,
+        "note": {
+          "en": "Matched to the Major Projects Inventory's \"Taltson Hydroelectricity Expansion Project (Phase 1)\", whose proponent (NTPC) and mapped location (134 km away) differ from this page's. The match is this atlas's decision.",
+          "fr": "Associé au « Taltson Hydroelectricity Expansion Project (Phase 1) » de l'Inventaire des grands projets, dont le promoteur (NTPC) et l'emplacement cartographié (à 134 km) diffèrent de ceux de cette page. L'association est une décision de cet atlas."
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": {
+          "distance_km": 134.31,
+          "inventory_id": "1063",
+          "name": "Taltson Hydroelectricity Expansion Project (Phase 1)",
+          "points": [
+            [
+              -112.714441,
+              61.443073
+            ]
+          ],
+          "prior_status": {
+            "en": "Under Construction",
+            "fr": "En construction"
+          },
+          "proponent": "NTPC",
+          "provenance": "official_dataset",
+          "status": {
+            "en": "Under Construction",
+            "fr": "En construction"
+          },
+          "status_field": "Status 2025"
+        }
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "It will build an additional 60 megawatt hydro facility",
+            "fr": "Le projet construira une installation hydroélectrique offrant une capacité supplémentaire de 60 mégawatts"
+          },
+          "code": "221111",
+          "evidence": [
+            {
+              "code": "221111",
+              "kind": "definition",
+              "text": {
+                "en": "the generation of electricity using hydraulic energy",
+                "fr": "produire de l'électricité à partir de l'énergie hydraulique"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "22",
+          "sector_title": {
+            "en": "Utilities",
+            "fr": "Services publics"
+          },
+          "title": {
+            "en": "Hydro-electric power generation",
+            "fr": "Production d'hydroélectricité"
+          }
+        }
+      ],
+      "slug": "taltson"
+    },
+    {
+      "construction": {
+        "basis": "not_in_inventory",
+        "evidence": {
+          "code": "23",
+          "kind": "definition",
+          "text": {
+            "en": "constructing, repairing and renovating buildings and engineering works",
+            "fr": "la construction, la réparation et la rénovation d'immeubles et d'ouvrages de génie civil"
+          }
+        },
+        "listed": false,
+        "note": {
+          "en": "",
+          "fr": ""
+        },
+        "provenance": "derived",
+        "rule": {
+          "en": "Under Construction",
+          "fr": "En construction"
+        },
+        "sector": "23",
+        "sector_title": {
+          "en": "Construction",
+          "fr": "Construction"
+        },
+        "status": null
+      },
+      "operating": [
+        {
+          "asset": {
+            "en": "an interprovincial pipeline, capable of transporting one million barrels per day (MMb/d) of crude oil",
+            "fr": "un oléoduc interprovincial, capable de transporter un million de barils par jour (MMb/j) de pétrole brut"
+          },
+          "code": "486110",
+          "evidence": [
+            {
+              "code": "486110",
+              "kind": "definition",
+              "text": {
+                "en": "the pipeline transportation of crude oil",
+                "fr": "le transport du pétrole brut par oléoduc"
+              }
+            }
+          ],
+          "note": {
+            "en": "",
+            "fr": ""
+          },
+          "provenance": "derived",
+          "sector": "48-49",
+          "sector_title": {
+            "en": "Transportation and warehousing",
+            "fr": "Transport et entreposage"
+          },
+          "title": {
+            "en": "Pipeline transportation of crude oil",
+            "fr": "Transport du pétrole brut par oléoduc"
+          }
+        }
+      ],
+      "slug": "west"
+    }
+  ]
+}

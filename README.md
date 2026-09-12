@@ -4,8 +4,7 @@
 
 An interactive read of the Canadian economy in two halves: a globe showing
 **Canada in the world** with geolocated federal project pins, and an analytical
-panel of **sector-level GDP time series** and the notable companies within each
-sector.
+panel of **sector-level GDP time series**.
 
 The first curated **Event** is the **Major Projects Office** created under the
 Building Canada Act. Its project announcements are captured **verbatim** from the
@@ -21,21 +20,26 @@ Part of the Athena platform family, alongside `African-Stability-Index`.
 Every figure in the atlas is published by a government source — Statistics
 Canada, the Major Projects Office, Transport Canada, Natural Resources Canada, the
 Bank of Canada — and travels with the reference to where it was published. The
-company panel is the one exception to *government*: it reproduces BlackRock's
-published iShares XIC fund holdings, labelled as market data.
+one exception to *government* is live vessel positions, relayed by aisstream.io
+and labelled as a third-party feed. A company panel built on BlackRock's fund
+holdings was removed on 2026-09-12: BlackRock's terms do not allow public
+republication.
 
 Where the atlas shows a figure of its own, it is the output of a **stated formula
 over published inputs** — a sum over a declared crosswalk, a ratio, a published
 component subtracted from its aggregate — marked `DERIVED`, with the formula
-beside it. Nothing is estimated, judged or ranked by this project, and no number
-is typed in by hand. [`CLAUDE.md` §11](CLAUDE.md) records why that rule exists.
+beside it. Where two classifications meet — Major Projects Office projects and
+NAICS — the crosswalk is declared in `registry/` and quotes the project page and
+Statistics Canada for every entry.
+Nothing is estimated or ranked by this project, and no number is typed in by hand. [`CLAUDE.md` §11](CLAUDE.md) records why that rule exists.
 
 ## Status
 
-**v1 is complete and deployed, and the pipeline has grown past it.** Six pipeline
-stages run end to end — `01` projects, `02` sectors, `03` companies, `04` trade
-corridors, `05` municipalities, `99` the bundle — with seven declared Statistics
-Canada pulls in stage 02. 96 tests and 138 verification gates pass, and a re-run
+**v1 is complete and deployed, and the pipeline has grown past it.** Eight pipeline
+stages run end to end — `01` projects, `02` sectors, `03` business counts, `04`
+trade corridors, `05` municipalities, `06` project industries, `07` vessels, `99`
+the bundle — with seven declared Statistics Canada pulls in stage 02. 114 tests
+and 160 verification gates pass, and a re-run
 against unchanged sources produces a zero-line git diff, which is the acceptance
 test for every stage.
 
@@ -51,6 +55,7 @@ renders either, from an EN / FR toggle in the map's layer panel.
 | What is analytically defensible, and what is not | [docs/ROADMAP.md](docs/ROADMAP.md) |
 | Municipalities, provinces and public finance | [docs/CIVIC-FISCAL.md](docs/CIVIC-FISCAL.md) |
 | Rail layer source, coverage, and design decisions | [docs/RAIL.md](docs/RAIL.md) |
+| Live Canadian-flagged vessels (planned): sources, limits, local-only design | [docs/AIS.md](docs/AIS.md) |
 | How the site is published | [docs/HOSTING.md](docs/HOSTING.md) |
 | The full design | [docs/PLAN.md](docs/PLAN.md) |
 
@@ -65,10 +70,11 @@ That is the only command needed. On first use it creates `.venv`, installs
 activate by hand, and it reinstalls only when the pins actually change.
 
 ```bash
-python run.py --stage 02 # one stage (01 | 02 | 03 | 04 | 05 | 99)
+python run.py --stage 02 # one stage (01 | 02 | 03 | 04 | 05 | 06 | 07 | 99)
 python run.py --verify   # independent verification only
 python run.py --test     # pytest only
 python run.py --refresh  # bypass the HTTP cache and re-fetch StatCan cubes
+python run.py --live     # Canadian vessel positions on localhost (needs an aisstream.io key — docs/AIS.md)
 cd web && npm run dev    # the app, at http://localhost:5173
 ```
 
@@ -86,9 +92,10 @@ atlas/              importable package — the project's own code
   core/schema.py    canonical objects; "the frontend and the backend are the same object"
   core/registry.py  YAML loaders with validation on load
   net.py            the ONE way this project talks to the internet
-  sources/          one module per publisher: mpo, statcan, census, tc_corridors, companies
-registry/           configuration as YAML: sources, events, strategies, sectors and their pulls, checks
-pipeline/           numbered stages 01–05, and 99 the bundle
+  sources/          one module per publisher: mpo, statcan, census, tc_corridors, naics, mpi, vessels, aisstream, business_counts
+  industries.py     MPO projects placed in NAICS, checked against their quotes
+registry/           configuration as YAML: sources, events, strategies, sectors and their pulls, crosswalks, checks
+pipeline/           numbered stages 01–07, and 99 the bundle
 data/               pipeline outputs, committed for clone-and-run
 web/                React + Vite + MapLibre app
 verify/             independent verification; must NOT import atlas/

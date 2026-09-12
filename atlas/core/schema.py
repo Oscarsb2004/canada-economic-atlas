@@ -73,8 +73,9 @@ class Provenance(str, Enum):
     OFFICIAL_DATASET = "official_dataset"   # NRCan ArcGIS, StatCan WDS, Bank of Canada
     PAGE_VERBATIM    = "page_verbatim"      # reproduced from a federal page as published
     NEWS_RELEASE     = "news_release"       # reproduced from a dated announcement
-    MARKET_DATA      = "market_data"        # index constituents — never a GDP claim
+    MARKET_DATA      = "market_data"        # unused since the company panel was removed (2026-09-12)
     DERIVED          = "derived"            # computed by this pipeline
+    THIRD_PARTY      = "third_party"        # a non-government feed, relayed as received (AIS)
     ABSENT           = "absent"             # nothing available
 
     @property
@@ -441,6 +442,128 @@ class Project:
         return next((m for m in self.media if m.role == "hero"), None)
 
 
+# ── Project industries (BACKLOG C1) ────────────────────────────────────────────
+#
+# A project's NAICS placement is OURS — see registry/mpo_naics.yaml — so every
+# record below is DERIVED except `InventoryStatus`, which is NRCan's words. The
+# placement never lives on `Project` itself: that record is the government's
+# page, and this is a reading of it.
+
+@dataclass(frozen=True, slots=True)
+class NaicsEvidence:
+    """Statistics Canada's own words for a code, found verbatim in both languages."""
+
+    kind: str          # definition | illustrative_example | all_examples | inclusion | exclusion
+    code: str          # the class the words belong to — not always the assigned code
+    text: Text
+
+
+@dataclass(frozen=True, slots=True)
+class IndustryAssignment:
+    """One industry a project's finished asset would operate in."""
+
+    code: str                                # NAICS Canada 2022, as fine as the evidence allows
+    title: Text
+    sector: str                              # level-1 sector, by StatCan's parent column
+    sector_title: Text
+    asset: Text                              # the project page's own words naming the asset
+    evidence: tuple[NaicsEvidence, ...]
+    note: Text = field(default_factory=lambda: Text(en=""))
+    provenance: Provenance = Provenance.DERIVED
+
+
+@dataclass(frozen=True, slots=True)
+class InventoryStatus:
+    """A project's status as NRCan's Major Projects Inventory publishes it."""
+
+    inventory_id: str
+    name: str
+    proponent: str
+    status: Text                             # verbatim, from NRCan's English and French files
+    status_field: str                        # "Status 2025" — the vintage travels with the value
+    prior_status: Text
+    points: tuple[tuple[float, float], ...]  # [lon, lat]
+    #: Nearest inventory point to an MPO site anchor, the check the join passed.
+    #: None where the inventory publishes no coordinate.
+    distance_km: float | None
+    provenance: Provenance = Provenance.OFFICIAL_DATASET
+
+
+@dataclass(frozen=True, slots=True)
+class ConstructionListing:
+    """
+    Whether a project is ALSO counted in construction (NAICS 23).
+
+    `listed` is true only where the inventory's status is the registry's rule,
+    compared case-insensitively. A project the inventory does not list is not
+    listed — "not published" is never read as "not under construction", and
+    `basis` keeps the two apart.
+    """
+
+    listed: bool
+    basis: str                               # under_construction | not_under_construction | not_in_inventory
+    sector: str
+    sector_title: Text
+    evidence: NaicsEvidence
+    rule: Text                               # the status that lists a project, as declared
+    status: InventoryStatus | None = None
+    note: Text = field(default_factory=lambda: Text(en=""))
+    provenance: Provenance = Provenance.DERIVED
+
+
+@dataclass(frozen=True, slots=True)
+class ProjectIndustries:
+    slug: str
+    operating: tuple[IndustryAssignment, ...]
+    construction: ConstructionListing
+
+
+# ── Vessels (BACKLOG S1) ───────────────────────────────────────────────────────
+
+@dataclass(frozen=True, slots=True)
+class Vessel:
+    """
+    One entry in Transport Canada's Canadian Register of Large Vessels.
+
+    Every field is the register's, as published, except `imo_check_digit_valid`,
+    which is the IMO number's own check-digit formula applied to `imo`.
+
+    IDENTITY IS `official_number` WITH `register_row`. The Official Number is
+    not unique in the published register — two numbers appear twice with
+    different tonnage — so neither row may stand in for the other.
+
+    NUMBERS ARE AS PUBLISHED. `year_of_build` holds values such as 188700, 2026
+    and 0; the register does not say how the period is encoded, so no year is
+    read out of it (atlas/sources/vessels.py).
+    """
+
+    official_number: int
+    register_row: int                          # 1-based position among the published entries
+    name: str
+    imo: str                                   # verbatim; "" where none is published
+    imo_check_digit_valid: bool                # DERIVED: IMO check-digit formula over `imo`
+    hull_number: str
+    year_of_build: int | float | str | None
+    year_of_latest_rebuild: int | float | str | None
+    port_of_registry: Text
+    registration_date: str                     # ISO date
+    descriptor: Text
+    gross_tonnage: int | float | str | None
+    net_tonnage: int | float | str | None
+    construction_type: Text
+    construction_material: Text
+    length_m: int | float | str | None
+    breadth_m: int | float | str | None
+    depth_m: int | float | str | None
+    engine_type: Text
+    engines: int | float | str | None
+    propulsion_type: Text
+    speed_knots: int | float | str | None
+    propulsion_method: Text
+    propulsion_power: int | float | str | None
+    provenance: Provenance = Provenance.OFFICIAL_DATASET
+
+
 # ── Sector series ──────────────────────────────────────────────────────────────
 
 @dataclass(frozen=True, slots=True)
@@ -477,31 +600,6 @@ class Series:
                 f"series {self.geo}/{self.code}/{self.measure}: "
                 f"{len(self.periods)} periods but {len(self.values)} values"
             )
-
-
-# ── Companies ──────────────────────────────────────────────────────────────────
-
-@dataclass(frozen=True, slots=True)
-class Company:
-    """
-    One index constituent.
-
-    Deliberately NOT called a "top GDP contributor". Index weight is not output,
-    and company revenue is gross output while GDP is value added — summing
-    revenues within a sector overshoots that sector's GDP by roughly two to
-    three times. `weight_pct` is also a *capped* index weight, so it understates
-    the largest holdings. The UI labels this panel as market data throughout.
-    """
-
-    ticker: str
-    name: str
-    gics_sector: str
-    naics_codes: tuple[str, ...] = ()        # via registry/gics_naics.yaml; lossy by nature
-    weight_pct: float | None = None
-    shares: float | None = None
-    price: float | None = None
-    currency: str = "CAD"
-    provenance: Provenance = Provenance.MARKET_DATA
 
 
 # ── Trade corridors ────────────────────────────────────────────────────────────

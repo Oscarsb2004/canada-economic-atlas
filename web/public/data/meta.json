@@ -1,29 +1,30 @@
 {
   "app": "canada-economic-atlas",
   "files": [
-    "companies/xic.json",
     "country.json",
+    "events/major-projects-office/industries.json",
     "events/major-projects-office/projects.json",
     "events/major-projects-office/strategies.json",
     "events/trade-corridors/corridors.json",
     "palette.json",
+    "sectors/business-counts.json",
     "sectors/national-constant.json",
     "sectors/national-monthly.json",
     "sectors/provincial-annual.json",
     "sectors/rates.json"
   ],
-  "generated_at": "2026-09-10T20:50:59Z",
+  "generated_at": "2026-09-12T21:23:17Z",
   "licences": {
+    "aisstream-unstated": {
+      "name": "aisstream.io — no published terms of use (checked 2026-09-12)",
+      "redistribution": "unstated",
+      "url": "https://aisstream.io"
+    },
     "boc-terms": {
       "attribution": "Source: Bank of Canada. Data used under the Bank of Canada Terms of Use; modified from the original.",
       "name": "Bank of Canada Terms of Use",
       "redistribution": "permitted with attribution",
       "url": "https://www.bankofcanada.ca/terms/"
-    },
-    "fund-disclosure": {
-      "name": "BlackRock iShares fund disclosure",
-      "redistribution": "Free to consume as published fund disclosure. The constituent list itself is S&P Dow Jones Indices intellectual property; do not redistribute it as \"the S&P/TSX Composite list\".",
-      "url": "https://www.blackrock.com/ca"
     },
     "ogl-canada-2.0": {
       "name": "Open Government Licence – Canada 2.0",
@@ -40,6 +41,15 @@
   },
   "schema_version": "1.0.0",
   "sources": {
+    "aisstream": {
+      "attribution": "Vessel positions relayed by aisstream.io",
+      "documentation": "https://aisstream.io/documentation",
+      "licence": "aisstream-unstated",
+      "message_models": "https://github.com/aisstream/ais-message-models",
+      "publisher": "aisstream.io",
+      "stream": "wss://stream.aisstream.io/v0/stream",
+      "title": "aisstream.io live AIS relay"
+    },
     "boc_valet": {
       "base": "https://www.bankofcanada.ca/valet/",
       "licence": "boc-terms",
@@ -85,6 +95,18 @@
       "strategies_index_en": "https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred.html",
       "title": "Major Projects Office project pages"
     },
+    "nrcan_mpi_2025": {
+      "attribution": "Natural Resources Canada — Major Projects Inventory 2025",
+      "licence": "ogl-canada-2.0",
+      "prior_status_field": "Status 2024",
+      "publisher": "Natural Resources Canada",
+      "sheet": "MPI 2025 Data",
+      "sheet_fr": "Données IGP 2025",
+      "status_field": "Status 2025",
+      "title": "Major Projects Inventory 2025",
+      "xlsx": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Natural-resources_Ressources-naturelles/major_projects_inventory/MPI_2025_Active_Projects_en.xlsx",
+      "xlsx_fr": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Natural-resources_Ressources-naturelles/major_projects_inventory/MPI_2025_Active_Projects_fr.xlsx"
+    },
     "nrcan_nrwn": {
       "attribution": "Natural Resources Canada — National Railway Network (NRWN)",
       "dataset_record": "https://open.canada.ca/data/en/dataset/ac26807e-a1e8-49fa-87bf-451175a859b8",
@@ -99,6 +121,12 @@
       "publisher": "Statistics Canada",
       "title": "2021 Census cartographic boundary files — provinces and territories"
     },
+    "statcan_business_counts": {
+      "attribution": "Statistics Canada, Canadian Business Counts, with employees",
+      "licence": "statcan-open",
+      "publisher": "Statistics Canada",
+      "title": "Canadian Business Counts, with employees"
+    },
     "statcan_municipal_population": {
       "attribution": "Statistics Canada, 2021 Census of Population",
       "census_vintage": "2021",
@@ -108,6 +136,17 @@
       "licence": "statcan-open",
       "publisher": "Statistics Canada",
       "title": "Population and dwelling counts — census subdivisions (municipalities)"
+    },
+    "statcan_naics_2022": {
+      "attribution": "Statistics Canada, North American Industry Classification System (NAICS) Canada 2022 Version 1.0",
+      "dataset_record": "https://open.canada.ca/data/en/dataset/980d598c-73c9-4003-b6e1-78a9a3081b6c",
+      "elements_en": "https://www.statcan.gc.ca/eng/statistical-programs/document/naics-scian-2022-element-v1-eng.csv",
+      "elements_fr": "https://www.statcan.gc.ca/fra/programmes-statistiques/document/naics-scian-2022-element-v1-fra.csv",
+      "licence": "statcan-open",
+      "publisher": "Statistics Canada",
+      "structure_en": "https://www.statcan.gc.ca/eng/statistical-programs/document/naics-scian-2022-structure-v1-eng.csv",
+      "structure_fr": "https://www.statcan.gc.ca/fra/programmes-statistiques/document/naics-scian-2022-structure-v1-fra.csv",
+      "title": "North American Industry Classification System (NAICS) Canada 2022 Version 1.0"
     },
     "statcan_population_centres": {
       "attribution": "Statistics Canada, 2021 Census population centres",
@@ -131,12 +170,14 @@
       "publisher": "Transport Canada",
       "title": "Transportation in Canada — annual report, Role of Canada's Transportation Network"
     },
-    "xic_holdings": {
-      "attribution": "BlackRock Canada, iShares XIC published holdings",
-      "csv": "https://www.blackrock.com/ca/investors/en/products/239837/ishares-sptsx-capped-composite-index-etf/1464253357814.ajax?fileType=csv&fileName=XIC_holdings&dataType=fund",
-      "licence": "fund-disclosure",
-      "publisher": "BlackRock Canada",
-      "title": "iShares S&P/TSX Capped Composite Index ETF holdings"
+    "tc_large_vessel_register": {
+      "attribution": "Transport Canada — Canadian Register of Large Vessels",
+      "dataset_record": "https://open.canada.ca/data/en/dataset/bf00b7f4-e370-46b7-94e4-0bdedc98531b",
+      "licence": "ogl-canada-2.0",
+      "publisher": "Transport Canada",
+      "title": "Canadian Register of Large Vessels",
+      "xlsx_en": "https://opendatatc.tc.canada.ca/large-vessel-registry_dataset_en.xlsx",
+      "xlsx_fr": "https://opendatatc.tc.canada.ca/large-vessel-registry_dataset_fr.xlsx"
     }
   }
 }

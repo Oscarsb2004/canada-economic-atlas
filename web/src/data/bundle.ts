@@ -30,6 +30,7 @@ export type Provenance =
   | "news_release"
   | "market_data"
   | "derived"
+  | "third_party"
   | "absent";
 
 export interface SourceRef {
@@ -109,6 +110,149 @@ export interface Project {
   sources: SourceRef[];
 }
 
+// ── Project industries (BACKLOG C1) — mirrors atlas/core/schema.py ──────────────
+//
+// A project's NAICS placement is this atlas's reading, not the government's, so
+// everything below is `derived` except `InventoryStatus`, which is NRCan's words.
+
+export type NaicsEvidenceKind =
+  | "definition"
+  | "illustrative_example"
+  | "all_examples"
+  | "inclusion"
+  | "exclusion";
+
+/** Statistics Canada's own words for a code, found verbatim in both languages. */
+export interface NaicsEvidence {
+  kind: NaicsEvidenceKind;
+  /** The class the words belong to — not always the assigned code. */
+  code: string;
+  text: Text;
+}
+
+export interface IndustryAssignment {
+  code: string;
+  title: Text;
+  sector: string;
+  sector_title: Text;
+  /** The project page's own words naming what is built. */
+  asset: Text;
+  evidence: NaicsEvidence[];
+  note: Text;
+  provenance: Provenance;
+}
+
+export interface InventoryStatus {
+  inventory_id: string;
+  name: string;
+  proponent: string;
+  /** Verbatim from NRCan's English and French files. */
+  status: Text;
+  /** "Status 2025" — the vintage travels with the value. */
+  status_field: string;
+  prior_status: Text;
+  points: [number, number][];
+  distance_km: number | null;
+  provenance: Provenance;
+}
+
+export type ConstructionBasis = "under_construction" | "not_under_construction" | "not_in_inventory";
+
+export interface ConstructionListing {
+  listed: boolean;
+  /** "not_in_inventory" is not "not under construction": no status is published. */
+  basis: ConstructionBasis;
+  sector: string;
+  sector_title: Text;
+  evidence: NaicsEvidence;
+  rule: Text;
+  status: InventoryStatus | null;
+  note: Text;
+  provenance: Provenance;
+}
+
+export interface ProjectIndustries {
+  slug: string;
+  operating: IndustryAssignment[];
+  construction: ConstructionListing;
+}
+
+export interface IndustriesDoc {
+  method: Text;
+  classification: { title: string; dataset_record: string; sources: SourceRef[] };
+  inventory: { title: string; status_field: string; join_max_km: number; sources: SourceRef[] };
+  projects: ProjectIndustries[];
+}
+
+// ── Canadian-flagged vessels (BACKLOG S2/S3) — mirrors atlas/sources/aisstream.py ──
+//
+// Positions are relayed by aisstream.io, a third-party feed; the register entries
+// are Transport Canada's. The snapshot is published once a day on its own branch
+// and copied in at build time, so it may be absent — `Bundle.vessels` is null then.
+
+export type FlagBasis = "mmsi_mid" | "register_imo";
+export type VesselNote = "imo_not_in_register" | "mmsi_prefix_not_canadian";
+
+export interface VesselRegisterEntry {
+  official_number: number;
+  register_row: number;
+  name: string;
+  port_of_registry: Text;
+  descriptor: Text;
+  gross_tonnage: number | string | null;
+}
+
+export interface VesselRecord {
+  /** Nine-digit ship-station identity, as broadcast. */
+  mmsi: string;
+  class: "A" | "B" | null;
+  flag_basis: FlagBasis[];
+  notes: VesselNote[];
+  name: string | null;
+  call_sign: string | null;
+  imo: string | null;
+  ship_type: number | null;
+  /** Typed into the transponder by the crew; reproduced as received. */
+  destination: string | null;
+  eta: { month: number | null; day: number | null; hour: number | null; minute: number | null } | null;
+  position: { lon: number; lat: number; sog: number | null; cog: number | null; heading: number | null; nav_status: number | null };
+  /** When the collector received the position — the vessel's "last heard". */
+  position_received_at: string;
+  static_received_at: string | null;
+  register: VesselRegisterEntry[];
+}
+
+export interface VesselSnapshot {
+  schema_version: number;
+  generated_at: string;
+  window: { from: string; to: string; messages: number; vessels_heard_worldwide: number; canadian_heard_this_window: number };
+  feed: { title: string; url: string; provenance: Provenance; licence: string };
+  register_source: { title: string; url: string; provenance: Provenance; licence: string };
+  canadian_mids: string[];
+  vessels: VesselRecord[];
+}
+
+/**
+ * Statistics Canada's Canadian Business Counts, with employees (BACKLOG Q2b).
+ * `counts[geo][industry]` is one count per `size_ranges` entry, in StatCan's
+ * order; index 0 is "Total, with employees". Industries are "total", the
+ * twenty sector codes, and "unclassified".
+ */
+export interface BusinessCounts {
+  table: string;
+  title: Text;
+  release_time: string;
+  reference_period: string;
+  notes: { id: string; text: Text }[];
+  size_ranges: Text[];
+  geographies: { code: string; name: Text }[];
+  industries: { code: string; label: Text }[];
+  /** Size ranges StatCan publishes no row for; each is shown by its total to be 0. */
+  absent_cells: number;
+  /** null = no row published for that size range (the total leaves none). */
+  counts: Record<string, Record<string, (number | null)[]>>;
+}
+
 export type CorridorNodeKind = "port" | "border_crossing";
 
 export interface CorridorMode {
@@ -178,18 +322,6 @@ export interface Series {
   provenance: Provenance;
 }
 
-export interface Company {
-  ticker: string;
-  name: string;
-  gics_sector: string;
-  naics_codes: string[];
-  weight_pct: number | null;
-  shares: number | null;
-  price: number | null;
-  currency: string;
-  provenance: Provenance;
-}
-
 /** The validated colour system. Read, never hand-edited here. */
 export interface Palette {
   surface: { chart: string; page: string };
@@ -222,10 +354,9 @@ export interface Bundle {
   constant: Series[];
   /** 13 geographies x 23 codes, annual. Feeds the provincial choropleth. */
   provincial: Series[];
-  companies: Company[];
-  /** The company panel's caveat, in both languages, read from the payload (CLAUDE.md §9). */
-  companiesCaveat: Text;
   rates: { policy_rate?: { period: string; value: number; label: string } };
+  /** Business locations with employees, by sector, geography and size (BACKLOG Q2b). */
+  businessCounts: BusinessCounts;
   world: GeoJSON.FeatureCollection;
   provinces: GeoJSON.FeatureCollection;
   /**
@@ -261,6 +392,10 @@ export interface Bundle {
    * answer to the same question, and the invented one.
    */
   corridors: TradeCorridor[];
+  /** Each MPO project placed in NAICS, with the quotes that make it checkable (BACKLOG C1). */
+  industries: IndustriesDoc;
+  /** The latest daily vessel snapshot, or null where none has been published (BACKLOG S3). */
+  vessels: VesselSnapshot | null;
 }
 
 /** The bundle's major version this client knows how to read. */
@@ -292,6 +427,16 @@ async function json<T>(path: string): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+/** A file the bundle may legitimately lack — the vessel snapshot before its first daily run. */
+async function optionalJson<T>(path: string): Promise<T | null> {
+  try {
+    const res = await fetch(asset(path));
+    return res.ok ? ((await res.json()) as T) : null;
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Load everything the app needs, in parallel.
  *
@@ -303,7 +448,7 @@ async function json<T>(path: string): Promise<T> {
  * whose shape changed is worse than failing, because it looks like it worked.
  */
 export async function loadBundle(): Promise<Bundle> {
-  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, companiesDoc, rates, world, provinces, canada, nhs, highways, places, corridors] =
+  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, businessCounts, rates, world, provinces, canada, nhs, highways, places, corridors, industries, vessels] =
     await Promise.all([
       json<Bundle["meta"]>("/data/meta.json"),
       json<Palette>("/data/palette.json"),
@@ -312,7 +457,7 @@ export async function loadBundle(): Promise<Bundle> {
       json<{ series: Series[] }>("/data/sectors/national-monthly.json"),
       json<{ series: Series[] }>("/data/sectors/national-constant.json"),
       json<{ series: Series[] }>("/data/sectors/provincial-annual.json"),
-      json<{ companies: Company[]; caveat: Text }>("/data/companies/xic.json"),
+      json<BusinessCounts>("/data/sectors/business-counts.json"),
       json<Bundle["rates"]>("/data/sectors/rates.json"),
       json<GeoJSON.FeatureCollection>("/geo/world.json"),
       json<GeoJSON.FeatureCollection>("/geo/provinces.json"),
@@ -321,6 +466,8 @@ export async function loadBundle(): Promise<Bundle> {
       json<GeoJSON.FeatureCollection>("/geo/highways.json"),
       json<GeoJSON.FeatureCollection>("/geo/places.json"),
       json<{ corridors: TradeCorridor[] }>("/data/events/trade-corridors/corridors.json"),
+      json<IndustriesDoc>("/data/events/major-projects-office/industries.json"),
+      optionalJson<VesselSnapshot>("/data/vessels/positions.json"),
     ]);
 
   const major = Number(String(meta.schema_version).split(".")[0]);
@@ -338,8 +485,7 @@ export async function loadBundle(): Promise<Bundle> {
     national: nationalDoc.series,
     constant: constantDoc.series,
     provincial: provincialDoc.series,
-    companies: companiesDoc.companies,
-    companiesCaveat: companiesDoc.caveat,
+    businessCounts,
     rates,
     world,
     provinces,
@@ -348,6 +494,8 @@ export async function loadBundle(): Promise<Bundle> {
     highways,
     places,
     corridors: corridors.corridors,
+    industries,
+    vessels,
   };
 }
 

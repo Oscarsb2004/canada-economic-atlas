@@ -108,7 +108,7 @@ is the same: a chart that looks right and compares two different things.
 also a spending function (part of *economic affairs*). The two are different
 quantities: firms' value added in one case, government outlays in the other.
 The UI should always name the classification. A COFOG ↔ NAICS crosswalk (M10)
-is possible, but it is `DERIVED` and lossy, like `gics_naics.yaml`.
+is possible, but it is `DERIVED` and lossy, like `mpo_naics.yaml`.
 
 ### 5. Build the identity before the money
 

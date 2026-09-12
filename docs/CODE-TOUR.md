@@ -186,7 +186,11 @@ while the English side looks perfect.
 `code_of()` parses the join key out of the label itself — `Manufacturing [31-33]`
 — so the code and the label always agree and neither is carried by us.
 
-## `atlas/sources/companies.py` — index constituents
+## ~~`atlas/sources/companies.py`~~ — removed 2026-09-12
+
+> Removed with stage 03 and the company panel: BlackRock's terms do not allow
+> scripted fetching or public republication of its fund holdings (CLAUDE.md §9).
+> The notes below describe the module as it was.
 
 **Intent.** Answer "which large listed companies operate in this sector" without
 ever implying "which companies contribute most to GDP".

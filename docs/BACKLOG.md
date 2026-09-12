@@ -20,7 +20,7 @@ The division of labour between the four documents in this repo is deliberate:
 | [`docs/PROGRAM.md`](PROGRAM.md) | **the long-term plan across all three repos** — milestones, the dependency graph, the shared spine and the launcher |
 
 `ROADMAP.md` is not superseded by this file and should not be folded into it. It
-carries the reasoning — why MPI's capital ceiling is 6-of-18 and structural, why
+carries the reasoning — why MPI's capital figures cover only part of the portfolio, why
 an input-output multiplier is defensible and a completion-probability score is
 not — and that reasoning is what stops an item here being done the wrong way.
 
@@ -115,7 +115,7 @@ and it is not close.
 | | Item | Goal | Effort | Human? |
 |---|---|---|---|---|
 | B1 | ~~**Language toggle.** EN / FR in the map layer bar, remembered per browser, and `?lang=fr` in a link. Data text comes from the bundle's own French; interface text lives in `web/src/i18n.tsx`, typed so a missing French string fails the build; numbers and dates come from the fr-CA locale. It was not "one control through the props that already accept `lang`" — twelve components rendered English directly, including every chart label, so the effort was M, not S.~~ | G1 G4 | M | |
-| B1a | **French for the fields the pipeline carries in English only:** an MPO project's sector, a site's location wording, GICS sector and company names, and the map's source credits. Capture each from its French source in stages 01 and 03 — never translate them in the app, which would be authoring a publisher's text. | G1 | S | |
+| B1a | **French for the fields the pipeline carries in English only:** an MPO project's sector, a site's location wording, and the map's source credits. Capture each from its French source in stage 01 — never translate them in the app, which would be authoring a publisher's text. | G1 | S | |
 | B1b | **Review the interface French.** Everything under `fr` in `i18n.tsx` was written by this project, not a translator. Section headings already match the federal pages ("Faits saillants", "Avantages", "Dernière mise à jour"); the rest needs a fluent reader's pass. | G1 | S | ✓ |
 | B2 | ~~**Pull the declared-but-unused StatCan tables.** Three landed: nominal GDP `36100710` (current dollars, verified), capex `34100035` (every period labelled actual / preliminary actual / intentions from the cube's own note, quality grades carried), SEPH employment `14100201` (streamed — ~1 GB per language; combined codes aliased; agriculture declared absent). Each gated on identities measured before the tolerance was set. They were NOT "registry entries, not new code": that claim was written before the cubes were read.~~ | G3 | M | |
 | B2a | ~~**Gross output by industry — option A, chosen 2026-09-11.** `36100488` *Output, by sector and industry, provincial and territorial*: current dollars, 1997–2022, the same accounts and years as nominal GDP. It is classified by IOIC, not NAICS, and split into business / non-profit / government members, so the twenty sectors are a `DERIVED` crosswalk read from the NAICS code each member embeds. 52, 53 and 55 separate only below the `BS5B0` aggregate; `NP999999` (no NAICS code) stays `unallocated`. Gated: members sum to the cube's own total (0.008%), output is never below value added in any sector-year, provinces + territories + enclaves abroad sum to Canada. `33100225` stays unpulled.~~ | G3 | M | |
@@ -125,7 +125,7 @@ and it is not close.
 | B5 | **Vintage panel.** `meta.json` and every `release_time` are already carried; surface them where the reader is rather than in a footer. State the ~3-year nominal lag and the ~4-month provincial lag as facts about the source. | G5 | S | |
 | B6 | **Policy annotations on the sector charts.** `events.yaml` carries `kind: policy_with_projects` and a date precisely so a policy can be a vertical rule on a GDP chart. Nothing renders it. | G2 | S | |
 | **B7** | **Render the nine transformative strategies.** They are scraped, name-checked in both languages, hand-mapped to provinces in `strategies.yaml`, committed to `strategies.json` — and `Globe.tsx` and `App.tsx` contain **zero** references to them. Nine of the twenty-seven referred items are invisible, which is what "some of them are missing" looks like from the outside. They have no geometry (ArcGIS layer 2 returns empty polygons), so they render as province washes plus a list, never as pins — and `alto` stays `render: list_only`, because filling Ontario and Quebec entirely would claim a footprint ~100× the real one. | G2 G4 | M | |
-| B8 | **A map error handler.** `Globe.tsx` registers none, so a bad layer spec or an unparseable source fails silently and the globe just renders less. Two rendering problems this week were diagnosed by squinting at screenshots because nothing was listening. `map.on("error")` into the console, and a visible banner in dev. | G5 | S | |
+| B8 | ~~**A map error handler.** Two rendering problems were diagnosed by squinting at screenshots because nothing on screen said a layer had failed. Done 2026-09-12. This row's premise was stale — `Globe.tsx` already sent `map.on("error")` to the console — so what was built is the visible half: a dismissible banner on the map, in development builds only.~~ | G5 | S | |
 
 ## Stage C — join the two halves
 
@@ -134,9 +134,9 @@ This is G2, and it is where the app becomes one thing. Read `ROADMAP.md` §A2 an
 
 | | Item | Goal | Effort | Human? |
 |---|---|---|---|---|
-| **C1** | **MPO sector → NAICS crosswalk.** `registry/mpo_naics.yaml`, hand-curated, versioned, splits documented, marked `DERIVED` — the same treatment `gics_naics.yaml` gets. Lossy in a specific way that must be written down: MPO "Energy" spans NAICS 21, 22 and 486; MPO "Transport" is mostly NAICS 23 construction *activity* producing a 48-49 *asset*. Say which is meant. | G2 | M | ✓ |
-| **C2** | **Capital values from NRCan's Major Projects Inventory,** joined through a curated `registry/mpi_join.yaml` — explicit slug→Project-ID pairs, hand-checked. Not fuzzy matching, which got 6/18 and would silently mismatch as either list grows. | G2 G3 | M | ✓ |
-| **C3** | **State the 6-of-18 ceiling in the UI.** MPI's universe is Energy/Mining/Forest only; the MPO portfolio also spans Transport, Electricity and Industrial, which MPI does not track. Show "not published" where there is no figure and **never total across the partial set**. A "$X billion portfolio" headline from six of eighteen projects is wrong by construction, and this item is what stops C2 becoming that. | G1 | S | |
+| C1 | ~~**MPO → NAICS mapping — decided 2026-09-12: option B + C** (brief in `ROADMAP.md` §A3). `registry/mpo_naics.yaml` places each of the 18 projects in the NAICS Canada 2022 industry its finished asset would operate in, and stage 06 (`pipeline/06_industries.py`) refuses any placement whose quotes are not verbatim in their sources: the project page's words for the asset, and Statistics Canada's own classification files for the code, both in English and French. The two open classes resolved from StatCan's text: LNG is 488990 ("liquefaction and regasification of natural gas for purposes of transport"), and road operation is 48-49 by construction's own exclusion ("operating highways, streets and bridges"). Red Chris stays at industry group 2122 because the page does not say whether copper or gold is chief. A project is also counted in construction (23) while NRCan's Major Projects Inventory 2025 gives its status as under construction, in both languages; the inventory is joined by declared ID and checked by distance, never by name. Result: placements 21=5, 22=4, 48-49=9, 56=1; 10 of 18 joined; 3 counted in construction (Darlington, McIlvenna Bay, Taltson). The disputed joins were settled 2026-09-12: McIlvenna Bay (Eldorado Gold bought Foran Mining), Red Chris (Newmont bought Newcrest) and the repository (the MPO page names the same plan) confirmed from sources recorded in the registry; Taltson matched on the owner's decision despite a 134 km distance, under a declared waiver shown on screen. Every project keeps its operating industry — construction is an additional listing, never a replacement. The French NAICS element file is not in the English file's order — see `atlas/sources/naics.py`.~~ | G2 | M | |
+| **C2** | **Capital values from NRCan's Major Projects Inventory,** through the join C1 already built: `registry/mpo_naics.yaml` declares the Project ID for 10 of the 18 projects, each confirmed on 2026-09-12. Stage 06 reads status only today; read the cost columns through that same join — never a second one, and never by name, which got 6/18 the first time. | G2 G3 | S | |
+| **C3** | **State the ceiling in the UI.** 10 of the 18 projects join the inventory (2026-09-12); the other eight have no cost there — none of the Transport or Industrial projects, and not NCTL or Nukkiksautiit. Show "not published" where there is no figure and **never total across the partial set**. A "$X billion portfolio" headline from ten of eighteen projects is wrong by construction, and this item is what stops C2 becoming that. | G1 | S | |
 | C4 | **Pin count and capital by NAICS sector, beside that sector's GDP.** The view the whole layout implies and cannot currently produce. | G2 G3 | M | |
 | C5 | **Project → province by point-in-polygon**, then capital as a share of provincial GDP. Defensible, and striking for the territories: Yukon's entire 2025 GDP is $3,243M and the DGR alone is $26,000M. | G2 G3 | M | |
 
@@ -148,7 +148,7 @@ This is G2, and it is where the app becomes one thing. Read `ROADMAP.md` §A2 an
 | D2 | **Productivity** — real GDP per worker by sector, over time. SEPH is now pulled, and two facts shape the view: it is **unadjusted** for seasonality while GDP is adjusted at annual rates, so compare annual averages (or add a seasonally adjusted SEPH table); and it **excludes agriculture**, so NAICS 11 gets no productivity figure at all rather than forestry jobs against farm output. | G3 | M | |
 | D3 | **Volatility and cyclicality** — rolling standard deviation, and each sector's correlation with all-industries. Which sectors *are* the business cycle and which ride through it. | G3 | M | |
 | D4 | **Provincial specialisation** — location quotients. Standard, defensible, and the natural bridge to C5. Mark `DERIVED`. | G3 | M | |
-| D5 | **Gross output vs value added by sector.** Unblocked by B2a: gross output (`output-annual.json`) is on the same accounts and years as nominal GDP. The ratio is `DERIVED`, and so is the IOIC crosswalk under the output — say both on the chart. Makes the companies-panel caveat *visible* rather than a footnote — you could show directly why summing company revenues overshoots sector GDP two- to threefold. | G1 G3 | M | |
+| D5 | **Gross output vs value added by sector.** Unblocked by B2a: gross output (`output-annual.json`) is on the same accounts and years as nominal GDP. The ratio is `DERIVED`, and so is the IOIC crosswalk under the output — say both on the chart. Shows directly why summing company revenues would overshoot sector GDP two- to threefold. | G1 G3 | M | |
 
 ## Stage E — keep it honest
 
@@ -156,7 +156,7 @@ The strongest part of the repo already. These extend it rather than repair it.
 
 | | Item | Goal | Effort | Human? |
 |---|---|---|---|---|
-| **E0** | **Declare the remaining datasets in `checks.yaml`.** Sectors, companies and `country.json` still have hand-written checks in `verify/run.py` that name their fields inline. Those are correct today and are exactly what stops working when a second event arrives. Port them; keep only genuinely bespoke logic in Python. | G4 | M | |
+| **E0** | **Declare the remaining datasets in `checks.yaml`.** Sectors and `country.json` still have hand-written checks in `verify/run.py` that name their fields inline. Those are correct today and are exactly what stops working when a second event arrives. Port them; keep only genuinely bespoke logic in Python. | G4 | M | |
 | **E1** | **Staleness gate.** `--verify` fails when a declared source is past its expected refresh interval. Add `refresh_interval_days` to `sources.yaml`. This is the mechanism that makes G5 real rather than intended, and it is the direct analogue of `world-strategic-map` E3. | G5 | S | |
 | E2 | **Gating vs advisory tiers** in `verify/run.py`, as ASI already has. *Blocking a release on a judgement call trains people to ignore the gate.* Two of the current 49 lines are already `note` rather than `gate`; make the distinction structural. | G1 | S | |
 | E3 | **Scheduled refresh.** A GitHub Action that re-runs the pipeline and opens a PR when a federal page or a StatCan cube changes. The 24h cache TTL and the append-only history make this safe: a no-change run produces a zero-line diff and no PR. **Not** a build-time scrape — CI hitting canada.ca on every push would be impolite and would let one commit produce different sites. | G5 | M | |
@@ -173,6 +173,61 @@ loader are indistinguishable until there are two.
 | **F2** | **Ship it: one `events.yaml` entry, one `atlas/sources/` module, nothing in `web/`.** If `web/` has to change, the structure claim is false and the fix belongs in the loader, not in the event. | G4 | L | |
 | F3 | **Announcement scraping** (`PLAN.md` §3.6, specified and never built): four hosts, seeded from the MPO news index, change-detected via sitemap `<lastmod>`. The only way a new project gets noticed automatically, and the raw material for B3's timeline. | G4 G5 | L | |
 | F4 | **Second country, if ever.** `country.json` is already the contract and generalises. Do not start this before F2 — a second country whose event structure is still untested is two unproven abstractions at once. | G4 | L | ✓ |
+
+## Stage S — Canadian-flagged vessels, live, local only
+
+Requested 2026-09-11: when the atlas runs on localhost, poll live AIS and show
+every Canadian-flagged vessel anywhere, incoming and outgoing. No scheduled job,
+nothing from the deployed site. Foreign-flagged vessels trading with Canada are
+the stage after this one. **Read [`AIS.md`](AIS.md) first** — no government
+publishes live positions, so identity and position come from different kinds of
+source, and the screen has to say which is which.
+
+| | Item | Goal | Effort | Human? |
+|---|---|---|---|---|
+| S0 | ~~**Choose the live feed.**~~ **Chosen 2026-09-12: aisstream.io**, free, shore-based receivers only, no published terms of use (recorded in `sources.yaml` as `aisstream-unstated`). No government publishes live positions; satellite AIS was the paid alternative for open ocean. | G1 | S | |
+| S1 | ~~**Stage `07_vessels.py`: the Canadian Register of Large Vessels.** Transport Canada, OGL, EN + FR. Built 2026-09-12 (06 went to C1). Measured: 26,907 entries in each language, in the same order, paired by row with the Official Number checked on every one. The register has **no MMSI and no call sign**, so only the 1,161 entries with an IMO number — the one key AIS shares — are committed, to `data/vessels/large-vessel-register.json` (1.42 MB, not bundled), with the register's totals beside them; 1 of those fails the IMO check digit. The planned gate on unique Official Numbers would have been false: 843892 and 849528 each appear twice with different tonnage, so identity is number plus row. Year of Build is reproduced as published (188700, 2026, 0) — no year is read out of it. 9 verify gates, 3 tests, zero-line re-run.~~ | G1 G4 | M | |
+| **S2** | **Collector — built 2026-09-12, first run the same day** (75 s: whole-world subscription accepted, 168 messages/s, 11,767 vessels heard, 346 Canadian). `live/collect_ais.py` subscribes to the whole world and keeps Canadian vessels by radio identity (MMSI 316…, ship stations only) or by the register (IMO). Two modes: `python run.py --live` serves `127.0.0.1:8765/ships` to the dev server while it runs; the **daily GitHub Action** listens for 15 minutes, merges into the last snapshot (a vessel not heard keeps its last position and time) and commits it to the `vessel-positions` branch — never to main — and every build copies it in. Blocked on an API key only you can create: `.env` locally, and the `AISSTREAM_API_KEY` repository secret. First run must record messages per second and whether a world-sized box is accepted. 4 tests. | G4 G5 | M | ✓ |
+| **S3** | **The vessel layer — built 2026-09-12.** A toggle, "Canadian-flagged vessels", replaces the planned ship-tracking row: one circle per vessel at its last heard position, faded after 24 hours, and a popup built with textContent giving name, MMSI, IMO, why it counts as Canadian, when it was last heard, speed and course, destination as broadcast, and the register's port of registry and descriptor where the IMO matches. The layer row says which it is showing — live, a dated snapshot, or "no snapshot published yet". Checked in a browser with a synthetic local file, deleted after. | G1 G2 | M | |
+| **S4** | **Incoming and outgoing, two ways.** (1) As reported: `Destination` and `ETA` verbatim, matched to Canadian UN/LOCODE port codes only where the text is a code. (2) By geometry, `DERIVED` with the formula shown: position relative to Canada's maritime zone boundary (government polygon, source to confirm) and course over ground, across this session's positions — never from one ping. Disagreements shown, not resolved. | G1 G2 | M | |
+| S5 | **The screen states the limits:** terrestrial coverage and what a gap means, flag is not ownership (Canadian-owned ships under foreign flags are absent by definition), vessels without an IMO number matched by prefix only. | G1 G5 | S | |
+| S6 | **Next stage, planned after S3 is measured:** foreign-flagged vessels calling at Canadian ports. | G2 | L | ✓ |
+
+## Stage V — where people are, in 3D
+
+Requested 2026-09-11: the planned "Population heatmap" layer, drawn as vertical
+columns showing where the population is concentrated. MapLibre 5 supports
+fill-extrusion on the globe projection (it has an official example), so no second
+renderer is needed.
+
+**One design fact decides the geography.** Dissemination areas are drawn by
+StatCan to be similar in population, so a column per DA would be roughly the same
+height everywhere: concentration would show as *how many* columns crowd a place,
+not how tall they are. Height has to encode either a count at a geography whose
+populations genuinely differ, or a published density.
+
+| | Item | Goal | Effort | Human? |
+|---|---|---|---|---|
+| V0 | ~~**Choose the encoding.**~~ **Chosen 2026-09-12:** one column per census subdivision nationally, height = published 2021 population, switching to dissemination-area columns up close, height = published population density. No derived totals. | G1 G3 | S | |
+| **V1** | **The points.** Representative points from StatCan's 2021 Geographic Attribute File (OGL; DA representative point coordinates, DB populations). Confirm a published representative point exists for census subdivisions. If only DA points are published, the subdivision column goes on a published point and the panel says which one; it never goes on a centroid we compute. Gate: DA populations summed by subdivision code equal the published subdivision counts. | G1 | M | |
+| **V2** | **The layer.** Fill-extrusion columns on the globe, a legend with the height scale written out, pitch control, reduced-motion respected, a table twin ordered by geography code. The column footprint is cosmetic and says so; only height carries data. Performance measured at DA density before (b) ships. | G3 | M | |
+| V3 | **Wire the planned-layer toggle.** Replace "Planned — 3D visualization" in the layer panel with the live control, in both languages. | G1 | S | |
+
+## The whole roadmap, in order — as proposed 2026-09-11
+
+| Phase | Items | Why here | Blocked on |
+|---|---|---|---|
+| **Now** | ~~C1~~ · ~~S1~~ · ~~B8~~ · ~~S0~~ · S2/S3 built — **your aisstream.io key**, then the first live run | The vessel layer cannot show a real ship until a key exists. | You (key) |
+| **1** | **S2 first run → S4 → S5** | Measure the feed, then incoming/outgoing and the on-screen limits. | Key |
+| **2** | **C2 → C3 → C4** (+ C5) | The thing the project is for: portfolio and economy as one answer. Unblocked: C1 built, joins confirmed. | — |
+| **3** | **M1 → V1 → V2 → V3** | V0 decided; M1 makes one census parser first. | — |
+| **4** | B4 · B5 · B6 · B7 · B1a | Finish what is already captured and not yet shown. | — |
+| **5** | D1–D5 · M2 · M2a · Q1 · Q2 · E0 · E1 | Analyses on data already pulled, honesty gates before more data arrives. | Q2 (you) |
+| **6** | F1 → F2 · S6 | A second event and foreign vessels: the structure proven twice. | You (F1, S6) |
+| **7** | M3–M12 · Q3–Q9 · B2b | Municipal and provincial finance, finance deep dive, deeper statistics. | Several decisions |
+| **8** | P1 → P8 | The shared spine and launcher, after the atlas stops moving. | You (P1) |
+
+Stage H decisions can be taken any time and block nothing above.
 
 ## Stage P — the platform
 
@@ -251,14 +306,15 @@ E0 prepares `verify/` for.
 | M7 | **Provincial and aggregate local finance.** 10-10-0017-01 (provinces and territories, annual 2007–2024) and 10-10-0020-01 (local government in aggregate). Read the full dimension lists first — 0017's metadata call has not yet completed. Consolidated tables only for any cross-level total. | G3 | M | |
 | M8 | **Ontario FIR and BC Local Government Statistics.** The two provinces that publish every municipality's return as data. One adapter each; their line items map neither to each other nor to CGFS without a crosswalk. | G3 | L | |
 | **M9** | **Budgets and fiscal outlooks as documents.** Reproduce published tables with a page reference and `basis: budget` / `outlook`; narrative claims stay in their sentence (CLAUDE.md §1). Never plot a budget on an actuals axis without saying so on the axis. Choose which governments first. | G1 | L | ✓ |
-| M10 | **COFOG ↔ NAICS crosswalk,** hand-curated and `DERIVED`, like `gics_naics.yaml`. Functions of government and industries answer different questions; the UI names which one a chart uses. | G2 | M | ✓ |
+| M10 | **COFOG ↔ NAICS crosswalk,** hand-curated and `DERIVED`, like `mpo_naics.yaml`. Functions of government and industries answer different questions; the UI names which one a chart uses. | G2 | M | ✓ |
 | M11 | **Municipal and provincial panels.** Sliced payloads per view, never the whole municipalities file. Per-capita figures name their denominator and its year. | G2 G3 | M | |
 | M12 | **Census profile variables** — age, income, labour, housing — on the same identity. The social and demographic half of the system. | G3 | L | |
 
 ## Stage Q — the financial sector, evaluated critically
 
 Finance reaches this project three ways: as an **industry** (NAICS 52 in the GDP
-charts), as **market data** (the XIC company panel), and as **capital** — who
+charts), as **market data** (the XIC company panel — removed 2026-09-12, see Q2a;
+the measurements below describe what it showed), and as **capital** — who
 pays for the major projects, and the public finances of Stage M. Each has a
 failure mode that looks correct on screen. Measured on 2026-09-10, before any of
 this stage was built:
@@ -292,8 +348,10 @@ data about finance is represented, and every computed figure is `DERIVED`.
 | | Item | Goal | Effort | Human? |
 |---|---|---|---|---|
 | **Q1** | **Written critique, `docs/FINANCE.md`.** How finance appears in every current view, what each view implies, what misleads, with the measurements above re-run from committed data. No new data, no code. | G1 G3 | S | |
-| **Q2** | **Fix the company-panel comparison.** Index weight must never share a scale or a row with GDP share. Choose the form in Q1 — separate panels, or an explicit weight-vs-output contrast that names both measures on the axis. | G1 | S | ✓ |
-| Q3 | **Company-level crosswalk overrides for conglomerates** (Brookfield, Power Corporation and similar), `DERIVED`, each split sourced to the company's own segment disclosure. `gics_naics.yaml` is per GICS sector and cannot express this. | G2 | M | ✓ |
+| Q2 | ~~**Fix the company-panel comparison.**~~ Obsolete: the panel was removed 2026-09-12 (Q2a). | G1 | S | |
+| Q2a | ~~**The company panel's permission.**~~ **Removed 2026-09-12** on the owner's decision, after BlackRock Canada's terms were read: site content is for personal, non-commercial use, may not be used for public purposes, and may not be copied by robot without permission — what stage 03 and the public site did. Stage 03, its parser, `gics_naics.yaml`, both `xic.json` copies, the panel and its tests are gone. | G1 | S | |
+| Q3 | ~~**Company-level crosswalk overrides for conglomerates.**~~ Obsolete with the panel (Q2a). | G2 | M | |
+| Q2b | ~~**Company-level data whose terms allow public republication.**~~ **Done 2026-09-12 with Statistics Canada's Canadian Business Counts, with employees** (stage 03, the owner's choice among the options found: StatCan counts, Wikidata, ISED federal corporations). Counts of business locations, not named firms, by sector, geography and employment size, beside the "one sector in context" chart. | G3 | M | |
 | Q4 | **Finance in current dollars.** Nominal share of GDP from 36100710, now pulled (B2) and gated additive to 0.01%; chained shares are approximate by construction. Ends 2022. | G3 | S | |
 | Q5 | **Gross output against value added for finance.** Unblocked by B2a: finance (52) output is the sum of `BS52B00` + `BS52E000` + `BS52410`, 1.77× its value added in 2022. Most bank output is measured indirectly, from interest margins, so the ratio describes that measurement convention as much as it describes banks — the view must say so. | G3 | M | |
 | Q6 | **Real estate decomposed:** owner-occupied imputed rent against market activity, if 36-10-0434 publishes the split. Verify the member exists before designing the view. | G3 | S | |
@@ -314,9 +372,12 @@ data about finance is represented, and every computed figure is `DERIVED`.
 
 ## The critical path
 
-**B1 → B2 → B3 → C1 → C4.** That is the shortest route from here to the thing
+**~~B1 → B2 → B3~~ → C1 → C4.** That is the shortest route from here to the thing
 this project is for: the portfolio and the economy answering one question
-together, in either language, against all seven declared tables.
+together, in either language, against all seven declared tables. B1–B3 are
+done; C1 waits on a decision (brief in `ROADMAP.md` §A3). Stages S and V were
+added on request on 2026-09-11 and are sequenced around it in *The whole
+roadmap, in order*, above.
 
 Stage F is what proves the structure was worth building, and it can start any
 time after B2 — but it needs you to choose the event, so it is the item most

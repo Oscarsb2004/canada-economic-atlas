@@ -52,6 +52,12 @@ each milestone when the one before it lands.
 | **M7** | The spine | PLAT | `athena-core` pinned in all three | ~4 |
 | **M8** | The launcher | PLAT | One place lists and runs every project | ~4 |
 | **M9** | The structure proves itself | CEA | A second event ships with no change in `web/` | ~5 |
+| **M10** | Atlas: the Canadian fleet, live | CEA | On localhost, every Canadian-flagged vessel in receiver range is on the globe, its flag basis stated (`BACKLOG.md` Stage S, `AIS.md`) | ~4 |
+| **M11** | Atlas: where people are | CEA | Population renders as 3D columns from published census counts (`BACKLOG.md` Stage V) | ~3 |
+
+**Added 2026-09-11.** M10 starts before M3 finishes — its register stage needs no
+decision — and M11 follows M3. The ordered sequence is in `BACKLOG.md`, *The
+whole roadmap, in order*.
 
 **M5 runs in parallel with M1–M4 throughout.** It is on a different repo and a
 different person-shaped bottleneck — their Stage F needs *you* reading articles,
@@ -154,18 +160,17 @@ This is the goal the layout has implied since v1. **Read `ROADMAP.md` §A2 and
 §A3 before starting** — both items have limits that must reach the screen, and
 this is the milestone where `DERIVED` stops being rare.
 
-- **CEA-C1** · `registry/mpo_naics.yaml`, hand-curated and versioned, splits
-  documented. Lossy specifically: MPO "Energy" spans NAICS 21, 22 and 486; MPO
-  "Transport" is mostly NAICS 23 construction *activity* producing a 48-49
-  *asset*. The file says which it means. **Needs you.** · **M**
-- **CEA-C2** · Capital from NRCan's Major Projects Inventory via a curated
-  `registry/mpi_join.yaml` — explicit slug→ID pairs, hand-checked, never fuzzy.
-  **Needs you.** · **M**
-- **CEA-C3** · The 6-of-18 ceiling on screen. MPI covers Energy/Mining/Forest
-  only; the portfolio also spans Transport, Electricity and Industrial. Show
-  "not published" and **never total across the partial set** — a portfolio
-  headline from six of eighteen is wrong by construction, and this item is what
-  stops C2 becoming that. · **S**
+- **CEA-C1** · ~~MPO → NAICS crosswalk~~ **Done 2026-09-12**, option B + C: each
+  project in the industry its finished asset operates in, quoting the page and
+  Statistics Canada, and also in construction while NRCan's inventory says so.
+  Stage 06, `registry/mpo_naics.yaml`. · **M**
+- **CEA-C2** · Capital from NRCan's Major Projects Inventory through the join C1
+  built — 10 of 18 projects by declared ID, confirmed 2026-09-12, never by name. · **S**
+- **CEA-C3** · The ceiling on screen: 10 of 18 projects are in the inventory,
+  and none of the Transport or Industrial ones. Show "not published" and
+  **never total across the partial set** — a portfolio headline from nine of
+  eighteen is wrong by construction, and this item is what stops C2 becoming
+  that. · **S**
 - **CEA-C4** · Pin count and capital by NAICS sector, beside that sector's GDP.
   **The milestone's actual deliverable.** · **M**
 - **CEA-C5** · Point-in-polygon project→province, then capital as a share of

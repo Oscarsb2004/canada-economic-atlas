@@ -38,8 +38,8 @@
 
 import * as Plot from "@observablehq/plot";
 
-import { t, type Company, type Lang, type Palette, type Series } from "../data/bundle";
-import { LOCALE, fmtMoneyM, fmtMonth, fmtPct, fmtPercent, stringsFor } from "../i18n";
+import { t, type Lang, type Palette, type Series } from "../data/bundle";
+import { LOCALE, fmtMoneyM, fmtMonth, fmtPct, stringsFor } from "../i18n";
 import { MARK, axisX, axisY, chartDefaults, gridY, token } from "./Plot";
 
 /**
@@ -446,35 +446,34 @@ export function growthBars(series: Series[], palette: Palette, width: number, la
   });
 }
 
-// ── 7. Companies ───────────────────────────────────────────────────────────────
+// ── 7. Business locations by employment size ───────────────────────────────────
 
-export function companyBars(companies: Company[], palette: Palette, width: number, lang: Lang, top = 12) {
-  const data = companies
-    .filter((c) => c.weight_pct != null)
-    .slice(0, top)
-    .map((c) => ({ name: c.name, ticker: c.ticker, weight: c.weight_pct! }));
-
+/**
+ * StatCan's size ranges in StatCan's order, smallest first — never sorted by
+ * count, which would rank what the table only counts. One hue: the ranges are
+ * an ordered scale, and length already carries the magnitude.
+ */
+export function businessSizeBars(bands: { label: string; value: number }[], palette: Palette, width: number, lang: Lang) {
+  const count = new Intl.NumberFormat(LOCALE[lang]);
   return Plot.plot({
-    ...chartDefaults(Math.max(180, data.length * 19)),
+    ...chartDefaults(Math.max(160, bands.length * 22)),
     width,
     marginLeft: 150,
-    x: { label: null, tickFormat: (d: number) => fmtPercent(d, lang, 0) },
-    y: { label: null, domain: data.map((d) => d.name) },
+    x: { label: null, tickFormat: (d: number) => count.format(d) },
+    y: { label: null, domain: bands.map((b) => b.label) },
     marks: [
       Plot.gridX({ stroke: token("--ink-gridline"), strokeWidth: 1 }),
-      Plot.barX(data, {
-        x: "weight",
-        y: "name",
+      Plot.barX(bands, {
+        x: "value",
+        y: "label",
         fill: palette.categorical[0].hex,
         rx1: 4,
         insetTop: 2,
         insetBottom: 2,
-        tip: { ...TIP, format: { x: (d: number) => fmtPercent(d, lang, 2), y: true } },
+        tip: { ...TIP, format: { x: (d: number) => count.format(d), y: true } },
       }),
       axisY({ fontSize: 10 }),
-      // Same as the growth bars: the mark needs the format, or index weights
-      // read "0 2 4 6" with no unit.
-      axisX({ ticks: 4, tickFormat: (d: number) => fmtPercent(d as number, lang, 0) }),
+      axisX({ ticks: 4, tickFormat: (d: number) => count.format(d as number) }),
       Plot.ruleX([0], { stroke: token("--ink-axis") }),
     ],
   });

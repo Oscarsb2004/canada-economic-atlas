@@ -56,6 +56,7 @@ function Atlas() {
     ferries: true,
     majorProjects: true,
     tradePlaces: true,
+    vessels: true,
   });
 
   const pins = useTabs((st) => st.pins);
@@ -187,6 +188,7 @@ function Atlas() {
         {selected ? (
           <ProjectViewer
             project={selected}
+            industries={bundle.industries}
             onClose={() => {
               setSelected(null);
               if (activePin?.kind === "project") activate(null);
