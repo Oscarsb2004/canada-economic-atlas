@@ -340,11 +340,28 @@ class QuickFact:
 
 @dataclass(frozen=True, slots=True)
 class Update:
-    """One dated entry from a project page's "Latest updates" block."""
+    """
+    One entry from a project page's "Latest updates" block.
 
-    date: str                                # ISO-8601 where parseable, else verbatim
+    `date` is ISO 8601 at the precision the entry publishes — "2026-05-19",
+    "2026-07" for "In July 2026", "2022" for "In 2022" — or "" when the entry
+    opens with no date. Reduced precision still sorts correctly against full
+    dates; a month is never widened to a day, and an undated entry is never given
+    a neighbour's date.
+
+    This field's comment used to say "ISO-8601 where parseable, else verbatim"
+    while stage 01 stored the verbatim text unparsed. Nothing read it, so nothing
+    noticed, until the portfolio timeline needed to sort by it.
+
+    `date_verbatim` and `date_verbatim_fr` are each page's own wording of the
+    date, so the French interface shows "19 mai, 2026" as the French page wrote
+    it rather than an English date inside a French sentence.
+    """
+
+    date: str
     date_verbatim: str
     body: Text
+    date_verbatim_fr: str = ""
 
 
 @dataclass(frozen=True, slots=True)

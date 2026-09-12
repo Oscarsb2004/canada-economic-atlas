@@ -1,6 +1,6 @@
 {
   "event": "major-projects-office",
-  "generated_at": "2026-09-08T23:35:24Z",
+  "generated_at": "2026-09-11T14:15:51Z",
   "projects": [
     {
       "benefits": [
@@ -126,14 +126,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:20Z",
+          "retrieved_at": "2026-09-11T14:15:47Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "e71eb23fb972ed68818df3dd62fb386dcb2e24deb70a5858c7d130a3cf0f5276",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:20Z",
+          "retrieved_at": "2026-09-11T14:15:47Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/aesc.html"
         }
       ],
@@ -147,16 +147,18 @@
             "en": "On August 15, 2026, the Tłı̨chǫ Government and the Yellowknives Dene First Nation announced they have reached consensus on a proposed corridor for the project.",
             "fr": "Le 15 août 2026 (anglais seulement), le gouvernement des Tłı̨chǫ et la Première Nation des Dénés Yellowknives ont annoncé qu’ils étaient parvenus à un consensus sur une proposition de tracé du corridor pour le projet."
           },
-          "date": "August 15, 2026",
-          "date_verbatim": "August 15, 2026"
+          "date": "2026-08-15",
+          "date_verbatim": "August 15, 2026",
+          "date_verbatim_fr": "15 août 2026"
         },
         {
           "body": {
             "en": "On March 12, 2026, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 12 mars 2026, le projet a été renvoyé au Bureau des grands projets (BGP)."
           },
-          "date": "March 12, 2026",
-          "date_verbatim": "March 12, 2026"
+          "date": "2026-03-12",
+          "date_verbatim": "March 12, 2026",
+          "date_verbatim_fr": "12 mars 2026"
         },
         {
           "body": {
@@ -164,7 +166,8 @@
             "fr": "Le BGP travaillera avec les promoteurs pour déterminer les solutions de financement, trouver des moyens d’accélérer le projet et faciliter et simplifier les processus réglementaires pertinents. Ce travail sera réalisé en tenant compte du cadre unique d’évaluation des impacts fondé sur les traités ainsi que de l’environnement réglementaire local dans les Territoires du Nord-Ouest."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         }
       ]
     },
@@ -272,14 +275,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:20Z",
+          "retrieved_at": "2026-09-11T14:15:48Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "1489f15b945d751cb561fdfe710ef1618208a47029b75130efe63c2015c05c4d",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:20Z",
+          "retrieved_at": "2026-09-11T14:15:48Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/contrecoeur.html"
         }
       ],
@@ -293,64 +296,72 @@
             "en": "On August 14, 2026, the Montreal Port Authority announced the start of in-water construction work for the Contrecoeur Expansion Project, marking a major milestone and the beginning of a key construction phase for the future container terminal. This phase includes construction of the working jetty, terminal wharf and its related marine infrastructure, following the completion of preparatory work undertaken since fall 2025, dredging activities are expected to begin in 2027.",
             "fr": "Le 14 août 2026, l’Administration portuaire de Montréal a annoncé le début des travaux de construction en eau pour le projet d’expansion à Contrecœur, marquant une étape majeure et le début d’une phase clé de la construction du futur terminal à conteneurs. Cette phase comprend l’aménagement de la jetée de travail ainsi que la construction du quai du terminal et de l’infrastructure maritime connexe. Après l’achèvement des travaux préparatoires commencés à l’automne 2025, les travaux de dragage devraient commencer en 2027."
           },
-          "date": "August 14, 2026",
-          "date_verbatim": "August 14, 2026"
+          "date": "2026-08-14",
+          "date_verbatim": "August 14, 2026",
+          "date_verbatim_fr": "14 août 2026"
         },
         {
           "body": {
             "en": "On April 9, 2026, the Government of Canada announced the start of construction of the project. With support from the MPO, this milestone was achieved by bringing together key partners, streamlining approvals, developing an effective financing model, and expediting the permitting process.",
             "fr": "Le 9 avril 2026, le gouvernement du Canada a annoncé le début de la construction du projet. Avec le soutien du BGP, cette étape importante a été franchie en réunissant des partenaires clés, en simplifiant les processus d’approbation, en élaborant un modèle de financement efficace, et en accélérant le processus d’obtention des permis."
           },
-          "date": "April 9, 2026",
-          "date_verbatim": "April 9, 2026"
+          "date": "2026-04-09",
+          "date_verbatim": "April 9, 2026",
+          "date_verbatim_fr": "9 avril 2026"
         },
         {
           "body": {
             "en": "On April 6, 2026, the Canada Infrastructure Bank and the Montreal Port Authority finalized financing details. The CIB announced the repayable project financing on April 9, 2026.",
             "fr": "Le 6 avril 2026, la Banque de l’infrastructure du Canada et l’Administration portuaire de Montréal ont finalisé les modalités de financement. La BIC a annoncé ce financement remboursable pour le projet le 9 avril 2026."
           },
-          "date": "April 6, 2026",
-          "date_verbatim": "April 6, 2026"
+          "date": "2026-04-06",
+          "date_verbatim": "April 6, 2026",
+          "date_verbatim_fr": "6 avril 2026"
         },
         {
           "body": {
             "en": "On January 5,2026, the Montreal Port Authority obtained a second Species at Risk Act compliant Fisheries Act authorization from DFO to regulate the impacts on fish and fish habitat of the project’s in water works and wharf construction.",
             "fr": "Le 5 janvier 2026, l’Administration portuaire de Montréal a obtenu une deuxième autorisation conforme à la Loi sur les espèces en péril délivrée au titre de la Loi sur les pêches de POC afin de réguler les impacts des travaux en eau et de la construction du quai prévus dans le cadre du projet sur les poissons et leur habitat."
           },
-          "date": "",
-          "date_verbatim": ""
+          "date": "2026-01-05",
+          "date_verbatim": "January 5,2026",
+          "date_verbatim_fr": "5 janvier 2026"
         },
         {
           "body": {
             "en": "On October 16, 2025, the Montreal Port Authority obtained a Species at Risk Act compliant Fisheries Act authorization from Fisheries and Oceans Canada (DFO) for the implementation of an offsetting plan to create more copper redhorse feeding grounds. The plan was developed in accordance with the Statement of Decision and in consultation with DFO, Quebec’s Ministry of Forests, Wildlife and Parks, Environment and Climate Change Canada, and First Nations.",
             "fr": "Le 16 octobre 2025, l’Administration portuaire de Montréal a obtenu une autorisation conforme à la Loi sur les espèces en péril délivrée au titre de la Loi sur les pêches de Pêches et Océans Canada (POC) pour la mise en œuvre du plan de compensation pour les herbiers d’alimentation du chevalier cuivré. Ce plan a été élaboré en conformité avec la Déclaration de décision et en consultation avec POC, le ministère des Forêts, de la Faune et des Parcs du Québec, Environnement et Changement climatique Canada et les Premières Nations."
           },
-          "date": "October 16, 2025",
-          "date_verbatim": "October 16, 2025"
+          "date": "2025-10-16",
+          "date_verbatim": "October 16, 2025",
+          "date_verbatim_fr": "16 octobre 2025"
         },
         {
           "body": {
             "en": "On October 9, 2025, the Port of Montreal began preparatory work for the expansion and awarded the contract for in-water works of the future container terminal to the CTCGP consortium (Contrecœur Terminal Constructors Grand Project), composed of Pomerleau and Aecon.",
             "fr": "Le 9 octobre 2025, le Port de Montréal a entamé les travaux préparatoires de son projet d’expansion et confié au consortium CTCGP (Constructeurs Terminal de Contrecœur Grand Projet), composé de Pomerleau et Aecon, la réalisation des travaux en eau du futur terminal à conteneurs."
           },
-          "date": "October 9, 2025",
-          "date_verbatim": "October 9, 2025"
+          "date": "2025-10-09",
+          "date_verbatim": "October 9, 2025",
+          "date_verbatim_fr": "9 octobre 2025"
         },
         {
           "body": {
             "en": "On September 29, 2025, the Major Projects Office, the Canada Infrastructure Bank, and the Montreal Port Authority signed a Memorandum of Understanding (MOU) with the common goal of advancing the Contrecoeur Container Terminal Project. The MOU provides that the parties will work together to finance the project and ensure permitting and regulatory requirements are met on schedule.",
             "fr": "Le 29 septembre 2025, le BGP, la Banque de l’infrastructure du Canada et l’Administration portuaire de Montréal ont signé un protocole d’entente dans le but commun de faire progresser le projet de terminal à conteneurs de Contrecœur. Ce protocole d’entente prévoit que les parties travailleront ensemble pour financer le projet et veiller à ce que les exigences en matière d’autorisation et de réglementation soient respectées dans les délais impartis."
           },
-          "date": "September 29, 2025",
-          "date_verbatim": "September 29, 2025"
+          "date": "2025-09-29",
+          "date_verbatim": "September 29, 2025",
+          "date_verbatim_fr": "29 septembre 2025"
         },
         {
           "body": {
             "en": "On September 11, 2025, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 11 septembre 2025, le projet a été renvoyé au Bureau des grands projets (BGP)."
           },
-          "date": "September 11, 2025",
-          "date_verbatim": "September 11, 2025"
+          "date": "2025-09-11",
+          "date_verbatim": "September 11, 2025",
+          "date_verbatim_fr": "11 septembre 2025"
         },
         {
           "body": {
@@ -358,7 +369,8 @@
             "fr": "Le BGP continue de surveiller l’avancement du projet et de collaborer avec ses partenaires et les promoteurs afin de garantir le respect des délais du projet. Le promoteur continue de travailler avec les groupes autochtones touchés."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         }
       ]
     },
@@ -492,14 +504,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:21Z",
+          "retrieved_at": "2026-09-11T14:15:48Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "8fc6b3a8bd129a0fe917eaf5f2bc09b7f9477cd8d70f55281e36d7d5c7fea541",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:21Z",
+          "retrieved_at": "2026-09-11T14:15:48Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/crawford.html"
         }
       ],
@@ -513,16 +525,18 @@
             "en": "On March 3, 2026, the Impact Assessment Agency of Canada (IAAC) formally began the impact assessment phase for the Canada Nickel’s Crawford Project. The IAAC is leading on further impact assessment work, including consultations with Indigenous peoples and governments, as well as the coordination of federal permits and associated Crown consultation for the project.",
             "fr": "Le 3 mars 2026, l’Agence d’évaluation d’impact du Canada (AEIC) a officiellement entamé la phase d’évaluation d’impact du projet nickélifère Crawford de Canada Nickel. L'AEIC est en tête des travaux supplémentaires d'évaluation des impacts, y compris les consultations avec les peuples autochtones et les gouvernements, ainsi que la coordination des permis fédéraux et de la consultation de la Couronne associée pour le projet."
           },
-          "date": "March 3, 2026",
-          "date_verbatim": "March 3, 2026"
+          "date": "2026-03-03",
+          "date_verbatim": "March 3, 2026",
+          "date_verbatim_fr": "3 mars 2026"
         },
         {
           "body": {
             "en": "On November 13, 2025, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 13 novembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
           },
-          "date": "November 13, 2025",
-          "date_verbatim": "November 13, 2025"
+          "date": "2025-11-13",
+          "date_verbatim": "November 13, 2025",
+          "date_verbatim_fr": "13 novembre 2025"
         }
       ]
     },
@@ -642,14 +656,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:21Z",
+          "retrieved_at": "2026-09-11T14:15:48Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "c743ae5b8b7d8357162e234e9869435db90f89f6f758534accb402ad894e9a50",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:21Z",
+          "retrieved_at": "2026-09-11T14:15:48Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/darlington.html"
         }
       ],
@@ -663,8 +677,9 @@
             "en": "On June 23, 2026, the Government of Canada and the Province of Ontario announced a loan guarantee transaction that will allow seven First Nations in Ontario (the Williams Treaties First Nations) to eventually own a meaningful minority interest in DNNP. Canada’s Indigenous Loan Guarantee Program and Ontario’s Indigenous Opportunities Financing Program are supporting approximately $715 million in financing for the investment.",
             "fr": "Le 23 juin 2026, le gouvernement du Canada et la province de l’Ontario ont annoncé l’octroi d’une garantie de prêts qui permettra à sept Premières Nations de l’Ontario (les Premières Nations visées par les Traités Williams) de détenir à terme une participation minoritaire importante dans le projet de nouvelle centrale nucléaire de Darlington. Le Programme de garantie de prêts pour les Autochtones du Canada et le Programme de financement pour les initiatives autochtones de l’Ontario accordent ensemble un financement d’environ 715 millions de dollars pour cet investissement."
           },
-          "date": "June 23, 2026",
-          "date_verbatim": "June 23, 2026"
+          "date": "2026-06-23",
+          "date_verbatim": "June 23, 2026",
+          "date_verbatim_fr": "23 juin 2026"
         },
         {
           "body": {
@@ -672,7 +687,8 @@
             "fr": "Le Fonds de croissance du Canada (FCC) et le Fonds ontarien pour la construction (FOC) ont annoncé un engagement commun de 3 milliards de dollars en capitaux propres (anglais seulement) pour financer le projet de nouvelle centrale nucléaire de Darlington, soit un maximum de 2 milliards de dollars de la part du FCC et jusqu’à 1 milliard de dollars de la part du FOC. Ces investissements permettront d’atténuer les risques liés à la construction et à l’exploitation de ce projet de PRM unique en son genre grâce à des ententes financières novatrices, ce qui encouragera le secteur privé et les communautés autochtones à investir dans le projet au fil du temps."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         },
         {
           "body": {
@@ -680,23 +696,26 @@
             "fr": "Afin de promouvoir les projets d’énergie propre, le gouvernement du Canada a déposé un projet de loi pour mettre en place le crédit d’impôt à l’investissement dans l’électricité propre. Ce crédit remboursable correspond à 15 % du coût en capital des investissements admissibles dans l’équipement lié à la production d’électricité à faibles émissions, comme les technologies nucléaires."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         },
         {
           "body": {
             "en": "On September 11, 2025, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 11 septembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
           },
-          "date": "September 11, 2025",
-          "date_verbatim": "September 11, 2025"
+          "date": "2025-09-11",
+          "date_verbatim": "September 11, 2025",
+          "date_verbatim_fr": "11 septembre 2025"
         },
         {
           "body": {
             "en": "On April 4, 2025, the Canadian Nuclear Safety Commission (CNSC) granted Ontario Power Generation (OPG) a license to construct the first SMR for the Darlington New Nuclear Project.",
             "fr": "Le 4 avril 2025, la Commission canadienne de sûreté nucléaire (CCSN) a octroyé à Ontario Power Generation (OPG) un permis de construction pour le premier PRM du projet de nouvelle centrale nucléaire de Darlington."
           },
-          "date": "April 4, 2025",
-          "date_verbatim": "April 4, 2025"
+          "date": "2025-04-04",
+          "date_verbatim": "April 4, 2025",
+          "date_verbatim_fr": "4 avril 2025"
         },
         {
           "body": {
@@ -704,7 +723,8 @@
             "fr": "Le BGP continue de surveiller l’avancement du projet et de collaborer avec les groupes autochtones, ses partenaires et les promoteurs afin de garantir le respect des délais du projet."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         }
       ]
     },
@@ -846,14 +866,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:21Z",
+          "retrieved_at": "2026-09-11T14:15:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "16c3d182e3117e878ba82cf351a5440b2e31e9f8f747a268fd8a0f0f43a27d07",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:21Z",
+          "retrieved_at": "2026-09-11T14:15:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/geo.html"
         }
       ],
@@ -867,16 +887,18 @@
             "en": "On June 24, 2026, the project was referred to the Major Projects Office (MPO), and the Government of Canada announced it is initiating the process toward potential listing the DGR as a project of national interest under the Building Canada Act. Before any decision is taken, consultations will be held with Indigenous communities who may be impacted by the project, to determine whether this project should be listed under the Act. These consultations will begin over the next several months, with the intent for the Minister of One Canadian Economy to make a recommendation for Governor in Council decision in the Fall.",
             "fr": "Le 24 juin 2026, le projet a été renvoyé au Bureau des grands projets (BGP), et le gouvernement du Canada a annoncé qu’il entamait le processus visant à une éventuelle désignation du dépôt souterrain en couches géologiques profondes comme projet d’intérêt national en vertu de la Loi visant à bâtir le Canada (LBC). Avant toute décision, des consultations auront lieu avec les collectivités autochtones susceptibles d’être touchées par le projet afin de déterminer s’il devrait être désigné en vertu de la LBC. Ces consultations commenceront au cours des prochains mois, dans le but de permettre au ministre de l’Unité de l’économie canadienne de formuler une recommandation aux fins de décision pour le gouverneur en conseil à l’automne."
           },
-          "date": "June 24, 2026",
-          "date_verbatim": "June 24, 2026"
+          "date": "2026-06-24",
+          "date_verbatim": "June 24, 2026",
+          "date_verbatim_fr": "24 juin 2026"
         },
         {
           "body": {
             "en": "On April 10, 2026, the Impact Assessment Agency of Canada and Canadian Nuclear Safety Commission released their draft Integrated Tailored Impact Statement Guidelines as part of the planning phase of the Deep Geological Repository integrated impact assessment process. The public comment period closed on May 10, 2026, and the Impact Assessment Agency of Canada and Canadian Nuclear Safety Commission are considering comments received to inform the preparation of the final guidelines and plans that will be issued to the proponent at the end of the 180-day planning phase.",
             "fr": "Le 10 avril 2026, l’Agence d’évaluation d’impact du Canada et la Commission canadienne de sûreté nucléaire ont publié l’ébauche de leurs lignes directrices intégrées et adaptées sur l’évaluation d’impact dans le cadre de l’étape de planification du processus intégré d’évaluation d’impact du projet de dépôt souterrain en couches géologiques profondes. La période allouée aux commentaires du public s’est terminée le 10 mai 2026. L’Agence d’évaluation d’impact du Canada et la Commission canadienne de sûreté nucléaire examinent les commentaires reçus afin d’orienter la préparation des lignes directrices et des plans finaux qui seront publiés au promoteur à la fin de l’étape de planification de 180 jours."
           },
-          "date": "April 10, 2026",
-          "date_verbatim": "April 10, 2026"
+          "date": "2026-04-10",
+          "date_verbatim": "April 10, 2026",
+          "date_verbatim_fr": "10 avril 2026"
         }
       ]
     },
@@ -1004,14 +1026,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:22Z",
+          "retrieved_at": "2026-09-11T14:15:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "148e1340c97e1b298f8dcd8be27c914e4435c41d00f5811919614d46a7bc550c",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:22Z",
+          "retrieved_at": "2026-09-11T14:15:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/grays-bay.html"
         }
       ],
@@ -1025,32 +1047,36 @@
             "en": "On June 24, 2026, the Government of Canada announced the initiation of the process towards potential listing of the GBRP as a project of national interest under the Building Canada Act (BCA). Before any decision is taken, consultations will be held with Indigenous communities, the territorial government, and with federal permitting departments, to determine whether this project should be listed under the Act. These consultations will begin over the next several months, with the intent for the Minister of One Canadian Economy to make a recommendation for Governor in Council decision by the end of the year.",
             "fr": "Le 24 juin 2026, le gouvernement du Canada a annoncé le lancement du processus visant à une éventuelle inscription de la RPGB en tant que projet d’intérêt national en vertu de la Loi visant à bâtir le Canada (LBC). Avant toute décision, des consultations auront lieu avec les collectivités autochtones, le gouvernement territorial et les ministères fédéraux qui délivrent les permis concernés afin de déterminer si ce projet devrait être désigné en vertu de la LBC. Ces consultations débuteront au cours des prochains mois, dans le but que le ministre de l’Unité de l’économie canadienne fasse une recommandation pour une décision du gouverneur en conseil d’ici la fin de l’année."
           },
-          "date": "June 24, 2026",
-          "date_verbatim": "June 24, 2026"
+          "date": "2026-06-24",
+          "date_verbatim": "June 24, 2026",
+          "date_verbatim_fr": "24 juin 2026"
         },
         {
           "body": {
             "en": "On May 20, 2026, the Government of Canada announced up to $50 million through the First and Last Mile Fund for planning and preconstruction work.",
             "fr": "Le 20 mai 2026, le gouvernement du Canada a annoncé un financement fédéral jusqu’à hauteur de 50 millions de dollars, dans le cadre du Fonds du premier et du dernier kilomètre pour les travaux de planification et de préparation à la construction."
           },
-          "date": "May 20, 2026",
-          "date_verbatim": "May 20, 2026"
+          "date": "2026-05-20",
+          "date_verbatim": "May 20, 2026",
+          "date_verbatim_fr": "20 mai 2026"
         },
         {
           "body": {
             "en": "On March 12, 2026, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 12 mars 2026, le projet a été renvoyé au Bureau des grands projets (BGP)."
           },
-          "date": "March 12, 2026",
-          "date_verbatim": "March 12, 2026"
+          "date": "2026-03-12",
+          "date_verbatim": "March 12, 2026",
+          "date_verbatim_fr": "12 mars 2026"
         },
         {
           "body": {
             "en": "On March 1, 2026, West Kitikmeot Resources Corp. submitted the Impact Statement for the Grays Bay Road and Port Project to the Nunavut Impact Review Board, and the project is currently undergoing an assessment by the Board pursuant to the Nunavut Planning and Project Assessment Act.",
             "fr": "Le 1er mars 2026, West Kitikmeot Resources Corp. (anglais seulement) a soumis l’étude d’impact du projet de route et de port de Grays Bay à la Commission du Nunavut chargée de l’examen des répercussions, et le projet fait actuellement l’objet d’une évaluation par la Commission en vertu de la Loi sur l’aménagement du territoire et l’évaluation des projets du Nunavut."
           },
-          "date": "March 1, 2026",
-          "date_verbatim": "March 1, 2026"
+          "date": "2026-03-01",
+          "date_verbatim": "March 1, 2026",
+          "date_verbatim_fr": "1er mars 2026"
         },
         {
           "body": {
@@ -1058,7 +1084,8 @@
             "fr": "Le BGP travaille avec les promoteurs pour déterminer les solutions de financement, trouver des moyens d’accélérer le projet et faciliter et simplifier les processus réglementaires pertinents. Ce travail sera réalisé en tenant compte du cadre unique d’évaluation des impacts fondé sur les traités et de l’environnement réglementaire local du Nunavut."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         }
       ]
     },
@@ -1192,14 +1219,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:22Z",
+          "retrieved_at": "2026-09-11T14:15:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "4dd6252f171a9df6fc3bb5cbe0033b808e7c1c803eeb99abb1f34ea7000e4e20",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:22Z",
+          "retrieved_at": "2026-09-11T14:15:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/ksi-lisims.html"
         }
       ],
@@ -1213,40 +1240,45 @@
             "en": "On July 2, 2026, the Government of Canada and the Province of British Columbia signed the new Canada-British Columbia Cooperative Prosperity Agreement, which will further accelerate the construction of major energy and trade corridors, including Ksi Lisims LNG. The federal government will work with proponents, communities, and First Nations to accelerate the permitting, financing, and construction of this project to boost LNG supply for Canadians and our allies.",
             "fr": "Le 2 juillet 2026, le gouvernement du Canada et la province de la Colombie-Britannique ont signé le nouvel Accord de prospérité et de collaboration entre le Canada et la Colombie-Britannique, qui permettra d’accélérer encore davantage la construction de grands corridors énergétiques et commerciaux à travers la province, notamment le projet Ksi Lisims GNL. Le gouvernement fédéral collaborera avec les promoteurs, les communautés et les Premières Nations afin d’accélérer les procédures d’autorisation, le financement et la réalisation de ce projet, dans le but d’accroître l’approvisionnement en GNL pour les Canadiennes et les Canadiens ainsi que nos alliés."
           },
-          "date": "July 2, 2026",
-          "date_verbatim": "July 2, 2026"
+          "date": "2026-07-02",
+          "date_verbatim": "July 2, 2026",
+          "date_verbatim_fr": "2 juillet 2026"
         },
         {
           "body": {
             "en": "On May 27, 2026, an agreement between Ksi Lisims LNG and SEFE (Securing Energy for Europe) of Germany was announced, bringing long‑term supply of low-carbon Canadian LNG to a European buyer for the first time. Under the agreement, SEFE will purchase one million tonnes per annum of LNG for up to 20 years, with deliveries expected to begin by the early 2030s.",
             "fr": "Le 27 mai 2026, un accord a été annoncé entre Ksi Lisims LNG et la société allemande SEFE (Securing Energy for Europe), qui promet pour la première fois un approvisionnement à long terme de gaz naturel liquéfié (GNL) canadien peu émetteur à un acheteur européen. L’accord prévoit que SEFE achètera un million de tonnes de GNL par an sur une période pouvant atteindre 20 ans. Les livraisons devraient commencer au début des années 2030."
           },
-          "date": "May 27, 2026",
-          "date_verbatim": "May 27, 2026"
+          "date": "2026-05-27",
+          "date_verbatim": "May 27, 2026",
+          "date_verbatim_fr": "27 mai 2026"
         },
         {
           "body": {
             "en": "On January 20, 2026, Ksi Lisims and BC Hydro signed a Memorandum of Understanding to supply 600 MW of power to the project once BC Hydro’s North Coast Transmission Line has been expanded.",
             "fr": "Le 20 janvier 2026, Ksi Lisims et BC Hydro ont signé un protocole d’entente (anglais seulement) visant à fournir 600 MW d’électricité au projet une fois que la ligne de transport d’électricité de la côte nord de BC Hydro aura été agrandie."
           },
-          "date": "January 20, 2026",
-          "date_verbatim": "January 20, 2026"
+          "date": "2026-01-20",
+          "date_verbatim": "January 20, 2026",
+          "date_verbatim_fr": "20 janvier 2026"
         },
         {
           "body": {
             "en": "On November 13, 2025, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 13 novembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
           },
-          "date": "November 13, 2025",
-          "date_verbatim": "November 13, 2025"
+          "date": "2025-11-13",
+          "date_verbatim": "November 13, 2025",
+          "date_verbatim_fr": "13 novembre 2025"
         },
         {
           "body": {
             "en": "On September 15, 2025, the Ksi Lisims LNG received a federal Decision Statement and a provincial Environmental Assessment Certificate, in line with the goal of achieving “one-project, one-review.”",
             "fr": "Le 15 septembre 2025, le Terminal de GNL KSI Lisim a obtenu une déclaration de décision fédérale et un certificat d’évaluation environnementale provincial, conformément à l’objectif « un projet, une évaluation »."
           },
-          "date": "September 15, 2025",
-          "date_verbatim": "September 15, 2025"
+          "date": "2025-09-15",
+          "date_verbatim": "September 15, 2025",
+          "date_verbatim_fr": "15 septembre 2025"
         }
       ]
     },
@@ -1364,14 +1396,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:22Z",
+          "retrieved_at": "2026-09-11T14:15:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "ab48b96aaadc43463d9d32ca0b5cbe6c9eeba33d19f7b30b09402ff26cb1d1ef",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:22Z",
+          "retrieved_at": "2026-09-11T14:15:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/lng-canada.html"
         }
       ],
@@ -1385,32 +1417,36 @@
             "en": "On July 2, 2026, the Government of Canada and the Province of British Columbia signed the new Canada-British Columbia Cooperative Prosperity Agreement, which will further accelerate the construction of major energy and trade corridors, including LNG Canada Phase 2. The federal government will work with proponents, communities, and First Nations to accelerate the permitting, financing, and construction of these projects to boost LNG supply for Canadians and our allies.",
             "fr": "Le 2 juillet 2026, le gouvernement du Canada et la province de la Colombie-Britannique ont signé le nouvel Accord de prospérité et de collaboration entre le Canada et la Colombie-Britannique, qui permettra d’accélérer encore davantage la construction de grands corridors énergétiques et commerciaux à travers la province, notamment la phase 2 du projet LNG Canada Le gouvernement fédéral collaborera avec les promoteurs, les communautés et les Premières Nations afin d’accélérer les procédures d’autorisation, le financement et la réalisation de ces projets, dans le but d’accroître l’approvisionnement en GNL pour les Canadiennes et les Canadiens ainsi que nos alliés."
           },
-          "date": "July 2, 2026",
-          "date_verbatim": "July 2, 2026"
+          "date": "2026-07-02",
+          "date_verbatim": "July 2, 2026",
+          "date_verbatim_fr": "2 juillet 2026"
         },
         {
           "body": {
             "en": "On May 14, 2026, Government of Canada, the Government of British Columbia and LNG Canada reached agreement on enhanced investment co-operation and actions to collectively progress closure of final items to support a potential 2026 Final Investment Decision (FID) of LNG Canada’s proposed Phase 2 expansion. This agreement follows a decision on May 1, 2026, by LNG Canada’s Joint Venture Participants (JVPs) to approve hundreds of millions of dollars in incremental funding to help finalize critical work scopes to achieve a potential FID by the end of the year.",
             "fr": "Le 14 mai 2026, le gouvernement du Canada, le gouvernement de la Colombie-Britannique et LNG Canada ont convenu de renforcer leur coopération en matière d’investissement et de prendre des mesures conjointes afin de finaliser les derniers éléments nécessaires à l’appui d’une éventuelle décision d’investissement finale en 2026 portant sur le projet d’expansion de la phase 2.Cet accord fait suite à une décision prise le 1er mai 2026 par les partenaires de la coentreprise de LNG Canada d’approuver l’octroi de plusieurs centaines de millions de dollars de financement supplémentaire afin de mener à terme des volets de travaux critiques en vue d’une éventuelle DFI d’ici la fin de l’année."
           },
-          "date": "May 14, 2026",
-          "date_verbatim": "May 14, 2026"
+          "date": "2026-05-14",
+          "date_verbatim": "May 14, 2026",
+          "date_verbatim_fr": "14 mai 2026"
         },
         {
           "body": {
             "en": "On March 27, 2026, LNG Canada and the owners of the Coastal GasLink pipeline announced a joint agreement to cooperate on an expansion of the pipeline's capacity that would enable LNG Canada Phase 2. LNG Canada would take an active role in the development of the pipeline, while Coastal GasLink would take on a technical support role.",
             "fr": "Le 27 mars 2026, LNG Canada et les propriétaires du gazoduc de Coastal GasLink ont annoncé une entente de collaboration visant à accroître la capacité du gazoduc afin de permettre à LNG Canada de réaliser la phase 2. LNG Canada jouerait un rôle actif dans le développement du gazoduc, tandis que Coastal GasLink assumerait un rôle de soutien technique."
           },
-          "date": "March 27, 2026",
-          "date_verbatim": "March 27, 2026"
+          "date": "2026-03-27",
+          "date_verbatim": "March 27, 2026",
+          "date_verbatim_fr": "27 mars 2026"
         },
         {
           "body": {
             "en": "On September 11, 2025, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 11 septembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
           },
-          "date": "September 11, 2025",
-          "date_verbatim": "September 11, 2025"
+          "date": "2025-09-11",
+          "date_verbatim": "September 11, 2025",
+          "date_verbatim_fr": "11 septembre 2025"
         },
         {
           "body": {
@@ -1418,7 +1454,8 @@
             "fr": "Le Budget de 2025 comprend des mesures visant à améliorer la compétitivité des projets canadiens de GNL, ce qui comprend la phase 2 de LNG Canada. Les modifications à la Loi sur la Régie canadienne de l’énergie feront passer la durée maximale des licences d’exportation de GNL de 40 à 50 ans, offrant aux promoteurs une plus grande certitude quant à leur capacité à rentabiliser leurs investissements à long terme. Le projet de loi C-15, qui comprenait la modification de la Loi sur la Régie canadienne de l’énergie, a reçu la sanction royale le 26 mars. Le rétablissement des déductions pour amortissement accéléré (DAA) pour les installations de GNL à faibles émissions de carbone vise à encourager la mise en place d’installations de GNL de pointe et à faibles émissions. La phase 1 de LNG Canada est entrée en production à l’été 2025, et a exporté son premier chargement de GNL en juin 2025 vers les marchés asiatiques."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         },
         {
           "body": {
@@ -1426,7 +1463,8 @@
             "fr": "Les modifications à la Loi sur la Régie canadienne de l’énergie feront passer la durée maximale des licences d’exportation de GNL de 40 à 50 ans, offrant aux promoteurs une plus grande certitude quant à leur capacité à rentabiliser leurs investissements à long terme. Le projet de loi C-15, qui comprenait la modification de la Loi sur la Régie canadienne de l’énergie, a reçu la sanction royale le 26 mars."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         },
         {
           "body": {
@@ -1434,7 +1472,8 @@
             "fr": "Le rétablissement des déductions pour amortissement accéléré (DAA) pour les installations de GNL à faibles émissions de carbone vise à encourager la mise en place d’installations de GNL de pointe et à faibles émissions. La phase 1 de LNG Canada est entrée en production à l’été 2025, et a exporté son premier chargement de GNL en juin 2025 vers les marchés asiatiques."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         },
         {
           "body": {
@@ -1442,7 +1481,8 @@
             "fr": "En prévision de la phase 2, la Régie de l’énergie du Canada a accordé à LNG Canada une augmentation de la limite de volume annuel de sa licence d’exportation de GNL."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         }
       ]
     },
@@ -1594,14 +1634,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:22Z",
+          "retrieved_at": "2026-09-11T14:15:49Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "15947504081af21d95a9c3952bd69a1f5c67eaf1f95d6bec4a65f3e640464bc6",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:22Z",
+          "retrieved_at": "2026-09-11T14:15:49Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mackenzie.html"
         }
       ],
@@ -1615,32 +1655,36 @@
             "en": "On August 28, 2026, Canada provided notice in the Canada Gazette that the Governor in Council may amend Schedule 1 of the Building Canada Act to list the MVH project as a project of national interest.",
             "fr": "Le 28 août 2026, le Canada a publié un avis dans la Gazette du Canada indiquant que le gouverneur en conseil peut modifier l’annexe 1 de la Loi visant à bâtir le Canada pour inscrire le projet de la route de la vallée du Mackenzie sur la liste des projets d’intérêt national."
           },
-          "date": "August 28, 2026",
-          "date_verbatim": "August 28, 2026"
+          "date": "2026-08-28",
+          "date_verbatim": "August 28, 2026",
+          "date_verbatim_fr": "28 août 2026"
         },
         {
           "body": {
             "en": "In July 2026, MPO began consultations with Indigenous communities, the territorial government, and with federal permitting departments, as a part of the process towards assessing the potential listing of MVH as a project of national interest under the Building Canada Act.",
             "fr": "En juillet 2026, le Bureau des grands projets a entrepris des consultations avec les communautés autochtones, le gouvernement territorial et les ministères fédéraux délivrant des permis, dans le cadre du processus visant à évaluer la possibilité d’une inscription de la route de la vallée du Mackenzie sur la liste des projets d’intérêt national au titre de la Loi visant à bâtir le Canada."
           },
-          "date": "",
-          "date_verbatim": ""
+          "date": "2026-07",
+          "date_verbatim": "July 2026",
+          "date_verbatim_fr": "juillet 2026"
         },
         {
           "body": {
             "en": "On June 24, 2026, the Government of Canada announced the initiation of the process towards potential listing of MVH as a project of national interest under the Building Canada Act. Before any decision is taken, consultations will be held with Indigenous communities, the Government of the Northwest Territories, and with federal permitting departments, to determine whether this project should be listed under the Building Canada Act. These consultations will take place over the next several months, with the intent for the Minister of One Canadian Economy to make a recommendation for Governor in Council decision by the end of the year.",
             "fr": "Le 24 juin 2026, le gouvernement du Canada a annoncé le lancement du processus visant à évaluer la possibilité d’une inscription de la route de la vallée du Mackenzie sur la liste des projets d’intérêt national au titre de la Loi visant à bâtir le Canada (LBC). Avant toute décision, des consultations auront lieu avec les collectivités autochtones susceptibles d’être touchées par le projet, avec le gouvernement des Territoires du Nord-Ouest et avec les ministres fédéraux, afin de déterminer si ce projet devrait être désigné en vertu de la LBC. Ces consultations se tiendront au cours des prochains mois, dans le but que le ministre de l’Unité de l’économie canadienne fasse une recommandation pour une décision du gouverneur en conseil d’ici la fin de l’année."
           },
-          "date": "June 24, 2026",
-          "date_verbatim": "June 24, 2026"
+          "date": "2026-06-24",
+          "date_verbatim": "June 24, 2026",
+          "date_verbatim_fr": "24 juin 2026"
         },
         {
           "body": {
             "en": "On March 12, 2026, the project was referred to the Major Projects Office. Since then, the Major Projects Office is working with the Government of the Northwest Territories to support and streamline relevant regulatory processes, assess project funding needs and determine funding solutions, and explore and identify opportunities to accelerate project development and construction execution capacity and timelines in collaboration with co-management boards, stakeholders and Indigenous communities and governments.",
             "fr": "Le 12 mars 2026, le projet a été renvoyé au Bureau des grands projets (BGP). Depuis, le Bureau des grands projets travaille avec le gouvernement des Territoires du Nord-Ouest pour faciliter et simplifier les processus réglementaires pertinents, évaluer les besoins de financement du projet et trouver des solutions pour le financer, et explorer des occasions d’accélérer les échéanciers relatifs à l’élaboration, à la construction et à la capacité d’exécution du projet en collaboration avec les conseils de cogestion, les intervenants et les gouvernements et les collectivités autochtones."
           },
-          "date": "March 12, 2026",
-          "date_verbatim": "March 12, 2026"
+          "date": "2026-03-12",
+          "date_verbatim": "March 12, 2026",
+          "date_verbatim_fr": "12 mars 2026"
         }
       ]
     },
@@ -1754,14 +1798,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:22Z",
+          "retrieved_at": "2026-09-11T14:15:50Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "fddeb3220f3e2d1a3c45387194047bca8982f93e6100a461403660e6ed2164e1",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:22Z",
+          "retrieved_at": "2026-09-11T14:15:50Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mcilvenna.html"
         }
       ],
@@ -1775,16 +1819,18 @@
             "en": "On February 19, 2026, Eldorado Gold reported that construction of the McIlvenna Bay Project was approximately 88% complete as of January 31, 2026. The project remains on schedule for commercial production in mid-2026 and continues to track within budget.",
             "fr": "Le 19 février 2026, Eldorado Gold a signalé que la phase de construction du projet McIlvenna Bay était achevée à environ 88 % au 31 janvier 2026. Le projet respecte l’échéancier en vue d’une production commerciale vers le milieu de l’année 2026 et continue à respecter le budget."
           },
-          "date": "February 19, 2026",
-          "date_verbatim": "February 19, 2026"
+          "date": "2026-02-19",
+          "date_verbatim": "February 19, 2026",
+          "date_verbatim_fr": "19 février 2026"
         },
         {
           "body": {
             "en": "On September 11, 2025, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 11 septembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
           },
-          "date": "September 11, 2025",
-          "date_verbatim": "September 11, 2025"
+          "date": "2025-09-11",
+          "date_verbatim": "September 11, 2025",
+          "date_verbatim_fr": "11 septembre 2025"
         },
         {
           "body": {
@@ -1792,15 +1838,17 @@
             "fr": "Le BGP collabore avec Eldorado Gold afin d’élaborer une approche en vue d’une éventuelle expansion du projet, de faciliter la coordination entre les ministères fédéraux et de favoriser la mise en œuvre de processus réglementaires opportuns et efficaces."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         },
         {
           "body": {
             "en": "In 2022, the McIlvenna Bay Project underwent a provincial environmental assessment, and received provincial approval. As such, the Province of Saskatchewan is responsible for discharging the duty to consult, as part of the provincial environmental impact assessment process.",
             "fr": "En 2022, le projet de McIlvenna Bay a fait l’objet d’une évaluation environnementale provinciale (anglais seulement) et a reçu l’approbation de la province. À ce titre, la province de la Saskatchewan est chargée de s’acquitter de l’obligation de consultation dans le cadre du processus provincial d’évaluation des incidences environnementales."
           },
-          "date": "",
-          "date_verbatim": ""
+          "date": "2022",
+          "date_verbatim": "2022",
+          "date_verbatim_fr": "2022"
         }
       ]
     },
@@ -1974,14 +2022,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:23Z",
+          "retrieved_at": "2026-09-11T14:15:50Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "6f5114374226a56769c051969350f9cbd1a3975c7900ada2684844f29f94269e",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:23Z",
+          "retrieved_at": "2026-09-11T14:15:50Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nctl.html"
         }
       ],
@@ -1995,24 +2043,27 @@
             "en": "On July 2, 2026, the Government of Canada and the Province of British Columbia signed the new Canada-British Columbia Cooperative Prosperity Agreement, which will further accelerate the construction of major energy and trade corridors, including the North Coast Transmission Line. Under the agreement, the Government of Canada and the Province of British Columbia are committing $3.9 billion toward phases 1 and 2 of the project to deliver clean, reliable, and affordable electricity to communities across British Columbia.",
             "fr": "Le 2 juillet 2026, le gouvernement du Canada et la province de la Colombie-Britannique ont signé le nouvel Accord de prospérité et de collaboration entre le Canada et la Colombie-Britannique, qui permettra d’accélérer encore davantage la construction de grands corridors énergétiques et commerciaux à travers la province, notamment le projet de la Ligne de transport d’électricité de la côte nord. Sous l’accord, le gouvernement du Canada et la province de la Colombie-Britannique s’engagent à investir 3,9 milliards de dollars pour les phases 1 et 2 du projet, afin de fournir une électricité propre, fiable et abordable aux communautés de toute la Colombie-Britannique."
           },
-          "date": "July 2, 2026",
-          "date_verbatim": "July 2, 2026"
+          "date": "2026-07-02",
+          "date_verbatim": "July 2, 2026",
+          "date_verbatim_fr": "2 juillet 2026"
         },
         {
           "body": {
             "en": "In January 2026, BC Hydro signed an MOU with Ksi Lisims LNG to confirm interconnection steps for the supply of 600 megawatts of clean electricity.",
             "fr": "En janvier 2026, BC Hydro a signé un protocole d’entente avec Ksi Lisims LNG (anglais seulement) afin de définir les étapes de raccordement pour la fourniture de 600 mégawatts d’électricité propre."
           },
-          "date": "",
-          "date_verbatim": ""
+          "date": "2026-01",
+          "date_verbatim": "January 2026",
+          "date_verbatim_fr": "janvier 2026"
         },
         {
           "body": {
             "en": "On November 13, 2025, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 13 novembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
           },
-          "date": "November 13, 2025",
-          "date_verbatim": "November 13, 2025"
+          "date": "2025-11-13",
+          "date_verbatim": "November 13, 2025",
+          "date_verbatim_fr": "13 novembre 2025"
         },
         {
           "body": {
@@ -2020,7 +2071,8 @@
             "fr": "La Banque de l’infrastructure du Canada a accordé un prêt de 139,5 millions de dollars à BC Hydro pour soutenir la phase de travaux préliminaires à la construction, comme la planification du projet, l’ingénierie, les travaux sur le terrain, les approvisionnements, la consultation des communautés des Premières Nations, la mobilisation des intervenants et les travaux d’habilitation pour améliorer l’accès au site."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         },
         {
           "body": {
@@ -2028,7 +2080,8 @@
             "fr": "Le BGP collabore avec les promoteurs, les communautés autochtones et les sociétés d’État fédérales pour évaluer les possibilités de soutien financier et apporter son aide à la structuration du financement des prochaines étapes."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         }
       ]
     },
@@ -2132,14 +2185,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:23Z",
+          "retrieved_at": "2026-09-11T14:15:50Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "5e91832548761bd7001635478d7196d324ef3643549cc2c69b63cded80e12a7e",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:23Z",
+          "retrieved_at": "2026-09-11T14:15:50Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/northcliff.html"
         }
       ],
@@ -2153,16 +2206,18 @@
             "en": "On November 13, 2025, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 13 novembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
           },
-          "date": "November 13, 2025",
-          "date_verbatim": "November 13, 2025"
+          "date": "2025-11-13",
+          "date_verbatim": "November 13, 2025",
+          "date_verbatim_fr": "13 novembre 2025"
         },
         {
           "body": {
             "en": "On August 7, 2025, Natural Resources Canada announced that Northcliff Resources Ltd. ’s Sisson project received $8.2 M in funding under the Global Partnerships Initiative.",
             "fr": "Le 7 août 2025, Ressources naturelles Canada a annoncé que le projet Sisson de Northcliff Resources Ltd. avait reçu un financement de 8,2 M $ dans le cadre du Programme de partenariats internationaux."
           },
-          "date": "August 7, 2025",
-          "date_verbatim": "August 7, 2025"
+          "date": "2025-08-07",
+          "date_verbatim": "August 7, 2025",
+          "date_verbatim_fr": "7 août 2025"
         },
         {
           "body": {
@@ -2170,7 +2225,8 @@
             "fr": "Le projet a obtenu l’approbation du gouvernement fédéral en 2017 à l’issue d’un processus d’évaluation environnementale et a satisfait à l’annexe 2 du Règlement sur les effluents des mines de métaux et des mines de diamants en 2019."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         },
         {
           "body": {
@@ -2178,7 +2234,8 @@
             "fr": "Le BGP s’efforce de faire avancer le projet vers la phase de construction de manière plus efficace, en coordonnant les efforts des organismes de financement fédéraux afin de faciliter le financement et l’assistance réglementaire."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         }
       ]
     },
@@ -2302,14 +2359,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:23Z",
+          "retrieved_at": "2026-09-11T14:15:50Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "b567dba0398c4d36d349eea94fa107f6b1241c9f75d553668f453acc362faa73",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:23Z",
+          "retrieved_at": "2026-09-11T14:15:50Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nouveau-monde.html"
         }
       ],
@@ -2323,8 +2380,9 @@
             "en": "On May 19, 2026, Prime Minister Mark Carney announced the start of construction on the project, following a seven-year offtake agreement with the Government of Canada for 30,000 tonnes annually of graphite concentrate from the Matawinie Mine. The offtake protects Nouveau Monde Graphite from market variation at a critical time, while securing national graphite supply for Canada. The government will further support the project through a $459 million financing package from Export Development Canada and the Canada Infrastructure Bank, helping provide certainty to investors and accelerate construction while advancing Canada’s strategic interests. This builds on a $113 million strategic commitment from the Canada Growth Fund (CGF), following the CGF ’s previous $35.6 million commitment announced in December 2024 as part of a broader $411 million financing package alongside Eni S.p.A., Investissement Québec, and public equity financing.",
             "fr": "Le 19 mai 2026, le premier ministre Mark Carney a annoncé le lancement de la construction du projet, suite à un accord d’écoulement de sept ans portant sur 30 000 tonnes par année de concentré de graphite provenant de la mine Matawinie. Cela contribuera à renforcer la sécurité et la fiabilité des chaînes d’approvisionnement en minéraux critiques pour le Canada et ses partenaires. Cet accord protège NMG contre les fluctuations du marché à un moment crucial, tout en assurant l’approvisionnement national en graphite du Canada. Le gouvernement apportera un soutien supplémentaire au projet par le biais d’une enveloppe de financement de 459 millions de dollars provenant d’Exportation et développement Canada et de la Banque de l’infrastructure du Canada, ce qui contribuera à rassurer les investisseurs et à accélérer la construction tout en servant les intérêts stratégiques du Canada. Cela s’ajoute à un engagement stratégique de 113 millions de dollars du Fonds de croissance du Canada (FCC), qui donne suite à l’engagement précédent de 35,6 millions de dollars annoncé par le FCC en décembre 2024, dans le cadre d’un montage financier global de 411 millions de dollars en collaboration avec Eni S.p.A., Investissement Québec et un financement par capitaux propres publics."
           },
-          "date": "May 19, 2026",
-          "date_verbatim": "May 19, 2026"
+          "date": "2026-05-19",
+          "date_verbatim": "May 19, 2026",
+          "date_verbatim_fr": "19 mai 2026"
         },
         {
           "body": {
@@ -2332,63 +2390,71 @@
             "fr": "Le gouvernement apportera un soutien supplémentaire au projet par le biais d’une enveloppe de financement de 459 millions de dollars provenant d’Exportation et développement Canada et de la Banque de l’infrastructure du Canada, ce qui contribuera à rassurer les investisseurs et à accélérer la construction tout en servant les intérêts stratégiques du Canada. Cela s’ajoute à un engagement stratégique de 113 millions de dollars du Fonds de croissance du Canada (FCC), qui donne suite à l’engagement précédent de 35,6 millions de dollars annoncé par le FCC en décembre 2024, dans le cadre d’un montage financier global de 411 millions de dollars en collaboration avec Eni S.p.A., Investissement Québec et un financement par capitaux propres publics."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         },
         {
           "body": {
             "en": "On May 19, 2026, the Government of Canada and Nouveau Monde Graphite announced that construction has started.",
             "fr": "Le 19 mai, 2026, le Gouvernement du Canada et Nouveau Monde Graphite ont annoncé le début de la construction."
           },
-          "date": "May 19, 2026",
-          "date_verbatim": "May 19, 2026"
+          "date": "2026-05-19",
+          "date_verbatim": "May 19, 2026",
+          "date_verbatim_fr": "19 mai, 2026"
         },
         {
           "body": {
             "en": "On April 16, 2026, Nouveau Monde Graphite announced that it raised approximately US$ 96.5 million in equity financing. Together with a previously announced US$ 335 million debt commitment, this funding is intended to support progress toward a final investment decision and construction.",
             "fr": "Le 16 avril 2026, la société a annoncé qu’elle avait obtenu un financement de quelque 96,5 millions de dollars américains en capitaux propres. Ces fonds, auxquels s’ajoute l’engagement de financement par emprunt annoncé précédemment, visent à appuyer les progrès en vue de parvenir à une décision finale d’investir et de commencer la construction."
           },
-          "date": "April 16, 2026",
-          "date_verbatim": "April 16, 2026"
+          "date": "2026-04-16",
+          "date_verbatim": "April 16, 2026",
+          "date_verbatim_fr": "16 avril 2026"
         },
         {
           "body": {
             "en": "On April 9, 2026, Nouveau Monde Graphite executed an updated binding long-form term sheet with the Government of Canada, setting out the principal commercial terms for the supply, storage and resale of graphite concentrate from the Company’s Phase 2 Matawinie Mine.",
             "fr": "Le 9 avril 2026, Nouveau Monde Graphite a procédé à une actualisation de la lettre d’intention détaillée contraignante avec le gouvernement du Canada, énonçant les principales conditions commerciales relatives à l’approvisionnement, au stockage et à la revente du concentré de graphite provenant de la mine Matawinie (phase 2) de la société."
           },
-          "date": "April 9, 2026",
-          "date_verbatim": "April 9, 2026"
+          "date": "2026-04-09",
+          "date_verbatim": "April 9, 2026",
+          "date_verbatim_fr": "9 avril 2026"
         },
         {
           "body": {
             "en": "On March 26, 2026, Nouveau Monde Graphite announced an updated binding long-form term sheet with the Government of Canada setting out the principal commercial terms for the supply, storage and resale of graphite concentrate from the Company’s Phase‑2 Matawinie Mine. This works toward transaction agreements, with Canada committing to purchase 30,000 tonnes per annum of flake graphite concentrate from the Matawinie Mine on a take-or-pay basis over a seven-year term.",
             "fr": "Le 26 mars 2026, Nouveau Monde Graphite a annoncé une actualisation de la lettre d’intention détaillée contraignante avec le gouvernement du Canada, énonçant les principales conditions commerciales relatives à l’approvisionnement, au stockage et à la revente du concentré de graphite provenant de la mine Matawinie (phase 2) de la société. Cette mesure contribue à la conclusion d’ententes de transactions, le Canada étant résolu à acheter 30 000 tonnes par année de concentré de graphite en paillettes à la mine Matawinie selon une clause d’achat ferme pendant une durée de sept ans."
           },
-          "date": "March 26, 2026",
-          "date_verbatim": "March 26, 2026"
+          "date": "2026-03-26",
+          "date_verbatim": "March 26, 2026",
+          "date_verbatim_fr": "26 mars 2026"
         },
         {
           "body": {
             "en": "On March 17, 2026, the Canada Infrastructure Bank and Export Development Canada executed an agreement with Nouveau Monde Graphite for a $459 million loan to support the next phase of the Matawinie Mine. Once finalized, the funding will help develop, build, and launch the graphite mine, strengthening Canada’s economy in key sectors like energy, defence, technology, and manufacturing.",
             "fr": "Le 17 mars 2026, la Banque de l’infrastructure du Canada et Exportation et développement Canada ont signé une entente avec Nouveau Monde Graphite portant sur un prêt de 459 millions de dollars destiné à financer la prochaine phase du projet minier Matawinie. Une fois finalisé, ce financement contribuera au développement, à la construction et à la mise en service de la mine de graphite, renforçant ainsi l’économie canadienne dans des secteurs clés, comme l’énergie, la défense, la technologie et l’industrie manufacturière."
           },
-          "date": "March 17, 2026",
-          "date_verbatim": "March 17, 2026"
+          "date": "2026-03-17",
+          "date_verbatim": "March 17, 2026",
+          "date_verbatim_fr": "17 mars 2026"
         },
         {
           "body": {
             "en": "On November 13, 2025, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 13 novembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
           },
-          "date": "November 13, 2025",
-          "date_verbatim": "November 13, 2025"
+          "date": "2025-11-13",
+          "date_verbatim": "November 13, 2025",
+          "date_verbatim_fr": "13 novembre 2025"
         },
         {
           "body": {
             "en": "On October 31, 2025, the project was announced as a strategic project under the Critical Minerals Production Alliance. The announcement included offtake agreements with the Government of Canada, Panasonic, and Traxys, along with an investment commitment from the Government of Japan.",
             "fr": "Le 31 octobre 2025, le projet a été présenté comme un projet stratégique dans le cadre de l’Alliance sur la production de minéraux critiques. L’annonce comprenait des ententes en matière d’exploitation conclues avec le gouvernement du Canada, Panasonic et Traxys, ainsi qu’un engagement d’investissement de la part du gouvernement du Japon."
           },
-          "date": "October 31, 2025",
-          "date_verbatim": "October 31, 2025"
+          "date": "2025-10-31",
+          "date_verbatim": "October 31, 2025",
+          "date_verbatim_fr": "31 octobre 2025"
         },
         {
           "body": {
@@ -2396,7 +2462,8 @@
             "fr": "Le BGP a coordonné les efforts des organismes de financement fédéraux pour aider Nouveau Monde Graphite à obtenir les fonds nécessaires. Le BGP surveille les progrès du projet et son déroulement comme prévu et s’assure que les progrès se poursuivent en vue d’atteindre les prochains jalons."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         }
       ]
     },
@@ -2534,14 +2601,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:23Z",
+          "retrieved_at": "2026-09-11T14:15:50Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "54850d452372d6f372fa565d6bf7365d564172e244c27dd9c7de3e3d0247c083",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:23Z",
+          "retrieved_at": "2026-09-11T14:15:50Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nukkiksautiit.html"
         }
       ],
@@ -2555,8 +2622,9 @@
             "en": "On November 13, 2025, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 13 novembre 2025, le projet a été soumis à l’examen du Bureau des grands projets (BGP)."
           },
-          "date": "November 13, 2025",
-          "date_verbatim": "November 13, 2025"
+          "date": "2025-11-13",
+          "date_verbatim": "November 13, 2025",
+          "date_verbatim_fr": "13 novembre 2025"
         },
         {
           "body": {
@@ -2564,7 +2632,8 @@
             "fr": "Le BGP travaille avec la NNC pour promouvoir les activités de développement et de collecte des données liées au projet."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         },
         {
           "body": {
@@ -2572,7 +2641,8 @@
             "fr": "Le BGP s’emploie également à déterminer les exigences fédérales pertinentes en matière de réglementation et de délivrance de permis, ainsi qu’à évaluer d’autres mécanismes qui aideraient à faire avancer le projet."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         }
       ]
     },
@@ -2690,14 +2760,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:23Z",
+          "retrieved_at": "2026-09-11T14:15:50Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "c67e277a93ed44b66f98ab4f379f6f13ed5fc43e7b385ab7790a93d06e0ffb07",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:23Z",
+          "retrieved_at": "2026-09-11T14:15:50Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/red-chris.html"
         }
       ],
@@ -2711,32 +2781,36 @@
             "en": "On July 2, 2026, the Government of Canada and the Province of British Columbia signed the new Canada-British Columbia Cooperative Prosperity Agreement, which will further accelerate the construction of major energy and trade corridors throughout the province. This agreement includes a $500 million investment to expand Red Chris Mine.",
             "fr": "Le 2 juillet 2026, le gouvernement du Canada et la province de la Colombie-Britannique ont signé le nouvel Accord de prospérité et de collaboration entre le Canada et la Colombie-Britannique, qui qui permettra d’accélérer encore davantage la construction de grands corridors énergétiques et commerciaux à travers la province. L’accord comprend un investissement de 500 millions de dollars pour l’expansion de la mine Red Chris."
           },
-          "date": "July 2, 2026",
-          "date_verbatim": "July 2, 2026"
+          "date": "2026-07-02",
+          "date_verbatim": "July 2, 2026",
+          "date_verbatim_fr": "2 juillet 2026"
         },
         {
           "body": {
             "en": "On March 3, 2026, the Minister of Energy and Natural Resources announced conditional approval of funding of $44,216,099 for Northwest Transmission Line (NTL) System Upgrades, which will enable the supply of up to 145 MW to the Red Chris Mine Expansion.",
             "fr": "Le 3 mars 2026, le ministre de l’Énergie et des Ressources naturelles a annoncé l’approbation conditionnelle d’un financement de 44 216 099 $ pour la mise à niveau du réseau de la ligne de transport d’électricité du Nord-Ouest, ce qui permettra de fournir jusqu’à 145 MW pour l’agrandissement de la mine Red Chris."
           },
-          "date": "March 3, 2026",
-          "date_verbatim": "March 3, 2026"
+          "date": "2026-03-03",
+          "date_verbatim": "March 3, 2026",
+          "date_verbatim_fr": "3 mars 2026"
         },
         {
           "body": {
             "en": "On September 11, 2025, the project was referred to the MPO.",
             "fr": "Le 11 septembre 2025, le projet a été soumis à l’examen du BGP."
           },
-          "date": "September 11, 2025",
-          "date_verbatim": "September 11, 2025"
+          "date": "2025-09-11",
+          "date_verbatim": "September 11, 2025",
+          "date_verbatim_fr": "11 septembre 2025"
         },
         {
           "body": {
             "en": "On July 15, 2024, the Minister of Energy and Natural Resources announced conditional approval of a $195 million joint venture with B.C. ’s Ministry of Transportation and Infrastructure to upgrade key highways in northwestern B.C. that will directly benefit the Red Chris Mine Expansion.",
             "fr": "Le 15 juillet 2024, le ministre de l’Énergie et des Ressources naturelles a annoncé l’approbation conditionnelle d’un investissement conjoint de 195 millions de dollars avec le ministère des Transports et des Infrastructures de la Colombie-Britannique, afin d’améliorer des infrastructures routières stratégiques dans le nord-ouest de la province, ce qui profitera directement à l’expansion de la mine Red Chris."
           },
-          "date": "July 15, 2024",
-          "date_verbatim": "July 15, 2024"
+          "date": "2024-07-15",
+          "date_verbatim": "July 15, 2024",
+          "date_verbatim_fr": "15 juillet 2024"
         },
         {
           "body": {
@@ -2744,7 +2818,8 @@
             "fr": "Le BGP collabore avec la nation Tahltan et assure la coordination avec le promoteur ainsi qu’avec les ministères fédéraux et provinciaux afin d’appuyer l’avancement du projet. La province mène également des consultations auprès des peuples autochtones dans le cadre du processus d’évaluation environnementale."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         }
       ]
     },
@@ -2862,14 +2937,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:23Z",
+          "retrieved_at": "2026-09-11T14:15:51Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "5bbc1fa28aeb9a8a422900837118f4d93838e3acab52d5f3c44443cdae8efef2",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:23Z",
+          "retrieved_at": "2026-09-11T14:15:51Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/roberts-bank.html"
         }
       ],
@@ -2883,24 +2958,27 @@
             "en": "On August 28, 2026, Canada provided notice in the Canada Gazette that the Governor in Council may amend Schedule 1 of the Building Canada Act to list the RBT2 project as a project of national interest.",
             "fr": "Le 28 août 2026, le Canada a donné un avis dans la Gazette du Canada indiquant que le gouverneur en conseil peut modifier l’annexe 1 de la Loi visant à bâtir le Canada pour inscrire le projet de Terminal 2 à Roberts Bank sur la liste des projets d’intérêt national."
           },
-          "date": "August 28, 2026",
-          "date_verbatim": "August 28, 2026"
+          "date": "2026-08-28",
+          "date_verbatim": "August 28, 2026",
+          "date_verbatim_fr": "28 août 2026"
         },
         {
           "body": {
             "en": "In July 2026, MPO began consultations with Indigenous communities, the provincial government, and with federal permitting departments, as a part of the process towards assessing the potential listing of RBT2 as a project of national interest under the Building Canada Act.",
             "fr": "En juillet 2026, le Bureau des grands projets a entrepris des consultations avec les communautés autochtones, le gouvernement provincial et les ministères fédéraux délivrant des permis, dans le cadre du processus visant à évaluer l’inscription potentielle de Terminal 2 à Roberts Bank comme projet d’intérêt national au titre de la Loi visant à bâtir le Canada."
           },
-          "date": "",
-          "date_verbatim": ""
+          "date": "2026-07",
+          "date_verbatim": "July 2026",
+          "date_verbatim_fr": "juillet 2026"
         },
         {
           "body": {
             "en": "On July 16, 2026, the Government of Canada officially referred the RBT2 project to the MPO and initiated the process to consider listing it under the Building Canada Act. Before any decision is taken, consultations will be held with Indigenous communities, the provincial government, and with federal permitting departments, to determine whether this project should be listed under the Building Canada Act. These consultations will be held over the next several months, with the intent for the Minister of One Canadian Economy to make a recommendation for Governor in Council decision.",
             "fr": "Le 16 juillet 2026, le gouvernement du Canada a officiellement renvoyé le projet de Terminal 2 à Roberts Bank au Bureau des grands projets et a lancé le processus pour envisager son inscription au titre de la Loi visant à bâtir le Canada. Avant toute décision, des consultations se tiendront avec les communautés autochtones, le gouvernement provincial et les ministères fédéraux délivrant des permis, afin de déterminer si ce projet doit être inscrit au titre de la Loi visant à bâtir le Canada. Ces consultations se dérouleront au cours des prochains mois, dans le but que le ministre de l’Unité de l’économie canadienne fasse une recommandation pour une décision du gouverneur en conseil."
           },
-          "date": "July 16, 2026",
-          "date_verbatim": "July 16, 2026"
+          "date": "2026-07-16",
+          "date_verbatim": "July 16, 2026",
+          "date_verbatim_fr": "16 juillet 2026"
         }
       ]
     },
@@ -3038,14 +3116,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:24Z",
+          "retrieved_at": "2026-09-11T14:15:51Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "732de16c74eba2fab1694d01f20a4d2ba3d9e936278585b639c9311752744815",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:24Z",
+          "retrieved_at": "2026-09-11T14:15:51Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/taltson.html"
         }
       ],
@@ -3059,8 +3137,9 @@
             "en": "On March 12, 2026, the project was referred to the Major Projects Office (MPO).",
             "fr": "Le 12 mars 2026, le projet a été renvoyé au Bureau des grands projets (BGP)."
           },
-          "date": "March 12, 2026",
-          "date_verbatim": "March 12, 2026"
+          "date": "2026-03-12",
+          "date_verbatim": "March 12, 2026",
+          "date_verbatim_fr": "12 mars 2026"
         },
         {
           "body": {
@@ -3068,7 +3147,8 @@
             "fr": "Le BGP travaillera avec Relations Couronne-Autochtone et Affaires du Nord Canada et les collectivités autochtones touchées pour comprendre les impacts hérités de la première centrale hydroélectrique Taltson."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         },
         {
           "body": {
@@ -3076,7 +3156,8 @@
             "fr": "Le gouvernement fédéral étudiera les possibilités de faire participer, sur le plan économique, des collectivités autochtones au projet d’agrandissement. Le BGP collaborera également avec le gouvernement des Territoires du Nord-Ouest pour évaluer l’analyse financière et de rentabilisation du projet et faciliter et simplifier les processus réglementaires pertinents, tout en étant conscient du cadre unique d’évaluation de l’impact, qui est fondé sur les traités dans les Territoires du Nord-Ouest."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         },
         {
           "body": {
@@ -3084,7 +3165,8 @@
             "fr": "L’objectif de cette simplification est de faire en sorte que l’agrandissement de la centrale Taltson permette de produire de l’électricité au cours des 10 prochaines années."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         }
       ]
     },
@@ -3218,14 +3300,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-08T23:35:24Z",
+          "retrieved_at": "2026-09-11T14:15:51Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "effea4c754e5af22c598c64f667daeae355abd8c79d2f923f5cf5df603718362",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-08T23:35:24Z",
+          "retrieved_at": "2026-09-11T14:15:51Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/west.html"
         }
       ],
@@ -3239,24 +3321,27 @@
             "en": "On August 1, 2026, Canada provided notice in the Canada Gazette that the Governor in Council may amend Schedule 1 of the Building Canada Act to list the WCOP project as a project of national interest.",
             "fr": "Le 1er août 2026, le Canada a publié un avis dans la Gazette du Canada indiquant que le gouverneur en conseil pouvait modifier l’annexe 1 de la Loi visant à bâtir le Canada pour inscrire le projet d’oléoduc de la côte Ouest sur la liste des projets d’intérêt national."
           },
-          "date": "August 1, 2026",
-          "date_verbatim": "August 1, 2026"
+          "date": "2026-08-01",
+          "date_verbatim": "August 1, 2026",
+          "date_verbatim_fr": "1er août 2026"
         },
         {
           "body": {
             "en": "In July 2026, MPO began consultations with Indigenous communities, provincial governments, and with federal permitting departments, as a part of the process towards assessing the potential listing of WCOP as a project of national interest under the Building Canada Act.",
             "fr": "En juillet 2026, le Bureau des grands projets a entrepris des consultations avec les communautés autochtones, les gouvernements provinciaux et les ministères fédéraux délivrant des permis, dans le cadre du processus visant à évaluer la possibilité d’une inscription de l’oléoduc de la côte Ouest sur la liste des projets d’intérêt national au titre de la Loi visant à bâtir le Canada."
           },
-          "date": "",
-          "date_verbatim": ""
+          "date": "2026-07",
+          "date_verbatim": "July 2026",
+          "date_verbatim_fr": "juillet 2026"
         },
         {
           "body": {
             "en": "On July 2, 2026, the Government of Canada officially referred the proposed WCOP Project to the MPO and initiated the process to consider listing it under the Building Canada Act. Before any decision is taken, consultations will be held with potentially impacted Indigenous communities, to inform the federal government’s decision on the project’s listing. Canada intends to give notice in the Canada Gazette by October 1, 2026, if it plans to list the project.",
             "fr": "Le 2 juillet 2026, le gouvernement du Canada a officiellement renvoyé l’oléoduc de la côte Ouest au Bureau des grands projets et a lancé le processus pour envisager son inscription en vertu de la Loi visant à bâtir le Canada. Avant toute décision, des consultations auront lieu avec des communautés autochtones potentiellement touchées, afin de permettre une décision éclairée du gouvernement fédéral concernant l’inscription du projet. Le Canada prévoit de donner un avis dans la Gazette du Canada d’ici le 1 er octobre 2026, s’il prévoit d’avancer avec ce projet."
           },
-          "date": "July 2, 2026",
-          "date_verbatim": "July 2, 2026"
+          "date": "2026-07-02",
+          "date_verbatim": "July 2, 2026",
+          "date_verbatim_fr": "2 juillet 2026"
         },
         {
           "body": {
@@ -3264,7 +3349,8 @@
             "fr": "À mesure que le processus d’examen progresse, toutes les étapes et les décisions respecteront pleinement les obligations du Canada de consulter les peuples autochtones et seront éclairées par les résultats de cette consultation. Le Canada et l’Alberta continueront également de collaborer étroitement avec le gouvernement de la Colombie-Britannique à mesure que ce processus progresse."
           },
           "date": "",
-          "date_verbatim": ""
+          "date_verbatim": "",
+          "date_verbatim_fr": ""
         }
       ]
     }

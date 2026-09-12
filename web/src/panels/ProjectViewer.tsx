@@ -17,7 +17,7 @@
  * to click it.
  */
 
-import type { Lang, Project, Text } from "../data/bundle";
+import type { Lang, Project, Text, Update } from "../data/bundle";
 import { asset, safeExternalUrl, t } from "../data/bundle";
 import { useI18n } from "../i18n";
 import { PinButton } from "../tabs/TabStrip";
@@ -33,6 +33,7 @@ export function ProjectViewer({ project, onClose }: Props) {
   const page = safeExternalUrl(t(project.page_url, lang));
   const verbatim = project.sources.find((x) => x.provenance === "page_verbatim");
   const benefits = benefitsFor(project, lang);
+  const updates = updatesFor(project, lang);
 
   return (
     <article style={{ padding: "var(--sp-4)" }}>
@@ -124,10 +125,10 @@ export function ProjectViewer({ project, onClose }: Props) {
         </Section>
       )}
 
-      {project.updates.length > 0 && (
+      {updates.length > 0 && (
         <Section title={s.sectionUpdates}>
           <ol style={{ margin: 0, padding: 0, listStyle: "none" }}>
-            {project.updates.map((u, i) => (
+            {updates.map((u, i) => (
               <li
                 key={i}
                 style={{
@@ -136,9 +137,12 @@ export function ProjectViewer({ project, onClose }: Props) {
                   marginBottom: "var(--sp-3)",
                 }}
               >
-                {u.date_verbatim && (
+                {/* Each page's own wording of the date: the French page
+                    writes "19 mai, 2026", and showing the English date inside
+                    a French entry would put words in it the page did not use. */}
+                {((lang === "fr" && u.date_verbatim_fr) || u.date_verbatim || u.date_verbatim_fr) && (
                   <div className="muted" style={{ fontSize: "var(--fs-small)" }}>
-                    {u.date_verbatim}
+                    {(lang === "fr" && u.date_verbatim_fr) || u.date_verbatim || u.date_verbatim_fr}
                   </div>
                 )}
                 <div>{t(u.body, lang)}</div>
@@ -198,6 +202,16 @@ export function ProjectViewer({ project, onClose }: Props) {
 function benefitsFor(project: Project, lang: Lang): Text[] {
   const own = project.benefits.filter((b) => (lang === "fr" ? b.fr : b.en));
   return own.length > 0 ? own : project.benefits;
+}
+
+/**
+ * The Latest-updates entries that belong to `lang` — the same rule as
+ * `benefitsFor`. Where the two pages list different entries the pipeline carries
+ * both lists unpaired, so each reader sees their own page's complete list.
+ */
+function updatesFor(project: Project, lang: Lang): Update[] {
+  const own = project.updates.filter((u) => (lang === "fr" ? u.body.fr : u.body.en));
+  return own.length > 0 ? own : project.updates;
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {

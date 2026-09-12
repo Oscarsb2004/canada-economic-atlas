@@ -157,11 +157,38 @@ def _benefits(en: mpo.ParsedPage, fr: mpo.ParsedPage) -> tuple[Text, ...]:
 
 
 def _updates(en: mpo.ParsedPage, fr: mpo.ParsedPage) -> tuple[Update, ...]:
+    """
+    Pair the Latest-updates entries EN-to-FR, positionally, like the benefits.
+
+    Position is a valid key only while both pages list the same entries. Two
+    checks say whether they do: the counts agree, and wherever both entries open
+    with a date, the dates agree. If either fails, both lists are carried whole
+    and unpaired — English entries with an empty `fr`, then French entries with
+    an empty `en` — for the reason `_benefits` gives. This function used to keep
+    only the English list on a count mismatch, deleting every French entry.
+
+    `date` comes from the English entry or else the French one: "On January
+    5,2026" once failed the English pattern while "Le 5 janvier 2026" did not.
+    It used to be a copy of `date_verbatim`, never parsed.
+    """
+    def unpaired() -> tuple[Update, ...]:
+        return (tuple(Update(date=u.date_iso, date_verbatim=u.date_verbatim, body=_pair(u.body, ""))
+                      for u in en.updates)
+                + tuple(Update(date=u.date_iso, date_verbatim="", date_verbatim_fr=u.date_verbatim,
+                               body=Text(en="", fr=u.body))
+                        for u in fr.updates))
+
     if len(en.updates) != len(fr.updates):
-        return tuple(Update(date=u.date_verbatim, date_verbatim=u.date_verbatim,
-                            body=_pair(u.body, "")) for u in en.updates)
+        return unpaired()
+    clashes = [(e.date_verbatim, f.date_verbatim) for e, f in zip(en.updates, fr.updates)
+               if e.date_iso and f.date_iso and e.date_iso != f.date_iso]
+    if clashes:
+        log.warning("%s: EN and FR updates open with different dates %s — carrying both lists unpaired",
+                    en.url, clashes[:3])
+        return unpaired()
     return tuple(
-        Update(date=e.date_verbatim, date_verbatim=e.date_verbatim, body=_pair(e.body, f.body))
+        Update(date=e.date_iso or f.date_iso, date_verbatim=e.date_verbatim,
+               date_verbatim_fr=f.date_verbatim, body=_pair(e.body, f.body))
         for e, f in zip(en.updates, fr.updates)
     )
 
@@ -300,6 +327,10 @@ def build_project(fetch: Fetcher, slug: str, feats_en: list[dict],
         log.warning("%s: EN has %d benefits, FR has %d — carrying both lists "
                     "unpaired so neither loses a bullet",
                     slug, len(page_en.benefits), len(page_fr.benefits))
+    if url_fr and len(page_en.updates) != len(page_fr.updates):
+        log.warning("%s: EN has %d updates, FR has %d — carrying both lists "
+                    "unpaired so neither loses an entry",
+                    slug, len(page_en.updates), len(page_fr.updates))
 
     props_en = feats_en[0]["properties"]
     props_fr = feats_fr[0]["properties"] if feats_fr else {}

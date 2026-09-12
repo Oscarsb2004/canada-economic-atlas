@@ -41,6 +41,7 @@ once, up front, and parse what remains.
 from __future__ import annotations
 
 import re
+from datetime import date
 from dataclasses import dataclass, field
 from typing import Iterable
 
@@ -134,11 +135,56 @@ _WS = re.compile(r"\s+")
 _SPACE_BEFORE_PUNCT = re.compile(r"\s+([,.)\]])")
 _SPACE_AFTER_OPEN = re.compile(r"([(\[])\s+")
 
-#: The leading date of a Latest-updates entry — "On March 3, 2026, the ..." /
-#: "Le 3 mars 2026, ...". Kept verbatim as well as parsed, because some entries
-#: carry the date inside a link and the wording is not uniform across waves.
-#: A non-match yields an empty date rather than a guess.
-_UPDATE_DATE = {
+#: The date a Latest-updates entry opens with, at the precision it publishes:
+#: a day ("On May 19, 2026," / "Le 19 mai 2026,"), a month ("In July 2026," /
+#: "En juillet 2026,") or a year ("In 2022," / "En 2022,").
+#:
+#: The separators are tolerant, and ONLY the separators. The source writes
+#: "On January 5,2026," once and "Le 19 mai, 2026," once, and the strict pattern
+#: this replaced read each as undated in one language and dated in the other.
+#: What is matched is still the publisher's date — month name, day and year as
+#: written. An entry that does not open with one gets no date, never one borrowed
+#: from the entries around it; and a month is never widened to a day.
+#:
+#: The comment on the old pattern said the date was "kept verbatim as well as
+#: parsed". It was never parsed: stage 01 copied the verbatim text into the ISO
+#: field, and nothing read that field until the portfolio timeline (B3).
+_MONTHS = {
+    "en": ["January", "February", "March", "April", "May", "June", "July", "August",
+           "September", "October", "November", "December"],
+    "fr": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
+           "septembre", "octobre", "novembre", "décembre"],
+}
+_MONTH_EN = "|".join(_MONTHS["en"])
+_MONTH_FR = "|".join(_MONTHS["fr"])
+_UPDATE_DATE: dict[str, list[tuple[str, re.Pattern[str]]]] = {
+    "en": [
+        ("day", re.compile(
+            rf"^On\s+(?P<text>(?P<month>{_MONTH_EN})\s+(?P<day>\d{{1,2}}),?\s*(?P<year>\d{{4}}))")),
+        ("month", re.compile(rf"^In\s+(?P<text>(?P<month>{_MONTH_EN})\s+(?P<year>\d{{4}})),")),
+        ("year", re.compile(r"^In\s+(?P<text>(?P<year>\d{4})),")),
+    ],
+    "fr": [
+        ("day", re.compile(
+            rf"^Le\s+(?P<text>(?P<day>\d{{1,2}})(?:er)?\s+(?P<month>{_MONTH_FR}),?\s*(?P<year>\d{{4}}))")),
+        ("month", re.compile(rf"^En\s+(?P<text>(?P<month>{_MONTH_FR})\s+(?P<year>\d{{4}})),")),
+        ("year", re.compile(r"^En\s+(?P<text>(?P<year>\d{4})),")),
+    ],
+}
+
+
+#: FROZEN. The pattern `date_verbatim` was read with until 2026-09-11, kept for
+#: one purpose: `ParsedPage.verbatim_blob` hashes the date it captures.
+#:
+#: The blob hashed `date_verbatim`, which is how WE read the page rather than
+#: what the page says. When the patterns above learned "In July 2026" and
+#: "January 5,2026", seven project hashes moved and stage 01 appended seven
+#: "content changed" history entries on a day the government changed nothing.
+#: The date's words are already inside the hashed body, so this capture adds no
+#: detection; it exists so that every hash recorded before that day still
+#: matches an unchanged page. It is the `benefits_block_text` decision again.
+#: Never edit it — improve `_UPDATE_DATE` instead.
+_HASHED_UPDATE_DATE = {
     "en": re.compile(
         r"^On\s+((?:January|February|March|April|May|June|July|August|September|"
         r"October|November|December)\s+\d{1,2},\s+\d{4})",
@@ -148,6 +194,34 @@ _UPDATE_DATE = {
         r"août|septembre|octobre|novembre|décembre)\s+\d{4})",
     ),
 }
+
+
+def parse_update_date(body: str, lang: str) -> tuple[str, str]:
+    """
+    The date an update entry opens with, as (words as written, ISO 8601), or ("", "").
+
+    ISO at the precision published — "2026-05-19", "2026-07", "2022" — because a
+    month-only entry given a day would carry a date the government never wrote.
+    Reduced-precision ISO strings still sort correctly against full dates. A day
+    that does not exist in its month yields no ISO date, never a corrected one.
+    """
+    if lang not in _UPDATE_DATE:
+        raise ValueError(f"no update-date patterns for language {lang!r}")
+    for precision, pattern in _UPDATE_DATE[lang]:
+        m = pattern.match(body)
+        if not m:
+            continue
+        text, year = m.group("text"), int(m.group("year"))
+        if precision == "year":
+            return text, f"{year:04d}"
+        month = _MONTHS[lang].index(m.group("month")) + 1
+        if precision == "month":
+            return text, f"{year:04d}-{month:02d}"
+        try:
+            return text, date(year, month, int(m.group("day"))).isoformat()
+        except ValueError:
+            return text, ""
+    return "", ""
 
 
 def projects_query_url(lang: str = "en", layer: int = LAYER_PROJECTS) -> str:
@@ -185,6 +259,9 @@ class ParsedFact:
 class ParsedUpdate:
     date_verbatim: str
     body: str
+    date_iso: str = ""
+    #: Hashed, never displayed — see `_HASHED_UPDATE_DATE`.
+    hashed_date: str = ""
 
 
 @dataclass(slots=True)
@@ -230,7 +307,7 @@ class ParsedPage:
             self.description, self.benefits_block_text, self.date_modified,
         ]
         parts += [f"{f.label}\x1f{f.body}" for f in self.quick_facts]
-        parts += [f"{u.date_verbatim}\x1f{u.body}" for u in self.updates]
+        parts += [f"{u.hashed_date}\x1f{u.body}" for u in self.updates]
         return "\x1e".join(parts)
 
 
@@ -359,12 +436,13 @@ def _updates(block: Tag | None, lang: str = "en") -> list[ParsedUpdate]:
     """
     if block is None:
         return []
-    pattern = _UPDATE_DATE.get(lang, _UPDATE_DATE["en"])
     out: list[ParsedUpdate] = []
     for li in block.select("li"):
         body = normalise(li.get_text(" "))
-        m = pattern.match(body)
-        out.append(ParsedUpdate(date_verbatim=m.group(1) if m else "", body=body))
+        verbatim, iso = parse_update_date(body, lang)
+        hashed = _HASHED_UPDATE_DATE.get(lang, _HASHED_UPDATE_DATE["en"]).match(body)
+        out.append(ParsedUpdate(date_verbatim=verbatim, body=body, date_iso=iso,
+                                hashed_date=hashed.group(1) if hashed else ""))
     return out
 
 

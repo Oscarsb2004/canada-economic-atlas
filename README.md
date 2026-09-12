@@ -35,7 +35,7 @@ is typed in by hand. [`CLAUDE.md` §11](CLAUDE.md) records why that rule exists.
 **v1 is complete and deployed, and the pipeline has grown past it.** Six pipeline
 stages run end to end — `01` projects, `02` sectors, `03` companies, `04` trade
 corridors, `05` municipalities, `99` the bundle — with seven declared Statistics
-Canada pulls in stage 02. 83 tests and 136 verification gates pass, and a re-run
+Canada pulls in stage 02. 96 tests and 138 verification gates pass, and a re-run
 against unchanged sources produces a zero-line git diff, which is the acceptance
 test for every stage.
 

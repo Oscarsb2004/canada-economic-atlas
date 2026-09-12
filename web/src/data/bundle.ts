@@ -74,8 +74,12 @@ export interface QuickFact {
 }
 
 export interface Update {
+  /** ISO 8601 at the precision published — "2026-05-19", "2026-07", "2022" — or "" when the entry names no date. */
   date: string;
+  /** The English page's own wording of the date. */
   date_verbatim: string;
+  /** The French page's own wording of the date. */
+  date_verbatim_fr: string;
   body: Text;
 }
 

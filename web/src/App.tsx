@@ -21,6 +21,7 @@ import { ProjectViewer } from "./panels/ProjectViewer";
 import { ProvincePanel } from "./panels/ProvincePanel";
 import { CorridorPanel } from "./panels/CorridorPanel";
 import { SectorPanel } from "./panels/SectorPanel";
+import { TimelinePanel } from "./panels/TimelinePanel";
 import { TabStrip } from "./tabs/TabStrip";
 import { useTabs } from "./tabs/store";
 import { applyPalette } from "./theme/applyPalette";
@@ -328,6 +329,8 @@ function Overview({
       </div>
 
       <CorridorPanel bundle={bundle} />
+
+      <TimelinePanel bundle={bundle} width={width} onSelect={onSelect} />
 
       <h2
         style={{
