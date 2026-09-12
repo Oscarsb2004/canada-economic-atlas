@@ -30,7 +30,7 @@ a work queue — two lists of "next" is how one of them goes stale.
 | **`pipeline/05_municipalities.py`** | **Done and run.** 5,161 `Municipality` records, `data/geography/municipalities.json` (5.6 MB). Not bundled. |
 | **`pipeline/06_industries.py`** | **Done and run.** BACKLOG C1, option B + C. All 18 MPO projects placed in NAICS Canada 2022, every quote checked verbatim against Statistics Canada's EN/FR classification files and the project page. 10 joined to NRCan's Major Projects Inventory 2025 by declared ID for status; 3 counted in construction. `industries.json`, bundled, shown in the project viewer as derived. |
 | **`pipeline/07_vessels.py`** | **Done and run.** BACKLOG S1. Transport Canada's Canadian Register of Large Vessels, EN + FR paired by row: 26,907 entries, of which the 1,161 carrying an IMO number are committed to `data/vessels/large-vessel-register.json` (1.42 MB). Not bundled. |
-| **`live/collect_ais.py`** | **Built and run once (75 s, 2026-09-12): whole-world subscription accepted, 168 messages/s, 11,767 vessels heard, 346 Canadian, 7 also in the register.** Daily publishing waits on the `AISSTREAM_API_KEY` repository secret. BACKLOG S2/S3. aisstream.io → Canadian vessels by MMSI 316… or register IMO → a snapshot that keeps each vessel's last heard position. `python run.py --live` on localhost; a daily GitHub Action commits the snapshot to the `vessel-positions` branch and every build copies it in. The globe's "Canadian-flagged vessels" layer reads it. |
+| **`live/collect_ais.py`** | **Built and run once (75 s, 2026-09-12): whole-world subscription accepted, 168 messages/s, 11,767 vessels heard, 346 Canadian, 7 also in the register.** The `AISSTREAM_API_KEY` repository secret exists (GitHub lists it as created 2026-09-12T22:01:36Z), so the daily job collects once PR #8 is on main. BACKLOG S2/S3. aisstream.io → Canadian vessels by MMSI 316… or register IMO → a snapshot that keeps each vessel's last heard position. `python run.py --live` on localhost; a daily GitHub Action commits the snapshot to the `vessel-positions` branch and every build copies it in. The globe's "Canadian-flagged vessels" layer reads it. |
 | **`registry/palette.yaml`** | **LOCKED.** 5 validated categorical slots, dark only. |
 | **`scripts/build_geo.mjs`** | **Done and run.** Reproducible world + provinces geometry. |
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
@@ -372,6 +372,18 @@ Canada's MID, 316 (ITU; the Coast Guard's own worked example is 316010115).
 Only the nine-digit ship-station form counts — 316 also appears inside coast
 station, group and aid-to-navigation identities. The register joins only by
 IMO, because it publishes no MMSI.
+
+**2026-09-12: aisstream.io does not answer keepalive pings in time, and the
+websockets library drops the stream for it.** The first long localhost run kept
+logging `keepalive ping timeout`. Measured on two connections side by side:
+with the library's default 20 s ping timeout, 3 drops in 150 s — two at exactly
+50.0 s into a connection — and 82 messages/s kept. With client pings off, 1 drop
+in 160 s (an abrupt close from the server, 138 s in) and 131 messages/s; the
+replies that did come back took 8,230 to 38,631 ms. Processing was never the
+cause — 13–16 µs a message. The collector now sends no pings and reopens the
+stream after 60 s without a message. The same run found two collectors bound to
+port 8765 at once: on Windows the stdlib server's SO_REUSEADDR allows it
+silently, so the collector no longer sets it and a second one refuses to start.
 
 **The inventory disputes were settled outside the MPO pages.** The MPO pages
 never name Foran, Newcrest or NTPC. McIlvenna Bay: Eldorado Gold closed its
