@@ -100,12 +100,12 @@ const SOURCES = {
     // because the two now disagree along every shared edge. The Canada-Alaska
     // border, the Great Lakes and the Gulf of Maine all showed the accurate
     // outline crossing the coarse one, which reads as a rendering fault.
-    scale: "1:50m",
+    scale: "1:10m",
     version: "v5.1.2",          // git tag, not "current"
     licence: "public domain",
     url: "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/"
-       + "v5.1.2/geojson/ne_50m_admin_0_countries.geojson",
-    file: "ne_50m_admin_0_countries.geojson",
+       + "v5.1.2/geojson/ne_10m_admin_0_countries.geojson",
+    file: "ne_10m_admin_0_countries.geojson",
   },
   nhs: {
     name: "Transport Canada — National Highway System",
@@ -153,6 +153,22 @@ const SOURCES = {
     url: "https://www12.statcan.gc.ca/census-recensement/2021/geo/sip-pis/"
        + "boundary-limites/files-fichiers/lpr_000b21a_e.zip",
     file: "lpr_000b21a_e.zip",
+  },
+  // Lakes and rivers for Canada's detail tier. The StatCan provinces file is
+  // land to the riverbank, and StatCan's 2021 boundary page lists no separate
+  // hydrography file, so the water is NRCan's. The zip carries an English and a
+  // French copy of the same shapefile; only the English one is read.
+  water: {
+    name: "Atlas of Canada National Scale Data 1:1,000,000 — Waterbodies",
+    publisher: "Natural Resources Canada",
+    scale: "1:1,000,000",
+    version: "record modified 2022-02-22",
+    licence: "ogl-canada-2.0",
+    dataset: "https://open.canada.ca/data/en/dataset/e9931fc7-034c-52ad-91c5-6c64d4ba0065",
+    url: "https://ftp.geogratis.gc.ca/pub/nrcan_rncan/vector/framework_cadre/"
+       + "Atlas_of_Canada_1M/hydrology/AC_1M_Waterbodies.shp.zip",
+    file: "AC_1M_Waterbodies.shp.zip",
+    shapefile: "AC_1M_Waterbodies_shp/AC_1M_Waterbodies",
   },
   places: {
     name: "Geolocated placenames in Canada",
@@ -208,11 +224,12 @@ const SOURCES = {
 /**
  * The mapshaper command lines, verbatim.
  *
- * world: 1:50m simplified to 35%, at 0.005° precision (~500 m). The source is
- * five times the detail of 1:110m, so it can take a harder simplification and
- * still resolve the things 110m loses entirely — the Alaska panhandle, the
- * Great Lakes shoreline, the Scandinavian and Chilean coasts. `keep-shapes`
- * stops small island states being simplified out of existence.
+ * world: 1:10m simplified to 10%, at 0.001° precision (~110 m). Until
+ * 2026-09-12 this was 1:50m at 35% and 0.005° (~500 m), which put harbours and
+ * river mouths abroad under land at the zoom a ship is inspected at. 1:10m at
+ * 10% is 1,060,969 bytes (360,115 gzipped) against 602,372 (195,425) before.
+ * It stays coarser than Canada on purpose: Canada gets its own detail tier
+ * below. `keep-shapes` stops small island states being simplified away.
  *
  * provinces: 0.1% is aggressive because the source is full detail — it takes
  * 266 MB down to 319 KB while keeping every province recognisable and the
@@ -223,8 +240,8 @@ const SOURCES = {
 const BUILDS = {
   world: (src, dst) =>
     `-i "${src}" -filter-fields ADM0_A3,ISO_A3,NAME `
-    + `-simplify 35% keep-shapes `
-    + `-o format=geojson precision=0.005 "${dst}"`,
+    + `-simplify 10% keep-shapes `
+    + `-o format=geojson precision=0.001 "${dst}"`,
 
   provinces: (src, dst) =>
     `-i "${src}" -proj wgs84 `
@@ -309,6 +326,32 @@ const BUILDS = {
   canada: (src, dst) =>
     `-i "${src}" -dissolve2 -each 'name="Canada"' `
     + `-o format=geojson precision=0.001 "${dst}"`,
+
+  // ── Canada's detail tier, fetched by the app only past DETAIL_ZOOM ──────────
+  //
+  // Added 2026-09-12 because ships drew on land. Of 1,201 Canadian vessel
+  // positions, 636 fell inside the overview's 0.1% coastline; at 1% 405, at 3%
+  // 218, at 10% 146 (30.8 MB). Around Vancouver even the unsimplified file left
+  // 64 of 395 on land, 40 of them in the Fraser — the boundary is land to the
+  // riverbank — so the tier carries NRCan's water too. 3% is where the file is
+  // still a download (2.4 MB gzipped) rather than a dataset.
+  "provinces-detail": (src, dst) =>
+    `-i "${src}" -proj wgs84 `
+    + `-simplify 3% keep-shapes `
+    + `-filter-fields PRUID,PRENAME,PRFNAME `
+    + `-o format=geojson precision=0.0005 "${dst}"`,
+
+  "canada-detail": (src, dst) =>
+    `-i "${src}" -dissolve2 -each 'name="Canada"' `
+    + `-o format=geojson precision=0.0005 "${dst}"`,
+
+  // Permanent water of 10 km² or more. SHAPE_Area is square metres (the source
+  // is NAD83 Canada Atlas Lambert). The 1 km² cut was measured too: 18.5 MB
+  // against 3.1 MB, and the same 74 of 395 Vancouver positions left on land.
+  water: (src, dst) =>
+    `-i "${src}" -filter 'TYPE == "Permanent Water" && SHAPE_Area >= 1e7' `
+    + `-proj wgs84 -simplify 5% keep-shapes -filter-fields NAME,NOM `
+    + `-o format=geojson precision=0.0005 "${dst}"`,
 };
 
 async function download(spec) {
@@ -639,6 +682,28 @@ function extractRailTrack(src, region) {
   return `${base}.shp`;
 }
 
+/**
+ * The English Waterbodies shapefile, extracted beside its archive.
+ *
+ * mapshaper can read a zip, but this one holds the English and French copies of
+ * the same 128,205 polygons under different names; reading the zip whole would
+ * import both and draw every lake twice.
+ */
+function extractWater(src) {
+  const dir = join(RAW, "waterbodies");
+  const base = join(dir, SOURCES.water.shapefile);
+  if (!existsSync(`${base}.shp`) || force) {
+    const zip = new AdmZip(src);
+    const parts = zip.getEntries().filter((e) => e.entryName.startsWith(`${SOURCES.water.shapefile}.`));
+    const exts = parts.map((e) => e.entryName.slice(SOURCES.water.shapefile.length)).sort();
+    for (const needed of [".dbf", ".prj", ".shp", ".shx"]) {
+      if (!exts.includes(needed)) throw new Error(`${src} has no ${SOURCES.water.shapefile}${needed}`);
+    }
+    parts.forEach((e) => zip.extractEntryTo(e, dir, true, true));
+  }
+  return `${base}.shp`;
+}
+
 async function build(key, src) {
   const dst = join(OUT, `${key}.json`);
   await mapshaper.runCommands(BUILDS[key](src, dst));
@@ -666,6 +731,7 @@ const world = targeted ? null : await download(SOURCES.world);
 const nhs = targeted ? null : await downloadPaged(SOURCES.nhs);
 const highways = targeted ? null : await download(SOURCES.highways);
 const provinces = targeted ? null : await download(SOURCES.provinces);
+const water = targeted ? null : extractWater(await download(SOURCES.water));
 const places = railOnly ? null : await download(SOURCES.places);
 const populationCentres = railOnly ? null : await download(SOURCES.population_centres);
 const municipalPopulation = railOnly ? null : await download(SOURCES.municipal_population);
@@ -685,6 +751,13 @@ if (!targeted) {
 if (!railOnly) buildPlaces(places, populationCentres, municipalPopulation);
 // Derived from the file the previous line just wrote, not from a download.
 if (!targeted) await build("canada", join(OUT, "provinces.json"));
+if (!targeted) {
+  await build("provinces-detail", provinces);
+  // Derived like canada.json: dissolved from the detailed provinces, so the
+  // detailed outline and the detailed province edges share every vertex.
+  await build("canada-detail", join(OUT, "provinces-detail.json"));
+  await build("water", water);
+}
 if (!placesOnly) await buildRail(railArchives);
 
 // A manifest beside the geometry, so a reader can see what produced these files
@@ -703,8 +776,14 @@ writeFileSync(
           f(
             k === "rail"
               ? Object.keys(SOURCES.rail.files).map((region) => `"data/raw/geo/nrwn-track/nrwn_${region.toLowerCase()}_track.shp"`).join(" ")
-              // canada.json is derived from another output rather than a download.
-              : SOURCES[k] ? `data/raw/geo/${SOURCES[k].file}` : "web/public/geo/provinces.json",
+              // Derived outlines read another output rather than a download; the
+              // detailed provinces read the same archive as provinces.json; water
+              // reads the English shapefile extracted from its archive.
+              : k === "canada" ? "web/public/geo/provinces.json"
+              : k === "canada-detail" ? "web/public/geo/provinces-detail.json"
+              : k === "provinces-detail" ? `data/raw/geo/${SOURCES.provinces.file}`
+              : k === "water" ? `data/raw/geo/waterbodies/${SOURCES.water.shapefile}.shp`
+              : `data/raw/geo/${SOURCES[k].file}`,
             `web/public/geo/${k}.json`,
           ),
         ]),
@@ -750,6 +829,12 @@ writeFileSync(
           + "archive, so neither is supplemented or inferred. Track Classification "
           + "is retained; all official operational classes are rendered. Owner and "
           + "operator are retained as attributes, not visual categories.",
+        detail_tier:
+          "provinces-detail.json, canada-detail.json and water.json are fetched by "
+          + "the app only when the camera reaches DETAIL_ZOOM, and replace the "
+          + "overview geometry in place. water.json is NRCan's permanent water of "
+          + "10 km² or more, painted over the provinces because the StatCan "
+          + "boundary is land to the riverbank.",
         canada:
           "canada.json is the national outline, dissolved from provinces.json "
           + "so its arcs are identical to the province geometry. It replaces "

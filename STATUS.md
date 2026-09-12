@@ -71,10 +71,17 @@ reads `national-constant.json`. `check_partition()` warns past 1%.
 **The pipeline is complete.** `web/public/data/` holds the full bundle:
 7 data files + `country.json` + `palette.json` + `meta.json`, 1.40 MB.
 
-**M2 output, committed:** `web/public/geo/world.json` (66 KB, 177 countries,
-Natural Earth 1:110m v5.1.2) and `provinces.json` (319 KB, 13 provinces, StatCan
-2021, reprojected to WGS84), plus `SOURCES.json` recording every input and the
+**M2 output, committed:** `web/public/geo/world.json` (Natural Earth v5.1.2 —
+1:110m at first, 1:50m later, and since 2026-09-12 1:10m at 10%, 1,060,969
+bytes) and `provinces.json` (318,600 bytes, 13 provinces, StatCan 2021,
+reprojected to WGS84), plus `SOURCES.json` recording every input and the
 verbatim mapshaper commands. Byte-identical across rebuilds.
+
+**Canada's detail tier, 2026-09-12:** `provinces-detail.json` (9,477,372 bytes)
+and `canada-detail.json` (9,170,525) are the same StatCan boundary at 3% instead
+of 0.1%, and `water.json` (3,075,660) is NRCan's permanent water of 10 km² or
+more. The app fetches all three only past zoom 4 and swaps them into the
+overview's sources. Why, measured: the finding on ships drawn on land, below.
 
 `canada.json` (277 KB) was added 2026-09-06: the national outline, `-dissolve2`
 from `provinces.json` so its arcs are identical to them. The globe highlights
@@ -384,6 +391,21 @@ cause — 13–16 µs a message. The collector now sends no pings and reopens th
 stream after 60 s without a message. The same run found two collectors bound to
 port 8765 at once: on Windows the stdlib server's SO_REUSEADDR allows it
 silently, so the collector no longer sets it and a second one refuses to start.
+
+**2026-09-12: Canadian ships drew on land because the coastline was simplified
+to 0.1%.** Measured against 1,201 vessel positions from a local collector run:
+636 fell inside `canada.json`. The same StatCan boundary at 1% left 405, at 3%
+218, at 10% 146 (30.8 MB). Almost all were in ports — Vancouver and the Fraser,
+Halifax, St. John's, Victoria, Toronto — and 19 of the 405 were moving. Around
+Vancouver even the unsimplified file left 64 of 395 on land, 40 of them in the
+Fraser: the boundary file is land to the riverbank. Adding NRCan's permanent
+water took that to 36; those are ships at berths, closer to shore than a
+boundary resolves. Lakes of 1 km² and of 10 km² gave the same count (74 at 3%).
+So Canada gained a detail tier — provinces and outline at 3% plus water of 10 km²
+or more — fetched only past zoom 4, and the world moved from Natural Earth 1:50m
+to 1:10m. A first count reported zero ships on land at 1%: mapshaper had written
+the dissolved outline as a bare GeometryCollection and the counting script read
+no polygons from it. `build_geo.mjs` already names that trap for the app.
 
 **The inventory disputes were settled outside the MPO pages.** The MPO pages
 never name Foran, Newcrest or NTPC. McIlvenna Bay: Eldorado Gold closed its
