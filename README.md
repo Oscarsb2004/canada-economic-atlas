@@ -55,7 +55,7 @@ renders either, from an EN / FR toggle in the map's layer panel.
 | What is analytically defensible, and what is not | [docs/ROADMAP.md](docs/ROADMAP.md) |
 | Municipalities, provinces and public finance | [docs/CIVIC-FISCAL.md](docs/CIVIC-FISCAL.md) |
 | Rail layer source, coverage, and design decisions | [docs/RAIL.md](docs/RAIL.md) |
-| Live Canadian-flagged vessels (planned): sources, limits, local-only design | [docs/AIS.md](docs/AIS.md) |
+| Canadian-flagged vessels: sources, limits, live on localhost and daily on the site | [docs/AIS.md](docs/AIS.md) |
 | How the site is published | [docs/HOSTING.md](docs/HOSTING.md) |
 | The full design | [docs/PLAN.md](docs/PLAN.md) |
 

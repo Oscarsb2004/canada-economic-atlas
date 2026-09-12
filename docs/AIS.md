@@ -1,7 +1,8 @@
 # AIS — Canadian-flagged vessels: live on localhost, daily on the site
 
 _Planned 2026-09-11. The register (S1, stage 07), the collector and the layer
-(S2, S3) were built 2026-09-12; they wait on an aisstream.io key. The queue is `BACKLOG.md` Stage S; this file carries the
+(S2, S3) were built and first run 2026-09-12; daily publishing waits on the
+`AISSTREAM_API_KEY` repository secret. The queue is `BACKLOG.md` Stage S; this file carries the
 reasoning, the sources as they were read, and the limits that must reach the
 screen._
 
