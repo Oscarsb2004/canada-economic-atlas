@@ -229,9 +229,13 @@ export function ProvincePanel({
           ) : (
             p.budget.title
           )}
-          {" · "}
-          {s.provinceBudgetNote}
-          {s.provinceBudgetLanguage && ` ${s.provinceBudgetLanguage}`}
+          {p.budget.quotes.length > 0 && (
+            <>
+              {" · "}
+              {s.provinceBudgetNote}
+              {s.provinceBudgetLanguage && ` ${s.provinceBudgetLanguage}`}
+            </>
+          )}
         </p>
       </section>
 

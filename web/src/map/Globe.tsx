@@ -836,6 +836,10 @@ export function Globe({
         onSelectRef.current(project);
       });
 
+      // Pins are built after the overlay effect first runs, so each one takes the
+      // layer's current state here. Without this the globe opened with the Major
+      // Projects Office layer unchecked and every pin still drawn.
+      el.style.display = overlaysRef.current.majorProjects ? "block" : "none";
       const marker = new maplibregl.Marker({ element: el })
         .setLngLat(anchor)
         .addTo(m);
@@ -1074,8 +1078,14 @@ export function Globe({
       refreshPlaceLabelsRef.current();
     };
 
-    if (m.isStyleLoaded()) syncVisibility();
-    else m.once("style.load", syncVisibility);
+    // Applied now, not only when `isStyleLoaded()` — that is false whenever ANY
+    // source is still loading (the vessel snapshot, the detail tier), and the
+    // `style.load` it used to wait for fires only once. A toggle made during
+    // loading was silently dropped: found 2026-09-13, unticking Major Projects
+    // left all 20 pins drawn. Pins need no style; a layer is set only once it
+    // exists, and the first style load still gets its own pass.
+    syncVisibility();
+    m.once("style.load", syncVisibility);
 
     return () => {
       m.off("style.load", syncVisibility);
