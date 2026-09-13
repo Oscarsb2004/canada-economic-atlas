@@ -36,11 +36,12 @@ Nothing is estimated or ranked by this project, and no number is typed in by han
 
 ## Status
 
-**v1 is complete and deployed, and the pipeline has grown past it.** Nine pipeline
+**The project is finished (closed out 2026-09-13).** Later sessions validate and fix
+bugs; nothing new is queued — see the top of [docs/BACKLOG.md](docs/BACKLOG.md). Nine pipeline
 stages run end to end — `01` projects, `02` sectors, `03` business counts, `04`
 trade corridors, `05` municipalities, `06` project industries, `07` vessels, `08`
 provinces, `99` the bundle — with seven declared Statistics Canada pulls in stage
-02. 120 tests and 185 verification gates pass, and a re-run
+02. 121 tests and 186 verification gates pass, and a re-run
 against unchanged sources produces a zero-line git diff, which is the acceptance
 test for every stage.
 
@@ -93,7 +94,7 @@ atlas/              importable package — the project's own code
   core/schema.py    canonical objects; "the frontend and the backend are the same object"
   core/registry.py  YAML loaders with validation on load
   net.py            the ONE way this project talks to the internet
-  sources/          one module per publisher: mpo, statcan, census, tc_corridors, naics, mpi, vessels, aisstream, business_counts, fiscal_tables, sector_shares, symbols
+  sources/          one module per publisher: mpo, statcan, census, tc_corridors, naics, mpi, vessels, aisstream, business_counts, fiscal_tables, sector_shares, symbols, budget_text
   industries.py     MPO projects placed in NAICS, checked against their quotes
 registry/           configuration as YAML: sources, events, strategies, sectors and their pulls, crosswalks, checks
 pipeline/           numbered stages 01–08, and 99 the bundle

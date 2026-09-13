@@ -26,6 +26,43 @@ not — and that reasoning is what stops an item here being done the wrong way.
 
 ---
 
+## FINISHED — closed out 2026-09-13
+
+**The atlas is finished as a project.** On 2026-09-13 the owner narrowed the
+finish line to: projects beside the economy (C2–C4), the province pages (Stage R
+data, page and budget passages), and units wherever a figure was ambiguous — and
+asked that everything else become later work. The owner's reasons, recorded so a
+later session does not re-open them: this was a side project; the further it
+grows into code written by an AI, the more likely mistakes become; so it should
+stop here, streamlined and verifiable, and further sessions should **validate
+and fix bugs** before adding anything.
+
+**Shipped at close-out:** C1–C4 · Stage R: finances, sector shares, motto, flag
+description, flags and coats of arms (R0, R2, R3, R5a, R6) and budget passages
+(R5 a) checked against each document · daily vessel snapshot (S0–S3) · detailed
+Canada coastline and water · foldable layer bar.
+
+**Not done, deliberately — the queue for later, in the owner's order:**
+
+1. **Validate and fix bugs.** Before anything new. Starting points already known:
+   read each province's copyright terms for budget documents (quoted under
+   `budget-quotation`, terms not read); Prince Edward Island has no checked
+   passage (its page refuses automated reading); Nunavut's passage is from its
+   Fiscal and Economic Indicators, not a budget address; project costs cover 9 of
+   18 projects; ships at berths still draw on land.
+2. **Analysis views (D1–D5)** — as an additional feature once validation is done.
+3. **Dropped or parked by the owner on 2026-09-13:** freshness panel and
+   staleness gate (B5, E1 — aisstream.io already shows its own currency, and most
+   data is annual); the nine transformative strategies (B7); licence plate
+   slogans (R1); the overview block (R4); budget figures as % of GDP beside all
+   provinces (R5 b); Stage V; Stage F / G4; municipal finance (M3–M12); Stage Q;
+   Stage P; S4–S6.
+
+Everything below this section is the working plan as it stood; items not listed
+above as shipped are not queued.
+
+---
+
 ## The five goals, and how you know each is met
 
 Every item names the goal it serves. An item serving none should not be done,

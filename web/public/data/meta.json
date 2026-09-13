@@ -14,7 +14,7 @@
     "sectors/provincial-annual.json",
     "sectors/rates.json"
   ],
-  "generated_at": "2026-09-13T19:13:44Z",
+  "generated_at": "2026-09-13T22:01:41Z",
   "licences": {
     "aisstream-unstated": {
       "name": "aisstream.io — no published terms of use (checked 2026-09-12)",
@@ -26,6 +26,11 @@
       "name": "Bank of Canada Terms of Use",
       "redistribution": "permitted with attribution",
       "url": "https://www.bankofcanada.ca/terms/"
+    },
+    "budget-quotation": {
+      "name": "Short quotations from government budget documents, attributed and linked",
+      "redistribution": "short quotation with attribution; terms not individually read",
+      "url": "https://laws-lois.justice.gc.ca/eng/acts/c-42/section-29.html"
     },
     "canada-ca-terms": {
       "name": "Canada.ca terms and conditions — non-commercial reproduction",
@@ -134,6 +139,11 @@
       "licence": "canada-ca-terms",
       "publisher": "Canadian Heritage",
       "title": "Provincial and territorial symbols"
+    },
+    "provincial_budgets": {
+      "licence": "budget-quotation",
+      "publisher": "Each province and territory's finance department",
+      "title": "Provincial and territorial budget documents, 2026"
     },
     "statcan_boundaries": {
       "dataset_record": "https://open.canada.ca/data/en/dataset/ef70dc3b-1069-4037-9bce-61f47e628a1d",

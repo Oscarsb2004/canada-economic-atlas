@@ -1,0 +1,115 @@
+# budgets.yaml — what each province and territory's latest budget says about the
+# risks to its outlook, in its own words (BACKLOG R5).
+#
+# Every quote is copied from the document at `url`, on the stated page (the
+# PDF's page number in the file, 1-based; null for an HTML page). Stage 08
+# downloads each document and refuses a quote that does not appear on that
+# page, after normalising whitespace, ligatures and curly apostrophes — so a
+# quote here can never drift from its source without the build failing.
+#
+# kind: risk | opportunity — only as the budget itself frames the passage.
+#
+# Chosen 2026-09-13 from the 2026 budgets. Short quotations with the document
+# named and linked; each government's copyright terms for budget documents
+# were not read one by one (recorded in sources.yaml, to validate).
+#
+# Keys are quoted: YAML 1.1 reads a bare ON as the boolean true.
+
+version: 1
+source: provincial_budgets
+
+budgets:
+  "NL":
+    title: "Budget 2026 — The Economy"
+    url: https://www.gov.nl.ca/fin/files/The-Economy-Budget-2026.pdf
+    quotes:
+      - page: 26
+        kind: risk
+        text: "There are several risks to the provincial outlook, particularly related to evolving issues affecting global trade. The forecast assumes that current U.S. tariffs on Canadian exports will remain in place throughout the projection period."
+  "PE":
+    title: "Budget Address 2026"
+    url: https://www.princeedwardisland.ca/en/information/finance-and-affordability/budget-address-2026
+    quotes: []
+    note:
+      en: "Prince Edward Island's budget address is linked, not quoted: its web page refuses automated reading, so no passage could be checked against it."
+      fr: "Le discours du budget de l’Île-du-Prince-Édouard est lié mais non cité : sa page Web refuse la lecture automatisée, de sorte qu’aucun passage n’a pu y être vérifié."
+  "NS":
+    title: "Budget 2026–27: Defending Nova Scotia"
+    url: https://www.novascotia.ca/sites/default/files/documents/6-4173/ftb-bfi-046-en-budget-2026-2027.pdf
+    quotes:
+      - page: 46
+        kind: risk
+        text: "Rapid changes in US trade policy are causing instability in global commodity markets and supply chains, which may influence the costs of government purchases."
+  "NB":
+    title: "2026-2027 Economic Outlook"
+    url: https://www.gnb.ca/content/dam/GNB3/gov/budget/docs/2026-2027-economic-outlook.pdf
+    quotes:
+      - page: 5
+        kind: risk
+        text: "Risks to the global outlook remain skewed to the downside."
+  "QC":
+    title: "Budget 2026-2027 — Budget Plan"
+    url: https://www.finances.gouv.qc.ca/Budget_and_update/budget/documents/Budget2627_BudgetPlan.pdf
+    quotes:
+      - page: 406
+        kind: risk
+        text: "Developments in the trade dispute with the United States, the review of the Canada-United States-Mexico Agreement (CUSMA), and the situation in the Middle East are the main risks to the baseline scenario."
+  "ON":
+    title: "2026 Ontario Budget — Chapter 3"
+    url: https://budget.ontario.ca/2026/chapter-3.html
+    quotes:
+      - page: null
+        kind: risk
+        text: "There are a variety of risks to the economic planning assumptions underlying the revenue forecast, as outlined in Chapter 2: Economic Performance and Outlook."
+  "MB":
+    title: "Manitoba Budget 2026"
+    url: https://www.gov.mb.ca/asset_library/en/budget2026/budget2026.pdf
+    quotes:
+      - page: 90
+        kind: risk
+        text: "The United States remains Manitoba's largest export destination; however, the various tariffs imposed by U.S. President Donald Trump throughout 2025 still weigh heavily on trade relations in 2026."
+  "SK":
+    title: "2026-27 Budget"
+    url: https://budget.saskatchewan.ca/f/47i547mqkjc4xevocxv2v7hr9ptn36/2026-27-Budget-Document-WEB.pdf
+    quotes:
+      - page: 41
+        kind: risk
+        text: "The current range of tariffs imposed by the U.S., India and China on Canada remains a downside risk to the Saskatchewan economy."
+  "AB":
+    title: "Fiscal Plan 2026–29"
+    url: https://open.alberta.ca/dataset/3393a7b5-07bf-4b9f-8aaf-a6d89273297b/resource/58a8d024-398f-482e-b1c2-81a754a97253/download/budget-2026-fiscal-plan-2026-29.pdf
+    quotes:
+      - page: 25
+        kind: risk
+        text: "In Canada, uncertainty surrounding the future of CUSMA is a major source of risk. Businesses and consumers also face the challenge of adapting to higher trade costs and ongoing supply chain realignments, which may take time to fully work through the economy."
+  "BC":
+    title: "Budget and Fiscal Plan 2026/27 – 2028/29"
+    url: https://www.bcbudget.gov.bc.ca/2026/pdf/2026_Budget_and_Fiscal_Plan.pdf
+    quotes:
+      - page: 15
+        kind: risk
+        text: "The main risks to the government's fiscal plan include: • Continued uncertainty around restrictive global trade policies, U.S. tariffs, and renewal of the Canada-United States-Mexico Agreement; • Immigration and population volatility;"
+  "YT":
+    title: "Budget address 2026–27"
+    url: https://yukon.ca/sites/default/files/fin-2026-27-budget-address.pdf
+    quotes:
+      - page: 3
+        kind: risk
+        text: "The Yukon faces strong headwinds, beginning with the pressure of record population growth."
+  "NT":
+    title: "Budget Address 2026-2027, with the Economic Outlook and Fiscal Review"
+    url: https://www.fin.gov.nt.ca/sites/fin/files/2026-27_budget_address_and_economic_outlook_and_fiscal_review_papers.pdf
+    quotes:
+      - page: 29
+        kind: risk
+        text: "The continued short- and long-term risks to the Northwest Territories economy remain closely tied to the impending diamond mine closures."
+      - page: 29
+        kind: opportunity
+        text: "There are also emerging opportunities that could strengthen the territory's outlook. Increased interest in mineral exploration, including projects focused on critical minerals, has the potential to generate new development and employment."
+  "NU":
+    title: "2026-27 Budget Highlights (Fiscal and Economic Indicators)"
+    url: https://www.gov.nu.ca/sites/default/files/documents/2026-05/FEI_-_Budget_2026-27_-_ENG.pdf
+    quotes:
+      - page: 23
+        kind: risk
+        text: "slower population growth, weaker productivity performance, and growing uncertainty surrounding global trade and investment conditions weigh on the outlook for 2026-27."

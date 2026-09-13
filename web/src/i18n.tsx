@@ -186,7 +186,13 @@ const en = {
     `The French table labels the ${en} row "${fr}"; the figures match the English row and are shown for ${en}.`,
   provinceFinanceSource: (title: string, edition: number) => `Department of Finance Canada, ${title}, ${edition} edition`,
   colYear: "Fiscal year",
-  provinceNotYet: "Not yet on this page: the licence plate slogan, and the province's own budget text on risks and strengths.",
+  provinceMoneyUnit: "$M",
+  provinceBudgetHeading: "Risks and opportunities, in the budget's own words",
+  provinceBudgetKind: { risk: "Risk", opportunity: "Opportunity" },
+  provinceBudgetCite: (title: string, page: number | null) => (page == null ? title : `${title}, p. ${page}`),
+  provinceBudgetNote:
+    "Short passages quoted exactly as published and checked against the document; not a summary or a judgement of this atlas.",
+  provinceBudgetLanguage: "",
 
   corridorsHeading: (n: number) => `Trade corridors · ${n}`,
   corridorsIntroBefore: "Transport Canada's national trade corridors, in its own words. The corridors ",
@@ -439,7 +445,13 @@ const fr: Strings = {
     `Le tableau français intitule la ligne ${en} « ${fr} »; les chiffres correspondent à la ligne anglaise et sont présentés pour ${en}.`,
   provinceFinanceSource: (title, edition) => `Ministère des Finances Canada, ${title}, édition ${edition}`,
   colYear: "Exercice",
-  provinceNotYet: "Pas encore sur cette page : le slogan des plaques d’immatriculation et le texte budgétaire de la province sur ses risques et ses forces.",
+  provinceMoneyUnit: "M$",
+  provinceBudgetHeading: "Risques et possibilités, dans les mots du budget",
+  provinceBudgetKind: { risk: "Risque", opportunity: "Possibilité" },
+  provinceBudgetCite: (title, page) => (page == null ? title : `${title}, p. ${page}`),
+  provinceBudgetNote:
+    "Courts passages cités exactement tels que publiés et vérifiés dans le document; ni résumé ni jugement de cet atlas.",
+  provinceBudgetLanguage: "Les passages sont cités en anglais, la langue dans laquelle le document a été lu.",
 
   corridorsHeading: (n) => `Corridors commerciaux · ${n}`,
   corridorsIntroBefore: "Les corridors commerciaux nationaux de Transports Canada, dans ses propres mots. Les corridors ",

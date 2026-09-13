@@ -2227,3 +2227,24 @@ def test_symbols_are_read_by_heading_and_commons_licences_are_never_assumed():
     with pytest.raises(symbols.SymbolsError, match="no licence"):
         symbols.commons_records({"query": {"pages": {"1": page("File:Flag of Ontario.svg", "")}}},
                                 ["File:Flag of Ontario.svg"])
+
+
+def test_budget_quotes_must_be_on_their_stated_page():
+    """
+    BACKLOG R5. A budget passage is kept only if it is on the page the registry
+    names, after the extraction noise PDFs carry (ligatures, pypdf glyph
+    markers, curly apostrophes, a space before a full stop) is normalised on
+    both sides. A changed word, or the right words on the wrong page, fails.
+    """
+    from atlas.sources import budget_text as bt
+    pages = [bt.normalise("Summary"), bt.normalise("The main risks to the government’s /f_iscal plan include tariﬀs .")]
+    ok = [{"page": 2, "kind": "risk", "text": "The main risks to the government's fiscal plan include tariffs."}]
+    bt.check(ok, pages=pages, text=None, where="BC")
+    with pytest.raises(bt.BudgetTextError, match="not found"):
+        bt.check([{**ok[0], "page": 1}], pages=pages, text=None, where="BC")
+    with pytest.raises(bt.BudgetTextError, match="not found"):
+        bt.check([{**ok[0], "text": "The main risks to the government's fiscal plan exclude tariffs."}],
+                 pages=pages, text=None, where="BC")
+    html_page = "<html><script>var x;</script><h2>Risks</h2><p>There are a variety of risks.</p></html>"
+    bt.check([{"page": None, "kind": "risk", "text": "There are a variety of risks."}],
+             pages=None, text=bt.html_text(html_page), where="ON")

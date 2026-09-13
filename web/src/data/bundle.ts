@@ -465,6 +465,15 @@ export interface ProvinceProfile {
   /** StatCan's percentage share of GDP per industry code, one value per period in `sector_shares.periods`. */
   sector_shares: Record<string, (number | null)[]>;
   sector_share_symbols: Record<string, Record<string, string>>;
+  /** Short passages from the latest budget, each checked against its document by stage 08 (R5). */
+  budget: {
+    title: string;
+    url: string;
+    /** In the language the document was read in (English); `page` is the PDF's page, null for an HTML page. */
+    quotes: { page: number | null; kind: "risk" | "opportunity"; text: string }[];
+    /** Why a jurisdiction has no quote, where it has none. */
+    note: Text | null;
+  };
 }
 
 export interface ProvincesDoc {

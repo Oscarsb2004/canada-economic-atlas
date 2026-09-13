@@ -22,8 +22,8 @@ how its finances have gone. Four publishers, each read by its own module:
     Wikimedia Commons   the flag and coat of arms, with each file's own licence
                      (atlas/sources/symbols.py)
 
-Not yet here: the licence plate slogan (R1) and each province's budget text
-(R5) — both need their sources read first.
+Also: short passages from each jurisdiction's latest budget on the risks to its
+outlook, each checked against its document (atlas/sources/budget_text.py).
 
 Nothing here is computed except a 240-pixel rendering of each image, which
 Commons itself produces.
@@ -47,7 +47,7 @@ from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef, Text, to_jsonable
 from atlas.net import Fetcher, FetchError
-from atlas.sources import census, fiscal_tables, sector_shares, statcan, symbols
+from atlas.sources import budget_text, census, fiscal_tables, sector_shares, statcan, symbols
 
 log = logging.getLogger("08_provinces")
 
@@ -163,6 +163,41 @@ def main() -> int:
                 "provenance": Provenance.THIRD_PARTY.value,
             }
 
+    # ── Budget passages (R5) ─────────────────────────────────────────────────
+    breg = yaml.safe_load((REGISTRY / "budgets.yaml").read_text(encoding="utf-8"))
+    bsrc = R.source(breg["source"])
+    if set(breg["budgets"]) != set(provinces):
+        raise SystemExit(f"budgets.yaml lists {sorted(breg['budgets'])}, not the thirteen")
+    budgets: dict[str, dict] = {}
+    for code, b in breg["budgets"].items():
+        quotes = b.get("quotes") or []
+        if quotes:
+            # Some government servers refuse this project's polite user agent
+            # (yukon.ca answers 403) while serving the same file to a browser.
+            # Then the document is read from a copy saved by hand under
+            # data/raw/budgets/ — never committed — and still checked quote by quote.
+            try:
+                body = fetch.bytes(b["url"], force=args.refresh)
+            except FetchError as exc:
+                saved = [f for f in (R.DATA_DIR / "raw" / "budgets").glob(f"{code}.*")]
+                if not saved:
+                    raise SystemExit(f"{code}: {exc}. Download {b['url']} in a browser and save it as "
+                                     f"data/raw/budgets/{code}.pdf (or .html), then re-run.") from exc
+                body = saved[0].read_bytes()
+                log.warning("%s: %s refused the download; checking the saved copy %s", code, b["url"], saved[0].name)
+            if body.startswith(b"%PDF"):
+                budget_text.check(quotes, pages=budget_text.pdf_pages(body), text=None, where=code)
+            else:
+                budget_text.check(quotes, pages=None, text=budget_text.html_text(body.decode("utf-8", "replace")),
+                                  where=code)
+            sources.append(SourceRef(url=b["url"], retrieved_at=retrieved, provenance=Provenance.PAGE_VERBATIM,
+                                     licence=bsrc["licence"], content_sha256=_sha(body)))
+        budgets[code] = {"title": b["title"], "url": b["url"],
+                         "quotes": [{"page": q.get("page"), "kind": q["kind"], "text": q["text"]} for q in quotes],
+                         "note": b.get("note")}
+    log.info("budget passages: %d quotes checked across %d documents",
+             sum(len(v["quotes"]) for v in budgets.values()), sum(1 for v in budgets.values() if v["quotes"]))
+
     # ── Output ───────────────────────────────────────────────────────────────
     doc = {
         "generated_at": retrieved,
@@ -196,6 +231,7 @@ def main() -> int:
                 },
                 "sector_shares": shares["shares"][code],
                 "sector_share_symbols": shares["symbols"].get(code, {}),
+                "budget": budgets[code],
             }
             for code in sorted(provinces)
         },

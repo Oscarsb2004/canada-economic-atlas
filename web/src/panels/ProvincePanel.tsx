@@ -148,7 +148,7 @@ export function ProvincePanel({
         <div className="province-panel__figures">
           {f.columns.map((c, i) => (
             <div key={i} className="province-panel__figure">
-              <small>{t(c.label, lang)}</small>
+              <small>{t(c.label, lang)} ({s.provinceMoneyUnit})</small>
               <strong>{c.values[lastYear] == null ? "—" : fmtPublished(c.values[lastYear]!, lang)}</strong>
             </div>
           ))}
@@ -156,7 +156,7 @@ export function ProvincePanel({
 
         {balance && (
           <>
-            <h2 style={{ marginTop: "var(--sp-4)" }}>{t(balance.label, lang)}</h2>
+            <h2 style={{ marginTop: "var(--sp-4)" }}>{t(balance.label, lang)} ({s.provinceMoneyUnit})</h2>
             <PlotFigure
               label={s.provinceBalanceFigure(t(balance.label, lang))}
               deps={[f, width, bundle.palette, lang]}
@@ -166,7 +166,7 @@ export function ProvincePanel({
         )}
         {debt && (
           <>
-            <h2 style={{ marginTop: "var(--sp-4)" }}>{t(debt.label, lang)}</h2>
+            <h2 style={{ marginTop: "var(--sp-4)" }}>{t(debt.label, lang)} ({s.provinceMoneyUnit})</h2>
             <PlotFigure
               label={s.provinceDebtFigure(t(debt.label, lang))}
               deps={[f, width, bundle.palette, lang]}
@@ -177,7 +177,7 @@ export function ProvincePanel({
 
         <TableView
           caption={s.provinceFinanceCaption(name)}
-          columns={[s.colYear, ...f.columns.map((c) => t(c.label, lang))]}
+          columns={[s.colYear, ...f.columns.map((c) => `${t(c.label, lang)} (${s.provinceMoneyUnit})`)]}
           rows={f.years.map((year, i) => [
             year,
             ...f.columns.map((c) => (c.values[i] == null ? "—" : fmtPublished(c.values[i]!, lang))),
@@ -208,6 +208,33 @@ export function ProvincePanel({
         </p>
       </section>
 
+      {/* What the jurisdiction's own latest budget says could go wrong — or
+          right — quoted exactly and checked against the document by stage 08. */}
+      <section className="province-panel__section">
+        <h2>{s.provinceBudgetHeading}</h2>
+        {p.budget.quotes.map((q, i) => (
+          <figure key={i} style={{ margin: "var(--sp-2) 0 0" }}>
+            <blockquote style={{ margin: 0, paddingLeft: "var(--sp-3)", borderLeft: "2px solid var(--ink-axis)", fontSize: "var(--fs-small)" }}>
+              <strong>{s.provinceBudgetKind[q.kind]}:</strong> {q.text}
+            </blockquote>
+            <figcaption className="province-panel__credit" style={{ paddingLeft: "var(--sp-3)" }}>
+              {s.provinceBudgetCite(p.budget.title, q.page)}
+            </figcaption>
+          </figure>
+        ))}
+        {p.budget.note && <p className="muted" style={{ fontSize: "var(--fs-small)" }}>{t(p.budget.note, lang)}</p>}
+        <p className="province-panel__credit">
+          {safeExternalUrl(p.budget.url) ? (
+            <a href={safeExternalUrl(p.budget.url)} target="_blank" rel="noreferrer">{p.budget.title}</a>
+          ) : (
+            p.budget.title
+          )}
+          {" · "}
+          {s.provinceBudgetNote}
+          {s.provinceBudgetLanguage && ` ${s.provinceBudgetLanguage}`}
+        </p>
+      </section>
+
       <section className="province-panel__section">
         <h2>{s.provinceIdentityHeading}</h2>
         <div className="province-panel__identity">
@@ -226,7 +253,6 @@ export function ProvincePanel({
         {insignia && <p className="province-panel__credit">{s.provinceInsignia}</p>}
       </section>
 
-      <p className="muted" style={{ fontSize: "var(--fs-micro)", marginTop: "var(--sp-4)" }}>{s.provinceNotYet}</p>
     </article>
   );
 }

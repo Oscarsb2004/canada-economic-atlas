@@ -8,7 +8,7 @@
       "fr": "(millions de dollars)"
     }
   },
-  "generated_at": "2026-09-13T19:09:44Z",
+  "generated_at": "2026-09-13T21:56:51Z",
   "provinces": {
     "AB": {
       "arms": {
@@ -24,6 +24,18 @@
         "source_sha1": "a369c39f428464cd8850a0e993a52620ddb725b3",
         "src": "/media/provinces/ab-arms.png",
         "title": "File:Coat of arms of Alberta.svg"
+      },
+      "budget": {
+        "note": null,
+        "quotes": [
+          {
+            "kind": "risk",
+            "page": 25,
+            "text": "In Canada, uncertainty surrounding the future of CUSMA is a major source of risk. Businesses and consumers also face the challenge of adapting to higher trade costs and ongoing supply chain realignments, which may take time to fully work through the economy."
+          }
+        ],
+        "title": "Fiscal Plan 2026–29",
+        "url": "https://open.alberta.ca/dataset/3393a7b5-07bf-4b9f-8aaf-a6d89273297b/resource/58a8d024-398f-482e-b1c2-81a754a97253/download/budget-2026-fiscal-plan-2026-29.pdf"
       },
       "fiscal": {
         "columns": [
@@ -1127,6 +1139,18 @@
         "source_sha1": "facfc85b565766db5788a72f37dc415cfdc35338",
         "src": "/media/provinces/bc-arms.png",
         "title": "File:Coat of arms of British Columbia.svg"
+      },
+      "budget": {
+        "note": null,
+        "quotes": [
+          {
+            "kind": "risk",
+            "page": 15,
+            "text": "The main risks to the government's fiscal plan include: • Continued uncertainty around restrictive global trade policies, U.S. tariffs, and renewal of the Canada-United States-Mexico Agreement; • Immigration and population volatility;"
+          }
+        ],
+        "title": "Budget and Fiscal Plan 2026/27 – 2028/29",
+        "url": "https://www.bcbudget.gov.bc.ca/2026/pdf/2026_Budget_and_Fiscal_Plan.pdf"
       },
       "fiscal": {
         "columns": [
@@ -2271,6 +2295,18 @@
         "source_sha1": "015b4971fad9ed8eca86534c53f1861c37960ed5",
         "src": "/media/provinces/mb-arms.png",
         "title": "File:Coat of arms of Manitoba.svg"
+      },
+      "budget": {
+        "note": null,
+        "quotes": [
+          {
+            "kind": "risk",
+            "page": 90,
+            "text": "The United States remains Manitoba's largest export destination; however, the various tariffs imposed by U.S. President Donald Trump throughout 2025 still weigh heavily on trade relations in 2026."
+          }
+        ],
+        "title": "Manitoba Budget 2026",
+        "url": "https://www.gov.mb.ca/asset_library/en/budget2026/budget2026.pdf"
       },
       "fiscal": {
         "columns": [
@@ -3505,6 +3541,18 @@
         "src": "/media/provinces/nb-arms.png",
         "title": "File:Coat of arms of New Brunswick, Canada.svg"
       },
+      "budget": {
+        "note": null,
+        "quotes": [
+          {
+            "kind": "risk",
+            "page": 5,
+            "text": "Risks to the global outlook remain skewed to the downside."
+          }
+        ],
+        "title": "2026-2027 Economic Outlook",
+        "url": "https://www.gnb.ca/content/dam/GNB3/gov/budget/docs/2026-2027-economic-outlook.pdf"
+      },
       "fiscal": {
         "columns": [
           {
@@ -4686,6 +4734,18 @@
         "src": "/media/provinces/nl-arms.png",
         "title": "File:Coat of Arms of Newfoundland and Labrador.svg"
       },
+      "budget": {
+        "note": null,
+        "quotes": [
+          {
+            "kind": "risk",
+            "page": 26,
+            "text": "There are several risks to the provincial outlook, particularly related to evolving issues affecting global trade. The forecast assumes that current U.S. tariffs on Canadian exports will remain in place throughout the projection period."
+          }
+        ],
+        "title": "Budget 2026 — The Economy",
+        "url": "https://www.gov.nl.ca/fin/files/The-Economy-Budget-2026.pdf"
+      },
       "fiscal": {
         "columns": [
           {
@@ -5786,6 +5846,18 @@
         "source_sha1": "491bbd436abd6a961df7bacfc219ca9cba8e2058",
         "src": "/media/provinces/ns-arms.png",
         "title": "File:Coat of arms of Nova Scotia.svg"
+      },
+      "budget": {
+        "note": null,
+        "quotes": [
+          {
+            "kind": "risk",
+            "page": 46,
+            "text": "Rapid changes in US trade policy are causing instability in global commodity markets and supply chains, which may influence the costs of government purchases."
+          }
+        ],
+        "title": "Budget 2026–27: Defending Nova Scotia",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/6-4173/ftb-bfi-046-en-budget-2026-2027.pdf"
       },
       "fiscal": {
         "columns": [
@@ -6929,6 +7001,23 @@
         "src": "/media/provinces/nt-arms.png",
         "title": "File:Coat of arms of Northwest Territories.svg"
       },
+      "budget": {
+        "note": null,
+        "quotes": [
+          {
+            "kind": "risk",
+            "page": 29,
+            "text": "The continued short- and long-term risks to the Northwest Territories economy remain closely tied to the impending diamond mine closures."
+          },
+          {
+            "kind": "opportunity",
+            "page": 29,
+            "text": "There are also emerging opportunities that could strengthen the territory's outlook. Increased interest in mineral exploration, including projects focused on critical minerals, has the potential to generate new development and employment."
+          }
+        ],
+        "title": "Budget Address 2026-2027, with the Economic Outlook and Fiscal Review",
+        "url": "https://www.fin.gov.nt.ca/sites/fin/files/2026-27_budget_address_and_economic_outlook_and_fiscal_review_papers.pdf"
+      },
       "fiscal": {
         "columns": [
           {
@@ -8015,6 +8104,18 @@
         "source_sha1": "727878ed111d3c2b88fa9e1a4a2f6a6465362580",
         "src": "/media/provinces/nu-arms.png",
         "title": "File:Coat of arms of Nunavut.svg"
+      },
+      "budget": {
+        "note": null,
+        "quotes": [
+          {
+            "kind": "risk",
+            "page": 23,
+            "text": "slower population growth, weaker productivity performance, and growing uncertainty surrounding global trade and investment conditions weigh on the outlook for 2026-27."
+          }
+        ],
+        "title": "2026-27 Budget Highlights (Fiscal and Economic Indicators)",
+        "url": "https://www.gov.nu.ca/sites/default/files/documents/2026-05/FEI_-_Budget_2026-27_-_ENG.pdf"
       },
       "fiscal": {
         "columns": [
@@ -9111,6 +9212,18 @@
         "source_sha1": "ef140ac63c677ced960d202674b5f0f466840c8f",
         "src": "/media/provinces/on-arms.png",
         "title": "File:Coat of arms of Ontario.svg"
+      },
+      "budget": {
+        "note": null,
+        "quotes": [
+          {
+            "kind": "risk",
+            "page": null,
+            "text": "There are a variety of risks to the economic planning assumptions underlying the revenue forecast, as outlined in Chapter 2: Economic Performance and Outlook."
+          }
+        ],
+        "title": "2026 Ontario Budget — Chapter 3",
+        "url": "https://budget.ontario.ca/2026/chapter-3.html"
       },
       "fiscal": {
         "columns": [
@@ -10218,6 +10331,15 @@
         "source_sha1": "fba84a3a2d4d6d98e63b973c4f3d2f970b31fe7e",
         "src": "/media/provinces/pe-arms.png",
         "title": "File:Coat of arms of Prince Edward Island, Canada.svg"
+      },
+      "budget": {
+        "note": {
+          "en": "Prince Edward Island's budget address is linked, not quoted: its web page refuses automated reading, so no passage could be checked against it.",
+          "fr": "Le discours du budget de l’Île-du-Prince-Édouard est lié mais non cité : sa page Web refuse la lecture automatisée, de sorte qu’aucun passage n’a pu y être vérifié."
+        },
+        "quotes": [],
+        "title": "Budget Address 2026",
+        "url": "https://www.princeedwardisland.ca/en/information/finance-and-affordability/budget-address-2026"
       },
       "fiscal": {
         "columns": [
@@ -11360,6 +11482,18 @@
         "source_sha1": "05d58fd74931b5419106b9d6cefd3af9047d6728",
         "src": "/media/provinces/qc-arms.png",
         "title": "File:Coat of arms of Quebec.svg"
+      },
+      "budget": {
+        "note": null,
+        "quotes": [
+          {
+            "kind": "risk",
+            "page": 406,
+            "text": "Developments in the trade dispute with the United States, the review of the Canada-United States-Mexico Agreement (CUSMA), and the situation in the Middle East are the main risks to the baseline scenario."
+          }
+        ],
+        "title": "Budget 2026-2027 — Budget Plan",
+        "url": "https://www.finances.gouv.qc.ca/Budget_and_update/budget/documents/Budget2627_BudgetPlan.pdf"
       },
       "fiscal": {
         "columns": [
@@ -12636,6 +12770,18 @@
         "src": "/media/provinces/sk-arms.png",
         "title": "File:Coat of arms of Saskatchewan.svg"
       },
+      "budget": {
+        "note": null,
+        "quotes": [
+          {
+            "kind": "risk",
+            "page": 41,
+            "text": "The current range of tariffs imposed by the U.S., India and China on Canada remains a downside risk to the Saskatchewan economy."
+          }
+        ],
+        "title": "2026-27 Budget",
+        "url": "https://budget.saskatchewan.ca/f/47i547mqkjc4xevocxv2v7hr9ptn36/2026-27-Budget-Document-WEB.pdf"
+      },
       "fiscal": {
         "columns": [
           {
@@ -13732,6 +13878,18 @@
         "source_sha1": "102fe23b8bf7d2005d67b0f3c67ff3f96fcfa2ce",
         "src": "/media/provinces/yt-arms.png",
         "title": "File:Coat of arms of Yukon.svg"
+      },
+      "budget": {
+        "note": null,
+        "quotes": [
+          {
+            "kind": "risk",
+            "page": 3,
+            "text": "The Yukon faces strong headwinds, beginning with the pressure of record population growth."
+          }
+        ],
+        "title": "Budget address 2026–27",
+        "url": "https://yukon.ca/sites/default/files/fin-2026-27-budget-address.pdf"
       },
       "fiscal": {
         "columns": [
@@ -14982,211 +15140,295 @@
       "content_sha256": "3c671a2e3ad317cdfa2c9e7773e50ac934ac9e4fc626c31ae33cdffa107a1b9f",
       "licence": "canada-ca-terms",
       "provenance": "official_dataset",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/content/dam/fin/publications/frt-trf/2025/frt-trf-25-eng.xlsx"
     },
     {
       "content_sha256": "c1e618f8245526955e87551dd068e65028d974b26795238732dee8b4b4f92675",
       "licence": "canada-ca-terms",
       "provenance": "official_dataset",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/content/dam/fin/publications/frt-trf/2025/frt-trf-25-fra.xlsx"
     },
     {
       "content_sha256": "be6796c83f33297e680c80dcb1d43ec61eb842af061d59924707bc920bb2ecc6",
       "licence": "statcan-open",
       "provenance": "official_dataset",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www150.statcan.gc.ca/n1/tbl/csv/36100400-eng.zip"
     },
     {
       "content_sha256": "577f1c8117de4c87e004a4fd2790c594ad25c675c331f89ed114544bf560653e",
       "licence": "statcan-open",
       "provenance": "official_dataset",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www150.statcan.gc.ca/n1/tbl/csv/36100400-fra.zip"
     },
     {
       "content_sha256": "e55978d30025d403d9000dd0c70c867196116687d4a5092e66c2ee7134989bcb",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/newfoundland-and-labrador.html"
     },
     {
       "content_sha256": "5dab0e791216037e0360fa6023b52d953e49a94a667f43072fda6f66f37c41c9",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/terre-neuve-et-labrador.html"
     },
     {
       "content_sha256": "54c80ba75a53138f6f0e96e7988c77f5d6244cd6997cb9098d88cdf60a50333d",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/prince-edward-island.html"
     },
     {
       "content_sha256": "28b87dde19bd66c7e13f337baedaa0e9ea215075f8f9eecba03cc5de3ed2ee50",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/ile-du-prince-edouard.html"
     },
     {
       "content_sha256": "4ac12508c69d908ef747ee8542bd718927972e42d668d2fb5d66af4d98fc709c",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/nova-scotia.html"
     },
     {
       "content_sha256": "f187cea0b81966c8419ac3fd9242d631e9c15c4921efddb51e4e4a81d07ddf67",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/nouvelle-ecosse.html"
     },
     {
       "content_sha256": "2f1c2a61b354638e6de3180d0326f04066a585df96088d216174e0710d02fb5d",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/new-brunswick.html"
     },
     {
       "content_sha256": "fa6e4a88b5e0828a0be3569c21a6cf6d6b691190af3184d12bdf02f54d56f49b",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/nouveau-brunswick.html"
     },
     {
       "content_sha256": "1ee76495b01bef44d38ba6bdef5385b1b9f2b537e44c2b5cc8185baae56f31b4",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/quebec.html"
     },
     {
       "content_sha256": "10dca01a78f63ee8160e70f4c0e1817fda00f5efb6440ba4991e4d5e768b2053",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/quebec.html"
     },
     {
       "content_sha256": "c4e97d26121fdde183646a16c2ba70e858a62b5e6ecc8fd9d5f2289f70844179",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/ontario.html"
     },
     {
       "content_sha256": "c106e4d49889345e29a955213370267022c6bda875279110296c3592e1c791cc",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/ontario.html"
     },
     {
       "content_sha256": "3a2db56ceffd9b47dbcebcb26b75414a14152a9d4bed562e1c7d31e35ac1d6ff",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/manitoba.html"
     },
     {
       "content_sha256": "8c4e17f64764be1354949e4117a48609d9790f4cec76847dd48f4feb60c0d30a",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/manitoba.html"
     },
     {
       "content_sha256": "b799b830cbe850cbc86f2d938466984794212cdce4c7c9ce6365547ad90d8775",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/saskatchewan.html"
     },
     {
       "content_sha256": "32e0e096b5cfe2e16a6720b7c4261eb2eb9f552fdc32af3215268079ba4ad1eb",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/saskatchewan.html"
     },
     {
       "content_sha256": "c95a1959c382343748a6c54598c72eb72b9bf8d34af19bbb3120824043b4ad5b",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/alberta.html"
     },
     {
       "content_sha256": "e6eba3290da4007eeefd1da5b6dbd63ee699ad05fc6cea3aa9290e354b9724c0",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/alberta.html"
     },
     {
       "content_sha256": "e72a6e7731f2120136d3c8b829dcf3ef3f4606d39f12360d99a0f34237fdddf8",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/british-columbia.html"
     },
     {
       "content_sha256": "758914b912a939cd98ebf0fa657cad2d0e1c03b8aa2299194d40c24b4d2e70b2",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/colombie-britannique.html"
     },
     {
       "content_sha256": "d46ddea93598ccdc011cd18380bfb88bcd0b20e730e21530301390171ed5a3ed",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/yukon.html"
     },
     {
       "content_sha256": "d12ecce0d311c5daf3c2c0907488fdbf1755bf1cba4675a224c364373dfebddb",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/yukon.html"
     },
     {
       "content_sha256": "89ae691f74983b2555da927c914d09551a11469abffc1ea60e61846a70b2980a",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/northwest-territories.html"
     },
     {
       "content_sha256": "574de62edcbf3381d8331dd18825cdb20d3e5a74951bd2d0a611e0e0471c7ecc",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/territoires-du-nord-ouest.html"
     },
     {
       "content_sha256": "16ada2fb0db0b93284c0e6cb8e4238ad19c0aab8589314919cd449fbade25bba",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/nunavut.html"
     },
     {
       "content_sha256": "60f845bf3df946106c73627ad26803b94e709d3382c78455312903a2edba3ea4",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T19:09:44Z",
+      "retrieved_at": "2026-09-13T21:56:51Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/nunavut.html"
+    },
+    {
+      "content_sha256": "005ea9132ebd954111ed3c4a9defc7e1bd952d1862b4cdec51dfcfc1174ffe9c",
+      "licence": "budget-quotation",
+      "provenance": "page_verbatim",
+      "retrieved_at": "2026-09-13T21:56:51Z",
+      "url": "https://www.gov.nl.ca/fin/files/The-Economy-Budget-2026.pdf"
+    },
+    {
+      "content_sha256": "2455439c0287efc291ab5bc280b3b19ecb85fd3b774e2e1ec7a486bdd364ac82",
+      "licence": "budget-quotation",
+      "provenance": "page_verbatim",
+      "retrieved_at": "2026-09-13T21:56:51Z",
+      "url": "https://www.novascotia.ca/sites/default/files/documents/6-4173/ftb-bfi-046-en-budget-2026-2027.pdf"
+    },
+    {
+      "content_sha256": "f7051dec0a80bcb98a87fb7d5989f76c21a0720427b20f672a2f4f1ff5811a7b",
+      "licence": "budget-quotation",
+      "provenance": "page_verbatim",
+      "retrieved_at": "2026-09-13T21:56:51Z",
+      "url": "https://www.gnb.ca/content/dam/GNB3/gov/budget/docs/2026-2027-economic-outlook.pdf"
+    },
+    {
+      "content_sha256": "3bcbbef4ac5ad869ddfb99d6bed3df4d93fc52484891d3213e2acb40f2ef75ee",
+      "licence": "budget-quotation",
+      "provenance": "page_verbatim",
+      "retrieved_at": "2026-09-13T21:56:51Z",
+      "url": "https://www.finances.gouv.qc.ca/Budget_and_update/budget/documents/Budget2627_BudgetPlan.pdf"
+    },
+    {
+      "content_sha256": "41dc432d27375d5144cc6d4c569210abaa601ade5cc0c5f5f2c4636d3a83d2aa",
+      "licence": "budget-quotation",
+      "provenance": "page_verbatim",
+      "retrieved_at": "2026-09-13T21:56:51Z",
+      "url": "https://budget.ontario.ca/2026/chapter-3.html"
+    },
+    {
+      "content_sha256": "68051c26af8389d237bb733625c6cca4ce4b9f59b5fc14808d6f2407547de52e",
+      "licence": "budget-quotation",
+      "provenance": "page_verbatim",
+      "retrieved_at": "2026-09-13T21:56:51Z",
+      "url": "https://www.gov.mb.ca/asset_library/en/budget2026/budget2026.pdf"
+    },
+    {
+      "content_sha256": "f60de1b36c40e2384c54e559403744b0bee9336bb2abc51c21f458282554cc1b",
+      "licence": "budget-quotation",
+      "provenance": "page_verbatim",
+      "retrieved_at": "2026-09-13T21:56:51Z",
+      "url": "https://budget.saskatchewan.ca/f/47i547mqkjc4xevocxv2v7hr9ptn36/2026-27-Budget-Document-WEB.pdf"
+    },
+    {
+      "content_sha256": "0ce62efa4f0a977c9e0fe583ecfc8b6e17c898d48de49fdb3a29a55efc5883a2",
+      "licence": "budget-quotation",
+      "provenance": "page_verbatim",
+      "retrieved_at": "2026-09-13T21:56:51Z",
+      "url": "https://open.alberta.ca/dataset/3393a7b5-07bf-4b9f-8aaf-a6d89273297b/resource/58a8d024-398f-482e-b1c2-81a754a97253/download/budget-2026-fiscal-plan-2026-29.pdf"
+    },
+    {
+      "content_sha256": "5b5194bf1e292dcb6d440796e4808c00a5726318692597e6db0285b9d248407d",
+      "licence": "budget-quotation",
+      "provenance": "page_verbatim",
+      "retrieved_at": "2026-09-13T21:56:51Z",
+      "url": "https://www.bcbudget.gov.bc.ca/2026/pdf/2026_Budget_and_Fiscal_Plan.pdf"
+    },
+    {
+      "content_sha256": "827281e6bbce656243d1309f507ba328c035dff0d15da2ee59dd8f3ab36be230",
+      "licence": "budget-quotation",
+      "provenance": "page_verbatim",
+      "retrieved_at": "2026-09-13T21:56:51Z",
+      "url": "https://yukon.ca/sites/default/files/fin-2026-27-budget-address.pdf"
+    },
+    {
+      "content_sha256": "3f28c13a12ce513ce20b6e1a48cf46afe321999917a92a2ff50f5a5fe39402a6",
+      "licence": "budget-quotation",
+      "provenance": "page_verbatim",
+      "retrieved_at": "2026-09-13T21:56:51Z",
+      "url": "https://www.fin.gov.nt.ca/sites/fin/files/2026-27_budget_address_and_economic_outlook_and_fiscal_review_papers.pdf"
+    },
+    {
+      "content_sha256": "2c0b302dbcb4d758460ceaf28d126e045e84dee0e6e3bf00fa6c5d51013f9865",
+      "licence": "budget-quotation",
+      "provenance": "page_verbatim",
+      "retrieved_at": "2026-09-13T21:56:51Z",
+      "url": "https://www.gov.nu.ca/sites/default/files/documents/2026-05/FEI_-_Budget_2026-27_-_ENG.pdf"
     }
   ]
 }

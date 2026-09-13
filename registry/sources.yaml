@@ -50,6 +50,15 @@ licences:
     # Government of Canada are excepted; provincial symbols are not mentioned.
     redistribution: permitted for non-commercial purposes with attribution
 
+  budget-quotation:
+    name: Short quotations from government budget documents, attributed and linked
+    url: https://laws-lois.justice.gc.ca/eng/acts/c-42/section-29.html
+    # One or two sentences per document, the document named and linked. The
+    # copyright terms of each province and territory's budget documents were
+    # NOT read one by one (2026-09-13, owner's call to finish the project);
+    # this is recorded so a validation pass can read them.
+    redistribution: short quotation with attribution; terms not individually read
+
   commons-per-file:
     name: Wikimedia Commons — each file's own licence
     url: https://commons.wikimedia.org/wiki/Commons:Licensing
@@ -219,6 +228,13 @@ sources:
       fr: https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/{slug}.html
     # Read for the motto and the flag's description, verbatim, by the pages'
     # own section headings (Motto/Devise, Flag/Drapeau).
+
+  provincial_budgets:
+    title: Provincial and territorial budget documents, 2026
+    publisher: Each province and territory's finance department
+    licence: budget-quotation
+    # Documents and quotes are declared in registry/budgets.yaml; stage 08
+    # checks each quote against its document.
 
   wikimedia_commons:
     title: Wikimedia Commons

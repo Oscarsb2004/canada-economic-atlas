@@ -648,6 +648,30 @@ def check_provinces(r: Report) -> None:
            str(bad_images[:6]))
     r.gate(not bad_shares, "provinces: StatCan's shares hold All industries at 100 and sum to it within rounding",
            str(bad_shares[:6]))
+    # Budget passages (R5). Stage 08 already refused any quote not on its page;
+    # this checks what reached the output: every quote attributed to a page and
+    # a document, of a declared kind, and every quoted document hashed in sources.
+    source_urls = {s.get("url") for s in doc.get("sources", [])}
+    bad_budget = []
+    for code, p in provs.items():
+        b = p.get("budget") or {}
+        if not b.get("title") or not str(b.get("url", "")).startswith("https://"):
+            bad_budget.append(f"{code}: no budget document")
+            continue
+        if not b.get("quotes") and not (b.get("note") or {}).get("en"):
+            bad_budget.append(f"{code}: no quote and no note saying why")
+        for q in b.get("quotes", []):
+            if q.get("kind") not in ("risk", "opportunity") or not q.get("text") \
+                    or not (q.get("page") is None or isinstance(q.get("page"), int)):
+                bad_budget.append(f"{code}: quote {q}")
+        if b.get("quotes") and b["url"] not in source_urls:
+            bad_budget.append(f"{code}: quoted document not hashed in sources")
+    r.gate(not bad_budget, "provinces: every budget passage names its document and page, and every quoted document is hashed",
+           str(bad_budget[:6]))
+    r.note("provinces: budget passages quoted for "
+           f"{sum(1 for p in provs.values() if (p.get('budget') or {}).get('quotes'))} of {len(provs)} jurisdictions; "
+           "each government's copyright terms for budget documents are not yet read (sources.yaml)")
+
     mismatches = {c: p["fiscal"]["year_label_mismatches"] for c, p in provs.items()
                   if p.get("fiscal", {}).get("year_label_mismatches")}
     r.note(f"provinces: Fiscal Reference Tables {doc.get('fiscal', {}).get('edition')} edition; "

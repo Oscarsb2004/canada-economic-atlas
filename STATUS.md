@@ -2,6 +2,11 @@
 
 _Last updated: 2026-09-12._
 
+**The project is finished (closed out 2026-09-13).** What shipped, what was
+deliberately left, and the owner's reasons are at the top of
+[`docs/BACKLOG.md`](docs/BACKLOG.md). The next sessions validate and fix bugs;
+nothing new is queued before that.
+
 Read this first when picking the project back up. The full design is in
 `docs/PLAN.md` and **the ordered work queue is [`docs/BACKLOG.md`](docs/BACKLOG.md)**.
 This file records only what is **built and verified**, and the findings that were
