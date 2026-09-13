@@ -110,6 +110,22 @@ const en = {
   focusHeading: "One sector in context",
   focusFigure: (sector: string) => `${sector} against all other sectors`,
   focusSelect: "Sector",
+  sectorProjectsHeading: "Major projects placed in this sector",
+  sectorProjectsCount: (n: number, withCost: number) =>
+    `${n} Major Projects Office ${n === 1 ? "project" : "projects"} in this sector · ${withCost} with a cost NRCan publishes`,
+  sectorProjectsNone: (sector: string) => `No Major Projects Office project is placed in ${sector}.`,
+  sectorProjectsGdp: (value: string, period: string) =>
+    `Real GDP of this sector, ${period}: ${value} million chained 2017 dollars, seasonally adjusted at annual rates`,
+  sectorProjectsConstruction: "Counted in construction while under construction",
+  sectorProjectsCostNone: "Cost not published",
+  sectorProjectsNote:
+    "The placements are this atlas's reading — each project shows its working. A cost is NRCan's figure for one project, in dollars; GDP is a yearly rate of output in chained 2017 dollars. The two measure different things, so they are shown side by side and never added up or divided.",
+  sectorProjectsTable: "Projects and real GDP, every sector",
+  colProjects: "Projects",
+  colWithCost: "With a published cost",
+  colGdpLatest: "Real GDP ($M, chained 2017)",
+  sectorProjectsTableNote: (total: number) =>
+    `A project under construction is counted in its own sector and in Construction (23), so the Projects column does not add up to ${total}. Costs are counted, never summed.`,
   businessHeading: "Businesses with employees, by size",
   businessGeo: "Geography",
   businessTotal: (n: string, sector: string, geo: string) => `${n} locations with employees · ${sector} · ${geo}`,
@@ -331,6 +347,22 @@ const fr: Strings = {
   focusHeading: "Un secteur en contexte",
   focusFigure: (sector) => `${sector} par rapport à tous les autres secteurs`,
   focusSelect: "Secteur",
+  sectorProjectsHeading: "Grands projets classés dans ce secteur",
+  sectorProjectsCount: (n, withCost) =>
+    `${n} ${n === 1 ? "projet" : "projets"} du Bureau des grands projets dans ce secteur · ${withCost} avec des dépenses en immobilisations publiées par RNCan`,
+  sectorProjectsNone: (sector) => `Aucun projet du Bureau des grands projets n’est classé dans ${sector}.`,
+  sectorProjectsGdp: (value, period) =>
+    `PIB réel de ce secteur, ${period} : ${value} millions de dollars enchaînés de 2017, désaisonnalisés au taux annuel`,
+  sectorProjectsConstruction: "Compté dans la construction pendant la construction",
+  sectorProjectsCostNone: "Dépenses non publiées",
+  sectorProjectsNote:
+    "Le classement est une lecture de cet atlas — chaque projet montre son raisonnement. Une dépense est le chiffre de RNCan pour un projet, en dollars; le PIB est un rythme annuel de production en dollars enchaînés de 2017. Les deux mesurent des choses différentes : ils sont présentés côte à côte et ne sont jamais additionnés ni divisés.",
+  sectorProjectsTable: "Projets et PIB réel, tous les secteurs",
+  colProjects: "Projets",
+  colWithCost: "Avec dépenses publiées",
+  colGdpLatest: "PIB réel (M$, enchaînés de 2017)",
+  sectorProjectsTableNote: (total) =>
+    `Un projet en construction est compté dans son propre secteur et dans la construction (23) : la colonne Projets ne totalise donc pas ${total}. Les dépenses sont dénombrées, jamais additionnées.`,
   businessHeading: "Entreprises avec employés, selon la taille",
   businessGeo: "Géographie",
   businessTotal: (n, sector, geo) => `${n} emplacements avec employés · ${sector} · ${geo}`,

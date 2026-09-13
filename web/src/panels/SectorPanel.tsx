@@ -34,6 +34,7 @@ import { t, type Bundle, type Lang, type Series } from "../data/bundle";
 import { fmtMoneyM, fmtPct, useI18n } from "../i18n";
 import { PinButton } from "../tabs/TabStrip";
 import { BusinessCountsPanel } from "./BusinessCountsPanel";
+import { SectorProjectsPanel } from "./SectorProjectsPanel";
 
 /** Trim every series to the last N months. 0 means all of it. */
 function windowed(series: Series[], months: number): Series[] {
@@ -262,6 +263,13 @@ export function SectorPanel({
           deps={[national, width, focus, bundle.palette, lang]}
           spec={() => emphasis(national, bundle.palette, width, focus, lang)}
         />
+      </section>
+
+      {/* What is being built in the chosen sector, beside how big the sector
+          is (BACKLOG C4) — the Major Projects Office projects placed in it,
+          with the costs NRCan publishes, never summed. */}
+      <section style={{ marginTop: "var(--sp-5)" }}>
+        <SectorProjectsPanel bundle={bundle} sector={focus} sectorLabel={focusLabel} />
       </section>
 
       {/* Who makes up the chosen sector — StatCan's counts of business
