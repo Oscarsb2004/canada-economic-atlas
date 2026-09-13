@@ -34,7 +34,7 @@ a work queue — two lists of "next" is how one of them goes stale.
 | **`registry/palette.yaml`** | **LOCKED.** 5 validated categorical slots, dark only. |
 | **`scripts/build_geo.mjs`** | **Done and run.** Reproducible world + provinces geometry. |
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
-| **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
+| **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. **C4, 2026-09-13:** "Major projects placed in this sector" under the sector focus — the projects placed in the chosen sector with NRCan's cost per project (never summed), counts, and the sector's latest real GDP beside them; a table for every sector. `SectorProjectsPanel.tsx`. |
 | **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
 | **`verify/` (M6)** | **Done.** 160 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
 | **`tests/` (M6)** | **Done.** 114 tests, each explaining the failure it prevents. |
