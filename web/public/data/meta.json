@@ -13,7 +13,7 @@
     "sectors/provincial-annual.json",
     "sectors/rates.json"
   ],
-  "generated_at": "2026-09-12T21:23:17Z",
+  "generated_at": "2026-09-13T17:44:29Z",
   "licences": {
     "aisstream-unstated": {
       "name": "aisstream.io — no published terms of use (checked 2026-09-12)",
@@ -97,15 +97,11 @@
     },
     "nrcan_mpi_2025": {
       "attribution": "Natural Resources Canada — Major Projects Inventory 2025",
+      "dataset_record": "https://open.canada.ca/data/en/dataset/f5f2db55-31e4-42fb-8c73-23e1c44de9b2",
       "licence": "ogl-canada-2.0",
-      "prior_status_field": "Status 2024",
       "publisher": "Natural Resources Canada",
-      "sheet": "MPI 2025 Data",
-      "sheet_fr": "Données IGP 2025",
-      "status_field": "Status 2025",
-      "title": "Major Projects Inventory 2025",
-      "xlsx": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Natural-resources_Ressources-naturelles/major_projects_inventory/MPI_2025_Active_Projects_en.xlsx",
-      "xlsx_fr": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Natural-resources_Ressources-naturelles/major_projects_inventory/MPI_2025_Active_Projects_fr.xlsx"
+      "record_api": "https://open.canada.ca/data/api/action/package_show?id=f5f2db55-31e4-42fb-8c73-23e1c44de9b2",
+      "title": "Major Projects Inventory 2025"
     },
     "nrcan_nrwn": {
       "attribution": "Natural Resources Canada — National Railway Network (NRWN)",

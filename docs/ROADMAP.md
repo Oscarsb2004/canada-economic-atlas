@@ -100,6 +100,14 @@ MPO *Electricity* project; the inventory files electricity under its Energy
 sector, so "MPI does not track Electricity" was wrong. Only status is read so far;
 the costs remain C2, behind C3.
 
+**Corrected again 2026-09-13 — 9, from the open map service.** C2 read the
+costs, first from the XLSX above and then, on the owner's decision, from NRCan's
+open ArcGIS service for the same inventory: the workbook's own caveats sheet says
+it is "not authorized or approved for publication at this time". The service
+lists 295 projects, publishes the same cost for every joined project it shares
+with the workbook, and does not list the Deep Geological Repository — so 9 of
+18 projects now carry a cost and a status.
+
 So the rule for this feature is:
 
 > Adopt MPI's cost where a project matches, show **"not published"** where it

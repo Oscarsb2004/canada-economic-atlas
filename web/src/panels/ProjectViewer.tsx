@@ -276,9 +276,9 @@ function constructionLine(c: ConstructionListing, lang: Lang, s: Strings): strin
   const sector = t(c.sector_title, lang);
   switch (c.basis) {
     case "under_construction":
-      return s.constructionListed(c.sector, sector, c.status?.status_field ?? "", t(c.status?.status, lang));
+      return s.constructionListed(c.sector, sector, t(c.status?.status_field, lang), t(c.status?.status, lang));
     case "not_under_construction":
-      return s.constructionNotListed(c.sector, sector, c.status?.status_field ?? "", t(c.status?.status, lang));
+      return s.constructionNotListed(c.sector, sector, t(c.status?.status_field, lang), t(c.status?.status, lang));
     case "not_in_inventory":
       return s.constructionNotPublished(c.sector, sector);
     default:

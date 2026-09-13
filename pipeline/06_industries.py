@@ -50,7 +50,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from atlas import industries
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
-from atlas.core.schema import Provenance, SourceRef, to_jsonable
+from atlas.core.schema import Provenance, SourceRef, Text, to_jsonable
 from atlas.net import Fetcher
 from atlas.sources import mpi, naics
 
@@ -83,17 +83,19 @@ def main() -> int:
     classification = naics.read(*(raw[key].decode("utf-8") for key in NAICS_FILES))
     log.info("NAICS Canada 2022: %d classes", len(classification.classes))
 
-    xlsx = {lang: fetch.download(isrc[key], R.DATA_DIR / "raw" / "nrcan" / Path(isrc[key]).name,
-                                 force=args.refresh)
-            for lang, key in (("en", "xlsx"), ("fr", "xlsx_fr"))}
-    inventory = mpi.read(xlsx["en"], xlsx["fr"], sheet_en=isrc["sheet"], sheet_fr=isrc["sheet_fr"],
-                         status_field=isrc["status_field"],
-                         prior_status_field=isrc["prior_status_field"])
+    # NRCan's open map service, both languages, paged in a stable order; and the
+    # dataset record, for the licence and the disclaimer shown beside costs.
+    layers = {lang: mpi.fetch_layer(lambda url: fetch.bytes(url, force=args.refresh), isrc["service"][lang])
+              for lang in ("en", "fr")}
+    record_raw = fetch.bytes(isrc["record_api"], force=args.refresh)
+    inventory = mpi.read(layers["en"][0], layers["fr"][0])
+    disclaimer = mpi.caveat(json.loads(record_raw))
     log.info("Major Projects Inventory: %d projects", len(inventory))
 
     projects = json.loads(PROJECTS.read_text(encoding="utf-8"))["projects"]
     records = industries.build(projects, reg, classification, inventory,
-                               status_field=isrc["status_field"])
+                               status_field=Text(**isrc["fields"]["status"]),
+                               cost_field=Text(**isrc["fields"]["cost"]))
 
     changed = write_if_changed(OUTPUT, {
         "generated_at": retrieved,
@@ -121,13 +123,27 @@ def main() -> int:
         },
         "inventory": {
             "title": isrc["title"],
-            "status_field": isrc["status_field"],
+            "dataset_record": isrc["dataset_record"],
+            "status_field": isrc["fields"]["status"],
+            # Costs are NRCan's figures for the joined projects only; no total is
+            # written, because a sum over them would read as the portfolio's (C3).
+            "cost_field": isrc["fields"]["cost"],
+            "disclaimer": to_jsonable(disclaimer),
             "join_max_km": reg["join_max_km"],
             "sources": to_jsonable([
-                SourceRef(url=isrc[key], retrieved_at=retrieved, provenance=Provenance.OFFICIAL_DATASET,
-                          licence=isrc["licence"],
-                          content_sha256=hashlib.sha256(xlsx[lang].read_bytes()).hexdigest())
-                for lang, key in (("en", "xlsx"), ("fr", "xlsx_fr"))
+                SourceRef(url=isrc["service"][lang], retrieved_at=retrieved,
+                          provenance=Provenance.OFFICIAL_DATASET, licence=isrc["licence"],
+                          content_sha256=hashlib.sha256(layers[lang][1]).hexdigest())
+                for lang in ("en", "fr")
+            ] + [
+                # Hashed over what is read from the record — its licence and its
+                # description — not the whole body, whose metadata timestamps
+                # would move the hash without the content the atlas uses moving.
+                SourceRef(url=isrc["record_api"], retrieved_at=retrieved,
+                          provenance=Provenance.OFFICIAL_DATASET, licence=isrc["licence"],
+                          content_sha256=hashlib.sha256(json.dumps(
+                              {k: json.loads(record_raw)["result"].get(k) for k in ("license_id", "notes_translated")},
+                              sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest())
             ]),
         },
         "projects": to_jsonable(records),

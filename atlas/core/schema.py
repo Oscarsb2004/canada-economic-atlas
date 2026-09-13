@@ -480,8 +480,12 @@ class InventoryStatus:
     name: str
     proponent: str
     status: Text                             # verbatim, from NRCan's English and French files
-    status_field: str                        # "Status 2025" — the vintage travels with the value
-    prior_status: Text
+    status_field: Text                       # the layer's own label: "Status of development"
+    #: NRCan's capital cost in millions of dollars, as its open map service
+    #: publishes it — never summed across projects (BACKLOG C3). None where the
+    #: service publishes none.
+    cost_musd: float | None
+    cost_field: Text                         # "Capital cost ($M)" / "Dépenses en immobilisations (M$)"
     points: tuple[tuple[float, float], ...]  # [lon, lat]
     #: Nearest inventory point to an MPO site anchor, the check the join passed.
     #: None where the inventory publishes no coordinate.

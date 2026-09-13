@@ -6,53 +6,72 @@
         "content_sha256": "b141a22f08a9b825e55c7eebc49fcc842d3b2f3734a672052b7ae8fdb27eff80",
         "licence": "statcan-open",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-12T20:44:13Z",
+        "retrieved_at": "2026-09-13T17:44:24Z",
         "url": "https://www.statcan.gc.ca/eng/statistical-programs/document/naics-scian-2022-structure-v1-eng.csv"
       },
       {
         "content_sha256": "77bc6ba4f7af3994f88ed3dac7a74bd63b9cdd5e4f93e2f88e145e1a085c0673",
         "licence": "statcan-open",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-12T20:44:13Z",
+        "retrieved_at": "2026-09-13T17:44:24Z",
         "url": "https://www.statcan.gc.ca/fra/programmes-statistiques/document/naics-scian-2022-structure-v1-fra.csv"
       },
       {
         "content_sha256": "09c816471b222eaf1c1af0a38b166185595bc28857ec7fe158298b96d5be5439",
         "licence": "statcan-open",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-12T20:44:13Z",
+        "retrieved_at": "2026-09-13T17:44:24Z",
         "url": "https://www.statcan.gc.ca/eng/statistical-programs/document/naics-scian-2022-element-v1-eng.csv"
       },
       {
         "content_sha256": "dea259bed798b0f5ee6cabb6cc1ab625826de06c421336e182b2954c9514f4f5",
         "licence": "statcan-open",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-12T20:44:13Z",
+        "retrieved_at": "2026-09-13T17:44:24Z",
         "url": "https://www.statcan.gc.ca/fra/programmes-statistiques/document/naics-scian-2022-element-v1-fra.csv"
       }
     ],
     "title": "North American Industry Classification System (NAICS) Canada 2022 Version 1.0"
   },
-  "generated_at": "2026-09-12T20:44:13Z",
+  "generated_at": "2026-09-13T17:44:24Z",
   "inventory": {
+    "cost_field": {
+      "en": "Capital cost ($M)",
+      "fr": "Dépenses en immobilisations (M$)"
+    },
+    "dataset_record": "https://open.canada.ca/data/en/dataset/f5f2db55-31e4-42fb-8c73-23e1c44de9b2",
+    "disclaimer": {
+      "en": "DISCLAIMER: Data is sourced from federal, provincial, and territorial databases, publicly accessible websites, and other sources, including CANOILS. Data and maps are for illustrative purposes only. Users understand that, although all efforts have been made to accurately and exhaustively compile, locate and classify projects, the authors do not guarantee the accuracy and/or the comprehensiveness of the data and assume no responsibility for errors or omissions. The routes of the proposed transmission lines and pipelines are approximations, often using only start and end points. In support of this initiative, proponents and partners are encouraged to contact Natural Resources Canada should they identify any significant errors or omissions.",
+      "fr": "CLAUSE DE NON-RESPONSABILITÉ: Informations tirées de bases de données publiques fédérales, provinciales et territoriales, de même que d’autres sources incluant CANOILS. Les données et les cartes sont pour des fins d'illustration seulement. Les utilisateurs doivent comprendre que, bien que tous les efforts aient été faits pour compiler, localiser et classer les projets de façon précise et exhaustive, les auteurs ne garantissent l'exactitude et/ou la complétude des données et assument aucune responsabilité pour les erreurs ou omissions. Les tracés des projets de lignes électriques et d’oléoducs/gazoducs sont fréquemment approximés en fonction des points de destination et d’arrivée, et non des tracés réels. En support à cette initiative, les promoteurs et partenaires sont encouragés à contacter Ressources Naturelles Canada si des erreurs ou des omissions sont identifiées."
+    },
     "join_max_km": 25,
     "sources": [
       {
-        "content_sha256": "690194ed71a0e0a2f8a6c297d90d17964cc3e1311e32adf81462454ddcc3dcb5",
+        "content_sha256": "11510d36b5a78da095364122606a121106c927c880fdfc5fba3d26b63f1e4d70",
         "licence": "ogl-canada-2.0",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-12T20:44:13Z",
-        "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Natural-resources_Ressources-naturelles/major_projects_inventory/MPI_2025_Active_Projects_en.xlsx"
+        "retrieved_at": "2026-09-13T17:44:24Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/major_projects_inventory_en/MapServer/0"
       },
       {
-        "content_sha256": "55e7412a9000d5024359547da687d8017059793724a02d337562cb724ebf4ddc",
+        "content_sha256": "91f12e012bfc0bebd9a73225d0f29883b84edc81942c429d763ed1e02aa0e0e3",
         "licence": "ogl-canada-2.0",
         "provenance": "official_dataset",
-        "retrieved_at": "2026-09-12T20:44:13Z",
-        "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Natural-resources_Ressources-naturelles/major_projects_inventory/MPI_2025_Active_Projects_fr.xlsx"
+        "retrieved_at": "2026-09-13T17:44:24Z",
+        "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/major_projects_inventory_fr/MapServer/0"
+      },
+      {
+        "content_sha256": "8468e0eb701030fbad9e19815c5bd6e2eddde74f7918eea0044b01df67ecfb8b",
+        "licence": "ogl-canada-2.0",
+        "provenance": "official_dataset",
+        "retrieved_at": "2026-09-13T17:44:24Z",
+        "url": "https://open.canada.ca/data/api/action/package_show?id=f5f2db55-31e4-42fb-8c73-23e1c44de9b2"
       }
     ],
-    "status_field": "Status 2025",
+    "status_field": {
+      "en": "Status of development",
+      "fr": "Statut de développement"
+    },
     "title": "Major Projects Inventory 2025"
   },
   "method": {
@@ -221,26 +240,30 @@
           "fr": "Construction"
         },
         "status": {
+          "cost_field": {
+            "en": "Capital cost ($M)",
+            "fr": "Dépenses en immobilisations (M$)"
+          },
+          "cost_musd": 2835.0,
           "distance_km": 0.05,
           "inventory_id": "5069",
           "name": "Crawford",
           "points": [
             [
-              -81.37309,
-              48.83972
+              -81.37309458617408,
+              48.839729318971585
             ]
           ],
-          "prior_status": {
-            "en": "In Review",
-            "fr": "En révision"
-          },
           "proponent": "Canada Nickel Company Inc.",
           "provenance": "official_dataset",
           "status": {
-            "en": "In Review",
-            "fr": "En révision"
+            "en": "Planned",
+            "fr": "Prévu"
           },
-          "status_field": "Status 2025"
+          "status_field": {
+            "en": "Status of development",
+            "fr": "Statut de développement"
+          }
         }
       },
       "operating": [
@@ -305,26 +328,30 @@
           "fr": "Construction"
         },
         "status": {
+          "cost_field": {
+            "en": "Capital cost ($M)",
+            "fr": "Dépenses en immobilisations (M$)"
+          },
+          "cost_musd": 20900.0,
           "distance_km": 0.1,
           "inventory_id": "0644",
           "name": "New Nuclear Power Plant - Darlington Small Modular Reactor Project",
           "points": [
             [
-              -78.706527,
-              43.872684
+              -78.70653018556989,
+              43.872692654798904
             ]
           ],
-          "prior_status": {
-            "en": "Removed – Ineligible",
-            "fr": "Retiré – Inéligible"
-          },
           "proponent": "Ontario Power Generation",
           "provenance": "official_dataset",
           "status": {
             "en": "Under Construction",
             "fr": "En construction"
           },
-          "status_field": "Status 2025"
+          "status_field": {
+            "en": "Status of development",
+            "fr": "Statut de développement"
+          }
         }
       },
       "operating": [
@@ -364,7 +391,7 @@
     },
     {
       "construction": {
-        "basis": "not_under_construction",
+        "basis": "not_in_inventory",
         "evidence": {
           "code": "23",
           "kind": "definition",
@@ -375,8 +402,8 @@
         },
         "listed": false,
         "note": {
-          "en": "",
-          "fr": ""
+          "en": "NRCan's open Major Projects Inventory map service does not list this project, so no construction status or capital cost is published for it here.",
+          "fr": "Le service cartographique ouvert de l’Inventaire des grands projets de RNCan ne répertorie pas ce projet; aucun statut de construction ni aucune dépense en immobilisations n’est donc publié ici à son sujet."
         },
         "provenance": "derived",
         "rule": {
@@ -388,23 +415,7 @@
           "en": "Construction",
           "fr": "Construction"
         },
-        "status": {
-          "distance_km": null,
-          "inventory_id": "8330",
-          "name": "Adaptive Phased Management Deep Geological Repository",
-          "points": [],
-          "prior_status": {
-            "en": "Announced & Planning",
-            "fr": "Annoncé et planifié"
-          },
-          "proponent": "Nuclear Waste Management Organization",
-          "provenance": "official_dataset",
-          "status": {
-            "en": "Announced & Planning",
-            "fr": "Annoncé et planifié"
-          },
-          "status_field": "Status 2025"
-        }
+        "status": null
       },
       "operating": [
         {
@@ -570,26 +581,30 @@
           "fr": "Construction"
         },
         "status": {
+          "cost_field": {
+            "en": "Capital cost ($M)",
+            "fr": "Dépenses en immobilisations (M$)"
+          },
+          "cost_musd": 10000.0,
           "distance_km": 15.88,
           "inventory_id": "1037",
           "name": "Ksi Lisims LNG",
           "points": [
             [
-              -130.072604,
-              54.901569
+              -130.0726223522332,
+              54.9015738613368
             ]
           ],
-          "prior_status": {
-            "en": "Announced & Planning",
-            "fr": "Annoncé et planifié"
-          },
           "proponent": "Nisga'a Nation, Western LNG, Rockies LNG Partners",
           "provenance": "official_dataset",
           "status": {
-            "en": "In Review",
-            "fr": "En révision"
+            "en": "Planned",
+            "fr": "Prévu"
           },
-          "status_field": "Status 2025"
+          "status_field": {
+            "en": "Status of development",
+            "fr": "Statut de développement"
+          }
         }
       },
       "operating": [
@@ -654,26 +669,30 @@
           "fr": "Construction"
         },
         "status": {
+          "cost_field": {
+            "en": "Capital cost ($M)",
+            "fr": "Dépenses en immobilisations (M$)"
+          },
+          "cost_musd": 25000.0,
           "distance_km": 8.83,
           "inventory_id": "6046",
           "name": "LNG Canada Phase 2",
           "points": [
             [
-              -128.638058,
-              54.081951
+              -128.63807583162247,
+              54.08195605054043
             ]
           ],
-          "prior_status": {
-            "en": "Announced & Planning",
-            "fr": "Annoncé et planifié"
-          },
           "proponent": "LNG Canada (Shell Canada Limited, PETRONAS, Korea Gas Corporation (KOGAS), Mitsubishi Corporation, and PetroChina Company Limited)",
           "provenance": "official_dataset",
           "status": {
-            "en": "Announced & Planning",
-            "fr": "Annoncé et planifié"
+            "en": "Planned",
+            "fr": "Prévu"
           },
-          "status_field": "Status 2025"
+          "status_field": {
+            "en": "Status of development",
+            "fr": "Statut de développement"
+          }
         }
       },
       "operating": [
@@ -809,26 +828,30 @@
           "fr": "Construction"
         },
         "status": {
+          "cost_field": {
+            "en": "Capital cost ($M)",
+            "fr": "Dépenses en immobilisations (M$)"
+          },
+          "cost_musd": 1082.0,
           "distance_km": 0.34,
           "inventory_id": "4166",
           "name": "McIlvenna Bay",
           "points": [
             [
-              -102.89,
-              54.66
+              -102.89001256432822,
+              54.66000824378048
             ]
           ],
-          "prior_status": {
-            "en": "Approved",
-            "fr": "Approuvé"
-          },
           "proponent": "Foran Mining Corp.",
           "provenance": "official_dataset",
           "status": {
             "en": "Under Construction",
             "fr": "En construction"
           },
-          "status_field": "Status 2025"
+          "status_field": {
+            "en": "Status of development",
+            "fr": "Statut de développement"
+          }
         }
       },
       "operating": [
@@ -956,26 +979,30 @@
           "fr": "Construction"
         },
         "status": {
-          "distance_km": 0.05,
+          "cost_field": {
+            "en": "Capital cost ($M)",
+            "fr": "Dépenses en immobilisations (M$)"
+          },
+          "cost_musd": 579.0,
+          "distance_km": 0.04,
           "inventory_id": "0329",
           "name": "Sisson Project",
           "points": [
             [
-              -67.045,
-              46.365
+              -67.04499946846897,
+              46.365009516467026
             ]
           ],
-          "prior_status": {
-            "en": "Approved",
-            "fr": "Approuvé"
-          },
           "proponent": "Northcliff Resources (HDI Mining)",
           "provenance": "official_dataset",
           "status": {
-            "en": "Approved",
-            "fr": "Approuvé"
+            "en": "Planned",
+            "fr": "Prévu"
           },
-          "status_field": "Status 2025"
+          "status_field": {
+            "en": "Status of development",
+            "fr": "Statut de développement"
+          }
         }
       },
       "operating": [
@@ -1048,26 +1075,30 @@
           "fr": "Construction"
         },
         "status": {
+          "cost_field": {
+            "en": "Capital cost ($M)",
+            "fr": "Dépenses en immobilisations (M$)"
+          },
+          "cost_musd": 480.8,
           "distance_km": 21.16,
           "inventory_id": "2093",
           "name": "Matawinie",
           "points": [
             [
-              -73.700146,
-              46.732001
+              -73.70014777895034,
+              46.73201035827539
             ]
           ],
-          "prior_status": {
-            "en": "Under Construction",
-            "fr": "En construction"
-          },
           "proponent": "Nouveau Monde Graphite inc.",
           "provenance": "official_dataset",
           "status": {
-            "en": "Approved",
-            "fr": "Approuvé"
+            "en": "Planned",
+            "fr": "Prévu"
           },
-          "status_field": "Status 2025"
+          "status_field": {
+            "en": "Status of development",
+            "fr": "Statut de développement"
+          }
         }
       },
       "operating": [
@@ -1195,26 +1226,30 @@
           "fr": "Construction"
         },
         "status": {
+          "cost_field": {
+            "en": "Capital cost ($M)",
+            "fr": "Dépenses en immobilisations (M$)"
+          },
+          "cost_musd": 2632.0,
           "distance_km": 7.26,
           "inventory_id": "6081",
           "name": "Red Chris Block Cave Expansion",
           "points": [
             [
-              -129.78,
-              57.72
+              -129.78001962462818,
+              57.72000491119735
             ]
           ],
-          "prior_status": {
-            "en": "Approved",
-            "fr": "Approuvé"
-          },
           "proponent": "Newcrest Mining Ltd./Imperial Metals",
           "provenance": "official_dataset",
           "status": {
-            "en": "In Review",
-            "fr": "En révision"
+            "en": "Planned",
+            "fr": "Prévu"
           },
-          "status_field": "Status 2025"
+          "status_field": {
+            "en": "Status of development",
+            "fr": "Statut de développement"
+          }
         }
       },
       "operating": [
@@ -1342,26 +1377,30 @@
           "fr": "Construction"
         },
         "status": {
+          "cost_field": {
+            "en": "Capital cost ($M)",
+            "fr": "Dépenses en immobilisations (M$)"
+          },
+          "cost_musd": 1200.0,
           "distance_km": 134.31,
           "inventory_id": "1063",
           "name": "Taltson Hydroelectricity Expansion Project (Phase 1)",
           "points": [
             [
-              -112.714441,
-              61.443073
+              -112.71445927184739,
+              61.443080421813875
             ]
           ],
-          "prior_status": {
-            "en": "Under Construction",
-            "fr": "En construction"
-          },
           "proponent": "NTPC",
           "provenance": "official_dataset",
           "status": {
             "en": "Under Construction",
             "fr": "En construction"
           },
-          "status_field": "Status 2025"
+          "status_field": {
+            "en": "Status of development",
+            "fr": "Statut de développement"
+          }
         }
       },
       "operating": [
