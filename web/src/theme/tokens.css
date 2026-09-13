@@ -355,6 +355,75 @@ body {
   border-top: var(--hairline);
 }
 
+/* The province page's header: flag beside the name, the largest sectors under
+   it — the three things the page must show without scrolling (BACKLOG R6). */
+.province-panel__title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.province-panel__flag {
+  width: 72px;
+  height: auto;
+  border: var(--hairline);
+  border-radius: 2px;
+  background: var(--surface-chart);
+}
+
+.province-panel__arms {
+  width: 72px;
+  height: auto;
+}
+
+.province-panel__motto {
+  margin: var(--sp-1) 0 0;
+  color: var(--ink-secondary);
+  font-size: var(--fs-small);
+  font-style: italic;
+}
+
+.province-panel__sectors {
+  margin: var(--sp-3) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-small);
+}
+
+.province-panel__sectors li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: 2px 0;
+  border-bottom: var(--hairline);
+}
+
+.province-panel__figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--sp-2);
+  margin: var(--sp-2) 0 0;
+}
+
+.province-panel__figure {
+  padding: var(--sp-2);
+  border: var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface-chart);
+}
+
+.province-panel__figure small {
+  display: block;
+  color: var(--ink-muted);
+  font-size: var(--fs-micro);
+}
+
+.province-panel__credit {
+  margin: var(--sp-1) 0 0;
+  color: var(--ink-muted);
+  font-size: var(--fs-micro);
+}
+
 /* MapLibre markers for the official populated-place layer. The labels are
    deliberately non-interactive: they identify the map, while pins and province
    surfaces retain the click targets. */

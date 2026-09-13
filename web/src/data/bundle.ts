@@ -412,6 +412,66 @@ export interface Bundle {
   industries: IndustriesDoc;
   /** The latest daily vessel snapshot, or null where none has been published (BACKLOG S3). */
   vessels: VesselSnapshot | null;
+  /** Each province and territory in depth — stage 08, BACKLOG Stage R. */
+  provinceProfiles: ProvincesDoc;
+}
+
+// ── Provinces and territories (BACKLOG Stage R) — mirrors pipeline/08_provinces.py ──
+//
+// Finances are Finance Canada's, shares StatCan's, words Canadian Heritage's.
+// Images are Wikimedia Commons files, each with its own licence and artist.
+
+/** A flag or coat of arms: a 240-pixel rendering of a Commons file, credited as Commons records it. */
+export interface CommonsImage {
+  title: string;
+  page_url: string;
+  file_url: string;
+  licence: string;
+  licence_url: string;
+  artist: string;
+  credit: string;
+  /** Commons notices such as "insignia": use of official insignia may be restricted by law. */
+  restrictions: string[];
+  source_sha1: string;
+  src: string;
+  rendering_sha256: string;
+  provenance: Provenance;
+}
+
+export interface FiscalColumn {
+  /** The column's own heading in each language, as the table publishes it. */
+  label: Text;
+  /** Millions of dollars, one per fiscal year; null where the table leaves the cell empty. */
+  values: (number | null)[];
+}
+
+export interface ProvinceProfile {
+  name: Text;
+  /** Null where Canadian Heritage publishes no motto. */
+  motto: Text | null;
+  flag_description: Text;
+  heritage_pages: { en: string; fr: string };
+  flag: CommonsImage;
+  arms: CommonsImage;
+  fiscal: {
+    table: number;
+    /** Fiscal years as Finance Canada writes them in English ("2024-25"). */
+    years: string[];
+    columns: FiscalColumn[];
+    notes: { en: string[]; fr: string[] };
+    /** [English year, French label] where the French table labels a row differently. */
+    year_label_mismatches: [string, string][];
+  };
+  /** StatCan's percentage share of GDP per industry code, one value per period in `sector_shares.periods`. */
+  sector_shares: Record<string, (number | null)[]>;
+  sector_share_symbols: Record<string, Record<string, string>>;
+}
+
+export interface ProvincesDoc {
+  fiscal: { title: string; edition: number; edition_page: string; unit: Text };
+  sector_shares: { title: Text; table: string; release: string; periods: string[]; industries: Record<string, Text> };
+  provinces: Record<string, ProvinceProfile>;
+  sources: SourceRef[];
 }
 
 /** The bundle's major version this client knows how to read. */
@@ -464,7 +524,7 @@ async function optionalJson<T>(path: string): Promise<T | null> {
  * whose shape changed is worse than failing, because it looks like it worked.
  */
 export async function loadBundle(): Promise<Bundle> {
-  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, businessCounts, rates, world, provinces, canada, nhs, highways, places, corridors, industries, vessels] =
+  const [meta, palette, projectsDoc, strategiesDoc, nationalDoc, constantDoc, provincialDoc, businessCounts, rates, world, provinces, canada, nhs, highways, places, corridors, industries, vessels, provinceProfiles] =
     await Promise.all([
       json<Bundle["meta"]>("/data/meta.json"),
       json<Palette>("/data/palette.json"),
@@ -484,6 +544,7 @@ export async function loadBundle(): Promise<Bundle> {
       json<{ corridors: TradeCorridor[] }>("/data/events/trade-corridors/corridors.json"),
       json<IndustriesDoc>("/data/events/major-projects-office/industries.json"),
       optionalJson<VesselSnapshot>("/data/vessels/positions.json"),
+      json<ProvincesDoc>("/data/provinces/provinces.json"),
     ]);
 
   const major = Number(String(meta.schema_version).split(".")[0]);
@@ -512,6 +573,7 @@ export async function loadBundle(): Promise<Bundle> {
     corridors: corridors.corridors,
     industries,
     vessels,
+    provinceProfiles,
   };
 }
 
