@@ -78,6 +78,10 @@ Adding an event should be a `registry/events.yaml` entry plus one module under
 **Done when:** a **second** event ships without touching `web/`. Until that
 happens the claim is untested — one event and a generic loader look identical.
 
+**Retired 2026-09-13.** Not a goal of this repository any more: a second event or
+country would be a separate project reading this one's data. The seams stay, and
+nothing is removed to "simplify" them; Stage F is kept for that project.
+
 ### G5 · Currency stated, not implied
 
 The pipeline already knows things the UI hides: nominal GDP is ~3 years stale,
@@ -164,6 +168,9 @@ The strongest part of the repo already. These extend it rather than repair it.
 
 ## Stage F — the second event, and the second country
 
+**Moved to future projects on 2026-09-13, with G4.** Kept as the brief for
+whichever project builds on this one.
+
 **This is the only test of G4 that means anything.** One event and a generic
 loader are indistinguishable until there are two.
 
@@ -193,7 +200,44 @@ source, and the screen has to say which is which.
 | S5 | **The screen states the limits:** terrestrial coverage and what a gap means, flag is not ownership (Canadian-owned ships under foreign flags are absent by definition), vessels without an IMO number matched by prefix only. | G1 G5 | S | |
 | S6 | **Next stage, planned after S3 is measured:** foreign-flagged vessels calling at Canadian ports. | G2 | L | ✓ |
 
-## Stage V — where people are, in 3D
+## Stage R — each province, in depth
+
+**Decided 2026-09-13: the provincial deep dive is core to finishing the atlas.**
+A reader who clicks a province gets its identity, its strongest sectors, its
+budget, deficit and debt, an overview, and its stressors and strengths. The
+flag, the nickname and the strongest sectors must be visible together at the
+top, without scrolling. `ProvincePanel.tsx` today is a name and three "to be
+sourced" placeholders.
+
+**The rule that shapes R5.** "Strengths" and "weaknesses" are judgements, and this
+project does not write judgements (CLAUDE.md §11). They reach the screen only as
+a publisher's words or a publisher's figures. Checked 2026-09-13 and ruled out:
+
+- Credit rating reports (Morningstar DBRS, Moody's) carry exactly this structure
+  per province, but Morningstar DBRS states that reproduction or transmission in
+  whole or in part is prohibited without its permission.
+- The C.D. Howe Institute's fiscal accountability report cards grade how clear
+  and timely budget documents are, not the economy.
+- Finances of the Nation publishes provincial finance series with no stated
+  licence, and no per-province narrative.
+
+| | Item | Goal | Effort | Human? |
+|---|---|---|---|---|
+| **R0** | **Identity from Canadian Heritage.** The *Provincial and territorial symbols* pages on canada.ca (one per province and territory, English and French) give the flag's description and adoption, the motto, the origin of the name, and the floral emblem. canada.ca permits non-commercial reproduction with attribution; its restriction covers federal symbols only. **The flag image:** the image on those pages states no reuse terms, so — **decided 2026-09-13** — each province's and territory's own flag-use rules are read (§9) and each flag is sourced accordingly, the source and terms recorded per flag in `sources.yaml`. A flag whose rules forbid reproduction is described, not drawn. | G1 | M | |
+| **R1** | **Nickname = the licence plate slogan — decided 2026-09-13.** Only the government-issued slogans ("Wild Rose Country", "Land of Living Skies", "Canada's Ocean Playground", "Beautiful British Columbia" …), each sourced from that province's or territory's own registry or government page, in both languages where one is published. No popular nicknames. A jurisdiction with no current slogan shows none. | G1 | S | |
+| **R2** | **Strongest sectors = M2a**, moved here: Statistics Canada's own percentage shares (36-10-0400), largest first, with the year, in the panel's header. | G2 G3 | S | |
+| **R3** | **Budget, deficit and debt from Finance Canada's Fiscal Reference Tables** (November 2025 edition). Tables 18–30 are one per province and territory, on the Public Accounts basis each legislature reports on; Tables 31–32 aggregate all of them in dollars and in per cent of GDP. Published as XLSX in English (`frt-trf-25-eng.xlsx`) and French (`frt-trf-25-fra.xlsx`), both confirmed downloadable. Fiscal years labelled as fiscal years; basis named on screen; a new edition each year, so find the newest by title like stage 03. Relationship to M7 (StatCan's government finance statistics): a different accounting basis, so never mixed on one axis. | G3 G5 | M | |
+| **R4** | **Overview from what the pipeline already has:** population (98-10-0002), real GDP and its latest change (36-10-0402), each with its reference period. No new source. | G2 G5 | S | |
+| **R5** | **Stressors and strengths, as published — two parts, never our words.** (a) **Each province's latest budget — decided 2026-09-13:** its economic outlook and risks section, reproduced verbatim with the document title, page and date. That is the government's own statement of what could go wrong and what supports it. Read each province's copyright terms for budget documents first (§9); a province whose terms forbid it gets a link instead. (b) **Published figures side by side:** the province's deficit and net debt as per cent of GDP beside the all-provinces figures from R3's Tables 31–32. No score, no colour-coded verdict, no "strength" label of ours. | G1 G3 | L | |
+| **R5a** | **How the province has done, historically — requested 2026-09-13.** A long view, every line a publisher's series with its own years: budgetary balance and net debt (dollars and per cent of GDP) across every fiscal year R3's table for that province publishes; real GDP and its annual change since 1997 (36-10-0402, already pulled); population. Recessions and commodity cycles show because the series show them — no annotations of ours on what caused a turn, and no summary sentence. Measure how far back each table actually goes before drawing an axis. | G3 G5 | M | |
+| **R6** | **The province panel.** Header: flag, name, nickname, strongest sectors — all visible at once. Then budget, deficit and debt; overview; stressors and strengths as published. Both languages; every block names its source and period. | G2 | M | |
+
+## Stage V — dropped 2026-09-13
+
+The population columns were judged mostly cosmetic: they would add little to the
+analysis the atlas exists for, and only slightly inform the northern projects.
+The design below is kept in case a later project wants it; nothing here is
+queued.
 
 Requested 2026-09-11: the planned "Population heatmap" layer, drawn as vertical
 columns showing where the population is concentrated. MapLibre 5 supports
@@ -213,19 +257,30 @@ populations genuinely differ, or a published density.
 | **V2** | **The layer.** Fill-extrusion columns on the globe, a legend with the height scale written out, pitch control, reduced-motion respected, a table twin ordered by geography code. The column footprint is cosmetic and says so; only height carries data. Performance measured at DA density before (b) ships. | G3 | M | |
 | V3 | **Wire the planned-layer toggle.** Replace "Planned — 3D visualization" in the layer panel with the live control, in both languages. | G1 | S | |
 
-## The whole roadmap, in order — as proposed 2026-09-11
+## The finish line — decided 2026-09-13
 
-| Phase | Items | Why here | Blocked on |
+The atlas is finished when G1, G2, G3 and G5 are met and each province has its
+deep dive. G4 is no longer a goal of this repository. After the finish line,
+work here is refinement; anything that builds outward is a separate project that
+reads this one's committed data.
+
+| Phase | Items | Finishes | Blocked on |
 |---|---|---|---|
-| **Now** | ~~C1~~ · ~~S1~~ · ~~B8~~ · ~~S0~~ · S2/S3 built — **your aisstream.io key**, then the first live run | The vessel layer cannot show a real ship until a key exists. | You (key) |
-| **1** | **S2 first run → S4 → S5** | Measure the feed, then incoming/outgoing and the on-screen limits. | Key |
-| **2** | **C2 → C3 → C4** (+ C5) | The thing the project is for: portfolio and economy as one answer. Unblocked: C1 built, joins confirmed. | — |
-| **3** | **M1 → V1 → V2 → V3** | V0 decided; M1 makes one census parser first. | — |
-| **4** | B4 · B5 · B6 · B7 · B1a | Finish what is already captured and not yet shown. | — |
-| **5** | D1–D5 · M2 · M2a · Q1 · Q2 · E0 · E1 | Analyses on data already pulled, honesty gates before more data arrives. | Q2 (you) |
-| **6** | F1 → F2 · S6 | A second event and foreign vessels: the structure proven twice. | You (F1, S6) |
-| **7** | M3–M12 · Q3–Q9 · B2b | Municipal and provincial finance, finance deep dive, deeper statistics. | Several decisions |
-| **8** | P1 → P8 | The shared spine and launcher, after the atlas stops moving. | You (P1) |
+| ~~Done~~ | ~~C1 · S0–S3 · B8 · daily vessel snapshot (first scheduled run 2026-09-13) · detailed coastline and water · foldable layer bar~~ | | |
+| **1** | **C2 → C3 → C4** | G2 — projects and the economy as one answer | — |
+| **2** | **R0 · R1 → R2 → R3 → R4 → R5 → R6** | The provincial deep dive | You: R0 flag images, R1 nicknames, R5 which budget documents |
+| **3** | **B5 · E1** | G5 — freshness visible, and `--verify` fails on a stale source | — |
+| **4** | **D1–D5** | G3 — the analyses as views, on tables already pulled | — |
+| **5** | **B7**, then close-out: STATUS marked finished, this file split into refinements and future projects | | — |
+
+**Refinements, after the finish line:** B1a · B1b · B2b · B4 · B6 · C5 · E0 · M1 · M2 · Q1 · Q2 · S4 · S5.
+
+**Future projects, not this repository:** Stage F and G4 (a second event or
+country) · Stage M's municipal finance, M3–M12 (≈110 municipalities with finance
+data, 2018–2020, several scope decisions) · Q3–Q9 · Stage P · Stage V · S6.
+
+_The roadmap as proposed on 2026-09-11 put S4/S5, Stage V and Stage F on the path;
+all three moved off it on 2026-09-13._
 
 Stage H decisions can be taken any time and block nothing above.
 
