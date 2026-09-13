@@ -40,6 +40,33 @@ licences:
     url: https://aisstream.io
     redistribution: unstated
 
+  canada-ca-terms:
+    name: Canada.ca terms and conditions — non-commercial reproduction
+    url: https://www.canada.ca/en/transparency/terms.html
+    # Read 2026-09-13: materials may be reproduced "in whole or in part for
+    # non-commercial purposes, and in any format, without charge or further
+    # permission", with due diligence on accuracy, the title and author named,
+    # and noted as a copy of the original URL. The official symbols of the
+    # Government of Canada are excepted; provincial symbols are not mentioned.
+    redistribution: permitted for non-commercial purposes with attribution
+
+  budget-quotation:
+    name: Short quotations from government budget documents, attributed and linked
+    url: https://laws-lois.justice.gc.ca/eng/acts/c-42/section-29.html
+    # One or two sentences per document, the document named and linked. The
+    # copyright terms of each province and territory's budget documents were
+    # NOT read one by one (2026-09-13, owner's call to finish the project);
+    # this is recorded so a validation pass can read them.
+    redistribution: short quotation with attribution; terms not individually read
+
+  commons-per-file:
+    name: Wikimedia Commons — each file's own licence
+    url: https://commons.wikimedia.org/wiki/Commons:Licensing
+    # Read per file from the Commons API at build time (2026-09-13: flags public
+    # domain; coats of arms public domain, CC0, CC BY-SA 3.0 or 4.0). CC BY-SA
+    # files must credit their artist and name the licence beside the image.
+    redistribution: per file, as each file's licence states
+
 sources:
   mpo_arcgis:
     title: Projects and Transformative Strategies Referred to the Major Projects Office
@@ -166,6 +193,58 @@ sources:
     # A new table every six months (33101174 for June 2026); stage 03 finds the
     # newest by its exact title rather than declaring a product ID here.
     # Replaces the removed BlackRock company panel (CLAUDE.md §9).
+
+  # ── The provincial deep dive (BACKLOG Stage R, registry/provinces.yaml) ────
+
+  finance_fiscal_reference_tables:
+    title: Fiscal Reference Tables
+    publisher: Department of Finance Canada
+    licence: canada-ca-terms
+    attribution: Department of Finance Canada, Fiscal Reference Tables
+    edition_page: https://www.canada.ca/en/department-finance/services/publications/fiscal-reference-tables/{year}.html
+    xlsx:
+      en: https://www.canada.ca/content/dam/fin/publications/frt-trf/{year}/frt-trf-{yy}-eng.xlsx
+      fr: https://www.canada.ca/content/dam/fin/publications/frt-trf/{year}/frt-trf-{yy}-fra.xlsx
+    # One edition a year and the index page lists none; stage 08 tries years
+    # downward with a real download that must be a workbook, because canada.ca
+    # answers HEAD with 200 for editions that do not exist (checked 2026-09-13:
+    # 2025 is the newest; 2026 and 2027 return 404 to a GET).
+    oldest_edition: 2020
+
+  statcan_gdp_shares_provincial:
+    title: Gross domestic product (GDP) at basic prices, by industry, provinces and territories, percentage share
+    publisher: Statistics Canada
+    licence: statcan-open
+    attribution: Statistics Canada, Table 36-10-0400-01
+    pid: "36100400"
+
+  pch_provincial_symbols:
+    title: Provincial and territorial symbols
+    publisher: Canadian Heritage
+    licence: canada-ca-terms
+    attribution: Canadian Heritage, Provincial and territorial symbols
+    page:
+      en: https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/{slug}.html
+      fr: https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/{slug}.html
+    # Read for the motto and the flag's description, verbatim, by the pages'
+    # own section headings (Motto/Devise, Flag/Drapeau).
+
+  provincial_budgets:
+    title: Provincial and territorial budget documents, 2026
+    publisher: Each province and territory's finance department
+    licence: budget-quotation
+    # Documents and quotes are declared in registry/budgets.yaml; stage 08
+    # checks each quote against its document.
+
+  wikimedia_commons:
+    title: Wikimedia Commons
+    publisher: Wikimedia Foundation, files by their uploaders
+    licence: commons-per-file
+    api: https://commons.wikimedia.org/w/api.php
+    # Flag and coat-of-arms images, chosen 2026-09-13 on the owner's decision.
+    # Each file's own licence, artist and Commons restrictions ("insignia") are
+    # read from the API and published with the image; a 240-pixel PNG rendering
+    # is committed, not the SVG (some are 1.6 MB).
 
   geogratis_names:
     title: Canadian Geographical Names Database

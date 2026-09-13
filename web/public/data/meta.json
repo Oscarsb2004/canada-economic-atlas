@@ -7,13 +7,14 @@
     "events/major-projects-office/strategies.json",
     "events/trade-corridors/corridors.json",
     "palette.json",
+    "provinces/provinces.json",
     "sectors/business-counts.json",
     "sectors/national-constant.json",
     "sectors/national-monthly.json",
     "sectors/provincial-annual.json",
     "sectors/rates.json"
   ],
-  "generated_at": "2026-09-13T17:44:29Z",
+  "generated_at": "2026-09-13T22:01:41Z",
   "licences": {
     "aisstream-unstated": {
       "name": "aisstream.io — no published terms of use (checked 2026-09-12)",
@@ -25,6 +26,21 @@
       "name": "Bank of Canada Terms of Use",
       "redistribution": "permitted with attribution",
       "url": "https://www.bankofcanada.ca/terms/"
+    },
+    "budget-quotation": {
+      "name": "Short quotations from government budget documents, attributed and linked",
+      "redistribution": "short quotation with attribution; terms not individually read",
+      "url": "https://laws-lois.justice.gc.ca/eng/acts/c-42/section-29.html"
+    },
+    "canada-ca-terms": {
+      "name": "Canada.ca terms and conditions — non-commercial reproduction",
+      "redistribution": "permitted for non-commercial purposes with attribution",
+      "url": "https://www.canada.ca/en/transparency/terms.html"
+    },
+    "commons-per-file": {
+      "name": "Wikimedia Commons — each file's own licence",
+      "redistribution": "per file, as each file's licence states",
+      "url": "https://commons.wikimedia.org/wiki/Commons:Licensing"
     },
     "ogl-canada-2.0": {
       "name": "Open Government Licence – Canada 2.0",
@@ -63,6 +79,13 @@
       "licence": "ogl-canada-2.0",
       "publisher": "Innovation, Science and Economic Development Canada",
       "title": "Geolocated placenames in Canada"
+    },
+    "finance_fiscal_reference_tables": {
+      "attribution": "Department of Finance Canada, Fiscal Reference Tables",
+      "edition_page": "https://www.canada.ca/en/department-finance/services/publications/fiscal-reference-tables/{year}.html",
+      "licence": "canada-ca-terms",
+      "publisher": "Department of Finance Canada",
+      "title": "Fiscal Reference Tables"
     },
     "geogratis_names": {
       "base": "https://geogratis.gc.ca/services/geoname/en/geonames.geojson",
@@ -111,6 +134,17 @@
       "publisher": "Natural Resources Canada",
       "title": "National Railway Network (NRWN) — GeoBase Series"
     },
+    "pch_provincial_symbols": {
+      "attribution": "Canadian Heritage, Provincial and territorial symbols",
+      "licence": "canada-ca-terms",
+      "publisher": "Canadian Heritage",
+      "title": "Provincial and territorial symbols"
+    },
+    "provincial_budgets": {
+      "licence": "budget-quotation",
+      "publisher": "Each province and territory's finance department",
+      "title": "Provincial and territorial budget documents, 2026"
+    },
     "statcan_boundaries": {
       "dataset_record": "https://open.canada.ca/data/en/dataset/ef70dc3b-1069-4037-9bce-61f47e628a1d",
       "licence": "statcan-open",
@@ -122,6 +156,13 @@
       "licence": "statcan-open",
       "publisher": "Statistics Canada",
       "title": "Canadian Business Counts, with employees"
+    },
+    "statcan_gdp_shares_provincial": {
+      "attribution": "Statistics Canada, Table 36-10-0400-01",
+      "licence": "statcan-open",
+      "pid": "36100400",
+      "publisher": "Statistics Canada",
+      "title": "Gross domestic product (GDP) at basic prices, by industry, provinces and territories, percentage share"
     },
     "statcan_municipal_population": {
       "attribution": "Statistics Canada, 2021 Census of Population",
@@ -174,6 +215,12 @@
       "title": "Canadian Register of Large Vessels",
       "xlsx_en": "https://opendatatc.tc.canada.ca/large-vessel-registry_dataset_en.xlsx",
       "xlsx_fr": "https://opendatatc.tc.canada.ca/large-vessel-registry_dataset_fr.xlsx"
+    },
+    "wikimedia_commons": {
+      "api": "https://commons.wikimedia.org/w/api.php",
+      "licence": "commons-per-file",
+      "publisher": "Wikimedia Foundation, files by their uploaders",
+      "title": "Wikimedia Commons"
     }
   }
 }

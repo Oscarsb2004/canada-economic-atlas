@@ -192,4 +192,9 @@ construction" · the vessel register lists two Official Numbers twice ·
 StatCan's business counts publish no zero rows (an absent size range is a zero
 only when the total says so) and are a new table ID every half-year · on
 Windows the stdlib HTTP server's SO_REUSEADDR lets a second process bind a port
-already in use, with no error.
+already in use, with no error · canada.ca answers a HEAD request with 200 for a
+file that does not exist (the Fiscal Reference Tables for 2026 and 2027), so an
+edition is found by downloading it and checking the body is a workbook · the
+French Fiscal Reference Tables label Manitoba's 2011-12 row "2010-2011", and
+carry unrounded figures the English rounds, so the two are paired by row with a
+tolerance, never joined on year.

@@ -195,7 +195,7 @@ function Atlas() {
             }}
           />
         ) : selectedProvince ? (
-          <ProvincePanel province={selectedProvince} onClose={clearMapSelection} />
+          <ProvincePanel bundle={bundle} province={selectedProvince} onClose={clearMapSelection} />
         ) : (
           <Overview
             bundle={bundle}

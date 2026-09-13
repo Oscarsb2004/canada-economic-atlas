@@ -21,7 +21,8 @@ Every figure in the atlas is published by a government source — Statistics
 Canada, the Major Projects Office, Transport Canada, Natural Resources Canada, the
 Bank of Canada — and travels with the reference to where it was published. The
 one exception to *government* is live vessel positions, relayed by aisstream.io
-and labelled as a third-party feed. A company panel built on BlackRock's fund
+and labelled as a third-party feed; the other is each province's flag and coat of
+arms, taken from Wikimedia Commons with each file's own licence and artist. A company panel built on BlackRock's fund
 holdings was removed on 2026-09-12: BlackRock's terms do not allow public
 republication.
 
@@ -35,11 +36,12 @@ Nothing is estimated or ranked by this project, and no number is typed in by han
 
 ## Status
 
-**v1 is complete and deployed, and the pipeline has grown past it.** Eight pipeline
+**The project is finished (closed out 2026-09-13).** Later sessions validate and fix
+bugs; nothing new is queued — see the top of [docs/BACKLOG.md](docs/BACKLOG.md). Nine pipeline
 stages run end to end — `01` projects, `02` sectors, `03` business counts, `04`
-trade corridors, `05` municipalities, `06` project industries, `07` vessels, `99`
-the bundle — with seven declared Statistics Canada pulls in stage 02. 114 tests
-and 160 verification gates pass, and a re-run
+trade corridors, `05` municipalities, `06` project industries, `07` vessels, `08`
+provinces, `99` the bundle — with seven declared Statistics Canada pulls in stage
+02. 121 tests and 186 verification gates pass, and a re-run
 against unchanged sources produces a zero-line git diff, which is the acceptance
 test for every stage.
 
@@ -70,7 +72,7 @@ That is the only command needed. On first use it creates `.venv`, installs
 activate by hand, and it reinstalls only when the pins actually change.
 
 ```bash
-python run.py --stage 02 # one stage (01 | 02 | 03 | 04 | 05 | 06 | 07 | 99)
+python run.py --stage 02 # one stage (01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 99)
 python run.py --verify   # independent verification only
 python run.py --test     # pytest only
 python run.py --refresh  # bypass the HTTP cache and re-fetch StatCan cubes
@@ -92,10 +94,10 @@ atlas/              importable package — the project's own code
   core/schema.py    canonical objects; "the frontend and the backend are the same object"
   core/registry.py  YAML loaders with validation on load
   net.py            the ONE way this project talks to the internet
-  sources/          one module per publisher: mpo, statcan, census, tc_corridors, naics, mpi, vessels, aisstream, business_counts
+  sources/          one module per publisher: mpo, statcan, census, tc_corridors, naics, mpi, vessels, aisstream, business_counts, fiscal_tables, sector_shares, symbols, budget_text
   industries.py     MPO projects placed in NAICS, checked against their quotes
 registry/           configuration as YAML: sources, events, strategies, sectors and their pulls, crosswalks, checks
-pipeline/           numbered stages 01–07, and 99 the bundle
+pipeline/           numbered stages 01–08, and 99 the bundle
 data/               pipeline outputs, committed for clone-and-run
 web/                React + Vite + MapLibre app
 verify/             independent verification; must NOT import atlas/

@@ -583,6 +583,101 @@ def check_business_counts(r: Report) -> None:
 
 # ── Gate: the bundle contract ──────────────────────────────────────────────────
 
+def check_provinces(r: Report) -> None:
+    """
+    BACKLOG Stage R — each province and territory in depth (stage 08).
+
+    Re-reads the output, not the sources: every jurisdiction present, every
+    fiscal column one figure per published year, StatCan's shares holding their
+    own total, and every image on disk with the licence Commons gave it — a CC
+    BY-SA drawing without its artist is a licence broken on screen.
+    """
+    path = DATA / "provinces" / "provinces.json"
+    r.gate(path.exists(), "provinces: provinces.json is committed", "missing")
+    if not path.exists():
+        return
+    doc = _load_json(path)
+    provs = doc.get("provinces", {})
+    r.gate(set(provs) == PROVINCE_CODES, "provinces: all thirteen provinces and territories", str(sorted(provs)))
+
+    bad_fiscal, bad_words, bad_images, bad_shares = [], [], [], []
+    for code, p in provs.items():
+        f = p.get("fiscal", {})
+        years = f.get("years", [])
+        if not years or len(set(years)) != len(years):
+            bad_fiscal.append(f"{code}: years {years[:3]}…")
+        for col in f.get("columns", []):
+            if len(col.get("values", [])) != len(years) or not col["label"].get("en") or not col["label"].get("fr"):
+                bad_fiscal.append(f"{code}: column {col.get('label')}")
+        if not f.get("notes", {}).get("en") or len(f["notes"]["en"]) != len(f["notes"].get("fr", [])):
+            bad_fiscal.append(f"{code}: notes not carried in both languages")
+
+        flag = p.get("flag_description") or {}
+        if not flag.get("en") or not flag.get("fr"):
+            bad_words.append(f"{code}: flag description")
+        motto = p.get("motto")
+        if motto is not None and (not motto.get("en") or not motto.get("fr")):
+            bad_words.append(f"{code}: motto in one language")
+
+        for kind in ("flag", "arms"):
+            img = p.get(kind) or {}
+            file = WEB / str(img.get("src", "")).lstrip("/")
+            if not img.get("src") or not file.exists():
+                bad_images.append(f"{code} {kind}: no image at {img.get('src')}")
+            if not img.get("licence") or not img.get("page_url"):
+                bad_images.append(f"{code} {kind}: no licence or Commons page")
+            if "BY" in str(img.get("licence", "")).upper() and not img.get("artist"):
+                bad_images.append(f"{code} {kind}: {img.get('licence')} without its artist")
+
+        shares = p.get("sector_shares", {})
+        total = shares.get("T001", [])
+        for i, t in enumerate(total):
+            parts = [v[i] for k, v in shares.items() if k != "T001" and v[i] is not None]
+            if t is None:
+                continue
+            if abs(t - 100.0) > 1e-9:
+                bad_shares.append(f"{code} {i}: all industries = {t}")
+            # StatCan rounds each share; Ontario's twenty sum to 99.98 in 2025.
+            elif parts and abs(sum(parts) - 100.0) > 0.5:
+                bad_shares.append(f"{code} period {i}: shares sum to {sum(parts):.2f}")
+
+    r.gate(not bad_fiscal, "provinces: every fiscal column has one figure per published year, headed in both languages",
+           str(bad_fiscal[:6]))
+    r.gate(not bad_words, "provinces: the flag description and any motto are in both languages", str(bad_words))
+    r.gate(not bad_images, "provinces: every flag and coat of arms is on disk with its Commons licence, and credits a CC BY artist",
+           str(bad_images[:6]))
+    r.gate(not bad_shares, "provinces: StatCan's shares hold All industries at 100 and sum to it within rounding",
+           str(bad_shares[:6]))
+    # Budget passages (R5). Stage 08 already refused any quote not on its page;
+    # this checks what reached the output: every quote attributed to a page and
+    # a document, of a declared kind, and every quoted document hashed in sources.
+    source_urls = {s.get("url") for s in doc.get("sources", [])}
+    bad_budget = []
+    for code, p in provs.items():
+        b = p.get("budget") or {}
+        if not b.get("title") or not str(b.get("url", "")).startswith("https://"):
+            bad_budget.append(f"{code}: no budget document")
+            continue
+        if not b.get("quotes") and not (b.get("note") or {}).get("en"):
+            bad_budget.append(f"{code}: no quote and no note saying why")
+        for q in b.get("quotes", []):
+            if q.get("kind") not in ("risk", "opportunity") or not q.get("text") \
+                    or not (q.get("page") is None or isinstance(q.get("page"), int)):
+                bad_budget.append(f"{code}: quote {q}")
+        if b.get("quotes") and b["url"] not in source_urls:
+            bad_budget.append(f"{code}: quoted document not hashed in sources")
+    r.gate(not bad_budget, "provinces: every budget passage names its document and page, and every quoted document is hashed",
+           str(bad_budget[:6]))
+    r.note("provinces: budget passages quoted for "
+           f"{sum(1 for p in provs.values() if (p.get('budget') or {}).get('quotes'))} of {len(provs)} jurisdictions; "
+           "each government's copyright terms for budget documents are not yet read (sources.yaml)")
+
+    mismatches = {c: p["fiscal"]["year_label_mismatches"] for c, p in provs.items()
+                  if p.get("fiscal", {}).get("year_label_mismatches")}
+    r.note(f"provinces: Fiscal Reference Tables {doc.get('fiscal', {}).get('edition')} edition; "
+           f"French year labels that differ from the English: {mismatches}")
+
+
 def check_bundle(r: Report) -> None:
     """What the web app and the sibling repo actually read."""
     meta = _load_json(WEB / "data" / "meta.json")
@@ -1024,7 +1119,7 @@ def main() -> int:
 
     r = Report()
     for check in (check_projects, check_strategies, check_sectors, check_sector_pulls,
-                  check_industries, check_vessels, check_business_counts, check_bundle):
+                  check_industries, check_vessels, check_business_counts, check_provinces, check_bundle):
         try:
             check(r)
         except FileNotFoundError as exc:

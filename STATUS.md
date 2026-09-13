@@ -2,6 +2,11 @@
 
 _Last updated: 2026-09-12._
 
+**The project is finished (closed out 2026-09-13).** What shipped, what was
+deliberately left, and the owner's reasons are at the top of
+[`docs/BACKLOG.md`](docs/BACKLOG.md). The next sessions validate and fix bugs;
+nothing new is queued before that.
+
 Read this first when picking the project back up. The full design is in
 `docs/PLAN.md` and **the ordered work queue is [`docs/BACKLOG.md`](docs/BACKLOG.md)**.
 This file records only what is **built and verified**, and the findings that were
@@ -25,7 +30,8 @@ a work queue — two lists of "next" is how one of them goes stale.
 | **`pipeline/02_sectors.py`** | **Done and run.** Seven declared pulls: real GDP (23 national monthly on two price bases, 299 provincial), nominal GDP (23), gross output (330, IOIC crosswalk), capital expenditures (280), SEPH employment (350, streamed). The StatCan section is complete at its basic level. |
 | `registry/sectors.yaml` | Done. 20 NAICS + T-codes, partition and cross-cuts. |
 | **`pipeline/03_business_counts.py`** | **Done and run.** BACKLOG Q2b, replacing the removed BlackRock company panel. Statistics Canada's newest *Canadian Business Counts, with employees* table, found by title (33101174, June 2026): Canada and 13 provinces and territories × 20 sectors, all industries and Unclassified × 9 size ranges, both languages, StatCan's notes carried. 260 unpublished cells carried as null, each shown by its total to be zero. `business-counts.json`, bundled. |
-| **`pipeline/99_bundle.py`** | **Done and run.** 12 files, 1.53 MB in `web/public/data/`. |
+| **`pipeline/08_provinces.py`** | **Done and run, 2026-09-13.** BACKLOG Stage R, the data half. All 13 provinces and territories: Finance Canada's Fiscal Reference Tables (2025 edition, found by downloading the newest workbook that exists) — every column each jurisdiction's table publishes, 1990-91 to 2024-25 for provinces, to 2023-24 for Yukon and the NWT, from 1999-00 for Nunavut, with each table's notes in both languages; StatCan 36-10-0400 — the twenty sectors' percentage shares of each jurisdiction's GDP plus All industries, 1997 to 2025, release 2026-05-01; Canadian Heritage's motto (11 of 13; Yukon and the NWT publish none) and flag description, verbatim; each flag and coat of arms from Wikimedia Commons as a 240-pixel PNG with its licence and artist (flags public domain; arms public domain, CC0, or CC BY-SA 3.0/4.0). `data/provinces/provinces.json` (356,705 bytes), bundled; 26 images, 1,256,564 bytes, in `web/public/media/provinces/`. Re-run byte-identical. Not yet on screen; slogans (R1) and budget text (R5) not yet read. |
+| **`pipeline/99_bundle.py`** | **Done and run.** 13 files, 1.89 MB in `web/public/data/`. |
 | `atlas/sources/census.py` | Done. Table 98-10-0002, both languages, symbols kept, EN/FR cross-checked. |
 | **`pipeline/05_municipalities.py`** | **Done and run.** 5,161 `Municipality` records, `data/geography/municipalities.json` (5.6 MB). Not bundled. |
 | **`pipeline/06_industries.py`** | **Done and run.** BACKLOG C1, option B + C. All 18 MPO projects placed in NAICS Canada 2022, every quote checked verbatim against Statistics Canada's EN/FR classification files and the project page. 10 joined to NRCan's Major Projects Inventory 2025 by declared ID for status; 3 counted in construction. `industries.json`, bundled, shown in the project viewer as derived. **C2, 2026-09-13:** the inventory is now read from NRCan's open map service (English and French layers, 295 projects), not the XLSX workbooks, which say they are not authorized for publication. Each joined project carries the layer's "Capital cost ($M)", required to be the same number in both languages; 9 of 18 projects join and all 9 carry a cost. The Deep Geological Repository is not in the service and lost its join. NRCan's disclaimer is read from the open.canada.ca record and travels with the costs. No total is written, and verify gates that and refuses an .xlsx source. **C3, 2026-09-13:** on screen in the project viewer's "Capital cost" section — the figure as published, "not published" otherwise, the count of projects with a cost (9 of 18) and NRCan's disclaimer; never a total. Checked in a browser for Darlington. |
@@ -34,7 +40,7 @@ a work queue — two lists of "next" is how one of them goes stale.
 | **`registry/palette.yaml`** | **LOCKED.** 5 validated categorical slots, dark only. |
 | **`scripts/build_geo.mjs`** | **Done and run.** Reproducible world + provinces geometry. |
 | **`web/` (M3)** | **Done and verified in a browser.** Globe, pins, corridors, project viewer. |
-| **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. |
+| **`web/` (M4)** | **Done and verified.** Nine chart forms, filter row, table twins, choropleth. **C4, 2026-09-13:** "Major projects placed in this sector" under the sector focus — the projects placed in the chosen sector with NRCan's cost per project (never summed), counts, and the sector's latest real GDP beside them; a table for every sector. `SectorProjectsPanel.tsx`. **R6, 2026-09-13:** the province page (`ProvincePanel.tsx`) replaces the placeholder — flag, name, motto and the five largest sectors on the first screen; the latest year's published finance columns, deficit-or-surplus bars and a net debt line over every fiscal year, a table of every column and year, the table's notes and any French label mismatch; the coat of arms, Canadian Heritage's flag description, and each image's Commons licence and artist. Checked in a browser: British Columbia, largest sector real estate 19.76 % (2025), 2024-25 deficit −7,347 and net debt 87,306 ($M). |
 | **`web/` (M5)** | **Done and verified.** Pinned tabs, tooltips, accessibility pass. |
 | **`verify/` (M6)** | **Done.** 160 gate checks, 0 failures. Does not import `atlas/`. Bespoke checks in `run.py`; declarative ones in `registry/checks.yaml` + `verify/checks.py`. |
 | **`tests/` (M6)** | **Done.** 114 tests, each explaining the failure it prevents. |

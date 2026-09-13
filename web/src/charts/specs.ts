@@ -538,3 +538,86 @@ export function timeline(marks: TimelineMark[], palette: Palette, width: number,
     ],
   });
 }
+
+// ── 9. A province's finances over time (BACKLOG R5a) ───────────────────────────
+
+/**
+ * One published fiscal series as bars, one per fiscal year.
+ *
+ * For a deficit-or-surplus column: bars above and below zero, the two signs in
+ * two slots, because the sign is the point. The years are a band scale in the
+ * table's own order, never re-sorted. Values are Finance Canada's, millions of
+ * dollars; nothing is summed or smoothed.
+ */
+export function fiscalBars(
+  years: string[],
+  values: (number | null)[],
+  palette: Palette,
+  width: number,
+  lang: Lang,
+) {
+  const n = new Intl.NumberFormat(LOCALE[lang], { maximumFractionDigits: 0 });
+  const rows = years.map((year, i) => ({ year, value: values[i] })).filter((r) => r.value != null) as {
+    year: string;
+    value: number;
+  }[];
+  const every = Math.max(1, Math.ceil(rows.length / Math.max(4, Math.floor(width / 70))));
+  return Plot.plot({
+    ...chartDefaults(180),
+    width,
+    marginLeft: 60,
+    x: { label: null, domain: years, tickFormat: (d: string, i: number) => (i % every === 0 ? d : "") },
+    y: { label: null, tickFormat: (d: number) => n.format(d) },
+    marks: [
+      Plot.gridY({ stroke: token("--ink-gridline"), strokeWidth: 1 }),
+      Plot.barY(rows, {
+        x: "year",
+        y: "value",
+        fill: (d: { value: number }) => (d.value < 0 ? palette.categorical[1].hex : palette.categorical[0].hex),
+        insetLeft: 1,
+        insetRight: 1,
+        tip: { ...TIP, format: { y: (d: number) => n.format(d), x: true, fill: false } },
+      }),
+      axisX({ fontSize: 9 }),
+      axisY({ ticks: 4, tickFormat: (d: number) => n.format(d as number) }),
+      Plot.ruleY([0], { stroke: token("--ink-axis") }),
+    ],
+  });
+}
+
+/** One published fiscal series as a line — for levels such as net debt, where the path matters more than the year. */
+export function fiscalLine(
+  years: string[],
+  values: (number | null)[],
+  palette: Palette,
+  width: number,
+  lang: Lang,
+) {
+  const n = new Intl.NumberFormat(LOCALE[lang], { maximumFractionDigits: 0 });
+  const rows = years.map((year, i) => ({ year, value: values[i] })).filter((r) => r.value != null) as {
+    year: string;
+    value: number;
+  }[];
+  const every = Math.max(1, Math.ceil(rows.length / Math.max(4, Math.floor(width / 70))));
+  return Plot.plot({
+    ...chartDefaults(180),
+    width,
+    marginLeft: 60,
+    x: { label: null, type: "point", domain: years, tickFormat: (d: string, i: number) => (i % every === 0 ? d : "") },
+    y: { label: null, tickFormat: (d: number) => n.format(d) },
+    marks: [
+      Plot.gridY({ stroke: token("--ink-gridline"), strokeWidth: 1 }),
+      Plot.lineY(rows, { x: "year", y: "value", stroke: palette.categorical[0].hex, strokeWidth: 2 }),
+      Plot.dotY(rows, {
+        x: "year",
+        y: "value",
+        r: 2,
+        fill: palette.categorical[0].hex,
+        tip: { ...TIP, format: { y: (d: number) => n.format(d), x: true } },
+      }),
+      axisX({ fontSize: 9 }),
+      axisY({ ticks: 4, tickFormat: (d: number) => n.format(d as number) }),
+      Plot.ruleY([0], { stroke: token("--ink-axis") }),
+    ],
+  });
+}
