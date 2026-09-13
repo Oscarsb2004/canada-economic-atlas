@@ -54,6 +54,7 @@ COPIES = [
     "sectors/provincial-annual.json",
     "sectors/rates.json",
     "sectors/business-counts.json",
+    "provinces/provinces.json",
 ]
 
 #: The figures the sibling repo joins on. Stable keys — renaming one is a

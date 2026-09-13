@@ -2103,3 +2103,127 @@ def test_an_unpublished_size_range_is_null_and_only_where_the_total_leaves_none(
     doc = bc.build(en_h, en0, fr_h, fr0, sector_codes=["23"], geo_codes=geo)
     assert doc["counts"]["ON"]["23"] == [0, None]
     assert doc["absent_cells"] == 1
+
+
+
+# ── Stage R: each province and territory in depth ─────────────────────────────
+
+def _fiscal_book(title, unit, years, rows, header):
+    """A workbook shaped like Finance Canada's: title, name, header rows, unit line, years, notes."""
+    import io
+    import openpyxl
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "23-Ont"
+    ws.append([title])
+    ws.append(["Ontario"])
+    for h in header:
+        ws.append(h)
+    ws.append([unit])
+    for y, r in zip(years, rows):
+        ws.append([y] + r)
+    ws.append(["Sources: the province's public accounts."])
+    buf = io.BytesIO()
+    wb.save(buf)
+    return buf.getvalue()
+
+
+def test_fiscal_tables_pair_languages_by_row_and_keep_the_english_figures():
+    """
+    BACKLOG R3. The two workbooks round differently and the French one can
+    mislabel a year (Manitoba's 2011-12 is "2010-2011" in French), so rows are
+    paired by position, figures must agree within the tolerance, a differing
+    label is recorded rather than trusted, and a heading split at a hyphen
+    rejoins without a space.
+    """
+    from atlas.sources import fiscal_tables as ft
+    en = _fiscal_book("Table 23", "(millions of dollars)", ["2010-11", "2011-12"],
+                      [[43240, -3029], [44000, -100]],
+                      [["", "Own-", "Deficit (-)"], ["Year", "source revenues", "or surplus"]])
+    fr = _fiscal_book("Tableau 23", "(millions de dollars)", ["2010-2011", "2010-2011"],
+                      [[43239.919, -3029], [44000.4, -100]],
+                      [["", "Revenus", "Excédent ou"], ["Année", "autonomes", "déficit (-)"]])
+    t = ft.read(en, fr, 23)
+    assert t.years == ("2010-11", "2011-12")
+    assert [c.label.en for c in t.columns] == ["Own-source revenues", "Deficit (-) or surplus"]
+    assert t.columns[0].values == (43240.0, 44000.0)          # the English figures
+    assert t.year_label_mismatches == (("2011-12", "2010-2011"),)
+    assert t.notes_en == ("Sources: the province's public accounts.",)
+
+    far = _fiscal_book("Tableau 23", "(millions de dollars)", ["2010-2011", "2011-2012"],
+                       [[43100, -3029], [44000, -100]],
+                       [["", "Revenus", "Excédent ou"], ["Année", "autonomes", "déficit (-)"]])
+    with pytest.raises(ft.FiscalTablesError, match="English 43240.0, French 43100.0"):
+        ft.read(en, far, 23)
+
+
+def test_fiscal_tables_edition_needs_a_real_workbook_in_both_languages():
+    """canada.ca answers HEAD with 200 for editions that do not exist, so an edition is a zip body, twice."""
+    from atlas.sources import fiscal_tables as ft
+    template = {"en": "https://x/{year}/frt-trf-{yy}-eng.xlsx", "fr": "https://x/{year}/frt-trf-{yy}-fra.xlsx"}
+    bodies = {"https://x/2025/frt-trf-25-eng.xlsx": b"PK\x03\x04en", "https://x/2025/frt-trf-25-fra.xlsx": b"PK\x03\x04fr",
+              "https://x/2026/frt-trf-26-eng.xlsx": b"<html>404</html>",
+              "https://x/2024/frt-trf-24-eng.xlsx": b"PK", "https://x/2024/frt-trf-24-fra.xlsx": b"PK"}
+    year, books = ft.latest_edition(bodies.get, template, 2027, 2020)
+    assert year == 2025 and books["fr"] == b"PK\x03\x04fr"
+    with pytest.raises(ft.FiscalTablesError, match="no edition"):
+        ft.latest_edition(lambda url: None, template, 2027, 2026)
+
+
+def test_sector_shares_join_languages_on_the_coordinate_and_keep_only_declared_sectors():
+    """
+    BACKLOG R2. The shares are StatCan's; overlapping aggregates (goods, energy)
+    are dropped so no one adds them to a sector, the total is kept, and the
+    French row must carry the same code and value.
+    """
+    from atlas.sources import sector_shares as ss
+    he = list(ss.COLUMNS["en"].values())
+    hf = list(ss.COLUMNS["fr"].values())
+
+    def row_en(period, industry, coord, value):
+        return [period, "2021A000235", industry, coord, value, "", ""]
+
+    def row_fr(period, industry, coord, value):
+        return [period, "2021A000235", industry, coord, value]
+
+    rows_en = [row_en("2025", "All industries [T001]", "6.1", "100.00"),
+               row_en("2025", "Real estate and rental and leasing [53]", "6.19", "14.16"),
+               row_en("2025", "Energy sector [T016]", "6.6", "4.00")]
+    rows_fr = [row_fr("2025", "Ensemble des industries [T001]", "6.1", "100.00"),
+               row_fr("2025", "Services immobiliers et services de location et de location à bail [53]", "6.19", "14.16"),
+               row_fr("2025", "Secteur de l'énergie [T016]", "6.6", "4.00")]
+    out = ss.build(he, rows_en, hf, rows_fr, pruid_to_code={"35": "ON"}, sector_codes={"53"})
+    assert out["shares"] == {"ON": {"53": [14.16], "T001": [100.0]}}
+    assert out["industries"]["53"].fr.startswith("Services immobiliers")
+
+    rows_fr[1][4] = "14.17"
+    with pytest.raises(ss.SectorSharesError, match="in French"):
+        ss.build(he, rows_en, hf, rows_fr, pruid_to_code={"35": "ON"}, sector_codes={"53"})
+
+
+def test_symbols_are_read_by_heading_and_commons_licences_are_never_assumed():
+    """
+    BACKLOG R0. A motto and flag description come from the section with that
+    heading in each language; a file Commons gives no licence for is refused.
+    """
+    from atlas.sources import symbols
+    en = '<h2 id="a4">Motto</h2><p>Loyal she began</p><h2 id="a5">Flag</h2><p>Adopted in 1965.</p><h2 class="x">end</h2>'
+    fr = '<h2 id="a4">Devise</h2><p>Fidèle</p><h2 id="a5">Drapeau</h2><p>Adopté en 1965.</p><h2 class="x">fin</h2>'
+    out = symbols.read_pages(en, fr, where="ON")
+    assert out["motto"] == Text(en="Loyal she began", fr="Fidèle")
+    assert out["flag"] == Text(en="Adopted in 1965.", fr="Adopté en 1965.")
+    with pytest.raises(symbols.SymbolsError, match="one language only"):
+        symbols.read_pages(en, fr.replace("Devise", "Autre"), where="ON")
+
+    def page(title, licence):
+        meta = {"LicenseShortName": {"value": licence}, "Artist": {"value": "<a>Sodacan</a>"},
+                "Restrictions": {"value": "insignia"}}
+        return {"title": title, "imageinfo": [{"url": "u", "descriptionurl": "d", "thumburl": "t.png",
+                                                "sha1": "s", "extmetadata": meta}]}
+    ok = symbols.commons_records({"query": {"pages": {"1": page("File:Flag of Ontario.svg", "Public domain")}}},
+                                 ["File:Flag of Ontario.svg"])
+    assert ok["File:Flag of Ontario.svg"]["artist"] == "Sodacan"
+    assert ok["File:Flag of Ontario.svg"]["restrictions"] == ["insignia"]
+    with pytest.raises(symbols.SymbolsError, match="no licence"):
+        symbols.commons_records({"query": {"pages": {"1": page("File:Flag of Ontario.svg", "")}}},
+                                ["File:Flag of Ontario.svg"])

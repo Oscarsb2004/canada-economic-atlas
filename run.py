@@ -53,6 +53,7 @@ STAGES = {
     "05": "pipeline/05_municipalities.py",
     "06": "pipeline/06_industries.py",
     "07": "pipeline/07_vessels.py",
+    "08": "pipeline/08_provinces.py",
     "99": "pipeline/99_bundle.py",
 }
 
