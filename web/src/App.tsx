@@ -47,16 +47,19 @@ function Atlas() {
   const [mapShare, setMapShare] = useState(50);
   const [resizing, setResizing] = useState(false);
   const splitRef = useRef<HTMLDivElement>(null);
+  // A near-blank start, on the owner's decision (2026-09-13): the globe opens
+  // with only the province and territory borders on, and the reader turns on
+  // whatever else they want to see.
   const [overlays, setOverlays] = useState<MapOverlays>({
     provinces: true,
-    placeNames: true,
-    nationalHighways: true,
-    majorHighways: true,
+    placeNames: false,
+    nationalHighways: false,
+    majorHighways: false,
     rail: false,
-    ferries: true,
-    majorProjects: true,
-    tradePlaces: true,
-    vessels: true,
+    ferries: false,
+    majorProjects: false,
+    tradePlaces: false,
+    vessels: false,
   });
 
   const pins = useTabs((st) => st.pins);
@@ -85,6 +88,24 @@ function Atlas() {
       })
       .catch((e: Error) => setError(e.message));
   }, []);
+
+  // `#province=ON` opens a province page directly — a link a reader can share,
+  // and a way to check every page without clicking a globe. Only codes the
+  // province data publishes are accepted; anything else is ignored.
+  useEffect(() => {
+    if (!bundle) return;
+    const open = () => {
+      const code = /^#province=([A-Z]{2})$/.exec(window.location.hash)?.[1];
+      const profile = code ? bundle.provinceProfiles.provinces[code] : undefined;
+      if (code && profile) {
+        setSelected(null);
+        setSelectedProvince({ code, name: profile.name });
+      }
+    };
+    open();
+    window.addEventListener("hashchange", open);
+    return () => window.removeEventListener("hashchange", open);
+  }, [bundle]);
 
   if (error) {
     return (

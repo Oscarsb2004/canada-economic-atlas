@@ -428,6 +428,22 @@ Construction", and the Deep Geological Repository, which the service does not
 list — 9 of 18 projects now carry a status and a cost, down from 10. NRCan's
 disclaimer is read from the record and shown with the costs.
 
+**Validation round 1, 2026-09-13 (after close-out).** Re-checked with scripts
+that do not import `atlas/`: all 3,998 fiscal cells in `provinces.json` match
+Finance Canada's workbook; all 7,917 sector-share cells match StatCan's
+36-10-0400 CSV; every motto and flag description is on its Canadian Heritage page
+in both languages; all 13 budget quotes are on their stated pages; all 26 images
+decode. Every province page was rendered in English and French (26 views, opened
+by the new `#province=XX` link): images loaded, units on every figure, both
+charts, quotes or PEI's note, no console errors. The joined projects' costs and
+statuses match NRCan's live map service in both languages (9 of 9), and the
+sector panel's counts recount the same (21: 5, 22: 4, 23: 3, 48-49: 8, 56: 1).
+Two bugs found and fixed: **a layer toggle made while any source was still
+loading was silently dropped** — the effect waited for `isStyleLoaded()`, false
+during any load, and a `style.load` that fires once, so unticking Major Projects
+left all 20 pins drawn; and PEI's page said passages were "checked against the
+document" when it has none. The globe now opens with only province borders on.
+
 **The inventory disputes were settled outside the MPO pages.** The MPO pages
 never name Foran, Newcrest or NTPC. McIlvenna Bay: Eldorado Gold closed its
 purchase of Foran on 2026-04-14. Red Chris: Newmont bought Newcrest on
