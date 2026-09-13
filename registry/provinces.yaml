@@ -1,0 +1,104 @@
+# provinces.yaml — the thirteen provinces and territories, and where each one's
+# deep-dive sources are (BACKLOG Stage R).
+#
+# Codes are the atlas's own (`registry.PROVINCE_CODES`); `pruid` is Statistics
+# Canada's, as the boundary file and every cube's DGUID carry it.
+#
+# fiscal_table   Finance Canada's Fiscal Reference Tables number for the
+#                jurisdiction — its sheet in both workbooks starts with it.
+# heritage       Canadian Heritage's page names, which differ by language
+#                ("colombie-britannique"); read 2026-09-13 from each English
+#                page's own hreflang link.
+# flag, arms     Wikimedia Commons file titles, chosen 2026-09-13 on the owner's
+#                decision to take flag and coat-of-arms images from Commons.
+#                Each file's own licence, artist and Commons restrictions are
+#                read at build time and published beside the image — flags are
+#                public domain; several arms drawings are CC BY-SA and must
+#                credit their artist.
+
+version: 1
+# Keys are quoted: YAML 1.1 reads a bare ON as the boolean true (CLAUDE.md).
+fiscal_source: finance_fiscal_reference_tables
+shares_source: statcan_gdp_shares_provincial
+symbols_source: pch_provincial_symbols
+images_source: wikimedia_commons
+
+provinces:
+  "NL":
+    pruid: "10"
+    fiscal_table: 18
+    heritage: {en: newfoundland-and-labrador, fr: terre-neuve-et-labrador}
+    flag: "File:Flag of Newfoundland and Labrador.svg"
+    arms: "File:Coat of Arms of Newfoundland and Labrador.svg"
+  "PE":
+    pruid: "11"
+    fiscal_table: 19
+    heritage: {en: prince-edward-island, fr: ile-du-prince-edouard}
+    flag: "File:Flag of Prince Edward Island.svg"
+    arms: "File:Coat of arms of Prince Edward Island, Canada.svg"
+  "NS":
+    pruid: "12"
+    fiscal_table: 20
+    heritage: {en: nova-scotia, fr: nouvelle-ecosse}
+    flag: "File:Flag of Nova Scotia.svg"
+    arms: "File:Coat of arms of Nova Scotia.svg"
+  "NB":
+    pruid: "13"
+    fiscal_table: 21
+    heritage: {en: new-brunswick, fr: nouveau-brunswick}
+    flag: "File:Flag of New Brunswick.svg"
+    arms: "File:Coat of arms of New Brunswick, Canada.svg"
+  "QC":
+    pruid: "24"
+    fiscal_table: 22
+    heritage: {en: quebec, fr: quebec}
+    flag: "File:Flag of Quebec.svg"
+    arms: "File:Coat of arms of Quebec.svg"
+  "ON":
+    pruid: "35"
+    fiscal_table: 23
+    heritage: {en: ontario, fr: ontario}
+    flag: "File:Flag of Ontario.svg"
+    arms: "File:Coat of arms of Ontario.svg"
+  "MB":
+    pruid: "46"
+    fiscal_table: 24
+    heritage: {en: manitoba, fr: manitoba}
+    flag: "File:Flag of Manitoba.svg"
+    arms: "File:Coat of arms of Manitoba.svg"
+  "SK":
+    pruid: "47"
+    fiscal_table: 25
+    heritage: {en: saskatchewan, fr: saskatchewan}
+    flag: "File:Flag of Saskatchewan.svg"
+    arms: "File:Coat of arms of Saskatchewan.svg"
+  "AB":
+    pruid: "48"
+    fiscal_table: 26
+    heritage: {en: alberta, fr: alberta}
+    flag: "File:Flag of Alberta.svg"
+    arms: "File:Coat of arms of Alberta.svg"
+  "BC":
+    pruid: "59"
+    fiscal_table: 27
+    heritage: {en: british-columbia, fr: colombie-britannique}
+    flag: "File:Flag of British Columbia.svg"
+    arms: "File:Coat of arms of British Columbia.svg"
+  "YT":
+    pruid: "60"
+    fiscal_table: 28
+    heritage: {en: yukon, fr: yukon}
+    flag: "File:Flag of Yukon.svg"
+    arms: "File:Coat of arms of Yukon.svg"
+  "NT":
+    pruid: "61"
+    fiscal_table: 29
+    heritage: {en: northwest-territories, fr: territoires-du-nord-ouest}
+    flag: "File:Flag of the Northwest Territories.svg"
+    arms: "File:Coat of arms of Northwest Territories.svg"
+  "NU":
+    pruid: "62"
+    fiscal_table: 30
+    heritage: {en: nunavut, fr: nunavut}
+    flag: "File:Flag of Nunavut.svg"
+    arms: "File:Coat of arms of Nunavut.svg"

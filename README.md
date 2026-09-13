@@ -35,11 +35,11 @@ Nothing is estimated or ranked by this project, and no number is typed in by han
 
 ## Status
 
-**v1 is complete and deployed, and the pipeline has grown past it.** Eight pipeline
+**v1 is complete and deployed, and the pipeline has grown past it.** Nine pipeline
 stages run end to end — `01` projects, `02` sectors, `03` business counts, `04`
-trade corridors, `05` municipalities, `06` project industries, `07` vessels, `99`
-the bundle — with seven declared Statistics Canada pulls in stage 02. 114 tests
-and 160 verification gates pass, and a re-run
+trade corridors, `05` municipalities, `06` project industries, `07` vessels, `08`
+provinces, `99` the bundle — with seven declared Statistics Canada pulls in stage
+02. 120 tests and 185 verification gates pass, and a re-run
 against unchanged sources produces a zero-line git diff, which is the acceptance
 test for every stage.
 
@@ -70,7 +70,7 @@ That is the only command needed. On first use it creates `.venv`, installs
 activate by hand, and it reinstalls only when the pins actually change.
 
 ```bash
-python run.py --stage 02 # one stage (01 | 02 | 03 | 04 | 05 | 06 | 07 | 99)
+python run.py --stage 02 # one stage (01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 99)
 python run.py --verify   # independent verification only
 python run.py --test     # pytest only
 python run.py --refresh  # bypass the HTTP cache and re-fetch StatCan cubes
