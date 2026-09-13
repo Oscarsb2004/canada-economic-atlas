@@ -179,6 +179,15 @@ const en = {
 
   sectionIndustry: "Industry — this atlas's reading",
   derivedTag: "Derived",
+  sectionCost: "Capital cost",
+  costValue: (label: string, value: string) => `${label}: ${value}`,
+  costNotPublished:
+    "Not published. NRCan's Major Projects Inventory does not list this project. A dollar figure in the project page's own text stays in that text; it is not turned into a cost.",
+  costEmpty: "Not published. NRCan's Major Projects Inventory lists this project without a capital cost.",
+  costCeiling: (withCost: number, total: number) =>
+    `NRCan publishes a cost for ${withCost} of the ${total} projects. The atlas never adds them up: a sum over ${withCost} would read as the cost of all ${total}.`,
+  costSource: "Natural Resources Canada, Major Projects Inventory, open map service · Open Government Licence – Canada",
+  costDisclaimer: "NRCan's disclaimer",
   industryMissing: "This project has not been placed in an industry.",
   industryCode: (code: string, title: string) => `NAICS ${code} · ${title}`,
   industrySector: (code: string, title: string) => `Sector ${code} · ${title}`,
@@ -391,6 +400,15 @@ const fr: Strings = {
 
   sectionIndustry: "Industrie — lecture de cet atlas",
   derivedTag: "Dérivé",
+  sectionCost: "Dépenses en immobilisations",
+  costValue: (label, value) => `${label} : ${value}`,
+  costNotPublished:
+    "Non publiées. L’Inventaire des grands projets de RNCan ne répertorie pas ce projet. Un montant cité dans le texte de la page du projet reste dans ce texte; il n’est pas converti en coût.",
+  costEmpty: "Non publiées. L’Inventaire des grands projets de RNCan répertorie ce projet sans dépenses en immobilisations.",
+  costCeiling: (withCost, total) =>
+    `RNCan publie des dépenses en immobilisations pour ${withCost} des ${total} projets. L’atlas ne les additionne jamais : une somme sur ${withCost} projets passerait pour le coût des ${total}.`,
+  costSource: "Ressources naturelles Canada, Inventaire des grands projets, service cartographique ouvert · Licence du gouvernement ouvert – Canada",
+  costDisclaimer: "Clause de non-responsabilité de RNCan",
   industryMissing: "Ce projet n’a pas été classé dans une industrie.",
   industryCode: (code, title) => `SCIAN ${code} · ${title}`,
   industrySector: (code, title) => `Secteur ${code} · ${title}`,
@@ -507,6 +525,15 @@ export function fmtMoneyM(millions: number, lang: Lang): string {
   const dollars = millions * 1_000_000;
   const digits = Math.abs(dollars) >= 1e12 ? 1 : 0;
   return numberFormat(lang, `compact${digits}`, { ...COMPACT_CAD, maximumFractionDigits: digits }).format(dollars);
+}
+
+/**
+ * A number exactly as a publisher gave it, grouped and punctuated by the locale:
+ * 20900 → "20,900" / "20 900", 480.8 → "480.8" / "480,8". No unit, no rounding
+ * beyond the two decimals a published figure carries; the label says the unit.
+ */
+export function fmtPublished(value: number, lang: Lang): string {
+  return numberFormat(lang, "published", { maximumFractionDigits: 2 }).format(value);
 }
 
 /**
