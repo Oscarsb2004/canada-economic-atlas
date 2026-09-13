@@ -19,6 +19,11 @@
  * it shows its working: the page's words for the asset and Statistics Canada's
  * words for the code.
  *
+ * The cost section (BACKLOG C3) is not the page's words either: it is NRCan's
+ * figure from the Major Projects Inventory's open map service, shown under that
+ * service's label with its disclaimer, "not published" wherever there is none,
+ * and never summed across projects.
+ *
  * The source link is present but secondary. The point is that you do not have
  * to click it.
  */
@@ -27,7 +32,7 @@ import type {
   ConstructionListing, IndustriesDoc, Lang, Project, ProjectIndustries, Text, Update,
 } from "../data/bundle";
 import { assertNever, asset, safeExternalUrl, t } from "../data/bundle";
-import { useI18n, type Strings } from "../i18n";
+import { fmtPublished, useI18n, type Strings } from "../i18n";
 import { PinButton } from "../tabs/TabStrip";
 
 interface Props {
@@ -173,6 +178,7 @@ export function ProjectViewer({ project, industries, onClose }: Props) {
       )}
 
       <IndustrySection placement={placement} doc={industries} lang={lang} s={s} />
+      <CostSection placement={placement} doc={industries} lang={lang} s={s} />
 
       <footer
         style={{
@@ -268,6 +274,61 @@ function IndustrySection({
 }
 
 /**
+ * The capital cost NRCan publishes for this project (BACKLOG C3).
+ *
+ * Shown as published — millions, under the map service's own label — rather
+ * than converted into billions or a currency string of ours. Every project also
+ * states how many projects have a cost at all, counted from the data: the one
+ * thing this section must never become is a portfolio total, because a sum over
+ * the projects that have a cost would read as the cost of all of them.
+ *
+ * Three cases, exhaustive: not in the inventory, in it with a cost, and in it
+ * without one — the last never read as the first.
+ */
+function CostSection({
+  placement,
+  doc,
+  lang,
+  s,
+}: {
+  placement: ProjectIndustries | undefined;
+  doc: IndustriesDoc;
+  lang: Lang;
+  s: Strings;
+}) {
+  const status = placement?.construction.status ?? null;
+  const withCost = doc.projects.filter((p) => p.construction.status?.cost_musd != null).length;
+  const record = safeExternalUrl(doc.inventory.dataset_record);
+  return (
+    <Section title={s.sectionCost}>
+      {status === null ? (
+        <p className="muted" style={{ margin: 0 }}>{s.costNotPublished}</p>
+      ) : status.cost_musd === null ? (
+        <p className="muted" style={{ margin: 0 }}>{s.costEmpty}</p>
+      ) : (
+        <p style={{ margin: 0 }}>
+          <strong>{s.costValue(t(status.cost_field, lang), fmtPublished(status.cost_musd, lang))}</strong>
+        </p>
+      )}
+      <p className="secondary" style={{ fontSize: "var(--fs-small)", margin: "var(--sp-2) 0 0" }}>
+        {s.costCeiling(withCost, doc.projects.length)}
+      </p>
+      <details style={{ marginTop: "var(--sp-2)", fontSize: "var(--fs-small)" }}>
+        <summary>{s.costDisclaimer}</summary>
+        <p className="muted" style={{ margin: "var(--sp-1) 0 0" }}>{t(doc.inventory.disclaimer, lang)}</p>
+      </details>
+      <p className="muted" style={{ fontSize: "var(--fs-micro)", margin: "var(--sp-2) 0 0" }}>
+        {record ? (
+          <a href={record} target="_blank" rel="noreferrer">{s.costSource}</a>
+        ) : (
+          s.costSource
+        )}
+      </p>
+    </Section>
+  );
+}
+
+/**
  * The construction listing as one sentence. Exhaustive over `basis`, because
  * "not in the inventory" and "not under construction" are different claims and
  * a new basis must not fall into either by default (CLAUDE.md §2b).
@@ -276,9 +337,9 @@ function constructionLine(c: ConstructionListing, lang: Lang, s: Strings): strin
   const sector = t(c.sector_title, lang);
   switch (c.basis) {
     case "under_construction":
-      return s.constructionListed(c.sector, sector, c.status?.status_field ?? "", t(c.status?.status, lang));
+      return s.constructionListed(c.sector, sector, t(c.status?.status_field, lang), t(c.status?.status, lang));
     case "not_under_construction":
-      return s.constructionNotListed(c.sector, sector, c.status?.status_field ?? "", t(c.status?.status, lang));
+      return s.constructionNotListed(c.sector, sector, t(c.status?.status_field, lang), t(c.status?.status, lang));
     case "not_in_inventory":
       return s.constructionNotPublished(c.sector, sector);
     default:

@@ -28,7 +28,7 @@ a work queue — two lists of "next" is how one of them goes stale.
 | **`pipeline/99_bundle.py`** | **Done and run.** 12 files, 1.53 MB in `web/public/data/`. |
 | `atlas/sources/census.py` | Done. Table 98-10-0002, both languages, symbols kept, EN/FR cross-checked. |
 | **`pipeline/05_municipalities.py`** | **Done and run.** 5,161 `Municipality` records, `data/geography/municipalities.json` (5.6 MB). Not bundled. |
-| **`pipeline/06_industries.py`** | **Done and run.** BACKLOG C1, option B + C. All 18 MPO projects placed in NAICS Canada 2022, every quote checked verbatim against Statistics Canada's EN/FR classification files and the project page. 10 joined to NRCan's Major Projects Inventory 2025 by declared ID for status; 3 counted in construction. `industries.json`, bundled, shown in the project viewer as derived. |
+| **`pipeline/06_industries.py`** | **Done and run.** BACKLOG C1, option B + C. All 18 MPO projects placed in NAICS Canada 2022, every quote checked verbatim against Statistics Canada's EN/FR classification files and the project page. 10 joined to NRCan's Major Projects Inventory 2025 by declared ID for status; 3 counted in construction. `industries.json`, bundled, shown in the project viewer as derived. **C2, 2026-09-13:** the inventory is now read from NRCan's open map service (English and French layers, 295 projects), not the XLSX workbooks, which say they are not authorized for publication. Each joined project carries the layer's "Capital cost ($M)", required to be the same number in both languages; 9 of 18 projects join and all 9 carry a cost. The Deep Geological Repository is not in the service and lost its join. NRCan's disclaimer is read from the open.canada.ca record and travels with the costs. No total is written, and verify gates that and refuses an .xlsx source. **C3, 2026-09-13:** on screen in the project viewer's "Capital cost" section — the figure as published, "not published" otherwise, the count of projects with a cost (9 of 18) and NRCan's disclaimer; never a total. Checked in a browser for Darlington. |
 | **`pipeline/07_vessels.py`** | **Done and run.** BACKLOG S1. Transport Canada's Canadian Register of Large Vessels, EN + FR paired by row: 26,907 entries, of which the 1,161 carrying an IMO number are committed to `data/vessels/large-vessel-register.json` (1.42 MB). Not bundled. |
 | **`live/collect_ais.py`** | **Built and run once (75 s, 2026-09-12): whole-world subscription accepted, 168 messages/s, 11,767 vessels heard, 346 Canadian, 7 also in the register.** The `AISSTREAM_API_KEY` repository secret exists (GitHub lists it as created 2026-09-12T22:01:36Z), so the daily job collects once PR #8 is on main. BACKLOG S2/S3. aisstream.io → Canadian vessels by MMSI 316… or register IMO → a snapshot that keeps each vessel's last heard position. `python run.py --live` on localhost; a daily GitHub Action commits the snapshot to the `vessel-positions` branch and every build copies it in. The globe's "Canadian-flagged vessels" layer reads it. |
 | **`registry/palette.yaml`** | **LOCKED.** 5 validated categorical slots, dark only. |
@@ -406,6 +406,21 @@ or more — fetched only past zoom 4, and the world moved from Natural Earth 1:5
 to 1:10m. A first count reported zero ships on land at 1%: mapshaper had written
 the dissolved outline as a bare GeometryCollection and the counting script read
 no polygons from it. `build_geo.mjs` already names that trap for the app.
+
+**2026-09-13: the Major Projects Inventory contradicts its own licence.** Read
+before C2 used its costs (CLAUDE.md §9). The workbooks' "About + Caveats" sheet
+says "This spreadsheet or parts thereof are not authorized or approved for
+publication at this time", in both languages. The open.canada.ca record for the
+inventory (modified 2026-04-17) lists those same two XLSX files as its resources
+under the Open Government Licence – Canada. **Resolved the same day, on the
+owner's decision: the atlas no longer reads the workbooks.** The same record lists
+NRCan's ArcGIS map service for the inventory, in English and French, with no such
+sentence; it publishes the same cost for every joined project it lists. Stage 06
+now reads the service, and verify refuses an .xlsx inventory source. What the
+switch cost: prior-year figures, statuses finer than "Planned" / "Under
+Construction", and the Deep Geological Repository, which the service does not
+list — 9 of 18 projects now carry a status and a cost, down from 10. NRCan's
+disclaimer is read from the record and shown with the costs.
 
 **The inventory disputes were settled outside the MPO pages.** The MPO pages
 never name Foran, Newcrest or NTPC. McIlvenna Bay: Eldorado Gold closed its

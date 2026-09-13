@@ -70,7 +70,7 @@ def _assignment(project: dict[str, Any], entry: dict[str, Any], c: naics.Classif
 
 def _construction(project: dict[str, Any], entry: dict[str, Any], rules: dict[str, Any],
                   c: naics.Classification, inventory: dict[str, mpi.InventoryRow],
-                  status_field: str, max_km: float) -> ConstructionListing:
+                  status_field: Text, max_km: float, cost_field: Text) -> ConstructionListing:
     slug = project["slug"]
     sector = rules["sector"]
     ev = rules["evidence"]
@@ -109,7 +109,8 @@ def _construction(project: dict[str, Any], entry: dict[str, Any], rules: dict[st
         basis="under_construction" if listed_en else "not_under_construction",
         status=InventoryStatus(
             inventory_id=row.project_id, name=row.name, proponent=row.proponent,
-            status=row.status, status_field=status_field, prior_status=row.prior_status,
+            status=row.status, status_field=status_field,
+            cost_musd=row.cost, cost_field=cost_field,
             points=row.points, distance_km=km,
         ),
         note=_text(entry.get("inventory_note")),
@@ -118,7 +119,8 @@ def _construction(project: dict[str, Any], entry: dict[str, Any], rules: dict[st
 
 
 def build(projects: list[dict[str, Any]], registry: dict[str, Any], c: naics.Classification,
-          inventory: dict[str, mpi.InventoryRow], *, status_field: str) -> tuple[ProjectIndustries, ...]:
+          inventory: dict[str, mpi.InventoryRow], *, status_field: Text,
+          cost_field: Text) -> tuple[ProjectIndustries, ...]:
     """One `ProjectIndustries` per project, in the stage 01 output's order."""
     declared = registry["projects"]
     slugs = [p["slug"] for p in projects]
@@ -134,6 +136,7 @@ def build(projects: list[dict[str, Any]], registry: dict[str, Any], c: naics.Cla
             slug=p["slug"],
             operating=tuple(_assignment(p, e, c) for e in entry["operating"]),
             construction=_construction(p, entry, registry["construction"], c, inventory,
-                                       status_field, float(registry["join_max_km"])),
+                                       status_field, float(registry["join_max_km"]),
+                                       cost_field),
         ))
     return tuple(out)

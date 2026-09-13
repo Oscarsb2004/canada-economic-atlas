@@ -141,15 +141,16 @@ projects:
             code: "562210"
             en: radioactive waste disposal and treatment
             fr: élimination et traitement des déchets radioactifs
-    inventory:
-      # "Adaptive Phased Management Deep Geological Repository", Nuclear Waste
-      # Management Organization, ON. The inventory publishes no coordinate for
-      # it, so the join cannot be checked by distance and says so.
-      # CONFIRMED 2026-09-12 from the MPO page itself, which names the same
-      # proponent and the same plan: "The Government of Canada selected the
-      # Adaptive Phased Management approach as Canada’s plan for used nuclear fuel".
-      id: "8330"
-      accept_without_coordinates: true
+    # Joined to inventory Project ID 8330 until 2026-09-13 — "Adaptive Phased
+    # Management Deep Geological Repository", Nuclear Waste Management
+    # Organization, ON, confirmed 2026-09-12 from the MPO page itself. That ID is
+    # in NRCan's XLSX workbooks but not in the open map service the atlas now
+    # reads (the workbooks say they are not authorized for publication), so the
+    # service publishes no status or cost for this project.
+    inventory: null
+    inventory_note:
+      en: NRCan's open Major Projects Inventory map service does not list this project, so no construction status or capital cost is published for it here.
+      fr: Le service cartographique ouvert de l’Inventaire des grands projets de RNCan ne répertorie pas ce projet; aucun statut de construction ni aucune dépense en immobilisations n’est donc publié ici à son sujet.
 
   grays-bay:
     operating:

@@ -148,9 +148,15 @@ export interface InventoryStatus {
   proponent: string;
   /** Verbatim from NRCan's English and French files. */
   status: Text;
-  /** "Status 2025" — the vintage travels with the value. */
-  status_field: string;
-  prior_status: Text;
+  /** The layer's own label for the field, in each language. */
+  status_field: Text;
+  /**
+   * NRCan's capital cost in millions of dollars, as its open map service
+   * publishes it. Never summed across projects: most MPO projects have none (C3).
+   */
+  cost_musd: number | null;
+  /** "Capital cost ($M)" / "Dépenses en immobilisations (M$)". */
+  cost_field: Text;
   points: [number, number][];
   distance_km: number | null;
   provenance: Provenance;
@@ -180,7 +186,17 @@ export interface ProjectIndustries {
 export interface IndustriesDoc {
   method: Text;
   classification: { title: string; dataset_record: string; sources: SourceRef[] };
-  inventory: { title: string; status_field: string; join_max_km: number; sources: SourceRef[] };
+  inventory: {
+    title: string;
+    dataset_record: string;
+    /** The map service layer's own labels, in each language. */
+    status_field: Text;
+    cost_field: Text;
+    /** NRCan's disclaimer from the open.canada.ca record, verbatim, in both languages. */
+    disclaimer: Text;
+    join_max_km: number;
+    sources: SourceRef[];
+  };
   projects: ProjectIndustries[];
 }
 

@@ -1632,11 +1632,15 @@ def test_project_naics_registry_rejects_an_unquoted_code(tmp_path, monkeypatch):
         R.project_naics.cache_clear()
 
 
-def _inventory_row(pid, status_en, status_fr, points=((-73.0, 45.0),)):
+#: The map service layer's own field labels, as sources.yaml declares them.
+_INVENTORY_FIELDS = dict(status_field=Text(en="Status of development", fr="Statut de développement"),
+                         cost_field=Text(en="Capital cost ($M)", fr="Dépenses en immobilisations (M$)"))
+
+
+def _inventory_row(pid, status_en, status_fr, points=((-73.0, 45.0),), cost=None):
     from atlas.sources import mpi
     return mpi.InventoryRow(project_id=pid, name=f"project {pid}", proponent="p", province="QC",
-                            status=Text(en=status_en, fr=status_fr),
-                            prior_status=Text(en="Approved", fr="Approuvé"), points=tuple(points))
+                            status=Text(en=status_en, fr=status_fr), cost=cost, points=tuple(points))
 
 
 def test_an_inventory_join_is_held_to_distance():
@@ -1657,46 +1661,69 @@ def test_an_inventory_join_is_held_to_distance():
     assert mpi.check_join(bare, [(-73.0, 45.0)], max_km=25, accept_without_coordinates=True, slug="x") is None
 
 
-def test_the_inventory_is_read_in_both_languages_and_joined_on_id(tmp_path):
+def _layer(rows):
+    """Features shaped like NRCan's map service: text attributes, a point in degrees."""
+    return [{"attributes": {"id": pid, "project_name": name, "company": "c", "province": "p",
+                            "status": status, "capital_cost": cost},
+             "geometry": {"x": x, "y": y}}
+            for pid, name, status, cost, x, y in rows]
+
+
+def test_the_inventory_is_read_in_both_languages_and_joined_on_id():
     """
-    The French file carries French status words under French column names. It
-    is joined on Project ID, the two files must list the same projects, and an
-    ID stored as a number (so that "0329" became 329) is refused.
+    The French layer carries French status words under the same field names. It
+    is joined on Project ID, the two layers must list the same projects, an ID
+    that is not text (so that "0329" became 329) is refused, and so is a point
+    in metres — what arrives if the query stops asking for degrees.
     """
-    import openpyxl
     from atlas.sources import mpi
+    en = _layer([("0329", "Sisson Project", "Planned", "579.00", -67.04, 46.37)])
+    fr = _layer([("0329", "Sisson Project", "Prévu", "579,00", -67.04, 46.37)])
+    rows = mpi.read(en, fr)
+    assert rows["0329"].status == Text(en="Planned", fr="Prévu")
+    assert rows["0329"].points == ((-67.04, 46.37),)       # [lon, lat]
 
-    def book(path, sheet, header, rows):
-        wb = openpyxl.Workbook()
-        ws = wb.active
-        ws.title = sheet
-        ws.append(header)
-        for row in rows:
-            ws.append(row)
-        wb.save(path)
-
-    points = ["Latitude 1", "Longitude 1"] + [f"{k} {i}" for i in range(2, 7) for k in ("Lat.", "Lon.")]
-    en_header = ["Project ID", "Project Name", "Company/ Proponent", "P/T", "Status 2025", "Status 2024"] + points
-    fr_header = ["Numéro d'identification", "Nom du projet", "Nom de l'entreprise", "P/T",
-                 "Status 2025", "Status 2024"]
-    read = dict(sheet_en="Data", sheet_fr="Données", status_field="Status 2025",
-                prior_status_field="Status 2024")
-
-    book(tmp_path / "en.xlsx", "Data", en_header,
-         [["0329", "Sisson Project", "Northcliff", "NB", "Under construction", "Approved", 46.37, -66.93]])
-    book(tmp_path / "fr.xlsx", "Données", fr_header,
-         [["0329", "Sisson Project", "Northcliff", "NB", "En construction", "Approuvé"]])
-    rows = mpi.read(tmp_path / "en.xlsx", tmp_path / "fr.xlsx", **read)
-    assert rows["0329"].status == Text(en="Under construction", fr="En construction")
-    assert rows["0329"].points == ((-66.93, 46.37),)       # [lon, lat]
-
-    book(tmp_path / "fr.xlsx", "Données", fr_header, [["0330", "Other", "x", "NB", "Approuvé", "Approuvé"]])
     with pytest.raises(mpi.InventoryError, match="different projects"):
-        mpi.read(tmp_path / "en.xlsx", tmp_path / "fr.xlsx", **read)
-
-    book(tmp_path / "en.xlsx", "Data", en_header, [[329, "Sisson", "Northcliff", "NB", "Approved", "Approved"]])
+        mpi.read(en, _layer([("0330", "Other", "Prévu", "1,00", -67.0, 46.0)]))
     with pytest.raises(mpi.InventoryError, match="not text"):
-        mpi.read(tmp_path / "en.xlsx", tmp_path / "fr.xlsx", **read)
+        mpi.read(_layer([(329, "Sisson", "Planned", "579.00", -67.0, 46.0)]), fr)
+    with pytest.raises(mpi.InventoryError, match="not in degrees"):
+        mpi.read(_layer([("0329", "Sisson", "Planned", "579.00", 2366834.1, 737290.6)]), fr)
+
+
+def test_inventory_costs_are_read_in_both_languages_and_must_agree():
+    """
+    BACKLOG C2. The service publishes costs as text, per language: "20,900.00"
+    in English, "20 900,00" with no-break spaces in French. Each is parsed by its
+    own pattern and they must be the same number; a figure the layers disagree
+    on is refused rather than taken from one, and prose is never read as a cost.
+    """
+    from atlas.sources import mpi
+    en = _layer([("0644", "Darlington", "Under Construction", "20,900.00", -78.7, 43.9)])
+    fr = _layer([("0644", "Darlington", "En construction", "20 900,00", -78.7, 43.9)])
+    assert mpi.read(en, fr)["0644"].cost == 20900.0
+
+    with pytest.raises(mpi.InventoryError, match="English layer publishes"):
+        mpi.read(en, _layer([("0644", "Darlington", "En construction", "2 090,00", -78.7, 43.9)]))
+    with pytest.raises(mpi.InventoryError, match="is not a cost"):
+        mpi.read(_layer([("0644", "Darlington", "Under Construction", "about 20 billion", -78.7, 43.9)]), fr)
+
+
+def test_the_inventory_disclaimer_is_read_from_the_record_not_retyped():
+    """
+    NRCan's disclaimer is reproduced beside every cost. It is read from the
+    open.canada.ca record in each language, so a copy in the registry cannot
+    drift from what the record says; a record without exactly one is refused.
+    """
+    from atlas.sources import mpi
+    record = {"result": {"notes_translated": {
+        "en": "An inventory.\n\nDISCLAIMER: Data and maps are for illustrative purposes only.",
+        "fr": "Un inventaire.\n\nCLAUSE DE NON-RESPONSABILITÉ: Les données sont pour des fins d'illustration."}}}
+    assert mpi.caveat(record) == Text(en="DISCLAIMER: Data and maps are for illustrative purposes only.",
+                                      fr="CLAUSE DE NON-RESPONSABILITÉ: Les données sont pour des fins "
+                                         "d'illustration.")
+    with pytest.raises(mpi.InventoryError, match="expected one"):
+        mpi.caveat({"result": {"notes_translated": {"en": "No disclaimer.", "fr": "Aucune."}}})
 
 
 def _industry_registry(**projects):
@@ -1745,14 +1772,14 @@ def test_construction_listing_needs_a_published_status():
     reg = _industry_registry(a=_port_entry({"id": "0001"}), b=_port_entry({"id": "0002"}), c=_port_entry(None))
     out = {x.slug: x.construction for x in industries.build(
         [_port_project("a"), _port_project("b"), _port_project("c")], reg, _classification(), inv,
-        status_field="Status 2025")}
+        **_INVENTORY_FIELDS)}
     assert (out["a"].listed, out["a"].basis) == (True, "under_construction")
     assert (out["b"].listed, out["b"].basis) == (False, "not_under_construction")
     assert (out["c"].listed, out["c"].basis, out["c"].status) == (False, "not_in_inventory", None)
 
     with pytest.raises(industries.IndustryError, match="disagrees between languages"):
         industries.build([_port_project("d")], _industry_registry(d=_port_entry({"id": "0003"})),
-                         _classification(), inv, status_field="Status 2025")
+                         _classification(), inv, **_INVENTORY_FIELDS)
 
 
 def test_a_placement_must_quote_the_project_page_and_cover_every_project():
@@ -1766,12 +1793,12 @@ def test_a_placement_must_quote_the_project_page_and_cover_every_project():
     entry["operating"][0]["asset"] = {"en": "a marine terminal", "fr": "un terminal à conteneurs"}
     with pytest.raises(industries.IndustryError, match="asset quote"):
         industries.build([_port_project("a")], _industry_registry(a=entry), _classification(), {},
-                         status_field="Status 2025")
+                         **_INVENTORY_FIELDS)
     with pytest.raises(industries.IndustryError, match="no entry for"):
         industries.build([_port_project("a"), _port_project("b")], _industry_registry(a=_port_entry(None)),
-                         _classification(), {}, status_field="Status 2025")
+                         _classification(), {}, **_INVENTORY_FIELDS)
     placed = industries.build([_port_project("a")], _industry_registry(a=_port_entry(None)),
-                              _classification(), {}, status_field="Status 2025")[0].operating[0]
+                              _classification(), {}, **_INVENTORY_FIELDS)[0].operating[0]
     assert (placed.code, placed.sector, placed.provenance) == ("488310", "48-49", Provenance.DERIVED)
 
 

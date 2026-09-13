@@ -224,23 +224,12 @@ body {
 .map-layer-toggle input { margin: 1px 0 0; accent-color: var(--accent); }
 
 .map-layer-toggle span > span,
-.map-layer-toggle small,
-.map-layer-bar__future span,
-.map-layer-bar__future small { display: block; }
+.map-layer-toggle small { display: block; }
 
-.map-layer-toggle small,
-.map-layer-bar__future small {
+.map-layer-toggle small {
   margin-top: 2px;
   color: var(--ink-muted);
   font-size: var(--fs-micro);
-}
-
-.map-layer-bar__future {
-  margin: var(--sp-1) 0;
-  padding: var(--sp-2) var(--sp-1);
-  border-top: var(--hairline);
-  color: var(--ink-muted);
-  line-height: 1.2;
 }
 
 .map-layer-bar__analysis {

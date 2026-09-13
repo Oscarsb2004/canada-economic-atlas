@@ -925,6 +925,39 @@ def check_industries(r: Report) -> None:
            f"industries: every inventory join is declared, and within {max_km} km or under a disclosed waiver",
            str(bad_join))
 
+    # Costs (BACKLOG C2). Read through the same declared join as status, so a
+    # cost exists only where a status does. Checked here: the column names are
+    # the ones sources.yaml declares, every cost is a non-negative number or
+    # empty, and the output publishes no total anywhere — C3's rule that a sum
+    # over the joined projects would pass itself off as the portfolio's.
+    isrc = _load_yaml(REGISTRY / "sources.yaml")["sources"][reg["inventory_source"]]
+    bad_cost = []
+    for x in records:
+        st = x["construction"].get("status")
+        if not st:
+            continue
+        if st.get("cost_field") != isrc["fields"]["cost"] or st.get("status_field") != isrc["fields"]["status"]:
+            bad_cost.append(f'{x["slug"]}: field labels {st.get("status_field")!r} / {st.get("cost_field")!r}')
+        v = st.get("cost_musd", "missing")
+        if v is not None and (isinstance(v, bool) or not isinstance(v, (int, float)) or v < 0):
+            bad_cost.append(f'{x["slug"]}: cost_musd = {v!r}')
+    inv = doc.get("inventory", {})
+    r.gate(not bad_cost,
+           "industries: every inventory cost is a published number or empty, under the layer's own labels",
+           str(bad_cost))
+    r.gate(not any("total" in k.casefold() or "sum" in k.casefold() for k in inv),
+           "industries: no cost total is published across the joined projects",
+           f"inventory keys: {sorted(inv)}")
+    disclaimer = inv.get("disclaimer") or {}
+    r.gate(str(disclaimer.get("en", "")).startswith("DISCLAIMER")
+           and str(disclaimer.get("fr", "")).startswith("CLAUSE DE NON-RESPONSABILITÉ"),
+           "industries: NRCan's disclaimer travels with the costs, in both languages",
+           f"disclaimer: {disclaimer!r}")
+    services = {s.get("url", "") for s in inv.get("sources", [])}
+    r.gate(not any(u.endswith(".xlsx") for u in services),
+           "industries: nothing is read from the inventory workbooks that say they are not for publication",
+           str(sorted(services)))
+
     listed = sorted(x["slug"] for x in records if x["construction"]["listed"])
     joined = sum(1 for x in records if x["construction"].get("status"))
     r.note(f"industries: {joined} of {len(records)} projects joined to the Major Projects Inventory; "
