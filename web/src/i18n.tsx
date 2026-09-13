@@ -204,6 +204,8 @@ const en = {
 
   mapLabel: "Map of Canada in the world",
   layersTitle: "Map layers",
+  hideLayers: "Hide map layers",
+  showLayers: "Show map layers",
   layers: {
     provinces: { label: "Provinces and territories", detail: "Hover or click for a profile" },
     placeNames: { label: "City and town names", detail: "Government of Canada place names" },
@@ -414,6 +416,8 @@ const fr: Strings = {
 
   mapLabel: "Carte du Canada dans le monde",
   layersTitle: "Couches de la carte",
+  hideLayers: "Masquer les couches de la carte",
+  showLayers: "Afficher les couches de la carte",
   layers: {
     provinces: { label: "Provinces et territoires", detail: "Survolez ou cliquez pour un profil" },
     placeNames: { label: "Noms des villes et villages", detail: "Noms géographiques du gouvernement du Canada" },

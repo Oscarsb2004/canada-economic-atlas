@@ -151,6 +151,58 @@ body {
   backdrop-filter: blur(6px);
 }
 
+/* The bar can be folded away to a tab, so the globe can be read edge to edge.
+   The tab sits where the bar's top-left corner was, so it is found in the
+   same place the bar was left. */
+.map-layer-bar__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-1);
+}
+
+.map-layer-bar__hide {
+  min-width: 24px;
+  min-height: 22px;
+  margin: 0 0 var(--sp-1);
+  padding: 0 var(--sp-1);
+  border: var(--hairline);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: var(--fs-body, 14px);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.map-layer-bar__hide:hover { border-color: var(--accent); color: var(--accent); }
+
+.map-layer-tab {
+  position: absolute;
+  z-index: 3;
+  top: var(--sp-3);
+  left: var(--sp-3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px var(--sp-2);
+  border: var(--hairline);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface-chart) 94%, transparent);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 35%);
+  backdrop-filter: blur(6px);
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: var(--fs-micro);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.map-layer-tab:hover { border-color: var(--accent); color: var(--ink-primary); }
+
 .map-layer-bar__title {
   margin: 1px var(--sp-1) var(--sp-2);
   color: var(--ink-secondary);
