@@ -1268,10 +1268,6 @@ export function Globe({
             onChange={() => onToggleOverlay(overlay)}
           />
         ))}
-        <div className="map-layer-bar__future">
-          <span>{s.futureHeatmap.label}</span>
-          <small>{s.futureHeatmap.detail}</small>
-        </div>
         <LanguageToggle className="map-layer-bar__lang" />
         <button type="button" className="map-layer-bar__analysis" onClick={onToggleAnalysis}>
           {analysisVisible ? s.hideAnalysis : s.showAnalysis}
