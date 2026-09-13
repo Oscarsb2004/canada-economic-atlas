@@ -110,6 +110,9 @@ const LIVE_POLL_MS = 15_000;
  */
 const DETAIL_ZOOM = 4;
 
+/** localStorage key for whether the layer bar is unfolded. */
+const LAYERS_OPEN_KEY = "atlas.layers-open";
+
 function vesselGeoJSON(doc: VesselSnapshot | null): GeoJSON.FeatureCollection {
   if (!doc) return EMPTY_GEOJSON;
   const taken = Date.parse(doc.generated_at);
@@ -670,6 +673,26 @@ export function Globe({
   const detailState = useRef<"idle" | "loading" | "loaded" | "failed">("idle");
   /** Bumped when the detail tier replaces the province geometry, to re-apply selection. */
   const [detailVersion, setDetailVersion] = useState(0);
+  /**
+   * Whether the layer bar is unfolded. Remembered per browser, because a reader
+   * who folds it away to read the globe wants it folded next visit too. Storage
+   * can throw (private windows, blocked site data), so it only ever falls back.
+   */
+  const [layersOpen, setLayersOpen] = useState<boolean>(() => {
+    try {
+      return window.localStorage.getItem(LAYERS_OPEN_KEY) !== "false";
+    } catch {
+      return true;
+    }
+  });
+  const setLayersOpenRemembered = (open: boolean) => {
+    setLayersOpen(open);
+    try {
+      window.localStorage.setItem(LAYERS_OPEN_KEY, String(open));
+    } catch {
+      // Not remembered; the bar still folds for this visit.
+    }
+  };
   const placeMarkers = useRef<Map<string, maplibregl.Marker>>(new Map());
   const overlaysRef = useRef(overlays);
   overlaysRef.current = overlays;
@@ -1208,8 +1231,34 @@ export function Globe({
           </button>
         </div>
       )}
-      <aside className="map-layer-bar" aria-label={s.layersTitle}>
-        <div className="map-layer-bar__title">{s.layersTitle}</div>
+      {!layersOpen && (
+        <button
+          type="button"
+          className="map-layer-tab"
+          onClick={() => setLayersOpenRemembered(true)}
+          aria-expanded={false}
+          aria-controls="map-layer-bar"
+          title={s.showLayers}
+        >
+          <span aria-hidden="true">☰</span>
+          <span>{s.layersTitle}</span>
+        </button>
+      )}
+      <aside id="map-layer-bar" className="map-layer-bar" aria-label={s.layersTitle} hidden={!layersOpen}>
+        <div className="map-layer-bar__head">
+          <div className="map-layer-bar__title">{s.layersTitle}</div>
+          <button
+            type="button"
+            className="map-layer-bar__hide"
+            onClick={() => setLayersOpenRemembered(false)}
+            aria-expanded={true}
+            aria-controls="map-layer-bar"
+            aria-label={s.hideLayers}
+            title={s.hideLayers}
+          >
+            ‹
+          </button>
+        </div>
         {LAYER_ORDER.map((overlay) => (
           <LayerToggle
             key={overlay}
