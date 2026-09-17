@@ -1,0 +1,38 @@
+# registry/shells/ais_stream.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: acquire
+module: atlas.shells.acquire.ais_stream
+title: Live AIS positions, and what they may be joined to
+contract: Track what a live AIS relay reports for Canadian-flagged vessels, and turn a listening window into a snapshot
+  that keeps each vessel's last heard position.
+functions:
+- Tracker
+- Heard
+- build_snapshot
+- validate_snapshot
+- register_index
+- ship_station_mid
+- SnapshotError
+invariants:
+- A vessel's last heard position replaces its earlier one; nothing is averaged.
+- A position is kept only where the MMSI's country digits say Canada.
+refusals:
+- A snapshot whose vessels, window or counts are malformed (validate_snapshot).
+benchmark:
+- 'Measured 2026-09-12: a 75 second window heard 11,767 vessels worldwide, 346 Canadian, 7 of them in the register.'
+tests:
+- tests/test_pipeline.py::test_ais_not_available_values_are_null_never_a_position
+- tests/test_pipeline.py::test_snapshot_keeps_canadian_vessels_by_either_signal_and_carries_the_unheard_forward
+- tests/test_pipeline.py::test_a_snapshot_that_cannot_justify_a_vessel_is_refused
+limits:
+- 'The feed has no release stamp and changes by the minute, so what it reads is never a dataset: the collector writes
+  only outside data/, and the site shows the daily snapshot committed to its own branch.'
+- Shore-based receivers only; open-ocean positions are not heard.
+gotchas:
+- aisstream.io answers keepalive pings 8 to 38 seconds late, which looked like a dropped connection.
+- aisstream.io publishes no terms of use (checked 2026-09-12); the source card says so.
+used_by:
+- live/collect_ais.py
+moved_from:
+- atlas/sources/aisstream.py

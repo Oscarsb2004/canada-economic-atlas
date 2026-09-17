@@ -1927,7 +1927,7 @@ def _ais_static(mmsi, imo, name="NORTHERN SPIRIT@@@@", destination="HALIFAX@@@")
 
 
 def _ais_register():
-    from atlas.sources import aisstream
+    from atlas.shells.acquire import ais_stream as aisstream
     return aisstream.register_index({"vessels": [
         {"imo": "9074729", "imo_check_digit_valid": True, "official_number": 800001, "register_row": 1,
          "name": "NORTHERN SPIRIT", "port_of_registry": {"en": "HALIFAX", "fr": "HALIFAX"},
@@ -1939,7 +1939,7 @@ def _ais_register():
 
 
 def _ais_snapshot(tracker, previous=None):
-    from atlas.sources import aisstream
+    from atlas.shells.acquire import ais_stream as aisstream
     return aisstream.build_snapshot(tracker, previous, _ais_register(), window_from="2026-09-12T07:00:00Z",
                                     window_to="2026-09-12T07:15:00Z", feed={"title": "aisstream.io"},
                                     register_source={"title": "register"})
@@ -1951,7 +1951,7 @@ def test_only_nine_digit_ship_stations_carry_a_flag_digit():
     Coast stations (00316…), group calls (0316…), aids to navigation (99316…)
     and search-and-rescue aircraft (111316…) contain 316 without being vessels.
     """
-    from atlas.sources import aisstream
+    from atlas.shells.acquire import ais_stream as aisstream
     assert aisstream.ship_station_mid(316001234) == "316"
     assert aisstream.ship_station_mid("003161234") is None
     assert aisstream.ship_station_mid("993161234") is None
@@ -1965,7 +1965,7 @@ def test_ais_not_available_values_are_null_never_a_position():
     knots for "no speed", 360 for "no course" and 511 for "no heading". Read as
     numbers they put a ship off the map at impossible speed.
     """
-    from atlas.sources import aisstream
+    from atlas.shells.acquire import ais_stream as aisstream
     t = aisstream.Tracker()
     t.ingest(_ais_position(316000001, 181, 91), "2026-09-12T07:01:00Z")
     assert t.heard["316000001"].position is None
@@ -1981,7 +1981,7 @@ def test_snapshot_keeps_canadian_vessels_by_either_signal_and_carries_the_unhear
     keeps its last position and time rather than vanishing or moving; and a
     vessel with no position heard yet is not placed anywhere.
     """
-    from atlas.sources import aisstream
+    from atlas.shells.acquire import ais_stream as aisstream
     t = aisstream.Tracker()
     t.ingest(_ais_position(316000001, -63.5, 44.6), "2026-09-12T07:01:00Z")          # Canadian MMSI, no IMO
     t.ingest(_ais_position(538000002, 4.4, 51.9), "2026-09-12T07:02:00Z")            # foreign MMSI...
@@ -2008,7 +2008,7 @@ def test_snapshot_keeps_canadian_vessels_by_either_signal_and_carries_the_unhear
 
 def test_a_snapshot_that_cannot_justify_a_vessel_is_refused():
     """Nothing reaches the public map without a flag reason, a real position and a time."""
-    from atlas.sources import aisstream
+    from atlas.shells.acquire import ais_stream as aisstream
     good = {"mmsi": "316000001", "flag_basis": ["mmsi_mid"], "notes": [], "register": [],
             "position": {"lon": -63.5, "lat": 44.6}, "position_received_at": "2026-09-12T07:01:00Z"}
     aisstream.validate_snapshot({"schema_version": 1, "vessels": [good]})

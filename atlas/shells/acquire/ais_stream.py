@@ -1,5 +1,12 @@
 """
-atlas.sources.aisstream — where Canadian-flagged vessels were last heard, from
+(Moved from atlas/sources/aisstream.py in step S7 of docs/REBUILD.md; unchanged in
+behaviour. Card: registry/shells/ais_stream.yaml.)
+
+This is the one acquire shell whose source has no release stamp, so what it
+reads can never be a dataset: every other shell feeds a card whose output is
+committed and re-derivable, and a live feed is neither.
+
+atlas.shells.acquire.ais_stream — where Canadian-flagged vessels were last heard, from
 aisstream.io's live AIS relay.
 
 WHAT THIS SOURCE IS, AND IS NOT (docs/AIS.md)

@@ -1,0 +1,22 @@
+# registry/datasets/vessel-register.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run --dataset vessel-register` builds it; atlas/core/registry.py checks every claim below.
+
+title: 'The Canadian Register of Large Vessels: every entry carrying an IMO number'
+group: vessels
+order: 10
+builder: atlas.datasets.vessel_register:build
+params: {}
+sources:
+- tc_large_vessel_register
+shells:
+- fetcher
+after: []
+outputs:
+- data/vessels/large-vessel-register.json
+frame:
+  profile: cross-section
+  record_type: observation
+on_screen: false
+consumed_by:
+- path: live/collect_ais.py
+  how: the live collector joins what it hears to the register by IMO number
