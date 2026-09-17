@@ -53,7 +53,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = Path(__file__).resolve().parent / "golden_site"
-GOLDEN_ROOT = ROOT / "data" / "raw" / "golden"
+#: Where recordings and scratch copies live. ATLAS_GOLDEN_HOME points a second
+#: checkout (a worktree) at the recordings the first one made.
+GOLDEN_ROOT = Path(os.environ.get("ATLAS_GOLDEN_HOME") or ROOT / "data" / "raw" / "golden")
 MANIFESTS = ROOT / "verify" / "golden"
 
 #: Raw folders the pipeline reads from disk rather than fetching every run.
@@ -120,26 +122,28 @@ def export(ref: str, dest: Path) -> str:
     if dest.exists():
         shutil.rmtree(dest)
     dest.mkdir(parents=True)
+    label = None
     if ref == WORKTREE:
-        listed = subprocess.run(
-            ["git", "-C", str(ROOT), "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
-            capture_output=True, check=True,
-        ).stdout.decode("utf-8").split("\0")
-        for rel in filter(None, listed):
-            src = ROOT / rel
-            if src.is_file():
-                target = dest / rel
-                target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(src, target)
+        # Exported through git, never copied off disk: the working copy's bytes can
+        # differ from git's (line-ending normalisation rewrote three geometry files
+        # on this machine), and the recording was exported through git too.
+        untracked = subprocess.run(
+            ["git", "-C", str(ROOT), "ls-files", "--others", "--exclude-standard"],
+            capture_output=True, text=True, check=True,
+        ).stdout.split()
+        if untracked:
+            raise SystemExit("untracked files would be left out of the replay; add them first: " + ", ".join(untracked))
+        snapshot = subprocess.run(["git", "-C", str(ROOT), "stash", "create"], capture_output=True, text=True, check=True).stdout.strip()
         head = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
-        return f"working tree on {head}"
+        label = f"working tree on {head}" + (f" (uncommitted changes as {snapshot[:12]})" if snapshot else "")
+        ref = snapshot or head
     commit = subprocess.run(["git", "-C", str(ROOT), "rev-parse", f"{ref}^{{commit}}"], capture_output=True, text=True, check=True).stdout.strip()
     proc = subprocess.Popen(["git", "-C", str(ROOT), "archive", "--format=tar", commit], stdout=subprocess.PIPE)
     with tarfile.open(fileobj=proc.stdout, mode="r|") as archive:
         archive.extractall(dest, filter="data")
     if proc.wait() != 0:
         raise SystemExit(f"git archive {ref} failed")
-    return commit
+    return label or commit
 
 
 def stages_of(tree: Path) -> dict[str, str]:
@@ -272,7 +276,7 @@ def cmd_dist(args) -> int:
             return code
     manifest = {"ref": args.ref, "exported": exported, "files": hash_tree(web, ("dist",))}
     write_json(Path(args.out), manifest)
-    print(f"{len(manifest['files'])} files in web/dist → {args.out}")
+    print(f"{len(manifest['files'])} files in web/dist, written to {args.out}")
     return 0
 
 
@@ -290,6 +294,8 @@ def cmd_compare(args) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="Golden master for the restructure (docs/REBUILD.md §3).")
     sub = parser.add_subparsers(dest="command", required=True)
 

@@ -157,11 +157,13 @@ before the next begins.
 
 ---
 
-## 7. Decisions for the owner
+## 7. Decisions
 
-| # | Question | Lean |
+All four taken by the owner on 2026-09-17, each as leaned.
+
+| # | Question | Decision |
 | --- | --- | --- |
-| **Q1** | Must `data/` also be byte-identical, or only what the site serves? | Both. `data/` feeds `verify/` and the history, and a stricter test costs nothing. |
-| **Q2** | Re-enable the workflow now, so the daily vessel snapshot keeps the site current during the restructure? | Yes, now. The restructure does not need it paused. |
-| **Q3** | The frontend (`web/src/`, including the 1,310-line `Globe.tsx`) stays untouched in this rebuild. Restructure it later as a separate step? | Later, with the same `web/dist/` identity test. |
-| **Q4** | The uncommitted `docs/TESTS.md` notes in the main checkout: keep or drop? | Drop. The tests they describe are being reorganised. |
+| **Q1** | Must `data/` also be byte-identical, or only what the site serves? | **Both.** `data/` feeds `verify/` and the history, and a stricter test costs nothing. |
+| **Q2** | Re-enable the workflow now, so the daily vessel snapshot keeps the site current during the restructure? | **Yes.** Re-enabled 2026-09-17. |
+| **Q3** | The frontend (`web/src/`, including the 1,310-line `Globe.tsx`) stays untouched in this rebuild. Restructure it later as a separate step? | **Later**, with the same `web/dist/` identity test. |
+| **Q4** | The uncommitted `docs/TESTS.md` notes in the main checkout: keep or drop? | **Dropped** 2026-09-17. |

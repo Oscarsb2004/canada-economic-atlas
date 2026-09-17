@@ -1,0 +1,20 @@
+{
+  "changed": [
+    "data/events/major-projects-office/projects.json",
+    "data/provinces/provinces.json",
+    "data/sectors/rates.json",
+    "web/public/data/country.json",
+    "web/public/data/events/major-projects-office/projects.json",
+    "web/public/data/provinces/provinces.json",
+    "web/public/data/sectors/rates.json",
+    "web/public/media/provinces/ns-flag.png"
+  ],
+  "extra": [
+    "data/history/geo/20260917T120000Z.json",
+    "data/history/grays-bay/20260917T120000Z.json",
+    "data/history/ksi-lisims/20260917T120000Z.json",
+    "data/history/mackenzie/20260917T120000Z.json",
+    "data/history/nctl/20260917T120000Z.json"
+  ],
+  "missing": []
+}
