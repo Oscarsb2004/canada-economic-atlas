@@ -25,36 +25,33 @@ from the Commons API and published beside the image, never assumed.
 
 from __future__ import annotations
 
-import html
 import re
 from typing import Any
-from urllib.parse import urlencode
 
 from atlas.core.schema import Text
+from atlas.shells.acquire import commons_media, document_text
 
 SECTIONS = {"motto": {"en": "Motto", "fr": "Devise"}, "flag": {"en": "Flag", "fr": "Drapeau"}}
 #: Rendering width of the committed PNGs. Some source SVGs are over 1.5 MB.
 IMAGE_WIDTH = 240
 
 _SECTION = re.compile(r'<h2 id="a\d+">(.*?)</h2>(.*?)(?=<h2)', re.S)
-_TAG = re.compile(r"<[^>]+>")
 
 
 class SymbolsError(ValueError):
     """A page or a Commons record is not shaped as expected."""
 
 
-def _clean(fragment: str) -> str:
-    return " ".join(html.unescape(_TAG.sub(" ", fragment)).split())
+
 
 
 def _sections(page: str) -> dict[str, str]:
     out: dict[str, str] = {}
     for heading, body in _SECTION.findall(page):
-        title = _clean(heading)
+        title = document_text.strip_tags(heading)
         if title in out:
             raise SymbolsError(f"the page has two sections headed {title!r}")
-        out[title] = _clean(body)
+        out[title] = document_text.strip_tags(body)
     return out
 
 
@@ -78,46 +75,10 @@ def read_pages(page_en: str, page_fr: str, *, where: str) -> dict[str, Any]:
 
 
 def commons_query_url(api: str, titles: list[str]) -> str:
-    """One Commons request for every file: URLs, a PNG rendering, and the licence metadata."""
-    if len(titles) > 50:
-        raise SymbolsError("the Commons API takes at most 50 titles a request")
-    return api + "?" + urlencode({
-        "action": "query", "format": "json", "titles": "|".join(titles), "prop": "imageinfo",
-        "iiprop": "url|sha1|extmetadata", "iiurlwidth": IMAGE_WIDTH,
-        "iiextmetadatafilter": "LicenseShortName|LicenseUrl|Artist|Restrictions|Credit",
-    })
+    """One Commons request for every file; see `commons_media.query_url`."""
+    return commons_media.query_url(api, titles, IMAGE_WIDTH, error=SymbolsError)
 
 
 def commons_records(response: dict[str, Any], titles: list[str]) -> dict[str, dict[str, Any]]:
-    """Each requested file's record, keyed by its title as the registry writes it."""
-    query = response.get("query") or {}
-    # Commons normalises underscores and case; map its titles back to ours.
-    back = {n["to"]: n["from"] for n in query.get("normalized", [])}
-    out: dict[str, dict[str, Any]] = {}
-    for page in (query.get("pages") or {}).values():
-        title = back.get(page.get("title"), page.get("title"))
-        if "missing" in page or not page.get("imageinfo"):
-            raise SymbolsError(f"Commons has no file {title!r}")
-        info = page["imageinfo"][0]
-        meta = {k: _clean(str((info.get("extmetadata") or {}).get(k, {}).get("value", "")))
-                for k in ("LicenseShortName", "LicenseUrl", "Artist", "Restrictions", "Credit")}
-        if not meta["LicenseShortName"]:
-            raise SymbolsError(f"Commons states no licence for {title!r}")
-        if not info.get("thumburl"):
-            raise SymbolsError(f"Commons offers no rendering of {title!r}")
-        out[title] = {
-            "title": title,
-            "page_url": info.get("descriptionurl", ""),
-            "file_url": info.get("url", ""),
-            "rendering_url": info["thumburl"],
-            "source_sha1": info.get("sha1", ""),
-            "licence": meta["LicenseShortName"],
-            "licence_url": meta["LicenseUrl"],
-            "artist": meta["Artist"],
-            "credit": meta["Credit"],
-            "restrictions": [r for r in meta["Restrictions"].split("|") if r],
-        }
-    missing = set(titles) - set(out)
-    if missing:
-        raise SymbolsError(f"Commons returned no record for {sorted(missing)}")
-    return out
+    """Each requested file's record; see `commons_media.records`."""
+    return commons_media.records(response, titles, error=SymbolsError)

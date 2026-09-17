@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/shells/<name>.yaml (a shell card)",
+  "description": "One operation the pipeline is built from. Written before its code; atlas/core/registry.py checks that the module, its functions, its users and its tests exist. Field names follow the Athena Data shell card where they overlap.",
+  "type": "object",
+  "required": ["kind", "module", "title", "contract", "functions", "invariants", "refusals", "benchmark", "tests", "limits", "gotchas", "used_by"],
+  "properties": {
+    "kind": { "enum": ["acquire", "transform", "check"] },
+    "module": { "type": "string", "pattern": "^atlas\\.shells\\.(acquire|transform|check)\\.[a-z][a-z0-9_]*$" },
+    "title": { "type": "string", "minLength": 1 },
+    "contract": { "type": "string", "minLength": 1, "description": "What it takes and what it gives." },
+    "functions": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" }, "description": "The names callers may use." },
+    "invariants": { "type": "array", "items": { "type": "string", "minLength": 1 }, "description": "What it promises always holds." },
+    "refusals": { "type": "array", "items": { "type": "string", "minLength": 1 }, "description": "What it rejects rather than guesses." },
+    "benchmark": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "description": "What proves it right beyond its own tests." },
+    "tests": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^tests/[a-z0-9_]+\\.py::test_[a-z0-9_]+$" } },
+    "limits": { "type": "array", "items": { "type": "string", "minLength": 1 }, "description": "What it must not be used for." },
+    "gotchas": { "type": "array", "items": { "type": "string", "minLength": 1 }, "description": "Learned the hard way." },
+    "used_by": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9_/]+\\.py$" } },
+    "moved_from": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9_/]+\\.py$" }, "description": "Where the code lived before the restructure." }
+  },
+  "additionalProperties": false
+}

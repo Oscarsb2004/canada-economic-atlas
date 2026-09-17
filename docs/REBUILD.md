@@ -135,7 +135,7 @@ before the next begins.
 | --- | --- |
 | **S0 Golden master** | The recording and replaying fetcher, the frozen clock, one recorded legacy run, the compare tool with its negative control, and the `web/dist/` comparison. No behaviour changes. |
 | **S1 Core** | The one registry validator over every registry file, with a JSON Schema per file and `python run.py --check`; source cards split out of `sources.yaml` into `registry/sources/` and `registry/licences.yaml`; one clock for every stage. *(Records and the frame envelope move to S4, where the first dataset card uses them — nothing is built before its first user.)* |
-| **S2 Acquire shells** | Network and file reading moved out of `atlas/sources/` into acquire shells, each with its card. |
+| **S2 Acquire shells** | Network reading moved into `atlas/shells/acquire/`, each shell with a card in `registry/shells/` that the validator ties to real code: `fetcher` (was `atlas/net.py`), `statcan_table`, `arcgis_layer`, `site_crawl`, `valet_series`, `document_text`, `workbook_edition`, `commons_media`. *Left for later steps: the live AIS stream (S7), and reading downloaded files (census and vessel workbooks, NAICS files), which is extraction and moves with its datasets (S4–S7).* |
 | **S3 Transform and check shells** | Pairing, crosswalks, joins, anchors, absent cells, additivity, parent sums, verbatim checks, each with its card and a negative control. |
 | **S4 StatCan datasets** | Records and the frame envelope; dataset cards and `atlas/run.py` replace stages 02, 03 and 05. |
 | **S5 Province profiles** | Stage 08. |

@@ -29,6 +29,7 @@ read, so nothing downstream changed.
 
 from __future__ import annotations
 
+import ast
 import json
 from dataclasses import dataclass
 from functools import lru_cache
@@ -73,7 +74,7 @@ REGISTRY_FILES = {
     "strategies.yaml": "strategies",
 }
 #: Folders of cards, one YAML file per card, and the schema every card meets.
-CARD_DIRS = {"sources": "source"}
+CARD_DIRS = {"sources": "source", "shells": "shell"}
 SCHEMA_DIR_NAME = "schemas"
 
 
@@ -615,6 +616,13 @@ def validate_all() -> list[str]:
     if errors:
         return errors
 
+    for card_dir, schema in CARD_DIRS.items():
+        for card in sorted((REGISTRY_DIR / card_dir).glob("*.yaml")):
+            errors += _schema_errors(schema, card)
+    if errors:
+        return errors
+    errors += shell_errors()
+
     for loader in (sources, events, strategies, project_naics, corridor_nodes, corridors, corridor_source):
         cache_clear = getattr(loader, "cache_clear", None)
         if cache_clear:
@@ -623,4 +631,66 @@ def validate_all() -> list[str]:
             loader()
         except RegistryError as exc:
             errors.append(str(exc))
+    return errors
+
+
+# ── Shell cards ────────────────────────────────────────────────────────────────
+
+SHELLS_DIR = ROOT / "atlas" / "shells"
+
+
+def _defined_names(path: Path) -> set[str]:
+    """Top-level functions, classes and assignments in a module, read without importing it."""
+    tree = ast.parse(path.read_text(encoding="utf-8"))
+    names: set[str] = set()
+    for node in tree.body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            names.add(node.name)
+        elif isinstance(node, ast.Assign):
+            names |= {t.id for t in node.targets if isinstance(t, ast.Name)}
+        elif isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Name):
+            names.add(node.target.id)
+    return names
+
+
+def shell_errors() -> list[str]:
+    """
+    Every shell card agrees with the code, and every shell module has a card.
+
+    A card is a promise about code, so each claim it makes that a program can
+    check is checked: the module exists where its kind says, the names it lists
+    are defined there, every file it says uses the shell mentions the module,
+    and every test it cites exists.
+    """
+    errors: list[str] = []
+    carded: set[Path] = set()
+    for card in sorted((REGISTRY_DIR / "shells").glob("*.yaml")):
+        where = f"shells/{card.name}"
+        with card.open(encoding="utf-8") as fh:
+            data = yaml.safe_load(fh)
+        module = SHELLS_DIR / data["kind"] / f"{card.stem}.py"
+        if data["module"] != f"atlas.shells.{data['kind']}.{card.stem}":
+            errors.append(f"{where}: module must be atlas.shells.{data['kind']}.{card.stem}, not {data['module']}")
+            continue
+        if not module.exists():
+            errors.append(f"{where}: {module.relative_to(ROOT).as_posix()} does not exist")
+            continue
+        carded.add(module)
+        missing = sorted(set(data["functions"]) - _defined_names(module))
+        if missing:
+            errors.append(f"{where}: {module.relative_to(ROOT).as_posix()} defines no {', '.join(missing)}")
+        for user in data["used_by"]:
+            path = ROOT / user
+            if not path.exists():
+                errors.append(f"{where}: used_by {user} does not exist")
+            elif card.stem not in path.read_text(encoding="utf-8"):
+                errors.append(f"{where}: used_by {user} never mentions {card.stem}")
+        for test in data["tests"]:
+            file, _, name = test.partition("::")
+            path = ROOT / file
+            if not path.exists() or name not in _defined_names(path):
+                errors.append(f"{where}: test {test} does not exist")
+    for module in sorted(SHELLS_DIR.glob("*/*.py")):
+        if module.name != "__init__.py" and module not in carded:
+            errors.append(f"{module.relative_to(ROOT).as_posix()}: a shell module with no card in registry/shells/")
     return errors

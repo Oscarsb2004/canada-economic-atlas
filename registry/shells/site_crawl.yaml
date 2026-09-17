@@ -1,0 +1,30 @@
+# registry/shells/site_crawl.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: acquire
+module: atlas.shells.acquire.site_crawl
+title: Every page under one section of a website, grouped by path
+contract: Walk a site section breadth-first from its index page and report the groups of sibling pages it contains
+  and every link that failed.
+functions:
+- crawl_section
+- SAFE_SLUG
+invariants:
+- Only links inside the section are followed.
+- No page is requested twice.
+refusals:
+- The crawl stops at max_pages rather than walking the whole site.
+benchmark:
+- 'Golden master: stage 01 replays identically.'
+tests:
+- tests/test_pipeline.py::test_crawl_follows_absolute_links_and_stays_inside_the_section
+- tests/test_pipeline.py::test_crawl_is_bounded_by_max_pages
+limits:
+- Reads the page's main element only; header and footer links are ignored.
+gotchas:
+- canada.ca links a page on projects designated under the Building Canada Act that returns 404; broken links are
+  reported, not hidden.
+used_by:
+- atlas/sources/mpo.py
+moved_from:
+- atlas/sources/mpo.py

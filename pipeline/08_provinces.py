@@ -46,7 +46,8 @@ from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef, Text, to_jsonable
-from atlas.net import Fetcher, FetchError
+from atlas.shells.acquire import document_text, statcan_table
+from atlas.shells.acquire.fetcher import Fetcher, FetchError
 from atlas.sources import budget_text, census, fiscal_tables, sector_shares, statcan, symbols
 
 log = logging.getLogger("08_provinces")
@@ -104,10 +105,10 @@ def main() -> int:
     # ── GDP shares by industry ───────────────────────────────────────────────
     ssrc = R.source(reg["shares_source"])
     pid = str(ssrc["pid"])
-    live = statcan.release_time(fetch, pid)
+    live = statcan_table.release_time(fetch, pid)
     raw = R.DATA_DIR / "raw" / "statcan"
-    zip_en, release = statcan.download_cube(fetch, pid, "eng", raw, live_release=live, refresh=args.refresh)
-    zip_fr, release_fr = statcan.download_cube(fetch, pid, "fra", raw, live_release=live, refresh=args.refresh)
+    zip_en, release = statcan_table.download_cube(fetch, pid, "eng", raw, live_release=live, refresh=args.refresh)
+    zip_fr, release_fr = statcan_table.download_cube(fetch, pid, "fra", raw, live_release=live, refresh=args.refresh)
     if not release or release != release_fr:
         raise SystemExit(f"table {pid}: the English and French zips are not of one dated release "
                          f"({release!r} / {release_fr!r}); run with --refresh")
@@ -182,9 +183,9 @@ def main() -> int:
                 body = saved[0].read_bytes()
                 log.warning("%s: %s refused the download; checking the saved copy %s", code, b["url"], saved[0].name)
             if body.startswith(b"%PDF"):
-                budget_text.check(quotes, pages=budget_text.pdf_pages(body), text=None, where=code)
+                budget_text.check(quotes, pages=document_text.pdf_pages(body), text=None, where=code)
             else:
-                budget_text.check(quotes, pages=None, text=budget_text.html_text(body.decode("utf-8", "replace")),
+                budget_text.check(quotes, pages=None, text=document_text.html_text(body.decode("utf-8", "replace")),
                                   where=code)
             sources.append(SourceRef(url=b["url"], retrieved_at=retrieved, provenance=Provenance.PAGE_VERBATIM,
                                      licence=bsrc["licence"], content_sha256=_sha(body)))

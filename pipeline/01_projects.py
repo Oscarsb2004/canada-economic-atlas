@@ -46,7 +46,7 @@ from atlas.core.schema import (
     Geometry, GeometryKind, MediaRef, Project, Provenance,
     QuickFact, Site, SourceRef, Text, Update, to_jsonable,
 )
-from atlas.net import Fetcher
+from atlas.shells.acquire.fetcher import Fetcher
 from atlas.sources import mpo
 
 log = logging.getLogger("01_projects")

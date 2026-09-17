@@ -55,8 +55,8 @@ import re
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
-from urllib.parse import urlencode
 
+from atlas.shells.acquire import arcgis_layer
 from atlas.core.schema import Text
 
 #: Mean Earth radius used for every distance this project states. `verify/`
@@ -102,41 +102,13 @@ def distance_km(a: tuple[float, float], b: tuple[float, float]) -> float:
 # ── Fetching ───────────────────────────────────────────────────────────────────
 
 def query_url(layer: str, offset: int, page_size: int = PAGE_SIZE) -> str:
-    """
-    One page of the layer: every field, points in degrees, in a stable order.
-
-    `orderByFields` is required, not decorative — ESRI promises no page order
-    without it, and an unstable order would break the zero-line re-run.
-    """
-    return layer.rstrip("/") + "/query?" + urlencode({
-        "where": "1=1", "outFields": "*", "returnGeometry": "true", "outSR": "4326",
-        "orderByFields": "OBJECTID ASC", "resultOffset": offset, "resultRecordCount": page_size,
-        "f": "json",
-    })
+    """One page of the layer; see `arcgis_layer.page_query_url`."""
+    return arcgis_layer.page_query_url(layer, offset, page_size)
 
 
 def fetch_layer(get: Callable[[str], bytes], layer: str) -> tuple[list[dict[str, Any]], bytes]:
     """Every feature of a layer, and the raw bodies (for the content hash), page by page."""
-    features: list[dict[str, Any]] = []
-    raw = b""
-    offset = 0
-    while True:
-        body = get(query_url(layer, offset))
-        raw += body
-        try:
-            page = json.loads(body)
-        except json.JSONDecodeError as exc:
-            raise InventoryError(f"{layer}: page at {offset} is not JSON: {body[:120]!r}") from exc
-        if "error" in page:
-            raise InventoryError(f"{layer}: the service returned an error: {page['error']}")
-        got = page.get("features") or []
-        features.extend(got)
-        if page.get("exceededTransferLimit"):
-            if not got:
-                raise InventoryError(f"{layer}: says more pages exist but returned none at {offset}")
-        elif len(got) < PAGE_SIZE:
-            return features, raw
-        offset += len(got)
+    return arcgis_layer.fetch_pages(get, layer, PAGE_SIZE, error=InventoryError)
 
 
 def caveat(record: dict[str, Any]) -> Text:
