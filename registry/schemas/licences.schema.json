@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/licences.yaml",
+  "type": "object",
+  "required": [
+    "licences"
+  ],
+  "properties": {
+    "licences": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "name",
+          "url",
+          "redistribution"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "redistribution": {
+            "type": "string"
+          },
+          "attribution_asis": {
+            "type": "string"
+          },
+          "attribution_adapted": {
+            "type": "string"
+          },
+          "attribution": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

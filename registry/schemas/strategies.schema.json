@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/strategies.yaml",
+  "type": "object",
+  "required": [
+    "strategies"
+  ],
+  "properties": {
+    "strategies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "slug",
+          "location_verbatim",
+          "provinces"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "location_verbatim": {
+            "type": "string"
+          },
+          "provinces": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "precision": {
+            "type": "string"
+          },
+          "slug_fr": {
+            "type": "string"
+          },
+          "render": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

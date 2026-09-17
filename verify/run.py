@@ -670,7 +670,7 @@ def check_provinces(r: Report) -> None:
            str(bad_budget[:6]))
     r.note("provinces: budget passages quoted for "
            f"{sum(1 for p in provs.values() if (p.get('budget') or {}).get('quotes'))} of {len(provs)} jurisdictions; "
-           "each government's copyright terms for budget documents are not yet read (sources.yaml)")
+           "each government's copyright terms for budget documents are not yet read (registry/licences.yaml)")
 
     mismatches = {c: p["fiscal"]["year_label_mismatches"] for c, p in provs.items()
                   if p.get("fiscal", {}).get("year_label_mismatches")}
@@ -1022,10 +1022,10 @@ def check_industries(r: Report) -> None:
 
     # Costs (BACKLOG C2). Read through the same declared join as status, so a
     # cost exists only where a status does. Checked here: the column names are
-    # the ones sources.yaml declares, every cost is a non-negative number or
+    # the ones the source card declares, every cost is a non-negative number or
     # empty, and the output publishes no total anywhere — C3's rule that a sum
     # over the joined projects would pass itself off as the portfolio's.
-    isrc = _load_yaml(REGISTRY / "sources.yaml")["sources"][reg["inventory_source"]]
+    isrc = _load_yaml(REGISTRY / "sources" / f"{reg['inventory_source']}.yaml")
     bad_cost = []
     for x in records:
         st = x["construction"].get("status")

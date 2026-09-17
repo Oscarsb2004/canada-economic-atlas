@@ -1,0 +1,8 @@
+# registry/sources/statcan_gdp_shares_provincial.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: Gross domestic product (GDP) at basic prices, by industry, provinces and territories, percentage share
+publisher: Statistics Canada
+licence: statcan-open
+attribution: Statistics Canada, Table 36-10-0400-01
+pid: "36100400"

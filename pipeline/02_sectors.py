@@ -53,7 +53,7 @@ before writing the entries showed otherwise:
   keeps them, the payload carries them beside the values: a figure graded E is
   published "use with caution", and dropping the grade publishes it without one.
 
-  33100225, declared in sources.yaml as revenue by industry, is NOT pulled: it is
+  33100225, declared in the statcan_wds source card as revenue by industry, is NOT pulled: it is
   a balance-sheet table for non-financial corporations whose industry groups do
   not join the 20-sector key. Gross output comes instead from 36100488 (B2a),
   which is not classified by NAICS at all — see `_crosswalk_series`.
@@ -67,7 +67,6 @@ import json
 import logging
 import sys
 from dataclasses import replace
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
 
@@ -75,6 +74,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import yaml
 
+from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, Series, Text, to_jsonable
@@ -101,10 +101,6 @@ BOC_VALET = "https://www.bankofcanada.ca/valet/observations"
 #: same release stamp is a thing that happens. 99_bundle.py reads this so the
 #: SourceRef it publishes carries a hash instead of an empty string.
 CUBE_HASHES: dict[str, str] = {}
-
-
-def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _load_taxonomy() -> tuple[dict, set[str]]:
@@ -285,7 +281,7 @@ def pull_cube(fetch: Fetcher, key: str, pull: dict, codes: set[str], raw_dir: Pa
         log.warning("%s: no French label for %s", key, unlabelled)
 
     payload: dict = {
-        "generated_at": _now(),
+        "generated_at": clock.now_iso(),
         "count": len(series),
         # The cube's own title, reproduced in both languages, so a file names
         # what it is without anyone looking the product id up.
@@ -346,7 +342,7 @@ def pull_policy_rate(fetch: Fetcher) -> dict:
     it and because the sibling repo's country record asks for it by name.
 
     No open licence: the Bank grants permission requiring attribution and that
-    changes be indicated. See registry/sources.yaml.
+    changes be indicated. See registry/licences.yaml.
     """
     src = R.source("boc_valet")
     sid = src["series"]["policy_rate"]
@@ -416,7 +412,7 @@ def main() -> int:
 
     hashes.update(CUBE_HASHES)
     write_if_changed(out_dir / "_cubes.json", {
-        "generated_at": _now(),
+        "generated_at": clock.now_iso(),
         "note": "sha256 of each downloaded StatCan cube zip; the change signal "
                 "for figures published in the bundle.",
         "cubes": dict(sorted(hashes.items())),
@@ -426,7 +422,7 @@ def main() -> int:
     if not args.pull:
         rate = pull_policy_rate(fetch)
         if rate:
-            write_if_changed(out_dir / "rates.json", {"generated_at": _now(), "policy_rate": rate})
+            write_if_changed(out_dir / "rates.json", {"generated_at": clock.now_iso(), "policy_rate": rate})
             log.info("policy rate %s = %.2f%%", rate["period"], rate["value"])
 
     return 0

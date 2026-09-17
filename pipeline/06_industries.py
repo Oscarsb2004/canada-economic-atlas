@@ -42,12 +42,12 @@ import json
 import logging
 import sys
 from collections import Counter
-from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from atlas import industries
+from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef, Text, to_jsonable
@@ -61,10 +61,6 @@ OUTPUT = R.DATA_DIR / "events" / "major-projects-office" / "industries.json"
 NAICS_FILES = ("structure_en", "structure_fr", "elements_en", "elements_fr")
 
 
-def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--refresh", action="store_true", help="re-download the classification and inventory")
@@ -75,7 +71,7 @@ def main() -> int:
     nsrc = R.source(reg["classification_source"])
     isrc = R.source(reg["inventory_source"])
     fetch = Fetcher(cache_dir=R.DATA_DIR / "raw" / "cache", use_cache=not args.refresh)
-    retrieved = _now()
+    retrieved = clock.now_iso()
 
     # Strict UTF-8: a replacement character inside a quoted French example would
     # make an honest quote fail to match, and the error would blame the registry.

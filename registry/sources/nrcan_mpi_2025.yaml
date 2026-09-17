@@ -1,0 +1,32 @@
+# registry/sources/nrcan_mpi_2025.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: Major Projects Inventory 2025
+publisher: Natural Resources Canada
+licence: ogl-canada-2.0
+attribution: Natural Resources Canada — Major Projects Inventory 2025
+# The open map service, English and French — chosen 2026-09-13 over the
+# XLSX workbooks (see TERMS below). Both layers are resources of the dataset
+# record, under the Open Government Licence – Canada. Points arrive in
+# degrees only because the query asks outSR=4326; the layer's own extent is
+# WKID 3978, in metres.
+service:
+  en: https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/major_projects_inventory_en/MapServer/0
+  fr: https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/major_projects_inventory_fr/MapServer/0
+# The record itself, machine-readable: its licence and NRCan's disclaimer,
+# which stage 06 reproduces verbatim beside every cost.
+record_api: https://open.canada.ca/data/api/action/package_show?id=f5f2db55-31e4-42fb-8c73-23e1c44de9b2
+# Each layer's own labels for the two fields shown, from its field list.
+fields:
+  status: {en: Status of development, fr: Statut de développement}
+  cost: {en: "Capital cost ($M)", fr: "Dépenses en immobilisations (M$)"}
+dataset_record: https://open.canada.ca/data/en/dataset/f5f2db55-31e4-42fb-8c73-23e1c44de9b2
+# TERMS, read 2026-09-13. The record (modified 2026-04-17, licence
+# ca-ogl-lgo) lists the two map service layers above AND two XLSX workbooks,
+# MPI_2025_Active_Projects_en.xlsx and _fr.xlsx. The workbooks' own "About +
+# Caveats" sheet says "This spreadsheet or parts thereof are not authorized or
+# approved for publication at this time." The service carries no such
+# sentence and publishes the same cost for all 9 of the atlas's joined
+# projects it lists, so on the owner's decision the atlas reads the service
+# only, and verify refuses an .xlsx source here. Costs must not render
+# before C3 says how few MPO projects have one.

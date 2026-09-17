@@ -1,0 +1,8 @@
+# registry/sources/provincial_budgets.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: Provincial and territorial budget documents, 2026
+publisher: Each province and territory's finance department
+licence: budget-quotation
+# Documents and quotes are declared in registry/budgets.yaml; stage 08
+# checks each quote against its document.

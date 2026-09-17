@@ -281,7 +281,7 @@ datasets:
 
       - kind: record_count
         severity: gate
-        expect_from: "sources.yaml:sources.statcan_municipal_population.expected.census_subdivisions"
+        expect_from: "sources/statcan_municipal_population.yaml:expected.census_subdivisions"
         why: >
           5,161 in the 2021 census. Asserted beside the source, so a new census
           changes the URL, the vintage and the count in one reviewed edit.

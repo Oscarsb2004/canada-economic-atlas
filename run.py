@@ -4,6 +4,7 @@ run.py — the only command this project needs.
 
     python run.py                 run the whole pipeline, then verify
     python run.py --stage 01      run one stage (see --help for the list)
+    python run.py --check         validate every registry file against its schema
     python run.py --verify        independent verification only
     python run.py --test          pytest only
     python run.py --live          the atlas in your browser, with live Canadian vessel positions
@@ -128,6 +129,17 @@ def app() -> int:
             collector.terminate()
 
 
+def check() -> int:
+    """Every registry file against its schema and its own rules (atlas/core/registry.py)."""
+    from atlas.core import registry
+
+    errors = registry.validate_all()
+    for error in errors:
+        print(f"registry: {error}", file=sys.stderr)
+    print(f"registry: {len(errors)} problem(s)" if errors else "registry: ok")
+    return 1 if errors else 0
+
+
 def main() -> int:
     import argparse
 
@@ -135,6 +147,7 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--stage", choices=sorted(STAGES))
     ap.add_argument("--verify", action="store_true")
+    ap.add_argument("--check", action="store_true")
     ap.add_argument("--test", action="store_true")
     ap.add_argument("--web", action="store_true")
     ap.add_argument("--live", action="store_true")
@@ -147,6 +160,9 @@ def main() -> int:
     if args.verify:
         return run("-m", "verify.run")
 
+    if args.check:
+        return check()
+
     if args.live or args.web:
         return app()
 
@@ -154,6 +170,11 @@ def main() -> int:
 
     if args.stage:
         return run(STAGES[args.stage], *extra)
+
+    # A registry mistake stops the run before any stage reads it.
+    code = check()
+    if code != 0:
+        return code
 
     # Full run: stages in order, then verification. Any stage failing stops the
     # run — a later stage reading a half-written earlier output is how a bad

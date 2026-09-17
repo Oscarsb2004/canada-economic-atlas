@@ -28,7 +28,6 @@ import importlib
 import logging
 import re
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -36,6 +35,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import yaml
 
+from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef
@@ -49,10 +49,6 @@ OUTPUT = R.DATA_DIR / "sectors" / "business-counts.json"
 
 #: StatCan's notes carry links as HTML. The markup is removed; no word is changed.
 _TAG = re.compile(r"<[^>]+>")
-
-
-def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def main() -> int:
@@ -85,12 +81,12 @@ def main() -> int:
 
     note_ids = sorted(set(meta_en["notes"]) | set(meta_fr["notes"]), key=int)
     changed = write_if_changed(OUTPUT, {
-        "generated_at": _now(),
+        "generated_at": clock.now_iso(),
         "table": pid,
         "title": {"en": meta_en["title"], "fr": meta_fr["title"]},
         "release_time": release,
         "licence": src["licence"],
-        "source": SourceRef(url=f"{statcan.WDS}/getFullTableDownloadCSV/{pid}/en", retrieved_at=_now(),
+        "source": SourceRef(url=f"{statcan.WDS}/getFullTableDownloadCSV/{pid}/en", retrieved_at=clock.now_iso(),
                             provenance=Provenance.OFFICIAL_DATASET, licence=src["licence"],
                             content_sha256=hashlib.sha256(zip_en.read_bytes()).hexdigest()).to_dict(),
         "notes": [{"id": i, "text": {"en": _TAG.sub("", meta_en["notes"].get(i, "")).strip(),

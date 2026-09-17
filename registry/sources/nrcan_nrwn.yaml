@@ -1,0 +1,12 @@
+# registry/sources/nrcan_nrwn.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: National Railway Network (NRWN) — GeoBase Series
+publisher: Natural Resources Canada
+licence: ogl-canada-2.0
+attribution: Natural Resources Canada — National Railway Network (NRWN)
+dataset_record: https://open.canada.ca/data/en/dataset/ac26807e-a1e8-49fa-87bf-451175a859b8
+distribution: https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_nrwn_rfn/
+# The publisher distributes regional Shapefile archives. Track Segment is
+# the only feature class rendered; its official Track Classification,
+# Owner and Operator attributes remain with each output feature.

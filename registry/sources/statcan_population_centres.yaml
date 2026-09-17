@@ -1,0 +1,11 @@
+# registry/sources/statcan_population_centres.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: Population and dwelling counts — Canada and population centres
+publisher: Statistics Canada
+licence: statcan-open
+attribution: Statistics Canada, 2021 Census population centres
+dataset_record: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=9810001101
+csv: https://www150.statcan.gc.ca/n1/en/tbl/csv/98100011-eng.zip
+# Population centres (1,000+ people) rank the map labels. Smaller official
+# placenames remain searchable/labelled only at closer zoom levels.

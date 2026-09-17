@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/budgets.yaml",
+  "type": "object",
+  "required": [
+    "version",
+    "source",
+    "budgets"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "source": {
+      "type": "string"
+    },
+    "budgets": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "title",
+          "url",
+          "quotes"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "quotes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "page",
+                "kind",
+                "text"
+              ],
+              "properties": {
+                "page": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "kind": {
+                  "enum": [
+                    "risk",
+                    "opportunity"
+                  ],
+                  "description": "Only as the budget itself frames the passage."
+                },
+                "text": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "note": {
+            "type": "object",
+            "required": [
+              "en",
+              "fr"
+            ],
+            "properties": {
+              "en": {
+                "type": "string"
+              },
+              "fr": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "propertyNames": {
+        "enum": [
+          "NL",
+          "PE",
+          "NS",
+          "NB",
+          "QC",
+          "ON",
+          "MB",
+          "SK",
+          "AB",
+          "BC",
+          "YT",
+          "NT",
+          "NU"
+        ]
+      },
+      "description": "Keyed by province or territory code."
+    }
+  },
+  "additionalProperties": false
+}

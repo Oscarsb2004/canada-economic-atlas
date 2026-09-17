@@ -1,0 +1,13 @@
+# registry/sources/tc_large_vessel_register.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: Canadian Register of Large Vessels
+publisher: Transport Canada
+licence: ogl-canada-2.0
+attribution: Transport Canada — Canadian Register of Large Vessels
+dataset_record: https://open.canada.ca/data/en/dataset/bf00b7f4-e370-46b7-94e4-0bdedc98531b
+xlsx_en: https://opendatatc.tc.canada.ca/large-vessel-registry_dataset_en.xlsx
+xlsx_fr: https://opendatatc.tc.canada.ca/large-vessel-registry_dataset_fr.xlsx
+# The identity half of the vessel layer (BACKLOG S1, docs/AIS.md). No MMSI
+# and no call sign are published; IMO is the only key AIS shares. Updated
+# "continually", so stage 07 re-reads it only with --refresh.

@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/sectors.yaml",
+  "type": "object",
+  "required": [
+    "aggregates",
+    "cross_cuts",
+    "sectors",
+    "pulls"
+  ],
+  "properties": {
+    "aggregates": {
+      "type": "object",
+      "required": [
+        "total",
+        "partition"
+      ],
+      "properties": {
+        "total": {
+          "type": "string"
+        },
+        "partition": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "cross_cuts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sectors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "code",
+          "parent"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "parent": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "pulls": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "pid",
+          "output",
+          "frequency",
+          "measure"
+        ],
+        "properties": {
+          "pid": {
+            "type": "string"
+          },
+          "output": {
+            "type": "string"
+          },
+          "frequency": {
+            "type": "string"
+          },
+          "measure": {
+            "type": "string"
+          },
+          "partition_check": {
+            "type": "boolean"
+          },
+          "filters": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "verify": {
+            "type": "object",
+            "required": [],
+            "properties": {
+              "identities": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "parts",
+                    "total",
+                    "tolerance_pct"
+                  ],
+                  "properties": {
+                    "parts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "total": {
+                      "type": "string"
+                    },
+                    "tolerance_pct": {
+                      "type": "number"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "provinces": {
+                "type": "boolean"
+              },
+              "provinces_sum_to_canada": {
+                "type": "object",
+                "required": [
+                  "tolerance_pct"
+                ],
+                "properties": {
+                  "tolerance_pct": {
+                    "type": "number"
+                  },
+                  "include_extra_geos": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "extra_geos": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "not_below": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "file",
+                    "label"
+                  ],
+                  "properties": {
+                    "file": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "keep_status": {
+            "type": "boolean"
+          },
+          "period_basis": {
+            "type": "object",
+            "required": [
+              "note_contains",
+              "latest"
+            ],
+            "properties": {
+              "note_contains": {
+                "type": "string"
+              },
+              "latest": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "stream": {
+            "type": "boolean"
+          },
+          "code_aliases": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "extra_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "absent_codes": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "industry_column": {
+            "type": "object",
+            "required": [
+              "en",
+              "fr"
+            ],
+            "properties": {
+              "en": {
+                "type": "string"
+              },
+              "fr": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "total": {
+            "type": "object",
+            "required": [
+              "member",
+              "code"
+            ],
+            "properties": {
+              "member": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "labels_from": {
+            "type": "string"
+          },
+          "crosswalk": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "scope": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -52,11 +52,11 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import (
@@ -69,10 +69,6 @@ from atlas.sources import tc_corridors as tc
 log = logging.getLogger("04_trade")
 
 EVENT_SLUG = "trade-corridors"
-
-
-def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _pair(en: str, fr: str) -> Text:
@@ -160,7 +156,7 @@ def build(fetch: Fetcher) -> tuple[list[TradeCorridor], list[dict]]:
         summaries = [getattr(s, f"summary_{lang}") for s in specs]
         pages[lang] = tc.parse_page(fetch.text(src[f"page_{lang}"]), summaries)
 
-    retrieved = _now()
+    retrieved = clock.now_iso()
     out: list[TradeCorridor] = []
     history: list[dict] = []
 
@@ -231,7 +227,7 @@ def main() -> int:
     out = R.DATA_DIR / "events" / EVENT_SLUG / "corridors.json"
     changed = write_if_changed(out, {
         "event": EVENT_SLUG,
-        "generated_at": _now(),
+        "generated_at": clock.now_iso(),
         "corridors": [to_jsonable(c) for c in corridors],
     })
 

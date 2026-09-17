@@ -27,13 +27,13 @@ import json
 import logging
 import shutil
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import yaml
 
+from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef
@@ -64,13 +64,6 @@ HEADLINE = [
     ("gdp_real_goods", "T002"),
     ("gdp_real_services", "T003"),
 ]
-
-
-def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-
-
 
 
 def _load(rel: str) -> dict | None:
@@ -171,7 +164,7 @@ def build_country(sectors: dict | None, rates: dict | None) -> dict:
         "iso3": "CAN",
         "iso2": "CA",
         "name": {"en": "Canada", "fr": "Canada"},
-        "generated_at": _now(),
+        "generated_at": clock.now_iso(),
         "atlas": {"repo": "canada-economic-atlas", "meta": "/data/meta.json"},
         "attribution": {
             "statcan": licences[statcan["licence"]]["name"],
@@ -232,7 +225,7 @@ def main() -> int:
     srcs = R.sources()
     write_if_changed(web / "meta.json", {
         "schema_version": SCHEMA_VERSION,
-        "generated_at": _now(),
+        "generated_at": clock.now_iso(),
         "app": "canada-economic-atlas",
         "licences": srcs["licences"],
         "sources": {k: {kk: vv for kk, vv in v.items() if isinstance(vv, str)}

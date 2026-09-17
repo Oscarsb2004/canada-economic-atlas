@@ -11,7 +11,7 @@
 #
 # Chosen 2026-09-13 from the 2026 budgets. Short quotations with the document
 # named and linked; each government's copyright terms for budget documents
-# were not read one by one (recorded in sources.yaml, to validate).
+# were not read one by one (recorded in licences.yaml, to validate).
 #
 # Keys are quoted: YAML 1.1 reads a bare ON as the boolean true.
 

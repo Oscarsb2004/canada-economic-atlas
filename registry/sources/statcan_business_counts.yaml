@@ -1,0 +1,10 @@
+# registry/sources/statcan_business_counts.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: Canadian Business Counts, with employees
+publisher: Statistics Canada
+licence: statcan-open
+attribution: Statistics Canada, Canadian Business Counts, with employees
+# A new table every six months (33101174 for June 2026); stage 03 finds the
+# newest by its exact title rather than declaring a product ID here.
+# Replaces the removed BlackRock company panel (CLAUDE.md §9).

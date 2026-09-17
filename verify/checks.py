@@ -355,8 +355,7 @@ def check_source_section_shape(records, spec, ctx):
         return (False, f"{ctx['name']}: the source section was crawled",
                 "no _discovered block — stage 01 could not crawl the section")
 
-    source = yaml.safe_load((REGISTRY / "sources.yaml").read_text(encoding="utf-8"))
-    src = source["sources"][spec["source"]]
+    src = yaml.safe_load((REGISTRY / "sources" / f"{spec['source']}.yaml").read_text(encoding="utf-8"))
     known = set(src.get("record_groups", {})) | set(src.get("prose_groups", []))
 
     surprises = {g: v for g, v in disc.get("undeclared_groups", {}).items() if g not in known}

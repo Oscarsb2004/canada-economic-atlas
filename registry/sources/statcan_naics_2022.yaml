@@ -1,0 +1,15 @@
+# registry/sources/statcan_naics_2022.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: North American Industry Classification System (NAICS) Canada 2022 Version 1.0
+publisher: Statistics Canada
+licence: statcan-open
+attribution: Statistics Canada, North American Industry Classification System (NAICS) Canada 2022 Version 1.0
+dataset_record: https://open.canada.ca/data/en/dataset/980d598c-73c9-4003-b6e1-78a9a3081b6c
+structure_en: https://www.statcan.gc.ca/eng/statistical-programs/document/naics-scian-2022-structure-v1-eng.csv
+structure_fr: https://www.statcan.gc.ca/fra/programmes-statistiques/document/naics-scian-2022-structure-v1-fra.csv
+elements_en: https://www.statcan.gc.ca/eng/statistical-programs/document/naics-scian-2022-element-v1-eng.csv
+elements_fr: https://www.statcan.gc.ca/fra/programmes-statistiques/document/naics-scian-2022-element-v1-fra.csv
+# Stage 06 checks every quote in registry/mpo_naics.yaml against these four
+# files. The French element file is sorted by its own wording, not in the
+# English file's order — see atlas/sources/naics.py.

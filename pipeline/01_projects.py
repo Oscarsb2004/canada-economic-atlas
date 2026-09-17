@@ -34,12 +34,12 @@ import json
 import logging
 import sys
 from collections import defaultdict
-from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from atlas import media
+from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import (
@@ -55,9 +55,6 @@ EVENT_SLUG = "major-projects-office"
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
-
-def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _geometry_for(coords: list, location: str) -> Geometry:
@@ -216,9 +213,6 @@ def _images(fetch: Fetcher, page: mpo.ParsedPage, slug: str, do_images: bool) ->
                      alt=_pair(page.title, "")),)
 
 
-
-
-
 def _write_history(slug: str, payload: dict, digest: str) -> bool:
     """
     Append a history entry, but only when the content hash has moved.
@@ -277,7 +271,7 @@ def _coverage_manifest(fetch: Fetcher, arcgis_slugs: list[str]) -> dict:
         listed = crawl["groups"].get(group)
         if listed is None:
             log.error("declared record group %r found no pages — the site was "
-                      "restructured, or the path in sources.yaml is stale", group)
+                      "restructured, or the path in registry/sources/mpo_pages.yaml is stale", group)
             out[kind] = {"site_index": None, "reason": f"group {group!r} not found by the crawl"}
             continue
 
@@ -344,7 +338,7 @@ def build_project(fetch: Fetcher, slug: str, feats_en: list[dict],
         for i, f in enumerate(feats_en)
     )
 
-    retrieved = _now()
+    retrieved = clock.now_iso()
     sources = (
         SourceRef(url=mpo.projects_query_url("en"), retrieved_at=retrieved,
                   provenance=Provenance.OFFICIAL_DATASET, licence="ogl-canada-2.0"),
@@ -477,11 +471,11 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     wrote_p = write_if_changed(out_dir / "projects.json", {
-        "event": EVENT_SLUG, "generated_at": _now(), "projects": to_jsonable(projects)})
+        "event": EVENT_SLUG, "generated_at": clock.now_iso(), "projects": to_jsonable(projects)})
     wrote_s = write_if_changed(out_dir / "strategies.json", {
-        "event": EVENT_SLUG, "generated_at": _now(), "strategies": strategies})
+        "event": EVENT_SLUG, "generated_at": clock.now_iso(), "strategies": strategies})
     write_if_changed(out_dir / "coverage.json", {
-        "event": EVENT_SLUG, "generated_at": _now(), "sources": manifest})
+        "event": EVENT_SLUG, "generated_at": clock.now_iso(), "sources": manifest})
 
     corridors = sum(1 for p in projects for s in p.sites if s.geometry.kind is GeometryKind.CORRIDOR)
     log.info("%d projects (%d corridor sites), %d strategies", len(projects), corridors, len(strategies))

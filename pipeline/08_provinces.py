@@ -36,13 +36,13 @@ import hashlib
 import json
 import logging
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import yaml
 
+from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef, Text, to_jsonable
@@ -54,10 +54,6 @@ log = logging.getLogger("08_provinces")
 OUTPUT = R.DATA_DIR / "provinces" / "provinces.json"
 IMAGES = R.WEB_MEDIA_DIR / "provinces"
 REGISTRY = Path(__file__).resolve().parents[1] / "registry"
-
-
-def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _sha(body: bytes) -> str:
@@ -79,7 +75,7 @@ def main() -> int:
         raise SystemExit("provinces.yaml PRUIDs disagree with atlas/sources/census.py")
 
     fetch = Fetcher(cache_dir=R.DATA_DIR / "raw" / "cache", use_cache=not args.refresh)
-    retrieved = _now()
+    retrieved = clock.now_iso()
     sources: list[SourceRef] = []
 
     # ── Fiscal Reference Tables ──────────────────────────────────────────────
@@ -91,7 +87,7 @@ def main() -> int:
         except FetchError:
             return None
 
-    year, books = fiscal_tables.latest_edition(get, fsrc["xlsx"], datetime.now(timezone.utc).year + 1,
+    year, books = fiscal_tables.latest_edition(get, fsrc["xlsx"], clock.now().year + 1,
                                                int(fsrc["oldest_edition"]))
     log.info("Fiscal Reference Tables: %d edition", year)
     for lang in ("en", "fr"):

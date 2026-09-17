@@ -1,0 +1,15 @@
+# registry/sources/mpo_arcgis.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: Projects and Transformative Strategies Referred to the Major Projects Office
+publisher: Natural Resources Canada
+licence: ogl-canada-2.0
+attribution: Major Projects Office of Canada & Natural Resources Canada
+dataset_record: https://open.canada.ca/data/en/dataset/8f387c74-a5d9-46ec-9aff-32bc8e0ff3b1
+# CKAN metadata_modified on the record above is the change-detection signal.
+ckan_api: https://open.canada.ca/data/en/api/3/action/package_show?id=8f387c74-a5d9-46ec-9aff-32bc8e0ff3b1
+mapserver_en: https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer
+mapserver_fr: https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_fr/MapServer
+layers:
+  projects: 1        # 20 features / 18 projects — nctl publishes 3 phase points
+  strategies: 2      # 9 features; polygons return EMPTY geometry, attributes only

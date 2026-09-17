@@ -1616,7 +1616,9 @@ def test_project_naics_registry_rejects_an_unquoted_code(tmp_path, monkeypatch):
     would fail far from the typo. The loader refuses it where it was written.
     """
     import shutil
-    shutil.copy(R.REGISTRY_DIR / "sources.yaml", tmp_path / "sources.yaml")
+    shutil.copy(R.REGISTRY_DIR / "licences.yaml", tmp_path / "licences.yaml")
+    shutil.copytree(R.REGISTRY_DIR / "sources", tmp_path / "sources")
+    shutil.copytree(R.REGISTRY_DIR / "schemas", tmp_path / "schemas")
     text = (R.REGISTRY_DIR / "mpo_naics.yaml").read_text(encoding="utf-8")
     assert 'code: "212232"' in text
     (tmp_path / "mpo_naics.yaml").write_text(text.replace('code: "212232"', "code: 212232", 1),
@@ -1632,7 +1634,7 @@ def test_project_naics_registry_rejects_an_unquoted_code(tmp_path, monkeypatch):
         R.project_naics.cache_clear()
 
 
-#: The map service layer's own field labels, as sources.yaml declares them.
+#: The map service layer's own field labels, as its source card declares them.
 _INVENTORY_FIELDS = dict(status_field=Text(en="Status of development", fr="Statut de développement"),
                          cost_field=Text(en="Capital cost ($M)", fr="Dépenses en immobilisations (M$)"))
 
