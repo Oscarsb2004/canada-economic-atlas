@@ -20,7 +20,7 @@ limits:
 gotchas:
 - Points are [lon, lat], GeoJSON order, not [lat, lon].
 used_by:
-- atlas/sources/mpi.py
+- atlas/readers/mpi.py
 - atlas/shells/check/join_distance.py
 moved_from:
-- atlas/sources/mpi.py
+- atlas/readers/mpi.py

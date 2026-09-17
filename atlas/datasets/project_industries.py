@@ -33,7 +33,7 @@ the asset and Statistics Canada's words for the code, in both languages. This
 stage downloads both classification files and refuses any quote that is not in
 them, and refuses any asset quote that is not on the page. Construction status
 is NRCan's Major Projects Inventory, joined by declared ID and checked by
-distance (`atlas/sources/mpi.py`).
+distance (`atlas/readers/mpi.py`).
 """
 
 from __future__ import annotations
@@ -50,8 +50,8 @@ from atlas.core.records import Observation, Passage
 from atlas.core.schema import Provenance, SourceRef, Text, to_jsonable
 from atlas.datasets import Built, Context
 from atlas.shells.acquire.fetcher import Fetcher
-from atlas.sources import industries_source as industries
-from atlas.sources import mpi, naics
+from atlas.readers import industries_source as industries
+from atlas.readers import mpi, naics
 
 log = logging.getLogger(__name__)
 

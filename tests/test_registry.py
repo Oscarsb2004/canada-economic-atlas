@@ -124,10 +124,36 @@ def test_a_card_citing_a_test_that_does_not_exist_is_refused(registry_copy):
 
 
 def test_a_card_claiming_a_user_that_never_mentions_it_is_refused(registry_copy):
-    _edit(registry_copy / "shells" / "valet_series.yaml", lambda d: d["used_by"].append("pipeline/99_bundle.py"))
-    assert any("99_bundle.py never mentions valet_series" in e for e in R.validate_all())
+    _edit(registry_copy / "shells" / "valet_series.yaml", lambda d: d["used_by"].append("atlas/export/bundle.py"))
+    assert any("bundle.py never mentions valet_series" in e for e in R.validate_all())
 
 
 def test_a_card_whose_module_path_disagrees_with_its_kind_is_refused(registry_copy):
     _edit(registry_copy / "shells" / "valet_series.yaml", lambda d: d.update(kind="transform"))
     assert any("module must be atlas.shells.transform.valet_series" in e for e in R.validate_all())
+
+
+# ── STATUS.md is generated (docs/REBUILD.md step S8) ─────────────────────────
+
+def test_status_is_generated_and_current():
+    """
+    STATUS.md was 791 hand-written lines and drifted from the code it described.
+    It is now rendered from the cards, and `run.py --check` refuses a stale copy,
+    so the description cannot outlive what it describes.
+    """
+    from atlas import status
+
+    assert status.is_current(), "STATUS.md is out of date; run: python run.py --status"
+    text = status.STATUS.read_text(encoding="utf-8")
+    for dataset in R.datasets():
+        assert dataset in text, f"STATUS.md never names the dataset {dataset}"
+
+
+def test_a_stale_status_is_refused(tmp_path, monkeypatch):
+    """Negative control: without the check, an edited STATUS.md would pass validation."""
+    from atlas import status
+
+    stale = tmp_path / "STATUS.md"
+    stale.write_text("# STATUS\n\nSomething else entirely.\n", encoding="utf-8")
+    monkeypatch.setattr(status, "STATUS", stale)
+    assert not status.is_current()

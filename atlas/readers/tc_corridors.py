@@ -1,5 +1,5 @@
 """
-atlas.sources.tc_corridors — Transport Canada's national trade corridors.
+atlas.readers.tc_corridors — Transport Canada's national trade corridors.
 
 Transport Canada's annual report defines the corridors Canadian trade actually
 moves through, and defines them with names, descriptions and the specific ports,

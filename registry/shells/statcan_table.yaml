@@ -28,7 +28,7 @@ tests:
 - tests/test_pipeline.py::test_the_published_stamp_is_the_parsed_zips_not_what_wds_says_at_run_time
 - tests/test_shells_acquire.py::test_the_cube_list_is_one_request_to_its_endpoint
 limits:
-- Does not read a cube; atlas/sources/statcan.py does.
+- Does not read a cube; atlas/readers/statcan.py does.
 - Does not notice StatCan replacing a zip without moving its release time; --refresh is for that.
 gotchas:
 - productId is the 8-digit cube, not the 10-digit table view.
@@ -38,5 +38,5 @@ used_by:
 - atlas/datasets/business_locations.py
 - atlas/datasets/province_profiles.py
 moved_from:
-- atlas/sources/statcan.py
+- atlas/readers/statcan.py
 - pipeline/03_business_counts.py

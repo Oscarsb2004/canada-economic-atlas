@@ -24,6 +24,6 @@ limits:
 gotchas:
 - Prince Edward Island's budget page refuses automated reading, so it carries no quote.
 used_by:
-- atlas/sources/budget_text.py
+- atlas/readers/budget_text.py
 moved_from:
-- atlas/sources/budget_text.py
+- atlas/readers/budget_text.py

@@ -1,5 +1,5 @@
 """
-atlas.sources.business_counts — Statistics Canada's Canadian Business Counts,
+atlas.readers.business_counts — Statistics Canada's Canadian Business Counts,
 with employees.
 
 WHY THIS AND NOT A LIST OF COMPANIES

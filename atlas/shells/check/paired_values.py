@@ -1,7 +1,7 @@
 """
 atlas.shells.check.paired_values — two renderings of one table agree, figure by figure.
 
-(Taken from `read` in atlas/sources/fiscal_tables.py in step S3 of
+(Taken from `read` in atlas/readers/fiscal_tables.py in step S3 of
 docs/REBUILD.md; unchanged in behaviour. Card: registry/shells/paired_values.yaml.)
 
 Finance Canada publishes the Fiscal Reference Tables in English and French, and

@@ -1,7 +1,7 @@
 """
 atlas.shells.acquire.site_crawl — every page under one section of a website, grouped by path.
 
-(Moved from atlas/sources/mpo.py in step S2 of docs/REBUILD.md; unchanged in
+(Moved from atlas/readers/mpo.py in step S2 of docs/REBUILD.md; unchanged in
 behaviour. Card: registry/shells/site_crawl.yaml.)
 """
 

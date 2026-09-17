@@ -10,5 +10,5 @@ serves. Three kinds, one folder each:
   check/      frame -> pass or a named refusal
 
 Project-specific code (the MPO page parser, the province page) stays in
-atlas/sources/ until it moves to atlas/project/.
+atlas/readers/ until it moves to atlas/project/.
 """

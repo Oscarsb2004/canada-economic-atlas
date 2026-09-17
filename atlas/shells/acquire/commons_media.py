@@ -1,7 +1,7 @@
 """
 atlas.shells.acquire.commons_media — files from Wikimedia Commons, each with its own licence.
 
-(Moved from atlas/sources/symbols.py in step S2 of docs/REBUILD.md; unchanged in
+(Moved from atlas/readers/symbols.py in step S2 of docs/REBUILD.md; unchanged in
 behaviour. Card: registry/shells/commons_media.yaml.)
 
 One API request covers up to 50 files: each file's URL, a PNG rendering at the

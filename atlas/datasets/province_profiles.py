@@ -17,15 +17,15 @@ how its finances have gone. Four publishers, each read by its own module:
 
     Finance Canada   Fiscal Reference Tables — revenues, expenditures, deficit
                      or surplus, net debt, every fiscal year the table carries
-                     (atlas/sources/fiscal_tables.py)
+                     (atlas/readers/fiscal_tables.py)
     StatCan          36-10-0400 — each industry's percentage share of the
-                     jurisdiction's GDP, 1997 on (atlas/sources/sector_shares.py)
+                     jurisdiction's GDP, 1997 on (atlas/readers/sector_shares.py)
     Canadian Heritage   the motto and the flag's description, verbatim
     Wikimedia Commons   the flag and coat of arms, with each file's own licence
-                     (atlas/sources/symbols.py)
+                     (atlas/readers/symbols.py)
 
 Also: short passages from each jurisdiction's latest budget on the risks to its
-outlook, each checked against its document (atlas/sources/budget_text.py).
+outlook, each checked against its document (atlas/readers/budget_text.py).
 
 Nothing here is computed except a 240-pixel rendering of each image, which
 Commons itself produces.
@@ -48,7 +48,7 @@ from atlas.core.schema import Provenance, SourceRef, Text, to_jsonable
 from atlas.datasets import Built, Context
 from atlas.shells.acquire import document_text, statcan_table
 from atlas.shells.acquire.fetcher import FetchError
-from atlas.sources import budget_text, census, fiscal_tables, sector_shares, statcan, symbols
+from atlas.readers import budget_text, census, fiscal_tables, sector_shares, statcan, symbols
 
 log = logging.getLogger(__name__)
 
@@ -69,7 +69,7 @@ def build(ctx: Context, *, dataset: str) -> Built:
         raise SystemExit(f"provinces.yaml lists {sorted(provinces)}, not the thirteen {sorted(R.PROVINCE_CODES)}")
     pruid_to_code = {str(p["pruid"]): code for code, p in provinces.items()}
     if pruid_to_code != {k: v for k, v in census.PRUID_TO_CODE.items() if v in provinces}:
-        raise SystemExit("provinces.yaml PRUIDs disagree with atlas/sources/census.py")
+        raise SystemExit("provinces.yaml PRUIDs disagree with atlas/readers/census.py")
 
     fetch = ctx.fetch
     retrieved = clock.now_iso()

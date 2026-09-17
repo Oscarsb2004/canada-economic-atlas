@@ -1,5 +1,5 @@
 """
-atlas.sources.naics — NAICS Canada 2022 Version 1.0, read from Statistics
+atlas.readers.naics — NAICS Canada 2022 Version 1.0, read from Statistics
 Canada's own classification files.
 
 WHY THE CLASSIFICATION IS READ RATHER THAN TYPED

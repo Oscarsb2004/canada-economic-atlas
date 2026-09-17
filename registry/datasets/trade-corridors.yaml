@@ -18,5 +18,5 @@ frame:
   record_type: asset
 on_screen: true
 consumed_by:
-- path: pipeline/99_bundle.py
+- path: atlas/export/bundle.py
   how: copied into the site bundle, web/public/data/

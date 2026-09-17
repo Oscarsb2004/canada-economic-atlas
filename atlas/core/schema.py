@@ -429,7 +429,7 @@ class Project:
     quick_facts: tuple[QuickFact, ...] = ()
     #: The page's own "Benefits" bullets, one entry per <li>, verbatim. Kept as
     #: a list rather than a paragraph because the list is the government's
-    #: structure; see `atlas.sources.mpo._benefits`.
+    #: structure; see `atlas.readers.mpo._benefits`.
     benefits: tuple[Text, ...] = ()
     updates: tuple[Update, ...] = ()
     media: tuple[MediaRef, ...] = ()
@@ -538,7 +538,7 @@ class Vessel:
 
     NUMBERS ARE AS PUBLISHED. `year_of_build` holds values such as 188700, 2026
     and 0; the register does not say how the period is encoded, so no year is
-    read out of it (atlas/sources/vessels.py).
+    read out of it (atlas/readers/vessels.py).
     """
 
     official_number: int

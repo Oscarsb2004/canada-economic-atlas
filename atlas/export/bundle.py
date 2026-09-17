@@ -1,7 +1,12 @@
 """
-Stage 04 — assemble what the web app actually reads.
+atlas.export.bundle — assemble what the web app actually reads.
 
-    python pipeline/99_bundle.py
+    python -m atlas.run bundle
+
+(Was pipeline/99_bundle.py until step S8 of docs/REBUILD.md; the code is carried
+unchanged. Its header said "Stage 04" — the stage it was split from years of
+commits ago — which is one more reason the bundle is now named rather than
+numbered. The runner writes its three generated files and performs its copies.)
 
 Copies the stage outputs into `web/public/data/` and writes three files that
 only exist at this stage:
@@ -22,23 +27,18 @@ it on load and fails loudly rather than rendering a half-read bundle.
 
 from __future__ import annotations
 
-import argparse
 import json
 import logging
-import shutil
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import yaml
 
 from atlas.core import clock
+from atlas.core import frames  # noqa: F401  (kept so the module's shape matches the other builders)
 from atlas.core import registry as R
-from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef
+from atlas.datasets import Built, Context
 
-log = logging.getLogger("99_bundle")
+log = logging.getLogger(__name__)
 
 #: Bump on ANY breaking shape change. See the module docstring.
 SCHEMA_VERSION = "1.0.0"
@@ -174,13 +174,10 @@ def build_country(sectors: dict | None, rates: dict | None) -> dict:
     }
 
 
-def main() -> int:
-    argparse.ArgumentParser(description=__doc__).parse_args()
-    logging.basicConfig(level=logging.INFO, format="%(levelname)-7s %(message)s")
-
+def build(ctx: Context, *, dataset: str) -> Built:
+    """The bundle: every dataset the site reads, plus meta, country and palette."""
     web = R.WEB_DATA_DIR
-    web.mkdir(parents=True, exist_ok=True)
-    log.info("Stage 04 — bundle to %s", web.relative_to(R.ROOT))
+    log.info("bundle to %s", web.relative_to(R.ROOT))
 
     # Every file this stage puts in the bundle, accumulated as it goes.
     #
@@ -194,36 +191,27 @@ def main() -> int:
     # omission impossible rather than fixed once.
     written: list[str] = []
 
-    copied = 0
+    copies = []
     for rel in COPIES:
         src = R.DATA_DIR / rel
         if not src.exists():
             log.warning("skipping missing %s", rel)
             continue
-        dst = web / rel
-        dst.parent.mkdir(parents=True, exist_ok=True)
-        # Compare bytes rather than always copying, so an unchanged stage leaves
-        # the bundle byte-identical and the git diff stays empty.
-        if not dst.exists() or dst.read_bytes() != src.read_bytes():
-            shutil.copyfile(src, dst)
-            copied += 1
+        copies.append((src, web / rel))
         written.append(rel)
-        log.info("  %-46s %6.0f KB", rel, dst.stat().st_size / 1000)
 
     sectors = _load("sectors/national-monthly.json")
     rates = _load("sectors/rates.json")
     country = build_country(sectors, rates)
     written.append("country.json")
-    write_if_changed(web / "country.json", country)
     log.info("country.json: %d headline figures (%s)",
              len(country["headline"]), ", ".join(h["key"] for h in country["headline"]))
 
     palette = yaml.safe_load((R.REGISTRY_DIR / "palette.yaml").read_text(encoding="utf-8"))
     written.append("palette.json")
-    write_if_changed(web / "palette.json", palette)
 
     srcs = R.sources()
-    write_if_changed(web / "meta.json", {
+    meta = {
         "schema_version": SCHEMA_VERSION,
         "generated_at": clock.now_iso(),
         "app": "canada-economic-atlas",
@@ -231,14 +219,11 @@ def main() -> int:
         "sources": {k: {kk: vv for kk, vv in v.items() if isinstance(vv, str)}
                     for k, v in srcs["sources"].items()},
         "files": sorted(written),
-    })
+    }
 
-    files = list(web.rglob("*.json"))
-    total = sum(f.stat().st_size for f in files)
-    log.info("bundle: %d files, %.2f MB total (%d copied this run)",
-             len(files), total / 1e6, copied)
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+    return Built(
+        outputs=[(web / "country.json", country), (web / "palette.json", palette), (web / "meta.json", meta)],
+        copies=copies,
+        receipt={"files": sorted(written), "schema_version": SCHEMA_VERSION,
+                 "headline": [h["key"] for h in country["headline"]]},
+    )

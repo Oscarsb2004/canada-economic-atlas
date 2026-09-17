@@ -12,7 +12,8 @@ A card in registry/datasets/ names its builder (`atlas/datasets/…`). The runne
 calls it, then does the three things no builder does:
 
   writes the published files, each only when its content changed, so a re-run
-  against unchanged sources leaves a zero-line diff (CLAUDE.md §6);
+  against unchanged sources leaves a zero-line diff (CLAUDE.md §6), and copies
+  byte for byte whatever a builder hands it as a copy rather than a payload;
   writes each frame and its manifest under build/frames/, after checking the
   rows against the frame's own profile;
   writes a receipt under build/receipts/: the named values the run produced
@@ -72,6 +73,23 @@ def run_card(ctx: Context, dataset: str, card: dict) -> dict:
             "sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest(),
         }
         log.info("%-45s %s", rel, "updated" if changed else "unchanged")
+
+    copied = 0
+    for source, destination in built.copies:
+        if Path(destination) not in declared:
+            raise RuntimeError(f"{dataset}: copied to {destination}, which its card does not declare as an output")
+        rel = Path(destination).relative_to(R.ROOT).as_posix()
+        body = Path(source).read_bytes()
+        changed = not Path(destination).exists() or Path(destination).read_bytes() != body
+        if changed:
+            Path(destination).parent.mkdir(parents=True, exist_ok=True)
+            Path(destination).write_bytes(body)
+            copied += 1
+        written[rel] = {"changed": changed, "bytes": len(body),
+                        "sha256": hashlib.sha256(body).hexdigest(),
+                        "copied_from": Path(source).relative_to(R.ROOT).as_posix()}
+    if built.copies:
+        log.info("%d of %d copies rewritten", copied, len(built.copies))
 
     for frame in built.frames:
         body, _ = frames.write(frame, BUILD_DIR / "frames")

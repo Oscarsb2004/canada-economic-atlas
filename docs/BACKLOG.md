@@ -1,3 +1,8 @@
+> [!note] History
+> This is the work queue up to the close-out of 2026-09-13. It is kept for its reasoning and is no longer a queue.
+> The restructure's plan, and the only queue, is [`REBUILD.md`](REBUILD.md); what exists today is
+> [`../STATUS.md`](../STATUS.md), generated from `registry/`.
+
 # BACKLOG — the ordered work queue
 
 One queue, in dependency order. Each item is self-contained enough to hand to a

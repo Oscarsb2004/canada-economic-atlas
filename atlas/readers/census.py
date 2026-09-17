@@ -1,5 +1,5 @@
 """
-atlas.sources.census — Statistics Canada census geography and population counts.
+atlas.readers.census — Statistics Canada census geography and population counts.
 
     Table 98-10-0002 — Population and dwelling counts: Canada, provinces and
     territories, census divisions and census subdivisions (municipalities).
@@ -77,7 +77,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from atlas.core.schema import Municipality, SourceRef, Text
-from atlas.sources import statcan
+from atlas.readers import statcan
 
 PID = "98100002"
 CENSUS_VINTAGE = "2021"

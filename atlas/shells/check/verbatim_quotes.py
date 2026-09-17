@@ -1,7 +1,7 @@
 """
 atlas.shells.check.verbatim_quotes — every quote is in its document, where it says it is.
 
-(Taken from `check` in atlas/sources/budget_text.py in step S3 of
+(Taken from `check` in atlas/readers/budget_text.py in step S3 of
 docs/REBUILD.md; unchanged in behaviour. Card: registry/shells/verbatim_quotes.yaml.)
 
 A quote carries a page number, or `page: null` for a document with no pages (an

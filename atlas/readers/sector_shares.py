@@ -1,5 +1,5 @@
 """
-atlas.sources.sector_shares — each province and territory's industries as
+atlas.readers.sector_shares — each province and territory's industries as
 Statistics Canada's own percentage shares of its GDP (table 36-10-0400,
 BACKLOG R2, formerly M2a).
 
@@ -29,7 +29,7 @@ from __future__ import annotations
 from typing import Any
 
 from atlas.core.schema import Text
-from atlas.sources import statcan
+from atlas.readers import statcan
 
 COLUMNS = {
     "en": {"period": "REF_DATE", "dguid": "DGUID", "industry": "North American Industry Classification System (NAICS)",

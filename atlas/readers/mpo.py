@@ -1,5 +1,5 @@
 """
-atlas.sources.mpo — the Major Projects Office.
+atlas.readers.mpo — the Major Projects Office.
 
 Two sources, joined on the project's canonical page URL:
 

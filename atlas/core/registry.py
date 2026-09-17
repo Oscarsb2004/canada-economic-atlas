@@ -318,7 +318,7 @@ def strategy(slug: str) -> Strategy | None:
 
 # ── Project industries ─────────────────────────────────────────────────────────
 
-#: Re-declared from atlas.sources.naics so this module imports nothing from the
+#: Re-declared from atlas.readers.naics so this module imports nothing from the
 #: package; `tests/` asserts the two sets are equal.
 PROJECT_EVIDENCE_KINDS = frozenset(
     {"definition", "illustrative_example", "all_examples", "inclusion", "exclusion"}
@@ -429,7 +429,7 @@ class Corridor:
     One of Transport Canada's national trade corridors, as we join it.
 
     The name, description and infrastructure lists are NOT here — they are
-    scraped verbatim by `atlas/sources/tc_corridors.py`. This carries only the
+    scraped verbatim by `atlas/readers/tc_corridors.py`. This carries only the
     joins, and every field on it is `Provenance.DERIVED`.
     """
 

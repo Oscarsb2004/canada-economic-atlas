@@ -1,5 +1,5 @@
 """
-atlas.sources.vessels — Transport Canada's Canadian Register of Large Vessels.
+atlas.readers.vessels — Transport Canada's Canadian Register of Large Vessels.
 
 WHY THIS EXISTS (BACKLOG S1)
 

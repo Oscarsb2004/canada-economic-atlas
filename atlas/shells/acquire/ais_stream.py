@@ -1,5 +1,5 @@
 """
-(Moved from atlas/sources/aisstream.py in step S7 of docs/REBUILD.md; unchanged in
+(Moved from atlas/readers/aisstream.py in step S7 of docs/REBUILD.md; unchanged in
 behaviour. Card: registry/shells/ais_stream.yaml.)
 
 This is the one acquire shell whose source has no release stamp, so what it

@@ -23,11 +23,11 @@ from atlas.core import registry as R
 from atlas.core.schema import (
     Geometry, GeometryKind, Municipality, Provenance, Series, SourceRef, Text, to_jsonable,
 )
-from atlas.sources import census
-from atlas.sources import mpo
-from atlas.sources import statcan
+from atlas.readers import census
+from atlas.readers import mpo
+from atlas.readers import statcan
 from atlas.shells.acquire import document_text, statcan_table
-from atlas.sources import tc_corridors as tc
+from atlas.readers import tc_corridors as tc
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -1555,7 +1555,7 @@ _PORT_EVIDENCE = {"kind": "illustrative_example", "code": "488310",
 
 
 def _classification():
-    from atlas.sources import naics
+    from atlas.readers import naics
     return naics.read(_STRUCTURE_EN, _STRUCTURE_FR, _ELEMENTS_EN, _ELEMENTS_FR)
 
 
@@ -1567,7 +1567,7 @@ def test_naics_quotes_must_be_statistics_canadas_words_in_both_languages():
     French quote must stop the stage rather than publish words StatCan did not
     write.
     """
-    from atlas.sources import naics
+    from atlas.readers import naics
     c = _classification()
     ok = naics.evidence(c, "488310", "illustrative_example",
                         Text(en="waterfront terminal operation", fr="terminus riverain, exploitation de"))
@@ -1590,7 +1590,7 @@ def test_naics_sector_follows_statistics_canadas_parent_column():
     The sector a code joins GDP on is read from StatCan's hierarchy: 488310's
     parent chain ends at "48-49", a range no digit prefix of the code spells.
     """
-    from atlas.sources import naics
+    from atlas.readers import naics
     c = _classification()
     assert naics.sector_of(c, "488310") == "48-49"
     with pytest.raises(naics.NaicsError):
@@ -1599,7 +1599,7 @@ def test_naics_sector_follows_statistics_canadas_parent_column():
 
 def test_registry_evidence_kinds_match_the_parser():
     """registry.py re-declares the kinds so it imports nothing from the package; they must not drift."""
-    from atlas.sources import naics
+    from atlas.readers import naics
     assert R.PROJECT_EVIDENCE_KINDS == naics.EVIDENCE_KINDS
 
 
@@ -1640,7 +1640,7 @@ _INVENTORY_FIELDS = dict(status_field=Text(en="Status of development", fr="Statu
 
 
 def _inventory_row(pid, status_en, status_fr, points=((-73.0, 45.0),), cost=None):
-    from atlas.sources import mpi
+    from atlas.readers import mpi
     return mpi.InventoryRow(project_id=pid, name=f"project {pid}", proponent="p", province="QC",
                             status=Text(en=status_en, fr=status_fr), cost=cost, points=tuple(points))
 
@@ -1652,7 +1652,7 @@ def test_an_inventory_join_is_held_to_distance():
     point is past the limit fails, and a join the inventory gives no point for
     fails unless the registry accepts it in so many words.
     """
-    from atlas.sources import mpi
+    from atlas.readers import mpi
     near = _inventory_row("0001", "Approved", "Approuvé", points=((-73.0, 45.0),))
     assert mpi.check_join(near, [(-73.1, 45.0)], max_km=25, accept_without_coordinates=False, slug="x") < 25
     with pytest.raises(mpi.InventoryError):
@@ -1678,7 +1678,7 @@ def test_the_inventory_is_read_in_both_languages_and_joined_on_id():
     that is not text (so that "0329" became 329) is refused, and so is a point
     in metres — what arrives if the query stops asking for degrees.
     """
-    from atlas.sources import mpi
+    from atlas.readers import mpi
     en = _layer([("0329", "Sisson Project", "Planned", "579.00", -67.04, 46.37)])
     fr = _layer([("0329", "Sisson Project", "Prévu", "579,00", -67.04, 46.37)])
     rows = mpi.read(en, fr)
@@ -1700,7 +1700,7 @@ def test_inventory_costs_are_read_in_both_languages_and_must_agree():
     own pattern and they must be the same number; a figure the layers disagree
     on is refused rather than taken from one, and prose is never read as a cost.
     """
-    from atlas.sources import mpi
+    from atlas.readers import mpi
     en = _layer([("0644", "Darlington", "Under Construction", "20,900.00", -78.7, 43.9)])
     fr = _layer([("0644", "Darlington", "En construction", "20 900,00", -78.7, 43.9)])
     assert mpi.read(en, fr)["0644"].cost == 20900.0
@@ -1717,7 +1717,7 @@ def test_the_inventory_disclaimer_is_read_from_the_record_not_retyped():
     open.canada.ca record in each language, so a copy in the registry cannot
     drift from what the record says; a record without exactly one is refused.
     """
-    from atlas.sources import mpi
+    from atlas.readers import mpi
     record = {"result": {"notes_translated": {
         "en": "An inventory.\n\nDISCLAIMER: Data and maps are for illustrative purposes only.",
         "fr": "Un inventaire.\n\nCLAUSE DE NON-RESPONSABILITÉ: Les données sont pour des fins d'illustration."}}}
@@ -1765,7 +1765,7 @@ def test_construction_listing_needs_a_published_status():
     casings and both list the project. A status the two languages disagree on is
     refused rather than shown in one of them.
     """
-    from atlas.sources import industries_source as industries
+    from atlas.readers import industries_source as industries
     inv = {
         "0001": _inventory_row("0001", "Under construction", "En construction"),
         "0002": _inventory_row("0002", "Approved", "Approuvé"),
@@ -1790,7 +1790,7 @@ def test_a_placement_must_quote_the_project_page_and_cover_every_project():
     languages; and every project needs an entry, because a project without one
     would silently drop out of every sector count (CLAUDE.md §2b).
     """
-    from atlas.sources import industries_source as industries
+    from atlas.readers import industries_source as industries
     entry = _port_entry(None)
     entry["operating"][0]["asset"] = {"en": "a marine terminal", "fr": "un terminal à conteneurs"}
     with pytest.raises(industries.IndustryError, match="asset quote"):
@@ -1809,7 +1809,7 @@ def test_a_placement_must_quote_the_project_page_and_cover_every_project():
 def _register_books(tmp_path, en_rows, fr_rows):
     """Two workbooks shaped like Transport Canada's: English header on row 2, French on row 1."""
     import openpyxl
-    from atlas.sources import vessels
+    from atlas.readers import vessels
 
     def book(path, header, rows, blank_first_row):
         wb = openpyxl.Workbook()
@@ -1840,7 +1840,7 @@ def _register_row(number, name, imo, tonnage, port, descriptor):
 
 def test_imo_check_digit_is_the_published_formula():
     """The one derived field on a vessel: a stated formula over the published IMO number."""
-    from atlas.sources import vessels
+    from atlas.readers import vessels
     assert vessels.imo_check_digit_valid("9074729")
     assert not vessels.imo_check_digit_valid("9074728")
     assert not vessels.imo_check_digit_valid("946245")      # six digits, as one register entry publishes
@@ -1853,7 +1853,7 @@ def test_vessel_register_pairs_languages_by_row_and_keeps_repeated_numbers(tmp_p
     their position, and the two languages are paired by row with the number
     checked on every one. Words come from each language's own file.
     """
-    from atlas.sources import vessels
+    from atlas.readers import vessels
     en, fr = _register_books(
         tmp_path,
         [_register_row(843892, "MTS 3504", "9896531", 14.8, "HAY RIVER, NT", "FISHING"),
@@ -1879,7 +1879,7 @@ def test_vessel_register_refuses_rows_out_of_order_or_numbers_that_disagree(tmp_
     every row; and a number (not a word) that differs between the files means
     one of them is wrong, so neither is published.
     """
-    from atlas.sources import vessels
+    from atlas.readers import vessels
     a = _register_row(1, "A", None, 10.0, "HALIFAX", "TUG")
     b = _register_row(2, "B", None, 11.0, "HALIFAX", "TUG")
     en, fr = _register_books(tmp_path, [a, b], [b, a])
@@ -1899,7 +1899,7 @@ def test_an_inventory_distance_waiver_is_declared_and_only_where_needed():
     refused where the distance does not need it — so a waiver cannot quietly
     outlive the disagreement it was granted for.
     """
-    from atlas.sources import mpi
+    from atlas.readers import mpi
     far = _inventory_row("1063", "Under Construction", "En construction", points=((-111.0, 60.0),))
     anchor = [(-113.5, 60.5)]
     with pytest.raises(mpi.InventoryError, match="over the 25"):
@@ -2026,7 +2026,7 @@ def test_the_latest_business_counts_table_is_found_by_its_exact_title():
     goes stale. The newest "with employees, <Month Year>" table is chosen, and
     the same series' "without employees" and metropolitan-area tables are not.
     """
-    from atlas.sources import business_counts as bc
+    from atlas.readers import business_counts as bc
     cubes = [
         {"productId": 33101095, "cubeTitleEn": "Canadian Business Counts, with employees, December 2025", "releaseTime": "2026-02-13T13:30:00Z"},
         {"productId": 33101174, "cubeTitleEn": "Canadian Business Counts, with employees, June 2026", "releaseTime": "2026-08-14T12:30:00Z"},
@@ -2039,7 +2039,7 @@ def test_the_latest_business_counts_table_is_found_by_its_exact_title():
 
 
 def _bc_tables(drop_french_row=False):
-    from atlas.sources import business_counts as bc
+    from atlas.readers import business_counts as bc
     en_h = list(bc.COLUMNS["en"].values())
     fr_h = list(bc.COLUMNS["fr"].values())
     geos = [("Canada", "Canada", "1"), ("Ontario", "Ontario", "2")]
@@ -2066,7 +2066,7 @@ def test_business_counts_join_languages_on_the_cell_and_keep_only_declared_secto
     registry's sectors and the two aggregates are kept — a four-digit industry
     is not a sector — and a cell missing from one language stops the stage.
     """
-    from atlas.sources import business_counts as bc
+    from atlas.readers import business_counts as bc
     doc = bc.build(*_bc_tables(), sector_codes=["23"], geo_codes={"Canada": "CA", "Ontario": "ON"})
     assert [i["code"] for i in doc["industries"]] == ["total", "23", "unclassified"]
     assert doc["industries"][2]["label"] == {"en": "Unclassified", "fr": "Non classifié"}
@@ -2087,7 +2087,7 @@ def test_an_unpublished_size_range_is_null_and_only_where_the_total_leaves_none(
     total less the published ranges is exactly 0. Otherwise the gap is not a zero
     and the stage stops.
     """
-    from atlas.sources import business_counts as bc
+    from atlas.readers import business_counts as bc
     en_h, en, fr_h, fr = _bc_tables()
     geo = {"Canada": "CA", "Ontario": "ON"}
 
@@ -2138,7 +2138,7 @@ def test_fiscal_tables_pair_languages_by_row_and_keep_the_english_figures():
     label is recorded rather than trusted, and a heading split at a hyphen
     rejoins without a space.
     """
-    from atlas.sources import fiscal_tables as ft
+    from atlas.readers import fiscal_tables as ft
     en = _fiscal_book("Table 23", "(millions of dollars)", ["2010-11", "2011-12"],
                       [[43240, -3029], [44000, -100]],
                       [["", "Own-", "Deficit (-)"], ["Year", "source revenues", "or surplus"]])
@@ -2161,7 +2161,7 @@ def test_fiscal_tables_pair_languages_by_row_and_keep_the_english_figures():
 
 def test_fiscal_tables_edition_needs_a_real_workbook_in_both_languages():
     """canada.ca answers HEAD with 200 for editions that do not exist, so an edition is a zip body, twice."""
-    from atlas.sources import fiscal_tables as ft
+    from atlas.readers import fiscal_tables as ft
     template = {"en": "https://x/{year}/frt-trf-{yy}-eng.xlsx", "fr": "https://x/{year}/frt-trf-{yy}-fra.xlsx"}
     bodies = {"https://x/2025/frt-trf-25-eng.xlsx": b"PK\x03\x04en", "https://x/2025/frt-trf-25-fra.xlsx": b"PK\x03\x04fr",
               "https://x/2026/frt-trf-26-eng.xlsx": b"<html>404</html>",
@@ -2178,7 +2178,7 @@ def test_sector_shares_join_languages_on_the_coordinate_and_keep_only_declared_s
     are dropped so no one adds them to a sector, the total is kept, and the
     French row must carry the same code and value.
     """
-    from atlas.sources import sector_shares as ss
+    from atlas.readers import sector_shares as ss
     he = list(ss.COLUMNS["en"].values())
     hf = list(ss.COLUMNS["fr"].values())
 
@@ -2208,7 +2208,7 @@ def test_symbols_are_read_by_heading_and_commons_licences_are_never_assumed():
     BACKLOG R0. A motto and flag description come from the section with that
     heading in each language; a file Commons gives no licence for is refused.
     """
-    from atlas.sources import symbols
+    from atlas.readers import symbols
     en = '<h2 id="a4">Motto</h2><p>Loyal she began</p><h2 id="a5">Flag</h2><p>Adopted in 1965.</p><h2 class="x">end</h2>'
     fr = '<h2 id="a4">Devise</h2><p>Fidèle</p><h2 id="a5">Drapeau</h2><p>Adopté en 1965.</p><h2 class="x">fin</h2>'
     out = symbols.read_pages(en, fr, where="ON")
@@ -2238,7 +2238,7 @@ def test_budget_quotes_must_be_on_their_stated_page():
     markers, curly apostrophes, a space before a full stop) is normalised on
     both sides. A changed word, or the right words on the wrong page, fails.
     """
-    from atlas.sources import budget_text as bt
+    from atlas.readers import budget_text as bt
     pages = [document_text.normalise("Summary"), document_text.normalise("The main risks to the government’s /f_iscal plan include tariﬀs .")]
     ok = [{"page": 2, "kind": "risk", "text": "The main risks to the government's fiscal plan include tariffs."}]
     bt.check(ok, pages=pages, text=None, where="BC")

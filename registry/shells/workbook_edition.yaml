@@ -24,6 +24,6 @@ limits:
 gotchas:
 - canada.ca answers HEAD with 200 for editions that do not exist (the 2026 and 2027 Fiscal Reference Tables).
 used_by:
-- atlas/sources/fiscal_tables.py
+- atlas/readers/fiscal_tables.py
 moved_from:
-- atlas/sources/fiscal_tables.py
+- atlas/readers/fiscal_tables.py

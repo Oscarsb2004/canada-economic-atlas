@@ -35,4 +35,4 @@ gotchas:
 used_by:
 - live/collect_ais.py
 moved_from:
-- atlas/sources/aisstream.py
+- atlas/readers/aisstream.py

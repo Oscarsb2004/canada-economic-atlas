@@ -64,7 +64,7 @@ from atlas.core.schema import (
 )
 from atlas.datasets import Built, Context
 from atlas.shells.acquire.fetcher import Fetcher
-from atlas.sources import tc_corridors as tc
+from atlas.readers import tc_corridors as tc
 
 log = logging.getLogger(__name__)
 

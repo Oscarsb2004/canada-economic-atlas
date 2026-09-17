@@ -84,7 +84,7 @@ from atlas.datasets import Built, Context, Skipped
 from atlas.shells.acquire import statcan_table, valet_series
 from atlas.shells.acquire.fetcher import Fetcher
 from atlas.shells.check import partition_drift
-from atlas.sources import statcan
+from atlas.readers import statcan
 
 log = logging.getLogger(__name__)
 

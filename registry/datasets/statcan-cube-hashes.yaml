@@ -22,5 +22,5 @@ outputs:
 frame: null
 on_screen: false
 consumed_by:
-- path: pipeline/99_bundle.py
+- path: atlas/export/bundle.py
   how: each bundled series' source reference carries its cube's hash

@@ -27,6 +27,6 @@ gotchas:
 - CC BY-SA files must credit their artist and name the licence beside the image.
 - Commons insignia restrictions apply on top of copyright.
 used_by:
-- atlas/sources/symbols.py
+- atlas/readers/symbols.py
 moved_from:
-- atlas/sources/symbols.py
+- atlas/readers/symbols.py

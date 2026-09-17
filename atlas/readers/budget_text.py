@@ -1,5 +1,5 @@
 """
-atlas.sources.budget_text — short passages from each province and territory's
+atlas.readers.budget_text — short passages from each province and territory's
 latest budget on the risks to its outlook, checked against the document itself
 (BACKLOG R5).
 

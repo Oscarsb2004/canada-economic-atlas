@@ -5,6 +5,7 @@ run.py — the only command this project needs.
     python run.py                 run the whole pipeline, then verify
     python run.py --stage 01      run one stage (see --help for the list)
     python run.py --check         validate every registry file against its schema
+    python run.py --status        rewrite STATUS.md from the registry
     python run.py --verify        independent verification only
     python run.py --test          pytest only
     python run.py --live          the atlas in your browser, with live Canadian vessel positions
@@ -37,8 +38,8 @@ VENV = ROOT / ".venv"
 PY = VENV / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
 STAMP = VENV / ".atlas-requirements"
 
-#: Stage number -> script. A full run executes these in SORTED KEY ORDER, so the
-#: number is the run order and the bundle must sort last.
+#: Step number -> what to run. A full run executes these in SORTED KEY ORDER, so
+#: the number is the run order and the bundle must sort last.
 #:
 #: That is why the bundle is 99 rather than the next free number. It reads what
 #: the other stages wrote,
@@ -60,7 +61,7 @@ STAGES = {
     "06": "-m atlas.run industries",
     "07": "-m atlas.run vessels",
     "08": "-m atlas.run provinces",
-    "99": "pipeline/99_bundle.py",
+    "99": "-m atlas.run bundle",
 }
 
 
@@ -138,7 +139,11 @@ def check() -> int:
     """Every registry file against its schema and its own rules (atlas/core/registry.py)."""
     from atlas.core import registry
 
+    from atlas import status
+
     errors = registry.validate_all()
+    if not status.is_current():
+        errors.append("STATUS.md is out of date; run: python run.py --status")
     for error in errors:
         print(f"registry: {error}", file=sys.stderr)
     print(f"registry: {len(errors)} problem(s)" if errors else "registry: ok")
@@ -153,6 +158,7 @@ def main() -> int:
     ap.add_argument("--stage", choices=sorted(STAGES))
     ap.add_argument("--verify", action="store_true")
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--status", action="store_true")
     ap.add_argument("--test", action="store_true")
     ap.add_argument("--web", action="store_true")
     ap.add_argument("--live", action="store_true")
@@ -167,6 +173,12 @@ def main() -> int:
 
     if args.check:
         return check()
+
+    if args.status:
+        from atlas import status
+
+        print("STATUS.md " + ("rewritten" if status.write() else "already current"))
+        return 0
 
     if args.live or args.web:
         return app()
