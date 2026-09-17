@@ -1,0 +1,7 @@
+# registry/sources/statcan_boundaries.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: 2021 Census cartographic boundary files — provinces and territories
+publisher: Statistics Canada
+licence: statcan-open
+dataset_record: https://open.canada.ca/data/en/dataset/ef70dc3b-1069-4037-9bce-61f47e628a1d

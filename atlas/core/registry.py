@@ -8,16 +8,35 @@ mistake is, not surface three stages later as an empty region on a map.
 The registries are the project's configuration surface. Code is Python; what
 the project covers — which events, which sectors, which geography — is YAML,
 hand-editable and reviewable in a diff.
+
+ONE VALIDATOR FOR EVERY FILE (docs/REBUILD.md, step S1)
+
+Until 2026-09-17 this module loaded five of the ten registry files; the rest
+were read with a bare `yaml.safe_load` by whichever stage used them, so a typo
+in a field name was found, if at all, by a stage producing less than it should.
+`validate_all()` now reads every file under registry/, refuses a file nobody
+declared, and checks each against its JSON Schema in registry/schemas/ — which
+refuses unknown fields and wrong types — before running the per-file rules
+below. The schemas were derived from the files as they stood at `legacy-v1`
+and are now the contract; editing a file's shape means editing its schema in
+the same change.
+
+Sources are cards: one file per source under registry/sources/, named by its
+key, with the licences they may name in registry/licences.yaml (the Athena Data
+card pattern). `sources()` assembles them into the shape callers have always
+read, so nothing downstream changed.
 """
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
 import yaml
+from jsonschema import Draft202012Validator
 
 #: Repository root, resolved from this file rather than the working directory,
 #: so a stage behaves the same however it was invoked.
@@ -38,6 +57,50 @@ class RegistryError(ValueError):
     """A registry file is malformed or internally inconsistent."""
 
 
+#: Every file registry/ may hold, and the schema each is checked against.
+#: A file not listed here is refused: a registry nobody loads is a registry
+#: whose mistakes nobody sees.
+REGISTRY_FILES = {
+    "budgets.yaml": "budgets",
+    "checks.yaml": "checks",
+    "corridors.yaml": "corridors",
+    "events.yaml": "events",
+    "licences.yaml": "licences",
+    "mpo_naics.yaml": "mpo_naics",
+    "palette.yaml": "palette",
+    "provinces.yaml": "provinces",
+    "sectors.yaml": "sectors",
+    "strategies.yaml": "strategies",
+}
+#: Folders of cards, one YAML file per card, and the schema every card meets.
+CARD_DIRS = {"sources": "source"}
+SCHEMA_DIR_NAME = "schemas"
+
+
+class _TextDates(yaml.SafeLoader):
+    """Leaves YAML dates as text, so `2025-06-26` reaches the schema as the string it is written as."""
+
+
+_TextDates.yaml_implicit_resolvers = {
+    first: [(tag, rx) for tag, rx in resolvers if tag != "tag:yaml.org,2002:timestamp"]
+    for first, resolvers in yaml.SafeLoader.yaml_implicit_resolvers.items()
+}
+
+
+def _schema_errors(schema_name: str, path: Path) -> list[str]:
+    schema_path = REGISTRY_DIR / SCHEMA_DIR_NAME / f"{schema_name}.schema.json"
+    if not schema_path.exists():
+        return [f"{path.name}: no schema at {schema_path.relative_to(ROOT).as_posix()}"]
+    validator = Draft202012Validator(json.loads(schema_path.read_text(encoding="utf-8")))
+    with path.open(encoding="utf-8") as fh:
+        data = yaml.load(fh, Loader=_TextDates)
+    rel = path.relative_to(REGISTRY_DIR).as_posix()
+    return [
+        f"{rel}: {'/'.join(str(p) for p in err.absolute_path) or '(top level)'}: {err.message}"
+        for err in sorted(validator.iter_errors(data), key=lambda e: [str(p) for p in e.absolute_path])
+    ]
+
+
 def _load(name: str) -> dict[str, Any]:
     path = REGISTRY_DIR / name
     if not path.exists():
@@ -53,25 +116,41 @@ def _load(name: str) -> dict[str, Any]:
 
 @lru_cache(maxsize=1)
 def sources() -> dict[str, Any]:
-    """Every external endpoint, with its licence."""
-    data = _load("sources.yaml")
-    licences = data.get("licences", {})
-    srcs = data.get("sources", {})
+    """
+    Every external source, with the licences they name.
+
+    Assembled from registry/licences.yaml and the cards in registry/sources/
+    into `{"licences": ..., "sources": {key: card}}`, the shape every caller
+    and `meta.json` have always read.
+    """
+    errors = _schema_errors("licences", REGISTRY_DIR / "licences.yaml")
+    folder = REGISTRY_DIR / "sources"
+    cards = sorted(folder.glob("*.yaml")) if folder.is_dir() else []
+    for card in cards:
+        errors += _schema_errors(CARD_DIRS["sources"], card)
+    if errors:
+        raise RegistryError("; ".join(errors))
+
+    licences = _load("licences.yaml").get("licences", {})
+    srcs: dict[str, Any] = {}
+    for card in cards:
+        with card.open(encoding="utf-8") as fh:
+            srcs[card.stem] = yaml.safe_load(fh)
     for key, src in srcs.items():
         lic = src.get("licence")
         if lic and lic not in licences:
             raise RegistryError(
-                f"sources.yaml: source {key!r} claims licence {lic!r}, "
-                f"which is not defined under `licences`"
+                f"sources/{key}.yaml claims licence {lic!r}, "
+                f"which licences.yaml does not define"
             )
-    return data
+    return {"licences": licences, "sources": srcs}
 
 
 def source(key: str) -> dict[str, Any]:
-    """One source entry by key."""
+    """One source card by key."""
     srcs = sources()["sources"]
     if key not in srcs:
-        raise RegistryError(f"no source named {key!r} in sources.yaml")
+        raise RegistryError(f"no source card registry/sources/{key}.yaml")
     return srcs[key]
 
 
@@ -503,3 +582,45 @@ def corridor_source() -> dict[str, Any]:
         if not src.get(key):
             raise RegistryError(f"corridors.yaml: source.{key} is required")
     return src
+
+
+# ── Everything at once ─────────────────────────────────────────────────────────
+
+def validate_all() -> list[str]:
+    """
+    Every problem in registry/, as messages. Empty means valid.
+
+    Refuses undeclared files, checks every file and card against its schema,
+    then runs each file's own loader so its rules (quoted codes, known nodes,
+    declared joins) are checked too.
+    """
+    errors: list[str] = []
+    allowed_dirs = set(CARD_DIRS) | {SCHEMA_DIR_NAME}
+    for entry in sorted(REGISTRY_DIR.iterdir()):
+        if entry.is_dir():
+            if entry.name not in allowed_dirs:
+                errors.append(f"registry/{entry.name}/: not a declared registry folder")
+            elif entry.name in CARD_DIRS:
+                for card in sorted(entry.iterdir()):
+                    if card.is_dir() or card.suffix != ".yaml":
+                        errors.append(f"registry/{entry.name}/{card.name}: card folders hold only .yaml files")
+        elif entry.name not in REGISTRY_FILES:
+            errors.append(f"registry/{entry.name}: not a declared registry file")
+    for name, schema in REGISTRY_FILES.items():
+        path = REGISTRY_DIR / name
+        if not path.exists():
+            errors.append(f"registry/{name}: missing")
+        else:
+            errors += _schema_errors(schema, path)
+    if errors:
+        return errors
+
+    for loader in (sources, events, strategies, project_naics, corridor_nodes, corridors, corridor_source):
+        cache_clear = getattr(loader, "cache_clear", None)
+        if cache_clear:
+            cache_clear()
+        try:
+            loader()
+        except RegistryError as exc:
+            errors.append(str(exc))
+    return errors

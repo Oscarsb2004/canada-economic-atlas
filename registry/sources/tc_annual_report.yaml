@@ -1,0 +1,14 @@
+# registry/sources/tc_annual_report.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: Transportation in Canada — annual report, Role of Canada's Transportation Network
+publisher: Transport Canada
+licence: ogl-canada-2.0
+attribution: Transport Canada
+# The FR path is DECLARED, not derived — `role-reseau-transport-canadien` is
+# not a transformation of `role-canada-s-transportation-network`. The URLs
+# live in corridors.yaml beside the joins that use them.
+page_en: https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network
+# Five corridors, in <details> blocks: Pacific, Prairie, Central, Atlantic,
+# Northern. Each carries a description paragraph and a Marine/Rail/Road/Air
+# infrastructure list. Summaries of this page routinely omit Northern.

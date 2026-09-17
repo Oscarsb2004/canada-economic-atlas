@@ -34,11 +34,11 @@ import hashlib
 import logging
 import sys
 from collections import Counter
-from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef, to_jsonable
@@ -50,10 +50,6 @@ log = logging.getLogger("07_vessels")
 SOURCE_KEY = "tc_large_vessel_register"
 OUTPUT = R.DATA_DIR / "vessels" / "large-vessel-register.json"
 FILES = (("en", "xlsx_en"), ("fr", "xlsx_fr"))
-
-
-def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def main() -> int:
@@ -78,7 +74,7 @@ def main() -> int:
         "official_numbers_listed_twice": twice,
     }
 
-    retrieved = _now()
+    retrieved = clock.now_iso()
     changed = write_if_changed(OUTPUT, {
         "generated_at": retrieved,
         "title": src["title"],

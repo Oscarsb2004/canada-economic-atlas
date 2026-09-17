@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/events.yaml",
+  "type": "object",
+  "required": [
+    "events"
+  ],
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "slug",
+          "kind",
+          "title",
+          "date",
+          "source_module",
+          "sources",
+          "licence",
+          "expected",
+          "disclaimer"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "title": {
+            "type": "object",
+            "required": [
+              "en",
+              "fr"
+            ],
+            "properties": {
+              "en": {
+                "type": "string"
+              },
+              "fr": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "date": {
+            "type": "string"
+          },
+          "source_module": {
+            "type": "string"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "licence": {
+            "type": "string"
+          },
+          "expected": {
+            "type": "object",
+            "required": [],
+            "properties": {
+              "features": {
+                "type": "integer"
+              },
+              "projects": {
+                "type": "integer"
+              },
+              "strategies": {
+                "type": "integer"
+              },
+              "corridors": {
+                "type": "integer"
+              },
+              "nodes": {
+                "type": "integer"
+              }
+            },
+            "additionalProperties": false
+          },
+          "disclaimer": {
+            "type": "object",
+            "required": [
+              "en",
+              "fr"
+            ],
+            "properties": {
+              "en": {
+                "type": "string"
+              },
+              "fr": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "sectors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

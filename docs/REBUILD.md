@@ -134,10 +134,10 @@ before the next begins.
 | Step | Content |
 | --- | --- |
 | **S0 Golden master** | The recording and replaying fetcher, the frozen clock, one recorded legacy run, the compare tool with its negative control, and the `web/dist/` comparison. No behaviour changes. |
-| **S1 Core** | Records, provenance, frame envelope, jsonio, clock; the one registry validator over every existing registry file; source cards split out of `sources.yaml`. |
+| **S1 Core** | The one registry validator over every registry file, with a JSON Schema per file and `python run.py --check`; source cards split out of `sources.yaml` into `registry/sources/` and `registry/licences.yaml`; one clock for every stage. *(Records and the frame envelope move to S4, where the first dataset card uses them — nothing is built before its first user.)* |
 | **S2 Acquire shells** | Network and file reading moved out of `atlas/sources/` into acquire shells, each with its card. |
 | **S3 Transform and check shells** | Pairing, crosswalks, joins, anchors, absent cells, additivity, parent sums, verbatim checks, each with its card and a negative control. |
-| **S4 StatCan datasets** | Cards and `atlas/run.py` replace stages 02, 03 and 05. |
+| **S4 StatCan datasets** | Records and the frame envelope; dataset cards and `atlas/run.py` replace stages 02, 03 and 05. |
 | **S5 Province profiles** | Stage 08. |
 | **S6 Projects, corridors, industries** | Stages 01, 04 and 06, with the MPO parser moved into `atlas/project/`. |
 | **S7 Vessels** | Stage 07 and the live collector's wiring. |

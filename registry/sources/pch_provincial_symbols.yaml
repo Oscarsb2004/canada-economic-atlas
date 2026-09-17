@@ -1,0 +1,12 @@
+# registry/sources/pch_provincial_symbols.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: Provincial and territorial symbols
+publisher: Canadian Heritage
+licence: canada-ca-terms
+attribution: Canadian Heritage, Provincial and territorial symbols
+page:
+  en: https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/{slug}.html
+  fr: https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/{slug}.html
+# Read for the motto and the flag's description, verbatim, by the pages'
+# own section headings (Motto/Devise, Flag/Drapeau).

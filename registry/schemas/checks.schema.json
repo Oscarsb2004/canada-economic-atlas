@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/checks.yaml",
+  "type": "object",
+  "required": [
+    "version",
+    "regions",
+    "datasets"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "regions": {
+      "type": "object",
+      "required": [
+        "canada",
+        "provinces"
+      ],
+      "properties": {
+        "canada": {
+          "type": "object",
+          "required": [
+            "file",
+            "label"
+          ],
+          "properties": {
+            "file": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "provinces": {
+          "type": "object",
+          "required": [
+            "file",
+            "name_fields"
+          ],
+          "properties": {
+            "file": {
+              "type": "string"
+            },
+            "name_fields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "datasets": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "path",
+          "records",
+          "id_field",
+          "checks"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "records": {
+            "type": "string"
+          },
+          "id_field": {
+            "type": "string"
+          },
+          "geometry_path": {
+            "type": "string"
+          },
+          "geometry_path_root": {
+            "type": "string"
+          },
+          "place_text_path": {
+            "type": "string"
+          },
+          "checks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": true,
+              "description": "Fields vary by kind; verify/checks.py validates each kind."
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

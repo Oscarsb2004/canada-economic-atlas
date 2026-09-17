@@ -1,0 +1,68 @@
+# licences.yaml — every licence a source card may name.
+#
+# Each external source this project reads is a card in registry/sources/,
+# named by its key. A card's `licence` must be a key here; atlas/core/registry.py
+# refuses one that is not. `meta.json` is generated from these files rather than
+# from strings pasted into the web app, so the app's attribution cannot go stale.
+#
+# `attribution` is the exact wording the licensor asks for. Do not paraphrase it.
+
+licences:
+  ogl-canada-2.0:
+    name: Open Government Licence – Canada 2.0
+    url: https://open.canada.ca/en/open-government-licence-canada
+    redistribution: permitted with attribution
+
+  statcan-open:
+    name: Statistics Canada Open Licence
+    url: https://www.statcan.gc.ca/en/reference/licence
+    redistribution: permitted with attribution
+    # Required wording differs depending on whether the data was transformed.
+    attribution_asis: >-
+      Source: Statistics Canada, {product}, {reference_date}. Reproduced and
+      distributed on an "as is" basis with the permission of Statistics Canada.
+    attribution_adapted: >-
+      Adapted from Statistics Canada, {product}, {reference_date}. This does not
+      constitute an endorsement by Statistics Canada of this product.
+
+  boc-terms:
+    name: Bank of Canada Terms of Use
+    url: https://www.bankofcanada.ca/terms/
+    redistribution: permitted with attribution
+    # Not an open licence — the Bank retains copyright and grants permission.
+    # Weaker than OGL, and it requires stating that changes were made.
+    attribution: >-
+      Source: Bank of Canada. Data used under the Bank of Canada Terms of Use;
+      modified from the original.
+
+  aisstream-unstated:
+    name: aisstream.io — no published terms of use (checked 2026-09-12)
+    url: https://aisstream.io
+    redistribution: unstated
+
+  canada-ca-terms:
+    name: Canada.ca terms and conditions — non-commercial reproduction
+    url: https://www.canada.ca/en/transparency/terms.html
+    # Read 2026-09-13: materials may be reproduced "in whole or in part for
+    # non-commercial purposes, and in any format, without charge or further
+    # permission", with due diligence on accuracy, the title and author named,
+    # and noted as a copy of the original URL. The official symbols of the
+    # Government of Canada are excepted; provincial symbols are not mentioned.
+    redistribution: permitted for non-commercial purposes with attribution
+
+  budget-quotation:
+    name: Short quotations from government budget documents, attributed and linked
+    url: https://laws-lois.justice.gc.ca/eng/acts/c-42/section-29.html
+    # One or two sentences per document, the document named and linked. The
+    # copyright terms of each province and territory's budget documents were
+    # NOT read one by one (2026-09-13, owner's call to finish the project);
+    # this is recorded so a validation pass can read them.
+    redistribution: short quotation with attribution; terms not individually read
+
+  commons-per-file:
+    name: Wikimedia Commons — each file's own licence
+    url: https://commons.wikimedia.org/wiki/Commons:Licensing
+    # Read per file from the Commons API at build time (2026-09-13: flags public
+    # domain; coats of arms public domain, CC0, CC BY-SA 3.0 or 4.0). CC BY-SA
+    # files must credit their artist and name the licence beside the image.
+    redistribution: per file, as each file's licence states

@@ -1,0 +1,18 @@
+# registry/sources/finance_fiscal_reference_tables.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+# ── The provincial deep dive (BACKLOG Stage R, registry/provinces.yaml) ────
+
+title: Fiscal Reference Tables
+publisher: Department of Finance Canada
+licence: canada-ca-terms
+attribution: Department of Finance Canada, Fiscal Reference Tables
+edition_page: https://www.canada.ca/en/department-finance/services/publications/fiscal-reference-tables/{year}.html
+xlsx:
+  en: https://www.canada.ca/content/dam/fin/publications/frt-trf/{year}/frt-trf-{yy}-eng.xlsx
+  fr: https://www.canada.ca/content/dam/fin/publications/frt-trf/{year}/frt-trf-{yy}-fra.xlsx
+# One edition a year and the index page lists none; stage 08 tries years
+# downward with a real download that must be a workbook, because canada.ca
+# answers HEAD with 200 for editions that do not exist (checked 2026-09-13:
+# 2025 is the newest; 2026 and 2027 return 404 to a GET).
+oldest_edition: 2020

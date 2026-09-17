@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/provinces.yaml",
+  "type": "object",
+  "required": [
+    "version",
+    "fiscal_source",
+    "shares_source",
+    "symbols_source",
+    "images_source",
+    "provinces"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "fiscal_source": {
+      "type": "string"
+    },
+    "shares_source": {
+      "type": "string"
+    },
+    "symbols_source": {
+      "type": "string"
+    },
+    "images_source": {
+      "type": "string"
+    },
+    "provinces": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "pruid",
+          "fiscal_table",
+          "heritage",
+          "flag",
+          "arms"
+        ],
+        "properties": {
+          "pruid": {
+            "type": "string"
+          },
+          "fiscal_table": {
+            "type": "integer"
+          },
+          "heritage": {
+            "type": "object",
+            "required": [
+              "en",
+              "fr"
+            ],
+            "properties": {
+              "en": {
+                "type": "string"
+              },
+              "fr": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "flag": {
+            "type": "string"
+          },
+          "arms": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "propertyNames": {
+        "enum": [
+          "NL",
+          "PE",
+          "NS",
+          "NB",
+          "QC",
+          "ON",
+          "MB",
+          "SK",
+          "AB",
+          "BC",
+          "YT",
+          "NT",
+          "NU"
+        ]
+      },
+      "description": "Keyed by province or territory code."
+    }
+  },
+  "additionalProperties": false
+}

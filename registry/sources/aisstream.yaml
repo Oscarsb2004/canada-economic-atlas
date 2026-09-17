@@ -1,0 +1,16 @@
+# registry/sources/aisstream.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: aisstream.io live AIS relay
+publisher: aisstream.io
+licence: aisstream-unstated
+attribution: Vessel positions relayed by aisstream.io
+stream: wss://stream.aisstream.io/v0/stream
+documentation: https://aisstream.io/documentation
+message_models: https://github.com/aisstream/ais-message-models
+# Canada's Maritime Identification Digits, allocated by the ITU. The
+# Canadian Coast Guard's Radio Aids to Marine Navigation uses 316010115 as
+# its worked example of a Canadian ship's MMSI.
+canadian_mids: ["316"]
+# Not a government source, chosen 2026-09-12 because none publishes live
+# positions. Shore-based receivers only: open-ocean positions are not heard.

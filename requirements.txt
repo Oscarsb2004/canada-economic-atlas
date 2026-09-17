@@ -17,6 +17,7 @@ openpyxl==3.1.5          # NRCan publishes the Major Projects Inventory only as 
 pypdf==5.4.0             # budget passages are checked against each budget PDF (stage 08)
 cryptography==44.0.2     # Quebec's budget plan PDF is AES-encrypted; pypdf needs this to read it
 websockets==17.1         # aisstream.io is a WebSocket stream (live/collect_ais.py)
+jsonschema==4.26.0       # every registry file is checked against its schema (atlas/core/registry.py)
 
 # Test-only.
 pytest==9.1.1

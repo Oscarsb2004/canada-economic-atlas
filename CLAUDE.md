@@ -52,9 +52,11 @@ so it carries `Provenance.DERIVED` and renders with a dashed ring.
 
 ## 3. Configuration is YAML, code is Python
 
-`registry/` is the whole configuration surface: sources, events, strategies,
-sectors, the MPO→NAICS crosswalk, the palette. All hand-editable, all validated
-hard on load by `atlas/core/registry.py`.
+`registry/` is the whole configuration surface: source cards (`registry/sources/`,
+one file per source) and their licences, events, strategies, sectors, the
+MPO→NAICS crosswalk, the palette. All hand-editable. `python run.py --check`
+validates every file against its JSON Schema in `registry/schemas/` — unknown
+files and unknown fields are refused — and a full run does so before any stage.
 
 Adding an event means adding a `registry/events.yaml` entry and one module under
 `atlas/sources/`. Nothing in `web/` changes.
@@ -115,7 +117,7 @@ is exactly what stage 03 and the public site did. The panel, its stage, its
 parser and its crosswalk were removed the same day, and stage 03 now reproduces
 Statistics Canada's Canadian Business Counts instead.
 
-So every entry under `licences` in `sources.yaml` records what the publisher's
+So every entry in `registry/licences.yaml` records what the publisher's
 terms actually say, read from the terms page and dated, never what we hope they
 allow. A source with no published terms says that, as `aisstream-unstated` does.
 

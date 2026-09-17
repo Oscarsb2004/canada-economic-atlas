@@ -43,11 +43,11 @@ import argparse
 import logging
 import sys
 from collections import Counter
-from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef, to_jsonable
@@ -59,12 +59,8 @@ log = logging.getLogger("05_municipalities")
 SOURCE_KEY = "statcan_municipal_population"
 OUTPUT = R.DATA_DIR / "geography" / "municipalities.json"
 
-#: Language suffix -> the sources.yaml key carrying that file's URL.
+#: Language suffix -> the source card field carrying that file's URL.
 FILES = (("eng", "csv"), ("fra", "csv_fr"))
-
-
-def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def main() -> int:
@@ -80,7 +76,7 @@ def main() -> int:
     # here beats a "no Canada row" error three functions down.
     if str(src.get("census_vintage")) != census.CENSUS_VINTAGE:
         raise SystemExit(
-            f"sources.yaml declares census_vintage {src.get('census_vintage')!r}; "
+            f"its source card declares census_vintage {src.get('census_vintage')!r}; "
             f"atlas/sources/census.py parses {census.CENSUS_VINTAGE!r}. A new census "
             f"is a deliberate change to both."
         )
@@ -105,11 +101,11 @@ def main() -> int:
              if expected.get(k) != v}
     if moved:
         raise SystemExit(
-            f"table {census.PID}: counts differ from sources.yaml `expected`: {moved}. "
+            f"table {census.PID}: counts differ from the source card's `expected`: {moved}. "
             f"If StatCan revised the table, update the registry in the same change."
         )
 
-    retrieved = _now()
+    retrieved = clock.now_iso()
     sources = [
         SourceRef(url=src[key], retrieved_at=retrieved, provenance=Provenance.OFFICIAL_DATASET,
                   licence=src.get("licence", ""), content_sha256=census.content_hash(zips[lang]))

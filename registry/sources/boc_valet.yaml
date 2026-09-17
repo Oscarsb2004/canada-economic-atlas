@@ -1,0 +1,17 @@
+# registry/sources/boc_valet.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: Bank of Canada Valet API
+publisher: Bank of Canada
+licence: boc-terms
+base: https://www.bankofcanada.ca/valet/
+# NOTE: the group list route is /valet/lists/groups/json.
+# /valet/groups/json is a 404.
+series:
+  policy_rate: V39079
+  cpi_total: V41690973
+  cpi_trim: CPI_TRIM
+  cpi_median: CPI_MEDIAN
+  cpi_common: CPI_COMMON
+groups:
+  fx_daily: FX_RATES_DAILY

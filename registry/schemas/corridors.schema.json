@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/corridors.yaml",
+  "type": "object",
+  "required": [
+    "version",
+    "provenance",
+    "source",
+    "ports",
+    "crossings",
+    "corridors"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "provenance": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "key",
+        "page_en",
+        "page_fr"
+      ],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "page_en": {
+          "type": "string"
+        },
+        "page_fr": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "coord"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "object",
+            "required": [
+              "en",
+              "fr"
+            ],
+            "properties": {
+              "en": {
+                "type": "string"
+              },
+              "fr": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "coord": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "crossings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "coord"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "object",
+            "required": [
+              "en",
+              "fr"
+            ],
+            "properties": {
+              "en": {
+                "type": "string"
+              },
+              "fr": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "coord": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "corridors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "summary",
+          "provinces",
+          "location_verbatim",
+          "ports",
+          "crossings"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "object",
+            "required": [
+              "en",
+              "fr"
+            ],
+            "properties": {
+              "en": {
+                "type": "string"
+              },
+              "fr": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "provinces": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "location_verbatim": {
+            "type": "object",
+            "required": [
+              "en",
+              "fr"
+            ],
+            "properties": {
+              "en": {
+                "type": "string"
+              },
+              "fr": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "ports": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "crossings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "overlaps_provinces": {
+            "type": "boolean"
+          },
+          "unmapped_note": {
+            "type": "object",
+            "required": [
+              "en",
+              "fr"
+            ],
+            "properties": {
+              "en": {
+                "type": "string"
+              },
+              "fr": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

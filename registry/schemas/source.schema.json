@@ -1,0 +1,312 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/sources/<key>.yaml (a source card)",
+  "type": "object",
+  "required": [
+    "title",
+    "publisher",
+    "licence"
+  ],
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "publisher": {
+      "type": "string"
+    },
+    "licence": {
+      "type": "string"
+    },
+    "attribution": {
+      "type": "string"
+    },
+    "stream": {
+      "type": "string"
+    },
+    "documentation": {
+      "type": "string"
+    },
+    "message_models": {
+      "type": "string"
+    },
+    "canadian_mids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "base": {
+      "type": "string"
+    },
+    "series": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "groups": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "dataset_record": {
+      "type": "string"
+    },
+    "csv": {
+      "type": "string"
+    },
+    "edition_page": {
+      "type": "string"
+    },
+    "xlsx": {
+      "type": "object",
+      "required": [
+        "en",
+        "fr"
+      ],
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "oldest_edition": {
+      "type": "integer"
+    },
+    "ckan_api": {
+      "type": "string"
+    },
+    "mapserver_en": {
+      "type": "string"
+    },
+    "mapserver_fr": {
+      "type": "string"
+    },
+    "layers": {
+      "type": "object",
+      "required": [
+        "projects",
+        "strategies"
+      ],
+      "properties": {
+        "projects": {
+          "type": "integer"
+        },
+        "strategies": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "landing_en": {
+      "type": "string"
+    },
+    "landing_fr": {
+      "type": "string"
+    },
+    "projects_index_en": {
+      "type": "string"
+    },
+    "strategies_index_en": {
+      "type": "string"
+    },
+    "section_en": {
+      "type": "string"
+    },
+    "record_groups": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "prose_groups": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "news_index_en": {
+      "type": "string"
+    },
+    "sitemap_en": {
+      "type": "string"
+    },
+    "sitemap_fr": {
+      "type": "string"
+    },
+    "robots": {
+      "type": "string"
+    },
+    "service": {
+      "type": "object",
+      "required": [
+        "en",
+        "fr"
+      ],
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "record_api": {
+      "type": "string"
+    },
+    "fields": {
+      "type": "object",
+      "required": [
+        "status",
+        "cost"
+      ],
+      "properties": {
+        "status": {
+          "type": "object",
+          "required": [
+            "en",
+            "fr"
+          ],
+          "properties": {
+            "en": {
+              "type": "string"
+            },
+            "fr": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "cost": {
+          "type": "object",
+          "required": [
+            "en",
+            "fr"
+          ],
+          "properties": {
+            "en": {
+              "type": "string"
+            },
+            "fr": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "distribution": {
+      "type": "string"
+    },
+    "page": {
+      "type": "object",
+      "required": [
+        "en",
+        "fr"
+      ],
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "pid": {
+      "type": "string"
+    },
+    "csv_fr": {
+      "type": "string"
+    },
+    "census_vintage": {
+      "type": "string"
+    },
+    "expected": {
+      "type": "object",
+      "required": [
+        "census_subdivisions",
+        "census_divisions",
+        "provinces_and_territories"
+      ],
+      "properties": {
+        "census_subdivisions": {
+          "type": "integer"
+        },
+        "census_divisions": {
+          "type": "integer"
+        },
+        "provinces_and_territories": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "structure_en": {
+      "type": "string"
+    },
+    "structure_fr": {
+      "type": "string"
+    },
+    "elements_en": {
+      "type": "string"
+    },
+    "elements_fr": {
+      "type": "string"
+    },
+    "docs": {
+      "type": "string"
+    },
+    "vector_batch_max": {
+      "type": "integer"
+    },
+    "tables": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "pid",
+          "freq"
+        ],
+        "properties": {
+          "pid": {
+            "type": "integer"
+          },
+          "freq": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "page_en": {
+      "type": "string"
+    },
+    "xlsx_en": {
+      "type": "string"
+    },
+    "xlsx_fr": {
+      "type": "string"
+    },
+    "api": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

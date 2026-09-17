@@ -1,0 +1,302 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/palette.yaml",
+  "type": "object",
+  "required": [
+    "surface",
+    "ink",
+    "categorical",
+    "roles",
+    "sequential",
+    "diverging",
+    "status",
+    "validation"
+  ],
+  "properties": {
+    "surface": {
+      "type": "object",
+      "required": [
+        "chart",
+        "page"
+      ],
+      "properties": {
+        "chart": {
+          "type": "string"
+        },
+        "page": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ink": {
+      "type": "object",
+      "required": [
+        "primary",
+        "secondary",
+        "muted",
+        "gridline",
+        "axis"
+      ],
+      "properties": {
+        "primary": {
+          "type": "string"
+        },
+        "secondary": {
+          "type": "string"
+        },
+        "muted": {
+          "type": "string"
+        },
+        "gridline": {
+          "type": "string"
+        },
+        "axis": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "categorical": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "slot",
+          "hue",
+          "step",
+          "hex"
+        ],
+        "properties": {
+          "slot": {
+            "type": "integer"
+          },
+          "hue": {
+            "type": "string"
+          },
+          "step": {
+            "type": "integer"
+          },
+          "hex": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "roles": {
+      "type": "object",
+      "required": [
+        "goods_producing",
+        "services_producing",
+        "emphasis",
+        "de_emphasis"
+      ],
+      "properties": {
+        "goods_producing": {
+          "type": "integer"
+        },
+        "services_producing": {
+          "type": "integer"
+        },
+        "emphasis": {
+          "type": "integer"
+        },
+        "de_emphasis": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "sequential": {
+      "type": "object",
+      "required": [
+        "hue",
+        "steps"
+      ],
+      "properties": {
+        "hue": {
+          "type": "string"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "diverging": {
+      "type": "object",
+      "required": [
+        "negative",
+        "midpoint",
+        "positive"
+      ],
+      "properties": {
+        "negative": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "midpoint": {
+          "type": "string"
+        },
+        "positive": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "type": "object",
+      "required": [
+        "good",
+        "warning",
+        "serious",
+        "critical"
+      ],
+      "properties": {
+        "good": {
+          "type": "string"
+        },
+        "warning": {
+          "type": "string"
+        },
+        "serious": {
+          "type": "string"
+        },
+        "critical": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "validation": {
+      "type": "object",
+      "required": [
+        "tool",
+        "run_on",
+        "mode",
+        "surface",
+        "adjacent",
+        "all_pairs",
+        "first_three_all_pairs",
+        "sequential"
+      ],
+      "properties": {
+        "tool": {
+          "type": "string"
+        },
+        "run_on": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "surface": {
+          "type": "string"
+        },
+        "adjacent": {
+          "type": "object",
+          "required": [
+            "result",
+            "lightness_band",
+            "chroma_floor",
+            "cvd_worst",
+            "normal_vision_worst",
+            "contrast"
+          ],
+          "properties": {
+            "result": {
+              "type": "string"
+            },
+            "lightness_band": {
+              "type": "string"
+            },
+            "chroma_floor": {
+              "type": "string"
+            },
+            "cvd_worst": {
+              "type": "string"
+            },
+            "normal_vision_worst": {
+              "type": "string"
+            },
+            "contrast": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "all_pairs": {
+          "type": "object",
+          "required": [
+            "result",
+            "cvd_worst",
+            "normal_vision_worst"
+          ],
+          "properties": {
+            "result": {
+              "type": "string"
+            },
+            "cvd_worst": {
+              "type": "string"
+            },
+            "normal_vision_worst": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "first_three_all_pairs": {
+          "type": "object",
+          "required": [
+            "result",
+            "cvd_worst",
+            "normal_vision_worst"
+          ],
+          "properties": {
+            "result": {
+              "type": "string"
+            },
+            "cvd_worst": {
+              "type": "string"
+            },
+            "normal_vision_worst": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "sequential": {
+          "type": "object",
+          "required": [
+            "monotonic_L",
+            "min_adjacent_dL",
+            "note"
+          ],
+          "properties": {
+            "monotonic_L": {
+              "type": "boolean"
+            },
+            "min_adjacent_dL": {
+              "type": "number"
+            },
+            "note": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,11 @@
+# registry/sources/wikimedia_commons.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: Wikimedia Commons
+publisher: Wikimedia Foundation, files by their uploaders
+licence: commons-per-file
+api: https://commons.wikimedia.org/w/api.php
+# Flag and coat-of-arms images, chosen 2026-09-13 on the owner's decision.
+# Each file's own licence, artist and Commons restrictions ("insignia") are
+# read from the API and published with the image; a 240-pixel PNG rendering
+# is committed, not the SVG (some are 1.6 MB).

@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/mpo_naics.yaml",
+  "type": "object",
+  "required": [
+    "version",
+    "classification_source",
+    "inventory_source",
+    "join_max_km",
+    "construction",
+    "projects"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "classification_source": {
+      "type": "string"
+    },
+    "inventory_source": {
+      "type": "string"
+    },
+    "join_max_km": {
+      "type": "integer"
+    },
+    "construction": {
+      "type": "object",
+      "required": [
+        "sector",
+        "listed_when_status",
+        "evidence"
+      ],
+      "properties": {
+        "sector": {
+          "type": "string"
+        },
+        "listed_when_status": {
+          "type": "object",
+          "required": [
+            "en",
+            "fr"
+          ],
+          "properties": {
+            "en": {
+              "type": "string"
+            },
+            "fr": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "evidence": {
+          "type": "object",
+          "required": [
+            "kind",
+            "code",
+            "en",
+            "fr"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            },
+            "en": {
+              "type": "string"
+            },
+            "fr": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "projects": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "operating",
+          "inventory"
+        ],
+        "properties": {
+          "operating": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "code",
+                "asset",
+                "evidence"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "asset": {
+                  "type": "object",
+                  "required": [
+                    "en",
+                    "fr"
+                  ],
+                  "properties": {
+                    "en": {
+                      "type": "string"
+                    },
+                    "fr": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "kind",
+                      "code",
+                      "en",
+                      "fr"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "type": "string"
+                      },
+                      "code": {
+                        "type": "string"
+                      },
+                      "en": {
+                        "type": "string"
+                      },
+                      "fr": {
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "note": {
+                  "type": "object",
+                  "required": [
+                    "en",
+                    "fr"
+                  ],
+                  "properties": {
+                    "en": {
+                      "type": "string"
+                    },
+                    "fr": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "inventory": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "accept_distance_km": {
+                    "type": "integer"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "inventory_note": {
+            "type": "object",
+            "required": [
+              "en",
+              "fr"
+            ],
+            "properties": {
+              "en": {
+                "type": "string"
+              },
+              "fr": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,10 @@
+# registry/sources/geogratis_names.yaml — one source this project reads (a source card).
+# The file name is the source's key; its licence is defined in registry/licences.yaml.
+
+title: Canadian Geographical Names Database
+publisher: Natural Resources Canada
+licence: ogl-canada-2.0
+base: https://geogratis.gc.ca/services/geoname/en/geonames.geojson
+# Only used if a news release names a place with no published coordinate.
+# Every MPO project already carries official coordinates, so this is unused
+# by stage 01 today.

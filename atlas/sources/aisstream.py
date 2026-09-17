@@ -17,7 +17,7 @@ A flag is a state of registry. Two published signals are used, and kept apart:
 
 - `mmsi_mid` — a ship station's radio identity (MMSI) begins with the Maritime
   Identification Digits of the administration that issued it, allocated by the
-  ITU. Canada's are 316 (sources.yaml `aisstream.canadian_mids`). Only the
+  ITU. Canada's are 316 (registry/sources/aisstream.yaml `canadian_mids`). Only the
   nine-digit ship-station form counts: coast stations (00MID…), group calls
   (0MID…), aids to navigation (99MID…) and search-and-rescue aircraft (111MID…)
   are not vessels.
@@ -43,7 +43,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-#: Overridden by sources.yaml in the collector; the default is what was read on
+#: Overridden by the aisstream source card in the collector; the default is what was read on
 #: 2026-09-12 and what the tests use.
 CANADIAN_MIDS: tuple[str, ...] = ("316",)
 
