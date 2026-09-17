@@ -30,7 +30,7 @@ python run.py --check    # every registry file against its schema
 
 | Dataset | Writes | On the site | Read by |
 | --- | --- | --- | --- |
-| **bundle**<br>The bundle the site fetches: every dataset it shows, plus meta, country and palette | `web/public/data/events/major-projects-office/projects.json` (244 KB)<br>`web/public/data/events/major-projects-office/strategies.json` (32 KB)<br>`web/public/data/events/major-projects-office/industries.json` (52 KB)<br>`web/public/data/events/trade-corridors/corridors.json` (46 KB)<br>`web/public/data/sectors/national-monthly.json` (325 KB)<br>`web/public/data/sectors/national-constant.json` (325 KB)<br>`web/public/data/sectors/provincial-annual.json` (437 KB)<br>`web/public/data/sectors/rates.json` (1 KB)<br>`web/public/data/sectors/business-counts.json` (56 KB)<br>`web/public/data/provinces/provinces.json` (368 KB)<br>`web/public/data/country.json` (3 KB)<br>`web/public/data/palette.json` (3 KB)<br>`web/public/data/meta.json` (12 KB) | yes | `web/src/data/bundle.ts`<br>`docs/INTEROP-world-strategic-map.md` |
+| **bundle**<br>The bundle the site fetches: every dataset it shows, plus meta, country and palette | `web/public/data/events/major-projects-office/projects.json` (249 KB)<br>`web/public/data/events/major-projects-office/strategies.json` (32 KB)<br>`web/public/data/events/major-projects-office/industries.json` (52 KB)<br>`web/public/data/events/trade-corridors/corridors.json` (46 KB)<br>`web/public/data/sectors/national-monthly.json` (325 KB)<br>`web/public/data/sectors/national-constant.json` (325 KB)<br>`web/public/data/sectors/provincial-annual.json` (437 KB)<br>`web/public/data/sectors/rates.json` (1 KB)<br>`web/public/data/sectors/business-counts.json` (56 KB)<br>`web/public/data/provinces/provinces.json` (368 KB)<br>`web/public/data/country.json` (3 KB)<br>`web/public/data/palette.json` (3 KB)<br>`web/public/data/meta.json` (12 KB) | yes | `web/src/data/bundle.ts`<br>`docs/INTEROP-world-strategic-map.md` |
 
 ### business-counts
 
@@ -74,7 +74,7 @@ python run.py --check    # every registry file against its schema
 
 | Dataset | Writes | On the site | Read by |
 | --- | --- | --- | --- |
-| **major-projects**<br>The Major Projects Office portfolio: projects, strategies and what each source says exists | `data/events/major-projects-office/projects.json` (244 KB)<br>`data/events/major-projects-office/strategies.json` (32 KB)<br>`data/events/major-projects-office/coverage.json` (3 KB) | yes | `atlas/export/bundle.py`<br>`registry/checks.yaml` |
+| **major-projects**<br>The Major Projects Office portfolio: projects, strategies and what each source says exists | `data/events/major-projects-office/projects.json` (249 KB)<br>`data/events/major-projects-office/strategies.json` (32 KB)<br>`data/events/major-projects-office/coverage.json` (3 KB) | yes | `atlas/export/bundle.py`<br>`registry/checks.yaml` |
 
 ### provinces
 

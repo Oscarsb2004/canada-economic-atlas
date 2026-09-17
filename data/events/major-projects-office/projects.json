@@ -1,6 +1,6 @@
 {
   "event": "major-projects-office",
-  "generated_at": "2026-09-11T14:15:51Z",
+  "generated_at": "2026-09-17T20:39:52Z",
   "projects": [
     {
       "benefits": [
@@ -126,14 +126,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:47Z",
+          "retrieved_at": "2026-09-17T20:38:29Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "e71eb23fb972ed68818df3dd62fb386dcb2e24deb70a5858c7d130a3cf0f5276",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:47Z",
+          "retrieved_at": "2026-09-17T20:38:29Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/aesc.html"
         }
       ],
@@ -275,14 +275,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:48Z",
+          "retrieved_at": "2026-09-17T20:38:35Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "1489f15b945d751cb561fdfe710ef1618208a47029b75130efe63c2015c05c4d",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:48Z",
+          "retrieved_at": "2026-09-17T20:38:35Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/contrecoeur.html"
         }
       ],
@@ -504,14 +504,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:48Z",
+          "retrieved_at": "2026-09-17T20:38:38Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "8fc6b3a8bd129a0fe917eaf5f2bc09b7f9477cd8d70f55281e36d7d5c7fea541",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:48Z",
+          "retrieved_at": "2026-09-17T20:38:38Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/crawford.html"
         }
       ],
@@ -656,14 +656,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:48Z",
+          "retrieved_at": "2026-09-17T20:38:45Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "c743ae5b8b7d8357162e234e9869435db90f89f6f758534accb402ad894e9a50",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:48Z",
+          "retrieved_at": "2026-09-17T20:38:45Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/darlington.html"
         }
       ],
@@ -866,14 +866,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:49Z",
+          "retrieved_at": "2026-09-17T20:38:48Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "16c3d182e3117e878ba82cf351a5440b2e31e9f8f747a268fd8a0f0f43a27d07",
+          "content_sha256": "adf4de69fd5cf1deb8e88ad5ba6ce98b7f46508fe2cf3f385d6377ee7d733e2a",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:49Z",
+          "retrieved_at": "2026-09-17T20:38:48Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/geo.html"
         }
       ],
@@ -884,8 +884,17 @@
       "updates": [
         {
           "body": {
-            "en": "On June 24, 2026, the project was referred to the Major Projects Office (MPO), and the Government of Canada announced it is initiating the process toward potential listing the DGR as a project of national interest under the Building Canada Act. Before any decision is taken, consultations will be held with Indigenous communities who may be impacted by the project, to determine whether this project should be listed under the Act. These consultations will begin over the next several months, with the intent for the Minister of One Canadian Economy to make a recommendation for Governor in Council decision in the Fall.",
-            "fr": "Le 24 juin 2026, le projet a été renvoyé au Bureau des grands projets (BGP), et le gouvernement du Canada a annoncé qu’il entamait le processus visant à une éventuelle désignation du dépôt souterrain en couches géologiques profondes comme projet d’intérêt national en vertu de la Loi visant à bâtir le Canada (LBC). Avant toute décision, des consultations auront lieu avec les collectivités autochtones susceptibles d’être touchées par le projet afin de déterminer s’il devrait être désigné en vertu de la LBC. Ces consultations commenceront au cours des prochains mois, dans le but de permettre au ministre de l’Unité de l’économie canadienne de formuler une recommandation aux fins de décision pour le gouverneur en conseil à l’automne."
+            "en": "In July 2026, MPO began consultations with Indigenous communities, the provincial government, and with federal permitting departments, as a part of the process towards assessing the potential listing of the DGR project as a project of national interest under the Building Canada Act.",
+            "fr": "En juillet 2026, le BGP a entamé des consultations auprès des communautés autochtones, du gouvernement provincial et des ministères fédéraux chargés de délivrer les permis, dans le cadre du processus visant à évaluer l’inscription éventuelle du projet de dépôt souterrain en couches géologiques profondes à titre de projet d’intérêt national en vertu de la Loi visant à bâtir le Canada."
+          },
+          "date": "2026-07",
+          "date_verbatim": "July 2026",
+          "date_verbatim_fr": "juillet 2026"
+        },
+        {
+          "body": {
+            "en": "On June 24, 2026, the project was referred to the Major Projects Office (MPO), and the Government of Canada announced it is initiating the process toward potential listing the DGR as a project of national interest under the Building Canada Act. Before any decision is taken, consultations will be held with Indigenous communities, the provincial government, and with federal permitting departments, to determine whether this project should be listed under the Building Canada Act. These consultations will be held over the next several months.",
+            "fr": "Le 24 juin 2026, le projet a été renvoyé au Bureau des grands projets (BGP), et le gouvernement du Canada a annoncé qu’il entamait le processus visant à une éventuelle désignation du dépôt souterrain en couches géologiques profondes comme projet d’intérêt national en vertu de la Loi visant à bâtir le Canada (LBC). Avant qu’une décision ne soit prise, des consultations seront tenues auprès des communautés autochtones, du gouvernement provincial et des ministères fédéraux chargés de délivrer les permis, afin de déterminer si ce projet devrait être inscrit en vertu de la Loi visant à bâtir le Canada. Ces consultations se dérouleront au cours des prochains mois."
           },
           "date": "2026-06-24",
           "date_verbatim": "June 24, 2026",
@@ -1026,14 +1035,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:49Z",
+          "retrieved_at": "2026-09-17T20:38:54Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "148e1340c97e1b298f8dcd8be27c914e4435c41d00f5811919614d46a7bc550c",
+          "content_sha256": "1d817dd815412616e494224422d929d2debf41f12c7d8f03274ff020f14cbf92",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:49Z",
+          "retrieved_at": "2026-09-17T20:38:54Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/grays-bay.html"
         }
       ],
@@ -1042,6 +1051,15 @@
         "fr": "Renvoyé au BGP pour examen"
       },
       "updates": [
+        {
+          "body": {
+            "en": "In June 2026, MPO began consultations with Indigenous communities, the territorial government, and with federal permitting departments, as a part of the process towards assessing the potential listing of GBRP as a project of national interest under the Building Canada Act.",
+            "fr": "En juin 2026, le BGP a entamé des consultations auprès des communautés autochtones, du gouvernement territorial et des ministères fédéraux chargés de délivrer les permis, dans le cadre du processus visant à évaluer l’inscription éventuelle du projet de RPGB à titre de projet d’intérêt national en vertu de la Loi visant à bâtir le Canada."
+          },
+          "date": "2026-06",
+          "date_verbatim": "June 2026",
+          "date_verbatim_fr": "juin 2026"
+        },
         {
           "body": {
             "en": "On June 24, 2026, the Government of Canada announced the initiation of the process towards potential listing of the GBRP as a project of national interest under the Building Canada Act (BCA). Before any decision is taken, consultations will be held with Indigenous communities, the territorial government, and with federal permitting departments, to determine whether this project should be listed under the Act. These consultations will begin over the next several months, with the intent for the Minister of One Canadian Economy to make a recommendation for Governor in Council decision by the end of the year.",
@@ -1096,8 +1114,8 @@
           "fr": "Le Terminal de GNL KSI Lisims deviendra l’une des installations de GNL les moins émettrices au monde; elle devrait atteindre la carboneutralité une fois entièrement électrifiée."
         },
         {
-          "en": "Ksi Lisims LNG proposes to construct and operate up to two floating natural gas liquefaction structures, which together would export up to 12 million tonnes per annum (or 22.4 billion cubic meters per year) of LNG.",
-          "fr": "Il propose de construire et d’exploiter jusqu’à deux structures flottantes de liquéfaction du gaz naturel qui, ensemble, exporteraient jusqu’à 12 millions de tonnes par année (ou 22,4 milliards de mètres cubes par année) de GNL."
+          "en": "Ksi Lisims LNG proposes to construct and operate up to two floating natural gas liquefaction structures, which together would export up to 12 million tonnes per annum of LNG and provide a new market for up to 1.8 billion cubic feet per day (cf/d) of natural gas supply from Western Canadian producers.",
+          "fr": "Il propose de construire et d’exploiter jusqu’à deux structures flottantes de liquéfaction du gaz naturel qui, ensemble, exporteraient jusqu’à 12 millions de tonnes par année de GNL et ouvriraient un nouveau marché pour un approvisionnement pouvant atteindre 1,8 milliard de pieds cubes par jour de gaz naturel provenant des producteurs de l’Ouest canadien."
         },
         {
           "en": "As an Indigenous-led major project, Ksi Lisims LNG is an example of Indigenous leadership in the energy and natural resources sector, highlighting the positive benefits of Indigenous groups as project leaders in major projects. This project offers opportunities for Indigenous groups, while contributing to economic growth.",
@@ -1219,14 +1237,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:49Z",
+          "retrieved_at": "2026-09-17T20:38:56Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "4dd6252f171a9df6fc3bb5cbe0033b808e7c1c803eeb99abb1f34ea7000e4e20",
+          "content_sha256": "b2bbf7a343d6b0ce2587d86c951191a0dbd5280fde8e8891597119f0d60efcf8",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:49Z",
+          "retrieved_at": "2026-09-17T20:38:56Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/ksi-lisims.html"
         }
       ],
@@ -1235,6 +1253,15 @@
         "fr": "Renvoyé au BGP pour examen"
       },
       "updates": [
+        {
+          "body": {
+            "en": "On July 29, 2026 Ksi Lisims LNG signed a binding agreement with Germany’s Uniper SE. This first-of-its-kind deal will see Uniper purchase two million tonnes per annum (mtpa) of Canadian LNG for up to 20 years, with first deliveries expected to begin 2032.",
+            "fr": "Le 29 juillet 2026, un accord exécutoire a été signé pour le Terminal de GNL Ksi Lisims avec la société allemande Uniper SE. Dans le cadre de cet accord sans précédent, Uniper s’engage à acheter deux millions de tonnes par année de GNL canadien pendant une période pouvant aller jusqu’à 20 ans, les premières livraisons étant prévues en 2032."
+          },
+          "date": "2026-07-29",
+          "date_verbatim": "July 29, 2026",
+          "date_verbatim_fr": "29 juillet 2026"
+        },
         {
           "body": {
             "en": "On July 2, 2026, the Government of Canada and the Province of British Columbia signed the new Canada-British Columbia Cooperative Prosperity Agreement, which will further accelerate the construction of major energy and trade corridors, including Ksi Lisims LNG. The federal government will work with proponents, communities, and First Nations to accelerate the permitting, financing, and construction of this project to boost LNG supply for Canadians and our allies.",
@@ -1396,14 +1423,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:49Z",
+          "retrieved_at": "2026-09-17T20:39:00Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "ab48b96aaadc43463d9d32ca0b5cbe6c9eeba33d19f7b30b09402ff26cb1d1ef",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:49Z",
+          "retrieved_at": "2026-09-17T20:39:00Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/lng-canada.html"
         }
       ],
@@ -1634,14 +1661,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:49Z",
+          "retrieved_at": "2026-09-17T20:39:06Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "15947504081af21d95a9c3952bd69a1f5c67eaf1f95d6bec4a65f3e640464bc6",
+          "content_sha256": "137b341130448ca11fa6ff47d173453699d6d920782916210f856b3f7a8db979",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:49Z",
+          "retrieved_at": "2026-09-17T20:39:06Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mackenzie.html"
         }
       ],
@@ -1650,6 +1677,15 @@
         "fr": "Renvoyé au BGP pour examen"
       },
       "updates": [
+        {
+          "body": {
+            "en": "On September 8, 2026, Minister MacKinnon and Minister Alty announced federal funding of $405 million through the Arctic Infrastructure Fund (AIF) to advance MVH. The funding will support finalizing a portion of MVH ’s Environmental Assessment and design between Wrigley and Norman Wells; construction of the Great Bear River Bridge near Tulita; construction of Prohibition Creek Access Road – Phase 2 and preliminary engineering and design for two additional bridges – the Liard River and Mackenzie River (N’Dulee).",
+            "fr": "Le 8 septembre 2026, le ministre MacKinnon et la ministre Alty ont annoncé un financement fédéral de 405 millions de dollars par l’intermédiaire du Fonds d’infrastructure pour l’Arctique afin de faire avancer le projet de la route de la vallée du Mackenzie. Ce financement appuiera l’achèvement d’une partie de l’étude d’impact environnemental et la conception de la route de la vallée du Mackenzie entre Wrigley et Norman Wells, la construction du pont de la rivière Great Bear, près de Tulita, la phase 2 de la construction de la route d’accès au ruisseau Prohibition, ainsi que les études techniques préliminaires et la conception de deux autres ponts – sur la rivière Liard et le fleuve Mackenzie (N’Dulee)."
+          },
+          "date": "2026-09-08",
+          "date_verbatim": "September 8, 2026",
+          "date_verbatim_fr": "8 septembre 2026"
+        },
         {
           "body": {
             "en": "On August 28, 2026, Canada provided notice in the Canada Gazette that the Governor in Council may amend Schedule 1 of the Building Canada Act to list the MVH project as a project of national interest.",
@@ -1798,14 +1834,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:50Z",
+          "retrieved_at": "2026-09-17T20:39:10Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "fddeb3220f3e2d1a3c45387194047bca8982f93e6100a461403660e6ed2164e1",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:50Z",
+          "retrieved_at": "2026-09-17T20:39:10Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mcilvenna.html"
         }
       ],
@@ -2022,14 +2058,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:50Z",
+          "retrieved_at": "2026-09-17T20:39:15Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "6f5114374226a56769c051969350f9cbd1a3975c7900ada2684844f29f94269e",
+          "content_sha256": "2684ece3008bcffb713bf6331af0b2481c73e089e8dcd29bfaf531dc066d0d75",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:50Z",
+          "retrieved_at": "2026-09-17T20:39:15Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nctl.html"
         }
       ],
@@ -2038,6 +2074,15 @@
         "fr": "Renvoyé au BGP pour examen"
       },
       "updates": [
+        {
+          "body": {
+            "en": "On September 3, 2026, Minister Hodgson and Minister Robertson, alongside Premier Eby announced the start of construction for Phase 1 of the project. With support from MPO, this milestone was achieved by bringing together key partners, developing an effective financing model, and expediting the permitting process.",
+            "fr": "Le 3 septembre 2026, les ministres Hodgson et Robertson, aux côtés du premier ministre Eby, ont annoncé le début des travaux de construction de la phase 1 du projet. Grâce au soutien du BGP, cette étape importante a pu être franchie en réunissant les principaux partenaires, en élaborant un modèle de financement efficace et en accélérant le processus d’octroi des permis."
+          },
+          "date": "2026-09-03",
+          "date_verbatim": "September 3, 2026",
+          "date_verbatim_fr": "3 septembre 2026"
+        },
         {
           "body": {
             "en": "On July 2, 2026, the Government of Canada and the Province of British Columbia signed the new Canada-British Columbia Cooperative Prosperity Agreement, which will further accelerate the construction of major energy and trade corridors, including the North Coast Transmission Line. Under the agreement, the Government of Canada and the Province of British Columbia are committing $3.9 billion toward phases 1 and 2 of the project to deliver clean, reliable, and affordable electricity to communities across British Columbia.",
@@ -2185,14 +2230,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:50Z",
+          "retrieved_at": "2026-09-17T20:39:19Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "5e91832548761bd7001635478d7196d324ef3643549cc2c69b63cded80e12a7e",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:50Z",
+          "retrieved_at": "2026-09-17T20:39:19Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/northcliff.html"
         }
       ],
@@ -2359,14 +2404,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:50Z",
+          "retrieved_at": "2026-09-17T20:39:26Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "b567dba0398c4d36d349eea94fa107f6b1241c9f75d553668f453acc362faa73",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:50Z",
+          "retrieved_at": "2026-09-17T20:39:26Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nouveau-monde.html"
         }
       ],
@@ -2601,14 +2646,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:50Z",
+          "retrieved_at": "2026-09-17T20:39:31Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "54850d452372d6f372fa565d6bf7365d564172e244c27dd9c7de3e3d0247c083",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:50Z",
+          "retrieved_at": "2026-09-17T20:39:31Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nukkiksautiit.html"
         }
       ],
@@ -2760,14 +2805,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:50Z",
+          "retrieved_at": "2026-09-17T20:39:35Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "c67e277a93ed44b66f98ab4f379f6f13ed5fc43e7b385ab7790a93d06e0ffb07",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:50Z",
+          "retrieved_at": "2026-09-17T20:39:35Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/red-chris.html"
         }
       ],
@@ -2937,14 +2982,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:51Z",
+          "retrieved_at": "2026-09-17T20:39:39Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "5bbc1fa28aeb9a8a422900837118f4d93838e3acab52d5f3c44443cdae8efef2",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:51Z",
+          "retrieved_at": "2026-09-17T20:39:39Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/roberts-bank.html"
         }
       ],
@@ -3116,14 +3161,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:51Z",
+          "retrieved_at": "2026-09-17T20:39:45Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "732de16c74eba2fab1694d01f20a4d2ba3d9e936278585b639c9311752744815",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:51Z",
+          "retrieved_at": "2026-09-17T20:39:45Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/taltson.html"
         }
       ],
@@ -3300,14 +3345,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-11T14:15:51Z",
+          "retrieved_at": "2026-09-17T20:39:51Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "effea4c754e5af22c598c64f667daeae355abd8c79d2f923f5cf5df603718362",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-11T14:15:51Z",
+          "retrieved_at": "2026-09-17T20:39:51Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/west.html"
         }
       ],
