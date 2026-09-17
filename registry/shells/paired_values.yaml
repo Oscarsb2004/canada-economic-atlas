@@ -1,0 +1,26 @@
+# registry/shells/paired_values.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: check
+module: atlas.shells.check.paired_values
+title: Two renderings of one table agree, figure by figure
+contract: Given two tables as columns of values, return the first pair that differs by more than a tolerance, or
+  that is present in one and blank in the other.
+functions:
+- first_disagreement
+invariants:
+- Pairs are compared by position, never by label.
+refusals: []
+benchmark:
+- 'Golden master: stage 08 replays identically (3,998 fiscal cells at legacy-v1).'
+tests:
+- tests/test_shells_transform_check.py::test_a_blank_against_a_figure_is_a_disagreement
+limits:
+- Checking that both tables have the same shape is the caller's job.
+gotchas:
+- The French Fiscal Reference Tables carry unrounded figures the English rounds, and label Manitoba's 2011-12 row
+  2010-2011.
+used_by:
+- atlas/sources/fiscal_tables.py
+moved_from:
+- atlas/sources/fiscal_tables.py

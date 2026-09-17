@@ -1,0 +1,28 @@
+# registry/shells/image_derive.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: transform
+module: atlas.shells.transform.image_derive
+title: The two sizes of a federal rendering the app shows
+contract: Given an original image, write a 96 px circular PNG thumbnail and a JPEG no wider than 1400 px under the
+  public media folder, and return their web paths.
+functions:
+- derive
+- make_thumb
+- make_web
+invariants:
+- The same input bytes give byte-identical output files.
+refusals: []
+benchmark:
+- 'Golden master: stage 01 replays identically, including every file under web/public/media/.'
+tests:
+- tests/test_shells_transform_check.py::test_a_derived_image_is_byte_identical_on_a_second_run
+limits:
+- For photographic renderings; logos with transparency are not its job.
+gotchas:
+- A square image behind a CSS border-radius shows its corners against the globe; the thumbnail is a real circular
+  crop.
+used_by:
+- pipeline/01_projects.py
+moved_from:
+- atlas/media.py

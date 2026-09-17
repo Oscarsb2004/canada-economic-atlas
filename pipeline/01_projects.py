@@ -38,7 +38,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from atlas import media
+from atlas.shells.transform import image_derive
 from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
@@ -208,7 +208,7 @@ def _images(fetch: Fetcher, page: mpo.ParsedPage, slug: str, do_images: bool) ->
 
     raw = R.DATA_DIR / "raw" / "media" / f"{slug}{Path(page.hero_path).suffix}"
     fetch.download(url, raw)
-    thumb, web = media.derive(raw, R.WEB_PUBLIC_DIR, slug, "hero")
+    thumb, web = image_derive.derive(raw, R.WEB_PUBLIC_DIR, slug, "hero")
     return (MediaRef(source_url=url, thumb=thumb, web=web, role="hero",
                      alt=_pair(page.title, "")),)
 

@@ -48,6 +48,8 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from atlas.shells.transform import absent_cells
+
 TITLE = re.compile(
     r"^Canadian Business Counts, with employees, "
     r"(January|February|March|April|May|June|July|August|September|October|November|December) \d{4}$"
@@ -167,15 +169,7 @@ def build(header_en: list[str], rows_en: list[list[str]], header_fr: list[str], 
             if (code, sizes[0], key) not in cells:
                 raise BusinessCountsError(f"no total for {geo}, {key}: a total is never left unpublished")
             row: list[int | None] = [cells.get((code, size, key)) for size in sizes]
-            gaps = row.count(None)
-            if gaps:
-                implied = row[0] - sum(v for v in row[1:] if v is not None)
-                if implied != 0:
-                    raise BusinessCountsError(
-                        f"{geo}, {key}: {gaps} size range(s) unpublished, and the total less the published "
-                        f"ranges is {implied}, not 0 — the absent rows cannot be read as zero"
-                    )
-                absent += gaps
+            absent += absent_cells.proven_zero(row, where=f"{geo}, {key}", error=BusinessCountsError)
             counts[code][key] = row
 
     return {

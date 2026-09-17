@@ -1,0 +1,27 @@
+# registry/shells/absent_cells.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: transform
+module: atlas.shells.transform.absent_cells
+title: An unpublished part is zero only when its total says so
+contract: Given a total followed by its parts, some unpublished, count the unpublished parts once arithmetic proves
+  them zero.
+functions:
+- proven_zero
+- AbsentCellError
+invariants:
+- The row is never changed; unpublished parts stay null.
+refusals:
+- The total less the published parts is not zero, so the absent parts cannot be read as zero.
+benchmark:
+- 'Golden master: stage 03 replays identically (2,512 matched and 260 absent cells at legacy-v1).'
+tests:
+- tests/test_shells_transform_check.py::test_absent_parts_are_zero_only_when_the_total_proves_it
+limits:
+- Its refusal message names size ranges, the only kind of part it has been used for.
+gotchas:
+- StatCan business counts publish no zero rows; a size range with no businesses has no row at all.
+used_by:
+- atlas/sources/business_counts.py
+moved_from:
+- atlas/sources/business_counts.py

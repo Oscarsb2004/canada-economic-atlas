@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import logging
 
-from atlas.shells.acquire.document_text import normalise
+from atlas.shells.check import verbatim_quotes
 
 log = logging.getLogger(__name__)
 
@@ -28,14 +28,5 @@ class BudgetTextError(ValueError):
 
 
 def check(quotes: list[dict], *, pages: list[str] | None, text: str | None, where: str) -> None:
-    """Raise unless every quote is on its page (PDF) or in the page text (HTML)."""
-    for q in quotes:
-        want = normalise(q["text"])
-        if q.get("page") is None:
-            haystack = text or ""
-        else:
-            if pages is None or not 1 <= int(q["page"]) <= len(pages):
-                raise BudgetTextError(f"{where}: page {q.get('page')} is not in the document")
-            haystack = pages[int(q["page"]) - 1]
-        if want not in haystack:
-            raise BudgetTextError(f"{where}: quote not found on page {q.get('page')}: {q['text'][:80]!r}")
+    """Raise unless every quote is on its page (PDF) or in the page text (HTML); see `verbatim_quotes.check`."""
+    verbatim_quotes.check(quotes, pages=pages, text=text, where=where, error=BudgetTextError)

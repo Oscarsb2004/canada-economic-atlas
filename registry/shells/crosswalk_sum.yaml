@@ -1,0 +1,27 @@
+# registry/shells/crosswalk_sum.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: transform
+module: atlas.shells.transform.crosswalk_sum
+title: Sum published members into a declared category
+contract: Invert a declared crosswalk into one owner per member, and total a category's member values.
+functions:
+- owners
+- total
+invariants:
+- A category is missing in any period where any of its members is missing.
+refusals:
+- A member mapped to two categories.
+benchmark:
+- 'Golden master: stage 02 replays identically, including output-annual.json.'
+tests:
+- tests/test_shells_transform_check.py::test_a_member_mapped_twice_is_refused
+- tests/test_shells_transform_check.py::test_a_sum_with_a_missing_member_is_missing
+limits:
+- The sum is this project's, so what it produces is DERIVED.
+gotchas:
+- StatCan 36-10-0488 is classified by IOIC and split by institutional sector; no member of it is a NAICS sector.
+used_by:
+- atlas/sources/statcan.py
+moved_from:
+- atlas/sources/statcan.py

@@ -79,6 +79,7 @@ from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, Series, Text, to_jsonable
 from atlas.shells.acquire import statcan_table, valet_series
+from atlas.shells.check import partition_drift
 from atlas.shells.acquire.fetcher import Fetcher
 from atlas.sources import statcan
 
@@ -323,15 +324,13 @@ def check_partition(series: list[Series], tax: dict) -> None:
         log.warning("partition check skipped: missing one of T001/T002/T003")
         return
 
-    tp, gp, sp = (dict(zip(x.periods, x.values)) for x in (total, goods, services))
-    for period in sorted(set(tp) & set(gp) & set(sp), reverse=True):
-        t, g, s = tp[period], gp[period], sp[period]
-        if None not in (t, g, s) and t:
-            drift = (g + s - t) / t * 100
-            log.info("partition %s: goods+services vs all-industries = %+.4f%%", period, drift)
-            if abs(drift) > 1.0:
-                log.warning("partition drift exceeds 1%% — check the price basis")
-            return
+    found = partition_drift.latest_drift(dict(zip(total.periods, total.values)),
+                                         [dict(zip(x.periods, x.values)) for x in (goods, services)])
+    if found:
+        period, drift = found
+        log.info("partition %s: goods+services vs all-industries = %+.4f%%", period, drift)
+        if abs(drift) > 1.0:
+            log.warning("partition drift exceeds 1%% — check the price basis")
 
 
 def pull_policy_rate(fetch: Fetcher) -> dict:
