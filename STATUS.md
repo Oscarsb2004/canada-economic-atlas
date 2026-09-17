@@ -2,6 +2,12 @@
 
 _Last updated: 2026-09-12._
 
+> **Rebuild planned (2026-09-17).** The backend is being rebuilt from shells in
+> this repository. The legacy version is frozen as the tag `legacy-v1` and is
+> the answer key; the live site's workflow is paused. The plan, and the only
+> queue for the rebuild, is [`docs/REBUILD.md`](docs/REBUILD.md). Everything
+> below describes the legacy version.
+
 **The project is finished (closed out 2026-09-13).** What shipped, what was
 deliberately left, and the owner's reasons are at the top of
 [`docs/BACKLOG.md`](docs/BACKLOG.md). The next sessions validate and fix bugs;
