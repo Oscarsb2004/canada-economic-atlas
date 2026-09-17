@@ -169,6 +169,7 @@ python run.py --status   # rewrite STATUS.md from the registry
 python -m atlas.run --list               # every dataset card, by group
 python -m atlas.run --dataset <id>       # one dataset
 python verify/golden.py replay --name legacy-v1  # the restructure's identity check (stage new files first)
+python verify/golden.py live --manifest verify/golden/legacy-v1/deployed.json --url https://oscarsb2004.github.io/canada-economic-atlas
 python run.py --verify   # independent verification
 python run.py --test     # pytest
 cd web && npm run dev    # the app

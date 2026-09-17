@@ -8,6 +8,10 @@ None of these touch the network.
 
 from __future__ import annotations
 
+import argparse
+import hashlib
+import io
+import os
 import sys
 from pathlib import Path
 
@@ -155,3 +159,78 @@ def test_the_stage_list_is_read_without_importing_run_py(tmp_path):
     """Importing run.py would bootstrap a virtual environment inside the scratch copy."""
     (tmp_path / "run.py").write_text('import sys\nsys.exit("imported")\nSTAGES = {"02": "b.py", "01": "a.py"}\n', encoding="utf-8")
     assert golden.stages_of(tmp_path) == {"02": "b.py", "01": "a.py"}
+
+
+# ── The deployed site ────────────────────────────────────────────────────────
+
+class _Served:
+    """A stand-in for the deployed site: paths it serves, and everything else 404s."""
+
+    def __init__(self, files: dict[str, bytes]):
+        self.files = files
+        self.asked: list[str] = []
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+    def get(self, url, **kwargs):
+        rel = url.split("/canada-economic-atlas/", 1)[1]
+        self.asked.append(rel)
+        body = self.files.get(rel)
+        answer = _Answer(status=200 if body is not None else 404, body=body or b"")
+        response = answer(None, "GET", url)
+        # `with session.get(...)` closes the response, and a 404 is closed
+        # without its body ever being read, which reaches raw.
+        response.raw = io.BytesIO(body or b"")
+        response.iter_content = lambda size: iter([response.content] if response.content else [])
+        return response
+
+
+def _live(monkeypatch, files, manifest_path):
+    served = _Served(files)
+    monkeypatch.setattr(requests, "Session", lambda: served)
+    code = golden.cmd_live(argparse.Namespace(
+        manifest=str(manifest_path), url="https://x.test/canada-economic-atlas"))
+    return code, served
+
+
+def _manifest(tmp_path: Path, files: dict[str, bytes]) -> Path:
+    path = tmp_path / "site.json"
+    golden.write_json(path, {"files": {
+        "dist/" + rel: {"sha256": hashlib.sha256(body).hexdigest(), "bytes": len(body)}
+        for rel, body in files.items()}})
+    return path
+
+
+def test_a_site_serving_the_build_is_identical(tmp_path, monkeypatch):
+    files = {"index.html": b"<!doctype html>", "data/meta.json": b'{"app": "atlas"}'}
+    code, served = _live(monkeypatch, files, _manifest(tmp_path, files))
+    assert code == 0
+    assert sorted(served.asked) == ["data/meta.json", "index.html"]
+
+
+def test_a_site_serving_one_different_byte_is_not_identical(tmp_path, monkeypatch):
+    built = {"index.html": b"<!doctype html>", "data/meta.json": b'{"app": "atlas"}'}
+    serving = {**built, "data/meta.json": b'{"app": "atlaS"}'}
+    code, _ = _live(monkeypatch, serving, _manifest(tmp_path, built))
+    assert code == 1
+
+
+def test_a_file_the_site_does_not_serve_is_not_identical(tmp_path, monkeypatch):
+    built = {"index.html": b"<!doctype html>", "assets/index-abc.js": b"console.log(1)"}
+    code, _ = _live(monkeypatch, {"index.html": built["index.html"]}, _manifest(tmp_path, built))
+    assert code == 1
+
+
+def test_a_linux_export_writes_lf_where_a_native_one_writes_the_platform_ending(tmp_path):
+    """The runner builds on ubuntu-latest, so a build compared with it must be LF."""
+    lf = golden.export("HEAD", tmp_path / "lf", eol="lf")
+    native = golden.export("HEAD", tmp_path / "native")
+    assert lf == native
+    body = (tmp_path / "lf" / "web" / "index.html").read_bytes()
+    assert b"\r\n" not in body
+    if os.linesep == "\r\n":
+        assert b"\r\n" in (tmp_path / "native" / "web" / "index.html").read_bytes()
