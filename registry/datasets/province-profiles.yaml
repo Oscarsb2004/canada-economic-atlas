@@ -1,0 +1,35 @@
+# registry/datasets/province-profiles.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run --dataset province-profiles` builds it; atlas/core/registry.py checks every claim below.
+
+title: 'Every province and territory: finances, sector shares, budget passages and symbols'
+group: provinces
+order: 10
+builder: atlas.datasets.province_profiles:build
+params: {}
+sources:
+- finance_fiscal_reference_tables
+- statcan_gdp_shares_provincial
+- statcan_wds
+- pch_provincial_symbols
+- wikimedia_commons
+- provincial_budgets
+shells:
+- fetcher
+- workbook_edition
+- paired_values
+- statcan_table
+- commons_media
+- document_text
+- verbatim_quotes
+after: []
+outputs:
+- data/provinces/provinces.json
+media_outputs:
+- web/public/media/provinces
+frame:
+  profile: panel
+  record_type: observation
+on_screen: true
+consumed_by:
+- path: pipeline/99_bundle.py
+  how: copied into the site bundle, web/public/data/

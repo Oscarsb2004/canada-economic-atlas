@@ -36,7 +36,7 @@ gotchas:
 used_by:
 - atlas/datasets/statcan_sectors.py
 - atlas/datasets/business_locations.py
-- pipeline/08_provinces.py
+- atlas/datasets/province_profiles.py
 moved_from:
 - atlas/sources/statcan.py
 - pipeline/03_business_counts.py
