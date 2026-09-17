@@ -102,11 +102,13 @@ source card carries its licence, read and dated before its data was used.
 ```bash
 python run.py --test                             # the test suite
 python run.py --verify                           # independent verification of the published files
-python verify/golden.py replay --name legacy-v1  # the restructure's identity check
+python verify/golden.py replay --name refreshed-2026-09-17  # the identity check
 python verify/golden.py live --manifest verify/golden/legacy-v1/deployed.json \
     --url https://oscarsb2004.github.io/canada-economic-atlas   # what the published site serves
 ```
 
-The golden master is the tag `legacy-v1`: the project as it stood before the restructure, run once
-with every download recorded. Any step of the restructure must reproduce its output byte for byte,
-and the site the published URL serves must be the site this repository builds.
+A golden master is one whole run, recorded: every download stored and the clock frozen, so any later
+revision can be run on exactly those inputs and its output compared byte for byte. `legacy-v1` is the
+project as it stood before the restructure, and proved every step of it. `refreshed-2026-09-17` is the
+current one, recorded on the data committed today. The site the published URL serves must also be the
+site this repository builds, which is what `golden.py live` checks.

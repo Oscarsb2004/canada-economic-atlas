@@ -1,0 +1,8 @@
+{
+  "changed": [
+    "data/provinces/provinces.json",
+    "web/public/data/provinces/provinces.json"
+  ],
+  "extra": [],
+  "missing": []
+}

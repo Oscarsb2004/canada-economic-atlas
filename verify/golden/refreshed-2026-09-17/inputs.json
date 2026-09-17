@@ -1,0 +1,1185 @@
+{
+  "clock": "2026-09-17T21:30:00+00:00",
+  "exported": "3fbe2173a5b9c11a2186fc1df14121f3519101f4",
+  "http": [
+    {
+      "content_type": "application/geo+json;charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson",
+      "sha256": "843191de357dd58e4d6266fdb927872799f010b5c50c8de6a2b18a2eab037b38",
+      "status": 200
+    },
+    {
+      "content_type": "application/geo+json;charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_fr/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson",
+      "sha256": "d8082280f67d6f7d90fa8ca36dfbb2c284532362b987ed3b3b556368d02ccd2b",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office.html",
+      "sha256": "2941927a1215105e29867e6afd1ebb8c34ac28dff91172e67a9b3bd816ff554a",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/about-us.html",
+      "sha256": "7d57caafa0bc147f7d3085dc0531ef158519bf701a5f315717a0399943df12ea",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/our-priorities.html",
+      "sha256": "3602cb137774c7c12c4b6ae9b4c7cf26d2271e0664fd144e1e6bdf2039e211e6",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/our-priorities/projects-transformative-strategies.html",
+      "sha256": "11cbd61f6e2597b2785ecd5ce55da2cbeca12c7b17784bdbdd7c983565aa4523",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/proponent-intake-form.html",
+      "sha256": "f0ae4337820ef10be5fe0be6d391c503d790b587c81608543c281619473687ac",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/map.html",
+      "sha256": "ebfad72cd136ef9eab9121beb99928ea388e5a3030906af39405e198fc8ccab8",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/alto.html",
+      "sha256": "b02682095bbf162c931a234049fe90906c65be1eac42578e4386b82598e2215b",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/aesc.html",
+      "sha256": "d8544b165e648442970b332c842b22efea027d91f0947f581e33f692ed64961f",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/wind-west.html",
+      "sha256": "4fe09daf69339571dfa82236d444db18f01e3801b8cde9783bc14e75583ddb54",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/crawford.html",
+      "sha256": "9d99bca1f4ce579a89a69cf4999a5257a73302586148e400625ddf2fd6515810",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/contrecoeur.html",
+      "sha256": "8884e99c89830c00c1a05be3d3e6f2caca937ead1ce116871ad9ffdfffc9b07a",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/critical-minerals.html",
+      "sha256": "8cfd56f87e5f530d8796b005b87306e3bbcf7e78ab7542307e20ff88e74e3f8d",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/darlington.html",
+      "sha256": "e0ea2557d073ebc689bd32db1580918c3858152bfa07325818491f02c2e08e39",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/geo.html",
+      "sha256": "e9cb37af4c1a40db2a1326d9cce3636d3b3e90c863c1b542b58e9dcf4012e8ea",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/grays-bay.html",
+      "sha256": "d93ad785c255c7baaedec963ff9504500d08625f69fddab5f6800a8945178013",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nukkiksautiit.html",
+      "sha256": "3bc57e1f2cc7b69964b20de0ca8aa0ce7b44722bd407a4df27fb6aafa377367c",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/ksi-lisims.html",
+      "sha256": "f412a3ba77538b44be63a264693cc23a8e84e4359abc0f2b03379a4328ae5c38",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/labrador.html",
+      "sha256": "4bd385bc1c4eea5526fbe06546845bbc8a3956d87e5b821b6e9691b9a3ed9c5b",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/lng-canada.html",
+      "sha256": "1c7e3c954853391adb77adce4ed3b17584575a32101b5623eceb7425aacbddf2",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mackenzie.html",
+      "sha256": "82f29781d8beeeaba3db84c1e6edceebbfe04faaf02c6e16f7bbd2bc8d60af80",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mcilvenna.html",
+      "sha256": "cd9e36abae8f06ffff44afb02dacbffa19b11949ee804b749f1995613c855f41",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nctl.html",
+      "sha256": "fa0c24c1997a2047ef7c49f129830e6ba113683109bf65f6ec08c7f7b05178df",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/northcliff.html",
+      "sha256": "37f73f96bd0ef5f3599d4690086a52ebfbe70fb5c701ac3d78ba05bb1fbaa724",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/corridor.html",
+      "sha256": "d226d2cefbd97c093234482c466797cda35a1cbee71937ee05e8058fd4d5af5b",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nouveau-monde.html",
+      "sha256": "c645aafa3000d4bffd6e8b0888ace829eed13e59a790013911c77070ff4214d3",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/pathways-plus.html",
+      "sha256": "d2aab98f686d2b2a4ccac50c8311fcdc125757111bec48d648da311d0885f9bd",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/churchill-plus.html",
+      "sha256": "5b9f646b2e80600f331b48c3091d5d742174ae29cc5790f5bd5b22ac5f6c2afa",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/vancouver.html",
+      "sha256": "8faacdc9a26ec26994febec7ec86f039b86996ece2538386d327d63e7f2e7a40",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/red-chris.html",
+      "sha256": "748f3089e15717a867bb687759465b9966b39cf3ce2b854fd2ed0a9751acd0b2",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/roberts-bank.html",
+      "sha256": "49155a740b264f0ca8ca487e61f5c1398865c62ac5f47ad07befe5634fbb037a",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/taltson.html",
+      "sha256": "ed92f4e11bb1845d22f2676d1a76d12c13b01d04a158d05cadfc2e1f5a848f38",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/interconnect.html",
+      "sha256": "02ac5049cd36e9e4557bf549fd7e7b96f77dcb2e1d74d50f46fa968fcc09a6db",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national/west.html",
+      "sha256": "ffd71555e28e7a8370e4e048ca5486fa4d8fda58dffa1581f2df9e2d589f1e77",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/partnering-indigenous-peoples.html",
+      "sha256": "d270182cd7dcb6c2d040d2bf155ed903dc16b8a58d2192dcd8d76b2e23a32a8a",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/advancing-nation-building-projects.html",
+      "sha256": "4c3fe23ee9b99c777dbf3490abd2bc81318879d85c27718bf40f6d99bb6e08e6",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/supporting-proponents.html",
+      "sha256": "8170dec04e49c0bd2150775c5d098769b0015d2f88aa26defc83039c531fbe42",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/contact-us.html",
+      "sha256": "337b12d2c35817d2d8f9a2ca187ea2a488a4f69127d015aa7ae3052823b2c5f2",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/news.html",
+      "sha256": "438e135b8d948b5ab388153cd3a62c5de2aa159b359ebdd01a704c20a5e890f0",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/national.html",
+      "sha256": "85ea553431dcb1d9f024fd8490f5f0f3c28d1af3b38d135b632072929601dca5",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred.html",
+      "sha256": "e3c307011024d011ca17cd5190dee31223ba3a240522bcef9a4d52ebe2a371c6",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/other.html",
+      "sha256": "1d93e877905d98bbfb86abfa8cae1f2964b585cba9d4726f8c47a58eedbdd3cf",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/projects/other/referred/pathways-plus/memorandum-understanding.html",
+      "sha256": "c10524cec7b73edab387ff0dad73023f56f81728655681b82b6a96bd4da8a881",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/partnering-indigenous-peoples/council.html",
+      "sha256": "01c271402981b9dfe32844ac19ab160a51b7d44931ed454531bffc9e22982dfb",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/partnering-indigenous-peoples/first-nations-virtual-regional-engagement-sessions.html",
+      "sha256": "f12a76c6268ec83f5c64d0011a0b76b0de3777395d8bb42bf3119320da18a920",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/partnering-indigenous-peoples/participant-funding-support-indigenous-participation-major-projects-consultations.html",
+      "sha256": "b7c40b762258b55f65fb0dcae36f8c5e2917e111dbcf86b1d147314c02a93228",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/advancing-nation-building-projects/projects-designated-under-building-canada-act.html",
+      "sha256": "84b77899078574d06cb1cf7c1bf2e3cf75bcc7fd563f2919a4fda73aac7a4b5a",
+      "status": 404
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/privy-council/major-projects-office/partnering-indigenous-peoples/council/terms-reference.html",
+      "sha256": "8a0f3bc61c3e757d1ecd0564526dea7d828799c6895bdfeb99c041bd0fd2a6e8",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/aesc.html",
+      "sha256": "02e717e772ebb93cb53ba0835a1164976755c409f1098abf0d5bf82bc28e33fa",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/contrecoeur.html",
+      "sha256": "5e0ac978faad51a3ec65ff0ba5dc146e064bbd58009ad174d3779cabaf466bcf",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/crawford.html",
+      "sha256": "7e917cc2ff121d893067b9ec104fdabc8ce0d443a170b1383dbb8ff3802de57a",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/darlington.html",
+      "sha256": "d2c0a48f54b4e7fd6d6f483163954eed0229666f11126a6806a0624cd0ed4028",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/geo.html",
+      "sha256": "f1acb7bc543ae8c98bc7c8021575da7641972c14d8369a6a92c77cef66e6e865",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/grays-bay.html",
+      "sha256": "4761bf390320675797cff4ca046722cd924fcde7ef7faeb0bc5f5eed9ced949c",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/ksi-lisims.html",
+      "sha256": "31b3019f75f41c6dd20b26942976c89de1415d7835c66a372ffd3bbd8d2241ca",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/lng-canada.html",
+      "sha256": "38e3c8d8b8526ca01d6d1210f4ba79820596ecfc4bafa4b565b434167146d8f9",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/mackenzie.html",
+      "sha256": "81886ce3c6fe9f6fca6b24787915e9b791dcb653de857a904017b1959fffa34e",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/mcilvenna.html",
+      "sha256": "9c4d6a27c86c9c66216b3370e4a02f5b8ca579d0a2825132f31de179930a4b0a",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/nctl.html",
+      "sha256": "da8bdb068490f328adf8e269bb0805083fa5743cace8eb21d01c02a70f4042a0",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/northcliff.html",
+      "sha256": "06536e6071e9b648918cc525d30f2463ca4f806b762d2701ddb5cc10a3539bde",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/nouveau-monde.html",
+      "sha256": "fb3bfb1fc09654b236e8f9959ebe040eb22aa5c572e2c542835b1f2e12de1f2a",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/nukkiksautiit.html",
+      "sha256": "240e7c0ca5695e2c68f174dd52c96bc4ae97a5d45a2d2c83a6c63602d3b7b64c",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/red-chris.html",
+      "sha256": "db6854c31cde934afa0196731fa2e9d9b56fbeffe0d5dbbc147e6cd2b1ed4cf0",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/roberts-bank.html",
+      "sha256": "663237a7e40b297aad0da5bd04692949ad8b74c58217f8780630ac5783b17fea",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/taltson.html",
+      "sha256": "5af0397a0d0374a73dddeaa0e7a90dfc79e19c722f7d9d38e02ffd84d3dc4a71",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/conseil-prive/bureau-grands-projets/projets/national/ouest.html",
+      "sha256": "59124e3d975f0f75392fc3446a824ccd36a94f184286ec3c8ebaa35a75aed5ea",
+      "status": 200
+    },
+    {
+      "content_type": "application/json;charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_fr/MapServer/2/query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
+      "sha256": "0ba384c40ed0438b453785f2e0f4c1b0bf7b864e121d88b7c2c1673131e68d8d",
+      "status": 200
+    },
+    {
+      "content_type": "application/json;charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/2/query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
+      "sha256": "9b750df4588335dfb59b3f2793a4513b2eda9d21cbbbf919480ea01b785be33a",
+      "status": 200
+    },
+    {
+      "content_type": "application/json",
+      "encoding": "utf-8",
+      "key": "POST https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata body:0ca5cb9dc7e74b483311afb251162212b8ca447fd2c895bb894ecc0905caae31",
+      "sha256": "f279c8d6c61860440cf870d6b85efded421c3735d0d37fce3181456386140024",
+      "status": 200
+    },
+    {
+      "content_type": "application/json",
+      "encoding": "utf-8",
+      "key": "POST https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata body:0ca5cb9dc7e74b483311afb251162212b8ca447fd2c895bb894ecc0905caae31",
+      "sha256": "f279c8d6c61860440cf870d6b85efded421c3735d0d37fce3181456386140024",
+      "status": 200
+    },
+    {
+      "content_type": "application/json",
+      "encoding": "utf-8",
+      "key": "POST https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata body:755a545e4771e6c39a400ae35479a02465efcac0ce39889db42a6f62817cbb2e",
+      "sha256": "e43863b79e0a740134850b406ff54ff7a83bc43686562df5ac8a4b4151103461",
+      "status": 200
+    },
+    {
+      "content_type": "application/json",
+      "encoding": "utf-8",
+      "key": "POST https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata body:2952d70c7ab4018167e9b621d0134483d402e54bfb765b051bdd7baca272a7f8",
+      "sha256": "0b9c582d822131d0214fd7cc04b6a9c5361bf32d3680917eb072bb6be4dcd6d2",
+      "status": 200
+    },
+    {
+      "content_type": "application/json",
+      "encoding": "utf-8",
+      "key": "POST https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata body:37f03b4dd8829d9b02cb0a1679649557ab97a9e4fdccb64fe3d5a40e830936ce",
+      "sha256": "1b7ad4b0e578f0cb8835a86704412af76541eeb456e80277aafd32b8468d1000",
+      "status": 200
+    },
+    {
+      "content_type": "application/json",
+      "encoding": "utf-8",
+      "key": "POST https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata body:00a5ec208c80325717a821a9b2ed1a04b6f8816b84c31bb65bf52d6d572a818a",
+      "sha256": "d7d548e1c4f7220276030fca5d198076b65e7493911b47e20f1046070a30fc81",
+      "status": 200
+    },
+    {
+      "content_type": "application/json",
+      "encoding": "utf-8",
+      "key": "POST https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata body:094fb0bf63df4aa275b28839f760d819186cd3862f9c2c3709a3e433dba3153b",
+      "sha256": "bf21645b999a98ab32696495023ca0a967f188fcac110b6f880c924458326e18",
+      "status": 200
+    },
+    {
+      "content_type": "application/json; charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.bankofcanada.ca/valet/observations/V39079/json?recent=1",
+      "sha256": "b5eb284e6b225e987550de39e98cf9dd5dab117d779fb8281dfb3d39231e3a9a",
+      "status": 200
+    },
+    {
+      "content_type": "application/json",
+      "encoding": "utf-8",
+      "key": "GET https://www150.statcan.gc.ca/t1/wds/rest/getAllCubesListLite",
+      "sha256": "3325682a6d48d9d510935365191ec4da0e595351275f834b9897d568aea59396",
+      "status": 200
+    },
+    {
+      "content_type": "application/json",
+      "encoding": "utf-8",
+      "key": "POST https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata body:52af1c5423514fde21d382f80b44401eea3ce5a5699cd21aebc383eb80c88e0d",
+      "sha256": "73e27501c61ae1843d7b840bd7472ba92aaa8e7836f00fcc6c1fd2fe23aa5021",
+      "status": 200
+    },
+    {
+      "content_type": "text/html; charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://tc.canada.ca/en/corporate-services/transparency/corporate-management-reporting/transportation-canada-annual-reports/transportation-canada-2024/role-canada-s-transportation-network",
+      "sha256": "f94d72072f08f328d26a9814157a0099b1347f9788056936c2ac5549202306f3",
+      "status": 200
+    },
+    {
+      "content_type": "text/html; charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://tc.canada.ca/fr/services-generaux/transparence/gestion-rapports-ministeriels/rapports-annuels-transports-canada/transports-canada-2024/role-reseau-transport-canadien",
+      "sha256": "695f851bec17e42e6f358d6748fd37bcfd1cca0ced9c8fc77fddaff2535af626",
+      "status": 200
+    },
+    {
+      "content_type": "text/csv; charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://www.statcan.gc.ca/eng/statistical-programs/document/naics-scian-2022-structure-v1-eng.csv",
+      "sha256": "b141a22f08a9b825e55c7eebc49fcc842d3b2f3734a672052b7ae8fdb27eff80",
+      "status": 200
+    },
+    {
+      "content_type": "text/csv; charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://www.statcan.gc.ca/fra/programmes-statistiques/document/naics-scian-2022-structure-v1-fra.csv",
+      "sha256": "77bc6ba4f7af3994f88ed3dac7a74bd63b9cdd5e4f93e2f88e145e1a085c0673",
+      "status": 200
+    },
+    {
+      "content_type": "text/csv; charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://www.statcan.gc.ca/eng/statistical-programs/document/naics-scian-2022-element-v1-eng.csv",
+      "sha256": "09c816471b222eaf1c1af0a38b166185595bc28857ec7fe158298b96d5be5439",
+      "status": 200
+    },
+    {
+      "content_type": "text/csv; charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://www.statcan.gc.ca/fra/programmes-statistiques/document/naics-scian-2022-element-v1-fra.csv",
+      "sha256": "dea259bed798b0f5ee6cabb6cc1ab625826de06c421336e182b2954c9514f4f5",
+      "status": 200
+    },
+    {
+      "content_type": "application/json;charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/major_projects_inventory_en/MapServer/0/query?where=1%3D1&outFields=%2A&returnGeometry=true&outSR=4326&orderByFields=OBJECTID+ASC&resultOffset=0&resultRecordCount=1000&f=json",
+      "sha256": "11510d36b5a78da095364122606a121106c927c880fdfc5fba3d26b63f1e4d70",
+      "status": 200
+    },
+    {
+      "content_type": "application/json;charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/major_projects_inventory_fr/MapServer/0/query?where=1%3D1&outFields=%2A&returnGeometry=true&outSR=4326&orderByFields=OBJECTID+ASC&resultOffset=0&resultRecordCount=1000&f=json",
+      "sha256": "91f12e012bfc0bebd9a73225d0f29883b84edc81942c429d763ed1e02aa0e0e3",
+      "status": 200
+    },
+    {
+      "content_type": "application/json;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://open.canada.ca/data/api/action/package_show?id=f5f2db55-31e4-42fb-8c73-23e1c44de9b2",
+      "sha256": "51e84edd2422c3b6a9c8d1acadb3d81c8508921acdb6b349a54331cb39cd7fa2",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/content/dam/fin/publications/frt-trf/2027/frt-trf-27-eng.xlsx",
+      "sha256": "5f110acd087aa54aab7afbf47315035e68514b740ee047be12793adfbbd2080e",
+      "status": 404
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/content/dam/fin/publications/frt-trf/2026/frt-trf-26-eng.xlsx",
+      "sha256": "5f110acd087aa54aab7afbf47315035e68514b740ee047be12793adfbbd2080e",
+      "status": 404
+    },
+    {
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "encoding": null,
+      "key": "GET https://www.canada.ca/content/dam/fin/publications/frt-trf/2025/frt-trf-25-eng.xlsx",
+      "sha256": "3c671a2e3ad317cdfa2c9e7773e50ac934ac9e4fc626c31ae33cdffa107a1b9f",
+      "status": 200
+    },
+    {
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "encoding": null,
+      "key": "GET https://www.canada.ca/content/dam/fin/publications/frt-trf/2025/frt-trf-25-fra.xlsx",
+      "sha256": "c1e618f8245526955e87551dd068e65028d974b26795238732dee8b4b4f92675",
+      "status": 200
+    },
+    {
+      "content_type": "application/json",
+      "encoding": "utf-8",
+      "key": "POST https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata body:1a871318447e67d071b721481d2ded586307cc92fa1c4ca0b778b8724c0c3308",
+      "sha256": "d56a8314d1031c34262fcceb85f06d5e6c434b23bec70dafbed2fc021316824b",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/newfoundland-and-labrador.html",
+      "sha256": "19d9f59fa7c422931b854f61e853d549a0a4afd4b369ac482ca207f3d127d4d0",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/terre-neuve-et-labrador.html",
+      "sha256": "14da26f90bab89307275560c904e4f0db59214f9e7b9dd7c43dd1fe2951e0109",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/prince-edward-island.html",
+      "sha256": "4050eb0dc2d6df59b797f29d8ff612a65c3c56e12914bb6e35016a47b5cca5a4",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/ile-du-prince-edouard.html",
+      "sha256": "6552d7fce56c1e836047140f50de006afa6c35a7f8d40110364b8da0087223af",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/nova-scotia.html",
+      "sha256": "7833e85d258055eae73e219c27a0cc3a84cb46fd43a8a22ee0fe8bab6ed9fd07",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/nouvelle-ecosse.html",
+      "sha256": "5536e780c6bc928a71f18ca717cc4f560fdc24c9773bf4292fb4bebf29de5a53",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/new-brunswick.html",
+      "sha256": "c67f9cbb70ddae5e3edd2fbdf7a1c7f25e26984e2ec442ca1fa40ff17bd35b16",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/nouveau-brunswick.html",
+      "sha256": "5c1fc37df7917cb4e12cde0b4a5c0ed119e356b2170c55cb2f7cce04f3b1d376",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/quebec.html",
+      "sha256": "9bc6a67272a8d0e5cd5a3825db97f8024e314ad767b845790b21928268aadd80",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/quebec.html",
+      "sha256": "f72c828d7df476d07feb93e7362e939098443ec64ed8dcc5e9c310b3e213f608",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/ontario.html",
+      "sha256": "9ef6765dd6bcc49971f433061a0d65fcf6a770a8e01a7cfe208a7ddb9a7dad2a",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/ontario.html",
+      "sha256": "c54a62c34d0c5424725d6ef5c054637bcacb0c06d09c46fca4b351a8af98705d",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/manitoba.html",
+      "sha256": "613a71d17d3a30058d0cc1c2b0d91b5c93e198345ff53a52faa5e930bf9a76cc",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/manitoba.html",
+      "sha256": "ca99b895d0e49a63652f448bb54467ceb32f04cbdd335a30619948f22cce95cb",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/saskatchewan.html",
+      "sha256": "ae0ce55ed9ec424f2d919d5dcfb633cf3858d115c73a721c4ff5eb0a30eccce2",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/saskatchewan.html",
+      "sha256": "db218f8a14c57d85486c30ca13bea49a00b8016ffffe1a2532c3916e243fb8e2",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/alberta.html",
+      "sha256": "3f79115427513dd11422f2efcd5db488d967d9b86d0f409f0a1b253ca0adb7c9",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/alberta.html",
+      "sha256": "c10451e5ccb33ba70424d1bec849a79747950c176eddfff83706dc11c16d8e41",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/british-columbia.html",
+      "sha256": "3291500d1cb0ef4c9d7e86104ba4185e38a78ee097699e0d307937a156880eb0",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/colombie-britannique.html",
+      "sha256": "85258ac28016ffe836e0142c213c602d97747699f5c7c37601a672e4bad1f610",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/yukon.html",
+      "sha256": "d23d97e4524672287b9f0eeb943b17d2f67bf6676f8da31e6ca7986ca34d8629",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/yukon.html",
+      "sha256": "4e1d7df6b285e238e187382cf860c781b42bd9580df52ee3f4c2ef7011c97be5",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/northwest-territories.html",
+      "sha256": "d9ef705cbb1a9d205221c3974e7d00972258da7973aa1b2a6d616e50596fbba0",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/territoires-du-nord-ouest.html",
+      "sha256": "01683f35491bae8d2abfe7a843af824f75c5d66e1746377ba808ae0d02c9c848",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/nunavut.html",
+      "sha256": "ad26a03748dd2d6c49ff0febe3b5dfd512e1e6ea540e6ca37ed94841997db40a",
+      "status": 200
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/nunavut.html",
+      "sha256": "555fef2f9e6012fbe7bfa3a2b3bfc6800f140f55b06a44afb04b33055db18cee",
+      "status": 200
+    },
+    {
+      "content_type": "application/json; charset=utf-8",
+      "encoding": "utf-8",
+      "key": "GET https://commons.wikimedia.org/w/api.php?action=query&format=json&titles=File%3AFlag+of+Newfoundland+and+Labrador.svg%7CFile%3ACoat+of+Arms+of+Newfoundland+and+Labrador.svg%7CFile%3AFlag+of+Prince+Edward+Island.svg%7CFile%3ACoat+of+arms+of+Prince+Edward+Island%2C+Canada.svg%7CFile%3AFlag+of+Nova+Scotia.svg%7CFile%3ACoat+of+arms+of+Nova+Scotia.svg%7CFile%3AFlag+of+New+Brunswick.svg%7CFile%3ACoat+of+arms+of+New+Brunswick%2C+Canada.svg%7CFile%3AFlag+of+Quebec.svg%7CFile%3ACoat+of+arms+of+Quebec.svg%7CFile%3AFlag+of+Ontario.svg%7CFile%3ACoat+of+arms+of+Ontario.svg%7CFile%3AFlag+of+Manitoba.svg%7CFile%3ACoat+of+arms+of+Manitoba.svg%7CFile%3AFlag+of+Saskatchewan.svg%7CFile%3ACoat+of+arms+of+Saskatchewan.svg%7CFile%3AFlag+of+Alberta.svg%7CFile%3ACoat+of+arms+of+Alberta.svg%7CFile%3AFlag+of+British+Columbia.svg%7CFile%3ACoat+of+arms+of+British+Columbia.svg%7CFile%3AFlag+of+Yukon.svg%7CFile%3ACoat+of+arms+of+Yukon.svg%7CFile%3AFlag+of+the+Northwest+Territories.svg%7CFile%3ACoat+of+arms+of+Northwest+Territories.svg%7CFile%3AFlag+of+Nunavut.svg%7CFile%3ACoat+of+arms+of+Nunavut.svg&prop=imageinfo&iiprop=url%7Csha1%7Cextmetadata&iiurlwidth=240&iiextmetadatafilter=LicenseShortName%7CLicenseUrl%7CArtist%7CRestrictions%7CCredit",
+      "sha256": "5f13949f43e5c5a61b9230f4c65797d92f1dd60a842421a9054561881e45f229",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Flag_of_Newfoundland_and_Labrador.svg/250px-Flag_of_Newfoundland_and_Labrador.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "3bef8e663eaa92a07d909da3feb47c7d1dfadb8d35cefa0b91585a4a2257b556",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Coat_of_Arms_of_Newfoundland_and_Labrador.svg/250px-Coat_of_Arms_of_Newfoundland_and_Labrador.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "ce743301e73ff4bec1f518b432c2e2f6297b809f3cce3d9af3c7ef21e2257acf",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Flag_of_Prince_Edward_Island.svg/250px-Flag_of_Prince_Edward_Island.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "313c40f51bf4a835aa4711934e0425118034272a112f057eb2278025e46763d4",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Coat_of_arms_of_Prince_Edward_Island%2C_Canada.svg/250px-Coat_of_arms_of_Prince_Edward_Island%2C_Canada.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "5f1b110f4a24c8640c8ddaa491c5f5f7f5f40a67e0e640127509e50f5a973bb2",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Flag_of_Nova_Scotia.svg/250px-Flag_of_Nova_Scotia.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "ed7202cf6668b1f59f3d516f3ddd66b9dd7992b6cce1ae088a145d30dc83902d",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Coat_of_arms_of_Nova_Scotia.svg/250px-Coat_of_arms_of_Nova_Scotia.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "4624e09b87e114c6550fb2d6a637f580a12be5cd746c87f65c7cc5312dc371f5",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Flag_of_New_Brunswick.svg/250px-Flag_of_New_Brunswick.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "d65ff7f1c648fb73dc4b46d942fbe744245f52c3a9e62b9ec00fa1958d23bf73",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Coat_of_arms_of_New_Brunswick%2C_Canada.svg/250px-Coat_of_arms_of_New_Brunswick%2C_Canada.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "e5b8fe599ba39c87cf3478280f3c0338371b2e26b2e5c4ec419db4f97c729105",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Flag_of_Quebec.svg/250px-Flag_of_Quebec.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "8b0706351b77c268e43317b67e7eae4ed8b890032d78e349ebfe5bbd491f5df8",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Coat_of_arms_of_Quebec.svg/250px-Coat_of_arms_of_Quebec.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "687f8afee7d404827851756ad994cf1ced2acb2430286c2be36abdff9d7782c1",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Ontario.svg/250px-Flag_of_Ontario.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "6c3d3b2bfa9cc1a3ae09bdf1f33b1d48fe48a0b63ccb1814b9fb2edaad8a31bd",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Coat_of_arms_of_Ontario.svg/250px-Coat_of_arms_of_Ontario.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "4b6ee6efafec1de14d8d45dea3edf2801012b85036ea235b30dc537c65237e69",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Flag_of_Manitoba.svg/250px-Flag_of_Manitoba.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "b46ddea5f3652dc8523204ee24be1b53863221792bfc3a4c3c0486c7399797d2",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Coat_of_arms_of_Manitoba.svg/250px-Coat_of_arms_of_Manitoba.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "22289931943930447799dfdfd8f6d2213a9ee4ee31e24e1f514cbb8c1ec6186e",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Flag_of_Saskatchewan.svg/250px-Flag_of_Saskatchewan.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "c02d16c28d8124930f0dcf292449cd8da8d105402eff4a5192fd372476c251c2",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Coat_of_arms_of_Saskatchewan.svg/250px-Coat_of_arms_of_Saskatchewan.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "fd55f96ccc23b9f08b9fe22c95711aa661ff3a30a3032c7eabb90789dbaf2b16",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Flag_of_Alberta.svg/250px-Flag_of_Alberta.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "66f747b899b37cafea22921506c47cd368d98c2498e6ff08983f4ad6070ae7b0",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Coat_of_arms_of_Alberta.svg/250px-Coat_of_arms_of_Alberta.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "5a2ba84beb8b847c3527b51723589a685271c374348ad92b2a661ec51293d7ce",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Flag_of_British_Columbia.svg/250px-Flag_of_British_Columbia.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "bff753723f14bc785d361192f7207a96b149ef7ad10a68f03861f336c6ca2294",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Coat_of_arms_of_British_Columbia.svg/250px-Coat_of_arms_of_British_Columbia.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "67772781d9929a71b1f4c6834cbe0dd5174d83f46c553cd6506675f6d79fb199",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Flag_of_Yukon.svg/250px-Flag_of_Yukon.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "d3665d5ec0011ff12171732c5991264f5e480b78a9eb6d2919f9e863a750b340",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Coat_of_arms_of_Yukon.svg/250px-Coat_of_arms_of_Yukon.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "baa33fdaffb77db71e13da673b7ca4afd27edefe24d05f8b6e82347e59d559e5",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Flag_of_the_Northwest_Territories.svg/250px-Flag_of_the_Northwest_Territories.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "6e155ff23ccf023bc54df9d0ec338bfd3d606eccb9ba0ae2199288db42363cb4",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Coat_of_arms_of_Northwest_Territories.svg/250px-Coat_of_arms_of_Northwest_Territories.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "0181d4e4d90cb75a379226b542e4f828ddf83e1778ef55b868a7ae3fbb6ec074",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/Flag_of_Nunavut.svg/250px-Flag_of_Nunavut.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "7e69cdf66f07982f1f95f488a1bd379f6bc069e298bde8dcae26d9bd18b8832f",
+      "status": 200
+    },
+    {
+      "content_type": "image/png",
+      "encoding": null,
+      "key": "GET https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Coat_of_arms_of_Nunavut.svg/250px-Coat_of_arms_of_Nunavut.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sha256": "2947f1acf6cf73fc142111e0f2e0dfc814a926db3045499ddb2904a5c63bcbef",
+      "status": 200
+    },
+    {
+      "content_type": "application/pdf",
+      "encoding": null,
+      "key": "GET https://www.gov.nl.ca/fin/files/The-Economy-Budget-2026.pdf",
+      "sha256": "005ea9132ebd954111ed3c4a9defc7e1bd952d1862b4cdec51dfcfc1174ffe9c",
+      "status": 200
+    },
+    {
+      "content_type": "application/pdf",
+      "encoding": null,
+      "key": "GET https://www.novascotia.ca/sites/default/files/documents/6-4173/ftb-bfi-046-en-budget-2026-2027.pdf",
+      "sha256": "2455439c0287efc291ab5bc280b3b19ecb85fd3b774e2e1ec7a486bdd364ac82",
+      "status": 200
+    },
+    {
+      "content_type": "application/pdf",
+      "encoding": null,
+      "key": "GET https://www.gnb.ca/content/dam/GNB3/gov/budget/docs/2026-2027-economic-outlook.pdf",
+      "sha256": "f7051dec0a80bcb98a87fb7d5989f76c21a0720427b20f672a2f4f1ff5811a7b",
+      "status": 200
+    },
+    {
+      "content_type": "application/pdf",
+      "encoding": null,
+      "key": "GET https://www.finances.gouv.qc.ca/Budget_and_update/budget/documents/Budget2627_BudgetPlan.pdf",
+      "sha256": "3bcbbef4ac5ad869ddfb99d6bed3df4d93fc52484891d3213e2acb40f2ef75ee",
+      "status": 200
+    },
+    {
+      "content_type": "text/html",
+      "encoding": "ISO-8859-1",
+      "key": "GET https://budget.ontario.ca/2026/chapter-3.html",
+      "sha256": "2677fdddb48363e139a5fd866ddf5c47df6bf1ee4393ee82d7435c3064565c7f",
+      "status": 200
+    },
+    {
+      "content_type": "application/pdf",
+      "encoding": null,
+      "key": "GET https://www.gov.mb.ca/asset_library/en/budget2026/budget2026.pdf",
+      "sha256": "68051c26af8389d237bb733625c6cca4ce4b9f59b5fc14808d6f2407547de52e",
+      "status": 200
+    },
+    {
+      "content_type": "application/pdf",
+      "encoding": null,
+      "key": "GET https://budget.saskatchewan.ca/f/47i547mqkjc4xevocxv2v7hr9ptn36/2026-27-Budget-Document-WEB.pdf",
+      "sha256": "f60de1b36c40e2384c54e559403744b0bee9336bb2abc51c21f458282554cc1b",
+      "status": 200
+    },
+    {
+      "content_type": "application/pdf",
+      "encoding": null,
+      "key": "GET https://open.alberta.ca/dataset/3393a7b5-07bf-4b9f-8aaf-a6d89273297b/resource/58a8d024-398f-482e-b1c2-81a754a97253/download/budget-2026-fiscal-plan-2026-29.pdf",
+      "sha256": "0ce62efa4f0a977c9e0fe583ecfc8b6e17c898d48de49fdb3a29a55efc5883a2",
+      "status": 200
+    },
+    {
+      "content_type": "application/pdf",
+      "encoding": null,
+      "key": "GET https://www.bcbudget.gov.bc.ca/2026/pdf/2026_Budget_and_Fiscal_Plan.pdf",
+      "sha256": "5b5194bf1e292dcb6d440796e4808c00a5726318692597e6db0285b9d248407d",
+      "status": 200
+    },
+    {
+      "content_type": "text/html; charset=UTF-8",
+      "encoding": "UTF-8",
+      "key": "GET https://yukon.ca/sites/default/files/fin-2026-27-budget-address.pdf",
+      "sha256": "66499f8916d71adde31da58a891a868c879ed53c9f26a3c9f49e3f5e7570da90",
+      "status": 403
+    },
+    {
+      "content_type": "application/pdf",
+      "encoding": null,
+      "key": "GET https://www.fin.gov.nt.ca/sites/fin/files/2026-27_budget_address_and_economic_outlook_and_fiscal_review_papers.pdf",
+      "sha256": "3f28c13a12ce513ce20b6e1a48cf46afe321999917a92a2ff50f5a5fe39402a6",
+      "status": 200
+    },
+    {
+      "content_type": "application/pdf",
+      "encoding": null,
+      "key": "GET https://www.gov.nu.ca/sites/default/files/documents/2026-05/FEI_-_Budget_2026-27_-_ENG.pdf",
+      "sha256": "2c0b302dbcb4d758460ceaf28d126e045e84dee0e6e3bf00fa6c5d51013f9865",
+      "status": 200
+    }
+  ],
+  "raw_files": {
+    "budgets/AB.pdf": "0ce62efa4f0a977c9e0fe583ecfc8b6e17c898d48de49fdb3a29a55efc5883a2",
+    "budgets/BC.pdf": "5b5194bf1e292dcb6d440796e4808c00a5726318692597e6db0285b9d248407d",
+    "budgets/MB.pdf": "68051c26af8389d237bb733625c6cca4ce4b9f59b5fc14808d6f2407547de52e",
+    "budgets/NB.pdf": "f7051dec0a80bcb98a87fb7d5989f76c21a0720427b20f672a2f4f1ff5811a7b",
+    "budgets/NL.pdf": "005ea9132ebd954111ed3c4a9defc7e1bd952d1862b4cdec51dfcfc1174ffe9c",
+    "budgets/NS.pdf": "2455439c0287efc291ab5bc280b3b19ecb85fd3b774e2e1ec7a486bdd364ac82",
+    "budgets/NT.pdf": "3f28c13a12ce513ce20b6e1a48cf46afe321999917a92a2ff50f5a5fe39402a6",
+    "budgets/NU.pdf": "2c0b302dbcb4d758460ceaf28d126e045e84dee0e6e3bf00fa6c5d51013f9865",
+    "budgets/ON.html": "b207a8f80b176eaef04e17592f4d4de56f3848d10c4d999d801bfd8945dafb29",
+    "budgets/QC.pdf": "3bcbbef4ac5ad869ddfb99d6bed3df4d93fc52484891d3213e2acb40f2ef75ee",
+    "budgets/SK.pdf": "f60de1b36c40e2384c54e559403744b0bee9336bb2abc51c21f458282554cc1b",
+    "budgets/YT.pdf": "827281e6bbce656243d1309f507ba328c035dff0d15da2ee59dd8f3ab36be230",
+    "media/aesc.png": "bdef8f858290984212bf8edd840fefa5027c0aa89202a8c656091c7701b15206",
+    "media/contrecoeur.png": "18f2445f25735198bcfa29f1acb9bd00588646e2cf6e1d92986d22b4f251349b",
+    "media/crawford.png": "28731aabf238795a22283b44870e4be94c5a877073daf65e26475c4467707e38",
+    "media/darlington.png": "9d90be6c54526b85a0f3f579993d249f2714562d00f33ecc3b5e9d5f2c60dfd8",
+    "media/geo.png": "497be0ecc5bde4831e66e0a30efec1ee7f5c8c07015a68cb0edc3c8e565fb7e1",
+    "media/grays-bay.png": "1a303b5e2c5ca6571df6a4b74ccba9d6f12cfa15920f958b95699226b453aff1",
+    "media/ksi-lisims.png": "9f7e63dd3f3938314df92f8ff4303051f2a0a66d49697b450435b5727627ad8d",
+    "media/lng-canada.png": "c9e863280aec220c49a20f8eaaa69c38f6a8cc60ff4219524cc35071addf7563",
+    "media/mackenzie.png": "fcddfd9230707a991e43f186ca41fe350cca028850de09e0fe6e75e2ddba36e3",
+    "media/mcilvenna.png": "0d0fc8e3d0d795f2c416e3408b5bbd06d44a5ad3595e963c320686b80c9f1d9c",
+    "media/nctl.png": "b2296b6b72187ca3d228553d3ab5b88a533de8df30078a30fcd99dbfd104d7f9",
+    "media/northcliff.png": "d8c43c8a1e6866ee7510438768d8fb299705d6e942bc6280d8d95cb3a2cd2fa4",
+    "media/nouveau-monde.png": "e3d2ebd3ab355ff87bb2b101ee21a82247953c3f2ebe385567d1610fa1b0f3c6",
+    "media/nukkiksautiit.png": "d5f2509b950662397c1788e40b891098c0b8fd1025dd56368001fdf367535e7f",
+    "media/red-chris.png": "1509c4a7acb278f81e7c7289735aaf60d00b2a3d4e85f06c6ecad4a695f1ee7c",
+    "media/roberts-bank.png": "f5848d287103346eade9145ddf2c75fe9edd20b0267370a04347c8b93a745b9b",
+    "media/taltson.png": "2faac4cf2e9d63b4b1ae744606a73a9bb02c102fc05059209ac404d5e7ed4866",
+    "media/west.png": "b09af02df8b67c6d6e58a1464f57a7d99412f8a58bbf63aa503b6731ff9a4dac",
+    "nrcan/MPI_2025_Active_Projects_en.xlsx": "690194ed71a0e0a2f8a6c297d90d17964cc3e1311e32adf81462454ddcc3dcb5",
+    "nrcan/MPI_2025_Active_Projects_fr.xlsx": "55e7412a9000d5024359547da687d8017059793724a02d337562cb724ebf4ddc",
+    "statcan/14100201-eng.release": "83af09a89433048a07c38dfe87268abbad2903206953222324a7f82d187c812d",
+    "statcan/14100201-eng.zip": "5d68692d316ac22f27c5988b82c810d35e38e49e451fb510a582c4f80d6d2f62",
+    "statcan/14100201-fra.release": "83af09a89433048a07c38dfe87268abbad2903206953222324a7f82d187c812d",
+    "statcan/14100201-fra.zip": "d2c5a6cf831a76f364a0240b022df910cf615e06910b42946d3fc7bf3b012e1d",
+    "statcan/33100225-eng.zip": "abb244842c5c26c52944c52d6f717e0a5437fdbb5d3bdf3b38be0612b3f6ffcf",
+    "statcan/33100225-fra.zip": "39a418799f1732ed8788f63d3d6280dbe9385bfdb06bcd590cbc3f046a0f12fe",
+    "statcan/33101174-eng.release": "5775e38facc3bbc15099a4edbd6abde5527df73b00eaa1a7a0f162cedb0844ce",
+    "statcan/33101174-eng.zip": "94c37de5a443d38f257716f6d9e2185e2f7d39bde2097edb65ffc57b4678448b",
+    "statcan/33101174-fra.release": "5775e38facc3bbc15099a4edbd6abde5527df73b00eaa1a7a0f162cedb0844ce",
+    "statcan/33101174-fra.zip": "879bd0d172688ee985d6e28fa83da2e9d041627ffd34f4b9e259400a559b7771",
+    "statcan/34100035-eng.release": "4bd1c98b59a6b919944a80e0109f8e9af923e73d24c1eae3e693332bb4b12254",
+    "statcan/34100035-eng.zip": "a65541e3a9ad9026f90e9ff302157babff7e5845bb0c4c1d026d8e94c7b72120",
+    "statcan/34100035-fra.release": "4bd1c98b59a6b919944a80e0109f8e9af923e73d24c1eae3e693332bb4b12254",
+    "statcan/34100035-fra.zip": "82a52f97cb302b191cac8d8a8d74d0c2562fe97f2d698345a64d1fb63c524439",
+    "statcan/36100400-eng.release": "389cc92a3a2bd3dbac0589a35cf5b2d4354baf48c6735331a509b762203c9053",
+    "statcan/36100400-eng.zip": "be6796c83f33297e680c80dcb1d43ec61eb842af061d59924707bc920bb2ecc6",
+    "statcan/36100400-fra.release": "389cc92a3a2bd3dbac0589a35cf5b2d4354baf48c6735331a509b762203c9053",
+    "statcan/36100400-fra.zip": "577f1c8117de4c87e004a4fd2790c594ad25c675c331f89ed114544bf560653e",
+    "statcan/36100434-eng.release": "5bba72a598da202923f50541e12cfd362dcce03c5a18cdd41583ddb99fa65107",
+    "statcan/36100434-eng.zip": "38b3468c8871e331b2dec987262c024b8e4bb6ff430b9984078ff6edbb2e1939",
+    "statcan/36100434-fra.release": "5bba72a598da202923f50541e12cfd362dcce03c5a18cdd41583ddb99fa65107",
+    "statcan/36100434-fra.zip": "888951cfd82a285b9753c1f3e2ed1884741d9212c74fba8c34baae27c5307eae",
+    "statcan/36100488-eng.release": "902c7cd5ba7cc207ca27bcb252cb87038b9efb47a4bb95c1f0c469c18fcc7083",
+    "statcan/36100488-eng.zip": "a3cb8f31560d2b62654429469d849d59bd580a961ba3d1a9cdf46192c7423391",
+    "statcan/36100488-fra.release": "902c7cd5ba7cc207ca27bcb252cb87038b9efb47a4bb95c1f0c469c18fcc7083",
+    "statcan/36100488-fra.zip": "3af9fb0bffcae8e5f77d162d412b2c95bdad3ae713a4d54cd256ef3b8c15f4d4",
+    "statcan/36100710-eng.release": "902c7cd5ba7cc207ca27bcb252cb87038b9efb47a4bb95c1f0c469c18fcc7083",
+    "statcan/36100710-eng.zip": "ff92872743ace6e499b1087e68977499aa66278d6442237164798e0ffff79fcb",
+    "statcan/36100710-fra.release": "902c7cd5ba7cc207ca27bcb252cb87038b9efb47a4bb95c1f0c469c18fcc7083",
+    "statcan/36100710-fra.zip": "e1a10bfcc9a295bbd926ed257c6e5ef10e9984968f3eae541b5133844361ca9e",
+    "statcan/36100711-eng.release": "b0dcf886863995f14e0a16d610e5d45026fcde51f1f75d218b79c5831782fdfe",
+    "statcan/36100711-eng.zip": "8c5826a9ea2593212d3348a57aee8b2e59f908d0616717696dc121f9d707207f",
+    "statcan/36100711-fra.release": "b0dcf886863995f14e0a16d610e5d45026fcde51f1f75d218b79c5831782fdfe",
+    "statcan/36100711-fra.zip": "c33c4061c3ccf231caba8f85a5ed1c47f506c9dd0453531b85e9444d158cee17",
+    "statcan/98100002-eng.zip": "36ab6c8f3f6b82d70d9dea927cb5cf04f6fbf9b543a7ad543695e6ea70d22876",
+    "statcan/98100002-fra.zip": "9b862c8bdc0ee3bad8ccb76e24a25ec44b917faef5c6396336d24599bf203bdd",
+    "transport-canada/large-vessel-registry_dataset_en.xlsx": "37870e8a9874630fb89d11732016b9ffc121120e43fde58d1c55cb44f39be927",
+    "transport-canada/large-vessel-registry_dataset_fr.xlsx": "f465261fc37a08e8509e196522c4c2cb432ea8a34b74be7a0ca4ad23c8fcbb94"
+  },
+  "ref": "HEAD"
+}
