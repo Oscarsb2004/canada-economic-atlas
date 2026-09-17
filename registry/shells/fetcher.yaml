@@ -31,7 +31,6 @@ used_by:
 - atlas/datasets/statcan_sectors.py
 - atlas/datasets/trade_corridors.py
 - atlas/datasets/project_industries.py
-- pipeline/07_vessels.py
 - atlas/datasets/province_profiles.py
 - atlas/run.py
 moved_from:

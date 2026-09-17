@@ -58,7 +58,7 @@ STAGES = {
     "04": "-m atlas.run corridors",
     "05": "-m atlas.run municipalities",
     "06": "-m atlas.run industries",
-    "07": "pipeline/07_vessels.py",
+    "07": "-m atlas.run vessels",
     "08": "-m atlas.run provinces",
     "99": "pipeline/99_bundle.py",
 }

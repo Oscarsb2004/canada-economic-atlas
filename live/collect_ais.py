@@ -54,7 +54,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from atlas.core import registry as R  # noqa: E402
-from atlas.sources import aisstream as A  # noqa: E402
+from atlas.shells.acquire import ais_stream as A  # noqa: E402
 
 log = logging.getLogger("collect_ais")
 

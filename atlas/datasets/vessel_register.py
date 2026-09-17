@@ -1,8 +1,10 @@
-#!/usr/bin/env python3
 """
-Stage 07 — Canadian-registered vessels that carry an IMO number.
+atlas.datasets.vessel_register — Canadian-registered vessels that carry an IMO number.
 
-    python pipeline/07_vessels.py [--refresh]
+    python -m atlas.run vessels
+
+(Was pipeline/07_vessels.py until step S7 of docs/REBUILD.md; the code is carried
+unchanged, and the runner writes the output.)
 
 Output
     data/vessels/large-vessel-register.json
@@ -29,39 +31,46 @@ The app gets what the vessel layer needs when S3 builds it.
 
 from __future__ import annotations
 
-import argparse
 import hashlib
 import logging
-import sys
 from collections import Counter
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
 from atlas.core import clock
+from atlas.core import frames
 from atlas.core import registry as R
-from atlas.core.jsonio import write_if_changed
+from atlas.core.records import Observation
 from atlas.core.schema import Provenance, SourceRef, to_jsonable
-from atlas.shells.acquire.fetcher import Fetcher
+from atlas.datasets import Built, Context
 from atlas.sources import vessels
 
-log = logging.getLogger("07_vessels")
+log = logging.getLogger(__name__)
 
 SOURCE_KEY = "tc_large_vessel_register"
 OUTPUT = R.DATA_DIR / "vessels" / "large-vessel-register.json"
 FILES = (("en", "xlsx_en"), ("fr", "xlsx_fr"))
 
+#: The register's numeric fields, and the unit each is published in. Anything
+#: the register leaves blank stays blank: a vessel with no published tonnage is
+#: not a vessel of zero tonnes.
+MEASURES = (
+    ("gross_tonnage", "tons register"),
+    ("net_tonnage", "tons register"),
+    ("length_m", "metres"),
+    ("breadth_m", "metres"),
+    ("depth_m", "metres"),
+    ("speed_knots", "knots"),
+    ("propulsion_power", "kilowatts"),
+    ("engines", "count"),
+)
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--refresh", action="store_true", help="re-download the register")
-    args = ap.parse_args()
-    logging.basicConfig(level=logging.INFO, format="%(levelname)-7s %(message)s")
 
+def build(ctx: Context, *, dataset: str) -> Built:
+    """Every register entry carrying an IMO number, and the counts of the whole register."""
     src = R.source(SOURCE_KEY)
-    fetch = Fetcher(cache_dir=R.DATA_DIR / "raw" / "cache", use_cache=not args.refresh)
+    fetch = ctx.fetch
     raw = R.DATA_DIR / "raw" / "transport-canada"
-    paths = {lang: fetch.download(src[key], raw / Path(src[key]).name, force=args.refresh)
+    paths = {lang: fetch.download(src[key], raw / Path(src[key]).name, force=ctx.refresh)
              for lang, key in FILES}
 
     entries = vessels.read(paths["en"], paths["fr"])
@@ -75,7 +84,7 @@ def main() -> int:
     }
 
     retrieved = clock.now_iso()
-    changed = write_if_changed(OUTPUT, {
+    payload = {
         "generated_at": retrieved,
         "title": src["title"],
         "dataset_record": src.get("dataset_record", ""),
@@ -92,16 +101,30 @@ def main() -> int:
         },
         "counts": counts,
         "vessels": to_jsonable(kept),
-    })
+    }
 
     log.info("register: %d entries, %d with an IMO number, %d of those fail the IMO check digit",
              counts["register_entries"], counts["entries_with_imo"], counts["imo_failing_check_digit"])
     log.info("official numbers listed twice: %s", twice)
-    log.info("most common descriptors among IMO entries: %s", ", ".join(
-        f"{d} {n}" for d, n in Counter(v.descriptor.en for v in kept).most_common(6)))
-    log.info("large-vessel-register.json %s", "updated" if changed else "unchanged")
-    return 0
 
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+    rows = []
+    for vessel in kept:
+        for measure, unit in MEASURES:
+            value = getattr(vessel, measure)
+            rows.append(Observation(
+                # The register lists two official numbers twice (843892 and 849528),
+                # so identity here is the number AND the row it was published on.
+                entity=f"{vessel.official_number}:{vessel.register_row}", category=vessel.imo,
+                period="", measure=measure,
+                value=value if isinstance(value, (int, float)) else None, unit=unit,
+                status="" if isinstance(value, (int, float)) or value is None else str(value),
+                source_table=str(src.get("dataset_record", "")), provenance=Provenance.OFFICIAL_DATASET.value,
+            ).row())
+    frame = frames.Frame(
+        dataset=dataset, name="measurements", profile="cross-section", record_type="observation",
+        keys=frames.OBSERVATION_KEYS, columns=frames.OBSERVATION_COLUMNS, rows=rows,
+        published=("data/vessels/large-vessel-register.json",),
+        notes={"register_entries": counts["register_entries"],
+               "why_only_imo_entries": "IMO is the only field the register shares with AIS"},
+    )
+    return Built(outputs=[(OUTPUT, payload)], frames=[frame], receipt=counts)
