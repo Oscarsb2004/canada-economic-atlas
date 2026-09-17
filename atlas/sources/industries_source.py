@@ -1,5 +1,5 @@
 """
-atlas.industries — each Major Projects Office project in the NAICS industries it
+atlas.sources.industries_source — each Major Projects Office project in the NAICS industries it
 would operate in, and in construction while a published status says it is
 being built.
 

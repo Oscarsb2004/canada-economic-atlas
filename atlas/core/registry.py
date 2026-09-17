@@ -734,9 +734,10 @@ def dataset_errors() -> list[str]:
 
     Checked: the builder is defined; the sources, shells and earlier cards it
     names exist; `after` points only at earlier cards in the same group; each
-    output is a committed file; each consumer exists and names the output; each
-    group is a step of a full run and each runner step names a real group; and
-    every pull registry/sectors.yaml declares is made by some card.
+    output is a committed file AND is named by at least one declared consumer;
+    each consumer names at least one output; each group is a step of a full run
+    and each runner step names a real group; and every pull
+    registry/sectors.yaml declares is made by some card.
     """
     errors: list[str] = []
     cards = datasets()
@@ -760,16 +761,22 @@ def dataset_errors() -> list[str]:
                 errors.append(f"{where}: runs after {other}, which has no card")
             elif cards[other]["group"] != card["group"] or cards[other]["order"] >= card["order"]:
                 errors.append(f"{where}: runs after {other}, which is not earlier in group {card['group']}")
+        named: set[str] = set()
+        for consumer in card["consumed_by"]:
+            target = ROOT / consumer["path"]
+            if not target.exists():
+                errors.append(f"{where}: consumer {consumer['path']} does not exist")
+                continue
+            text = target.read_text(encoding="utf-8")
+            names = {Path(out).name for out in card["outputs"] if Path(out).name in text}
+            if not names:
+                errors.append(f"{where}: consumer {consumer['path']} names none of this card's outputs")
+            named |= names
         for out in card["outputs"]:
             if not (ROOT / out).exists():
                 errors.append(f"{where}: output {out} is not in the repository")
-            name = Path(out).name
-            for consumer in card["consumed_by"]:
-                target = ROOT / consumer["path"]
-                if not target.exists():
-                    errors.append(f"{where}: consumer {consumer['path']} does not exist")
-                elif name not in target.read_text(encoding="utf-8"):
-                    errors.append(f"{where}: consumer {consumer['path']} never names {name}")
+            if Path(out).name not in named:
+                errors.append(f"{where}: no consumer names {Path(out).name}")
 
     steps = run_steps()
     run_groups = {v[len(RUNNER_STEP):] for v in steps.values() if v.startswith(RUNNER_STEP)}

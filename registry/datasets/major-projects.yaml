@@ -1,0 +1,33 @@
+# registry/datasets/major-projects.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run --dataset major-projects` builds it; atlas/core/registry.py checks every claim below.
+
+title: 'The Major Projects Office portfolio: projects, strategies and what each source says exists'
+group: projects
+order: 10
+builder: atlas.datasets.major_projects:build
+params: {}
+sources:
+- mpo_arcgis
+- mpo_pages
+shells:
+- fetcher
+- arcgis_layer
+- site_crawl
+- image_derive
+after: []
+outputs:
+- data/events/major-projects-office/projects.json
+- data/events/major-projects-office/strategies.json
+- data/events/major-projects-office/coverage.json
+media_outputs:
+- web/public/media/thumb
+- web/public/media/web
+frame:
+  profile: points
+  record_type: asset
+on_screen: true
+consumed_by:
+- path: pipeline/99_bundle.py
+  how: copied into the site bundle, web/public/data/
+- path: registry/checks.yaml
+  how: verify/checks.py reads the coverage manifest to see every page group the crawl found

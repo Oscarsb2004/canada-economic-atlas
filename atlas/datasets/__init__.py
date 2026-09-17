@@ -29,6 +29,9 @@ class Context:
 
     fetch: Fetcher
     refresh: bool = False
+    #: Whatever `--set name=value` passed in: development aids, never anything
+    #: a published figure depends on.
+    options: dict[str, str] = field(default_factory=dict)
     #: Values one card leaves for a later card in the same run (the cube hashes).
     state: dict[str, Any] = field(default_factory=dict)
 

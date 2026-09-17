@@ -24,7 +24,8 @@ from pathlib import Path
 from typing import Any
 
 #: Every role a column may play.
-ROLES = frozenset({"entity", "time", "measure", "category", "slice", "status", "label", "source_ref", "attribute"})
+ROLES = frozenset({"entity", "time", "measure", "category", "slice", "status", "label",
+                   "source_ref", "geometry_ref", "attribute"})
 
 #: The roles each profile requires.
 PROFILES = {
@@ -32,6 +33,8 @@ PROFILES = {
     "cross-section": frozenset({"entity", "measure"}),
     "places": frozenset({"entity", "label"}),
     "passages": frozenset({"entity", "label", "source_ref"}),
+    "points": frozenset({"entity", "label", "geometry_ref"}),
+    "events": frozenset({"entity", "time", "category"}),
 }
 
 
@@ -101,6 +104,36 @@ PASSAGE_COLUMNS = (
     Column("provenance", "string", "status"),
 )
 PASSAGE_KEYS = ("entity", "kind", "locator", "text_en")
+
+ASSET_COLUMNS = (
+    Column("key", "string", "entity"),
+    Column("kind", "string", "category"),
+    Column("name_en", "string", "label"),
+    Column("name_fr", "string", "label"),
+    Column("parent", "string", "attribute"),
+    Column("category", "string", "category"),
+    Column("lon", "number", "geometry_ref"),
+    Column("lat", "number", "geometry_ref"),
+    Column("geometry_kind", "string", "geometry_ref"),
+    Column("coordinate_provenance", "string", "status"),
+    Column("status_en", "string", "status"),
+    Column("status_fr", "string", "status"),
+    Column("source_url", "string", "source_ref"),
+    Column("provenance", "string", "status"),
+)
+ASSET_KEYS = ("key",)
+
+EVENT_COLUMNS = (
+    Column("entity", "string", "entity"),
+    Column("period", "string", "time"),
+    Column("category", "string", "category"),
+    Column("text_en", "string", "label"),
+    Column("text_fr", "string", "label"),
+    Column("date_verbatim", "string", "time"),
+    Column("source_url", "string", "source_ref"),
+    Column("provenance", "string", "status"),
+)
+EVENT_KEYS = ("entity", "period", "category", "text_en")
 
 _TYPES = {"string": (str,), "number": (int, float), "integer": (int,)}
 

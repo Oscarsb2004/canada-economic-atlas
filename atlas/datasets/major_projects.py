@@ -1,7 +1,11 @@
 """
-Stage 01 — Major Projects Office: projects, strategies, verbatim text, images.
+atlas.datasets.major_projects — Major Projects Office: projects, strategies, verbatim text, images.
 
-    python pipeline/01_projects.py [--limit N] [--no-images] [--refresh]
+    python -m atlas.run projects
+    python -m atlas.run projects --set limit=2 --set images=false   # a smoke test
+
+(Was pipeline/01_projects.py until step S6 of docs/REBUILD.md; the code is carried
+unchanged, and the runner writes the outputs.)
 
 Joins two sources on the canonical page URL:
 
@@ -29,32 +33,26 @@ reading the live sources rather than assumed:
 
 from __future__ import annotations
 
-import argparse
 import json
 import logging
-import sys
 from collections import defaultdict
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from atlas.shells.transform import image_derive
 from atlas.core import clock
+from atlas.core import frames
 from atlas.core import registry as R
-from atlas.core.jsonio import write_if_changed
+from atlas.core.records import Asset, Event, Passage
 from atlas.core.schema import (
-    Geometry, GeometryKind, MediaRef, Project, Provenance,
-    QuickFact, Site, SourceRef, Text, Update, to_jsonable,
+    Geometry, GeometryKind, MediaRef, Project, Provenance, QuickFact, Site, SourceRef, Text, Update, to_jsonable,
 )
+from atlas.datasets import Built, Context
 from atlas.shells.acquire.fetcher import Fetcher
+from atlas.shells.transform import image_derive
 from atlas.sources import mpo
 
-log = logging.getLogger("01_projects")
+log = logging.getLogger(__name__)
 
 EVENT_SLUG = "major-projects-office"
-
-
-# ── Helpers ────────────────────────────────────────────────────────────────────
 
 
 def _geometry_for(coords: list, location: str) -> Geometry:
@@ -378,16 +376,12 @@ def build_project(fetch: Fetcher, slug: str, feats_en: list[dict],
     return project, changed
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--limit", type=int, default=0, help="only build N projects (smoke test)")
-    ap.add_argument("--no-images", action="store_true", help="skip image download and derivation")
-    ap.add_argument("--refresh", action="store_true", help="bypass the HTTP cache")
-    args = ap.parse_args()
-
-    logging.basicConfig(level=logging.INFO, format="%(levelname)-7s %(message)s")
+def build(ctx: Context, *, dataset: str) -> Built:
+    """Every referred project and transformative strategy, verbatim, with its history appended."""
+    limit = int(ctx.options.get("limit", 0))
+    no_images = ctx.options.get("images", "true").lower() in ("false", "no", "0")
     event = R.event(EVENT_SLUG)
-    fetch = Fetcher(cache_dir=R.DATA_DIR / "raw" / "cache", use_cache=not args.refresh)
+    fetch = ctx.fetch
 
     log.info("Stage 01 — %s", event.title_en)
 
@@ -414,14 +408,14 @@ def main() -> int:
     manifest = _coverage_manifest(fetch, sorted(feats_en))
 
     slugs = sorted(feats_en)
-    if args.limit:
-        slugs = slugs[: args.limit]
+    if limit:
+        slugs = slugs[: limit]
 
     projects, changed = [], 0
     for slug in slugs:
         try:
             project, did_change = build_project(
-                fetch, slug, feats_en[slug], feats_fr.get(slug, []), not args.no_images
+                fetch, slug, feats_en[slug], feats_fr.get(slug, []), not no_images
             )
             projects.append(project)
             changed += did_change
@@ -468,22 +462,60 @@ def main() -> int:
             log.warning("strategy %s has no entry in registry/strategies.yaml", slug)
 
     out_dir = R.DATA_DIR / "events" / EVENT_SLUG
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    wrote_p = write_if_changed(out_dir / "projects.json", {
-        "event": EVENT_SLUG, "generated_at": clock.now_iso(), "projects": to_jsonable(projects)})
-    wrote_s = write_if_changed(out_dir / "strategies.json", {
-        "event": EVENT_SLUG, "generated_at": clock.now_iso(), "strategies": strategies})
-    write_if_changed(out_dir / "coverage.json", {
-        "event": EVENT_SLUG, "generated_at": clock.now_iso(), "sources": manifest})
-
     corridors = sum(1 for p in projects for s in p.sites if s.geometry.kind is GeometryKind.CORRIDOR)
-    log.info("%d projects (%d corridor sites), %d strategies", len(projects), corridors, len(strategies))
-    log.info("projects.json %s · strategies.json %s · %d history entries added",
-             "updated" if wrote_p else "unchanged",
-             "updated" if wrote_s else "unchanged", changed)
-    return 0
+    log.info("%d projects (%d corridor sites), %d strategies · %d history entries added",
+             len(projects), corridors, len(strategies), changed)
 
+    assets, events, passages = [], [], []
+    for project in projects:
+        url = project.page_url.en
+        for i, site in enumerate(project.sites):
+            anchor = site.geometry.anchor
+            assets.append(Asset(
+                key=f"{project.slug}#{i}", kind="project_site", name_en=site.name.en, name_fr=site.name.fr,
+                parent=project.slug, category=project.sector,
+                lon=anchor[0] if anchor else None, lat=anchor[1] if anchor else None,
+                geometry_kind=site.geometry.kind.value,
+                coordinate_provenance=site.geometry.anchor_provenance.value,
+                status_en=project.status.en, status_fr=project.status.fr, source_url=url,
+                provenance=Provenance.OFFICIAL_DATASET.value,
+            ).row())
+        for update in project.updates:
+            events.append(Event(
+                entity=project.slug, period=update.date, category="project_update",
+                text_en=update.body.en, text_fr=update.body.fr, date_verbatim=update.date_verbatim,
+                source_url=url, provenance=Provenance.PAGE_VERBATIM.value,
+            ).row())
+        passages.append(Passage(entity=project.slug, kind="description", text_en=project.description.en,
+                                text_fr=project.description.fr, source_url=url,
+                                provenance=Provenance.PAGE_VERBATIM.value).row())
+        for fact in project.quick_facts:
+            passages.append(Passage(entity=project.slug, kind="quick_fact", text_en=fact.body.en,
+                                    text_fr=fact.body.fr, source_url=url, locator=fact.label.en,
+                                    provenance=Provenance.PAGE_VERBATIM.value).row())
 
-if __name__ == "__main__":
-    raise SystemExit(main())
+    published = ("data/events/major-projects-office/projects.json",
+                 "data/events/major-projects-office/strategies.json",
+                 "data/events/major-projects-office/coverage.json")
+    made = [
+        frames.Frame(dataset=dataset, name="sites", profile="points", record_type="asset",
+                     keys=frames.ASSET_KEYS, columns=frames.ASSET_COLUMNS, rows=assets, published=published),
+        frames.Frame(dataset=dataset, name="updates", profile="events", record_type="event",
+                     keys=frames.EVENT_KEYS, columns=frames.EVENT_COLUMNS, rows=events, published=published),
+        frames.Frame(dataset=dataset, name="passages", profile="passages", record_type="passage",
+                     keys=frames.PASSAGE_KEYS, columns=frames.PASSAGE_COLUMNS, rows=passages, published=published),
+    ]
+    return Built(
+        outputs=[
+            (out_dir / "projects.json", {"event": EVENT_SLUG, "generated_at": clock.now_iso(),
+                                         "projects": to_jsonable(projects)}),
+            (out_dir / "strategies.json", {"event": EVENT_SLUG, "generated_at": clock.now_iso(),
+                                           "strategies": strategies}),
+            (out_dir / "coverage.json", {"event": EVENT_SLUG, "generated_at": clock.now_iso(),
+                                         "sources": manifest}),
+        ],
+        frames=made,
+        receipt={"projects": len(projects), "sites": len(assets), "corridor_sites": corridors,
+                 "strategies": len(strategies), "updates": len(events),
+                 "history_entries_added": changed},
+    )

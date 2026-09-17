@@ -143,8 +143,7 @@ def test_mismatched_benefit_counts_lose_no_bullet():
     Both lists are therefore carried whole and unpaired, and each language
     renders its own.
     """
-    sys.path.insert(0, str(ROOT / "pipeline"))
-    stage = importlib.import_module("01_projects")
+    from atlas.datasets import major_projects as stage
 
     en = mpo.ParsedPage(url="", title="", benefits=["One.", "Two."])
     fr = mpo.ParsedPage(url="", title="", benefits=["Un.", "Deux.", "Trois."])
@@ -649,8 +648,7 @@ def test_unequal_corridor_lists_are_carried_unpaired_in_both_directions():
     modes only, so a mode the French page published and the English page did
     not was dropped silently. It is now carried French-only.
     """
-    sys.path.insert(0, str(ROOT / "pipeline"))
-    stage = importlib.import_module("04_trade")
+    from atlas.datasets import trade_corridors as stage
 
     en = tc.ParsedCorridor(summary="N", description="", modes=[
         tc.ParsedMode("Rail", ["One", "Two"]),
@@ -1460,8 +1458,7 @@ def test_updates_pair_by_position_and_take_the_date_from_either_page():
     the French page's — it is the same entry, published in both languages. Each
     page's wording of the date is kept for its own language.
     """
-    sys.path.insert(0, str(ROOT / "pipeline"))
-    stage = importlib.import_module("01_projects")
+    from atlas.datasets import major_projects as stage
     en = _updates_page("en", "The port obtained a permit that January.", "The MPO is working with proponents.")
     fr = _updates_page("fr", "Le 5 janvier 2026, le port a obtenu un permis.", "Le BGP collabore avec les promoteurs.")
     out = stage._updates(en, fr)
@@ -1477,8 +1474,7 @@ def test_updates_that_do_not_line_up_are_carried_unpaired_never_dropped():
     Dates that disagree mean position pairs different entries, so that is
     treated the same way.
     """
-    sys.path.insert(0, str(ROOT / "pipeline"))
-    stage = importlib.import_module("01_projects")
+    from atlas.datasets import major_projects as stage
     en = _updates_page("en", "On May 19, 2026, work began.")
     fr = _updates_page("fr", "Le 19 mai, 2026, les travaux ont commencé.",
                        "En juillet 2026, le BGP a entrepris des consultations.")
@@ -1769,7 +1765,7 @@ def test_construction_listing_needs_a_published_status():
     casings and both list the project. A status the two languages disagree on is
     refused rather than shown in one of them.
     """
-    from atlas import industries
+    from atlas.sources import industries_source as industries
     inv = {
         "0001": _inventory_row("0001", "Under construction", "En construction"),
         "0002": _inventory_row("0002", "Approved", "Approuvé"),
@@ -1794,7 +1790,7 @@ def test_a_placement_must_quote_the_project_page_and_cover_every_project():
     languages; and every project needs an entry, because a project without one
     would silently drop out of every sector count (CLAUDE.md §2b).
     """
-    from atlas import industries
+    from atlas.sources import industries_source as industries
     entry = _port_entry(None)
     entry["operating"][0]["asset"] = {"en": "a marine terminal", "fr": "un terminal à conteneurs"}
     with pytest.raises(industries.IndustryError, match="asset quote"):

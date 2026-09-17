@@ -93,13 +93,19 @@
           "enum": [
             "panel",
             "cross-section",
-            "places"
+            "places",
+            "passages",
+            "points",
+            "events"
           ]
         },
         "record_type": {
           "enum": [
             "observation",
-            "place"
+            "place",
+            "passage",
+            "asset",
+            "event"
           ]
         }
       },

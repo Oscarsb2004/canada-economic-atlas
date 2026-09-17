@@ -23,6 +23,6 @@ gotchas:
 - A square image behind a CSS border-radius shows its corners against the globe; the thumbnail is a real circular
   crop.
 used_by:
-- pipeline/01_projects.py
+- atlas/datasets/major_projects.py
 moved_from:
 - atlas/media.py
