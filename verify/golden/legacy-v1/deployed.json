@@ -1,0 +1,387 @@
+{
+  "base": "/canada-economic-atlas/",
+  "exported": "ecf6ca9e3ec64088bafd23e5e37f9c022fec2587",
+  "files": {
+    "dist/.nojekyll": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "dist/assets/index-BaefYVH5.css": {
+      "bytes": 79961,
+      "sha256": "60f93846d92ac08a242bac43c76c23949c23b9c6eddbb59f0b13ed540f499bc6"
+    },
+    "dist/assets/index-CvgRmsRt.js": {
+      "bytes": 299440,
+      "sha256": "5924625388a1ca5dac83ec8dd21d28ec548e3b5a305dc73782ee5efd3f78a2ab"
+    },
+    "dist/assets/index-CvgRmsRt.js.map": {
+      "bytes": 1310344,
+      "sha256": "adbbc90bdfe8f7f3c1ca83d2349c64c391bdd6146d9f7fa855e15e811ce63e5a"
+    },
+    "dist/assets/maplibre-mOg27aYi.js": {
+      "bytes": 1052940,
+      "sha256": "534a127473d91c5dba92f4f107457caeb51fd034159a50810eac3344ca336dd5"
+    },
+    "dist/assets/maplibre-mOg27aYi.js.map": {
+      "bytes": 2271615,
+      "sha256": "c7170c229b065033d03fab50ff5a872420a28c054f6b1c8ebba2245e6096492b"
+    },
+    "dist/assets/plot-DFTgevY6.js": {
+      "bytes": 279910,
+      "sha256": "3f96320a625397e4afff65a7e36e907cd2d61f98b98783d4ece2c3c7406374a7"
+    },
+    "dist/assets/plot-DFTgevY6.js.map": {
+      "bytes": 1228689,
+      "sha256": "c70e9f1199ba5814ae30e11eb3e3e7e7f628586a83b96b5fb9b043b58dfd55b5"
+    },
+    "dist/data/country.json": {
+      "bytes": 3341,
+      "sha256": "cfef242c0978cfb0098232cca3ca3dfe4dfd7f555664cc9df9731cfd2c65d0b2"
+    },
+    "dist/data/events/major-projects-office/industries.json": {
+      "bytes": 50166,
+      "sha256": "ff8187aead3ac915ff82c60c1fa645c200ed6960f821843b454c3e001008b80f"
+    },
+    "dist/data/events/major-projects-office/projects.json": {
+      "bytes": 241010,
+      "sha256": "0e6a1ed1392cbf4e39a5f30ee9686599cd5268642e14ca8d3faad1fb106dbd03"
+    },
+    "dist/data/events/major-projects-office/strategies.json": {
+      "bytes": 32149,
+      "sha256": "e5468b4398bb6ca8dddb866f98dc589fa3febfa26e762491d106ab08b8aa646f"
+    },
+    "dist/data/events/trade-corridors/corridors.json": {
+      "bytes": 44964,
+      "sha256": "ebefe97d711a5fc34fd5deff9fdc78c4759865fda63ed66799e3d7bbd2030b98"
+    },
+    "dist/data/meta.json": {
+      "bytes": 11771,
+      "sha256": "befa07ef213a6ed2b07d3fd408b88cda074aae8672384481dac4c1a1a7e40cd1"
+    },
+    "dist/data/palette.json": {
+      "bytes": 2452,
+      "sha256": "3f4ce6c89d7f4b12ef36ea87fe1ba6eaf295bab12b2e98aaa8385cae5fc005df"
+    },
+    "dist/data/provinces/provinces.json": {
+      "bytes": 352463,
+      "sha256": "2253865de3d899409075bb18f95525ea577bf77ba69c6c652498a5f7727187d8"
+    },
+    "dist/data/sectors/business-counts.json": {
+      "bytes": 51944,
+      "sha256": "62e9e7a825b6a2c782ea417ec447218c909600d50357040fbf2b8b3ac9a14f52"
+    },
+    "dist/data/sectors/national-constant.json": {
+      "bytes": 307874,
+      "sha256": "e5718341462d5b0787920d005723bcbfe4003656fbac47ddba0cca33934e6045"
+    },
+    "dist/data/sectors/national-monthly.json": {
+      "bytes": 307869,
+      "sha256": "244e69eb3a14d9d3fb86ec07d56d68a97833dfbe370ff053c9786ba5eda1d648"
+    },
+    "dist/data/sectors/provincial-annual.json": {
+      "bytes": 413660,
+      "sha256": "18493cca200ea5de8eb1d4fce3b1abba28be83f6cd485306a0f4cd3f730111c3"
+    },
+    "dist/data/sectors/rates.json": {
+      "bytes": 668,
+      "sha256": "debbaaff415c041684352e7e6f358bd2086ded3fb243936f0a3772a8a2174218"
+    },
+    "dist/geo/SOURCES.json": {
+      "bytes": 11642,
+      "sha256": "b6ded6cb810bddb17880e1b98fa796b36fe2136871c31e6eba9638a0c48a174d"
+    },
+    "dist/geo/canada-detail.json": {
+      "bytes": 9170525,
+      "sha256": "47aef9b7dbdbdc50889c8b5ce760ab72912e96059b89039a92a02be35e340f0c"
+    },
+    "dist/geo/canada.json": {
+      "bytes": 276735,
+      "sha256": "fad8751c4092567a1820c4de4cfe2ffb889637b18dd7f863a380b63d6b2245c1"
+    },
+    "dist/geo/highways.json": {
+      "bytes": 44371,
+      "sha256": "76414bd1121f194fb96c3f404c6ef4341608188931f8150227a9b70add8aa3dd"
+    },
+    "dist/geo/nhs.json": {
+      "bytes": 992120,
+      "sha256": "2300b9554eb220ef61428f329388347ada630793a2011b223ca7331dda516137"
+    },
+    "dist/geo/places.json": {
+      "bytes": 3319296,
+      "sha256": "869debf8b0fd6be3b3b99a689041d5145ce29714575ca87a72cb2707e8887cdd"
+    },
+    "dist/geo/provinces-detail.json": {
+      "bytes": 9477372,
+      "sha256": "09e317bcf191d840b6f4bfe6403626ab7c363f2ed076d3c04ed16e7d4a658575"
+    },
+    "dist/geo/provinces.json": {
+      "bytes": 318600,
+      "sha256": "1027a653d3baa5f0433ddb93aee64e00420ca3c6b678edaa720b22bb0cbc3cc7"
+    },
+    "dist/geo/rail.json": {
+      "bytes": 16533231,
+      "sha256": "81c5f67e34d7e4002db50420d5cdcdb12c846a22637100955e90fddba163ad8a"
+    },
+    "dist/geo/water.json": {
+      "bytes": 3075660,
+      "sha256": "8f9ec0d25af57021b4009bd108894a8abc6cac628a09cea0a7c2e32e4aaccff6"
+    },
+    "dist/geo/world.json": {
+      "bytes": 1060969,
+      "sha256": "2f981691cc3aceb9a94c84e5592fe12ffa425e788c7d76241d179441fa3ee098"
+    },
+    "dist/index.html": {
+      "bytes": 666,
+      "sha256": "d1c76f45cc468f89625ad96b200cbc0d1e464ba58198d6f7ffa035921166e391"
+    },
+    "dist/media/provinces/ab-arms.png": {
+      "bytes": 97945,
+      "sha256": "5a2ba84beb8b847c3527b51723589a685271c374348ad92b2a661ec51293d7ce"
+    },
+    "dist/media/provinces/ab-flag.png": {
+      "bytes": 7028,
+      "sha256": "66f747b899b37cafea22921506c47cd368d98c2498e6ff08983f4ad6070ae7b0"
+    },
+    "dist/media/provinces/bc-arms.png": {
+      "bytes": 82911,
+      "sha256": "67772781d9929a71b1f4c6834cbe0dd5174d83f46c553cd6506675f6d79fb199"
+    },
+    "dist/media/provinces/bc-flag.png": {
+      "bytes": 23798,
+      "sha256": "423c9a04b26439ef53a79e5d5095ba3d478bcc8bba5a8e4bff47b3a7d8d2e20d"
+    },
+    "dist/media/provinces/mb-arms.png": {
+      "bytes": 96653,
+      "sha256": "22289931943930447799dfdfd8f6d2213a9ee4ee31e24e1f514cbb8c1ec6186e"
+    },
+    "dist/media/provinces/mb-flag.png": {
+      "bytes": 5521,
+      "sha256": "b46ddea5f3652dc8523204ee24be1b53863221792bfc3a4c3c0486c7399797d2"
+    },
+    "dist/media/provinces/nb-arms.png": {
+      "bytes": 113875,
+      "sha256": "e5b8fe599ba39c87cf3478280f3c0338371b2e26b2e5c4ec419db4f97c729105"
+    },
+    "dist/media/provinces/nb-flag.png": {
+      "bytes": 30896,
+      "sha256": "d65ff7f1c648fb73dc4b46d942fbe744245f52c3a9e62b9ec00fa1958d23bf73"
+    },
+    "dist/media/provinces/nl-arms.png": {
+      "bytes": 77016,
+      "sha256": "ce743301e73ff4bec1f518b432c2e2f6297b809f3cce3d9af3c7ef21e2257acf"
+    },
+    "dist/media/provinces/nl-flag.png": {
+      "bytes": 5430,
+      "sha256": "3bef8e663eaa92a07d909da3feb47c7d1dfadb8d35cefa0b91585a4a2257b556"
+    },
+    "dist/media/provinces/ns-arms.png": {
+      "bytes": 134734,
+      "sha256": "4624e09b87e114c6550fb2d6a637f580a12be5cd746c87f65c7cc5312dc371f5"
+    },
+    "dist/media/provinces/ns-flag.png": {
+      "bytes": 5959,
+      "sha256": "706a0cc82ae1160aa12a3ce887e27be35f0f441fc6e39eb5457c87624392744f"
+    },
+    "dist/media/provinces/nt-arms.png": {
+      "bytes": 53477,
+      "sha256": "0181d4e4d90cb75a379226b542e4f828ddf83e1778ef55b868a7ae3fbb6ec074"
+    },
+    "dist/media/provinces/nt-flag.png": {
+      "bytes": 6518,
+      "sha256": "2faee4d00a2017eb0a20998a9e5e3f24af3805344d230ed8a136d9a0d6a79c64"
+    },
+    "dist/media/provinces/nu-arms.png": {
+      "bytes": 81375,
+      "sha256": "2947f1acf6cf73fc142111e0f2e0dfc814a926db3045499ddb2904a5c63bcbef"
+    },
+    "dist/media/provinces/nu-flag.png": {
+      "bytes": 6034,
+      "sha256": "7e69cdf66f07982f1f95f488a1bd379f6bc069e298bde8dcae26d9bd18b8832f"
+    },
+    "dist/media/provinces/on-arms.png": {
+      "bytes": 60019,
+      "sha256": "4b6ee6efafec1de14d8d45dea3edf2801012b85036ea235b30dc537c65237e69"
+    },
+    "dist/media/provinces/on-flag.png": {
+      "bytes": 4699,
+      "sha256": "6c3d3b2bfa9cc1a3ae09bdf1f33b1d48fe48a0b63ccb1814b9fb2edaad8a31bd"
+    },
+    "dist/media/provinces/pe-arms.png": {
+      "bytes": 82167,
+      "sha256": "5f1b110f4a24c8640c8ddaa491c5f5f7f5f40a67e0e640127509e50f5a973bb2"
+    },
+    "dist/media/provinces/pe-flag.png": {
+      "bytes": 37220,
+      "sha256": "313c40f51bf4a835aa4711934e0425118034272a112f057eb2278025e46763d4"
+    },
+    "dist/media/provinces/qc-arms.png": {
+      "bytes": 75401,
+      "sha256": "687f8afee7d404827851756ad994cf1ced2acb2430286c2be36abdff9d7782c1"
+    },
+    "dist/media/provinces/qc-flag.png": {
+      "bytes": 3160,
+      "sha256": "8b0706351b77c268e43317b67e7eae4ed8b890032d78e349ebfe5bbd491f5df8"
+    },
+    "dist/media/provinces/sk-arms.png": {
+      "bytes": 104788,
+      "sha256": "fd55f96ccc23b9f08b9fe22c95711aa661ff3a30a3032c7eabb90789dbaf2b16"
+    },
+    "dist/media/provinces/sk-flag.png": {
+      "bytes": 7569,
+      "sha256": "c02d16c28d8124930f0dcf292449cd8da8d105402eff4a5192fd372476c251c2"
+    },
+    "dist/media/provinces/yt-arms.png": {
+      "bytes": 42146,
+      "sha256": "baa33fdaffb77db71e13da673b7ca4afd27edefe24d05f8b6e82347e59d559e5"
+    },
+    "dist/media/provinces/yt-flag.png": {
+      "bytes": 10225,
+      "sha256": "d3665d5ec0011ff12171732c5991264f5e480b78a9eb6d2919f9e863a750b340"
+    },
+    "dist/media/thumb/aesc-hero.png": {
+      "bytes": 24011,
+      "sha256": "51dab2ced1c013ad3a1577f30c1335975615b50f31e824d0f4ce3d94619eb358"
+    },
+    "dist/media/thumb/contrecoeur-hero.png": {
+      "bytes": 25903,
+      "sha256": "9e490b46479e518a50ab89b01eddaa136039e4c864b5341399a5d7fbf55b78ff"
+    },
+    "dist/media/thumb/crawford-hero.png": {
+      "bytes": 22629,
+      "sha256": "3f50ad7360004319c3865fca96f052eeace28c1f867353776d73608cd856cb36"
+    },
+    "dist/media/thumb/darlington-hero.png": {
+      "bytes": 17045,
+      "sha256": "16a3438648440023be162e67efacfc8090616fc03f23ee7941a790ebd72c4741"
+    },
+    "dist/media/thumb/geo-hero.png": {
+      "bytes": 23728,
+      "sha256": "debdee30eec2a64a81fd1b118a9a78cde46f623df7db34ae2d0eb6daadd3cd2e"
+    },
+    "dist/media/thumb/grays-bay-hero.png": {
+      "bytes": 17521,
+      "sha256": "5dc6bac5710ec1f5a8cb8e91ddc5db9be88dcfc2371e4d5150e2eda94120e6d8"
+    },
+    "dist/media/thumb/ksi-lisims-hero.png": {
+      "bytes": 21930,
+      "sha256": "62e7262a09482deca190a76575795938367edd4eb0f1169cb1a31da7a909affb"
+    },
+    "dist/media/thumb/lng-canada-hero.png": {
+      "bytes": 19942,
+      "sha256": "0932d415cad1c1d163051e85e48cb4b5e5bad1fafe0f6ee87b410944da5ef769"
+    },
+    "dist/media/thumb/mackenzie-hero.png": {
+      "bytes": 19795,
+      "sha256": "3f0db902da02e92c056e78127908bc70693f3e5e274bf5f90489a4474a3773b2"
+    },
+    "dist/media/thumb/mcilvenna-hero.png": {
+      "bytes": 25031,
+      "sha256": "712c77bf35f819c28ebae8681d468a53f05b50dffd36310ef382a85bd5d7defb"
+    },
+    "dist/media/thumb/nctl-hero.png": {
+      "bytes": 24796,
+      "sha256": "20853ac2d901786f9f897ea50a9db355fb618c2e1a200261dce9b89be3d880fa"
+    },
+    "dist/media/thumb/northcliff-hero.png": {
+      "bytes": 21121,
+      "sha256": "a1c4604faf1454fa5a75e5b32e96b714be5548d26d7eb90e34ddaa6269245043"
+    },
+    "dist/media/thumb/nouveau-monde-hero.png": {
+      "bytes": 23245,
+      "sha256": "09caa8dfc62520fabdeee014d32c1d8e96104707c6050e7b9ea6f995529e9a10"
+    },
+    "dist/media/thumb/nukkiksautiit-hero.png": {
+      "bytes": 24262,
+      "sha256": "c28ee8627d4475d92cd9c58adfc6031fb9c3a9421f7f0240e0c93c69a27f047d"
+    },
+    "dist/media/thumb/red-chris-hero.png": {
+      "bytes": 23935,
+      "sha256": "66099f22eaf9280f3782e524c4b5594e9bc020148568b8ef87849461a94c4c31"
+    },
+    "dist/media/thumb/roberts-bank-hero.png": {
+      "bytes": 21150,
+      "sha256": "eda475b0a3ce7f08a085786a39f2e6d1229ac5d95da2883ce8b68a834916be9b"
+    },
+    "dist/media/thumb/taltson-hero.png": {
+      "bytes": 23641,
+      "sha256": "e267cdbaad17d43539065e61e4aceee7cf52b3ce6fa1a6437223d3c522026288"
+    },
+    "dist/media/thumb/west-hero.png": {
+      "bytes": 19877,
+      "sha256": "deaa16767ee4e2c0390ea23356761a23970abc34ba45b74fba56d3badf9d3ae4"
+    },
+    "dist/media/web/aesc-hero.jpg": {
+      "bytes": 167405,
+      "sha256": "d229b21fba13c419f583f1eb454e860f941399d4ba3904689f28c92266210581"
+    },
+    "dist/media/web/contrecoeur-hero.jpg": {
+      "bytes": 145773,
+      "sha256": "582793822d2038f69816850a2bfbb4d6331a0964be1e8d21010bce99a497337c"
+    },
+    "dist/media/web/crawford-hero.jpg": {
+      "bytes": 130378,
+      "sha256": "b29809cbb49597fb289774bda0e21bc7a58e1a0c0be79b8f9b0d9b341b951d4b"
+    },
+    "dist/media/web/darlington-hero.jpg": {
+      "bytes": 66507,
+      "sha256": "224188ff5d9032b0c973f446aba9130d51a3c61f16e3445aef2bbbc19e4f6039"
+    },
+    "dist/media/web/geo-hero.jpg": {
+      "bytes": 164511,
+      "sha256": "b94475b491d4997af39566abb23578fc7704abdd270c446cf341d0e82e2c5b49"
+    },
+    "dist/media/web/grays-bay-hero.jpg": {
+      "bytes": 115278,
+      "sha256": "eca5a5d1f0240906a53e35b5ebc9aa4ee987016b90dc1d1666fca9a09b1d9b28"
+    },
+    "dist/media/web/ksi-lisims-hero.jpg": {
+      "bytes": 140981,
+      "sha256": "431ca898165b62412dcbf0801efedc01f6675cacad78dd40c2492af0b53ddc8d"
+    },
+    "dist/media/web/lng-canada-hero.jpg": {
+      "bytes": 86130,
+      "sha256": "7c4053e042a0d680b669718cfb7f2ec74f3853debbd0133210848706230e0383"
+    },
+    "dist/media/web/mackenzie-hero.jpg": {
+      "bytes": 104040,
+      "sha256": "fb865d0ffc49ab3de6f81349efae9ead17bef6edb775a355563909f8f8630c3e"
+    },
+    "dist/media/web/mcilvenna-hero.jpg": {
+      "bytes": 143903,
+      "sha256": "8e808d07670669527820a421812ab3a5d51875b29431b3c54274b9eb8c4b65c9"
+    },
+    "dist/media/web/nctl-hero.jpg": {
+      "bytes": 173756,
+      "sha256": "36cbf110c46d782f6cedb59ca9eb34532bfa7ca40218d8d4a52a06b3b2607875"
+    },
+    "dist/media/web/northcliff-hero.jpg": {
+      "bytes": 121243,
+      "sha256": "8028b83c18151c80c59469ef18254363fc1db07a01f800194afc6abd186301e9"
+    },
+    "dist/media/web/nouveau-monde-hero.jpg": {
+      "bytes": 137939,
+      "sha256": "0a3dd255ae9a006b08e816697e07556ae15fcdf8b11dd8314ee83c1238604447"
+    },
+    "dist/media/web/nukkiksautiit-hero.jpg": {
+      "bytes": 163076,
+      "sha256": "d8fd587ae48a2ad0cb266d6f201dc32ab1b245a83f835f8203f8fbaa66d0eb2c"
+    },
+    "dist/media/web/red-chris-hero.jpg": {
+      "bytes": 122371,
+      "sha256": "9a0de1358f15fe82f5898dd363cd6d6e4e73f0b2f785a21d680c86214a105ab1"
+    },
+    "dist/media/web/roberts-bank-hero.jpg": {
+      "bytes": 93047,
+      "sha256": "d0c293a4f77db4ae8878b41adee1baf15861b1ed274369266aed3d9a4c6a3ece"
+    },
+    "dist/media/web/taltson-hero.jpg": {
+      "bytes": 135594,
+      "sha256": "284df76a131e9597cbc5818b3729038a5bbcfa8ba3e94b33a7acb84b5488fb41"
+    },
+    "dist/media/web/west-hero.jpg": {
+      "bytes": 109116,
+      "sha256": "b91d2719fdafd14d859fffc01dd8f53d38e1996a1f05364dc653c492ca04a81d"
+    }
+  },
+  "ref": "legacy-v1"
+}

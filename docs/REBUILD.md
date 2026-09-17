@@ -56,6 +56,11 @@ The legacy code is frozen as the tag **`legacy-v1`** (`ecf6ca9`).
 5. **The site build is compared too.** `npm run build` on the restructured code
    must produce the same `web/dist/` as on `legacy-v1`, which proves nothing on
    screen can differ.
+6. **And the deployed site itself.** `dist --base` builds what the workflow
+   builds — the runner's `VITE_BASE`, and a Linux checkout's LF endings — and
+   `live` hashes every file the published site actually serves and compares the
+   two. A build that matches `legacy-v1` but a site serving something else would
+   still be a changed site.
 
 **The compare tool has a negative control:** a deliberately changed value in a
 scratch copy must be reported as a difference.
@@ -142,7 +147,7 @@ before the next begins.
 | **S6 Projects, corridors, industries** | Stages 01, 04 and 06 become the cards `major-projects`, `trade-corridors` and `project-industries`, and the runner groups `projects`, `corridors` and `industries`. Brings the asset and event records with the `points` and `events` frame profiles, and `--set name=value` on the runner for the development-only flags the stages had. The MPO page parser stays in `atlas/readers/`; `atlas/industries.py` becomes `atlas/readers/industries_source.py`. |
 | **S7 Vessels** | Stage 07 becomes the `vessel-register` card and the `vessels` group. The AIS reader becomes the `ais_stream` acquire shell, whose card states why what it reads is never a dataset: a live feed carries no release stamp, so the collector writes only outside `data/` and the site shows the daily snapshot committed to its own branch. |
 | **S8 Export and clean-up** | `99_bundle.py` becomes `atlas/export/bundle.py` and the `bundle` group, so `pipeline/` is gone; the runner learns byte copies, which is how the bundle keeps its files identical. `atlas/sources/` becomes `atlas/readers/`, because "sources" now means the source cards. `STATUS.md` is generated from the registry, and `run.py --check` refuses a stale one. The six older documents carry a history banner; this file is the only queue. *Left: splitting `tests/test_pipeline.py`, 2,500 lines about readers that have not moved.* |
-| **S9 Deploy** | `web/dist/` identical to `legacy-v1`; the workflow re-enabled; the live site checked. |
+| **S9 Deploy** | The site built from the restructured `main` is identical to the one built from `legacy-v1`, in both flavours: the local build, and the runner's (`dist --base`, which is `VITE_BASE` plus a Linux checkout's LF). The new `live` command hashes all 95 files the published site serves: identical to that build, so the deployed site is the one this repository builds. `verify/golden/legacy-v1/deployed.json` is the committed manifest. |
 
 ---
 

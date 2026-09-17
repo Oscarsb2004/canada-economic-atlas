@@ -6,6 +6,8 @@ verify/golden.py — the golden master for the restructure (docs/REBUILD.md §3)
     python verify/golden.py replay --name legacy-v1            # the working tree
     python verify/golden.py replay --name legacy-v1 --ref HEAD
     python verify/golden.py dist   --ref legacy-v1 --out verify/golden/legacy-v1/dist.json
+    python verify/golden.py dist   --ref main --out build/site.json --base /canada-economic-atlas/
+    python verify/golden.py live   --manifest build/site.json --url https://oscarsb2004.github.io/canada-economic-atlas
     python verify/golden.py compare A.json B.json
 
 WHY THIS EXISTS
@@ -21,7 +23,10 @@ bytes, so it is checked on bytes:
            A request the recorded run never made fails the run. Its outputs must
            equal the golden master byte for byte.
   dist     builds the site from a revision and hashes web/dist, so two
-           revisions can be shown to serve the same site.
+           revisions can be shown to serve the same site. With --base it builds
+           what the runner builds, which is what `live` can be compared with.
+  live     hashes what the deployed site actually serves, file by file, and
+           compares it with such a build.
   compare  the comparison both use, runnable on any two manifests.
 
 Nothing here imports `atlas` (CLAUDE.md §4). The scratch copies and the stored
@@ -118,8 +123,16 @@ def write_json(path: Path, data) -> None:
 
 # ── Revisions ────────────────────────────────────────────────────────────────
 
-def export(ref: str, dest: Path) -> str:
-    """Materialise a revision (or the working tree) in `dest`; return what was exported."""
+def export(ref: str, dest: Path, *, eol: str = "native") -> str:
+    """Materialise a revision (or the working tree) in `dest`; return what was exported.
+
+    `eol="lf"` exports the bytes a Linux checkout would have. `.gitattributes`
+    says `* text=auto`, so on Windows `git archive` writes CRLF into every text
+    file — which is right for a replay (the recording was exported the same way)
+    and wrong for a build meant to be compared with the deployed site, whose
+    runner is ubuntu-latest. core.eol defaults to native, so both it and
+    core.autocrlf have to be overridden to get the runner's bytes.
+    """
     if dest.exists():
         shutil.rmtree(dest)
     dest.mkdir(parents=True)
@@ -139,7 +152,8 @@ def export(ref: str, dest: Path) -> str:
         label = f"working tree on {head}" + (f" (uncommitted changes as {snapshot[:12]})" if snapshot else "")
         ref = snapshot or head
     commit = subprocess.run(["git", "-C", str(ROOT), "rev-parse", f"{ref}^{{commit}}"], capture_output=True, text=True, check=True).stdout.strip()
-    proc = subprocess.Popen(["git", "-C", str(ROOT), "archive", "--format=tar", commit], stdout=subprocess.PIPE)
+    settings = ["-c", "core.autocrlf=false", "-c", "core.eol=lf"] if eol == "lf" else []
+    proc = subprocess.Popen(["git", "-C", str(ROOT), *settings, "archive", "--format=tar", commit], stdout=subprocess.PIPE)
     with tarfile.open(fileobj=proc.stdout, mode="r|") as archive:
         archive.extractall(dest, filter="data")
     if proc.wait() != 0:
@@ -265,20 +279,66 @@ def cmd_replay(args) -> int:
 
 
 def cmd_dist(args) -> int:
-    tree = GOLDEN_ROOT / "dist" / (args.ref.replace("/", "_"))
-    exported = export(args.ref, tree)
+    deployed = args.base is not None
+    name = args.ref.replace("/", "_") + ("-deployed" if deployed else "")
+    tree = GOLDEN_ROOT / "dist" / name
+    # --base reproduces the runner: .github/workflows/deploy.yml passes the repo
+    # name as VITE_BASE, because a project site is served from /<repo>/ and that
+    # prefix is compiled into the entry chunk. Without it the bytes differ from
+    # the deployed ones for a reason that has nothing to do with this project.
+    exported = export(args.ref, tree, eol="lf" if deployed else "native")
     web = tree / "web"
     npm = shutil.which("npm") or shutil.which("npm.cmd")
     if not npm:
         raise SystemExit("npm is not on PATH")
+    env = {**os.environ, "VITE_BASE": args.base} if deployed else None
     for command in ([npm, "ci", "--no-audit", "--no-fund"], [npm, "run", "build"]):
-        code = subprocess.run(command, cwd=web).returncode
+        code = subprocess.run(command, cwd=web, env=env).returncode
         if code != 0:
             return code
     manifest = {"ref": args.ref, "exported": exported, "files": hash_tree(web, ("dist",))}
+    if deployed:
+        manifest["base"] = args.base
     write_json(Path(args.out), manifest)
     print(f"{len(manifest['files'])} files in web/dist, written to {args.out}")
     return 0
+
+
+def cmd_live(args) -> int:
+    """Compare what a deployed site serves with a manifest of a build.
+
+    The published site is the only thing a reader ever sees, so the restructure's
+    last claim is about it: the deployed bytes are the bytes this repository
+    builds. Each file is streamed and hashed, never kept.
+    """
+    import requests  # not a module-level import: every other command runs offline
+
+    files = json.loads(Path(args.manifest).read_text(encoding="utf-8"))["files"]
+    base = args.url.rstrip("/")
+    same, different, missing, fetched = 0, [], [], 0
+    with requests.Session() as session:
+        for path in sorted(files):
+            rel = path[len("dist/"):] if path.startswith("dist/") else path
+            digest, size = hashlib.sha256(), 0
+            with session.get(f"{base}/{rel}", stream=True, timeout=120) as response:
+                if response.status_code != 200:
+                    missing.append((rel, response.status_code))
+                    continue
+                for chunk in response.iter_content(65536):
+                    digest.update(chunk)
+                    size += len(chunk)
+            fetched += size
+            if digest.hexdigest() == files[path]["sha256"]:
+                same += 1
+            else:
+                different.append((rel, files[path]["bytes"], size))
+    for rel, expected, got in different:
+        print(f"  different: {rel} (built {expected} bytes, live {got})")
+    for rel, code in missing:
+        print(f"  not served: {rel} (HTTP {code})")
+    print(f"{same} of {len(files)} files identical, {fetched / 1e6:.1f} MB fetched")
+    print("identical" if same == len(files) else "different")
+    return 0 if same == len(files) else 1
 
 
 def cmd_compare(args) -> int:
@@ -314,7 +374,13 @@ def main(argv: list[str] | None = None) -> int:
     dist = sub.add_parser("dist", help="build the site from a revision and hash web/dist")
     dist.add_argument("--ref", required=True)
     dist.add_argument("--out", required=True)
+    dist.add_argument("--base", help="build it as the runner does: this VITE_BASE, and a Linux checkout's LF")
     dist.set_defaults(func=cmd_dist)
+
+    live = sub.add_parser("live", help="compare a deployed site with a manifest from `dist --base`")
+    live.add_argument("--manifest", required=True)
+    live.add_argument("--url", required=True)
+    live.set_defaults(func=cmd_live)
 
     cmp_ = sub.add_parser("compare", help="compare two manifests")
     cmp_.add_argument("expected")
