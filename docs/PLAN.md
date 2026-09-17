@@ -1,3 +1,8 @@
+> [!note] History
+> This is the design of the project as it was first built. It is kept for its reasoning and is no longer a queue.
+> The restructure's plan, and the only queue, is [`REBUILD.md`](REBUILD.md); what exists today is
+> [`../STATUS.md`](../STATUS.md), generated from `registry/`.
+
 # canada-economic-atlas — Implementation Plan
 
 ## Context

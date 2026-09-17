@@ -34,7 +34,7 @@
     },
     "builder": {
       "type": "string",
-      "pattern": "^atlas\\.datasets\\.[a-z][a-z0-9_]*:[a-z_][a-z0-9_]*$"
+      "pattern": "^atlas\\.(datasets|export)\\.[a-z][a-z0-9_]*:[a-z_][a-z0-9_]*$"
     },
     "params": {
       "type": "object",
@@ -76,7 +76,7 @@
       "uniqueItems": true,
       "items": {
         "type": "string",
-        "pattern": "^data/[A-Za-z0-9_./-]+\\.json$"
+        "pattern": "^(data|web/public/data)/[A-Za-z0-9_./-]+\\.json$"
       }
     },
     "frame": {

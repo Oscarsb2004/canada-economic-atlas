@@ -41,6 +41,9 @@ class Built:
     """What a builder made: published files, in their existing layouts, and frames describing them."""
 
     outputs: list[tuple[Path, dict[str, Any]]] = field(default_factory=list)
+    #: (source, destination) pairs copied byte for byte rather than re-serialised,
+    #: so a file that is already correct cannot change by being written again.
+    copies: list[tuple[Path, Path]] = field(default_factory=list)
     frames: list[Frame] = field(default_factory=list)
     #: Named values for the receipt: what a reviewer checks the run by.
     receipt: dict[str, Any] = field(default_factory=dict)

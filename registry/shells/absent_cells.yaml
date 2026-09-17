@@ -22,6 +22,6 @@ limits:
 gotchas:
 - StatCan business counts publish no zero rows; a size range with no businesses has no row at all.
 used_by:
-- atlas/sources/business_counts.py
+- atlas/readers/business_counts.py
 moved_from:
-- atlas/sources/business_counts.py
+- atlas/readers/business_counts.py

@@ -21,6 +21,6 @@ gotchas:
 - The French Fiscal Reference Tables carry unrounded figures the English rounds, and label Manitoba's 2011-12 row
   2010-2011.
 used_by:
-- atlas/sources/fiscal_tables.py
+- atlas/readers/fiscal_tables.py
 moved_from:
-- atlas/sources/fiscal_tables.py
+- atlas/readers/fiscal_tables.py

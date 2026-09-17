@@ -1,7 +1,7 @@
 """
 atlas.shells.transform.crosswalk_sum — sum published members into a declared category.
 
-(Taken from `build_crosswalk_series` in atlas/sources/statcan.py in step S3 of
+(Taken from `build_crosswalk_series` in atlas/readers/statcan.py in step S3 of
 docs/REBUILD.md; unchanged in behaviour. Card: registry/shells/crosswalk_sum.yaml.)
 
 StatCan's gross output table is classified by IOIC, not NAICS, and splits every

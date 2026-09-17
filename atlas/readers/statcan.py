@@ -1,5 +1,5 @@
 """
-atlas.sources.statcan — reading Statistics Canada cubes once they are on disk.
+atlas.readers.statcan — reading Statistics Canada cubes once they are on disk.
 
 Downloading a cube, and keeping it in step with its release, is the
 `statcan_table` acquire shell (atlas/shells/acquire/statcan_table.py).

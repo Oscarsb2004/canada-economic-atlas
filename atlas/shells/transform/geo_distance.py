@@ -1,7 +1,7 @@
 """
 atlas.shells.transform.geo_distance — the distance between two [lon, lat] points.
 
-(Moved from atlas/sources/mpi.py in step S3 of docs/REBUILD.md; unchanged in
+(Moved from atlas/readers/mpi.py in step S3 of docs/REBUILD.md; unchanged in
 behaviour. Card: registry/shells/geo_distance.yaml.)
 
 Great-circle distance on a spherical Earth, which is what holding a join to

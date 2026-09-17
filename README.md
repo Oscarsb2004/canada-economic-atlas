@@ -38,12 +38,12 @@ Nothing is estimated or ranked by this project, and no number is typed in by han
 
 **The project is finished (closed out 2026-09-13).** Later sessions validate and fix
 bugs; nothing new is queued — see the top of [docs/BACKLOG.md](docs/BACKLOG.md). Nine pipeline
-stages run end to end — `01` projects, `02` sectors, `03` business counts, `04`
+steps run end to end — `01` projects, `02` sectors, `03` business counts, `04`
 trade corridors, `05` municipalities, `06` project industries, `07` vessels, `08`
-provinces, `99` the bundle — with seven declared Statistics Canada pulls in stage
-02. 121 tests and 186 verification gates pass, and a re-run
-against unchanged sources produces a zero-line git diff, which is the acceptance
-test for every stage.
+provinces, `99` the bundle — with seven declared Statistics Canada pulls in step
+02. Each is a dataset card the runner builds (docs/REBUILD.md). 192 tests and
+186 verification gates pass, and a re-run against unchanged sources produces a
+zero-line git diff, which is the acceptance test for every step.
 
 Every record is captured in **both official languages**, and the interface
 renders either, from an EN / FR toggle in the map's layer panel.
@@ -98,10 +98,10 @@ atlas/              importable package — the project's own code
   shells/           acquire/ transform/ check/ — one operation per module, each with a card
   datasets/         the builders dataset cards name
   run.py            the runner: the only writer of dataset outputs, frames and receipts
-  sources/          publisher readers not yet moved onto dataset cards (docs/REBUILD.md)
-  industries.py     MPO projects placed in NAICS, checked against their quotes
+  readers/          one module per publisher: what only that publisher's bytes need
+  export/           the bundle the web app fetches
+  status.py         renders STATUS.md from the cards
 registry/           configuration as YAML: source, shell and dataset cards, licences, events, strategies, sectors, crosswalks, checks; schemas/
-pipeline/           stage scripts not yet moved onto dataset cards, and 99 the bundle
 build/              frames and receipts from the runner (not committed)
 data/               pipeline outputs, committed for clone-and-run
 web/                React + Vite + MapLibre app

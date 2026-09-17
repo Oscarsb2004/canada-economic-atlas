@@ -50,7 +50,7 @@ from atlas.core import registry as R
 from atlas.core.records import municipality_records
 from atlas.core.schema import Provenance, SourceRef, to_jsonable
 from atlas.datasets import Built, Context
-from atlas.sources import census
+from atlas.readers import census
 
 log = logging.getLogger(__name__)
 
@@ -71,7 +71,7 @@ def build(ctx: Context, *, dataset: str) -> Built:
     if str(src.get("census_vintage")) != census.CENSUS_VINTAGE:
         raise SystemExit(
             f"its source card declares census_vintage {src.get('census_vintage')!r}; "
-            f"atlas/sources/census.py parses {census.CENSUS_VINTAGE!r}. A new census "
+            f"atlas/readers/census.py parses {census.CENSUS_VINTAGE!r}. A new census "
             f"is a deliberate change to both."
         )
 

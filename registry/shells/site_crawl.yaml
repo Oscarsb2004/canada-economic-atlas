@@ -25,6 +25,6 @@ gotchas:
 - canada.ca links a page on projects designated under the Building Canada Act that returns 404; broken links are
   reported, not hidden.
 used_by:
-- atlas/sources/mpo.py
+- atlas/readers/mpo.py
 moved_from:
-- atlas/sources/mpo.py
+- atlas/readers/mpo.py

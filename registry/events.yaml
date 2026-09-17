@@ -2,7 +2,7 @@
 #
 # An Event is a hand-picked landmark: a policy change, a piece of legislation, a
 # programme. It is the project's extension seam. Adding the next one means
-# adding an entry here plus one module under atlas/sources/, and nothing in the
+# adding an entry here plus one module under atlas/readers/, and nothing in the
 # web app changes.
 #
 # `kind` is what keeps that seam honest:
@@ -22,7 +22,7 @@ events:
       fr: Bureau des grands projets
     # Royal assent of the Building Canada Act (Bill C-5), which created the MPO.
     date: 2025-06-26
-    source_module: atlas.sources.mpo
+    source_module: atlas.readers.mpo
     sources: [mpo_arcgis, mpo_pages]
     licence: ogl-canada-2.0
 
@@ -59,7 +59,7 @@ events:
       fr: Corridors commerciaux d'importance nationale
     # Transport Canada's 2024 annual report.
     date: 2025-01-01
-    source_module: atlas.sources.tc_corridors
+    source_module: atlas.readers.tc_corridors
     sources: [tc_annual_report]
     licence: ogl-canada-2.0
 

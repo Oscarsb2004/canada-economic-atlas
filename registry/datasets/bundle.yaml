@@ -1,0 +1,34 @@
+# registry/datasets/bundle.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run bundle` builds it; atlas/core/registry.py checks every claim below.
+
+title: 'The bundle the site fetches: every dataset it shows, plus meta, country and palette'
+group: bundle
+order: 10
+builder: atlas.export.bundle:build
+params: {}
+sources:
+- statcan_wds
+- boc_valet
+shells: []
+after: []
+outputs:
+- web/public/data/events/major-projects-office/projects.json
+- web/public/data/events/major-projects-office/strategies.json
+- web/public/data/events/major-projects-office/industries.json
+- web/public/data/events/trade-corridors/corridors.json
+- web/public/data/sectors/national-monthly.json
+- web/public/data/sectors/national-constant.json
+- web/public/data/sectors/provincial-annual.json
+- web/public/data/sectors/rates.json
+- web/public/data/sectors/business-counts.json
+- web/public/data/provinces/provinces.json
+- web/public/data/country.json
+- web/public/data/palette.json
+- web/public/data/meta.json
+frame: null
+on_screen: true
+consumed_by:
+- path: web/src/data/bundle.ts
+  how: the app fetches these paths at start-up
+- path: docs/INTEROP-world-strategic-map.md
+  how: country.json is the contract the sibling repository reads

@@ -22,6 +22,6 @@ limits:
 gotchas:
 - StatCan 36-10-0488 is classified by IOIC and split by institutional sector; no member of it is a NAICS sector.
 used_by:
-- atlas/sources/statcan.py
+- atlas/readers/statcan.py
 moved_from:
-- atlas/sources/statcan.py
+- atlas/readers/statcan.py

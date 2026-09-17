@@ -1,3 +1,8 @@
+> [!note] History
+> This is a file-by-file tour of the code as it stood at legacy-v1. It is kept for its reasoning and is no longer a queue.
+> The restructure's plan, and the only queue, is [`REBUILD.md`](REBUILD.md); what exists today is
+> [`../STATUS.md`](../STATUS.md), generated from `registry/`.
+
 # CODE TOUR — what every file is for, and where it lies
 
 _Written 2026-09-05 by reading the files on disk, not from memory. Every claim

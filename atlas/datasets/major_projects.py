@@ -48,7 +48,7 @@ from atlas.core.schema import (
 from atlas.datasets import Built, Context
 from atlas.shells.acquire.fetcher import Fetcher
 from atlas.shells.transform import image_derive
-from atlas.sources import mpo
+from atlas.readers import mpo
 
 log = logging.getLogger(__name__)
 

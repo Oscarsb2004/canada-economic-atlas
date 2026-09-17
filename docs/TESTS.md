@@ -1,3 +1,8 @@
+> [!note] History
+> This is the test suite as it stood in September 2026. It is kept for its reasoning and is no longer a queue.
+> The restructure's plan, and the only queue, is [`REBUILD.md`](REBUILD.md); what exists today is
+> [`../STATUS.md`](../STATUS.md), generated from `registry/`.
+
 # The test suite, case by case
 
 _67 tests (61 functions, two parametrized), `python run.py --test`. Written

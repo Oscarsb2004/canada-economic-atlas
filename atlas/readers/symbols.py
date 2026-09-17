@@ -1,5 +1,5 @@
 """
-atlas.sources.symbols — who each province and territory is on paper: its motto
+atlas.readers.symbols — who each province and territory is on paper: its motto
 and the description of its flag, in Canadian Heritage's words, and its flag and
 coat of arms as images from Wikimedia Commons (BACKLOG R0).
 

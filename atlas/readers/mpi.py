@@ -1,5 +1,5 @@
 """
-atlas.sources.mpi — Natural Resources Canada's Major Projects Inventory, read
+atlas.readers.mpi — Natural Resources Canada's Major Projects Inventory, read
 from its open map service for two things: whether a project is under
 construction (BACKLOG C1), and its capital cost (C2).
 

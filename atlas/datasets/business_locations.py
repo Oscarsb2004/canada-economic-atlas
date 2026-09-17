@@ -19,7 +19,7 @@ many locations with employees each of the twenty sectors has, in Canada and
 each province and territory, in StatCan's own employment-size ranges.
 
 The table is found, not declared: each half-year is a new product ID, and
-`atlas/sources/business_counts.py` picks the newest one by its exact title.
+`atlas/readers/business_counts.py` picks the newest one by its exact title.
 """
 
 from __future__ import annotations
@@ -37,8 +37,8 @@ from atlas.core.records import Observation
 from atlas.core.schema import Provenance, SourceRef
 from atlas.datasets import Built, Context, statcan_sectors
 from atlas.shells.acquire import statcan_table
-from atlas.sources import business_counts as bc
-from atlas.sources import statcan
+from atlas.readers import business_counts as bc
+from atlas.readers import statcan
 
 log = logging.getLogger(__name__)
 

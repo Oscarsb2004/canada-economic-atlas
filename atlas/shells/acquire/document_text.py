@@ -1,7 +1,7 @@
 """
 atlas.shells.acquire.document_text — the words of a PDF or an HTML page, normalised for quoting.
 
-(Moved from atlas/sources/budget_text.py in step S2 of docs/REBUILD.md; unchanged
+(Moved from atlas/readers/budget_text.py in step S2 of docs/REBUILD.md; unchanged
 in behaviour. Card: registry/shells/document_text.yaml.)
 
 Normalisation is what lets a quote typed from a document be found in the

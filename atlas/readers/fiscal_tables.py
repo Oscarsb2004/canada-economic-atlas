@@ -1,5 +1,5 @@
 """
-atlas.sources.fiscal_tables — Finance Canada's Fiscal Reference Tables, read for
+atlas.readers.fiscal_tables — Finance Canada's Fiscal Reference Tables, read for
 each province and territory's revenues, expenditures, deficit and debt
 (BACKLOG R3, R5a).
 

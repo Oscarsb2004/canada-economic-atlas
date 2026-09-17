@@ -1,7 +1,7 @@
 """
 atlas.shells.acquire.workbook_edition — the newest edition of a yearly workbook, found by its contents.
 
-(Moved from atlas/sources/fiscal_tables.py in step S2 of docs/REBUILD.md;
+(Moved from atlas/readers/fiscal_tables.py in step S2 of docs/REBUILD.md;
 unchanged in behaviour. Card: registry/shells/workbook_edition.yaml.)
 
 canada.ca answers a HEAD request with 200 for a file that does not exist, and

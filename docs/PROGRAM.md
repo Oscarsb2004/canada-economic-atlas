@@ -1,3 +1,8 @@
+> [!note] History
+> This is the plan across the three Athena repositories. It is kept for its reasoning and is no longer a queue.
+> The restructure's plan, and the only queue, is [`REBUILD.md`](REBUILD.md); what exists today is
+> [`../STATUS.md`](../STATUS.md), generated from `registry/`.
+
 # PROGRAM — the long-term plan across the three repos
 
 _Written 2026-09-06. Horizon: from v1 to a running platform._

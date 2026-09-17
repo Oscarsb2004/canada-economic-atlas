@@ -42,7 +42,7 @@ from atlas.core import registry as R
 from atlas.core.records import Observation
 from atlas.core.schema import Provenance, SourceRef, to_jsonable
 from atlas.datasets import Built, Context
-from atlas.sources import vessels
+from atlas.readers import vessels
 
 log = logging.getLogger(__name__)
 

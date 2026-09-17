@@ -27,6 +27,6 @@ limits:
 gotchas:
 - Name matching found 6 of 18 projects; declared IDs checked by distance found the true joins.
 used_by:
-- atlas/sources/mpi.py
+- atlas/readers/mpi.py
 moved_from:
-- atlas/sources/mpi.py
+- atlas/readers/mpi.py

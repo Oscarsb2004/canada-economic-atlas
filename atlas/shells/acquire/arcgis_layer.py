@@ -1,7 +1,7 @@
 """
 atlas.shells.acquire.arcgis_layer — features from an ArcGIS MapServer layer.
 
-(Collected from atlas/sources/mpo.py and atlas/sources/mpi.py in step S2 of
+(Collected from atlas/readers/mpo.py and atlas/readers/mpi.py in step S2 of
 docs/REBUILD.md; unchanged in behaviour. Card: registry/shells/arcgis_layer.yaml.)
 
 Two query forms, because the two services this project reads were written

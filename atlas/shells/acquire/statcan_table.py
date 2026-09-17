@@ -1,7 +1,7 @@
 """
 atlas.shells.acquire.statcan_table — a whole Statistics Canada table, kept in step with its release.
 
-(Moved from atlas/sources/statcan.py in step S2 of docs/REBUILD.md; unchanged in behaviour.
+(Moved from atlas/readers/statcan.py in step S2 of docs/REBUILD.md; unchanged in behaviour.
 Card: registry/shells/statcan_table.yaml.)
 
 Bulk download is the primary path. `getFullTableDownloadCSV` returns an entire
@@ -14,7 +14,7 @@ The `productId` is the 8-digit CUBE, not the 10-digit table view: table
 36-10-0434-01 is `pid=3610043401` on the website but `36100434` in the API.
 
 Reading a downloaded cube is not this shell's job; that stays with the code
-that knows which columns it needs (atlas/sources/statcan.py).
+that knows which columns it needs (atlas/readers/statcan.py).
 """
 
 from __future__ import annotations

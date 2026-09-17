@@ -31,8 +31,8 @@ gotchas:
 - The MPO strategies layer returns empty polygons under f=geojson; its attributes are read with f=json.
 - The French services have French field names.
 used_by:
-- atlas/sources/mpo.py
-- atlas/sources/mpi.py
+- atlas/readers/mpo.py
+- atlas/readers/mpi.py
 moved_from:
-- atlas/sources/mpo.py
-- atlas/sources/mpi.py
+- atlas/readers/mpo.py
+- atlas/readers/mpi.py

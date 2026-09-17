@@ -58,8 +58,9 @@ MPO→NAICS crosswalk, the palette. All hand-editable. `python run.py --check`
 validates every file against its JSON Schema in `registry/schemas/` — unknown
 files and unknown fields are refused — and a full run does so before any stage.
 
-Adding an event means adding a `registry/events.yaml` entry and one module under
-`atlas/sources/`. Nothing in `web/` changes.
+Adding a dataset means a card in `registry/datasets/` and, if no shell fits, one
+module under `atlas/shells/`. Nothing in `web/` changes, and `run.py --check`
+refuses a card whose builder, sources, shells, outputs or readers do not exist.
 
 ## 4. `verify/` must never import `atlas/`
 
@@ -162,8 +163,9 @@ command's query must match the claim's wording: "sector-years" counts sectors,
 
 ```bash
 python run.py            # whole pipeline, then verify
-python run.py --stage 01 # one step: a stage script or a dataset group
-python run.py --check    # every registry file against its schema
+python run.py --stage 01 # one step of a full run: each is a dataset group
+python run.py --check    # every registry file against its schema, and STATUS.md
+python run.py --status   # rewrite STATUS.md from the registry
 python -m atlas.run --list               # every dataset card, by group
 python -m atlas.run --dataset <id>       # one dataset
 python verify/golden.py replay --name legacy-v1  # the restructure's identity check (stage new files first)
@@ -175,7 +177,8 @@ node scripts/build_geo.mjs  # rebuild committed geometry
 
 ## House style
 
-Numbered stage scripts at root, logic in the package. `# ── Section ──` banners.
+Dataset cards in `registry/`, builders in `atlas/datasets/`, one operation per
+shell in `atlas/shells/`, and only `atlas/run.py` writes. `# ── Section ──` banners.
 Module docstrings explain *why*, and name the thing that went wrong before —
 a comment that only restates the code is not worth the line. Pinned
 dependencies. LF endings via `.gitattributes`.

@@ -1,7 +1,7 @@
 """
 atlas.shells.transform.absent_cells — an unpublished part is zero only when its total says so.
 
-(Taken from `build` in atlas/sources/business_counts.py in step S3 of
+(Taken from `build` in atlas/readers/business_counts.py in step S3 of
 docs/REBUILD.md; unchanged in behaviour. Card: registry/shells/absent_cells.yaml.)
 
 Statistics Canada's business counts publish no zero rows: a size range with no

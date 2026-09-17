@@ -4,7 +4,7 @@
 #
 # The corridors' NAMES, DESCRIPTIONS and INFRASTRUCTURE LISTS are not in this
 # file. They are scraped verbatim from Transport Canada's annual report by
-# `atlas/sources/tc_corridors.py`. This file carries only the JOINS — which
+# `atlas/readers/tc_corridors.py`. This file carries only the JOINS — which
 # summary text identifies which corridor, which provinces we read it as
 # covering, and where its named ports and border crossings actually are.
 #

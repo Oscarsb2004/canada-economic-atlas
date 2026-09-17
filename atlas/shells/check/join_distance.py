@@ -1,7 +1,7 @@
 """
 atlas.shells.check.join_distance — hold a declared join to geography.
 
-(Taken from atlas/sources/mpi.py in step S3 of docs/REBUILD.md; unchanged in
+(Taken from atlas/readers/mpi.py in step S3 of docs/REBUILD.md; unchanged in
 behaviour. Card: registry/shells/join_distance.yaml.)
 
 Two records are joined by an ID someone declared, never by name, because names

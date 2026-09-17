@@ -1,5 +1,5 @@
 """
-atlas.sources.industries_source — each Major Projects Office project in the NAICS industries it
+atlas.readers.industries_source — each Major Projects Office project in the NAICS industries it
 would operate in, and in construction while a published status says it is
 being built.
 
@@ -22,7 +22,7 @@ from typing import Any
 from atlas.core.schema import (
     ConstructionListing, IndustryAssignment, InventoryStatus, ProjectIndustries, Text,
 )
-from atlas.sources import mpi, naics
+from atlas.readers import mpi, naics
 
 
 class IndustryError(ValueError):

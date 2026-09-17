@@ -20,7 +20,7 @@
 #
 # The two French element files are NOT in the English files' order (each is
 # sorted by its own language's wording), so a French quote is declared, never
-# paired by position. `atlas/sources/naics.py` has the measurement.
+# paired by position. `atlas/readers/naics.py` has the measurement.
 #
 # THE RULES THE ENTRIES FOLLOW
 #
