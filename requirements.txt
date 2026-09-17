@@ -20,3 +20,4 @@ websockets==17.1         # aisstream.io is a WebSocket stream (live/collect_ais.
 
 # Test-only.
 pytest==9.1.1
+time-machine==2.19.0     # the golden master's frozen clock (verify/golden.py, docs/REBUILD.md §3)

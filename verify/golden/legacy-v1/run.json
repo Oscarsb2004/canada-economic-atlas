@@ -1,0 +1,55 @@
+{
+  "mode": "record",
+  "steps": [
+    {
+      "exit": 0,
+      "seconds": 220,
+      "step": "01"
+    },
+    {
+      "exit": 0,
+      "seconds": 60,
+      "step": "02"
+    },
+    {
+      "exit": 0,
+      "seconds": 5,
+      "step": "03"
+    },
+    {
+      "exit": 0,
+      "seconds": 5,
+      "step": "04"
+    },
+    {
+      "exit": 0,
+      "seconds": 2,
+      "step": "05"
+    },
+    {
+      "exit": 0,
+      "seconds": 16,
+      "step": "06"
+    },
+    {
+      "exit": 0,
+      "seconds": 11,
+      "step": "07"
+    },
+    {
+      "exit": 0,
+      "seconds": 280,
+      "step": "08"
+    },
+    {
+      "exit": 0,
+      "seconds": 1,
+      "step": "99"
+    },
+    {
+      "exit": 0,
+      "seconds": 4,
+      "step": "verify"
+    }
+  ]
+}
