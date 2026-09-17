@@ -31,6 +31,7 @@ PROFILES = {
     "panel": frozenset({"entity", "time", "measure"}),
     "cross-section": frozenset({"entity", "measure"}),
     "places": frozenset({"entity", "label"}),
+    "passages": frozenset({"entity", "label", "source_ref"}),
 }
 
 
@@ -76,6 +77,30 @@ PLACE_COLUMNS = (
     Column("source_table", "string", "source_ref"),
 )
 PLACE_KEYS = ("key",)
+
+PASSAGE_COLUMNS = (
+    Column("entity", "string", "entity"),
+    Column("kind", "string", "category"),
+    Column("text_en", "string", "label"),
+    Column("text_fr", "string", "label"),
+    Column("source_url", "string", "source_ref"),
+    Column("locator", "string", "source_ref"),
+    Column("content_sha256", "string", "source_ref"),
+    Column("provenance", "string", "status"),
+)
+PASSAGE_KEYS = ("entity", "kind", "locator", "text_en")
+
+PASSAGE_COLUMNS = (
+    Column("entity", "string", "entity"),
+    Column("kind", "string", "category"),
+    Column("text_en", "string", "label"),
+    Column("text_fr", "string", "label"),
+    Column("source_url", "string", "source_ref"),
+    Column("locator", "string", "source_ref"),
+    Column("content_sha256", "string", "source_ref"),
+    Column("provenance", "string", "status"),
+)
+PASSAGE_KEYS = ("entity", "kind", "locator", "text_en")
 
 _TYPES = {"string": (str,), "number": (int, float), "integer": (int,)}
 

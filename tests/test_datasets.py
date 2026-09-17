@@ -199,3 +199,24 @@ def test_a_declared_pull_without_a_card_is_refused(registry_copy):
 def test_an_output_that_is_not_committed_is_refused(registry_copy):
     _edit(registry_copy / "datasets/policy-rate.yaml", lambda d: d["outputs"].append("data/sectors/nowhere.json"))
     assert any("nowhere.json is not in the repository" in e for e in R.dataset_errors())
+
+
+# ── Passages (docs/REBUILD.md step S5) ───────────────────────────────────────
+
+def test_a_passage_frame_carries_where_the_words_were_found():
+    """A quote without its document and locator cannot be checked again, which is the point of quoting."""
+    from atlas.core.records import Passage
+
+    rows = [Passage(entity="ON", kind="budget_risk", text_en="Tariffs remain a risk.", text_fr="",
+                    source_url="https://budget.example/plan.pdf", locator="page 12",
+                    provenance="page_verbatim").row()]
+    frame = frames.Frame(dataset="probe", name="passages", profile="passages", record_type="passage",
+                         keys=frames.PASSAGE_KEYS, columns=frames.PASSAGE_COLUMNS, rows=rows)
+    frame.validate()
+    assert {c.role for c in frames.PASSAGE_COLUMNS} >= frames.PROFILES["passages"]
+
+    without_source = tuple(c for c in frames.PASSAGE_COLUMNS if c.role != "source_ref")
+    stripped = [{k: v for k, v in rows[0].items() if k not in ("source_url", "locator", "content_sha256")}]
+    with pytest.raises(frames.FrameError, match="needs roles \['source_ref'\]"):
+        frames.Frame(dataset="probe", name="passages", profile="passages", record_type="passage",
+                     keys=("entity", "kind", "text_en"), columns=without_source, rows=stripped).validate()

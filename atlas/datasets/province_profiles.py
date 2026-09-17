@@ -1,8 +1,10 @@
-#!/usr/bin/env python3
 """
-Stage 08 — each province and territory in depth (BACKLOG Stage R).
+atlas.datasets.province_profiles — each province and territory in depth (BACKLOG Stage R).
 
-    python pipeline/08_provinces.py [--refresh]
+    python -m atlas.run provinces
+
+(Was pipeline/08_provinces.py until step S5 of docs/REBUILD.md; the code is carried
+unchanged, and the runner writes the output.)
 
 Outputs
     data/provinces/provinces.json
@@ -31,42 +33,36 @@ Commons itself produces.
 
 from __future__ import annotations
 
-import argparse
 import hashlib
 import json
 import logging
-import sys
 from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import yaml
 
 from atlas.core import clock
+from atlas.core import frames
 from atlas.core import registry as R
-from atlas.core.jsonio import write_if_changed
+from atlas.core.records import Observation, Passage
 from atlas.core.schema import Provenance, SourceRef, Text, to_jsonable
+from atlas.datasets import Built, Context
 from atlas.shells.acquire import document_text, statcan_table
-from atlas.shells.acquire.fetcher import Fetcher, FetchError
+from atlas.shells.acquire.fetcher import FetchError
 from atlas.sources import budget_text, census, fiscal_tables, sector_shares, statcan, symbols
 
-log = logging.getLogger("08_provinces")
+log = logging.getLogger(__name__)
 
 OUTPUT = R.DATA_DIR / "provinces" / "provinces.json"
 IMAGES = R.WEB_MEDIA_DIR / "provinces"
-REGISTRY = Path(__file__).resolve().parents[1] / "registry"
+REGISTRY = R.REGISTRY_DIR
 
 
 def _sha(body: bytes) -> str:
     return hashlib.sha256(body).hexdigest()
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--refresh", action="store_true", help="re-download every source")
-    args = ap.parse_args()
-    logging.basicConfig(level=logging.INFO, format="%(levelname)-7s %(message)s")
-
+def build(ctx: Context, *, dataset: str) -> Built:
+    """Every province and territory: its finances, its economy, its words and its symbols."""
     reg = yaml.safe_load((REGISTRY / "provinces.yaml").read_text(encoding="utf-8"))
     provinces = reg["provinces"]
     if set(provinces) != set(R.PROVINCE_CODES):
@@ -75,7 +71,7 @@ def main() -> int:
     if pruid_to_code != {k: v for k, v in census.PRUID_TO_CODE.items() if v in provinces}:
         raise SystemExit("provinces.yaml PRUIDs disagree with atlas/sources/census.py")
 
-    fetch = Fetcher(cache_dir=R.DATA_DIR / "raw" / "cache", use_cache=not args.refresh)
+    fetch = ctx.fetch
     retrieved = clock.now_iso()
     sources: list[SourceRef] = []
 
@@ -84,15 +80,15 @@ def main() -> int:
 
     def get(url: str) -> bytes | None:
         try:
-            return fetch.bytes(url, force=args.refresh)
+            return fetch.bytes(url, force=ctx.refresh)
         except FetchError:
             return None
 
-    year, books = fiscal_tables.latest_edition(get, fsrc["xlsx"], clock.now().year + 1,
+    year_edition, books = fiscal_tables.latest_edition(get, fsrc["xlsx"], clock.now().year + 1,
                                                int(fsrc["oldest_edition"]))
-    log.info("Fiscal Reference Tables: %d edition", year)
+    log.info("Fiscal Reference Tables: %d edition", year_edition)
     for lang in ("en", "fr"):
-        sources.append(SourceRef(url=fsrc["xlsx"][lang].format(year=year, yy=f"{year % 100:02d}"),
+        sources.append(SourceRef(url=fsrc["xlsx"][lang].format(year=year_edition, yy=f"{year_edition % 100:02d}"),
                                  retrieved_at=retrieved, provenance=Provenance.OFFICIAL_DATASET,
                                  licence=fsrc["licence"], content_sha256=_sha(books[lang])))
     fiscal = {}
@@ -107,8 +103,8 @@ def main() -> int:
     pid = str(ssrc["pid"])
     live = statcan_table.release_time(fetch, pid)
     raw = R.DATA_DIR / "raw" / "statcan"
-    zip_en, release = statcan_table.download_cube(fetch, pid, "eng", raw, live_release=live, refresh=args.refresh)
-    zip_fr, release_fr = statcan_table.download_cube(fetch, pid, "fra", raw, live_release=live, refresh=args.refresh)
+    zip_en, release = statcan_table.download_cube(fetch, pid, "eng", raw, live_release=live, refresh=ctx.refresh)
+    zip_fr, release_fr = statcan_table.download_cube(fetch, pid, "fra", raw, live_release=live, refresh=ctx.refresh)
     if not release or release != release_fr:
         raise SystemExit(f"table {pid}: the English and French zips are not of one dated release "
                          f"({release!r} / {release_fr!r}); run with --refresh")
@@ -140,13 +136,13 @@ def main() -> int:
     csrc = R.source(reg["images_source"])
     titles = [p[kind] for p in provinces.values() for kind in ("flag", "arms")]
     records = symbols.commons_records(json.loads(fetch.bytes(symbols.commons_query_url(csrc["api"], titles),
-                                                             force=args.refresh)), titles)
+                                                             force=ctx.refresh)), titles)
     IMAGES.mkdir(parents=True, exist_ok=True)
     images: dict[str, dict[str, dict]] = {}
     for code, p in provinces.items():
         for kind in ("flag", "arms"):
             rec = records[p[kind]]
-            body = fetch.bytes(rec["rendering_url"], force=args.refresh)
+            body = fetch.bytes(rec["rendering_url"], force=ctx.refresh)
             if not body.startswith(b"\x89PNG"):
                 raise SystemExit(f"{code} {kind}: the Commons rendering is not a PNG")
             path = IMAGES / f"{code.lower()}-{kind}.png"
@@ -174,7 +170,7 @@ def main() -> int:
             # Then the document is read from a copy saved by hand under
             # data/raw/budgets/ — never committed — and still checked quote by quote.
             try:
-                body = fetch.bytes(b["url"], force=args.refresh)
+                body = fetch.bytes(b["url"], force=ctx.refresh)
             except FetchError as exc:
                 saved = [f for f in (R.DATA_DIR / "raw" / "budgets").glob(f"{code}.*")]
                 if not saved:
@@ -200,8 +196,8 @@ def main() -> int:
         "generated_at": retrieved,
         "fiscal": {
             "title": fsrc["title"],
-            "edition": year,
-            "edition_page": fsrc["edition_page"].format(year=year),
+            "edition": year_edition,
+            "edition_page": fsrc["edition_page"].format(year=year_edition),
             "unit": to_jsonable(next(iter(fiscal.values())).unit),
         },
         "sector_shares": {
@@ -234,11 +230,53 @@ def main() -> int:
         },
         "sources": sources,
     }
-    changed = write_if_changed(OUTPUT, to_jsonable(doc))
-    log.info("provinces.json %s: %d jurisdictions, %d images",
-             "updated" if changed else "unchanged", len(doc["provinces"]), sum(len(v) for v in images.values()))
-    return 0
 
+    published = ("data/provinces/provinces.json",)
+    observations = []
+    for code, table in fiscal.items():
+        unit = table.unit.en
+        for column in table.columns:
+            for year, value in zip(table.years, column.values):
+                observations.append(Observation(
+                    entity=code, category="", period=year, measure=column.label.en, value=value,
+                    unit=unit, source_table=f"frt-{year_edition}", provenance=Provenance.OFFICIAL_DATASET.value,
+                ).row())
+    for code, by_sector in shares["shares"].items():
+        marks = shares["symbols"].get(code, {})
+        for sector, values in by_sector.items():
+            for period, value in zip(shares["periods"], values):
+                observations.append(Observation(
+                    entity=code, category=sector, period=period, measure="gdp_share_percent", value=value,
+                    unit="percent", status=marks.get(sector, {}).get(period, ""), release=release,
+                    source_table=pid, provenance=Provenance.OFFICIAL_DATASET.value,
+                ).row())
 
-if __name__ == "__main__":
-    raise SystemExit(main())
+    passages = []
+    for code in sorted(provinces):
+        for quote in budgets[code]["quotes"]:
+            passages.append(Passage(
+                entity=code, kind=f"budget_{quote['kind']}", text_en=quote["text"], text_fr="",
+                source_url=budgets[code]["url"], locator="" if quote["page"] is None else f"page {quote['page']}",
+                provenance=Provenance.PAGE_VERBATIM.value,
+            ).row())
+        for kind, value in (("motto", words[code]["motto"]), ("flag_description", words[code]["flag"])):
+            if value is not None:
+                passages.append(Passage(
+                    entity=code, kind=kind, text_en=value.en, text_fr=value.fr,
+                    source_url=words[code]["pages"]["en"], provenance=Provenance.PAGE_VERBATIM.value,
+                ).row())
+
+    obs_frame = frames.Frame(dataset=dataset, name="observations", profile="panel", record_type="observation",
+                             keys=frames.OBSERVATION_KEYS, columns=frames.OBSERVATION_COLUMNS, rows=observations,
+                             published=published, checks=("paired_values",),
+                             notes={"fiscal_edition": year_edition, "shares_table": pid})
+    passage_frame = frames.Frame(dataset=dataset, name="passages", profile="passages", record_type="passage",
+                                 keys=frames.PASSAGE_KEYS, columns=frames.PASSAGE_COLUMNS, rows=passages,
+                                 published=published, checks=("verbatim_quotes",))
+    return Built(outputs=[(OUTPUT, to_jsonable(doc))], frames=[obs_frame, passage_frame],
+                 receipt={"jurisdictions": len(doc["provinces"]),
+                          "fiscal_edition": year_edition,
+                          "fiscal_cells": sum(len(c.values) for t in fiscal.values() for c in t.columns),
+                          "share_cells": sum(len(v) for by in shares["shares"].values() for v in by.values()),
+                          "quotes": sum(len(v["quotes"]) for v in budgets.values()),
+                          "images": sum(len(v) for v in images.values())})

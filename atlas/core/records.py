@@ -9,9 +9,10 @@ computes nothing.
 
     Observation   a published number about a place, in a period
     Place         an identity with a type, a parent and a boundary vintage
+    Passage       words reproduced from a document, with where they were found
 
-Asset, event, passage and media records join these when the datasets that need
-them move (S5 to S7), and not before.
+Asset and event records join these when the datasets that need them move
+(S6, S7), and not before.
 """
 
 from __future__ import annotations
@@ -65,6 +66,40 @@ class Place:
             "type_fr": self.type_name.fr if self.type_name else "",
             "source_table": self.source_table,
         }
+
+
+@dataclass(frozen=True, slots=True)
+class Passage:
+    """Words as their publisher wrote them, and where to find them again."""
+
+    entity: str             # what the passage is about: "ON"
+    kind: str               # what it is: "budget_risk", "motto", "flag_description"
+    text_en: str
+    text_fr: str
+    source_url: str
+    locator: str = ""       # a page number, a heading — where in the document
+    content_sha256: str = ""
+    provenance: str = ""
+
+    def row(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True, slots=True)
+class Passage:
+    """Words as their publisher wrote them, and where to find them again."""
+
+    entity: str             # what the passage is about: "ON"
+    kind: str               # what it is: "budget_risk", "motto", "flag_description"
+    text_en: str
+    text_fr: str
+    source_url: str
+    locator: str = ""       # a page number, a heading — where in the document
+    content_sha256: str = ""
+    provenance: str = ""
+
+    def row(self) -> dict[str, Any]:
+        return asdict(self)
 
 
 def observations_from_series(series: Iterable[Series],

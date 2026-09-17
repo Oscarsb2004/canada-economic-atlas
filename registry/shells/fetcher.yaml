@@ -32,7 +32,7 @@ used_by:
 - pipeline/04_trade.py
 - pipeline/06_industries.py
 - pipeline/07_vessels.py
-- pipeline/08_provinces.py
+- atlas/datasets/province_profiles.py
 - atlas/run.py
 moved_from:
 - atlas/net.py

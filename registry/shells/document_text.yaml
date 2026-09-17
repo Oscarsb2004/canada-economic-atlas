@@ -27,7 +27,7 @@ gotchas:
 - Quebec's budget PDF is AES-encrypted; pypdf needs the cryptography package to read it.
 - Alberta's PDF extracts 'per cent .' with a space before the full stop.
 used_by:
-- pipeline/08_provinces.py
+- atlas/datasets/province_profiles.py
 - atlas/sources/budget_text.py
 - atlas/sources/symbols.py
 - atlas/shells/acquire/commons_media.py
