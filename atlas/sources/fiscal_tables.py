@@ -50,6 +50,7 @@ from typing import Any
 import openpyxl
 
 from atlas.shells.acquire import workbook_edition
+from atlas.shells.check import paired_values
 
 from atlas.core.schema import Text
 
@@ -175,12 +176,12 @@ def read(book_en: bytes, book_fr: bytes, table: int) -> JurisdictionTable:
     for ye, yf in zip(en["years"], fr["years"]):
         if _YEAR["en"].fullmatch(ye).group(1) != _YEAR["fr"].fullmatch(yf).group(1):
             mismatches.append((ye, yf))
-    for k, (ve, vf) in enumerate(zip(en["values"], fr["values"])):
-        for i, (a, b) in enumerate(zip(ve, vf)):
-            if (a is None) != (b is None) or (a is not None and abs(a - b) > TOLERANCE):
-                raise FiscalTablesError(
-                    f"table {table}, {en['years'][i]}, column {en['labels'][k]!r}: English {a!r}, French {b!r}"
-                )
+    disagreement = paired_values.first_disagreement(en["values"], fr["values"], TOLERANCE)
+    if disagreement:
+        k, i, a, b = disagreement
+        raise FiscalTablesError(
+            f"table {table}, {en['years'][i]}, column {en['labels'][k]!r}: English {a!r}, French {b!r}"
+        )
 
     return JurisdictionTable(
         table=table,

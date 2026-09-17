@@ -1,5 +1,8 @@
 """
-atlas.media — turn the federal renderings into the two sizes the app uses.
+atlas.shells.transform.image_derive — turn the federal renderings into the two sizes the app uses.
+
+(Moved from atlas/media.py in step S3 of docs/REBUILD.md; unchanged in behaviour.
+Card: registry/shells/image_derive.yaml.)
 
 The MPO publishes each project's artist rendering at full resolution: the
 Crawford hero is 2.08 MB, and the set is roughly 54 MB. That is neither

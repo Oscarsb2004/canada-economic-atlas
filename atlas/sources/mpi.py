@@ -50,18 +50,18 @@ than a quiet pass.
 from __future__ import annotations
 
 import json
-import math
 import re
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
 from atlas.shells.acquire import arcgis_layer
+from atlas.shells.check import join_distance
+from atlas.shells.transform import geo_distance
 from atlas.core.schema import Text
 
 #: Mean Earth radius used for every distance this project states. `verify/`
 #: re-declares it rather than importing it.
-EARTH_RADIUS_KM = 6371.0
 
 #: The layer's maxRecordCount, read 2026-09-13. The inventory has 295 projects,
 #: so one page holds it today; paging is kept so growth cannot truncate it.
@@ -93,10 +93,8 @@ class InventoryRow:
 
 
 def distance_km(a: tuple[float, float], b: tuple[float, float]) -> float:
-    """Great-circle distance between two [lon, lat] points (haversine)."""
-    lon1, lat1, lon2, lat2 = map(math.radians, (a[0], a[1], b[0], b[1]))
-    h = math.sin((lat2 - lat1) / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin((lon2 - lon1) / 2) ** 2
-    return 2 * EARTH_RADIUS_KM * math.asin(math.sqrt(h))
+    """Great-circle distance between two [lon, lat] points; see `geo_distance.great_circle_km`."""
+    return geo_distance.great_circle_km(a, b)
 
 
 # ── Fetching ───────────────────────────────────────────────────────────────────
@@ -211,26 +209,8 @@ def check_join(row: InventoryRow, anchors: list[tuple[float, float]], *,
     not say so. `accept_km` is a declared, per-entry waiver of `max_km`; a waiver
     the distance does not need is refused too, so none outlives its reason.
     """
-    if not row.points:
-        if not accept_without_coordinates:
-            raise InventoryError(
-                f"{slug} -> inventory {row.project_id}: the inventory publishes no coordinate, "
-                f"so the join cannot be checked. Declare accept_without_coordinates if it stands."
-            )
-        return None
-    if not anchors:
-        raise InventoryError(f"{slug}: the MPO project has no anchor to measure the join against")
-    nearest = min(distance_km(p, a) for p in row.points for a in anchors)
-    if accept_km is not None:
-        if nearest <= max_km:
-            raise InventoryError(
-                f"{slug} -> inventory {row.project_id}: declares a distance waiver, but the nearest "
-                f"point is {nearest:.2f} km, within the {max_km} km limit. Remove the waiver."
-            )
-        max_km = accept_km
-    if nearest > max_km:
-        raise InventoryError(
-            f"{slug} -> inventory {row.project_id} ({row.name!r}): nearest point is "
-            f"{nearest:.2f} km from the MPO site, over the {max_km} km limit"
-        )
-    return round(nearest, 2)
+    return join_distance.nearest_km(
+        row.points, anchors, max_km=max_km, accept_without_coordinates=accept_without_coordinates,
+        left=slug, right=f"inventory {row.project_id}", right_name=row.name, accept_km=accept_km,
+        error=InventoryError,
+    )

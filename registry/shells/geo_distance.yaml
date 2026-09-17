@@ -1,0 +1,26 @@
+# registry/shells/geo_distance.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: transform
+module: atlas.shells.transform.geo_distance
+title: The distance between two [lon, lat] points
+contract: Great-circle distance in kilometres on a spherical Earth.
+functions:
+- great_circle_km
+- EARTH_RADIUS_KM
+invariants:
+- Symmetric, and zero between a point and itself.
+refusals: []
+benchmark:
+- 'Golden master: stage 06 replays identically, including every published join distance.'
+tests:
+- tests/test_shells_transform_check.py::test_a_degree_of_latitude_is_about_111_km
+limits:
+- Tens of kilometres, not survey precision.
+gotchas:
+- Points are [lon, lat], GeoJSON order, not [lat, lon].
+used_by:
+- atlas/sources/mpi.py
+- atlas/shells/check/join_distance.py
+moved_from:
+- atlas/sources/mpi.py

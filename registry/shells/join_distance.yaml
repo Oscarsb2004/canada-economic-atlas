@@ -1,0 +1,32 @@
+# registry/shells/join_distance.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: check
+module: atlas.shells.check.join_distance
+title: Hold a declared join to geography
+contract: Given the points of the joined record and the anchors of the record joining it, return the nearest distance
+  if it is within the limit or a declared waiver.
+functions:
+- nearest_km
+- JoinError
+invariants:
+- The distance returned is rounded to 10 m.
+refusals:
+- A joined record with no coordinate, unless that is declared.
+- A joining record with no anchor.
+- A nearest distance over the limit.
+- A waiver the distance does not need.
+benchmark:
+- 'Golden master: stage 06 replays identically (9 of 18 projects joined at legacy-v1).'
+tests:
+- tests/test_pipeline.py::test_an_inventory_join_is_held_to_distance
+- tests/test_pipeline.py::test_an_inventory_distance_waiver_is_declared_and_only_where_needed
+- tests/test_shells_transform_check.py::test_a_join_raises_the_callers_error
+limits:
+- Its messages speak of the inventory and the MPO site, its only use so far.
+gotchas:
+- Name matching found 6 of 18 projects; declared IDs checked by distance found the true joins.
+used_by:
+- atlas/sources/mpi.py
+moved_from:
+- atlas/sources/mpi.py

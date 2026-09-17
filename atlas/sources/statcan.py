@@ -43,6 +43,7 @@ from pathlib import Path
 from typing import Iterable, Iterator
 
 from atlas.core.schema import Provenance, Series, Text
+from atlas.shells.transform import crosswalk_sum
 
 log = logging.getLogger(__name__)
 
@@ -426,12 +427,7 @@ def build_crosswalk_series(
     A member mapped to two sectors raises: it would be counted twice, and
     nothing downstream would notice except a total that no longer adds up.
     """
-    owner: dict[str, str] = {}
-    for sector, members in crosswalk.items():
-        for member in members:
-            if member in owner:
-                raise ValueError(f"cube {pid}: member {member} is mapped to both {owner[member]} and {sector}")
-            owner[member] = sector
+    owner = crosswalk_sum.owners(crosswalk, where=f"cube {pid}")
     if column not in header:
         raise ValueError(f"cube {pid}: no {column!r} column; header is {header}")
     idx = {name: i for i, name in enumerate(header)}
@@ -473,10 +469,7 @@ def build_crosswalk_series(
             for period in periods:
                 got = [cells[(geo, period)].get(m) for m in members]
                 flags = ",".join(sorted({g[1] for g in got if g is not None and g[1]}))
-                if any(g is None or g[0] is None for g in got):
-                    values.append(None)
-                else:
-                    values.append(sum(g[0] for g in got))
+                values.append(crosswalk_sum.total(None if g is None else g[0] for g in got))
                 statuses.append(flags)
             if status_out is not None and any(statuses):
                 status_out[f"{geo_code}/{code}"] = tuple(statuses)
