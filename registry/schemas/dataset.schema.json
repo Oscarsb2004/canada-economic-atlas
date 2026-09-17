@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "registry/datasets/<id>.yaml (a dataset card)",
+  "description": "One dataset the pipeline makes: which builder makes it, from what, with which shells, into which published files, in which frame profile, and who reads it. atlas/core/registry.py checks each claim against the repository.",
+  "type": "object",
+  "required": ["title", "group", "order", "builder", "params", "sources", "shells", "after", "outputs", "frame", "on_screen", "consumed_by"],
+  "properties": {
+    "title": { "type": "string", "minLength": 1 },
+    "group": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$", "description": "The runner group; run.py names each group as one step of a full run." },
+    "order": { "type": "integer", "minimum": 1, "description": "Position within the group. A card runs after every card it names in `after`." },
+    "builder": { "type": "string", "pattern": "^atlas\\.datasets\\.[a-z][a-z0-9_]*:[a-z_][a-z0-9_]*$" },
+    "params": { "type": "object", "additionalProperties": { "type": ["string", "integer", "boolean"] } },
+    "sources": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" }, "description": "Source card keys, registry/sources/<key>.yaml." },
+    "shells": { "type": "array", "uniqueItems": true, "items": { "type": "string" }, "description": "Shell card names, registry/shells/<name>.yaml." },
+    "after": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+    "outputs": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^data/[A-Za-z0-9_./-]+\\.json$" } },
+    "frame": {
+      "type": ["object", "null"],
+      "required": ["profile", "record_type"],
+      "properties": {
+        "profile": { "enum": ["panel", "cross-section", "places"] },
+        "record_type": { "enum": ["observation", "place"] }
+      },
+      "additionalProperties": false
+    },
+    "on_screen": { "type": "boolean", "description": "Whether the site shows this dataset." },
+    "consumed_by": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path", "how"],
+        "properties": {
+          "path": { "type": "string", "pattern": "^[A-Za-z0-9_./-]+$", "description": "A file that names this dataset's output." },
+          "how": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      },
+      "description": "No dataset without a consumer: every one is read by something named here."
+    }
+  },
+  "additionalProperties": false
+}

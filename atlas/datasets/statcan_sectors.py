@@ -1,7 +1,12 @@
 """
-Stage 02 — the baseline economy: output, investment and employment by sector.
+atlas.datasets.statcan_sectors — the baseline economy: output, investment and employment by sector.
 
-    python pipeline/02_sectors.py [--pull KEY ...] [--skip-provincial] [--refresh]
+    python -m atlas.run economy                      every dataset below
+    python -m atlas.run --dataset gdp-national-monthly   one of them
+
+(Was pipeline/02_sectors.py until step S4 of docs/REBUILD.md; the code is carried
+unchanged. Each output is now its own card in registry/datasets/, and the runner
+writes it.)
 
 Every pull is declared in `registry/sectors.yaml` — which cube, which slice, which
 output file, and what `verify/` asserts about it. This file turns a declaration
@@ -61,29 +66,27 @@ before writing the entries showed otherwise:
 
 from __future__ import annotations
 
-import argparse
 import hashlib
 import json
 import logging
-import sys
 from dataclasses import replace
 from pathlib import Path
 from typing import Iterable
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
 import yaml
 
 from atlas.core import clock
+from atlas.core import frames
 from atlas.core import registry as R
-from atlas.core.jsonio import write_if_changed
+from atlas.core.records import observations_from_series
 from atlas.core.schema import Provenance, Series, Text, to_jsonable
+from atlas.datasets import Built, Context, Skipped
 from atlas.shells.acquire import statcan_table, valet_series
-from atlas.shells.check import partition_drift
 from atlas.shells.acquire.fetcher import Fetcher
+from atlas.shells.check import partition_drift
 from atlas.sources import statcan
 
-log = logging.getLogger("02_sectors")
+log = logging.getLogger(__name__)
 
 #: Province and territory names as the cubes spell them, to our codes.
 GEO_CODES = {
@@ -366,67 +369,63 @@ def pull_policy_rate(fetch: Fetcher) -> dict:
     }
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--pull", action="append", metavar="KEY",
-                    help="run only this pull from sectors.yaml; repeatable")
-    ap.add_argument("--skip-provincial", action="store_true",
-                    help="skip pulls declared `scope: provincial`")
-    ap.add_argument("--refresh", action="store_true",
-                    help="bypass the HTTP cache and re-download the cube zips")
-    args = ap.parse_args()
+# ── Builders (one per dataset card) ────────────────────────────────────────────
 
-    logging.basicConfig(level=logging.INFO, format="%(levelname)-7s %(message)s")
+SECTORS_DIR = R.DATA_DIR / "sectors"
+RAW_DIR = R.DATA_DIR / "raw" / "statcan"
+
+
+def pull(ctx: Context, *, dataset: str, pull: str) -> Built:
+    """One declared pull from registry/sectors.yaml, as its payload and a panel frame."""
     tax, codes = _load_taxonomy()
-    pulls: dict = tax["pulls"]
-    unknown = sorted(set(args.pull or ()) - set(pulls))
-    if unknown:
-        ap.error(f"no pull named {unknown}; sectors.yaml declares {sorted(pulls)}")
-    log.info("Stage 02 — %d sector codes in the allowlist, %d pulls declared", len(codes), len(pulls))
+    spec = tax["pulls"][pull]
+    RAW_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        series, payload = pull_cube(ctx.fetch, pull, spec, codes, RAW_DIR, refresh=ctx.refresh)
+    except VintageUnknown as exc:
+        raise Skipped(f"{exc} — {spec['output']} left as committed") from exc
+    checks = []
+    if spec.get("partition_check"):
+        check_partition(series, tax)
+        checks.append("partition_drift")
+    ctx.state.setdefault("cube_hashes", {}).update(CUBE_HASHES)
+    observations = observations_from_series(series, payload.get("status"))
+    frame = frames.Frame(
+        dataset=dataset, name="observations", profile="panel", record_type="observation",
+        keys=frames.OBSERVATION_KEYS, columns=frames.OBSERVATION_COLUMNS,
+        rows=[o.row() for o in observations],
+        published=(f"data/sectors/{spec['output']}",), checks=tuple(checks),
+        notes={"cube": spec["pid"], "frequency": spec["frequency"]},
+    )
+    releases = sorted({s.release_time for s in series})
+    return Built(outputs=[(SECTORS_DIR / spec["output"], payload)], frames=[frame],
+                 receipt={"cube": spec["pid"], "series": len(series), "observations": len(observations),
+                          "releases": releases})
 
-    fetch = Fetcher(cache_dir=R.DATA_DIR / "raw" / "cache", use_cache=not args.refresh)
-    raw_dir = R.DATA_DIR / "raw" / "statcan"
-    raw_dir.mkdir(parents=True, exist_ok=True)
-    out_dir = R.DATA_DIR / "sectors"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    hashes = _previous_hashes(out_dir)
 
-    for key, pull in pulls.items():
-        if args.pull and key not in args.pull:
-            continue
-        if args.skip_provincial and pull.get("scope") == "provincial":
-            log.info("%s: skipped (--skip-provincial)", key)
-            continue
-        try:
-            series, payload = pull_cube(fetch, key, pull, codes, raw_dir, refresh=args.refresh)
-        except VintageUnknown as exc:
-            log.warning("%s — %s left as committed", exc, pull["output"])
-            continue
-        if pull.get("partition_check"):
-            check_partition(series, tax)
-        changed = write_if_changed(out_dir / pull["output"], payload)
-        size = (out_dir / pull["output"]).stat().st_size
-        log.info("%-30s %3d series  %7.0f KB  %s",
-                 pull["output"], len(series), size / 1000, "updated" if changed else "unchanged")
-
-    hashes.update(CUBE_HASHES)
-    write_if_changed(out_dir / "_cubes.json", {
+def cube_hashes(ctx: Context, *, dataset: str) -> Built:
+    """The sha256 of every cube zip this run read, merged into the ones already recorded."""
+    hashes = _previous_hashes(SECTORS_DIR)
+    hashes.update(ctx.state.get("cube_hashes", {}))
+    return Built(outputs=[(SECTORS_DIR / "_cubes.json", {
         "generated_at": clock.now_iso(),
         "note": "sha256 of each downloaded StatCan cube zip; the change signal "
                 "for figures published in the bundle.",
         "cubes": dict(sorted(hashes.items())),
-    })
-
-    # The policy rate is part of a full run, not of a targeted `--pull`.
-    if not args.pull:
-        rate = pull_policy_rate(fetch)
-        if rate:
-            write_if_changed(out_dir / "rates.json", {"generated_at": clock.now_iso(), "policy_rate": rate})
-            log.info("policy rate %s = %.2f%%", rate["period"], rate["value"])
-
-    return 0
+    })], receipt={"cubes": sorted(hashes)})
 
 
-if __name__ == "__main__":
-    raise SystemExit(main())
+def policy_rate(ctx: Context, *, dataset: str) -> Built:
+    """The Bank of Canada policy rate, or nothing if the Bank returned no observation."""
+    rate = pull_policy_rate(ctx.fetch)
+    if not rate:
+        raise Skipped("Bank of Canada returned no observation — rates.json left as committed")
+    log.info("policy rate %s = %.2f%%", rate["period"], rate["value"])
+    obs = [{"entity": "CA", "category": rate["series"], "period": rate["period"], "measure": "policy_rate",
+            "value": rate["value"], "unit": rate["unit"], "scalar": "", "slice": "", "status": "",
+            "release": "", "source_table": rate["series"], "provenance": rate["provenance"]}]
+    frame = frames.Frame(dataset=dataset, name="observations", profile="panel", record_type="observation",
+                         keys=frames.OBSERVATION_KEYS, columns=frames.OBSERVATION_COLUMNS, rows=obs,
+                         published=("data/sectors/rates.json",))
+    return Built(outputs=[(SECTORS_DIR / "rates.json", {"generated_at": clock.now_iso(), "policy_rate": rate})],
+                 frames=[frame], receipt={"series": rate["series"], "period": rate["period"]})

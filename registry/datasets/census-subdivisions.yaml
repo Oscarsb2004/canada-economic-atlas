@@ -1,0 +1,22 @@
+# registry/datasets/census-subdivisions.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run --dataset census-subdivisions` builds it; atlas/core/registry.py checks every claim below.
+
+title: Every census subdivision, 2021, with population and dwelling counts (98-10-0002)
+group: municipalities
+order: 10
+builder: atlas.datasets.census_subdivisions:build
+params: {}
+sources:
+- statcan_municipal_population
+shells:
+- fetcher
+after: []
+outputs:
+- data/geography/municipalities.json
+frame:
+  profile: places
+  record_type: place
+on_screen: false
+consumed_by:
+- path: registry/checks.yaml
+  how: verify/checks.py gates the subdivision records and province sums

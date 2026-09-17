@@ -1,0 +1,26 @@
+# registry/datasets/gross-output-annual.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run --dataset gross-output-annual` builds it; atlas/core/registry.py checks every claim below.
+
+title: Gross output by industry, annual, IOIC summed to sectors (36-10-0488)
+group: economy
+order: 60
+builder: atlas.datasets.statcan_sectors:pull
+params:
+  pull: output_annual
+sources:
+- statcan_wds
+shells:
+- fetcher
+- statcan_table
+- crosswalk_sum
+after:
+- gdp-national-annual-current
+outputs:
+- data/sectors/output-annual.json
+frame:
+  profile: panel
+  record_type: observation
+on_screen: false
+consumed_by:
+- path: registry/sectors.yaml
+  how: verify/run.py gates every pull this file declares

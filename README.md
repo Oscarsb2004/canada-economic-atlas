@@ -72,7 +72,10 @@ That is the only command needed. On first use it creates `.venv`, installs
 activate by hand, and it reinstalls only when the pins actually change.
 
 ```bash
-python run.py --stage 02 # one stage (01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 99)
+python run.py --stage 02 # one step (01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 99)
+python run.py --check    # every registry file against its schema
+python -m atlas.run --list                          # every dataset card, by group
+python -m atlas.run --dataset gdp-provincial-annual  # one dataset
 python run.py --verify   # independent verification only
 python run.py --test     # pytest only
 python run.py --refresh  # bypass the HTTP cache and re-fetch StatCan cubes
@@ -91,13 +94,15 @@ passes. The one-time local guard and the exact workflow are in
 
 ```
 atlas/              importable package — the project's own code
-  core/schema.py    canonical objects; "the frontend and the backend are the same object"
-  core/registry.py  YAML loaders with validation on load
-  net.py            the ONE way this project talks to the internet
-  sources/          one module per publisher: mpo, statcan, census, tc_corridors, naics, mpi, vessels, aisstream, business_counts, fiscal_tables, sector_shares, symbols, budget_text
+  core/             schema (published shapes), records and frames, the registry validator, the clock
+  shells/           acquire/ transform/ check/ — one operation per module, each with a card
+  datasets/         the builders dataset cards name
+  run.py            the runner: the only writer of dataset outputs, frames and receipts
+  sources/          publisher readers not yet moved onto dataset cards (docs/REBUILD.md)
   industries.py     MPO projects placed in NAICS, checked against their quotes
-registry/           configuration as YAML: sources, events, strategies, sectors and their pulls, crosswalks, checks
-pipeline/           numbered stages 01–08, and 99 the bundle
+registry/           configuration as YAML: source, shell and dataset cards, licences, events, strategies, sectors, crosswalks, checks; schemas/
+pipeline/           stage scripts not yet moved onto dataset cards, and 99 the bundle
+build/              frames and receipts from the runner (not committed)
 data/               pipeline outputs, committed for clone-and-run
 web/                React + Vite + MapLibre app
 verify/             independent verification; must NOT import atlas/

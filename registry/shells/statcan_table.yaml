@@ -34,8 +34,8 @@ gotchas:
 - productId is the 8-digit cube, not the 10-digit table view.
 - WDS releaseTime has no offset and is Ottawa time.
 used_by:
-- pipeline/02_sectors.py
-- pipeline/03_business_counts.py
+- atlas/datasets/statcan_sectors.py
+- atlas/datasets/business_locations.py
 - pipeline/08_provinces.py
 moved_from:
 - atlas/sources/statcan.py

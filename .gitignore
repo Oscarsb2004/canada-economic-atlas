@@ -35,3 +35,6 @@ web/dist/
 # `vessel-positions` branch. Neither is ever committed to main.
 .env
 web/public/data/vessels/
+
+# Frames and receipts the runner writes (atlas/run.py). Always rebuildable.
+build/

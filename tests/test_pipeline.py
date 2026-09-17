@@ -696,8 +696,12 @@ def test_the_bundle_is_the_last_stage():
         f"the bundle must sort last; stages are {sorted(run.STAGES)}"
     )
     assert "bundle" in run.STAGES["99"]
-    for num, path in run.STAGES.items():
-        assert (ROOT / path).exists(), f"stage {num} names a missing script: {path}"
+    for num, step in run.STAGES.items():
+        if step.startswith("-m atlas.run "):
+            group = step.removeprefix("-m atlas.run ")
+            assert group in R.dataset_groups(), f"stage {num} names a group with no dataset card: {group}"
+        else:
+            assert (ROOT / step).exists(), f"stage {num} names a missing script: {step}"
 
 
 def test_verify_does_not_import_atlas():
@@ -1361,8 +1365,7 @@ def test_the_published_stamp_is_the_parsed_zips_not_what_wds_says_at_run_time(tm
     while the lookup is down, August's stamp must arrive only with August's
     month, and zips nobody can date must not be parsed at all.
     """
-    sys.path.insert(0, str(ROOT / "pipeline"))
-    stage = importlib.import_module("02_sectors")
+    from atlas.datasets import statcan_sectors as stage
     pid, july, august = "36100434", "2026-07-29T08:30", "2026-08-28T08:30"
     pull = {"pid": pid, "frequency": "monthly", "measure": "gdp_chained", "output": "national-monthly.json"}
 

@@ -1,0 +1,23 @@
+# registry/datasets/policy-rate.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run --dataset policy-rate` builds it; atlas/core/registry.py checks every claim below.
+
+title: Bank of Canada target for the overnight rate
+group: economy
+order: 90
+builder: atlas.datasets.statcan_sectors:policy_rate
+params: {}
+sources:
+- boc_valet
+shells:
+- fetcher
+- valet_series
+after: []
+outputs:
+- data/sectors/rates.json
+frame:
+  profile: panel
+  record_type: observation
+on_screen: true
+consumed_by:
+- path: pipeline/99_bundle.py
+  how: copied into the site bundle, web/public/data/ and the KPI row of country.json

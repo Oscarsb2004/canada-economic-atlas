@@ -59,8 +59,9 @@ sectors:
   - { code: "81",    parent: T003 }   # Other services (except public administration)
   - { code: "91",    parent: T003 }   # Public administration
 
-# Every cube this project pulls, and which slice of it. `pipeline/02_sectors.py`
-# runs these in order; `verify/run.py` gates every pull that declares `verify`.
+# Every cube this project pulls, and which slice of it. Each pull is one dataset
+# card in registry/datasets/, and `python -m atlas.run economy` runs them in order.
+# `verify/run.py` gates every pull that declares `verify`.
 #
 #   output          the file written under data/sectors/
 #   filters         column -> the one member kept
