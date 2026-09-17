@@ -1,0 +1,42 @@
+# registry/shells/statcan_table.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: acquire
+module: atlas.shells.acquire.statcan_table
+title: A whole Statistics Canada table, kept in step with its release
+contract: Given a product ID and a language, make sure the table's full CSV zip is on disk and say which release
+  it holds; report the release WDS publishes now; list every published cube.
+functions:
+- download_cube
+- release_time
+- cube_list
+- release_path
+- recorded_release
+- WDS
+invariants:
+- The release returned is the one recorded when that zip was downloaded, never simply what WDS says now.
+- A download that dies part-way leaves no release stamp vouching for it.
+- An unknown live release keeps the zip and its recorded stamp, even under refresh.
+refusals:
+- A WDS answer other than SUCCESS for a download request raises.
+- A zip that cannot be dated is returned with an empty release, which callers must not parse.
+benchmark:
+- 'Golden master: stages 02, 03 and 08 replay identically.'
+tests:
+- tests/test_pipeline.py::test_a_new_release_replaces_the_zip_and_a_failed_lookup_moves_nothing
+- tests/test_pipeline.py::test_a_zip_from_before_stamps_were_recorded_is_dated_by_when_it_was_written
+- tests/test_pipeline.py::test_the_published_stamp_is_the_parsed_zips_not_what_wds_says_at_run_time
+- tests/test_shells_acquire.py::test_the_cube_list_is_one_request_to_its_endpoint
+limits:
+- Does not read a cube; atlas/sources/statcan.py does.
+- Does not notice StatCan replacing a zip without moving its release time; --refresh is for that.
+gotchas:
+- productId is the 8-digit cube, not the 10-digit table view.
+- WDS releaseTime has no offset and is Ottawa time.
+used_by:
+- pipeline/02_sectors.py
+- pipeline/03_business_counts.py
+- pipeline/08_provinces.py
+moved_from:
+- atlas/sources/statcan.py
+- pipeline/03_business_counts.py

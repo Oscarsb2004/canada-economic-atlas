@@ -103,3 +103,31 @@ def test_the_per_file_rules_still_run_after_the_schemas(registry_copy):
 def test_an_event_naming_an_unknown_source_card_is_refused(registry_copy):
     _edit(registry_copy / "events.yaml", lambda d: d["events"][0]["sources"].append("no_such_source"))
     assert any("no_such_source" in e for e in R.validate_all())
+
+
+# ── Shell cards (docs/REBUILD.md step S2) ────────────────────────────────────
+
+def test_a_shell_module_without_a_card_is_refused(registry_copy):
+    (registry_copy / "shells" / "valet_series.yaml").unlink()
+    assert any("valet_series.py: a shell module with no card" in e for e in R.validate_all())
+
+
+def test_a_card_naming_a_function_its_module_lacks_is_refused(registry_copy):
+    _edit(registry_copy / "shells" / "valet_series.yaml", lambda d: d["functions"].append("oldest"))
+    assert any("defines no oldest" in e for e in R.validate_all())
+
+
+def test_a_card_citing_a_test_that_does_not_exist_is_refused(registry_copy):
+    _edit(registry_copy / "shells" / "valet_series.yaml",
+          lambda d: d["tests"].append("tests/test_shells_acquire.py::test_nothing_like_this"))
+    assert any("test_nothing_like_this does not exist" in e for e in R.validate_all())
+
+
+def test_a_card_claiming_a_user_that_never_mentions_it_is_refused(registry_copy):
+    _edit(registry_copy / "shells" / "valet_series.yaml", lambda d: d["used_by"].append("pipeline/05_municipalities.py"))
+    assert any("05_municipalities.py never mentions valet_series" in e for e in R.validate_all())
+
+
+def test_a_card_whose_module_path_disagrees_with_its_kind_is_refused(registry_copy):
+    _edit(registry_copy / "shells" / "valet_series.yaml", lambda d: d.update(kind="transform"))
+    assert any("module must be atlas.shells.transform.valet_series" in e for e in R.validate_all())

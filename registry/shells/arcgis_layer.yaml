@@ -1,0 +1,38 @@
+# registry/shells/arcgis_layer.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: acquire
+module: atlas.shells.acquire.arcgis_layer
+title: Features from an ArcGIS MapServer layer
+contract: Build the query URL for a whole small layer (GeoJSON, or attributes only), or read every feature of a
+  large layer page by page with the raw bodies for hashing.
+functions:
+- geojson_query_url
+- attributes_query_url
+- page_query_url
+- fetch_pages
+- LayerError
+invariants:
+- Paged reads ask for a stable order (OBJECTID ascending), so a re-run reads the same pages.
+- Each query form produces exactly the URL the golden master recorded.
+refusals:
+- A page that is not JSON, or that carries an error, raises the caller's error type.
+- A service that says more pages exist but returns none raises.
+benchmark:
+- 'Golden master: stages 01 and 06 replay identically.'
+tests:
+- tests/test_shells_acquire.py::test_the_two_query_forms_are_the_recorded_urls
+- tests/test_shells_acquire.py::test_pages_are_read_until_a_short_page
+- tests/test_shells_acquire.py::test_a_bad_page_raises_the_callers_error
+limits:
+- Two literal query forms exist because the two services were first read that way; unifying them changes recorded
+  URLs.
+gotchas:
+- The MPO strategies layer returns empty polygons under f=geojson; its attributes are read with f=json.
+- The French services have French field names.
+used_by:
+- atlas/sources/mpo.py
+- atlas/sources/mpi.py
+moved_from:
+- atlas/sources/mpo.py
+- atlas/sources/mpi.py

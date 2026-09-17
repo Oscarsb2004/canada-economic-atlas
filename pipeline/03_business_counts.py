@@ -39,7 +39,8 @@ from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef
-from atlas.net import Fetcher
+from atlas.shells.acquire import statcan_table
+from atlas.shells.acquire.fetcher import Fetcher
 from atlas.sources import business_counts as bc
 from atlas.sources import statcan
 
@@ -59,14 +60,14 @@ def main() -> int:
 
     src = R.source("statcan_business_counts")
     fetch = Fetcher(cache_dir=R.DATA_DIR / "raw" / "cache", use_cache=not args.refresh)
-    table = bc.latest_table(fetch.json(f"{statcan.WDS}/getAllCubesListLite"))
+    table = bc.latest_table(statcan_table.cube_list(fetch))
     pid = str(table["productId"])
     log.info("latest table: %s — %s", pid, table["cubeTitleEn"])
 
-    live = statcan.release_time(fetch, pid)
+    live = statcan_table.release_time(fetch, pid)
     raw = R.DATA_DIR / "raw" / "statcan"
-    zip_en, release = statcan.download_cube(fetch, pid, "eng", raw, live_release=live, refresh=args.refresh)
-    zip_fr, release_fr = statcan.download_cube(fetch, pid, "fra", raw, live_release=live, refresh=args.refresh)
+    zip_en, release = statcan_table.download_cube(fetch, pid, "eng", raw, live_release=live, refresh=args.refresh)
+    zip_fr, release_fr = statcan_table.download_cube(fetch, pid, "fra", raw, live_release=live, refresh=args.refresh)
     if not release or release != release_fr:
         raise SystemExit(f"table {pid}: the English and French zips are not of one dated release "
                          f"({release!r} / {release_fr!r}); run with --refresh")
@@ -86,7 +87,7 @@ def main() -> int:
         "title": {"en": meta_en["title"], "fr": meta_fr["title"]},
         "release_time": release,
         "licence": src["licence"],
-        "source": SourceRef(url=f"{statcan.WDS}/getFullTableDownloadCSV/{pid}/en", retrieved_at=clock.now_iso(),
+        "source": SourceRef(url=f"{statcan_table.WDS}/getFullTableDownloadCSV/{pid}/en", retrieved_at=clock.now_iso(),
                             provenance=Provenance.OFFICIAL_DATASET, licence=src["licence"],
                             content_sha256=hashlib.sha256(zip_en.read_bytes()).hexdigest()).to_dict(),
         "notes": [{"id": i, "text": {"en": _TAG.sub("", meta_en["notes"].get(i, "")).strip(),

@@ -51,7 +51,7 @@ from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, SourceRef, to_jsonable
-from atlas.net import Fetcher
+from atlas.shells.acquire.fetcher import Fetcher
 from atlas.sources import census
 
 log = logging.getLogger("05_municipalities")

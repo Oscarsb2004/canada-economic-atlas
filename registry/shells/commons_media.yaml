@@ -1,0 +1,32 @@
+# registry/shells/commons_media.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: acquire
+module: atlas.shells.acquire.commons_media
+title: Files from Wikimedia Commons, each with its own licence
+contract: Build one API request for up to 50 files, and turn the answer into one record per file with its URLs,
+  rendering, SHA-1, licence, artist, credit and restrictions.
+functions:
+- query_url
+- records
+- MediaError
+invariants:
+- Records are keyed by the title as the caller wrote it, even when Commons normalises it.
+refusals:
+- More than 50 titles in one request.
+- A missing file, a file with no stated licence, or no rendering.
+- A requested title with no record in the answer.
+benchmark:
+- 'Golden master: stage 08 replays identically.'
+tests:
+- tests/test_pipeline.py::test_symbols_are_read_by_heading_and_commons_licences_are_never_assumed
+- tests/test_shells_acquire.py::test_more_than_fifty_titles_are_refused
+limits:
+- Downloading the rendering is the fetcher's job.
+gotchas:
+- CC BY-SA files must credit their artist and name the licence beside the image.
+- Commons insignia restrictions apply on top of copyright.
+used_by:
+- atlas/sources/symbols.py
+moved_from:
+- atlas/sources/symbols.py

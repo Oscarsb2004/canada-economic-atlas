@@ -26,6 +26,7 @@ from atlas.core.schema import (
 from atlas.sources import census
 from atlas.sources import mpo
 from atlas.sources import statcan
+from atlas.shells.acquire import document_text, statcan_table
 from atlas.sources import tc_corridors as tc
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -793,7 +794,7 @@ def test_cache_entries_expire():
     import tempfile
     import time as _time
 
-    from atlas.net import CACHE_TTL_SECONDS, Fetcher
+    from atlas.shells.acquire.fetcher import CACHE_TTL_SECONDS, Fetcher
 
     assert CACHE_TTL_SECONDS == 24 * 60 * 60
 
@@ -1295,27 +1296,27 @@ def test_a_new_release_replaces_the_zip_and_a_failed_lookup_moves_nothing(tmp_pa
     old, new = "2026-07-29T08:30", "2026-08-28T08:30"
     dest = tmp_path / "36100434-eng.zip"
     dest.write_bytes(b"july zip")
-    statcan.release_path(dest).write_text(old, encoding="utf-8")
+    statcan_table.release_path(dest).write_text(old, encoding="utf-8")
     fetch = _FakeWDS({dest.name: b"august zip"})
 
     # The lookup fails: keep the zip and its recorded stamp, even under --refresh.
     for refresh in (False, True):
-        got = statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release="", refresh=refresh)
+        got = statcan_table.download_cube(fetch, "36100434", "eng", tmp_path, live_release="", refresh=refresh)
         assert got == (dest, old)
     assert fetch.downloads == [] and dest.read_bytes() == b"july zip"
-    assert statcan.recorded_release(dest) == old
+    assert statcan_table.recorded_release(dest) == old
 
     # The release has not moved: 141 MB is not re-fetched to learn nothing.
-    assert statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=old) == (dest, old)
+    assert statcan_table.download_cube(fetch, "36100434", "eng", tmp_path, live_release=old) == (dest, old)
     assert fetch.downloads == []
 
     # A newer release: the zip is replaced, and the stamp moves with it.
-    assert statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=new) == (dest, new)
+    assert statcan_table.download_cube(fetch, "36100434", "eng", tmp_path, live_release=new) == (dest, new)
     assert fetch.downloads == [("https://example.invalid/36100434-en.zip", True)]
-    assert dest.read_bytes() == b"august zip" and statcan.recorded_release(dest) == new
+    assert dest.read_bytes() == b"august zip" and statcan_table.recorded_release(dest) == new
 
     # --refresh reaches the download even when the release has not moved.
-    statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=new, refresh=True)
+    statcan_table.download_cube(fetch, "36100434", "eng", tmp_path, live_release=new, refresh=True)
     assert fetch.downloads[-1] == ("https://example.invalid/36100434-en.zip", True)
     assert len(fetch.downloads) == 2
 
@@ -1342,13 +1343,13 @@ def test_a_zip_from_before_stamps_were_recorded_is_dated_by_when_it_was_written(
         os.utime(dest, (t, t))
 
     legacy_zip("2026-09-03T21:18")
-    assert statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=release) == (dest, release)
+    assert statcan_table.download_cube(fetch, "36100434", "eng", tmp_path, live_release=release) == (dest, release)
     assert fetch.downloads == [] and dest.read_bytes() == b"legacy"
-    assert statcan.recorded_release(dest) == release
+    assert statcan_table.recorded_release(dest) == release
 
-    statcan.release_path(dest).unlink()
+    statcan_table.release_path(dest).unlink()
     legacy_zip("2026-08-28T13:00")
-    assert statcan.download_cube(fetch, "36100434", "eng", tmp_path, live_release=release) == (dest, release)
+    assert statcan_table.download_cube(fetch, "36100434", "eng", tmp_path, live_release=release) == (dest, release)
     assert len(fetch.downloads) == 1 and dest.read_bytes() == b"fresh"
 
 
@@ -1382,11 +1383,11 @@ def test_the_published_stamp_is_the_parsed_zips_not_what_wds_says_at_run_time(tm
     raw.mkdir()
     for lang in ("eng", "fra"):
         (raw / f"{pid}-{lang}.zip").write_bytes(cube(lang, ["2026-06"]))
-        statcan.release_path(raw / f"{pid}-{lang}.zip").write_text(july, encoding="utf-8")
+        statcan_table.release_path(raw / f"{pid}-{lang}.zip").write_text(july, encoding="utf-8")
     fetch = _FakeWDS({f"{pid}-{lang}.zip": cube(lang, ["2026-06", "2026-07"]) for lang in ("eng", "fra")})
 
     def pull_with(live: str):
-        monkeypatch.setattr(statcan, "release_time", lambda _fetch, _pid: live)
+        monkeypatch.setattr(statcan_table, "release_time", lambda _fetch, _pid: live)
         (series,), _ = stage.pull_cube(fetch, "national_monthly", pull, {"T001"}, raw)
         return series
 
@@ -1398,19 +1399,19 @@ def test_the_published_stamp_is_the_parsed_zips_not_what_wds_says_at_run_time(tm
     # live stamp always replaces the zip, so only this pins the payload to the
     # zip's stamp: a later "skip the 141 MB download" change must not publish
     # August's stamp over July's figures.
-    real_download = statcan.download_cube
-    monkeypatch.setattr(statcan, "download_cube",
+    real_download = statcan_table.download_cube
+    monkeypatch.setattr(statcan_table, "download_cube",
                         lambda *a, **kw: real_download(*a, **{**kw, "live_release": ""}))
     s = pull_with(august)
     assert (s.periods, s.release_time) == (("2026-06",), july)
-    monkeypatch.setattr(statcan, "download_cube", real_download)
+    monkeypatch.setattr(statcan_table, "download_cube", real_download)
 
     s = pull_with(august)
     assert (s.periods, s.release_time) == (("2026-06", "2026-07"), august)
     assert len(fetch.downloads) == 2
 
     for lang in ("eng", "fra"):
-        statcan.release_path(raw / f"{pid}-{lang}.zip").unlink()
+        statcan_table.release_path(raw / f"{pid}-{lang}.zip").unlink()
     with pytest.raises(stage.VintageUnknown, match="no recorded release"):
         pull_with("")
 
@@ -2239,7 +2240,7 @@ def test_budget_quotes_must_be_on_their_stated_page():
     both sides. A changed word, or the right words on the wrong page, fails.
     """
     from atlas.sources import budget_text as bt
-    pages = [bt.normalise("Summary"), bt.normalise("The main risks to the government’s /f_iscal plan include tariﬀs .")]
+    pages = [document_text.normalise("Summary"), document_text.normalise("The main risks to the government’s /f_iscal plan include tariﬀs .")]
     ok = [{"page": 2, "kind": "risk", "text": "The main risks to the government's fiscal plan include tariffs."}]
     bt.check(ok, pages=pages, text=None, where="BC")
     with pytest.raises(bt.BudgetTextError, match="not found"):
@@ -2249,4 +2250,4 @@ def test_budget_quotes_must_be_on_their_stated_page():
                  pages=pages, text=None, where="BC")
     html_page = "<html><script>var x;</script><h2>Risks</h2><p>There are a variety of risks.</p></html>"
     bt.check([{"page": None, "kind": "risk", "text": "There are a variety of risks."}],
-             pages=None, text=bt.html_text(html_page), where="ON")
+             pages=None, text=document_text.html_text(html_page), where="ON")

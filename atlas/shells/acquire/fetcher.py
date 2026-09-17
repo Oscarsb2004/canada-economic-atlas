@@ -1,5 +1,7 @@
 """
-atlas.net — the one way this project talks to the internet.
+atlas.shells.acquire.fetcher — the one way this project talks to the internet.
+
+(Moved from atlas/net.py in step S2 of docs/REBUILD.md; unchanged in behaviour.)
 
 Every outbound request goes through `Fetcher`. That is worth enforcing because
 the alternative — `requests.get` scattered across four source modules — is how a

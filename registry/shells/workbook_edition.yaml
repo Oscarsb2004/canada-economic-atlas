@@ -1,0 +1,29 @@
+# registry/shells/workbook_edition.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: acquire
+module: atlas.shells.acquire.workbook_edition
+title: The newest edition of a yearly workbook, found by its contents
+contract: Try years from newest to oldest and return the first year for which every language's workbook downloads
+  as a real workbook, with the bodies.
+functions:
+- latest
+- EditionError
+invariants:
+- An edition counts only when every language is published.
+refusals:
+- A body that is not a zip is a missing edition, not a workbook.
+- No edition in the range raises the caller's error type.
+benchmark:
+- 'Golden master: stage 08 replays identically.'
+tests:
+- tests/test_pipeline.py::test_fiscal_tables_edition_needs_a_real_workbook_in_both_languages
+- tests/test_shells_acquire.py::test_no_edition_raises_the_default_error
+limits:
+- Reads years downward one download at a time; the range should be short.
+gotchas:
+- canada.ca answers HEAD with 200 for editions that do not exist (the 2026 and 2027 Fiscal Reference Tables).
+used_by:
+- atlas/sources/fiscal_tables.py
+moved_from:
+- atlas/sources/fiscal_tables.py

@@ -1,0 +1,26 @@
+# registry/shells/valet_series.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: acquire
+module: atlas.shells.acquire.valet_series
+title: A Bank of Canada Valet series
+contract: Return the service's answer for the most recent observation of a series, and the URL a payload cites for
+  it.
+functions:
+- latest
+- series_url
+invariants:
+- The cited URL is the series URL without the query.
+refusals: []
+benchmark:
+- 'Golden master: stage 02 replays identically.'
+tests:
+- tests/test_shells_acquire.py::test_a_valet_series_is_asked_for_its_latest_observation
+limits:
+- Shaping the answer into a payload is the stage's job.
+gotchas:
+- The group list route is /valet/lists/groups/json; /valet/groups/json is a 404.
+used_by:
+- pipeline/02_sectors.py
+moved_from:
+- pipeline/02_sectors.py

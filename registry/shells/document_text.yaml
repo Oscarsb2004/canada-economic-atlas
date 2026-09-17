@@ -1,0 +1,36 @@
+# registry/shells/document_text.yaml - the card for one shell (docs/REBUILD.md section 2.3).
+# atlas/core/registry.py checks that its module, functions, users and tests exist.
+
+kind: acquire
+module: atlas.shells.acquire.document_text
+title: The words of a PDF or an HTML page, normalised for quoting
+contract: Extract each PDF page's text, an HTML page's visible text, or an HTML fragment's text, normalised the
+  same way a typed quote is.
+functions:
+- pdf_pages
+- html_text
+- normalise
+- strip_tags
+invariants:
+- Normalising twice changes nothing.
+refusals: []
+benchmark:
+- 'Golden master: stage 08 replays identically.'
+tests:
+- tests/test_pipeline.py::test_budget_quotes_must_be_on_their_stated_page
+- tests/test_shells_acquire.py::test_normalising_twice_changes_nothing
+- tests/test_shells_acquire.py::test_an_html_fragment_loses_its_tags_and_entities
+limits:
+- 'Only forgives extraction artefacts: ligatures, pypdf glyph markers, curly apostrophes, whitespace, a space before
+  punctuation.'
+gotchas:
+- Quebec's budget PDF is AES-encrypted; pypdf needs the cryptography package to read it.
+- Alberta's PDF extracts 'per cent .' with a space before the full stop.
+used_by:
+- pipeline/08_provinces.py
+- atlas/sources/budget_text.py
+- atlas/sources/symbols.py
+- atlas/shells/acquire/commons_media.py
+moved_from:
+- atlas/sources/budget_text.py
+- atlas/sources/symbols.py

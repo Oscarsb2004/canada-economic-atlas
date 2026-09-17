@@ -78,7 +78,8 @@ from atlas.core import clock
 from atlas.core import registry as R
 from atlas.core.jsonio import write_if_changed
 from atlas.core.schema import Provenance, Series, Text, to_jsonable
-from atlas.net import Fetcher
+from atlas.shells.acquire import statcan_table, valet_series
+from atlas.shells.acquire.fetcher import Fetcher
 from atlas.sources import statcan
 
 log = logging.getLogger("02_sectors")
@@ -227,9 +228,9 @@ def pull_cube(fetch: Fetcher, key: str, pull: dict, codes: set[str], raw_dir: Pa
     # the one recorded for the zips actually parsed. Straight after a release the
     # two differ until the zips are replaced, and writing the live one over the
     # old zip's figures is how a file came to claim a vintage it did not contain.
-    live = statcan.release_time(fetch, pid)
-    zip_en, release = statcan.download_cube(fetch, pid, "eng", raw_dir, live_release=live, refresh=refresh)
-    zip_fr, release_fr = statcan.download_cube(fetch, pid, "fra", raw_dir, live_release=live, refresh=refresh)
+    live = statcan_table.release_time(fetch, pid)
+    zip_en, release = statcan_table.download_cube(fetch, pid, "eng", raw_dir, live_release=live, refresh=refresh)
+    zip_fr, release_fr = statcan_table.download_cube(fetch, pid, "fra", raw_dir, live_release=live, refresh=refresh)
     if not (release and release_fr):
         raise VintageUnknown(f"{key}: cube {pid} has no recorded release and getCubeMetadata gave none")
     if release != release_fr:
@@ -346,7 +347,7 @@ def pull_policy_rate(fetch: Fetcher) -> dict:
     """
     src = R.source("boc_valet")
     sid = src["series"]["policy_rate"]
-    body = fetch.json(f"{BOC_VALET}/{sid}/json?recent=1")
+    body = valet_series.latest(fetch, BOC_VALET, sid)
     obs = body.get("observations", [])
     detail = body.get("seriesDetail", {}).get(sid, {})
     if not obs:
@@ -360,7 +361,7 @@ def pull_policy_rate(fetch: Fetcher) -> dict:
         "value": float(obs[-1][sid]["v"]),
         "unit": "percent",
         "provenance": Provenance.OFFICIAL_DATASET.value,
-        "source_url": f"{BOC_VALET}/{sid}/json",
+        "source_url": valet_series.series_url(BOC_VALET, sid),
         "licence": "boc-terms",
         "attribution": R.sources()["licences"]["boc-terms"]["attribution"],
     }

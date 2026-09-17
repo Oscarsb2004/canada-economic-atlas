@@ -49,6 +49,8 @@ from typing import Any
 
 import openpyxl
 
+from atlas.shells.acquire import workbook_edition
+
 from atlas.core.schema import Text
 
 #: English and French round differently; the widest gap measured was 0.5 ($M).
@@ -86,22 +88,8 @@ class JurisdictionTable:
 
 def latest_edition(get: Callable[[str], bytes | None], template: dict[str, str],
                    newest: int, oldest: int) -> tuple[int, dict[str, bytes]]:
-    """
-    The newest year, from `newest` down to `oldest`, with both workbooks published.
-
-    `get` returns the body, or None where the download fails. A body that is not
-    a zip (every .xlsx is one) is a 404 page, not an edition.
-    """
-    for year in range(newest, oldest - 1, -1):
-        bodies: dict[str, bytes] = {}
-        for lang in ("en", "fr"):
-            body = get(template[lang].format(year=year, yy=f"{year % 100:02d}"))
-            if not body or not body.startswith(b"PK"):
-                break
-            bodies[lang] = body
-        if len(bodies) == 2:
-            return year, bodies
-    raise FiscalTablesError(f"no edition with both workbooks between {oldest} and {newest}")
+    """The newest edition with both workbooks; see `workbook_edition.latest`."""
+    return workbook_edition.latest(get, template, newest, oldest, error=FiscalTablesError)
 
 
 # ── One sheet ─────────────────────────────────────────────────────────────────

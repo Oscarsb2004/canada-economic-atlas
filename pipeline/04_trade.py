@@ -63,7 +63,7 @@ from atlas.core.schema import (
     CorridorMode, CorridorNode, CorridorNodeKind, Geometry, GeometryKind,
     Provenance, SourceRef, Text, TradeCorridor, to_jsonable,
 )
-from atlas.net import Fetcher
+from atlas.shells.acquire.fetcher import Fetcher
 from atlas.sources import tc_corridors as tc
 
 log = logging.getLogger("04_trade")
