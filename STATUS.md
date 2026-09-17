@@ -30,7 +30,7 @@ python run.py --check    # every registry file against its schema
 
 | Dataset | Writes | On the site | Read by |
 | --- | --- | --- | --- |
-| **bundle**<br>The bundle the site fetches: every dataset it shows, plus meta, country and palette | `web/public/data/events/major-projects-office/projects.json` (244 KB)<br>`web/public/data/events/major-projects-office/strategies.json` (32 KB)<br>`web/public/data/events/major-projects-office/industries.json` (52 KB)<br>`web/public/data/events/trade-corridors/corridors.json` (46 KB)<br>`web/public/data/sectors/national-monthly.json` (325 KB)<br>`web/public/data/sectors/national-constant.json` (325 KB)<br>`web/public/data/sectors/provincial-annual.json` (437 KB)<br>`web/public/data/sectors/rates.json` (1 KB)<br>`web/public/data/sectors/business-counts.json` (56 KB)<br>`web/public/data/provinces/provinces.json` (368 KB)<br>`web/public/data/country.json` (3 KB)<br>`web/public/data/palette.json` (3 KB)<br>`web/public/data/meta.json` (12 KB) | yes | `web/src/data/bundle.ts`<br>`docs/INTEROP-world-strategic-map.md` |
+| **bundle**<br>The bundle the site fetches: every dataset it shows, plus meta, country and palette | `web/public/data/events/major-projects-office/projects.json` (249 KB)<br>`web/public/data/events/major-projects-office/strategies.json` (32 KB)<br>`web/public/data/events/major-projects-office/industries.json` (52 KB)<br>`web/public/data/events/trade-corridors/corridors.json` (46 KB)<br>`web/public/data/sectors/national-monthly.json` (325 KB)<br>`web/public/data/sectors/national-constant.json` (325 KB)<br>`web/public/data/sectors/provincial-annual.json` (437 KB)<br>`web/public/data/sectors/rates.json` (1 KB)<br>`web/public/data/sectors/business-counts.json` (56 KB)<br>`web/public/data/provinces/provinces.json` (368 KB)<br>`web/public/data/country.json` (3 KB)<br>`web/public/data/palette.json` (3 KB)<br>`web/public/data/meta.json` (12 KB) | yes | `web/src/data/bundle.ts`<br>`docs/INTEROP-world-strategic-map.md` |
 
 ### business-counts
 
@@ -74,7 +74,7 @@ python run.py --check    # every registry file against its schema
 
 | Dataset | Writes | On the site | Read by |
 | --- | --- | --- | --- |
-| **major-projects**<br>The Major Projects Office portfolio: projects, strategies and what each source says exists | `data/events/major-projects-office/projects.json` (244 KB)<br>`data/events/major-projects-office/strategies.json` (32 KB)<br>`data/events/major-projects-office/coverage.json` (3 KB) | yes | `atlas/export/bundle.py`<br>`registry/checks.yaml` |
+| **major-projects**<br>The Major Projects Office portfolio: projects, strategies and what each source says exists | `data/events/major-projects-office/projects.json` (249 KB)<br>`data/events/major-projects-office/strategies.json` (32 KB)<br>`data/events/major-projects-office/coverage.json` (3 KB) | yes | `atlas/export/bundle.py`<br>`registry/checks.yaml` |
 
 ### provinces
 
@@ -102,11 +102,13 @@ source card carries its licence, read and dated before its data was used.
 ```bash
 python run.py --test                             # the test suite
 python run.py --verify                           # independent verification of the published files
-python verify/golden.py replay --name legacy-v1  # the restructure's identity check
+python verify/golden.py replay --name refreshed-2026-09-17  # the identity check
 python verify/golden.py live --manifest verify/golden/legacy-v1/deployed.json \
     --url https://oscarsb2004.github.io/canada-economic-atlas   # what the published site serves
 ```
 
-The golden master is the tag `legacy-v1`: the project as it stood before the restructure, run once
-with every download recorded. Any step of the restructure must reproduce its output byte for byte,
-and the site the published URL serves must be the site this repository builds.
+A golden master is one whole run, recorded: every download stored and the clock frozen, so any later
+revision can be run on exactly those inputs and its output compared byte for byte. `legacy-v1` is the
+project as it stood before the restructure, and proved every step of it. `refreshed-2026-09-17` is the
+current one, recorded on the data committed today. The site the published URL serves must also be the
+site this repository builds, which is what `golden.py live` checks.

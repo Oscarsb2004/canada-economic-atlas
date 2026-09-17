@@ -8,7 +8,7 @@
       "fr": "(millions de dollars)"
     }
   },
-  "generated_at": "2026-09-13T21:56:51Z",
+  "generated_at": "2026-09-17T20:49:53Z",
   "provinces": {
     "AB": {
       "arms": {
@@ -1602,7 +1602,7 @@
         "licence_url": "",
         "page_url": "https://commons.wikimedia.org/wiki/File:Flag_of_British_Columbia.svg",
         "provenance": "third_party",
-        "rendering_sha256": "423c9a04b26439ef53a79e5d5095ba3d478bcc8bba5a8e4bff47b3a7d8d2e20d",
+        "rendering_sha256": "bff753723f14bc785d361192f7207a96b149ef7ad10a68f03861f336c6ca2294",
         "restrictions": [
           "insignia"
         ],
@@ -6307,7 +6307,7 @@
         "licence_url": "",
         "page_url": "https://commons.wikimedia.org/wiki/File:Flag_of_Nova_Scotia.svg",
         "provenance": "third_party",
-        "rendering_sha256": "706a0cc82ae1160aa12a3ce887e27be35f0f441fc6e39eb5457c87624392744f",
+        "rendering_sha256": "ed7202cf6668b1f59f3d516f3ddd66b9dd7992b6cce1ae088a145d30dc83902d",
         "restrictions": [
           "insignia"
         ],
@@ -7414,7 +7414,7 @@
         "licence_url": "",
         "page_url": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Northwest_Territories.svg",
         "provenance": "third_party",
-        "rendering_sha256": "2faee4d00a2017eb0a20998a9e5e3f24af3805344d230ed8a136d9a0d6a79c64",
+        "rendering_sha256": "6e155ff23ccf023bc54df9d0ec338bfd3d606eccb9ba0ae2199288db42363cb4",
         "restrictions": [
           "insignia"
         ],
@@ -15140,294 +15140,294 @@
       "content_sha256": "3c671a2e3ad317cdfa2c9e7773e50ac934ac9e4fc626c31ae33cdffa107a1b9f",
       "licence": "canada-ca-terms",
       "provenance": "official_dataset",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/content/dam/fin/publications/frt-trf/2025/frt-trf-25-eng.xlsx"
     },
     {
       "content_sha256": "c1e618f8245526955e87551dd068e65028d974b26795238732dee8b4b4f92675",
       "licence": "canada-ca-terms",
       "provenance": "official_dataset",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/content/dam/fin/publications/frt-trf/2025/frt-trf-25-fra.xlsx"
     },
     {
       "content_sha256": "be6796c83f33297e680c80dcb1d43ec61eb842af061d59924707bc920bb2ecc6",
       "licence": "statcan-open",
       "provenance": "official_dataset",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www150.statcan.gc.ca/n1/tbl/csv/36100400-eng.zip"
     },
     {
       "content_sha256": "577f1c8117de4c87e004a4fd2790c594ad25c675c331f89ed114544bf560653e",
       "licence": "statcan-open",
       "provenance": "official_dataset",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www150.statcan.gc.ca/n1/tbl/csv/36100400-fra.zip"
     },
     {
-      "content_sha256": "e55978d30025d403d9000dd0c70c867196116687d4a5092e66c2ee7134989bcb",
+      "content_sha256": "eaa926d2717d5770e7b00768535e52795809a2b285ffa2c0e2be06f48bd075ea",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/newfoundland-and-labrador.html"
     },
     {
-      "content_sha256": "5dab0e791216037e0360fa6023b52d953e49a94a667f43072fda6f66f37c41c9",
+      "content_sha256": "ba1f337f162d23c215202856901b75837a2efc79e582304214c67ed008fc6b54",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/terre-neuve-et-labrador.html"
     },
     {
-      "content_sha256": "54c80ba75a53138f6f0e96e7988c77f5d6244cd6997cb9098d88cdf60a50333d",
+      "content_sha256": "db4ec3e9d84272ff1b77dc5cea18f04425b83b669526e79c8abcfa89d8c30c36",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/prince-edward-island.html"
     },
     {
-      "content_sha256": "28b87dde19bd66c7e13f337baedaa0e9ea215075f8f9eecba03cc5de3ed2ee50",
+      "content_sha256": "f18aab0dd50bfe595cb8738bce2a7e479445d0f1269f7a69b6f526ff597ca570",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/ile-du-prince-edouard.html"
     },
     {
-      "content_sha256": "4ac12508c69d908ef747ee8542bd718927972e42d668d2fb5d66af4d98fc709c",
+      "content_sha256": "555283fb39bdc39b01b30a41d958512b7d1abfab7711fe4f13dad634d52d0c74",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/nova-scotia.html"
     },
     {
-      "content_sha256": "f187cea0b81966c8419ac3fd9242d631e9c15c4921efddb51e4e4a81d07ddf67",
+      "content_sha256": "926162c183272cfb267a288a914a8f3c9649a3dd7e7ef4b6e9b374d61874d4ad",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/nouvelle-ecosse.html"
     },
     {
-      "content_sha256": "2f1c2a61b354638e6de3180d0326f04066a585df96088d216174e0710d02fb5d",
+      "content_sha256": "0baa1f90ae8f8034dae30fb14654fbf0b8513c7ff1f2dd74be69d64979ab1bee",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/new-brunswick.html"
     },
     {
-      "content_sha256": "fa6e4a88b5e0828a0be3569c21a6cf6d6b691190af3184d12bdf02f54d56f49b",
+      "content_sha256": "678c36145cb3294a81bfc6b9094c4b635f016d0d47a9e8e82a9e0f0f04e79cd4",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/nouveau-brunswick.html"
     },
     {
-      "content_sha256": "1ee76495b01bef44d38ba6bdef5385b1b9f2b537e44c2b5cc8185baae56f31b4",
+      "content_sha256": "afa751e42ead48e7618cbb3886781e25ad5ce0edadc248dcd976a10265dbe0a6",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/quebec.html"
     },
     {
-      "content_sha256": "10dca01a78f63ee8160e70f4c0e1817fda00f5efb6440ba4991e4d5e768b2053",
+      "content_sha256": "64574cabcbe3e20bb2cad8b40be547ffac0ddf2343f9dbf7d746beb1c32805bd",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/quebec.html"
     },
     {
-      "content_sha256": "c4e97d26121fdde183646a16c2ba70e858a62b5e6ecc8fd9d5f2289f70844179",
+      "content_sha256": "3fcbd83f170fec0588fea67fdf89924688f819bdd82f0f24810e56066d24f0a2",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/ontario.html"
     },
     {
-      "content_sha256": "c106e4d49889345e29a955213370267022c6bda875279110296c3592e1c791cc",
+      "content_sha256": "289dfc697ca344b9c76e26904440c68ca8816a856aadf550b120965afebc5996",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/ontario.html"
     },
     {
-      "content_sha256": "3a2db56ceffd9b47dbcebcb26b75414a14152a9d4bed562e1c7d31e35ac1d6ff",
+      "content_sha256": "1820db8bc1739175dd1cae7fd4487ca07f644248ad97a6175d93b23b5ec1377a",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/manitoba.html"
     },
     {
-      "content_sha256": "8c4e17f64764be1354949e4117a48609d9790f4cec76847dd48f4feb60c0d30a",
+      "content_sha256": "e5fe6ad56eac8797fd93f8ebc881cf2847fd239618395944cb98dc86aab99025",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/manitoba.html"
     },
     {
-      "content_sha256": "b799b830cbe850cbc86f2d938466984794212cdce4c7c9ce6365547ad90d8775",
+      "content_sha256": "954f3ee61a1a15824c05dbeea60d2cea6718bdcca5020efcf2842091939ddc49",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/saskatchewan.html"
     },
     {
-      "content_sha256": "32e0e096b5cfe2e16a6720b7c4261eb2eb9f552fdc32af3215268079ba4ad1eb",
+      "content_sha256": "5d4cdfe4f222cef54c0f41012e2d14711619076d2b0fb9513bd4581547a47b00",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/saskatchewan.html"
     },
     {
-      "content_sha256": "c95a1959c382343748a6c54598c72eb72b9bf8d34af19bbb3120824043b4ad5b",
+      "content_sha256": "4178442be5fa4de6c75aaf7aad6ca730b10a699f71a4366cd238dd65b192f03c",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/alberta.html"
     },
     {
-      "content_sha256": "e6eba3290da4007eeefd1da5b6dbd63ee699ad05fc6cea3aa9290e354b9724c0",
+      "content_sha256": "9eb4c27f962294b622d3066516a16ee3a76ebce12e46fa2575f0514669099506",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/alberta.html"
     },
     {
-      "content_sha256": "e72a6e7731f2120136d3c8b829dcf3ef3f4606d39f12360d99a0f34237fdddf8",
+      "content_sha256": "f471d01cfea5cb26e3508815b7bdff78e456fa16dec2e82752fee9a011ec1fc5",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/british-columbia.html"
     },
     {
-      "content_sha256": "758914b912a939cd98ebf0fa657cad2d0e1c03b8aa2299194d40c24b4d2e70b2",
+      "content_sha256": "90b87ea2eaf27a73712112ebbc5b2391af039510e6a162aaa2c6ff73ce68f01e",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/colombie-britannique.html"
     },
     {
-      "content_sha256": "d46ddea93598ccdc011cd18380bfb88bcd0b20e730e21530301390171ed5a3ed",
+      "content_sha256": "4a6738fcb0714e08f8c2e3fd876be54a3d2a36a55f14f91087a69cf5fb60f6e9",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/yukon.html"
     },
     {
-      "content_sha256": "d12ecce0d311c5daf3c2c0907488fdbf1755bf1cba4675a224c364373dfebddb",
+      "content_sha256": "23f88359989bc8eeb63db2b9fb66a169d51a92595f1b6b30edeb7f1627e4a7ff",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/yukon.html"
     },
     {
-      "content_sha256": "89ae691f74983b2555da927c914d09551a11469abffc1ea60e61846a70b2980a",
+      "content_sha256": "cb5c48006e911558ee735da0b754152063b1a3a78768f3d71a58560cf1c836d7",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/northwest-territories.html"
     },
     {
-      "content_sha256": "574de62edcbf3381d8331dd18825cdb20d3e5a74951bd2d0a611e0e0471c7ecc",
+      "content_sha256": "f9373747daffcf5bb3117e85e1865dfe045613f1bf66073baa55f18b202434d9",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/territoires-du-nord-ouest.html"
     },
     {
-      "content_sha256": "16ada2fb0db0b93284c0e6cb8e4238ad19c0aab8589314919cd449fbade25bba",
+      "content_sha256": "e9a004b1fc61e94f13ef6f852ee83364435136ba5f8f73361d08833d202b31c4",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/en/canadian-heritage/services/provincial-territorial-symbols-canada/nunavut.html"
     },
     {
-      "content_sha256": "60f845bf3df946106c73627ad26803b94e709d3382c78455312903a2edba3ea4",
+      "content_sha256": "9f91f9e31776f8b555b0753f7b01cebcf910ab0e668cabbcf6b6cde69d6f82e3",
       "licence": "canada-ca-terms",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.canada.ca/fr/patrimoine-canadien/services/symboles-provinciaux-territoriaux-canada/nunavut.html"
     },
     {
       "content_sha256": "005ea9132ebd954111ed3c4a9defc7e1bd952d1862b4cdec51dfcfc1174ffe9c",
       "licence": "budget-quotation",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.gov.nl.ca/fin/files/The-Economy-Budget-2026.pdf"
     },
     {
       "content_sha256": "2455439c0287efc291ab5bc280b3b19ecb85fd3b774e2e1ec7a486bdd364ac82",
       "licence": "budget-quotation",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.novascotia.ca/sites/default/files/documents/6-4173/ftb-bfi-046-en-budget-2026-2027.pdf"
     },
     {
       "content_sha256": "f7051dec0a80bcb98a87fb7d5989f76c21a0720427b20f672a2f4f1ff5811a7b",
       "licence": "budget-quotation",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.gnb.ca/content/dam/GNB3/gov/budget/docs/2026-2027-economic-outlook.pdf"
     },
     {
       "content_sha256": "3bcbbef4ac5ad869ddfb99d6bed3df4d93fc52484891d3213e2acb40f2ef75ee",
       "licence": "budget-quotation",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.finances.gouv.qc.ca/Budget_and_update/budget/documents/Budget2627_BudgetPlan.pdf"
     },
     {
-      "content_sha256": "41dc432d27375d5144cc6d4c569210abaa601ade5cc0c5f5f2c4636d3a83d2aa",
+      "content_sha256": "497babdab4802f8a9d4ec8f9ad26dab3c2d16c53de48ebd98258f611b667ccc4",
       "licence": "budget-quotation",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://budget.ontario.ca/2026/chapter-3.html"
     },
     {
       "content_sha256": "68051c26af8389d237bb733625c6cca4ce4b9f59b5fc14808d6f2407547de52e",
       "licence": "budget-quotation",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.gov.mb.ca/asset_library/en/budget2026/budget2026.pdf"
     },
     {
       "content_sha256": "f60de1b36c40e2384c54e559403744b0bee9336bb2abc51c21f458282554cc1b",
       "licence": "budget-quotation",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://budget.saskatchewan.ca/f/47i547mqkjc4xevocxv2v7hr9ptn36/2026-27-Budget-Document-WEB.pdf"
     },
     {
       "content_sha256": "0ce62efa4f0a977c9e0fe583ecfc8b6e17c898d48de49fdb3a29a55efc5883a2",
       "licence": "budget-quotation",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://open.alberta.ca/dataset/3393a7b5-07bf-4b9f-8aaf-a6d89273297b/resource/58a8d024-398f-482e-b1c2-81a754a97253/download/budget-2026-fiscal-plan-2026-29.pdf"
     },
     {
       "content_sha256": "5b5194bf1e292dcb6d440796e4808c00a5726318692597e6db0285b9d248407d",
       "licence": "budget-quotation",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.bcbudget.gov.bc.ca/2026/pdf/2026_Budget_and_Fiscal_Plan.pdf"
     },
     {
       "content_sha256": "827281e6bbce656243d1309f507ba328c035dff0d15da2ee59dd8f3ab36be230",
       "licence": "budget-quotation",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://yukon.ca/sites/default/files/fin-2026-27-budget-address.pdf"
     },
     {
       "content_sha256": "3f28c13a12ce513ce20b6e1a48cf46afe321999917a92a2ff50f5a5fe39402a6",
       "licence": "budget-quotation",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.fin.gov.nt.ca/sites/fin/files/2026-27_budget_address_and_economic_outlook_and_fiscal_review_papers.pdf"
     },
     {
       "content_sha256": "2c0b302dbcb4d758460ceaf28d126e045e84dee0e6e3bf00fa6c5d51013f9865",
       "licence": "budget-quotation",
       "provenance": "page_verbatim",
-      "retrieved_at": "2026-09-13T21:56:51Z",
+      "retrieved_at": "2026-09-17T20:49:53Z",
       "url": "https://www.gov.nu.ca/sites/default/files/documents/2026-05/FEI_-_Budget_2026-27_-_ENG.pdf"
     }
   ]

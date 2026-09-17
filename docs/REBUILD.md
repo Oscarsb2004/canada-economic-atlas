@@ -70,6 +70,14 @@ legacy run may differ from what is committed today. That difference is written
 down as a finding and **not** committed during the restructure: the site keeps
 serving what it serves now. Refreshing the data is a separate decision afterwards.
 
+**That decision was taken on 2026-09-17, once S9 was done.** The data was
+refreshed and the diff reviewed, which ends `legacy-v1`'s usefulness as a gate:
+its replay refuses a revision whose committed outputs differ from the ones the
+recording started from, and after a refresh they do. So a master is recorded
+per data state, and the current one is **`refreshed-2026-09-17`**. `legacy-v1`
+stays as the answer key for the restructure itself: it is what proved S0 to S9,
+and nothing should be able to rewrite it.
+
 ---
 
 ## 4. The target structure
