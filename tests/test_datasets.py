@@ -182,8 +182,15 @@ def test_a_card_running_after_a_later_card_is_refused(registry_copy):
 def test_a_consumer_that_never_names_the_output_is_refused(registry_copy):
     """`consumed_by` is a claim that someone reads the file; the claimed reader must at least name it."""
     _edit(registry_copy / "datasets/capex-annual.yaml",
-          lambda d: d["consumed_by"].append({"path": "pipeline/04_trade.py", "how": "it does not"}))
-    assert any("04_trade.py never names capex-annual.json" in e for e in R.dataset_errors())
+          lambda d: d["consumed_by"].append({"path": "run.py", "how": "it does not"}))
+    assert any("consumer run.py names none of this card's outputs" in e for e in R.dataset_errors())
+
+
+def test_an_output_no_consumer_names_is_refused(registry_copy):
+    """A dataset nothing reads is the sprawl this restructure exists to stop."""
+    _edit(registry_copy / "datasets/major-projects.yaml",
+          lambda d: d.update(consumed_by=[c for c in d["consumed_by"] if c["path"] != "registry/checks.yaml"]))
+    assert any("no consumer names coverage.json" in e for e in R.dataset_errors())
 
 
 def test_a_group_no_run_step_makes_is_refused(registry_copy):

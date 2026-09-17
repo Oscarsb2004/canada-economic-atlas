@@ -124,8 +124,8 @@ def test_a_card_citing_a_test_that_does_not_exist_is_refused(registry_copy):
 
 
 def test_a_card_claiming_a_user_that_never_mentions_it_is_refused(registry_copy):
-    _edit(registry_copy / "shells" / "valet_series.yaml", lambda d: d["used_by"].append("pipeline/04_trade.py"))
-    assert any("04_trade.py never mentions valet_series" in e for e in R.validate_all())
+    _edit(registry_copy / "shells" / "valet_series.yaml", lambda d: d["used_by"].append("pipeline/99_bundle.py"))
+    assert any("99_bundle.py never mentions valet_series" in e for e in R.validate_all())
 
 
 def test_a_card_whose_module_path_disagrees_with_its_kind_is_refused(registry_copy):

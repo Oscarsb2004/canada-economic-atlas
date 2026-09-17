@@ -92,6 +92,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--dataset", action="append", metavar="ID", help="run only this card; repeatable")
     ap.add_argument("--list", action="store_true", help="list every card by group and stop")
     ap.add_argument("--refresh", action="store_true", help="bypass the HTTP cache and re-download")
+    ap.add_argument("--set", action="append", default=[], metavar="NAME=VALUE", dest="options",
+                    help="an option for the builders, such as --set limit=2 (a smoke test) or --set images=false")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)-7s %(message)s")
 
@@ -116,8 +118,12 @@ def main(argv: list[str] | None = None) -> int:
     else:
         ap.error("name a group or --dataset (or --list)")
 
+    options = {}
+    for pair in args.options:
+        name, _, value = pair.partition("=")
+        options[name.strip()] = value.strip()
     ctx = Context(fetch=Fetcher(cache_dir=R.DATA_DIR / "raw" / "cache", use_cache=not args.refresh),
-                  refresh=args.refresh)
+                  refresh=args.refresh, options=options)
     for dataset in selected:
         run_card(ctx, dataset, cards[dataset])
     log.info("%s", ctx.fetch.summary())

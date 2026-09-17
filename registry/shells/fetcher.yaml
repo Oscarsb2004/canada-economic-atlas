@@ -27,10 +27,10 @@ gotchas:
 - canada.ca was observed taking over 45 seconds to first byte, hence the long read timeout.
 - An immortal cache silently turned change detection off; entries now expire.
 used_by:
-- pipeline/01_projects.py
+- atlas/datasets/major_projects.py
 - atlas/datasets/statcan_sectors.py
-- pipeline/04_trade.py
-- pipeline/06_industries.py
+- atlas/datasets/trade_corridors.py
+- atlas/datasets/project_industries.py
 - pipeline/07_vessels.py
 - atlas/datasets/province_profiles.py
 - atlas/run.py

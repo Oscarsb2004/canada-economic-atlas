@@ -10,9 +10,8 @@ computes nothing.
     Observation   a published number about a place, in a period
     Place         an identity with a type, a parent and a boundary vintage
     Passage       words reproduced from a document, with where they were found
-
-Asset and event records join these when the datasets that need them move
-(S6, S7), and not before.
+    Asset         a thing at a place: a project site, a port, a border crossing
+    Event         something dated that happened to one of them
 """
 
 from __future__ import annotations
@@ -96,6 +95,46 @@ class Passage:
     source_url: str
     locator: str = ""       # a page number, a heading — where in the document
     content_sha256: str = ""
+    provenance: str = ""
+
+    def row(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True, slots=True)
+class Asset:
+    """A thing at a place. Coordinates are [lon, lat], and a derived one says so."""
+
+    key: str
+    kind: str                       # "project_site", "port", "border_crossing"
+    name_en: str
+    name_fr: str
+    parent: str = ""                # the project or corridor it belongs to
+    category: str = ""              # the publisher's own class: a sector, a mode
+    lon: float | None = None
+    lat: float | None = None
+    geometry_kind: str = ""         # point | corridor | region | absent
+    coordinate_provenance: str = ""
+    status_en: str = ""
+    status_fr: str = ""
+    source_url: str = ""
+    provenance: str = ""
+
+    def row(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True, slots=True)
+class Event:
+    """Something dated, in the publisher's words, with the date exactly as published."""
+
+    entity: str
+    period: str                     # ISO, as precise as the source was
+    category: str                   # "project_update"
+    text_en: str
+    text_fr: str
+    date_verbatim: str = ""         # the publisher's own wording of the date
+    source_url: str = ""
     provenance: str = ""
 
     def row(self) -> dict[str, Any]:

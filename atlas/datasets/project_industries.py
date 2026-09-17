@@ -1,9 +1,11 @@
-#!/usr/bin/env python3
 """
-Stage 06 — each Major Projects Office project, placed in the NAICS industries it
-would operate in, and in construction while it is being built.
+atlas.datasets.project_industries — each Major Projects Office project, placed in the NAICS
+industries it would operate in, and in construction while it is being built.
 
-    python pipeline/06_industries.py [--refresh]
+    python -m atlas.run industries
+
+(Was pipeline/06_industries.py until step S6 of docs/REBUILD.md; the code is carried
+unchanged, and the runner writes the output.)
 
 Output
     data/events/major-projects-office/industries.json
@@ -36,54 +38,47 @@ distance (`atlas/sources/mpi.py`).
 
 from __future__ import annotations
 
-import argparse
 import hashlib
 import json
 import logging
-import sys
 from collections import Counter
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from atlas import industries
 from atlas.core import clock
+from atlas.core import frames
 from atlas.core import registry as R
-from atlas.core.jsonio import write_if_changed
+from atlas.core.records import Observation, Passage
 from atlas.core.schema import Provenance, SourceRef, Text, to_jsonable
+from atlas.datasets import Built, Context
 from atlas.shells.acquire.fetcher import Fetcher
+from atlas.sources import industries_source as industries
 from atlas.sources import mpi, naics
 
-log = logging.getLogger("06_industries")
+log = logging.getLogger(__name__)
 
-PROJECTS = R.DATA_DIR / "events" / "major-projects-office" / "projects.json"
 OUTPUT = R.DATA_DIR / "events" / "major-projects-office" / "industries.json"
+PROJECTS = R.DATA_DIR / "events" / "major-projects-office" / "projects.json"
 NAICS_FILES = ("structure_en", "structure_fr", "elements_en", "elements_fr")
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--refresh", action="store_true", help="re-download the classification and inventory")
-    args = ap.parse_args()
-    logging.basicConfig(level=logging.INFO, format="%(levelname)-7s %(message)s")
-
+def build(ctx: Context, *, dataset: str) -> Built:
+    """Each project placed in the industry its finished asset would operate in, with its evidence."""
     reg = R.project_naics()
     nsrc = R.source(reg["classification_source"])
     isrc = R.source(reg["inventory_source"])
-    fetch = Fetcher(cache_dir=R.DATA_DIR / "raw" / "cache", use_cache=not args.refresh)
+    fetch = ctx.fetch
     retrieved = clock.now_iso()
 
     # Strict UTF-8: a replacement character inside a quoted French example would
     # make an honest quote fail to match, and the error would blame the registry.
-    raw = {key: fetch.bytes(nsrc[key], force=args.refresh) for key in NAICS_FILES}
+    raw = {key: fetch.bytes(nsrc[key], force=ctx.refresh) for key in NAICS_FILES}
     classification = naics.read(*(raw[key].decode("utf-8") for key in NAICS_FILES))
     log.info("NAICS Canada 2022: %d classes", len(classification.classes))
 
     # NRCan's open map service, both languages, paged in a stable order; and the
     # dataset record, for the licence and the disclaimer shown beside costs.
-    layers = {lang: mpi.fetch_layer(lambda url: fetch.bytes(url, force=args.refresh), isrc["service"][lang])
+    layers = {lang: mpi.fetch_layer(lambda url: fetch.bytes(url, force=ctx.refresh), isrc["service"][lang])
               for lang in ("en", "fr")}
-    record_raw = fetch.bytes(isrc["record_api"], force=args.refresh)
+    record_raw = fetch.bytes(isrc["record_api"], force=ctx.refresh)
     inventory = mpi.read(layers["en"][0], layers["fr"][0])
     disclaimer = mpi.caveat(json.loads(record_raw))
     log.info("Major Projects Inventory: %d projects", len(inventory))
@@ -93,7 +88,7 @@ def main() -> int:
                                status_field=Text(**isrc["fields"]["status"]),
                                cost_field=Text(**isrc["fields"]["cost"]))
 
-    changed = write_if_changed(OUTPUT, {
+    payload = {
         "generated_at": retrieved,
         "method": {
             "en": "Each project is placed in the NAICS Canada 2022 industry its finished asset would "
@@ -143,17 +138,44 @@ def main() -> int:
             ]),
         },
         "projects": to_jsonable(records),
-    })
+    }
 
     by_sector = Counter(a.sector for r in records for a in r.operating)
     basis = Counter(r.construction.basis for r in records)
-    log.info("operating placements by sector: %s",
-             ", ".join(f"{k}={v}" for k, v in sorted(by_sector.items())))
+    log.info("operating placements by sector: %s", ", ".join(f"{k}={v}" for k, v in sorted(by_sector.items())))
     log.info("construction basis: %s", ", ".join(f"{k}={v}" for k, v in sorted(basis.items())))
     log.info("listed in construction: %s", [r.slug for r in records if r.construction.listed])
-    log.info("industries.json %s", "updated" if changed else "unchanged")
-    return 0
 
+    costs, passages = [], []
+    for record in records:
+        status = record.construction.status
+        if status is not None and status.cost_musd is not None:
+            costs.append(Observation(
+                entity=record.slug, category=record.operating[0].code, period="", measure="capital_cost",
+                value=status.cost_musd, unit="millions of dollars", scalar="millions",
+                source_table=status.inventory_id, provenance=Provenance.OFFICIAL_DATASET.value,
+            ).row())
+        for assignment in record.operating:
+            passages.append(Passage(entity=record.slug, kind="asset", text_en=assignment.asset.en,
+                                    text_fr=assignment.asset.fr, source_url="", locator=assignment.code,
+                                    provenance=Provenance.PAGE_VERBATIM.value).row())
+            for evidence in assignment.evidence:
+                passages.append(Passage(entity=record.slug, kind=f"naics_{evidence.kind}",
+                                        text_en=evidence.text.en, text_fr=evidence.text.fr,
+                                        source_url=nsrc["dataset_record"], locator=evidence.code,
+                                        provenance=Provenance.OFFICIAL_DATASET.value).row())
 
-if __name__ == "__main__":
-    raise SystemExit(main())
+    published = ("data/events/major-projects-office/industries.json",)
+    made = [
+        frames.Frame(dataset=dataset, name="capital_costs", profile="cross-section", record_type="observation",
+                     keys=frames.OBSERVATION_KEYS, columns=frames.OBSERVATION_COLUMNS, rows=costs,
+                     published=published, checks=("join_distance",),
+                     notes={"published_costs": len(costs), "projects": len(records),
+                            "never_totalled": "a sum over the joined projects would read as the portfolio's"}),
+        frames.Frame(dataset=dataset, name="evidence", profile="passages", record_type="passage",
+                     keys=frames.PASSAGE_KEYS, columns=frames.PASSAGE_COLUMNS, rows=passages, published=published),
+    ]
+    return Built(outputs=[(OUTPUT, payload)], frames=made,
+                 receipt={"projects": len(records), "published_costs": len(costs),
+                          "listed_in_construction": sorted(r.slug for r in records if r.construction.listed),
+                          "placements_by_sector": dict(sorted(by_sector.items()))})

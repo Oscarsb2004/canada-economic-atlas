@@ -1,0 +1,26 @@
+# registry/datasets/project-industries.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run --dataset project-industries` builds it; atlas/core/registry.py checks every claim below.
+
+title: Each MPO project placed in NAICS, with NRCan's status and capital cost
+group: industries
+order: 10
+builder: atlas.datasets.project_industries:build
+params: {}
+sources:
+- statcan_naics_2022
+- nrcan_mpi_2025
+shells:
+- fetcher
+- arcgis_layer
+- join_distance
+- geo_distance
+after: []
+outputs:
+- data/events/major-projects-office/industries.json
+frame:
+  profile: cross-section
+  record_type: observation
+on_screen: true
+consumed_by:
+- path: pipeline/99_bundle.py
+  how: copied into the site bundle, web/public/data/

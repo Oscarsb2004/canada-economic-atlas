@@ -1,0 +1,22 @@
+# registry/datasets/trade-corridors.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run --dataset trade-corridors` builds it; atlas/core/registry.py checks every claim below.
+
+title: Canada's five national trade corridors, with their ports and border crossings
+group: corridors
+order: 10
+builder: atlas.datasets.trade_corridors:make
+params: {}
+sources:
+- tc_annual_report
+shells:
+- fetcher
+after: []
+outputs:
+- data/events/trade-corridors/corridors.json
+frame:
+  profile: points
+  record_type: asset
+on_screen: true
+consumed_by:
+- path: pipeline/99_bundle.py
+  how: copied into the site bundle, web/public/data/

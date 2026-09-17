@@ -52,12 +52,12 @@ STAMP = VENV / ".atlas-requirements"
 #: dataset card in that group (registry/datasets/). The restructure
 #: (docs/REBUILD.md) moves stages onto cards one group at a time.
 STAGES = {
-    "01": "pipeline/01_projects.py",
+    "01": "-m atlas.run projects",
     "02": "-m atlas.run economy",
     "03": "-m atlas.run business-counts",
-    "04": "pipeline/04_trade.py",
+    "04": "-m atlas.run corridors",
     "05": "-m atlas.run municipalities",
-    "06": "pipeline/06_industries.py",
+    "06": "-m atlas.run industries",
     "07": "pipeline/07_vessels.py",
     "08": "-m atlas.run provinces",
     "99": "pipeline/99_bundle.py",

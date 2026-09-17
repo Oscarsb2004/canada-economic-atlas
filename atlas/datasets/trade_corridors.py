@@ -1,8 +1,10 @@
-#!/usr/bin/env python3
 """
-Stage 04 — Transport Canada's national trade corridors.
+atlas.datasets.trade_corridors — Transport Canada's national trade corridors.
 
-    python pipeline/04_trade.py [--refresh]
+    python -m atlas.run corridors
+
+(Was pipeline/04_trade.py until step S6 of docs/REBUILD.md; the code is carried
+unchanged, and the runner writes the output.)
 
 Outputs
     data/events/trade-corridors/corridors.json    current state
@@ -49,24 +51,22 @@ carry the numbers StatCan published; nothing crosses.
 
 from __future__ import annotations
 
-import argparse
+import json
 import logging
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from atlas.core import clock
+from atlas.core import frames
 from atlas.core import registry as R
-from atlas.core.jsonio import write_if_changed
+from atlas.core.records import Asset, Passage
 from atlas.core.schema import (
-    CorridorMode, CorridorNode, CorridorNodeKind, Geometry, GeometryKind,
-    Provenance, SourceRef, Text, TradeCorridor, to_jsonable,
+    CorridorMode, CorridorNode, CorridorNodeKind, Geometry, GeometryKind, Provenance, SourceRef, Text,
+    TradeCorridor, to_jsonable,
 )
+from atlas.datasets import Built, Context
 from atlas.shells.acquire.fetcher import Fetcher
 from atlas.sources import tc_corridors as tc
 
-log = logging.getLogger("04_trade")
+log = logging.getLogger(__name__)
 
 EVENT_SLUG = "trade-corridors"
 
@@ -147,7 +147,7 @@ def _nodes(spec: R.Corridor) -> tuple[CorridorNode, ...]:
     return tuple(out)
 
 
-def build(fetch: Fetcher) -> tuple[list[TradeCorridor], list[dict]]:
+def read_pages(fetch: Fetcher) -> tuple[list[TradeCorridor], list[dict]]:
     src = R.corridor_source()
     specs = R.corridors()
 
@@ -214,29 +214,47 @@ def _write_history(slug: str, payload: dict, digest: str) -> bool:
     return True
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--refresh", action="store_true", help="bypass the HTTP cache")
-    args = ap.parse_args()
-    logging.basicConfig(level=logging.INFO, format="%(levelname)-7s %(message)s")
-
-    fetch = Fetcher(R.DATA_DIR / "raw" / "cache", use_cache=not args.refresh)
-    corridors, history = build(fetch)
+def make(ctx: Context, *, dataset: str) -> Built:
+    """The five corridors, their nodes, and a history entry wherever the page's words moved."""
+    fetch = ctx.fetch
+    corridors, history = read_pages(fetch)
 
     added = sum(_write_history(h["slug"], h, h["content_sha256"]) for h in history)
-    out = R.DATA_DIR / "events" / EVENT_SLUG / "corridors.json"
-    changed = write_if_changed(out, {
-        "event": EVENT_SLUG,
-        "generated_at": clock.now_iso(),
-        "corridors": [to_jsonable(c) for c in corridors],
-    })
 
     nodes = sum(len(c.nodes) for c in corridors)
-    log.info("%d corridors, %d nodes · corridors.json %s · %d history entries added",
-             len(corridors), nodes, "updated" if changed else "unchanged", added)
-    log.info("%s", fetch.summary())
-    return 0
+    log.info("%d corridors, %d nodes · %d history entries added", len(corridors), nodes, added)
 
+    assets, passages = [], []
+    for corridor in corridors:
+        url = corridor.sources[0].url if corridor.sources else ""
+        for node in corridor.nodes:
+            anchor = node.geometry.anchor
+            assets.append(Asset(
+                key=f"{corridor.corridor_id}#{node.node_id}", kind=node.kind.value,
+                name_en=node.name.en, name_fr=node.name.fr, parent=corridor.corridor_id,
+                lon=anchor[0] if anchor else None, lat=anchor[1] if anchor else None,
+                geometry_kind=node.geometry.kind.value,
+                coordinate_provenance=node.geometry.anchor_provenance.value, source_url=url,
+                provenance=Provenance.OFFICIAL_DATASET.value,
+            ).row())
+        passages.append(Passage(entity=corridor.corridor_id, kind="description",
+                                text_en=corridor.description.en, text_fr=corridor.description.fr,
+                                source_url=url, provenance=Provenance.PAGE_VERBATIM.value).row())
+        passages.append(Passage(entity=corridor.corridor_id, kind="location_verbatim",
+                                text_en=corridor.location_verbatim.en, text_fr=corridor.location_verbatim.fr,
+                                source_url=url, provenance=Provenance.PAGE_VERBATIM.value).row())
 
-if __name__ == "__main__":
-    raise SystemExit(main())
+    published = ("data/events/trade-corridors/corridors.json",)
+    made = [
+        frames.Frame(dataset=dataset, name="nodes", profile="points", record_type="asset",
+                     keys=frames.ASSET_KEYS, columns=frames.ASSET_COLUMNS, rows=assets, published=published),
+        frames.Frame(dataset=dataset, name="passages", profile="passages", record_type="passage",
+                     keys=frames.PASSAGE_KEYS, columns=frames.PASSAGE_COLUMNS, rows=passages, published=published),
+    ]
+    return Built(
+        outputs=[(R.DATA_DIR / "events" / EVENT_SLUG / "corridors.json",
+                  {"event": EVENT_SLUG, "generated_at": clock.now_iso(),
+                   "corridors": [to_jsonable(c) for c in corridors]})],
+        frames=made,
+        receipt={"corridors": len(corridors), "nodes": nodes, "history_entries_added": added},
+    )
