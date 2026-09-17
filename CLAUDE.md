@@ -162,7 +162,11 @@ command's query must match the claim's wording: "sector-years" counts sectors,
 
 ```bash
 python run.py            # whole pipeline, then verify
-python run.py --stage 01 # one stage
+python run.py --stage 01 # one step: a stage script or a dataset group
+python run.py --check    # every registry file against its schema
+python -m atlas.run --list               # every dataset card, by group
+python -m atlas.run --dataset <id>       # one dataset
+python verify/golden.py replay --name legacy-v1  # the restructure's identity check (stage new files first)
 python run.py --verify   # independent verification
 python run.py --test     # pytest
 cd web && npm run dev    # the app

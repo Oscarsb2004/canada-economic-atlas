@@ -1,0 +1,24 @@
+# registry/datasets/capex-annual.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run --dataset capex-annual` builds it; atlas/core/registry.py checks every claim below.
+
+title: Capital expenditures by industry and province, annual (34-10-0035)
+group: economy
+order: 40
+builder: atlas.datasets.statcan_sectors:pull
+params:
+  pull: capex_annual
+sources:
+- statcan_wds
+shells:
+- fetcher
+- statcan_table
+after: []
+outputs:
+- data/sectors/capex-annual.json
+frame:
+  profile: panel
+  record_type: observation
+on_screen: false
+consumed_by:
+- path: registry/sectors.yaml
+  how: verify/run.py gates every pull this file declares

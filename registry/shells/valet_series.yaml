@@ -21,6 +21,6 @@ limits:
 gotchas:
 - The group list route is /valet/lists/groups/json; /valet/groups/json is a 404.
 used_by:
-- pipeline/02_sectors.py
+- atlas/datasets/statcan_sectors.py
 moved_from:
 - pipeline/02_sectors.py

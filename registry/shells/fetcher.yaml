@@ -28,12 +28,11 @@ gotchas:
 - An immortal cache silently turned change detection off; entries now expire.
 used_by:
 - pipeline/01_projects.py
-- pipeline/02_sectors.py
-- pipeline/03_business_counts.py
+- atlas/datasets/statcan_sectors.py
 - pipeline/04_trade.py
-- pipeline/05_municipalities.py
 - pipeline/06_industries.py
 - pipeline/07_vessels.py
 - pipeline/08_provinces.py
+- atlas/run.py
 moved_from:
 - atlas/net.py

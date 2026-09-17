@@ -1,0 +1,25 @@
+# registry/datasets/gdp-national-constant.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run --dataset gdp-national-constant` builds it; atlas/core/registry.py checks every claim below.
+
+title: Real GDP by industry, monthly, 2017 constant prices (36-10-0434)
+group: economy
+order: 20
+builder: atlas.datasets.statcan_sectors:pull
+params:
+  pull: national_monthly_constant
+sources:
+- statcan_wds
+shells:
+- fetcher
+- statcan_table
+- partition_drift
+after: []
+outputs:
+- data/sectors/national-constant.json
+frame:
+  profile: panel
+  record_type: observation
+on_screen: true
+consumed_by:
+- path: pipeline/99_bundle.py
+  how: copied into the site bundle, web/public/data/

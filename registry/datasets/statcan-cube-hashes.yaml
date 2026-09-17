@@ -1,0 +1,26 @@
+# registry/datasets/statcan-cube-hashes.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run --dataset statcan-cube-hashes` builds it; atlas/core/registry.py checks every claim below.
+
+title: The sha256 of every StatCan cube zip read, the change signal for the bundle
+group: economy
+order: 80
+builder: atlas.datasets.statcan_sectors:cube_hashes
+params: {}
+sources:
+- statcan_wds
+shells: []
+after:
+- gdp-national-monthly
+- gdp-national-constant
+- gdp-national-annual-current
+- capex-annual
+- employment-monthly
+- gross-output-annual
+- gdp-provincial-annual
+outputs:
+- data/sectors/_cubes.json
+frame: null
+on_screen: false
+consumed_by:
+- path: pipeline/99_bundle.py
+  how: each bundled series' source reference carries its cube's hash

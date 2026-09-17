@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -46,12 +47,16 @@ STAMP = VENV / ".atlas-requirements"
 #: Silent, and it would read as a caching bug. Numbering the bundle last leaves
 #: every future stage room in between. `test_the_bundle_is_the_last_stage` makes
 #: the rule mechanical rather than a comment.
+#:
+#: A step is either a stage script or `-m atlas.run <group>`, which makes every
+#: dataset card in that group (registry/datasets/). The restructure
+#: (docs/REBUILD.md) moves stages onto cards one group at a time.
 STAGES = {
     "01": "pipeline/01_projects.py",
-    "02": "pipeline/02_sectors.py",
-    "03": "pipeline/03_business_counts.py",
+    "02": "-m atlas.run economy",
+    "03": "-m atlas.run business-counts",
     "04": "pipeline/04_trade.py",
-    "05": "pipeline/05_municipalities.py",
+    "05": "-m atlas.run municipalities",
     "06": "pipeline/06_industries.py",
     "07": "pipeline/07_vessels.py",
     "08": "pipeline/08_provinces.py",
@@ -169,7 +174,7 @@ def main() -> int:
     extra = ["--refresh"] if args.refresh else []
 
     if args.stage:
-        return run(STAGES[args.stage], *extra)
+        return run(*shlex.split(STAGES[args.stage]), *extra)
 
     # A registry mistake stops the run before any stage reads it.
     code = check()
@@ -181,7 +186,7 @@ def main() -> int:
     # bundle gets committed.
     for key in sorted(STAGES):
         print(f"\n=== stage {key} ===")
-        code = run(STAGES[key], *extra)
+        code = run(*shlex.split(STAGES[key]), *extra)
         if code != 0:
             print(f"stage {key} failed", file=sys.stderr)
             return code

@@ -1,8 +1,10 @@
-#!/usr/bin/env python3
 """
-Stage 05 — every census subdivision in Canada, as a `Municipality` record.
+atlas.datasets.census_subdivisions — every census subdivision in Canada, as a `Municipality` record.
 
-    python pipeline/05_municipalities.py [--refresh]
+    python -m atlas.run municipalities
+
+(Was pipeline/05_municipalities.py until step S4 of docs/REBUILD.md; the code is
+carried unchanged, and the runner writes the output.)
 
 Outputs
     data/geography/municipalities.json    current state
@@ -39,22 +41,18 @@ M11), never this whole file.
 
 from __future__ import annotations
 
-import argparse
 import logging
-import sys
 from collections import Counter
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from atlas.core import clock
+from atlas.core import frames
 from atlas.core import registry as R
-from atlas.core.jsonio import write_if_changed
+from atlas.core.records import municipality_records
 from atlas.core.schema import Provenance, SourceRef, to_jsonable
-from atlas.shells.acquire.fetcher import Fetcher
+from atlas.datasets import Built, Context
 from atlas.sources import census
 
-log = logging.getLogger("05_municipalities")
+log = logging.getLogger(__name__)
 
 SOURCE_KEY = "statcan_municipal_population"
 OUTPUT = R.DATA_DIR / "geography" / "municipalities.json"
@@ -63,12 +61,8 @@ OUTPUT = R.DATA_DIR / "geography" / "municipalities.json"
 FILES = (("eng", "csv"), ("fra", "csv_fr"))
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--refresh", action="store_true", help="re-download the table")
-    args = ap.parse_args()
-    logging.basicConfig(level=logging.INFO, format="%(levelname)-7s %(message)s")
-
+def build(ctx: Context, *, dataset: str) -> Built:
+    """Every census subdivision, as the payload, a places frame and an observations frame."""
     src = R.source(SOURCE_KEY)
 
     # The parser's DGUID prefixes are vintage-specific ("2021A0005…"). A registry
@@ -81,9 +75,9 @@ def main() -> int:
             f"is a deliberate change to both."
         )
 
-    fetch = Fetcher(cache_dir=R.DATA_DIR / "raw" / "cache", use_cache=not args.refresh)
+    fetch = ctx.fetch
     raw = R.DATA_DIR / "raw" / "statcan"
-    zips = {lang: fetch.download(src[key], raw / f"{census.PID}-{lang}.zip", force=args.refresh)
+    zips = {lang: fetch.download(src[key], raw / f"{census.PID}-{lang}.zip", force=ctx.refresh)
             for lang, key in FILES}
 
     counts = census.build(zips["eng"], zips["fra"])
@@ -111,7 +105,7 @@ def main() -> int:
                   licence=src.get("licence", ""), content_sha256=census.content_hash(zips[lang]))
         for lang, key in FILES
     ]
-    changed = write_if_changed(OUTPUT, {
+    payload = {
         "census_vintage": census.CENSUS_VINTAGE,
         "source_table": census.PID,
         "dataset_record": src.get("dataset_record", ""),
@@ -122,7 +116,7 @@ def main() -> int:
         "province_names": to_jsonable(counts.province_names),
         "census_division_names": to_jsonable(counts.census_division_names),
         "municipalities": to_jsonable(counts.municipalities),
-    })
+    }
 
     ms = counts.municipalities
     log.info("%d census subdivisions in %d census divisions · %d with no published "
@@ -132,9 +126,16 @@ def main() -> int:
              sum(m.population_2021 == 0 for m in ms))
     log.info("most common legal types: %s", ", ".join(
         f"{t} {n}" for t, n in Counter(m.csd_type.en for m in ms).most_common(6)))
-    log.info("municipalities.json %s", "updated" if changed else "unchanged")
-    return 0
 
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+    places, observations = municipality_records(ms)
+    published = ("data/geography/municipalities.json",)
+    place_frame = frames.Frame(dataset=dataset, name="places", profile="places", record_type="place",
+                               keys=frames.PLACE_KEYS, columns=frames.PLACE_COLUMNS,
+                               rows=[p.row() for p in places], published=published)
+    obs_frame = frames.Frame(dataset=dataset, name="observations", profile="panel", record_type="observation",
+                             keys=frames.OBSERVATION_KEYS, columns=frames.OBSERVATION_COLUMNS,
+                             rows=[o.row() for o in observations], published=published,
+                             notes={"table": census.PID, "census_vintage": census.CENSUS_VINTAGE})
+    return Built(outputs=[(OUTPUT, payload)], frames=[place_frame, obs_frame],
+                 receipt={"census_subdivisions": len(ms), "census_divisions": len(counts.census_division_names),
+                          "provinces_and_territories": len(counts.province_totals)})

@@ -265,7 +265,7 @@ datasets:
 
   # ── Municipalities: every census subdivision ─────────────────────────────────
   #
-  # Written by pipeline/05_municipalities.py from table 98-10-0002. Not bundled
+  # Written by `python -m atlas.run municipalities` (registry/datasets/census-subdivisions.yaml) from table 98-10-0002. Not bundled
   # to the app; this is the identity spine later civic and fiscal data joins to,
   # so it is gated as hard as anything the app renders.
   municipalities:

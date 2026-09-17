@@ -44,6 +44,7 @@ import ast
 import hashlib
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -166,7 +167,7 @@ def run_pipeline(tree: Path, mode: str, store: Path, clock: str, log_dir: Path) 
         "PYTHONUTF8": "1",
     })
     log_dir.mkdir(parents=True, exist_ok=True)
-    steps = [(key, [path]) for key, path in sorted(stages_of(tree).items())] + [("verify", ["-m", "verify.run"])]
+    steps = [(key, shlex.split(step)) for key, step in sorted(stages_of(tree).items())] + [("verify", ["-m", "verify.run"])]
     results = []
     for key, args in steps:
         started = time.monotonic()

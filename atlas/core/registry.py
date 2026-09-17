@@ -74,7 +74,7 @@ REGISTRY_FILES = {
     "strategies.yaml": "strategies",
 }
 #: Folders of cards, one YAML file per card, and the schema every card meets.
-CARD_DIRS = {"sources": "source", "shells": "shell"}
+CARD_DIRS = {"sources": "source", "shells": "shell", "datasets": "dataset"}
 SCHEMA_DIR_NAME = "schemas"
 
 
@@ -622,6 +622,7 @@ def validate_all() -> list[str]:
     if errors:
         return errors
     errors += shell_errors()
+    errors += dataset_errors()
 
     for loader in (sources, events, strategies, project_naics, corridor_nodes, corridors, corridor_source):
         cache_clear = getattr(loader, "cache_clear", None)
@@ -693,4 +694,93 @@ def shell_errors() -> list[str]:
     for module in sorted(SHELLS_DIR.glob("*/*.py")):
         if module.name != "__init__.py" and module not in carded:
             errors.append(f"{module.relative_to(ROOT).as_posix()}: a shell module with no card in registry/shells/")
+    return errors
+
+
+# ── Dataset cards ──────────────────────────────────────────────────────────────
+
+def datasets() -> dict[str, dict[str, Any]]:
+    """Every dataset card, keyed by its id (the file name)."""
+    out: dict[str, dict[str, Any]] = {}
+    for card in sorted((REGISTRY_DIR / "datasets").glob("*.yaml")):
+        with card.open(encoding="utf-8") as fh:
+            out[card.stem] = yaml.safe_load(fh)
+    return out
+
+
+def dataset_groups() -> dict[str, list[str]]:
+    """Group -> its dataset ids in run order."""
+    groups: dict[str, list[tuple[int, str]]] = {}
+    for dataset, card in datasets().items():
+        groups.setdefault(card["group"], []).append((card["order"], dataset))
+    return {g: [d for _, d in sorted(members)] for g, members in sorted(groups.items())}
+
+
+def run_steps() -> dict[str, str]:
+    """run.py's STAGES mapping, read without importing run.py (importing it would bootstrap a venv)."""
+    tree = ast.parse((ROOT / "run.py").read_text(encoding="utf-8"))
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and any(getattr(t, "id", None) == "STAGES" for t in node.targets):
+            return ast.literal_eval(node.value)
+    return {}
+
+
+RUNNER_STEP = "-m atlas.run "
+
+
+def dataset_errors() -> list[str]:
+    """
+    Every dataset card agrees with the repository, and every group is run.
+
+    Checked: the builder is defined; the sources, shells and earlier cards it
+    names exist; `after` points only at earlier cards in the same group; each
+    output is a committed file; each consumer exists and names the output; each
+    group is a step of a full run and each runner step names a real group; and
+    every pull registry/sectors.yaml declares is made by some card.
+    """
+    errors: list[str] = []
+    cards = datasets()
+    try:
+        srcs = sources()["sources"]
+    except RegistryError as exc:
+        return [str(exc)]
+    shells = {p.stem for p in (REGISTRY_DIR / "shells").glob("*.yaml")}
+    for dataset, card in cards.items():
+        where = f"datasets/{dataset}.yaml"
+        module, _, function = card["builder"].partition(":")
+        path = ROOT / Path(*module.split(".")).with_suffix(".py")
+        if not path.exists():
+            errors.append(f"{where}: builder module {module} does not exist")
+        elif function not in _defined_names(path):
+            errors.append(f"{where}: {module} defines no {function}")
+        errors += [f"{where}: no source card {s}" for s in card["sources"] if s not in srcs]
+        errors += [f"{where}: no shell card {s}" for s in card["shells"] if s not in shells]
+        for other in card["after"]:
+            if other not in cards:
+                errors.append(f"{where}: runs after {other}, which has no card")
+            elif cards[other]["group"] != card["group"] or cards[other]["order"] >= card["order"]:
+                errors.append(f"{where}: runs after {other}, which is not earlier in group {card['group']}")
+        for out in card["outputs"]:
+            if not (ROOT / out).exists():
+                errors.append(f"{where}: output {out} is not in the repository")
+            name = Path(out).name
+            for consumer in card["consumed_by"]:
+                target = ROOT / consumer["path"]
+                if not target.exists():
+                    errors.append(f"{where}: consumer {consumer['path']} does not exist")
+                elif name not in target.read_text(encoding="utf-8"):
+                    errors.append(f"{where}: consumer {consumer['path']} never names {name}")
+
+    steps = run_steps()
+    run_groups = {v[len(RUNNER_STEP):] for v in steps.values() if v.startswith(RUNNER_STEP)}
+    card_groups = {c["group"] for c in cards.values()}
+    errors += [f"run.py: step `{RUNNER_STEP}{g}` names a group with no dataset card" for g in sorted(run_groups - card_groups)]
+    errors += [f"datasets: group {g} is not a step in run.py, so a full run never makes it"
+               for g in sorted(card_groups - run_groups)]
+
+    with (REGISTRY_DIR / "sectors.yaml").open(encoding="utf-8") as fh:
+        pulls = set(yaml.safe_load(fh)["pulls"])
+    made = {c["params"].get("pull") for c in cards.values() if c["builder"].endswith("statcan_sectors:pull")}
+    errors += [f"sectors.yaml: pull {p} has no dataset card" for p in sorted(pulls - made)]
+    errors += [f"datasets: a card pulls {p}, which sectors.yaml does not declare" for p in sorted(made - pulls)]
     return errors

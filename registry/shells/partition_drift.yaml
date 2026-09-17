@@ -20,6 +20,6 @@ limits:
 gotchas:
 - 'Chained dollars are not additive: goods plus services drift +0.311% from all industries.'
 used_by:
-- pipeline/02_sectors.py
+- atlas/datasets/statcan_sectors.py
 moved_from:
 - pipeline/02_sectors.py

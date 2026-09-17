@@ -1,0 +1,24 @@
+# registry/datasets/employment-monthly.yaml - one dataset the pipeline makes (docs/REBUILD.md section 3).
+# `python -m atlas.run --dataset employment-monthly` builds it; atlas/core/registry.py checks every claim below.
+
+title: Employment by industry (SEPH), monthly, unadjusted (14-10-0201)
+group: economy
+order: 50
+builder: atlas.datasets.statcan_sectors:pull
+params:
+  pull: employment_monthly
+sources:
+- statcan_wds
+shells:
+- fetcher
+- statcan_table
+after: []
+outputs:
+- data/sectors/employment-monthly.json
+frame:
+  profile: panel
+  record_type: observation
+on_screen: false
+consumed_by:
+- path: registry/sectors.yaml
+  how: verify/run.py gates every pull this file declares
