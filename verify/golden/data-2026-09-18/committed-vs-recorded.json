@@ -1,0 +1,9 @@
+{
+  "changed": [
+    "data/sectors/rates.json",
+    "web/public/data/country.json",
+    "web/public/data/sectors/rates.json"
+  ],
+  "extra": [],
+  "missing": []
+}

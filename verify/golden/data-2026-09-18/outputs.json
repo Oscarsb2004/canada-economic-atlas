@@ -1,0 +1,534 @@
+{
+  "data/events/major-projects-office/coverage.json": {
+    "bytes": 2897,
+    "sha256": "4970bb264953b3193c935b5de7d106624dd4ae239ffd5d8825b1cd30b7559b5d"
+  },
+  "data/events/major-projects-office/industries.json": {
+    "bytes": 51670,
+    "sha256": "e217dbb28457cbdd17d03c4f95f526e063e4fbd0e440c98b65b3d43ee04966b4"
+  },
+  "data/events/major-projects-office/projects.json": {
+    "bytes": 249475,
+    "sha256": "9cc508440408a04c4ed0afb5f300826f9afc7b2133195a8c4bbfb8310e869bfa"
+  },
+  "data/events/major-projects-office/strategies.json": {
+    "bytes": 32408,
+    "sha256": "e0d0092f088eb84782afed4cd5335695557a3b7fa8610753035702fb692272d0"
+  },
+  "data/events/trade-corridors/corridors.json": {
+    "bytes": 46209,
+    "sha256": "205e33c8d4010802456e3dd95279f93b3f93ab02f197e9dc1f088249e0e04c78"
+  },
+  "data/geography/municipalities.json": {
+    "bytes": 5645276,
+    "sha256": "69640cea54c2cb72684955ef18f66e3ad5caaf4566faeac4064365a3d0c4f34c"
+  },
+  "data/history/aesc/20260903T174028Z.json": {
+    "bytes": 10127,
+    "sha256": "7038b1ad4b65b40e7606b5afdee6d4286ad0941ad04865fb5f402bd9bd62a566"
+  },
+  "data/history/atlantic/20260908T223542Z.json": {
+    "bytes": 9284,
+    "sha256": "ea9f553304cb2bbc7903b2e7d7233f11e372fbce28bd004b1627950bfef8e79a"
+  },
+  "data/history/central/20260908T223542Z.json": {
+    "bytes": 9949,
+    "sha256": "74d00ab9ab7ee283f1835e435302333bb89871e8363b51b50c3df1fc4b9ce763"
+  },
+  "data/history/contrecoeur/20260903T174033Z.json": {
+    "bytes": 11998,
+    "sha256": "ca4441cd378ec095b5e17e569eb6ae9c5f7d94f4bbfeebe652cf8dd37feeb3c2"
+  },
+  "data/history/crawford/20260903T174033Z.json": {
+    "bytes": 8298,
+    "sha256": "0affdee58f3e1d0d866b2011dc2daa6b9d95b80c14ebd6efe1ce8c2ac90466d3"
+  },
+  "data/history/darlington/20260903T174119Z.json": {
+    "bytes": 10947,
+    "sha256": "fe3e25426f37a04d33643c08d8792417654f7bc6afcdf93a095117d01b73c1a4"
+  },
+  "data/history/geo/20260903T174125Z.json": {
+    "bytes": 13101,
+    "sha256": "45f75f1826412388ef4dd61486839471115afe984c5da9a5019f5fb7c62bf5f7"
+  },
+  "data/history/geo/20260917T203848Z.json": {
+    "bytes": 17889,
+    "sha256": "37fb1a7e52cad5e936865cfaf628f6fcc9f5c4f20a1a21ee968fb0f0b0a4cff8"
+  },
+  "data/history/grays-bay/20260903T174134Z.json": {
+    "bytes": 11124,
+    "sha256": "5568742c3e326b67cd0800a53e0ea0741d0611b8e17c111facd356e7591b1064"
+  },
+  "data/history/grays-bay/20260917T203854Z.json": {
+    "bytes": 13544,
+    "sha256": "dbd48c2bcf3a97f90519674f846ddd9593356eb24c3267e85c2997f12f3770e7"
+  },
+  "data/history/ksi-lisims/20260903T174141Z.json": {
+    "bytes": 10713,
+    "sha256": "f253d04f194589f03ed0ba54fea5ced5c3eec4e9b784e3d439d6ccba9fd250a4"
+  },
+  "data/history/ksi-lisims/20260917T203856Z.json": {
+    "bytes": 13950,
+    "sha256": "0313d953e1d7a45d0afb73cb684bb510ee8fda5f41c097dee16090fe76551e10"
+  },
+  "data/history/lng-canada/20260903T174147Z.json": {
+    "bytes": 13838,
+    "sha256": "4c16477139f8c2f1267cafd6ced5a8bfe5ae48f1db36b2bfbe45f0376d56245d"
+  },
+  "data/history/mackenzie/20260903T174155Z.json": {
+    "bytes": 12724,
+    "sha256": "86dfb179c8bb72c41dd09277f780d34600b78156b26e2c292ad1f1c9ff70c3fe"
+  },
+  "data/history/mackenzie/20260917T203906Z.json": {
+    "bytes": 17855,
+    "sha256": "6df0110cd07fa1ddd6b7f3fd97475006172d34f8ea4798d7580d105d51988a1e"
+  },
+  "data/history/mcilvenna/20260903T174202Z.json": {
+    "bytes": 8484,
+    "sha256": "b7091b0e354d8561ca07d01152c74856188d9037b184f892e6e50f5f4a9f2bbb"
+  },
+  "data/history/nctl/20260903T174208Z.json": {
+    "bytes": 10376,
+    "sha256": "34ff74c48eda9ecdf076ab37f524a90b3b9c57f679d6e42829ce42fdd9241b8f"
+  },
+  "data/history/nctl/20260917T203915Z.json": {
+    "bytes": 14331,
+    "sha256": "ca356a4a5cdc7ab96a8cab1d661368e36530e6bd186e787db4b016bff36c07ba"
+  },
+  "data/history/northcliff/20260903T174215Z.json": {
+    "bytes": 6795,
+    "sha256": "e977b9ff944457a11a1bc31a1f586a05afc4bb6687b4d2db73626f191a9be748"
+  },
+  "data/history/northern/20260908T223542Z.json": {
+    "bytes": 7019,
+    "sha256": "d7f6d3d1751c2f284fd5c01688df094772c8b87c176127352b114e7890a86b5a"
+  },
+  "data/history/nouveau-monde/20260903T174223Z.json": {
+    "bytes": 15350,
+    "sha256": "ad63bafa2ce857770302fa412c58df839c94a620ff23c7f57eb70bbd962be368"
+  },
+  "data/history/nukkiksautiit/20260903T174228Z.json": {
+    "bytes": 7752,
+    "sha256": "56ef49fda99aa975ce8805f539ba1ed12871625a59be23965c26195e29c6c26b"
+  },
+  "data/history/pacific/20260908T223542Z.json": {
+    "bytes": 9669,
+    "sha256": "5882b125578d8b3f0847430eed6415dde5bf7f724c4ef9c690d4da8a8e27fddc"
+  },
+  "data/history/prairie/20260908T223542Z.json": {
+    "bytes": 8555,
+    "sha256": "397af6edb9fdf5d96c73ae6145f8ffdc4885593686f3a844ce58c98f70a0ae7a"
+  },
+  "data/history/red-chris/20260903T174232Z.json": {
+    "bytes": 9468,
+    "sha256": "aa368abda2c5ce0ed87b64add9b3576c783d9fe96f03809c91a0fa6ed9b1734f"
+  },
+  "data/history/roberts-bank/20260903T174237Z.json": {
+    "bytes": 11574,
+    "sha256": "c1b02269482d6e31466ee6e72435a9790095971461753ac8f9487f2ee3a93a96"
+  },
+  "data/history/taltson/20260903T174244Z.json": {
+    "bytes": 9572,
+    "sha256": "9d35a9939a0c80f039c8ded0cab106ebfc8e07e2d7e918ed0ee9fdd64c2da784"
+  },
+  "data/history/west/20260903T174248Z.json": {
+    "bytes": 13587,
+    "sha256": "1e2d8ec8afeb24f8611230cf6f6276bd9a588c92a11119a24dc72beb16dd7a7f"
+  },
+  "data/provinces/provinces.json": {
+    "bytes": 367896,
+    "sha256": "e5223f759d90a00d8c3e213dee726fb7c3533e823348e0a06073c3073c679eff"
+  },
+  "data/sectors/_cubes.json": {
+    "bytes": 688,
+    "sha256": "205c61798e55affc22f73444115f0526aca3a7a68c3b6c25520826133b70eaea"
+  },
+  "data/sectors/business-counts.json": {
+    "bytes": 55718,
+    "sha256": "1d0eead20495217015233d68c777eeabf151dc834a4b631dfc64866ea2b7e33d"
+  },
+  "data/sectors/capex-annual.json": {
+    "bytes": 407491,
+    "sha256": "4404f98ce328a06d16e153149b2ba0ba036a752f4bbf826f688eb605de465686"
+  },
+  "data/sectors/employment-monthly.json": {
+    "bytes": 5484888,
+    "sha256": "823d0ed8efc3435afcc70f4bae3420fd136a0a6714035d56263e918b6c1b0020"
+  },
+  "data/sectors/national-annual-current.json": {
+    "bytes": 32500,
+    "sha256": "661bfe6f4472f68bd4492ad83c35da9f7d6b988d6fbf2bf8e60dc31cf6beadf6"
+  },
+  "data/sectors/national-constant.json": {
+    "bytes": 324604,
+    "sha256": "045f1880c82ed6498eadc2b609b0da35181d143ffb57826589c77f3a610b3732"
+  },
+  "data/sectors/national-monthly.json": {
+    "bytes": 324599,
+    "sha256": "aad6f40f715f577edae45b9003d745489f1f66dd11f67e264d78c5d5c5b9457c"
+  },
+  "data/sectors/output-annual.json": {
+    "bytes": 478353,
+    "sha256": "4d1f15105ce73ffaf32b3a4f2d0e228485fe171d2f5f5838523ec6a65685a224"
+  },
+  "data/sectors/provincial-annual.json": {
+    "bytes": 436692,
+    "sha256": "5952bb9990ef2e32752963bccdebb1d2092a332344545d4f6b8e8fcbbe27627b"
+  },
+  "data/sectors/rates.json": {
+    "bytes": 682,
+    "sha256": "a22e6a07d195a5e7fc92827235ec25cf04d14b3cb7b99c4aff4aea5e803dfbe7"
+  },
+  "data/vessels/large-vessel-register.json": {
+    "bytes": 1418475,
+    "sha256": "523e28ef07cb084d82fb0ebc3598828568a3b592e7275d76dc557dff5f51349e"
+  },
+  "web/public/.nojekyll": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "web/public/data/country.json": {
+    "bytes": 3448,
+    "sha256": "ae539486ab9c384b6bd18e2f2a37c485560c208f392a65e633eb3ce1eb3168f5"
+  },
+  "web/public/data/events/major-projects-office/industries.json": {
+    "bytes": 51670,
+    "sha256": "e217dbb28457cbdd17d03c4f95f526e063e4fbd0e440c98b65b3d43ee04966b4"
+  },
+  "web/public/data/events/major-projects-office/projects.json": {
+    "bytes": 249475,
+    "sha256": "9cc508440408a04c4ed0afb5f300826f9afc7b2133195a8c4bbfb8310e869bfa"
+  },
+  "web/public/data/events/major-projects-office/strategies.json": {
+    "bytes": 32408,
+    "sha256": "e0d0092f088eb84782afed4cd5335695557a3b7fa8610753035702fb692272d0"
+  },
+  "web/public/data/events/trade-corridors/corridors.json": {
+    "bytes": 46209,
+    "sha256": "205e33c8d4010802456e3dd95279f93b3f93ab02f197e9dc1f088249e0e04c78"
+  },
+  "web/public/data/meta.json": {
+    "bytes": 11996,
+    "sha256": "d093f58f021a1467d144c79a9a6e4493a5656ce85a67285e9ebd3154267cbaeb"
+  },
+  "web/public/data/palette.json": {
+    "bytes": 2561,
+    "sha256": "216a1cd4a41d66b30b7b937565d873f039849db4886aeffe902fcf825d71ab9d"
+  },
+  "web/public/data/provinces/provinces.json": {
+    "bytes": 367896,
+    "sha256": "e5223f759d90a00d8c3e213dee726fb7c3533e823348e0a06073c3073c679eff"
+  },
+  "web/public/data/sectors/business-counts.json": {
+    "bytes": 55718,
+    "sha256": "1d0eead20495217015233d68c777eeabf151dc834a4b631dfc64866ea2b7e33d"
+  },
+  "web/public/data/sectors/national-constant.json": {
+    "bytes": 324604,
+    "sha256": "045f1880c82ed6498eadc2b609b0da35181d143ffb57826589c77f3a610b3732"
+  },
+  "web/public/data/sectors/national-monthly.json": {
+    "bytes": 324599,
+    "sha256": "aad6f40f715f577edae45b9003d745489f1f66dd11f67e264d78c5d5c5b9457c"
+  },
+  "web/public/data/sectors/provincial-annual.json": {
+    "bytes": 436692,
+    "sha256": "5952bb9990ef2e32752963bccdebb1d2092a332344545d4f6b8e8fcbbe27627b"
+  },
+  "web/public/data/sectors/rates.json": {
+    "bytes": 682,
+    "sha256": "a22e6a07d195a5e7fc92827235ec25cf04d14b3cb7b99c4aff4aea5e803dfbe7"
+  },
+  "web/public/geo/SOURCES.json": {
+    "bytes": 11800,
+    "sha256": "1ae99be10d49a5de1fc2c012cc0588b52f2e2b793c6f621093d7cb50f976d42e"
+  },
+  "web/public/geo/canada-detail.json": {
+    "bytes": 9170527,
+    "sha256": "61ae5275873c40bc8828d20f704f165462147be920c1276896639120bf525088"
+  },
+  "web/public/geo/canada.json": {
+    "bytes": 276737,
+    "sha256": "8dc6f2e7ec14831e1ddffe1c51c5dbadcb4c7737b46780d9a71681fd5fb7925c"
+  },
+  "web/public/geo/highways.json": {
+    "bytes": 44547,
+    "sha256": "df3aaa1f6d9b40dee8adcc0fc95c2c16e7d03b7bc61f38c9515aa6249832b38f"
+  },
+  "web/public/geo/nhs.json": {
+    "bytes": 992120,
+    "sha256": "2300b9554eb220ef61428f329388347ada630793a2011b223ca7331dda516137"
+  },
+  "web/public/geo/places.json": {
+    "bytes": 3319296,
+    "sha256": "869debf8b0fd6be3b3b99a689041d5145ce29714575ca87a72cb2707e8887cdd"
+  },
+  "web/public/geo/provinces-detail.json": {
+    "bytes": 9477386,
+    "sha256": "6d5f2f4f55ee04291ce06eafd583e412e4fda1aa79637fb20688aab06269134c"
+  },
+  "web/public/geo/provinces.json": {
+    "bytes": 318614,
+    "sha256": "e2c4025cf1c7630388ea8f6e1ebc69e91db13a9773735bfa9f1b18aab5d3f7b4"
+  },
+  "web/public/geo/rail.json": {
+    "bytes": 16535397,
+    "sha256": "258e10971d7daf6d6b662a2dc7a21cc96f73f4adeeea37ac031f635e15fec325"
+  },
+  "web/public/geo/water.json": {
+    "bytes": 3075660,
+    "sha256": "8f9ec0d25af57021b4009bd108894a8abc6cac628a09cea0a7c2e32e4aaccff6"
+  },
+  "web/public/geo/world.json": {
+    "bytes": 1061228,
+    "sha256": "8d93f72a189d1f67a5ac21ab969a59bfe4c510b6087b9f2e5c3f1fbc17cec523"
+  },
+  "web/public/media/provinces/ab-arms.png": {
+    "bytes": 97945,
+    "sha256": "5a2ba84beb8b847c3527b51723589a685271c374348ad92b2a661ec51293d7ce"
+  },
+  "web/public/media/provinces/ab-flag.png": {
+    "bytes": 7028,
+    "sha256": "66f747b899b37cafea22921506c47cd368d98c2498e6ff08983f4ad6070ae7b0"
+  },
+  "web/public/media/provinces/bc-arms.png": {
+    "bytes": 82911,
+    "sha256": "67772781d9929a71b1f4c6834cbe0dd5174d83f46c553cd6506675f6d79fb199"
+  },
+  "web/public/media/provinces/bc-flag.png": {
+    "bytes": 23815,
+    "sha256": "bff753723f14bc785d361192f7207a96b149ef7ad10a68f03861f336c6ca2294"
+  },
+  "web/public/media/provinces/mb-arms.png": {
+    "bytes": 96653,
+    "sha256": "22289931943930447799dfdfd8f6d2213a9ee4ee31e24e1f514cbb8c1ec6186e"
+  },
+  "web/public/media/provinces/mb-flag.png": {
+    "bytes": 5521,
+    "sha256": "b46ddea5f3652dc8523204ee24be1b53863221792bfc3a4c3c0486c7399797d2"
+  },
+  "web/public/media/provinces/nb-arms.png": {
+    "bytes": 113875,
+    "sha256": "e5b8fe599ba39c87cf3478280f3c0338371b2e26b2e5c4ec419db4f97c729105"
+  },
+  "web/public/media/provinces/nb-flag.png": {
+    "bytes": 30896,
+    "sha256": "d65ff7f1c648fb73dc4b46d942fbe744245f52c3a9e62b9ec00fa1958d23bf73"
+  },
+  "web/public/media/provinces/nl-arms.png": {
+    "bytes": 77016,
+    "sha256": "ce743301e73ff4bec1f518b432c2e2f6297b809f3cce3d9af3c7ef21e2257acf"
+  },
+  "web/public/media/provinces/nl-flag.png": {
+    "bytes": 5430,
+    "sha256": "3bef8e663eaa92a07d909da3feb47c7d1dfadb8d35cefa0b91585a4a2257b556"
+  },
+  "web/public/media/provinces/ns-arms.png": {
+    "bytes": 134734,
+    "sha256": "4624e09b87e114c6550fb2d6a637f580a12be5cd746c87f65c7cc5312dc371f5"
+  },
+  "web/public/media/provinces/ns-flag.png": {
+    "bytes": 5967,
+    "sha256": "ed7202cf6668b1f59f3d516f3ddd66b9dd7992b6cce1ae088a145d30dc83902d"
+  },
+  "web/public/media/provinces/nt-arms.png": {
+    "bytes": 53477,
+    "sha256": "0181d4e4d90cb75a379226b542e4f828ddf83e1778ef55b868a7ae3fbb6ec074"
+  },
+  "web/public/media/provinces/nt-flag.png": {
+    "bytes": 6532,
+    "sha256": "6e155ff23ccf023bc54df9d0ec338bfd3d606eccb9ba0ae2199288db42363cb4"
+  },
+  "web/public/media/provinces/nu-arms.png": {
+    "bytes": 81375,
+    "sha256": "2947f1acf6cf73fc142111e0f2e0dfc814a926db3045499ddb2904a5c63bcbef"
+  },
+  "web/public/media/provinces/nu-flag.png": {
+    "bytes": 6034,
+    "sha256": "7e69cdf66f07982f1f95f488a1bd379f6bc069e298bde8dcae26d9bd18b8832f"
+  },
+  "web/public/media/provinces/on-arms.png": {
+    "bytes": 60043,
+    "sha256": "96a9abbbf67cbc2f95e93288866c6ea56a7c816cd9c49da45d5739acf2f71f9d"
+  },
+  "web/public/media/provinces/on-flag.png": {
+    "bytes": 4699,
+    "sha256": "6c3d3b2bfa9cc1a3ae09bdf1f33b1d48fe48a0b63ccb1814b9fb2edaad8a31bd"
+  },
+  "web/public/media/provinces/pe-arms.png": {
+    "bytes": 82167,
+    "sha256": "5f1b110f4a24c8640c8ddaa491c5f5f7f5f40a67e0e640127509e50f5a973bb2"
+  },
+  "web/public/media/provinces/pe-flag.png": {
+    "bytes": 37220,
+    "sha256": "313c40f51bf4a835aa4711934e0425118034272a112f057eb2278025e46763d4"
+  },
+  "web/public/media/provinces/qc-arms.png": {
+    "bytes": 75401,
+    "sha256": "687f8afee7d404827851756ad994cf1ced2acb2430286c2be36abdff9d7782c1"
+  },
+  "web/public/media/provinces/qc-flag.png": {
+    "bytes": 3160,
+    "sha256": "8b0706351b77c268e43317b67e7eae4ed8b890032d78e349ebfe5bbd491f5df8"
+  },
+  "web/public/media/provinces/sk-arms.png": {
+    "bytes": 104788,
+    "sha256": "fd55f96ccc23b9f08b9fe22c95711aa661ff3a30a3032c7eabb90789dbaf2b16"
+  },
+  "web/public/media/provinces/sk-flag.png": {
+    "bytes": 7569,
+    "sha256": "c02d16c28d8124930f0dcf292449cd8da8d105402eff4a5192fd372476c251c2"
+  },
+  "web/public/media/provinces/yt-arms.png": {
+    "bytes": 42146,
+    "sha256": "baa33fdaffb77db71e13da673b7ca4afd27edefe24d05f8b6e82347e59d559e5"
+  },
+  "web/public/media/provinces/yt-flag.png": {
+    "bytes": 10225,
+    "sha256": "d3665d5ec0011ff12171732c5991264f5e480b78a9eb6d2919f9e863a750b340"
+  },
+  "web/public/media/thumb/aesc-hero.png": {
+    "bytes": 24011,
+    "sha256": "51dab2ced1c013ad3a1577f30c1335975615b50f31e824d0f4ce3d94619eb358"
+  },
+  "web/public/media/thumb/contrecoeur-hero.png": {
+    "bytes": 25903,
+    "sha256": "9e490b46479e518a50ab89b01eddaa136039e4c864b5341399a5d7fbf55b78ff"
+  },
+  "web/public/media/thumb/crawford-hero.png": {
+    "bytes": 22629,
+    "sha256": "3f50ad7360004319c3865fca96f052eeace28c1f867353776d73608cd856cb36"
+  },
+  "web/public/media/thumb/darlington-hero.png": {
+    "bytes": 17045,
+    "sha256": "16a3438648440023be162e67efacfc8090616fc03f23ee7941a790ebd72c4741"
+  },
+  "web/public/media/thumb/geo-hero.png": {
+    "bytes": 23728,
+    "sha256": "debdee30eec2a64a81fd1b118a9a78cde46f623df7db34ae2d0eb6daadd3cd2e"
+  },
+  "web/public/media/thumb/grays-bay-hero.png": {
+    "bytes": 17521,
+    "sha256": "5dc6bac5710ec1f5a8cb8e91ddc5db9be88dcfc2371e4d5150e2eda94120e6d8"
+  },
+  "web/public/media/thumb/ksi-lisims-hero.png": {
+    "bytes": 21930,
+    "sha256": "62e7262a09482deca190a76575795938367edd4eb0f1169cb1a31da7a909affb"
+  },
+  "web/public/media/thumb/lng-canada-hero.png": {
+    "bytes": 19942,
+    "sha256": "0932d415cad1c1d163051e85e48cb4b5e5bad1fafe0f6ee87b410944da5ef769"
+  },
+  "web/public/media/thumb/mackenzie-hero.png": {
+    "bytes": 19795,
+    "sha256": "3f0db902da02e92c056e78127908bc70693f3e5e274bf5f90489a4474a3773b2"
+  },
+  "web/public/media/thumb/mcilvenna-hero.png": {
+    "bytes": 25031,
+    "sha256": "712c77bf35f819c28ebae8681d468a53f05b50dffd36310ef382a85bd5d7defb"
+  },
+  "web/public/media/thumb/nctl-hero.png": {
+    "bytes": 24796,
+    "sha256": "20853ac2d901786f9f897ea50a9db355fb618c2e1a200261dce9b89be3d880fa"
+  },
+  "web/public/media/thumb/northcliff-hero.png": {
+    "bytes": 21121,
+    "sha256": "a1c4604faf1454fa5a75e5b32e96b714be5548d26d7eb90e34ddaa6269245043"
+  },
+  "web/public/media/thumb/nouveau-monde-hero.png": {
+    "bytes": 23245,
+    "sha256": "09caa8dfc62520fabdeee014d32c1d8e96104707c6050e7b9ea6f995529e9a10"
+  },
+  "web/public/media/thumb/nukkiksautiit-hero.png": {
+    "bytes": 24262,
+    "sha256": "c28ee8627d4475d92cd9c58adfc6031fb9c3a9421f7f0240e0c93c69a27f047d"
+  },
+  "web/public/media/thumb/red-chris-hero.png": {
+    "bytes": 23935,
+    "sha256": "66099f22eaf9280f3782e524c4b5594e9bc020148568b8ef87849461a94c4c31"
+  },
+  "web/public/media/thumb/roberts-bank-hero.png": {
+    "bytes": 21150,
+    "sha256": "eda475b0a3ce7f08a085786a39f2e6d1229ac5d95da2883ce8b68a834916be9b"
+  },
+  "web/public/media/thumb/taltson-hero.png": {
+    "bytes": 23641,
+    "sha256": "e267cdbaad17d43539065e61e4aceee7cf52b3ce6fa1a6437223d3c522026288"
+  },
+  "web/public/media/thumb/west-hero.png": {
+    "bytes": 19877,
+    "sha256": "deaa16767ee4e2c0390ea23356761a23970abc34ba45b74fba56d3badf9d3ae4"
+  },
+  "web/public/media/web/aesc-hero.jpg": {
+    "bytes": 167405,
+    "sha256": "d229b21fba13c419f583f1eb454e860f941399d4ba3904689f28c92266210581"
+  },
+  "web/public/media/web/contrecoeur-hero.jpg": {
+    "bytes": 145773,
+    "sha256": "582793822d2038f69816850a2bfbb4d6331a0964be1e8d21010bce99a497337c"
+  },
+  "web/public/media/web/crawford-hero.jpg": {
+    "bytes": 130378,
+    "sha256": "b29809cbb49597fb289774bda0e21bc7a58e1a0c0be79b8f9b0d9b341b951d4b"
+  },
+  "web/public/media/web/darlington-hero.jpg": {
+    "bytes": 66507,
+    "sha256": "224188ff5d9032b0c973f446aba9130d51a3c61f16e3445aef2bbbc19e4f6039"
+  },
+  "web/public/media/web/geo-hero.jpg": {
+    "bytes": 164511,
+    "sha256": "b94475b491d4997af39566abb23578fc7704abdd270c446cf341d0e82e2c5b49"
+  },
+  "web/public/media/web/grays-bay-hero.jpg": {
+    "bytes": 115278,
+    "sha256": "eca5a5d1f0240906a53e35b5ebc9aa4ee987016b90dc1d1666fca9a09b1d9b28"
+  },
+  "web/public/media/web/ksi-lisims-hero.jpg": {
+    "bytes": 140981,
+    "sha256": "431ca898165b62412dcbf0801efedc01f6675cacad78dd40c2492af0b53ddc8d"
+  },
+  "web/public/media/web/lng-canada-hero.jpg": {
+    "bytes": 86130,
+    "sha256": "7c4053e042a0d680b669718cfb7f2ec74f3853debbd0133210848706230e0383"
+  },
+  "web/public/media/web/mackenzie-hero.jpg": {
+    "bytes": 104040,
+    "sha256": "fb865d0ffc49ab3de6f81349efae9ead17bef6edb775a355563909f8f8630c3e"
+  },
+  "web/public/media/web/mcilvenna-hero.jpg": {
+    "bytes": 143903,
+    "sha256": "8e808d07670669527820a421812ab3a5d51875b29431b3c54274b9eb8c4b65c9"
+  },
+  "web/public/media/web/nctl-hero.jpg": {
+    "bytes": 173756,
+    "sha256": "36cbf110c46d782f6cedb59ca9eb34532bfa7ca40218d8d4a52a06b3b2607875"
+  },
+  "web/public/media/web/northcliff-hero.jpg": {
+    "bytes": 121243,
+    "sha256": "8028b83c18151c80c59469ef18254363fc1db07a01f800194afc6abd186301e9"
+  },
+  "web/public/media/web/nouveau-monde-hero.jpg": {
+    "bytes": 137939,
+    "sha256": "0a3dd255ae9a006b08e816697e07556ae15fcdf8b11dd8314ee83c1238604447"
+  },
+  "web/public/media/web/nukkiksautiit-hero.jpg": {
+    "bytes": 163076,
+    "sha256": "d8fd587ae48a2ad0cb266d6f201dc32ab1b245a83f835f8203f8fbaa66d0eb2c"
+  },
+  "web/public/media/web/red-chris-hero.jpg": {
+    "bytes": 122371,
+    "sha256": "9a0de1358f15fe82f5898dd363cd6d6e4e73f0b2f785a21d680c86214a105ab1"
+  },
+  "web/public/media/web/roberts-bank-hero.jpg": {
+    "bytes": 93047,
+    "sha256": "d0c293a4f77db4ae8878b41adee1baf15861b1ed274369266aed3d9a4c6a3ece"
+  },
+  "web/public/media/web/taltson-hero.jpg": {
+    "bytes": 135594,
+    "sha256": "284df76a131e9597cbc5818b3729038a5bbcfa8ba3e94b33a7acb84b5488fb41"
+  },
+  "web/public/media/web/west-hero.jpg": {
+    "bytes": 109116,
+    "sha256": "b91d2719fdafd14d859fffc01dd8f53d38e1996a1f05364dc653c492ca04a81d"
+  }
+}
