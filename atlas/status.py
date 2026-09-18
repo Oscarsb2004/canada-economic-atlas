@@ -82,7 +82,7 @@ def render() -> str:
         "python run.py --test                             # the test suite",
         "python run.py --verify                           # independent verification of the published files",
         "python verify/golden.py replay --name refreshed-2026-09-17  # the identity check",
-        "python verify/golden.py live --manifest verify/golden/legacy-v1/deployed.json \\",
+        "python verify/golden.py live --manifest verify/golden/refreshed-2026-09-17/deployed.json \\",
         "    --url https://oscarsb2004.github.io/canada-economic-atlas   # what the published site serves",
         "```",
         "",
