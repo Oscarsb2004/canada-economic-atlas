@@ -227,3 +227,29 @@ def test_a_passage_frame_carries_where_the_words_were_found():
     with pytest.raises(frames.FrameError, match="needs roles \['source_ref'\]"):
         frames.Frame(dataset="probe", name="passages", profile="passages", record_type="passage",
                      keys=("entity", "kind", "text_en"), columns=without_source, rows=stripped).validate()
+
+
+# ── Page hashes ──────────────────────────────────────────────────────────────
+
+_SYMBOLS_PAGE = (
+    '<html><head><script>var ak = {{"ak.rid": "{token}", "ak.t": "{stamp}"}};</script></head>'
+    "<body><h2>Motto</h2><p>{motto}</p></body></html>"
+)
+
+
+def test_a_page_hash_ignores_a_token_that_changes_on_every_request():
+    """canada.ca's Akamai script and Ontario's bot-manager token differ per request, and nothing else does."""
+    from atlas.datasets.province_profiles import _page_sha
+
+    first = _SYMBOLS_PAGE.format(token="35f4c6ca", stamp="1789679534", motto="Munit haec et altera vincit")
+    second = _SYMBOLS_PAGE.format(token="35f4da88", stamp="1789679537", motto="Munit haec et altera vincit")
+    assert first != second
+    assert _page_sha(first) == _page_sha(second)
+
+
+def test_a_page_hash_moves_when_a_word_on_the_page_does():
+    from atlas.datasets.province_profiles import _page_sha
+
+    before = _SYMBOLS_PAGE.format(token="35f4c6ca", stamp="1789679534", motto="Munit haec et altera vincit")
+    after = _SYMBOLS_PAGE.format(token="35f4c6ca", stamp="1789679534", motto="Munit haec et altera vincet")
+    assert _page_sha(before) != _page_sha(after)

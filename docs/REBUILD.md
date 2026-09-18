@@ -74,7 +74,9 @@ serving what it serves now. Refreshing the data is a separate decision afterward
 refreshed and the diff reviewed, which ends `legacy-v1`'s usefulness as a gate:
 its replay refuses a revision whose committed outputs differ from the ones the
 recording started from, and after a refresh they do. So a master is recorded
-per data state, and the current one is **`refreshed-2026-09-17`**. `legacy-v1`
+per data state: `refreshed-2026-09-17` after the refresh, and **`data-2026-09-18`**
+since 2026-09-18, when HTML pages began to be hashed by their visible text
+rather than their bytes (the bytes carry a token that changes on every request). `legacy-v1`
 stays as the answer key for the restructure itself: it is what proved S0 to S9,
 and nothing should be able to rewrite it.
 

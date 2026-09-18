@@ -13,7 +13,6 @@ page:
 #
 # These pages are NOT byte-stable: two fetches seconds apart differ on exactly
 # one line of 637, the Akamai telemetry script canada.ca injects (ak.rid, ak.t
-# and a rotating token). So the content_sha256 this project records for them
-# changes on every fetch and is not a change detector — all 26 pages "changed"
-# between a run and a recording 40 minutes later while every extracted value
-# stayed the same. Measured 2026-09-17 on the Nova Scotia page.
+# and a rotating token). Measured 2026-09-17 on the Nova Scotia page. Hashing
+# the bytes made content_sha256 change on every fetch, so since 2026-09-18 it is
+# taken over the page's visible text, which is what the MPO pages always did.

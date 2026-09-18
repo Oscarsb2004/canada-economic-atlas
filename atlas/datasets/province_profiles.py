@@ -61,6 +61,21 @@ def _sha(body: bytes) -> str:
     return hashlib.sha256(body).hexdigest()
 
 
+def _page_sha(page: str) -> str:
+    """The content hash of an HTML page: its visible text, never its bytes.
+
+    Hashing the bytes made these hashes useless. canada.ca injects an Akamai
+    telemetry script and budget.ontario.ca a bot-manager token, each different
+    on every request, so all 26 symbols pages and Ontario's budget chapter
+    hashed differently on every fetch while every word on them stayed the same
+    (measured 2026-09-17: 27 of 27 raw hashes moved between two fetches, 0 of 27
+    text hashes did). html_text drops <script> and <style>, which is where both
+    tokens live. The Major Projects Office pages never had the problem because
+    their hash was always taken over the extracted text (mpo.verbatim_blob).
+    """
+    return hashlib.sha256(document_text.html_text(page).encode("utf-8")).hexdigest()
+
+
 def build(ctx: Context, *, dataset: str) -> Built:
     """Every province and territory: its finances, its economy, its words and its symbols."""
     reg = yaml.safe_load((REGISTRY / "provinces.yaml").read_text(encoding="utf-8"))
@@ -130,7 +145,7 @@ def build(ctx: Context, *, dataset: str) -> Built:
         words[code] = {**symbols.read_pages(pages["en"], pages["fr"], where=code), "pages": urls}
         for lang in ("en", "fr"):
             sources.append(SourceRef(url=urls[lang], retrieved_at=retrieved, provenance=Provenance.PAGE_VERBATIM,
-                                     licence=hsrc["licence"], content_sha256=_sha(pages[lang].encode("utf-8"))))
+                                     licence=hsrc["licence"], content_sha256=_page_sha(pages[lang])))
 
     # ── Wikimedia Commons ────────────────────────────────────────────────────
     csrc = R.source(reg["images_source"])
@@ -184,7 +199,9 @@ def build(ctx: Context, *, dataset: str) -> Built:
                 budget_text.check(quotes, pages=None, text=document_text.html_text(body.decode("utf-8", "replace")),
                                   where=code)
             sources.append(SourceRef(url=b["url"], retrieved_at=retrieved, provenance=Provenance.PAGE_VERBATIM,
-                                     licence=bsrc["licence"], content_sha256=_sha(body)))
+                                     licence=bsrc["licence"],
+                                     content_sha256=_sha(body) if body.startswith(b"%PDF")
+                                     else _page_sha(body.decode("utf-8", "replace"))))
         budgets[code] = {"title": b["title"], "url": b["url"],
                          "quotes": [{"page": q.get("page"), "kind": q["kind"], "text": q["text"]} for q in quotes],
                          "note": b.get("note")}
