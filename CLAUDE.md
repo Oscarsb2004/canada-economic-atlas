@@ -168,8 +168,8 @@ python run.py --check    # every registry file against its schema, and STATUS.md
 python run.py --status   # rewrite STATUS.md from the registry
 python -m atlas.run --list               # every dataset card, by group
 python -m atlas.run --dataset <id>       # one dataset
-python verify/golden.py replay --name refreshed-2026-09-17  # the identity check (stage new files first)
-python verify/golden.py live --manifest verify/golden/refreshed-2026-09-17/deployed.json --url https://oscarsb2004.github.io/canada-economic-atlas
+python verify/golden.py replay --name data-2026-09-18  # the identity check (stage new files first)
+python verify/golden.py live --manifest verify/golden/data-2026-09-18/deployed.json --url https://oscarsb2004.github.io/canada-economic-atlas
 python run.py --verify   # independent verification
 python run.py --test     # pytest
 cd web && npm run dev    # the app
@@ -205,8 +205,8 @@ Windows the stdlib HTTP server's SO_REUSEADDR lets a second process bind a port
 already in use, with no error · canada.ca answers a HEAD request with 200 for a
 file that does not exist (the Fiscal Reference Tables for 2026 and 2027), so an
 edition is found by downloading it and checking the body is a workbook ·
-canada.ca injects an Akamai telemetry script that differs on
-every request, so the content hash of a provincial-symbols page changes when
-nothing on it did · the French Fiscal Reference Tables label Manitoba's 2011-12 row "2010-2011", and
+canada.ca injects an Akamai telemetry script and budget.ontario.ca a
+bot-manager token, each different on every request, so an HTML page is hashed by
+its visible text (`document_text.html_text`), never its bytes · the French Fiscal Reference Tables label Manitoba's 2011-12 row "2010-2011", and
 carry unrounded figures the English rounds, so the two are paired by row with a
 tolerance, never joined on year.
