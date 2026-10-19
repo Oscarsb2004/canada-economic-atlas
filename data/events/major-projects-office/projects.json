@@ -1,6 +1,6 @@
 {
   "event": "major-projects-office",
-  "generated_at": "2026-09-17T20:39:52Z",
+  "generated_at": "2026-10-17T23:58:08Z",
   "projects": [
     {
       "benefits": [
@@ -126,14 +126,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:38:29Z",
+          "retrieved_at": "2026-10-17T23:57:21Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "e71eb23fb972ed68818df3dd62fb386dcb2e24deb70a5858c7d130a3cf0f5276",
+          "content_sha256": "54030c70865296c3c568faea529c7bc0b3079216777c40147b94815b81cb40b9",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:38:29Z",
+          "retrieved_at": "2026-10-17T23:57:21Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/aesc.html"
         }
       ],
@@ -275,14 +275,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:38:35Z",
+          "retrieved_at": "2026-10-17T23:57:23Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "1489f15b945d751cb561fdfe710ef1618208a47029b75130efe63c2015c05c4d",
+          "content_sha256": "32a1ec7cd92d26367d44f458e6a793bfb483913d80804b90365275bbff2ae126",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:38:35Z",
+          "retrieved_at": "2026-10-17T23:57:23Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/contrecoeur.html"
         }
       ],
@@ -504,14 +504,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:38:38Z",
+          "retrieved_at": "2026-10-17T23:57:26Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "8fc6b3a8bd129a0fe917eaf5f2bc09b7f9477cd8d70f55281e36d7d5c7fea541",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:38:38Z",
+          "retrieved_at": "2026-10-17T23:57:26Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/crawford.html"
         }
       ],
@@ -656,14 +656,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:38:45Z",
+          "retrieved_at": "2026-10-17T23:57:29Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "c743ae5b8b7d8357162e234e9869435db90f89f6f758534accb402ad894e9a50",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:38:45Z",
+          "retrieved_at": "2026-10-17T23:57:29Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/darlington.html"
         }
       ],
@@ -866,14 +866,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:38:48Z",
+          "retrieved_at": "2026-10-17T23:57:33Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "adf4de69fd5cf1deb8e88ad5ba6ce98b7f46508fe2cf3f385d6377ee7d733e2a",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:38:48Z",
+          "retrieved_at": "2026-10-17T23:57:33Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/geo.html"
         }
       ],
@@ -1035,14 +1035,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:38:54Z",
+          "retrieved_at": "2026-10-17T23:57:36Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "1d817dd815412616e494224422d929d2debf41f12c7d8f03274ff020f14cbf92",
+          "content_sha256": "c539da44dbe58f3c1f1c8b1c260f47da678733a3af7e7622ce11997f7cde263c",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:38:54Z",
+          "retrieved_at": "2026-10-17T23:57:36Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/grays-bay.html"
         }
       ],
@@ -1114,7 +1114,7 @@
           "fr": "Le Terminal de GNL KSI Lisims deviendra l’une des installations de GNL les moins émettrices au monde; elle devrait atteindre la carboneutralité une fois entièrement électrifiée."
         },
         {
-          "en": "Ksi Lisims LNG proposes to construct and operate up to two floating natural gas liquefaction structures, which together would export up to 12 million tonnes per annum of LNG and provide a new market for up to 1.8 billion cubic feet per day (cf/d) of natural gas supply from Western Canadian producers.",
+          "en": "Ksi Lisims LNG proposes to construct and operate up to two floating natural gas liquefaction structures, which together would export up to 12 million tonnes per annum of LNG and provide a new market for up to 1.8 billion cubic feet per day (Bcf/d) of natural gas supply from Western Canadian producers.",
           "fr": "Il propose de construire et d’exploiter jusqu’à deux structures flottantes de liquéfaction du gaz naturel qui, ensemble, exporteraient jusqu’à 12 millions de tonnes par année de GNL et ouvriraient un nouveau marché pour un approvisionnement pouvant atteindre 1,8 milliard de pieds cubes par jour de gaz naturel provenant des producteurs de l’Ouest canadien."
         },
         {
@@ -1237,14 +1237,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:38:56Z",
+          "retrieved_at": "2026-10-17T23:57:40Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "b2bbf7a343d6b0ce2587d86c951191a0dbd5280fde8e8891597119f0d60efcf8",
+          "content_sha256": "911bb1c63660fefed27b29a38388118fa6363543df012c180dcc703a4b1fc068",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:38:56Z",
+          "retrieved_at": "2026-10-17T23:57:40Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/ksi-lisims.html"
         }
       ],
@@ -1253,6 +1253,15 @@
         "fr": "Renvoyé au BGP pour examen"
       },
       "updates": [
+        {
+          "body": {
+            "en": "On September 15, 2026, Ksi Lisims LNG announced its latest international offtake agreement, signing a Heads of Agreement with Santos. The agreement is for the sale and purchase of 1 million tonnes per annum of LNG from Ksi Lisims for a term of 20 years.",
+            "fr": "Le 15 septembre 2026, Ksi Lisims LNG a annoncé sa plus récente entente internationale de vente de GNL, en signant un protocole d’entente avec Santos. L’entente porte sur la vente et l’achat de 1 million de tonnes de GNL par année provenant de Ksi Lisims, pour une durée de 20 ans."
+          },
+          "date": "2026-09-15",
+          "date_verbatim": "September 15, 2026",
+          "date_verbatim_fr": "15 septembre 2026"
+        },
         {
           "body": {
             "en": "On July 29, 2026 Ksi Lisims LNG signed a binding agreement with Germany’s Uniper SE. This first-of-its-kind deal will see Uniper purchase two million tonnes per annum (mtpa) of Canadian LNG for up to 20 years, with first deliveries expected to begin 2032.",
@@ -1273,8 +1282,8 @@
         },
         {
           "body": {
-            "en": "On May 27, 2026, an agreement between Ksi Lisims LNG and SEFE (Securing Energy for Europe) of Germany was announced, bringing long‑term supply of low-carbon Canadian LNG to a European buyer for the first time. Under the agreement, SEFE will purchase one million tonnes per annum of LNG for up to 20 years, with deliveries expected to begin by the early 2030s.",
-            "fr": "Le 27 mai 2026, un accord a été annoncé entre Ksi Lisims LNG et la société allemande SEFE (Securing Energy for Europe), qui promet pour la première fois un approvisionnement à long terme de gaz naturel liquéfié (GNL) canadien peu émetteur à un acheteur européen. L’accord prévoit que SEFE achètera un million de tonnes de GNL par an sur une période pouvant atteindre 20 ans. Les livraisons devraient commencer au début des années 2030."
+            "en": "On May 27, 2026, an agreement between Ksi Lisims LNG and SEFE (Securing Energy for Europe) of Germany was announced, bringing long‑term supply of low-carbon Canadian LNG to a European buyer for the first time. Under the agreement, SEFE will purchase one million tonnes per annum of LNG for up to 20 years, with deliveries expected to begin in 2032.",
+            "fr": "Le 27 mai 2026, un accord a été annoncé entre Ksi Lisims LNG et la société allemande SEFE (Securing Energy for Europe), qui promet pour la première fois un approvisionnement à long terme de gaz naturel liquéfié (GNL) canadien peu émetteur à un acheteur européen. L’accord prévoit que SEFE achètera un million de tonnes de GNL par an sur une période pouvant atteindre 20 ans. Les livraisons devraient commencer en 2032."
           },
           "date": "2026-05-27",
           "date_verbatim": "May 27, 2026",
@@ -1312,25 +1321,33 @@
     {
       "benefits": [
         {
-          "en": "Supports Canada’s transition to a cleaner energy future.",
-          "fr": "Il soutient la transition du Canada vers un avenir énergétique plus propre."
+          "en": "Leveraging British Columbia’s clean grid and designed for sustainable performance, the facility will support Canada’s transition to a cleaner energy future.",
+          "fr": "Tirant parti du réseau électrique propre et conçu pour assurer une performance durable, l’installation contribuera à la transition du Canada vers un avenir énergétique plus propre."
         },
         {
-          "en": "The Haisla Nation, with a population of over 2,000, are expected to see direct benefits through employment opportunities for its members and broader economic growth for the region.",
-          "fr": "La nation Haisla, qui compte plus de 2 000 membres, devrait en tirer des avantages directs sous la forme de possibilités d’emploi pour ses membres et d’une croissance économique plus large pour la région."
+          "en": "The Haisla Nation, with a population of over 2,000, are expected to see direct benefits through employment opportunities for its members, broader economic growth for the region, and the opportunity for equity ownership of Phase 2’s LNG storage tank through MNT Investments LP.",
+          "fr": "La nation Haisla, qui compte plus de 2 000 membres, devrait en tirer des avantages directs sous la forme de possibilités d’emploi pour ses membres, d’une croissance économique plus large pour la région et de l’occasion d’acquérir la participation du réservoir de stockage du GNL de la phase 2 par l’intermédiaire de MNT Investments LP."
         },
         {
-          "en": "Will support jobs both during construction and when fully operational, promoting economic growth in the local community and in upstream gas production.",
-          "fr": "Ce projet créera des emplois tant pendant la phase de construction qu’une fois le site pleinement opérationnel, favorisant ainsi la croissance économique au sein de la collectivité locale et dans le secteur de la production gazière en amont."
+          "en": "Supports new jobs during construction and once fully operational, promoting economic growth in the local community and in upstream gas production.",
+          "fr": "Il soutient la création de nouveaux emplois pendant la construction et, une fois le projet entièrement opérationnel, favorise ainsi la croissance économique dans les collectivités locales et dans le secteur de la production de gaz naturel en amont."
         },
         {
-          "en": "Will attract private-sector capital to Canada, directly contributing to GDP growth.",
-          "fr": "Ce projet attirera des capitaux du secteur privé au Canada, contribuant directement à la croissance du PIB."
+          "en": "Strengthens Canada's position as a reliable global energy supplier and attracts significant private-sector investment, contributing to GDP growth.",
+          "fr": "Il renforce la position du Canada comme fournisseur d’énergie fiable à l’échelle mondiale et attire d’importants investissements du secteur privé, contribuant ainsi à la croissance du PIB."
+        },
+        {
+          "en": "Diversifies Canada's trading partners and meets increasing global demand for secure, low-carbon energy, strengthening energy security for Asian and European partners.",
+          "fr": "Il diversifie les partenaires commerciaux du Canada et répond à la demande mondiale croissante en énergie sécuritaire à faibles émissions de carbone, renforçant ainsi la sécurité énergétique pour les partenaires asiatiques et européens."
+        },
+        {
+          "en": "Modern, efficient LNG infrastructure keeps Canada competitive as global energy markets shift, supporting both Canada's climate and strategic export objectives.",
+          "fr": "Une infrastructure moderne et efficace de GNL permet au Canada de demeurer concurrentiel alors que les marchés mondiaux de l’énergie évoluent, tout en contribuant à la réalisation de ses objectifs climatiques et stratégiques en matière d’exportation."
         }
       ],
       "description": {
-        "en": "This project will expand LNG Canada’s liquefied natural gas (LNG) facility, doubling production and delivering low-carbon intensity Canadian energy to global markets. It will also help diversify Canada’s trading partners, including those with growing demand in Asia and Europe. Located in Kitimat, British Columbia, on the traditional territory of the Haisla Nation, the export facility benefits from abundant, low-cost Canadian natural gas and an ice-free harbour. This location provides a secure supply of LNG at scale and connects Canadian natural gas to global markets. LNG Canada Phase 2 represents an opportunity to strengthen Canada’s position as a reliable energy supplier, attract significant private investment, contribute to our GDP growth, and create thousands of good jobs in local communities across the supply chain.",
-        "fr": "Ce projet permettra d’agrandir l’installation de gaz naturel liquéfié (GNL) de LNG Canada, de doubler sa production et de fournir de l’énergie canadienne à faible intensité en carbone aux marchés mondiaux. Il contribuera également à diversifier les partenaires commerciaux du Canada, y compris ceux dont la demande augmente en Asie et en Europe. Située à Kitimat, en Colombie-Britannique, sur le territoire traditionnel de la Nation Haisla, cette installation d’exportation bénéficie d’un approvisionnement abondant en gaz naturel canadien peu coûteux et d’un port exempt de glace. Cet emplacement offre un approvisionnement sûr en GNL à grande échelle et relie le gaz naturel canadien aux marchés mondiaux. La phase 2 de LNG Canada représente une occasion de renforcer la position du Canada comme fournisseur d’énergie fiable, d’attirer d’importants investissements du secteur privé, de contribuer à la croissance de notre PIB et de créer des milliers de bons emplois dans les collectivités locales dans l’ensemble de la chaîne d’approvisionnement."
+        "en": "Phase 2 expands LNG Canada’s liquefied natural gas (LNG) facility, doubling production and delivering low-carbon intensity Canadian energy to global markets. It will also help diversify Canada’s trading partners, including in Asia and Europe. Located in Kitimat, British Columbia, on the traditional territory of the Haisla Nation, the export facility benefits from abundant, low-cost Canadian natural gas and an ice-free harbour. Five First Nations – Gitga'at, Gitxaała, Haisla, Kitselas and Kitsumkalum – have the opportunity to invest up to $1 billion CAD for majority ownership of Phase 2's LNG storage tank, through a special purpose entity, which could represent one of the largest Indigenous ownership stakes in major infrastructure in Canada. LNG Canada Phase 2 represents an opportunity to strengthen Canada’s position as a reliable energy supplier, support Indigenous equity opportunities, attract significant private investment, contribute to our GDP growth, and create thousands of good jobs in local communities across the supply chain.",
+        "fr": "La phase 2 permet d’agrandir l’installation de gaz naturel liquéfié (GNL) de LNG Canada, doublant sa production et fournissant de l’énergie canadienne à faible intensité en carbone aux marchés mondiaux. Il contribuera également à diversifier les partenaires commerciaux du Canada, y compris en Asie et en Europe. Située à Kitimat, en Colombie-Britannique, sur le territoire traditionnel de la Nation Haisla, cette installation d’exportation bénéficie d’un approvisionnement abondant en gaz naturel canadien peu coûteux et d’un port exempt de glace. Cinq Premières Nations, soit Gitga’at, Gitxaała, Haisla, Kitselas et Kitsumkalum, ont l’occasion d’investir jusqu’à un milliard de dollars canadiens dans la participation majoritaire du réservoir de stockage du GNL de la phase 2, par l’intermédiaire d’une entité à but spécial. Cette participation pourrait représenter l’une des plus importantes participations autochtones dans les grandes infrastructures au Canada. La phase 2 de LNG Canada représente une occasion de renforcer la position du Canada comme fournisseur d’énergie fiable, de soutenir les occasions d’équité pour les Autochtones, d’attirer d’importants investissements du secteur privé, de contribuer à la croissance de notre PIB et de créer des milliers de bons emplois dans les collectivités locales dans l’ensemble de la chaîne d’approvisionnement."
       },
       "event_slug": "major-projects-office",
       "media": [
@@ -1360,8 +1377,8 @@
       "quick_facts": [
         {
           "body": {
-            "en": "Expected to become the second-largest liquefied natural gas facility worldwide.",
-            "fr": "On s’attend à ce que le Canada devienne la deuxième installation de gaz naturel liquéfié en importance au monde."
+            "en": "The project doubles production with an additional 14 million tonnes of LNG per annum (MTPA).",
+            "fr": "Le projet double sa production grâce à une capacité supplémentaire de 14 millions de tonnes de GNL par an (Mt/an)."
           },
           "label": {
             "en": "Global LNG leader",
@@ -1370,8 +1387,18 @@
         },
         {
           "body": {
-            "en": "Provides employment opportunities in local communities, both during construction and once fully operational.",
-            "fr": "Offre des possibilités d’emploi dans les collectivités locales, tant pendant la construction qu’une fois le site pleinement opérationnel."
+            "en": "GHG emissions from LNG Canada’s Kitimat operation are expected to be lower than any facility of a similar size operating in the world today.",
+            "fr": ": Les émissions de GES provenant de l’exploitation de LNG Canada à Kitimat devraient être inférieures à celles de toute installation de taille similaire en activité dans le monde aujourd’hui."
+          },
+          "label": {
+            "en": "Lower-carbon LNG",
+            "fr": "GNL à faibles émissions de carbone"
+          }
+        },
+        {
+          "body": {
+            "en": "Provides employment opportunities in local communities, including around 6,000 direct construction jobs, and up to 240 operations jobs across LNG plant and Coastal GasLink pipeline.",
+            "fr": "Offre des possibilités d’emploi dans les collectivités locales, y compris environ 6 000 emplois directs dans le secteur de la construction et jusqu’à 240 emplois opérationnels dans l’usine de GNL et le gazoduc de Coastal GasLink."
           },
           "label": {
             "en": "Job creation",
@@ -1386,6 +1413,26 @@
           "label": {
             "en": "Economic boost",
             "fr": "Essor économique"
+          }
+        },
+        {
+          "body": {
+            "en": "Equity agreement grants five First Nations the option to invest up to $1 billion to acquire a majority ownership stake in the facility’s new 255,000 cubic metre Phase 2 storage tank",
+            "fr": "L’entente d’équité accorde à cinq Premières Nations l’option d’investir jusqu’à un milliard de dollars pour acquérir une participation majoritaire dans le nouveau réservoir de stockage de la phase 2 de 255 000 mètres cubes de l’installation."
+          },
+          "label": {
+            "en": "Indigenous equity opportunity",
+            "fr": "Occasion d’équité pour les Autochtones"
+          }
+        },
+        {
+          "body": {
+            "en": "LNG Canada and Coastal GasLink are working together to expand the capacity of the existing 670-kilometre pipeline through the construction of five new compressor stations that would enable LNG Canada Phase 2.",
+            "fr": "LNG Canada et Coastal GasLink collaborent afin d’accroître la capacité du pipeline existant de 670 kilomètres, grâce à la construction de cinq nouvelles stations de compression qui permettraient la réalisation de la phase 2 de LNG Canada."
+          },
+          "label": {
+            "en": "Coastal GasLink Phase 2",
+            "fr": "Coastal GasLink – Phase 2"
           }
         }
       ],
@@ -1423,14 +1470,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:39:00Z",
+          "retrieved_at": "2026-10-17T23:57:42Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "ab48b96aaadc43463d9d32ca0b5cbe6c9eeba33d19f7b30b09402ff26cb1d1ef",
+          "content_sha256": "c0b03f641202b1a6c5ebbe40bf39f54fed1b1e59c35412b303fdb166c7edf564",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:39:00Z",
+          "retrieved_at": "2026-10-17T23:57:42Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/lng-canada.html"
         }
       ],
@@ -1439,6 +1486,15 @@
         "fr": "Renvoyé au BGP pour examen"
       },
       "updates": [
+        {
+          "body": {
+            "en": "On September 29, 2026, LNG Canada announced the Final Investment Decision of LNG Canada Phase 2, demonstrating Canada’s commitment to building the infrastructure needed to supply Canadian energy to the world – unlocking critical growth and revenue for our country.",
+            "fr": "Le 29 septembre 2026, LNG Canada a annoncé la décision finale d’investissement concernant la phase 2 de LNG Canada, démontrant l’engagement du Canada à bâtir les infrastructures nécessaires pour fournir l’énergie canadienne au monde et à ouvrir la voie à d’importantes possibilités de croissance et de revenus pour notre pays."
+          },
+          "date": "2026-09-29",
+          "date_verbatim": "September 29, 2026",
+          "date_verbatim_fr": "29 septembre 2026"
+        },
         {
           "body": {
             "en": "On July 2, 2026, the Government of Canada and the Province of British Columbia signed the new Canada-British Columbia Cooperative Prosperity Agreement, which will further accelerate the construction of major energy and trade corridors, including LNG Canada Phase 2. The federal government will work with proponents, communities, and First Nations to accelerate the permitting, financing, and construction of these projects to boost LNG supply for Canadians and our allies.",
@@ -1459,8 +1515,8 @@
         },
         {
           "body": {
-            "en": "On March 27, 2026, LNG Canada and the owners of the Coastal GasLink pipeline announced a joint agreement to cooperate on an expansion of the pipeline's capacity that would enable LNG Canada Phase 2. LNG Canada would take an active role in the development of the pipeline, while Coastal GasLink would take on a technical support role.",
-            "fr": "Le 27 mars 2026, LNG Canada et les propriétaires du gazoduc de Coastal GasLink ont annoncé une entente de collaboration visant à accroître la capacité du gazoduc afin de permettre à LNG Canada de réaliser la phase 2. LNG Canada jouerait un rôle actif dans le développement du gazoduc, tandis que Coastal GasLink assumerait un rôle de soutien technique."
+            "en": "On March 27, 2026, LNG Canada and the owners of the Coastal GasLink pipeline announced a joint agreement to cooperate on an expansion of the pipeline's capacity that would enable LNG Canada Phase 2. LNG Canada would take an active role as an execution manager of the pipeline, while Coastal GasLink would provide technical services.",
+            "fr": "Le 27 mars 2026, LNG Canada et les propriétaires du gazoduc de Coastal GasLink ont annoncé une entente de collaboration visant à accroître la capacité du gazoduc afin de permettre à LNG Canada de réaliser la phase 2. LNG Canada jouerait un rôle actif comme gestionnaire de l’exécution des travaux liés au gazoduc, tandis que Coastal GasLink fournirait des services techniques."
           },
           "date": "2026-03-27",
           "date_verbatim": "March 27, 2026",
@@ -1661,14 +1717,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:39:06Z",
+          "retrieved_at": "2026-10-17T23:57:44Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "137b341130448ca11fa6ff47d173453699d6d920782916210f856b3f7a8db979",
+          "content_sha256": "53408641d260981506c4b659d282ba24dd35eb3af817278ba15486b475ff1ce6",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:39:06Z",
+          "retrieved_at": "2026-10-17T23:57:44Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mackenzie.html"
         }
       ],
@@ -1727,8 +1783,8 @@
     {
       "benefits": [
         {
-          "en": "The project will create hundreds of jobs, boost local economies, and will be one of the lowest-emission operations of its kind.",
-          "fr": "Le projet créera des centaines d’emplois, stimulera les économies locales et sera l’une des opérations les moins polluantes du genre."
+          "en": "The project provides hundreds of new jobs, boosts local economies, and will be powered by clean energy.",
+          "fr": "Le projet crée des centaines de nouveaux emplois, stimule les économies locales et sera alimenté par de l’énergie propre."
         },
         {
           "en": "By supplying critical minerals such as copper and zinc for clean energy and modern infrastructure, the project will contribute to Canada’s economic growth and global competitiveness in advanced manufacturing industries.",
@@ -1771,8 +1827,8 @@
       "quick_facts": [
         {
           "body": {
-            "en": "Powered by two nearby hydroelectric dams, the project will be one of the lowest-emission operations of its kind.",
-            "fr": "Alimenté par deux barrages hydroélectriques à proximité, le projet sera l’une des opérations les moins polluantes du genre."
+            "en": "The project will be operated by clean energy produced by two nearby hydroelectric dams.",
+            "fr": "Le projet sera alimenté par l’énergie propre produite par deux barrages hydroélectriques situés à proximité."
           },
           "label": {
             "en": "Clean energy advantage",
@@ -1791,8 +1847,8 @@
         },
         {
           "body": {
-            "en": "Will support between 450 to 580 jobs during construction.",
-            "fr": "Ce projet permettra de créer entre 450 et 580 emplois pendant la phase de construction."
+            "en": "The project currently employs approximately 380 full-time workers, with total employment expected to grow to about 450 once commercial production is reached.",
+            "fr": "Le projet emploie actuellement environ 380 salariés à temps plein, et le nombre total d’emplois devrait passer à environ 450 une fois la production commerciale atteinte."
           },
           "label": {
             "en": "Job creation",
@@ -1834,14 +1890,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:39:10Z",
+          "retrieved_at": "2026-10-17T23:57:47Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "fddeb3220f3e2d1a3c45387194047bca8982f93e6100a461403660e6ed2164e1",
+          "content_sha256": "c8f2e265e0069d7588255218f3249d0d90af50158c1c42bbceca1156f4c9edb6",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:39:10Z",
+          "retrieved_at": "2026-10-17T23:57:47Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/mcilvenna.html"
         }
       ],
@@ -1852,8 +1908,26 @@
       "updates": [
         {
           "body": {
-            "en": "On February 19, 2026, Eldorado Gold reported that construction of the McIlvenna Bay Project was approximately 88% complete as of January 31, 2026. The project remains on schedule for commercial production in mid-2026 and continues to track within budget.",
-            "fr": "Le 19 février 2026, Eldorado Gold a signalé que la phase de construction du projet McIlvenna Bay était achevée à environ 88 % au 31 janvier 2026. Le projet respecte l’échéancier en vue d’une production commerciale vers le milieu de l’année 2026 et continue à respecter le budget."
+            "en": "In September 2026, the McIlvenna Bay project celebrated several milestones, including producing its first copper concentrate in June 2026, followed by its first zinc concentrate in July 2026. The project is now ramping up toward full commercial production. Since the project's referral, MPO has worked closely with the proponent and key federal partners to strengthen federal coordination and address key project needs and roadblocks. This coordinated approach, together with federal financing, has helped position the project to progress toward full commercial production.",
+            "fr": "En septembre 2026, le projet de la mine de McIlvenna Bay a célébré d’important jalons, incluant la production de son premier concentré de cuivre, suivi de son premier concentré de zinc en juillet 2026; le projet s’oriente désormais vers une pleine production commerciale. Depuis le renvoi du projet, le BGP a travaillé en étroite collaboration avec le promoteur et les principaux partenaires fédéraux afin de renforcer la coordination fédérale et de répondre aux besoins essentiels du projet tout en surmontant les obstacles. Cette approche coordonnée, associée au financement fédéral, a permis de mettre le projet sur la voie de la pleine production commerciale."
+          },
+          "date": "2026-09",
+          "date_verbatim": "September 2026",
+          "date_verbatim_fr": "septembre 2026"
+        },
+        {
+          "body": {
+            "en": "On April 14, 2026, Eldorado Gold Corporation completed acquisition of Foran Mining Corporation, officially taking ownership of the McIlvenna Bay project.",
+            "fr": "Le 14 avril 2026, Eldorado Gold Corporation a achevé l’acquisition de Foran Mining Corporation, prenant officiellement possession du projet de la mine de McIlvenna Bay."
+          },
+          "date": "2026-04-14",
+          "date_verbatim": "April 14, 2026",
+          "date_verbatim_fr": "14 avril 2026"
+        },
+        {
+          "body": {
+            "en": "On February 19, 2026, the proponent reported that construction of the McIlvenna Bay Project was approximately 88% complete as of January 31, 2026. The project remains on schedule for commercial production in mid-2026 and continues to track within budget.",
+            "fr": "Le 19 février 2026, le promoteur a signalé que la phase de construction du projet McIlvenna Bay était achevée à environ 88 % au 31 janvier 2026. Le projet respecte l’échéancier en vue d’une production commerciale vers le milieu de l’année 2026 et continue à respecter le budget."
           },
           "date": "2026-02-19",
           "date_verbatim": "February 19, 2026",
@@ -2058,14 +2132,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:39:15Z",
+          "retrieved_at": "2026-10-17T23:57:50Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "2684ece3008bcffb713bf6331af0b2481c73e089e8dcd29bfaf531dc066d0d75",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:39:15Z",
+          "retrieved_at": "2026-10-17T23:57:50Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nctl.html"
         }
       ],
@@ -2230,14 +2304,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:39:19Z",
+          "retrieved_at": "2026-10-17T23:57:51Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "5e91832548761bd7001635478d7196d324ef3643549cc2c69b63cded80e12a7e",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:39:19Z",
+          "retrieved_at": "2026-10-17T23:57:51Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/northcliff.html"
         }
       ],
@@ -2404,14 +2478,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:39:26Z",
+          "retrieved_at": "2026-10-17T23:57:53Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "b567dba0398c4d36d349eea94fa107f6b1241c9f75d553668f453acc362faa73",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:39:26Z",
+          "retrieved_at": "2026-10-17T23:57:53Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nouveau-monde.html"
         }
       ],
@@ -2646,14 +2720,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:39:31Z",
+          "retrieved_at": "2026-10-17T23:57:55Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "54850d452372d6f372fa565d6bf7365d564172e244c27dd9c7de3e3d0247c083",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:39:31Z",
+          "retrieved_at": "2026-10-17T23:57:55Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/nukkiksautiit.html"
         }
       ],
@@ -2805,14 +2879,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:39:35Z",
+          "retrieved_at": "2026-10-17T23:57:58Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "c67e277a93ed44b66f98ab4f379f6f13ed5fc43e7b385ab7790a93d06e0ffb07",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:39:35Z",
+          "retrieved_at": "2026-10-17T23:57:58Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/red-chris.html"
         }
       ],
@@ -2982,14 +3056,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:39:39Z",
+          "retrieved_at": "2026-10-17T23:58:00Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "5bbc1fa28aeb9a8a422900837118f4d93838e3acab52d5f3c44443cdae8efef2",
+          "content_sha256": "c59091dfa2e30f093cd6aac9ac6232c5242d82d125fb0351421eb92b767bb771",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:39:39Z",
+          "retrieved_at": "2026-10-17T23:58:00Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/roberts-bank.html"
         }
       ],
@@ -3161,14 +3235,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:39:45Z",
+          "retrieved_at": "2026-10-17T23:58:03Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
           "content_sha256": "732de16c74eba2fab1694d01f20a4d2ba3d9e936278585b639c9311752744815",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:39:45Z",
+          "retrieved_at": "2026-10-17T23:58:03Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/taltson.html"
         }
       ],
@@ -3218,37 +3292,37 @@
     {
       "benefits": [
         {
-          "en": "Addresses the limited ability to access global markets from tidewater, which has been a longstanding structural constraint in Canada’s energy infrastructure.",
-          "fr": "Répond à la capacité limitée d’accéder aux marchés mondiaux à partir des côtes, qui constitue une contrainte structurelle de longue date dans l’infrastructure énergétique canadienne."
+          "en": "The proposed Project addresses the limited ability to access global markets from tidewater, which has been a longstanding structural constraint in Canada’s energy infrastructure.",
+          "fr": "Ce projet éliminerait la difficulté à accéder aux marchés étrangers à partir de la côte Ouest, ce qui constitue depuis longtemps une contrainte structurelle de l’infrastructure énergétique du Canada."
         },
         {
-          "en": "The proposed project would establish a new delivery terminal and marine facility to export crude oil to global markets, which would help diversify and increase exports to new and growing markets.",
-          "fr": "Le projet proposé établirait un nouveau terminal de livraison et une installation maritime pour exporter le pétrole brut vers les marchés mondiaux, ce qui aiderait à diversifier et à augmenter les exportations vers de nouveaux marchés en croissance."
+          "en": "The proposed Project would establish a new delivery terminal and marine facility to export crude oil to global markets, which would help diversify and increase exports to new and growing markets.",
+          "fr": "De plus, ce projet permettrait d’établir un terminal de livraison et une installation en mer destinés à l’exportation du pétrole brut vers les marchés étrangers, ce qui permettrait de diversifier et d’accroître les exportations vers de nouveaux marchés et des marchés en croissance."
         },
         {
-          "en": "With a capacity of one million barrels per day (MMb/d), the proposed project would significantly strengthen Canada’s reputation as a responsible and reliable global energy superpower.",
-          "fr": "Avec une capacité d’un million de barils par jour (MMb/j), le projet proposé renforcerait considérablement la réputation du Canada en tant que superpuissance énergétique mondiale responsable et fiable."
+          "en": "With a capacity of one million barrels per day (MMb/d), the proposed Project would significantly strengthen Canada’s reputation as a responsible and reliable global energy superpower.",
+          "fr": "Étant donné qu’il prévoit permettre le transport d’un million de barils par jour, ce projet renforcerait considérablement la réputation du Canada en tant que superpuissance énergétique fiable et responsable dans le monde."
         },
         {
-          "en": "The proposed project will include meaningful Indigenous equity purchase rights, drawn equally from Canada and Alberta’s shares in the project, supported equally by the Alberta Indigenous Opportunities Corporation and the Canada Indigenous Loan Guarantee Corporation. Equity participation would provide ongoing investment returns to Indigenous communities, resulting in new income streams that can be reinvested into community priorities, creating generational benefits that extend well beyond the life of the project itself.",
-          "fr": "Le projet proposé comprendra un droit d’acquérir une participation significative destinée aux Autochtones, prélevée à parts égales sur les participations du Canada et de l’Alberta dans le projet, et serait soutenu à égalité des parts par l’Alberta Indigenous Opportunities Corporation (AIOC) et la Corporation de garantie de prêts pour les Autochtones du Canada (CGPAC). La participation fournirait un rendement continu des investissements aux communautés autochtones, ce qui se traduirait par de nouvelles sources de revenus pouvant être réinvesties dans les priorités communautaires, créant ainsi des avantages générationnels qui s’étendraient bien au-delà de la durée du projet lui-même."
+          "en": "The proposed Project will include meaningful Indigenous equity purchase rights. Canada, Alberta, and the Project's Ownership Group have affirmed a commitment to offer to Indigenous communities a minimum of ten percent ownership interest in the Project. Access to this offering will be supported by the Alberta Indigenous Opportunities Corporation and the Canada Indigenous Loan Guarantee Corporation, which assist eligible Indigenous communities with financing capacity to purchase Project equity. The terms of offer will be settled prior to construction. Equity participation would provide ongoing investment returns to Indigenous communities, resulting in new income streams that can be reinvested into community priorities, creating generational benefits that extend well beyond the life of the project itself.",
+          "fr": "Ce projet donnerait aux Autochtones le droit d’acquérir une participation significative. En effet, le Canada, l’Alberta et le groupe de propriétaires ont affirmé qu’ils s’engagent à offrir aux communautés autochtones une participation minimale de 10 %. L’Alberta Indigenous Opportunities Corporation et la Corporation de garantie de prêts pour les Autochtones du Canada, qui aident les communautés autochtones admissibles qui ont la capacité financière d’acquérir une participation, appuieraient l’acquisition de cette participation. Les modalités de cette offre seraient réglées avant les travaux de construction. L’acquisition d’une participation fournirait un rendement continu aux communautés autochtones, ce qui se traduirait par de nouvelles sources de revenus à réinvestir dans leurs priorités et procurerait pendant des générations des retombées qui dépasseraient de loin la durée de vie du projet."
         },
         {
-          "en": "In addition to potential equity purchase and consultation in respect of the proposed project, the parties intend to pursue further meaningful Indigenous participation, including capacity funding and contracting and employment opportunities.",
-          "fr": "Outre l’acquisition potentielle de participations et les consultations relatives au projet proposé, les parties ont l’intention de favoriser davantage une participation pertinente des Autochtones, notamment au moyen de financements destinés au renforcement des capacités, ainsi que d’occasions de passation de marchés et d’emploi."
+          "en": "In addition to equity purchase rights and consultation in respect of the proposed project, the parties intend to pursue further meaningful Indigenous participation, including employment, training, contracting, and procurement opportunities.",
+          "fr": "En plus du droit d’acquérir une participation et des consultations dans le cadre du projet, les parties ont l’intention d’accroître encore davantage la participation des Autochtones, entre autres grâce à des emplois, à de la formation, à la passation de contrats et à des possibilités de marchés publics."
         },
         {
-          "en": "A new west coast oil pipeline will ensure that Alberta’s oil reserves can deliver greater prosperity for Canadians through increased government revenues, high-paying jobs and international investment attraction.",
-          "fr": "Un nouvel oléoduc sur la côte Ouest garantira que les réserves pétrolières de l’Alberta pourront apporter une plus grande prospérité aux Canadiens grâce à l’augmentation des revenus gouvernementaux, à des emplois bien rémunérés et à l’attraction des investissements internationaux."
+          "en": "A new west coast oil pipeline would ensure that Alberta’s oil reserves can deliver greater prosperity for Canadians through increased government revenues, high-paying jobs and international investment attraction.",
+          "fr": "Ce nouvel oléoduc sur la côte Ouest permettrait aux réserves de pétrole de l’Alberta d’accroître la prospérité des Canadiens en augmentant les recettes publiques, en créant des emplois bien rémunérés et en attirant des investissements étrangers."
         },
         {
-          "en": "Employment impacts based on direct and indirect effects could peak at approximately 140,000 jobs at the height of construction. For Alberta, this would be approximately 45,000 jobs; for B.C., this would be approximately 70,000 jobs.",
-          "fr": "Les incidences sur l’emploi, basées sur des effets directs et indirects, pourraient atteindre un sommet d’environ 140 000 emplois au plus fort de la construction. Pour l’Alberta, cela représenterait environ 45 000 emplois; pour la C.-B., cela représenterait environ 70 000 emplois."
+          "en": "Estimated employment impacts based on direct and indirect effects could peak at approximately 140,000 jobs at the height of pipeline construction and upstream development.",
+          "fr": "Les retombées estimatives sur l’emploi, fondées sur les effets directs et indirects, pourraient atteindre environ 140 000 emplois au plus fort des travaux de construction du pipeline et du développement en amont."
         }
       ],
       "description": {
-        "en": "The Government of Alberta is proposing an interprovincial pipeline, capable of transporting one million barrels per day (MMb/d) of crude oil, from the Edmonton region to a deepwater port in southern British Columbia (B.C.). The proposed project comprises of the following major components: Receipt tank terminal ~1,250 km pipeline 11 pump stations Delivery tank terminal and marine facility The proposed project corridor would begin at a receipt terminal in the Bruderheim area of Alberta. There, it will collect crude oil from various western Canadian pipelines, serving as a central hub where the product will be measured, stored and then transferred into the pipeline. The proposed pipeline and pump stations will transport the crude oil to a proposed marine terminal in southern B.C. for loading onto marine vessels for transport toward export markets. The proposed corridor will largely follow the existing Trans Mountain corridor and will not require any adjustment to the Oil Tanker Moratorium Act. This proposed project is in the early stages of development. The precise route remains to be determined and will continue to be developed through the next stages of the project, including working closely with stakeholders and Indigenous groups to understand areas of concern, wherever possible. The proposal is dependent on the advancement of the Pathways Project, one of the largest carbon capture and storage projects in the world. The Major Projects Office (MPO) is reviewing Alberta’s submission and commencing consultations, including with potentially impacted Indigenous communities, in order to inform the government’s decision on whether to list the project in the national interest, under the Building Canada Act. An ownership group comprised of Trans Mountain Corporation (TMC), Alberta Petroleum Marketing Commission (APMC), and Pembina Pipeline Corporation (Pembina, TSX:PPL) will form and lead a new jointly owned company: Pembina's economic interest through construction will be 10% with the opportunity for up to an additional 10% once the project enters commercial operation. TMC and APMC will own equal shares of the balance of the project. In addition, there will be a real and meaningful opportunity for Indigenous equity participation. Consultations with respect to this participation will begin immediately. TMC will be responsible for construction of the proposed project, making regulatory submissions to receive permits to operate, and subsequent operation of the asset. TMC will be engaged by the new company to design, develop, permit, construct and operate the project.",
-        "fr": "Le gouvernement de l’Alberta propose un oléoduc interprovincial, capable de transporter un million de barils par jour (MMb/j) de pétrole brut, de la région d’Edmonton jusqu’à un port en eau profonde situé dans le sud de la Colombie-Britannique (C.-B.). Le projet proposé comprend les composantes principales suivantes : Terminal de réception et de stockage ~1 250 km d’oléoduc 11 stations de pompage Terminal de stockage et d’expédition, installation maritime Le tracé proposé pour le projet débuterait à un terminal de réception situé dans la région de Bruderheim, en Alberta. À cet endroit, il pourra recueillir le pétrole brut provenant de divers oléoducs de l’Ouest canadien, servant ainsi de plaque tournante centrale où le produit sera mesuré, stocké, puis transféré dans l’oléoduc. L’oléoduc proposé et les stations de pompage connexes transporteront le pétrole brut vers un terminal maritime dans le sud de la C.-B., où il sera chargé à bord de navires en vue de son transport vers les marchés d’exportation. Le tracé proposé suivra en grande partie le tracé existant de Trans Mountain et ne nécessitera aucun ajustement à la Loi sur le moratoire relatif aux pétroliers. La voie précise reste à déterminer et continuera d’être développée aux prochaines étapes du projet proposé, notamment en travaillant étroitement avec les parties prenantes et les groupes autochtones pour comprendre les zones préoccupantes, le cas échéant. La proposition dépend de l’avancement du projet Pathways, le plus grand projet mondial de captage et de stockage du carbone. Le Bureau des grands projets examine la soumission de l’Alberta et commence des consultations avec les communautés autochtones potentiellement touchées afin de permettre des décisions éclairées du gouvernement quant à l’inscription du projet dans l’intérêt national, en vertu de la Loi visant à bâtir le Canada. Un groupe de propriétaires composé de Trans Mountain Corporation (TMC), de l’Alberta Petroleum Marketing Commission (APMC) et de Pembina Pipeline Corporation (Pembina, TSX:PPL) formera et dirigera une nouvelle société en copropriété : L’intérêt économique de Pembina au moyen de la phase de construction s’élève à 10 %, avec l’occasion d’une participation supplémentaire pouvant aller jusqu’à 10 % une fois que le projet entrera en phase d’exploitation commerciale. TMC et APMC détiendront à égalité de parts le reste du projet. De plus, il y aura une occasion réelle et significative pour la participation des Autochtones à l’équité. Les consultations relatives à cette participation débuteront immédiatement. TMC sera responsable de la construction du projet proposé, du dépôt des demandes réglementaires en vue de l’obtention des autorisations d’exploitation, ainsi que de l’exploitation ultérieure de l’actif. Trans Mountain Corporation sera mobilisée par la nouvelle société établie en vue de concevoir, développer, construire et exploiter le projet, ainsi qu’en vue d’obtenir les autorisations connexes."
+        "en": "The Government of Alberta is proposing the West Coast Oil Pipeline (the Project), an interprovincial pipeline capable of transporting one million barrels per day (MMb/d) of Canadian crude oil, from Bruderheim, Alberta to a deepwater port near Delta, British Columbia (B.C.), where the oil would be transferred to vessels and shipped to global markets. The proposed Project comprises of the following major components: A receipt tank terminal in Bruderheim, Alberta, where product will be received, measured, stored, and then pumped through the pipeline; A pipeline up to approximately 1250 km in length; Power interconnection, transmission, and possible generation; Approximately 11 pump stations along the route to keep product flowing and maintain the required flow rate and pressure over long distances; and A delivery tanks terminal and offshore marine loading facility with capacity for Very Large Crude Carrier (VLCC) vessels where product will be delivered, stored, and then loaded on to VLCC vessels. The corridor for the pipeline largely aligns with disturbed land and existing infrastructure, including the existing Trans Mountain pipeline system (i.e., Line 2, the Trans Mountain Expansion Project) and will not require any adjustment to the Oil Tanker Moratorium Act. This proposed Project is in the early stages of development. The precise route remains to be determined and will continue to be developed through the next stages of the Building Canada Act process, including working closely with stakeholders and Indigenous communities to understand areas of concern, wherever possible. The proposed Project will advance alongside the Pathways Project, one of the world's largest post-combustion carbon capture and storage projects. Following the Project's referral on July 2, 2026, the Major Projects Office (MPO) reviewed Alberta’s submission and held consultations, including with potentially impacted Indigenous communities, in order to inform the government’s decision on whether to list the project in the national interest, under the Building Canada Act. Trans Mountain Corporation (TMC), Alberta Petroleum Marketing Commission (APMC), and Pembina Pipeline Corporation (Pembina) (together, the Ownership Group) will form and lead a new jointly owned company: Pembina's economic interest through construction will be 10% with the opportunity for up to an additional 10% once the Project enters commercial operation. TMC and APMC will own equal shares of the balance of the Project. In addition, there will be a real and meaningful opportunity for Indigenous equity participation. Consultations with respect to this will continue as project-specific information becomes available through the regulatory review process. TMC will be engaged by the new company to design, develop, permit, construct and operate the Project.",
+        "fr": "Le gouvernement de l’Alberta propose l’oléoduc de la côte Ouest (le projet), un oléoduc interprovincial qui pourrait transporter un million de barils par jour de pétrole brut canadien depuis Bruderheim, en Alberta, jusqu’à un port en eau profonde situé près de Delta, en Colombie-Britannique, où le pétrole serait chargé à bord de navires et expédié vers des marchés internationaux. Voici les principales composantes que ce projet prévoit : Un terminal de réception à Bruderheim, en Alberta, où le pétrole serait reçu, mesuré, stocké, puis pompé dans l’oléoduc; Un oléoduc d’une longueur maximale de 1 250 km environ; Interconnexion électrique, transmission et probablement production d’électricité; Environ 11 stations de pompage le long du tracé pour le transport du pétrole selon le débit et la pression exigés sur de longues distances; Un terminal de livraison et une installation de chargement au large, où le pétrole serait livré, stocké, puis chargé à bord de très gros transporteurs de brut. Le tracé de cet oléoduc traverse en grande partie des terres perturbées et des terrains où il se trouve déjà des infrastructures, dont le réseau d’oléoducs Trans Mountain (soit la canalisation 2 et le tracé du projet d’agrandissement de ce réseau), et il ne sera pas nécessaire de modifier la Loi sur le moratoire relatif aux pétroliers. Le présent projet en est aux premiers stades de son élaboration. La voie précise reste à être déterminer et continuera d’être développé au cours des prochaines étapes du processus que prévoit la Loi visant à bâtir le Canada, entre autres grâce au travail étroit avec les parties concernées et les communautés autochtones afin de connaître leurs préoccupations, dans la mesure du possible. Ce projet progressera parallèlement au projet Pathways, qui s’avère l’un des projets de captage et de stockage du carbone postcombustion les plus importants au monde. À la suite de la transmission du projet le 2 juillet 2026, le Bureau des grands projets a examiné la demande de l’Alberta et a tenu des consultations, entre autres auprès des communautés autochtones qui seront potentiellement touchées, afin d’éclairer la décision du gouvernement à savoir s’il doit qualifier ou non ce projet d’intérêt national en vertu de la Loi visant à bâtir le Canada. Un groupe de propriétaires composé de Trans Mountain Corporation (TMC), de l’Alberta Petroleum Marketing Commission (APMC) et de Pembina Pipeline Corporation (Pembina) formera et dirigera une nouvelle société en participation : L’intérêt financier de Pembina dans le cadre de la construction serait de 10 % avec la possibilité de détenir une participation supplémentaire de 10 % au maximum une fois que l’exploitation commerciale de l’infrastructure débuterait. TMC et l’ APMC détiendraient à parts égales la participation restante. De plus, les Autochtones auraient la possibilité d’acquérir une participation réelle et concrète. Les consultations à ce sujet se poursuivront au fur et à mesure que des renseignements propres au projet seront disponibles dans le cadre de l’examen prévu par la réglementation. La nouvelle société retiendrait les services de TMC pour la conception, l’élaboration, les permis, la construction et l’exploitation de l’infrastructure."
       },
       "event_slug": "major-projects-office",
       "media": [
@@ -3278,8 +3352,18 @@
       "quick_facts": [
         {
           "body": {
-            "en": "The proposed pipeline would transport one million barrels per day of crude oil.",
-            "fr": "L’oléoduc proposé transporterait un million de barils de pétrole brut par jour."
+            "en": "The proposed Project is a project of national interest listed under the Building Canada Act.",
+            "fr": ": Le projet proposé est une projet d’intérêt national inscrit sous la Loi visant à bâtir le Canad a."
+          },
+          "label": {
+            "en": "Building Canada Act",
+            "fr": "Loi visant à bâtir le Canada"
+          }
+        },
+        {
+          "body": {
+            "en": "The proposed pipeline would transport one million barrels per day of Canadian crude oil.",
+            "fr": "L’oléoduc proposé pourrait transporter un million de barils de pétrole brut canadien par jour."
           },
           "label": {
             "en": "Capacity",
@@ -3288,8 +3372,8 @@
         },
         {
           "body": {
-            "en": "Final route and features to be determined through collaboration with impacted stakeholders, and with input from Indigenous communities, landowners and communities in BC and Alberta.",
-            "fr": "Voie définitive et caractéristiques à déterminer grâce à la collaboration avec les parties prenantes touchées, ainsi qu’avec la contribution des communautés autochtones, des propriétaires fonciers et des communautés de la Colombie-Britannique et de l’Alberta."
+            "en": "Final route and features to be determined through collaboration with impacted stakeholders, and with input from Indigenous communities, landowners and communities in B.C. and Alberta.",
+            "fr": "La voie définitive et les caractéristiques définitifs seront déterminés en collaboration avec les parties concernées et avec la participation des communautés autochtones, des propriétaires fonciers et des communautés de la Colombie-Britannique et de l’Alberta."
           },
           "label": {
             "en": "Route",
@@ -3299,11 +3383,11 @@
         {
           "body": {
             "en": "The proposed project would establish a new delivery terminal and marine facility to export crude oil to international markets, which would help diversify and increase exports to new and growing markets.",
-            "fr": "Le projet proposé établirait un nouveau terminal de livraison et une installation maritime pour exporter le pétrole brut vers les marchés mondiaux, ce qui aiderait à diversifier et à augmenter les exportations vers de nouveaux marchés en croissance."
+            "fr": "Le projet prévoit l’établissement d’un terminal de livraison et d’une installation au large destinés à l’exportation du pétrole brut vers des marchés étrangers, ce qui permettrait de diversifier et d’accroître les exportations vers de nouveaux marchés ainsi que des marchés en croissance."
           },
           "label": {
             "en": "Development",
-            "fr": "Développement"
+            "fr": "Conception"
           }
         }
       ],
@@ -3345,14 +3429,14 @@
           "content_sha256": "",
           "licence": "ogl-canada-2.0",
           "provenance": "official_dataset",
-          "retrieved_at": "2026-09-17T20:39:51Z",
+          "retrieved_at": "2026-10-17T23:58:06Z",
           "url": "https://maps-cartes.services.geo.ca/server_serveur/rest/services/NRCan/projects_referred_to_mpo_en/MapServer/1/query?where=1%3D1&outFields=*&returnGeometry=true&outSR=4326&f=geojson"
         },
         {
-          "content_sha256": "effea4c754e5af22c598c64f667daeae355abd8c79d2f923f5cf5df603718362",
+          "content_sha256": "6b6e49b016ae8e44d2df839d47047f6bb6f6f3bace6df9b15b7f4731f81f45ed",
           "licence": "ogl-canada-2.0",
           "provenance": "page_verbatim",
-          "retrieved_at": "2026-09-17T20:39:51Z",
+          "retrieved_at": "2026-10-17T23:58:06Z",
           "url": "https://www.canada.ca/en/privy-council/major-projects-office/projects/national/west.html"
         }
       ],
@@ -3363,8 +3447,17 @@
       "updates": [
         {
           "body": {
-            "en": "On August 1, 2026, Canada provided notice in the Canada Gazette that the Governor in Council may amend Schedule 1 of the Building Canada Act to list the WCOP project as a project of national interest.",
-            "fr": "Le 1er août 2026, le Canada a publié un avis dans la Gazette du Canada indiquant que le gouverneur en conseil pouvait modifier l’annexe 1 de la Loi visant à bâtir le Canada pour inscrire le projet d’oléoduc de la côte Ouest sur la liste des projets d’intérêt national."
+            "en": "On October 1, 2026, the Government of Canada announced WCOP as a project of national interest listed under Schedule 1 of the Building Canada Act.",
+            "fr": "Le 1er octobre 2026, le gouvernement du Canada a annoncé le projet d’oléoduc de la côte Ouest comme projet d’intérêt national inscrit dans l’annexe 1 de la Loi visant à bâtir le Canada."
+          },
+          "date": "2026-10-01",
+          "date_verbatim": "October 1, 2026",
+          "date_verbatim_fr": "1er octobre 2026"
+        },
+        {
+          "body": {
+            "en": "On August 1, 2026, Canada provided notice in the Canada Gazette that the Governor in Council may amend Schedule 1 of the Building Canada Act to list WCOP as a project of national interest.",
+            "fr": "Le 1er août 2026, le Canada a publié un avis dans la Gazette du Canada pour indiquer qu’il se pourrait que le gouverneur en conseil modifie l’annexe 1 de la Loi visant à bâtir le Canada pour inscrire le projet d’oléoduc de la côte Ouest sur la liste des projets d’intérêt national."
           },
           "date": "2026-08-01",
           "date_verbatim": "August 1, 2026",
@@ -3373,7 +3466,7 @@
         {
           "body": {
             "en": "In July 2026, MPO began consultations with Indigenous communities, provincial governments, and with federal permitting departments, as a part of the process towards assessing the potential listing of WCOP as a project of national interest under the Building Canada Act.",
-            "fr": "En juillet 2026, le Bureau des grands projets a entrepris des consultations avec les communautés autochtones, les gouvernements provinciaux et les ministères fédéraux délivrant des permis, dans le cadre du processus visant à évaluer la possibilité d’une inscription de l’oléoduc de la côte Ouest sur la liste des projets d’intérêt national au titre de la Loi visant à bâtir le Canada."
+            "fr": "En juillet 2026, le Bureau des grands projets a entamé des consultations auprès des communautés autochtones, des gouvernements des provinces et des ministères fédéraux responsables de l’octroi des permis en vue de potentiellement qualifier ce projet de projet d’intérêt national en vertu de la Loi visant à bâtir le Canada."
           },
           "date": "2026-07",
           "date_verbatim": "July 2026",
@@ -3381,21 +3474,12 @@
         },
         {
           "body": {
-            "en": "On July 2, 2026, the Government of Canada officially referred the proposed WCOP Project to the MPO and initiated the process to consider listing it under the Building Canada Act. Before any decision is taken, consultations will be held with potentially impacted Indigenous communities, to inform the federal government’s decision on the project’s listing. Canada intends to give notice in the Canada Gazette by October 1, 2026, if it plans to list the project.",
-            "fr": "Le 2 juillet 2026, le gouvernement du Canada a officiellement renvoyé l’oléoduc de la côte Ouest au Bureau des grands projets et a lancé le processus pour envisager son inscription en vertu de la Loi visant à bâtir le Canada. Avant toute décision, des consultations auront lieu avec des communautés autochtones potentiellement touchées, afin de permettre une décision éclairée du gouvernement fédéral concernant l’inscription du projet. Le Canada prévoit de donner un avis dans la Gazette du Canada d’ici le 1 er octobre 2026, s’il prévoit d’avancer avec ce projet."
+            "en": "On July 2, 2026, the Government of Canada officially referred WCOP to MPO and initiated the process to consider listing it under the Building Canada Act.",
+            "fr": "Le 2 juillet 2026, le gouvernement du Canada a officiellement transmis le projet d’oléoduc de la côte Ouest au Bureau des grands projets et a entamé le processus visant à l’inscrire sur la liste que prévoit la Loi visant à bâtir le Canada."
           },
           "date": "2026-07-02",
           "date_verbatim": "July 2, 2026",
           "date_verbatim_fr": "2 juillet 2026"
-        },
-        {
-          "body": {
-            "en": "As the review process advances, all steps and decisions will fully respect Canada’s obligations to consult with Indigenous Peoples and will be informed by the outcomes of that consultation. Canada and Alberta will also continue to engage closely with the Government of British Columbia as this process advances.",
-            "fr": "À mesure que le processus d’examen progresse, toutes les étapes et les décisions respecteront pleinement les obligations du Canada de consulter les peuples autochtones et seront éclairées par les résultats de cette consultation. Le Canada et l’Alberta continueront également de collaborer étroitement avec le gouvernement de la Colombie-Britannique à mesure que ce processus progresse."
-          },
-          "date": "",
-          "date_verbatim": "",
-          "date_verbatim_fr": ""
         }
       ]
     }

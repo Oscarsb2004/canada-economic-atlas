@@ -1,14 +1,9 @@
 {
   "event": "major-projects-office",
-  "generated_at": "2026-09-08T17:06:20Z",
+  "generated_at": "2026-10-17T23:58:08Z",
   "sources": {
     "_discovered": {
-      "broken_links": [
-        {
-          "error": "https://www.canada.ca/en/privy-council/major-projects-office/advancing-nation-building-projects/projects-designated-under-building-canada-act.html returned HTTP",
-          "path": "/en/privy-council/major-projects-office/advancing-nation-building-projects/projects-designated-under-building-canada-act.html"
-        }
-      ],
+      "broken_links": [],
       "groups": {
         "our-priorities": 1,
         "partnering-indigenous-peoples": 3,
@@ -16,7 +11,7 @@
         "projects": 3,
         "projects/national": 18,
         "projects/other": 1,
-        "projects/other/referred": 9,
+        "projects/other/referred": 10,
         "projects/other/referred/pathways-plus": 1
       },
       "pages_crawled": 47,
@@ -92,6 +87,7 @@
     },
     "strategies": {
       "site_index": [
+        "alberta",
         "alto",
         "churchill-plus",
         "corridor",

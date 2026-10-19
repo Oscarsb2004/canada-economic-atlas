@@ -74,7 +74,7 @@ python run.py --check    # every registry file against its schema
 
 | Dataset | Writes | On the site | Read by |
 | --- | --- | --- | --- |
-| **major-projects**<br>The Major Projects Office portfolio: projects, strategies and what each source says exists | `data/events/major-projects-office/projects.json` (249 KB)<br>`data/events/major-projects-office/strategies.json` (32 KB)<br>`data/events/major-projects-office/coverage.json` (3 KB) | yes | `atlas/export/bundle.py`<br>`registry/checks.yaml` |
+| **major-projects**<br>The Major Projects Office portfolio: projects, strategies and what each source says exists | `data/events/major-projects-office/projects.json` (258 KB)<br>`data/events/major-projects-office/strategies.json` (32 KB)<br>`data/events/major-projects-office/coverage.json` (3 KB) | yes | `atlas/export/bundle.py`<br>`registry/checks.yaml` |
 
 ### provinces
 
